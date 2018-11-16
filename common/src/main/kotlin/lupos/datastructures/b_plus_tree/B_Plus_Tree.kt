@@ -275,6 +275,93 @@ inline fun<K,V> generate(filename:String, size: Int, iterator: Iterator<Pair<K, 
     }
 }
 
+data class PageAdr(var nodeNumber:Int, var page: Page, var adr:Long){
+    var writtenEntryInPage = 0
+    var newNodeOnThisLevel = false
+}
+
+inline fun<K,V> generateStaticTree(filename:String, iterator: Iterator<Pair<K, V>>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long, MAXPOINTERSIZE: Int, serializePointer:(Page, Long, Int) -> Unit, serializedSizeOfPointer: (Int) -> Long) {
+    val startOffsetInPage = 5L
+    val POINTERSIZE = 4
+    val innerNodes = mutableListOf<PageAdr>()
+    var nodeNumber = 0
+    var maxPageNumber = 0
+    var leafPage = bufferManager.getPage(filename, nodeNumber)
+    var adr = startOffsetInPage
+    var writtenEntryInPage = 0
+    var writtenEntry = 0
+    var oldKey:K? = null
+    var sizeOfOldKey = 0L
+    for(entry in iterator) {
+        val key = entry.first
+        val value = entry.second
+        val sizeOfKey = serializedSizeOfKey(key)
+        val sizeOfValue = serializedSizeOfValue(value)
+        if(adr + sizeOfKey + sizeOfValue + MAXPOINTERSIZE >= PAGESIZE) {
+            var pointer = nodeNumber
+            // new leaf node!
+            NodeParams.Companion.setStatusBytes(leafPage, 0, writtenEntryInPage) // Is leaf node and rest fits onto this page!
+            maxPageNumber++
+            nodeNumber = maxPageNumber
+            serializePointer(leafPage, adr, nodeNumber)
+            adr = startOffsetInPage
+            leafPage = bufferManager.getPage(filename, nodeNumber)
+            writtenEntryInPage = 0
+            var newInnnerNodeLevel = true
+            for(innerNode in innerNodes) {
+                if(innerNode.newNodeOnThisLevel){
+                    maxPageNumber++
+                    innerNode.nodeNumber = maxPageNumber
+                    innerNode.page = bufferManager.getPage(filename, innerNode.nodeNumber)
+                    innerNode.adr = startOffsetInPage
+                    innerNode.writtenEntryInPage = 0
+                }
+                innerNode.writtenEntryInPage++
+                if(innerNode.adr + sizeOfOldKey + 2*MAXPOINTERSIZE >= PAGESIZE) { // 2*MAXPOINTERSIZE for having enough space...
+                    pointer = innerNode.nodeNumber
+                    serializePointer(innerNode.page, innerNode.adr, pointer)
+                    NodeParams.setStatusBytes(innerNode.page, 1, innerNode.writtenEntryInPage)
+                } else {
+                    serializeKey(innerNode.page, innerNode.adr, oldKey!!)
+                    innerNode.adr += sizeOfOldKey
+                    serializePointer(innerNode.page, innerNode.adr, pointer)
+                    innerNode.adr += serializedSizeOfPointer(pointer)
+                    break
+                }
+            }
+            if(newInnnerNodeLevel){
+                // one more level in the inner nodes...
+                maxPageNumber++
+                innerNodes += PageAdr(maxPageNumber, bufferManager.getPage(filename, maxPageNumber), startOffsetInPage)
+                val innerNode = innerNodes[0]
+                serializeKey(innerNode.page, innerNode.adr, oldKey!!)
+                innerNode.adr += sizeOfOldKey
+                serializePointer(innerNode.page, innerNode.adr, pointer)
+                innerNode.adr += serializedSizeOfPointer(pointer)
+            }
+        }
+        serializeKey(leafPage, adr, key)
+        adr += sizeOfKey
+        serializeValue(leafPage, adr, value)
+        adr += sizeOfValue
+        writtenEntryInPage++
+        writtenEntry++
+        oldKey = key
+        sizeOfOldKey = sizeOfKey
+    }
+    // mark last node
+    NodeParams.Companion.setStatusBytes(leafPage, 4, writtenEntryInPage) // Is last (!) leaf node and rest fits onto this page!
+    var pointerToNode = nodeNumber
+    // mark remaining inner nodes
+    for(innerNode in innerNodes){
+        // write pointer to inner node!
+        serializePointer(innerNode.page, innerNode.adr, pointerToNode)
+        innerNode.writtenEntryInPage++
+        NodeParams.Companion.setStatusBytes(innerNode.page, 1, innerNode.writtenEntryInPage)
+        pointerToNode = innerNode.nodeNumber
+    }
+}
+
 inline fun<K, V> range_search(filename:String, compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long, deserializePointer:(Page, Long) -> Int, serializedSizeOfPointer: (Int) -> Long):()-> V? {
     val startOffsetInPage = 5
     var node = 0
@@ -906,5 +993,17 @@ class B_Plus_Tree_Difference_Encoding<K:Any, V:Any>(val filename:String){ // By 
             }
             pointer = node.firstNodeNumber
         }
+    }
+}
+
+class B_Plus_Tree_Static<K:Any, V:Any>(val filename:String) { // By K:Any and V:Any, neither K nor V can be nullable!
+    inline fun generate(iterator: Iterator<Pair<K, V>>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {
+        return generateStaticTree(filename, iterator, k, k_star, PAGESIZE, serializeKey, serializedSizeOfKey, serializeValue, serializedSizeOfValue, 4, ::serializeInt, ::serializedSizeOfInt)
+    }
+}
+
+class B_Plus_Tree_Static_CompressedPointer<K:Any, V:Any>(val filename:String) { // By K:Any and V:Any, neither K nor V can be nullable!
+    inline fun generate(iterator: Iterator<Pair<K, V>>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {
+        return generateStaticTree(filename, iterator, k, k_star, PAGESIZE, serializeKey, serializedSizeOfKey, serializeValue, serializedSizeOfValue, 4, ::serializeCompressedInt, ::serializedSizeOfCompressedInt)
     }
 }
