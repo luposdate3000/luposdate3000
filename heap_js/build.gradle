@@ -1,0 +1,15 @@
+apply plugin: 'kotlin-platform-js'
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    expectedBy project(':common')
+    expectedBy project(':common_mainmemory')
+}
+
+compileKotlin2Js {
+    kotlinOptions.metaInfo = true
+    kotlinOptions.sourceMap = true
+    kotlinOptions.suppressWarnings = true
+    kotlinOptions.verbose = true
+    kotlinOptions.moduleKind = "umd"
+}

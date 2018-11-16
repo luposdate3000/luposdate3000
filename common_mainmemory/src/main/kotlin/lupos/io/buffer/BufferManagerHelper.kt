@@ -1,0 +1,54 @@
+package lupos.io.buffer
+
+actual class BufferManager{
+
+    val memoryOfFiles = hashMapOf<String, Array<Page?>>()
+
+    actual fun getPage(pageAddress: PageAddress):Page {
+        return this.getPage(pageAddress.fileName, pageAddress.pageNumber)
+    }
+
+    actual fun getPage(file: String, number:Int):Page {
+        val memoryOfFile = this.memoryOfFiles.get(file)
+        if(memoryOfFile==null){
+            val array = arrayOfNulls<Page>(number+1)
+            val newPage = Page()
+            array[number] = newPage
+            this.memoryOfFiles[file] = array
+            return newPage
+        } else {
+            if(memoryOfFile.size<=number){
+                // double the size for each resizing (may avoid often resizing, but may reserve additional unneeded space)
+                var newSize = memoryOfFile.size.shl(1)
+                while(newSize<=number){
+                    newSize = newSize.shl(1)
+                }
+                val newArray = memoryOfFile.copyOf(number+1)
+                val newPage = Page()
+                newArray[number] = newPage
+                this.memoryOfFiles[file] = newArray
+                return newPage
+            } else {
+                val page = memoryOfFile[number]
+                if(page==null){
+                    val newPage = Page()
+                    memoryOfFile[number] = newPage
+                    return newPage
+                } else {
+                    return page
+                }
+            }
+        }
+    }
+    actual fun writeAllModifiedPages(){} // main memory implementation does not persist its pages!!!
+    actual fun release(){
+        for(entry in this.memoryOfFiles){
+            for(page in entry.value){
+                if(page!=null){
+                    page.release()
+                }
+            }
+        }
+        this.memoryOfFiles.clear()
+    }
+}

@@ -1,0 +1,29 @@
+apply plugin: 'kotlin-platform-jvm'
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+	compile project(':heaphelper_jvm')
+    expectedBy project(':common')
+	expectedBy project(':common_mainmemory')
+}
+
+compileKotlin { // I do not know if this has some effect on the generated jar...
+    // to specify some flags for optimization according to:
+    // https://github.com/JetBrains/kotlin/blob/a89f9785976f5583a38edcced1c2ac528799fcd5/compiler/cli/cli-common/src/org/jetbrains/kotlin/cli/common/arguments/K2JVMCompilerArguments.kt
+    kotlinOptions.freeCompilerArgs = [
+            // I do not know if it works like this (any string value does not produce any error)...
+            // this should work according to: https://stackoverflow.com/questions/31847292/how-to-pass-compiler-arguments-to-kotlin-compiler-with-gradle
+            // the following compiler flags should avoid the none-null check for none-nullable types during e.g. function calls
+            '-Xno-call-assertions',
+            '-Xno-receiver-assertions',
+            '-Xno-param-assertions'
+    ]
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'MainKt'
+    }
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}

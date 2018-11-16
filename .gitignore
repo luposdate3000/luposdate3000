@@ -1,0 +1,10 @@
+.git
+.gradle
+.idea
+build
+gradle
+tmp
+gradlew
+gradlew.bat
+*/build
+*/out

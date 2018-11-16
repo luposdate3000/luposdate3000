@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="luposdate3000" default="all">
+  
+  
+  <property file="luposdate3000.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.swc"/>
+    <include name="*.zip"/>
+    <include name="*.egg"/>
+    <include name="*.ane"/>
+    <include name="*.jar"/>
+    <include name="*.ear"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/ext/access-bridge-64.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/jfxrt.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunmscapi.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxswt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.gradle:_org.jetbrains.kotlin:kotlin-stdlib-common:1.2.70.classpath">
+    <pathelement location="${basedir}/../../Users/groppe/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.2.70/6ea722d7d0b9451293e739076ddb6a4108d57b6b/kotlin-stdlib-common-1.2.70.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.jetbrains.kotlin:kotlin-stdlib-js:1.2.70.classpath">
+    <pathelement location="${basedir}/../../Users/groppe/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-js/1.2.70/15f91f1b30644b689b3e9d27c8a580ce1a2ffa9/kotlin-stdlib-js-1.2.70.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.jetbrains.kotlin:kotlin-stdlib:1.2.70.classpath">
+    <pathelement location="${basedir}/../../Users/groppe/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.70/b5b9449f73ce7bf312e89a7560cb3c209a0fa13e/kotlin-stdlib-1.2.70.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.jetbrains:annotations:13.0.classpath">
+    <pathelement location="${basedir}/../../Users/groppe/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar"/>
+  </path>
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <fileset dir="${javac2.home}">
+      <include name="javac2.jar"/>
+      <include name="jdom.jar"/>
+      <include name="asm-all*.jar"/>
+      <include name="forms-*.jar"/>
+    </fileset>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  <import file="${basedir}/.idea/modules/common/module_common.xml"/>
+  
+  <import file="${basedir}/.idea/modules/common_diskbased/module_common_diskbased.xml"/>
+  
+  <import file="${basedir}/.idea/modules/common/module_common_main.xml"/>
+  
+  <import file="${basedir}/.idea/modules/common_mainmemory/module_common_mainmemory.xml"/>
+  
+  <import file="${basedir}/.idea/modules/heap_js/module_heap_js.xml"/>
+  
+  <import file="${basedir}/.idea/modules/heap_jvm/module_heap_jvm.xml"/>
+  
+  <import file="${basedir}/.idea/modules/heaphelper_jvm/module_heaphelper_jvm.xml"/>
+  
+  <import file="${basedir}/.idea/modules/heaphelper_jvm/module_heaphelper_jvm_main.xml"/>
+  
+  <import file="${basedir}/.idea/module_luposdate3000.xml"/>
+  
+  <import file="${basedir}/.idea/modules/memorymapped_jvm/module_memorymapped_jvm.xml"/>
+  
+  <import file="${basedir}/.idea/modules/memorymapped_unsafe_jvm/module_memorymapped_unsafe_jvm.xml"/>
+  
+  <import file="${basedir}/.idea/modules/randomaccess_jvm/module_randomaccess_jvm.xml"/>
+  
+  <import file="${basedir}/.idea/modules/unsafe_jvm/module_unsafe_jvm.xml"/>
+  
+  <import file="${basedir}/.idea/modules/unsafehelper_jvm/module_unsafehelper_jvm.xml"/>
+  
+  <import file="${basedir}/.idea/modules/unsafehelper_jvm/module_unsafehelper_jvm_main.xml"/>
+  
+  <import file="${basedir}/.idea/modules/common_diskbased/module_common_diskbased_main.xml"/>
+  
+  <import file="${basedir}/.idea/modules/common_mainmemory/module_common_mainmemory_main.xml"/>
+  
+  <import file="${basedir}/.idea/modules/common/module_common_test.xml"/>
+  
+  <import file="${basedir}/.idea/modules/heaphelper_jvm/module_heaphelper_jvm_test.xml"/>
+  
+  <import file="${basedir}/.idea/modules/unsafehelper_jvm/module_unsafehelper_jvm_test.xml"/>
+  
+  <import file="${basedir}/.idea/modules/common_diskbased/module_common_diskbased_test.xml"/>
+  
+  <import file="${basedir}/.idea/modules/common_mainmemory/module_common_mainmemory_test.xml"/>
+  
+  <import file="${basedir}/.idea/modules/heap_js/module_heap_js_main.xml"/>
+  
+  <import file="${basedir}/.idea/modules/heap_jvm/module_heap_jvm_main.xml"/>
+  
+  <import file="${basedir}/.idea/modules/memorymapped_jvm/module_memorymapped_jvm_main.xml"/>
+  
+  <import file="${basedir}/.idea/modules/memorymapped_unsafe_jvm/module_memorymapped_unsafe_jvm_main.xml"/>
+  
+  <import file="${basedir}/.idea/modules/randomaccess_jvm/module_randomaccess_jvm_main.xml"/>
+  
+  <import file="${basedir}/.idea/modules/unsafe_jvm/module_unsafe_jvm_main.xml"/>
+  
+  <import file="${basedir}/.idea/modules/heap_js/module_heap_js_test.xml"/>
+  
+  <import file="${basedir}/.idea/modules/heap_jvm/module_heap_jvm_test.xml"/>
+  
+  <import file="${basedir}/.idea/modules/memorymapped_jvm/module_memorymapped_jvm_test.xml"/>
+  
+  <import file="${basedir}/.idea/modules/memorymapped_unsafe_jvm/module_memorymapped_unsafe_jvm_test.xml"/>
+  
+  <import file="${basedir}/.idea/modules/randomaccess_jvm/module_randomaccess_jvm_test.xml"/>
+  
+  <import file="${basedir}/.idea/modules/unsafe_jvm/module_unsafe_jvm_test.xml"/>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.common, clean.module.common_diskbased, clean.module.common_main, clean.module.common_mainmemory, clean.module.heap_js, clean.module.heap_jvm, clean.module.heaphelper_jvm, clean.module.heaphelper_jvm_main, clean.module.luposdate3000, clean.module.memorymapped_jvm, clean.module.memorymapped_unsafe_jvm, clean.module.randomaccess_jvm, clean.module.unsafe_jvm, clean.module.unsafehelper_jvm, clean.module.unsafehelper_jvm_main, clean.module.common_diskbased_main, clean.module.common_mainmemory_main, clean.module.common_test, clean.module.heaphelper_jvm_test, clean.module.unsafehelper_jvm_test, clean.module.common_diskbased_test, clean.module.common_mainmemory_test, clean.module.heap_js_main, clean.module.heap_jvm_main, clean.module.memorymapped_jvm_main, clean.module.memorymapped_unsafe_jvm_main, clean.module.randomaccess_jvm_main, clean.module.unsafe_jvm_main, clean.module.heap_js_test, clean.module.heap_jvm_test, clean.module.memorymapped_jvm_test, clean.module.memorymapped_unsafe_jvm_test, clean.module.randomaccess_jvm_test, clean.module.unsafe_jvm_test" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.common, compile.module.common_diskbased, compile.module.common_main, compile.module.common_mainmemory, compile.module.heap_js, compile.module.heap_jvm, compile.module.heaphelper_jvm, compile.module.heaphelper_jvm_main, compile.module.luposdate3000, compile.module.memorymapped_jvm, compile.module.memorymapped_unsafe_jvm, compile.module.randomaccess_jvm, compile.module.unsafe_jvm, compile.module.unsafehelper_jvm, compile.module.unsafehelper_jvm_main, compile.module.common_diskbased_main, compile.module.common_mainmemory_main, compile.module.common_test, compile.module.heaphelper_jvm_test, compile.module.unsafehelper_jvm_test, compile.module.common_diskbased_test, compile.module.common_mainmemory_test, compile.module.heap_js_main, compile.module.heap_jvm_main, compile.module.memorymapped_jvm_main, compile.module.memorymapped_unsafe_jvm_main, compile.module.randomaccess_jvm_main, compile.module.unsafe_jvm_main, compile.module.heap_js_test, compile.module.heap_jvm_test, compile.module.memorymapped_jvm_test, compile.module.memorymapped_unsafe_jvm_test, compile.module.randomaccess_jvm_test, compile.module.unsafe_jvm_test" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>

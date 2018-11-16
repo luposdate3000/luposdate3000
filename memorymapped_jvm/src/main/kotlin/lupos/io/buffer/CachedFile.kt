@@ -1,0 +1,36 @@
+package lupos.io.buffer
+
+import java.io.File
+import java.io.RandomAccessFile
+import java.nio.channels.FileChannel
+
+// problems unmap:
+// see e.g.: https://stackoverflow.com/questions/2972986/how-to-unmap-a-file-from-memory-mapped-using-filechannel-in-java
+
+// furthermore, memory mapped file and unsafe api:
+// http://nyeggen.com/post/2014-05-18-memory-mapping-%3E2gb-of-data-in-java/
+// and slides comparing different ways:
+// https://www.slideshare.net/AndreiPangin/do-we-need-unsafe-in-java
+
+actual class CachedFile {
+    val file: RandomAccessFile
+    val PAGESIZE = 8*1024L
+
+    actual constructor(filename:String){
+        val paths = filename.split("/")
+        if(paths.size>1) {
+            val dirpath = paths.joinToString(separator = "/", limit = paths.size - 1)
+            File(dirpath).mkdirs()
+        }
+        this.file = RandomAccessFile(File(filename), "rw")
+    }
+    actual inline fun close(){
+        this.file.close()
+    }
+    actual inline fun get(address: Long):Page {
+        return MappedByteBufferPage(this.file.getChannel().map(FileChannel.MapMode.READ_WRITE, address, PAGESIZE));
+    }
+    actual inline fun write(address: Long, page: Page){
+        // it is already written by using put-methods of MappedByteBuffer
+    }
+}
