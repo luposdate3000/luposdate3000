@@ -48,11 +48,8 @@ fun Byte.binary():String {
 }
 
 fun main(args:Array<String>){
-    val filename = "test"
-    val page = bufferManager.getPage(filename, 0)
-    var adr = 0L
 
-    // testBPlusTree2()
-    testBPlusTree5()
+    testBPlusTree4b()
+    // testBPlusTree5()
     // testBPlusTree6()
 }

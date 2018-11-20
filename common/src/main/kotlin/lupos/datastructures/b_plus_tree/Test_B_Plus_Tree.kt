@@ -108,6 +108,30 @@ fun testBPlusTree4(){
     // TODO much more rigorously
 }
 
+fun testBPlusTree4b(){
+    val filename = "test3"
+    // initialize and create B_Plus_Tree
+    val b = B_Plus_Tree_Uncompressed_Int_to_Int(filename)
+    val list = mutableListOf<Pair<Int, Int>>()
+    val size = 500000
+    for(i in 1..size){
+        list+=Pair(i,i)
+    }
+    b.generate(size, list.asIterable().iterator())
+    try {
+        val range = b.sip_search(100, size)
+        var i = 101
+        do {
+            val result = range(i)
+            println("$i: $result")
+            i=i*2
+        } while(result!=null)
+    }catch(e:NotFoundException){
+        println(e);
+    }
+    // TODO much more rigorously
+}
+
 fun testBPlusTree5(){
     val filename = "test3"
     // initialize and create B_Plus_Tree
@@ -254,6 +278,27 @@ fun testBPlusTree11(){
             val result = range()
             println(result)
         } while(result!=null)
+    }catch(e:NotFoundException){
+        println(e);
+    }
+    // TODO much more rigorously
+}
+
+fun testBPlusTree12(){
+    val filename = "test2"
+    // initialize and create B_Plus_Tree
+    val b = B_Plus_Tree_Static_Int_to_Int(filename)
+    val list = mutableListOf<Pair<Int, Int>>()
+    val size = 5*500000
+    for(i in 1..size){
+        list+=Pair(i,i)
+    }
+    b.generate(size, list.asIterable().iterator())
+    println(b[2089990])
+    try {
+        for(i in size downTo 1){
+            println(b[i])
+        }
     }catch(e:NotFoundException){
         println(e);
     }
