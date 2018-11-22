@@ -111,7 +111,7 @@ fun testBPlusTree4(){
 fun testBPlusTree4b(){
     val filename = "test3"
     // initialize and create B_Plus_Tree
-    val b = B_Plus_Tree_Uncompressed_Int_to_Int(filename)
+    val b = B_Plus_Tree_StaticCompressed_Int_to_Int(filename) // B_Plus_Tree_Uncompressed_Int_to_Int(filename)
     val list = mutableListOf<Pair<Int, Int>>()
     val size = 500000
     for(i in 1..size){

@@ -24,7 +24,7 @@ class B_Plus_Tree_Uncompressed_Int_to_Int(val filename:String, val k:Int = 1000,
     inline fun range_search(keyLeft:Int, keyRight:Int) = bplustree.range_search(
             {key:Int-> key - keyLeft},
             {key:Int-> key - keyRight},
-            notfoundtext = "left limit: "+keyLeft+" right limit:"+keyRight,
+            notfoundtext = "left limit: $keyLeft right limit: $keyRight",
             innerNodeDeserializer = ::deserializeInt,
             serializedSizeOfKey = ::serializedSizeOfInt,
             leafNodeDeserializerKey = ::deserializeInt,
@@ -34,7 +34,7 @@ class B_Plus_Tree_Uncompressed_Int_to_Int(val filename:String, val k:Int = 1000,
     inline fun range_binary_search(keyLeft:Int, keyRight:Int) = bplustree.range_binary_search(
             { key:Int-> key - keyLeft },
             { key:Int-> key - keyRight },
-            notfoundtext = "left limit: "+keyLeft+" right limit:"+keyRight,
+            notfoundtext = "left limit: $keyLeft right limit: $keyRight",
             innerNodeDeserializer = ::deserializeInt,
             serializedSizeOfKey = 4,
             leafNodeDeserializerKey = ::deserializeInt,
@@ -45,7 +45,7 @@ class B_Plus_Tree_Uncompressed_Int_to_Int(val filename:String, val k:Int = 1000,
                                     { key1:Int, key2:Int -> (key2 - key1) },
                                     { key:Int-> key - keyLeft },
                                     { key:Int-> key - keyRight },
-                                    notfoundtext = "left limit: "+keyLeft+" right limit:"+keyRight,
+                                    notfoundtext = "left limit: $keyLeft right limit: $keyRight",
                                     innerNodeDeserializer = ::deserializeInt,
                                     serializedSizeOfKey = ::serializedSizeOfInt,
                                     leafNodeDeserializerKey = ::deserializeInt,
@@ -75,7 +75,18 @@ class B_Plus_Tree_VariableSize_Int_to_Int(val filename:String, val k:Int = 1000,
     inline fun range_search(keyLeft:Int, keyRight:Int) = bplustree.range_search(
             {key:Int-> key - keyLeft},
             {key:Int-> key - keyRight},
-            notfoundtext = "left limit: "+keyLeft+" right limit:"+keyRight,
+            notfoundtext = "left limit: $keyLeft right limit: $keyRight",
+            innerNodeDeserializer = ::deserializeCompressedInt,
+            serializedSizeOfKey = ::serializedSizeOfCompressedInt,
+            leafNodeDeserializerKey = ::deserializeCompressedInt,
+            leafNodeDeserializerValue = ::deserializeCompressedInt,
+            serializedSizeOfValue = ::serializedSizeOfCompressedInt)
+
+    fun sip_search(keyLeft:Int, keyRight:Int) = bplustree.sip_search(
+            { key1:Int, key2:Int -> (key2 - key1) },
+            { key:Int-> key - keyLeft },
+            { key:Int-> key - keyRight },
+            notfoundtext = "left limit: $keyLeft right limit: $keyRight",
             innerNodeDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
             leafNodeDeserializerKey = ::deserializeCompressedInt,
@@ -112,6 +123,17 @@ class B_Plus_Tree_VariableSizePointers_Int_to_Int(val filename:String, val k:Int
             leafNodeDeserializerValue = ::deserializeCompressedInt,
             serializedSizeOfValue = ::serializedSizeOfCompressedInt)
 
+    fun sip_search(keyLeft:Int, keyRight:Int) = bplustree.sip_search(
+            { key1:Int, key2:Int -> (key2 - key1) },
+            { key:Int-> key - keyLeft },
+            { key:Int-> key - keyRight },
+            notfoundtext = "left limit: $keyLeft right limit: $keyRight",
+            innerNodeDeserializer = ::deserializeCompressedInt,
+            serializedSizeOfKey = ::serializedSizeOfCompressedInt,
+            leafNodeDeserializerKey = ::deserializeCompressedInt,
+            leafNodeDeserializerValue = ::deserializeCompressedInt,
+            serializedSizeOfValue = ::serializedSizeOfCompressedInt)
+
     fun generate(size:Int, iterator:Iterator<Pair<Int,Int>>){
         bplustree.generate(size, iterator, k, k_star, PAGESIZE,
                 serializeKey = ::serializeCompressedInt,
@@ -138,7 +160,7 @@ class B_Plus_Tree_Difference_Encoding_Int_to_Int(val filename:String, val k:Int 
     inline fun range_search(keyLeft:Int, keyRight:Int) = bplustree.range_search(
             {key:Int-> key - keyLeft},
             {key:Int-> key - keyRight},
-            notfoundtext = "left limit: "+keyLeft+" right limit:"+keyRight,
+            notfoundtext = "left limit: $keyLeft right limit: $keyRight",
             innerNodeDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
             innerNodeDeserializerDiff = ::deserializeInt,
@@ -159,7 +181,7 @@ class B_Plus_Tree_Difference_Encoding_Int_to_Int(val filename:String, val k:Int 
     }
 }
 
-class B_Plus_Tree_Static_Int_to_Int(val filename:String, val k:Int = 1000, val k_star:Int = 500){
+class B_Plus_Tree_Static_Int_to_Int(val filename:String){
     val bplustree = B_Plus_Tree_Static<Int, Int>(filename)
 
     inline operator fun get(key:Int) = bplustree.search(key,
@@ -170,18 +192,29 @@ class B_Plus_Tree_Static_Int_to_Int(val filename:String, val k:Int = 1000, val k
             leafNodeDeserializerValue = ::deserializeInt,
             serializedSizeOfValue= ::serializedSizeOfInt)
 
-/*    inline fun range_search(keyLeft:Int, keyRight:Int) = bplustree.range_search(
+    inline fun range_search(keyLeft:Int, keyRight:Int) = bplustree.range_search(
             {key:Int-> key - keyLeft},
             {key:Int-> key - keyRight},
+            notfoundtext = "left limit: $keyLeft right limit: $keyRight",
+            innerNodeDeserializer = ::deserializeInt,
+            serializedSizeOfKey = ::serializedSizeOfInt,
+            leafNodeDeserializerKey = ::deserializeInt,
+            leafNodeDeserializerValue = ::deserializeInt,
+            serializedSizeOfValue = ::serializedSizeOfInt)
+
+    fun sip_search(keyLeft:Int, keyRight:Int) = bplustree.sip_search(
+            { key1:Int, key2:Int -> (key2 - key1) },
+            { key:Int-> key - keyLeft },
+            { key:Int-> key - keyRight },
             notfoundtext = "left limit: "+keyLeft+" right limit:"+keyRight,
-            innerNodeDeserializer = ::deserializeCompressedInt,
-            serializedSizeOfKey = ::serializedSizeOfCompressedInt,
-            leafNodeDeserializerKey = ::deserializeCompressedInt,
-            leafNodeDeserializerValue = ::deserializeCompressedInt,
-            serializedSizeOfValue = ::serializedSizeOfCompressedInt) */
+            innerNodeDeserializer = ::deserializeInt,
+            serializedSizeOfKey = ::serializedSizeOfInt,
+            leafNodeDeserializerKey = ::deserializeInt,
+            leafNodeDeserializerValue = ::deserializeInt,
+            serializedSizeOfValue = ::serializedSizeOfInt)
 
     fun generate(size:Int, iterator:Iterator<Pair<Int,Int>>){
-        bplustree.generate(iterator, k, k_star, PAGESIZE,
+        bplustree.generate(iterator, PAGESIZE,
                 serializeKey = ::serializeInt,
                 serializedSizeOfKey = ::serializedSizeOfInt,
                 serializeValue = ::serializeInt,
@@ -189,7 +222,7 @@ class B_Plus_Tree_Static_Int_to_Int(val filename:String, val k:Int = 1000, val k
     }
 }
 
-class B_Plus_Tree_StaticCompressed_Int_to_Int(val filename:String, val k:Int = 1000, val k_star:Int = 500){
+class B_Plus_Tree_StaticCompressed_Int_to_Int(val filename:String){
     val bplustree = B_Plus_Tree_Static_CompressedPointer<Int, Int>(filename)
 
     inline operator fun get(key:Int) = bplustree.search(key,
@@ -200,18 +233,29 @@ class B_Plus_Tree_StaticCompressed_Int_to_Int(val filename:String, val k:Int = 1
             leafNodeDeserializerValue = ::deserializeCompressedInt,
             serializedSizeOfValue= ::serializedSizeOfCompressedInt)
 
-/*    inline fun range_search(keyLeft:Int, keyRight:Int) = bplustree.range_search(
+    inline fun range_search(keyLeft:Int, keyRight:Int) = bplustree.range_search(
             {key:Int-> key - keyLeft},
             {key:Int-> key - keyRight},
-            notfoundtext = "left limit: "+keyLeft+" right limit:"+keyRight,
+            notfoundtext = "left limit: $keyLeft right limit: $keyRight",
             innerNodeDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
             leafNodeDeserializerKey = ::deserializeCompressedInt,
             leafNodeDeserializerValue = ::deserializeCompressedInt,
-            serializedSizeOfValue = ::serializedSizeOfCompressedInt) */
+            serializedSizeOfValue = ::serializedSizeOfCompressedInt)
+
+    fun sip_search(keyLeft:Int, keyRight:Int) = bplustree.sip_search(
+            { key1:Int, key2:Int -> (key2 - key1) },
+            { key:Int-> key - keyLeft },
+            { key:Int-> key - keyRight },
+            notfoundtext = "left limit: $keyLeft right limit: &keyRight",
+            innerNodeDeserializer = ::deserializeCompressedInt,
+            serializedSizeOfKey = ::serializedSizeOfCompressedInt,
+            leafNodeDeserializerKey = ::deserializeCompressedInt,
+            leafNodeDeserializerValue = ::deserializeCompressedInt,
+            serializedSizeOfValue = ::serializedSizeOfCompressedInt)
 
     fun generate(size:Int, iterator:Iterator<Pair<Int,Int>>){
-        bplustree.generate(iterator, k, k_star, PAGESIZE,
+        bplustree.generate(iterator, PAGESIZE,
                 serializeKey = ::serializeCompressedInt,
                 serializedSizeOfKey = ::serializedSizeOfCompressedInt,
                 serializeValue = ::serializeCompressedInt,
