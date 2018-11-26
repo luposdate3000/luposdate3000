@@ -91,10 +91,10 @@ data class NodeParams(var nodeNumber:Int, val filename:String, var page:Page, va
         adrNode += sizeOfValue
     }
 
-    inline fun<K, V> write(key:K, oldkey:K?, value:V, sizeOfKey:Long, sizeOfValue:Long, lastEntryInLeaf:Boolean, PAGESIZE:Int, serializeKey: (Page, Long, K) -> Unit, serializeKeyDiff: (Page, Long, K, K) -> Unit, serializeValue: (Page, Long, V) -> Unit) {
+    inline fun<K, V> write(key:K, oldkey:K?, value:V, sizeOfValue:Long, lastEntryInLeaf:Boolean, PAGESIZE:Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeKeyDiff: (Page, Long, K, K) -> Unit, serializedSizeOfKeyDiff: (K, K) -> Long, serializeValue: (Page, Long, V) -> Unit) {
         val startOffsetInPage = 5
         val POINTERSIZE = 4
-        val nextAdrKey = adrNode + sizeOfKey
+        val nextAdrKey = adrNode + (if(oldkey==null) serializedSizeOfKey(key) else serializedSizeOfKeyDiff(key, oldkey))
         val nextAdrValue = nextAdrKey + sizeOfValue
         if(nextAdrValue>=pageSizeMinusPointer-1){
             var createNewLeaf = true
@@ -123,10 +123,11 @@ data class NodeParams(var nodeNumber:Int, val filename:String, var page:Page, va
         }
         if(writtenEntryInPage == 1) {
             serializeKey(page, adrNode, key)
+            adrNode += serializedSizeOfKey(key)
         } else {
             serializeKeyDiff(page, adrNode, key, oldkey!!)
+            adrNode += serializedSizeOfKeyDiff(key, oldkey!!)
         }
-        adrNode += sizeOfKey
         // write value
         serializeValue(page, adrNode, value)
         adrNode += sizeOfValue
@@ -378,6 +379,124 @@ inline fun<K,V> generateStaticTree(filename:String, iterator: Iterator<Pair<K, V
     val offset0 = page0.getPageIndex()
     for(i in 0 until PAGESIZE){
         page0.putByte(offset0+i, rootpage.getByte(offset+i))
+    }
+}
+
+/**
+ * @param size: number of entries to be inserted into the tree
+ * @param iterator: Iterator of the entries (as key/value pairs) to be inserted. The iterator should deliver the entries in the order of the keys
+ * @param k: size of inner nodes
+ * @param k_star: size of leaf nodes
+ * @param pageSize: size of pages
+ */
+inline fun<K, V> generateDifferenceEncodedBPlusTree(filename:String, size: Int, iterator: Iterator<Pair<K, V>>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeKeyDiff: (Page, Long, K, K) -> Unit, serializedSizeOfKeyDiff: (K, K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {
+    val startOffsetInPage = 5
+    val POINTERSIZE = 4
+    // How many leaf nodes?
+    val numberOfLeafNodes = ceil(size.toDouble() / (2*k_star).toDouble()).toInt()
+    val currentLeafNode = NodeParams.constructNodeParams(numberOfLeafNodes <= 1, filename, PAGESIZE, size, numberOfLeafNodes)
+    var currentNumber = numberOfLeafNodes
+    var numberOfInnerNodeLevels = 0
+    val numberOfNodesList = mutableListOf<Int>()
+    while(currentNumber > 1) {
+        numberOfInnerNodeLevels++
+        var currentSize = currentNumber
+        currentNumber = ceil(currentSize.toDouble() / (2*k).toDouble()).toInt()
+        numberOfNodesList += currentNumber
+    }
+    val numberOfNodes = numberOfNodesList.toTypedArray()
+    val innerNodes = Array<NodeParams>(numberOfNodes.size) { NodeParams.constructNodeParams(it == numberOfNodes.size - 1, filename, PAGESIZE, if(it == 0) numberOfLeafNodes else numberOfNodes[it-1], numberOfNodes[it]) }
+    val oldKeysInnerNodes:Array<Any?> = Array(numberOfNodes.size) { null }
+    var key:K? = null
+    var oldkey = key
+    var index = 0
+    for(entry in iterator) {
+        index++
+        currentLeafNode.writtenEntry++
+        currentLeafNode.writtenEntryInPage++
+        val lastEntryInLeaf = (currentLeafNode.writtenEntry + 1 > currentLeafNode.nextNodeAtPos)
+        oldkey = key
+        key = entry.first
+        val value = entry.second
+        currentLeafNode.write(key, oldkey, value, serializedSizeOfValue(value), lastEntryInLeaf, PAGESIZE, serializeKey, serializedSizeOfKey, serializeKeyDiff, serializedSizeOfKeyDiff, serializeValue)
+        if(currentLeafNode.writtenEntry > currentLeafNode.nextNodeAtPos) {
+            var pointerToChild = currentLeafNode.firstNodeNumber
+            // create new leaf node...
+            currentLeafNode.page.putInt(currentLeafNode.adrNode, NodeParams.Companion.node+1)
+            if(index < size) {
+                NodeParams.Companion.setStatusBytes(currentLeafNode.page, 0, currentLeafNode.writtenEntryInPage) // Is leaf node and rest fits onto this page!
+                currentLeafNode.overwrite(PAGESIZE)
+                currentLeafNode.writtenEntryInPage = 0
+                currentLeafNode.nextNodeAtPos += currentLeafNode.numberOfEntriesPerNode
+            } else {
+                NodeParams.Companion.setStatusBytes(currentLeafNode.page, 4, currentLeafNode.writtenEntryInPage) // Is last(!) leaf node and rest fits onto this page!
+                currentLeafNode.mustBeClosed = false
+            }
+            var i: Int = 0
+            while(i < innerNodes.size){
+                val node = innerNodes[i]
+                node.writtenEntry++
+                // anyway write pointer to child node in this level
+                if (node.adrNode + POINTERSIZE + (if (node.writtenEntry > node.nextNodeAtPos) serializedSizeOfKey(key) else 0) >= node.pageSizeMinusPointer - 1) {
+                    NodeParams.node++
+                    serializeCompressedInt(node.page, node.adrNode, NodeParams.node)
+                    NodeParams.setStatusBytes(node.page, 3, node.writtenEntryInPage) // Is inner node and does not fit onto this page!
+                    node.page = bufferManager.getPage(filename, NodeParams.node)
+                    node.nodeNumber = NodeParams.node
+                    node.pageOffset = node.page.getPageIndex()
+                    node.maxAdr = node.pageOffset + PAGESIZE - 1
+                    node.pageSizeMinusPointer = node.maxAdr - POINTERSIZE
+                    node.adrNode = node.pageOffset + startOffsetInPage
+                    node.writtenEntryInPage = 1
+                } else {
+                    node.writtenEntryInPage++
+                }
+                serializeCompressedInt(node.page, node.adrNode, pointerToChild)
+                node.adrNode += serializedSizeOfCompressedInt(pointerToChild)
+                if (node.writtenEntry >= node.nextNodeAtPos) {
+                    // last entry in the inner node -> remember the page number of the current inner node and proceed with the next level
+                    pointerToChild = node.firstNodeNumber
+                    NodeParams.setStatusBytes(node.page, 3, node.writtenEntryInPage)
+                    if (node.writtenEntry < if(i==0) numberOfLeafNodes else numberOfNodes[i-1]) { // else-case: last entry written!
+                        // create new inner node
+                        node.overwrite(PAGESIZE)
+                        node.writtenEntryInPage = 0
+                    } else {
+                        node.mustBeClosed = false
+                    }
+                    node.nextNodeAtPos += node.numberOfEntriesPerNode
+                } else {
+                    // the key is written into this level
+                    if(node.writtenEntryInPage==1){
+                        serializeKey(node.page, node.adrNode, key)
+                        node.adrNode += serializedSizeOfKey(key)
+                    } else {
+                        val oldkey = oldKeysInnerNodes[i] as K?
+                        serializeKeyDiff(node.page, node.adrNode, key, oldkey!!)
+                        node.adrNode += serializedSizeOfKeyDiff(key, oldkey!!)
+                    }
+                    oldKeysInnerNodes[i] = key
+                    break
+                }
+                i++
+            }
+        }
+    }
+    // mark last node
+    if(currentLeafNode.mustBeClosed) {
+        NodeParams.Companion.setStatusBytes(currentLeafNode.page, 4, currentLeafNode.writtenEntryInPage) // Is last (!) leaf node and rest fits onto this page!
+    }
+    var pointer = currentLeafNode.firstNodeNumber
+    // mark remaining inner nodes
+    for (node in innerNodes) {
+        // write pointer to inner node!
+        if(node.mustBeClosed) {
+            serializeCompressedInt(node.page, node.adrNode, pointer)
+            node.adrNode += serializedSizeOfCompressedInt(pointer)
+            node.writtenEntryInPage++
+            NodeParams.Companion.setStatusBytes(node.page, 1, node.writtenEntryInPage)
+        }
+        pointer = node.firstNodeNumber
     }
 }
 
@@ -1114,6 +1233,238 @@ class B_Plus_Tree_Difference_Encoding<K:Any, V:Any>(val filename:String){ // By 
         }
     }
 
+    inline fun<K, V> sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, crossinline keyDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline keyDiffDeserializer: (Page, Long, K) -> K, crossinline serializedSizeOfKeyDiff: (K, K) -> Long, crossinline valueDeserializer: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long, crossinline deserializePointer:(Page, Long) -> Int, crossinline serializedSizeOfPointer: (Int) -> Long):(K)-> V? {
+        val startOffsetInPage = 5
+        var node = 0
+        val path = mutableListOf<NodeInSIPPath<K, V>>()
+        while(true) {
+            var page = bufferManager.getPage(filename, node)
+            val firstByte = page.getByte(0L) // load status byte
+            val numberOfElements = page.getInt(1L) // stores only the number of elements on this page. There could be more on the next page for this node!
+            var currentNodeInPath = NodeInSIPPath<K,V>(node, page, 5L, null, null,0, numberOfElements)
+            path += currentNodeInPath
+            if (firstByte.bit0()) { // inner node
+                val pointer = deserializePointer(page, currentNodeInPath.adr)
+                currentNodeInPath.adr += serializedSizeOfPointer(pointer)
+                currentNodeInPath.index = 1
+                var oldkey = keyDeserializer(page, currentNodeInPath.adr)
+                currentNodeInPath.key = oldkey
+                currentNodeInPath.pointer = pointer
+                currentNodeInPath.adr += serializedSizeOfKey(oldkey)
+                if(compareLeftLimit(oldkey) >= 0) {
+                    node = pointer
+                } else {
+                    for (i in 2..numberOfElements) {
+                        val pointer = deserializePointer(page, currentNodeInPath.adr)
+                        currentNodeInPath.adr += serializedSizeOfPointer(pointer)
+                        currentNodeInPath.index = i
+                        if (i == numberOfElements) {
+                            // if the node fits onto this page (or is the last page for this node), then this is a pointer to rightest child node
+                            // otherwise this is a pointer to the next page for this node...
+                            if (firstByte.bit1()) {
+                                // next page for this node
+                                // => replace current page with the next page of this node (within the next iteration)
+                                path.remove(currentNodeInPath)
+                            } else {
+                                currentNodeInPath.key = null // last pointer has no key!
+                                currentNodeInPath.pointer = pointer
+                            }
+                            // Anyway we must continue our search in this new node and deal with this new node in the same way
+                            node = pointer
+                            break
+                        }
+                        val nodekey = keyDiffDeserializer(page, currentNodeInPath.adr, oldkey)
+                        currentNodeInPath.key = nodekey
+                        currentNodeInPath.pointer = pointer
+                        currentNodeInPath.adr += serializedSizeOfKeyDiff(nodekey, oldkey)
+                        if (compareLeftLimit(nodekey) >= 0) {
+                            node = pointer
+                            break
+                        }
+                        oldkey = nodekey
+                    }
+                }
+            } else { // leaf node
+                var oldkey:K? = null
+                for(i in 1..numberOfElements) {
+                    val nodekey = if(i==1) keyDeserializer(page, currentNodeInPath.adr) else keyDiffDeserializer(page, currentNodeInPath.adr, oldkey!!)
+                    currentNodeInPath.adr += if(i==1) serializedSizeOfKey(nodekey) else serializedSizeOfKeyDiff(nodekey, oldkey!!)
+                    currentNodeInPath.key = nodekey
+                    currentNodeInPath.index = i
+                    oldkey = nodekey
+                    val cmp = compareLeftLimit(nodekey)
+                    val nodevalue = valueDeserializer(page, currentNodeInPath.adr)
+                    currentNodeInPath.adr += serializedSizeOfValue(nodevalue)
+                    if(cmp>=0) {
+                        if(compareRightLimit(nodekey)<=0) {
+                            var first = true
+                            var numberOfElementsOfCurrentNode = numberOfElements
+                            return {
+                                var result:V? = null
+                                if(first) {
+                                    first = false
+                                    if(compare(it, nodekey)>=0) {
+                                        result = nodevalue
+                                    }
+                                }
+                                if(result==null) {
+                                    var runOverCompleteLeafNode = false
+                                    loop@ while(true) {
+                                        var endReached = false
+                                        if (currentNodeInPath.index >= numberOfElementsOfCurrentNode) {
+                                            if (page.getByte(0).bit2()) {
+                                                endReached = true
+                                            } else {
+                                                if(runOverCompleteLeafNode){
+                                                    // now we have run over a complete leaf node without finding a key >= the key given as parameter
+                                                    // navigate through inner nodes...
+                                                    path.remove(currentNodeInPath) // remove leaf node from path
+                                                    var goDownward = false
+                                                    sip_loop@ for(i in path.size-1 downTo 0) {
+                                                        var current = path[i] // current inner node
+                                                        while(current.index<current.numberOfElements){
+                                                            val pointer = deserializePointer(current.page, current.adr)
+                                                            current.adr += serializedSizeOfPointer(pointer)
+                                                            current.index++
+                                                            if(current.index==current.numberOfElements) {
+                                                                // go to next level of inner nodes
+                                                                path.remove(current)
+                                                                continue@sip_loop
+                                                            }
+                                                            val nodekey = keyDiffDeserializer(current.page, current.adr, current.key!!)
+                                                            current.adr += serializedSizeOfKeyDiff(nodekey, current.key!!)
+                                                            current.key = nodekey
+                                                            current.pointer = pointer
+                                                            if(compare(it, nodekey) >= 0) {
+                                                                node = pointer
+                                                                goDownward = true
+                                                                break@sip_loop
+                                                            }
+                                                        }
+                                                    }
+                                                    if(path.size==0) {
+                                                        endReached = true // check if this is correct...
+                                                    } else if(goDownward){
+                                                        println("goDownward $node")
+                                                        // go downward node with search for key >= it
+                                                        searchInInnerNodes@ while(true) {
+                                                            page = bufferManager.getPage(filename, node)
+                                                            val firstByte = page.getByte(0L) // load status byte
+                                                            numberOfElementsOfCurrentNode = page.getInt(1L) // stores only the number of elements on this page. There could be more on the next page for this node!
+                                                            currentNodeInPath = NodeInSIPPath<K, V>(node, page, 5L, null, null, 0, numberOfElements)
+                                                            path += currentNodeInPath
+                                                            if (firstByte.bit0()) { // inner node
+                                                                val pointer = deserializePointer(page, currentNodeInPath.adr)
+                                                                currentNodeInPath.adr += serializedSizeOfPointer(pointer)
+                                                                currentNodeInPath.index = 1
+                                                                var oldkey = keyDeserializer(page, currentNodeInPath.adr)
+                                                                currentNodeInPath.key = oldkey
+                                                                currentNodeInPath.pointer = pointer
+                                                                currentNodeInPath.adr += serializedSizeOfKey(oldkey)
+                                                                println("first key: "+oldkey)
+                                                                if(compareLeftLimit(oldkey) >= 0) {
+                                                                    node = pointer
+                                                                } else {
+                                                                    for (i in 2..numberOfElementsOfCurrentNode) {
+                                                                        val pointer = deserializePointer(page, currentNodeInPath.adr)
+                                                                        currentNodeInPath.adr += serializedSizeOfPointer(pointer)
+                                                                        currentNodeInPath.index = i
+                                                                        if (i == numberOfElementsOfCurrentNode) {
+                                                                            // if the node fits onto this page (or is the last page for this node), then this is a pointer to rightest child node
+                                                                            // otherwise this is a pointer to the next page for this node...
+                                                                            if (firstByte.bit1()) {
+                                                                                // next page for this node
+                                                                                // => replace current page with the next page of this node (within the next iteration)
+                                                                                path.remove(currentNodeInPath)
+                                                                            } else {
+                                                                                currentNodeInPath.key = null // last pointer has no key!
+                                                                                currentNodeInPath.pointer = pointer
+                                                                            }
+                                                                            // Anyway we must continue our search in this new node and deal with this new node in the same way
+                                                                            node = pointer
+                                                                            break
+                                                                        }
+                                                                        val nodekey = keyDiffDeserializer(page, currentNodeInPath.adr, oldkey)
+                                                                        println("key: "+nodekey)
+                                                                        currentNodeInPath.adr += serializedSizeOfKeyDiff(nodekey, oldkey)
+                                                                        currentNodeInPath.key = nodekey
+                                                                        oldkey = nodekey
+                                                                        currentNodeInPath.pointer = pointer
+                                                                        if (compareLeftLimit(nodekey) >= 0) {
+                                                                            node = pointer
+                                                                            break
+                                                                        }
+                                                                    }
+                                                                }
+                                                            } else {
+                                                                // leaf node reached
+                                                                break@searchInInnerNodes
+                                                            }
+                                                            if (firstByte.bit1()) { // node does not fit onto this page
+                                                                node = page.getInt(currentNodeInPath.adr) // continue search in next page of this node
+                                                                path.remove(currentNodeInPath) // replace current page with the next page of this node (within the next iteration)
+                                                            } else {
+                                                                // end of node reached without finding the key...
+                                                                throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                                                            }
+                                                        }
+                                                    }
+                                                    runOverCompleteLeafNode = false
+                                                } else {
+                                                    // load next leaf node
+                                                    val nextPage = page.getInt(currentNodeInPath.adr)
+                                                    page = bufferManager.getPage(filename, nextPage)
+                                                    currentNodeInPath.adr = page.getPageIndex() + startOffsetInPage
+                                                    numberOfElementsOfCurrentNode = page.getInt(1L)
+                                                    currentNodeInPath.index = 0
+                                                    currentNodeInPath.nodeNumber = nextPage
+                                                    runOverCompleteLeafNode = true
+                                                }
+                                            }
+                                        }
+                                        if (endReached) {
+                                            result = null
+                                            break@loop
+                                        } else {
+                                            println("Leaf node: "+currentNodeInPath.nodeNumber)
+                                            val nodekey2 = if(currentNodeInPath.index==0) keyDeserializer(page, currentNodeInPath.adr) else keyDiffDeserializer(page, currentNodeInPath.adr, currentNodeInPath.key!!)
+                                            println("key: "+nodekey2)
+                                            currentNodeInPath.adr += if(currentNodeInPath.index==0) serializedSizeOfKey(nodekey2) else serializedSizeOfKeyDiff(nodekey2, currentNodeInPath.key!!)
+                                            currentNodeInPath.key = nodekey2
+                                            val nodevalue2 = valueDeserializer(page, currentNodeInPath.adr)
+                                            currentNodeInPath.adr += serializedSizeOfValue(nodevalue2)
+                                            currentNodeInPath.index++
+                                            if (compareRightLimit(nodekey2) <= 0) {
+                                                if(compare(it, nodekey2)>=0) {
+                                                    runOverCompleteLeafNode = false
+                                                    result = nodevalue2
+                                                    break@loop
+                                                }
+                                            } else {
+                                                result = null
+                                                break@loop
+                                            }
+                                        }
+                                    }
+                                }
+                                result
+                            }
+                        } else {
+                            throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                        }
+                    }
+                }
+                if(firstByte.bit1()) { // node does not fit onto this page
+                    node = page.getInt(currentNodeInPath.adr) // continue search in next page of this node
+                    path.remove(currentNodeInPath) // replace current page with the next page of this node (within the next iteration)
+                } else {
+                    // end of node reached without finding the key...
+                    throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                }
+            }
+        }
+    }
+
     /**
      * @param size: number of entries to be inserted into the tree
      * @param iterator: Iterator of the entries (as key/value pairs) to be inserted. The iterator should deliver the entries in the order of the keys
@@ -1122,116 +1473,7 @@ class B_Plus_Tree_Difference_Encoding<K:Any, V:Any>(val filename:String){ // By 
      * @param pageSize: size of pages
      */
     inline fun generate(size: Int, iterator: Iterator<Pair<K, V>>, k: Int, k_star: Int, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeKeyDiff: (Page, Long, K, K) -> Unit, serializedSizeOfKeyDiff: (K, K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {
-        val startOffsetInPage = 5
-        val POINTERSIZE = 4
-        // How many leaf nodes?
-        val numberOfLeafNodes = ceil(size.toDouble() / (2*k_star).toDouble()).toInt()
-        val currentLeafNode = NodeParams.constructNodeParams(numberOfLeafNodes <= 1, filename, PAGESIZE, size, numberOfLeafNodes)
-        var currentNumber = numberOfLeafNodes
-        var numberOfInnerNodeLevels = 0
-        val numberOfNodesList = mutableListOf<Int>()
-        while(currentNumber > 1) {
-            numberOfInnerNodeLevels++
-            var currentSize = currentNumber
-            currentNumber = ceil(currentSize.toDouble() / (2*k).toDouble()).toInt()
-            numberOfNodesList += currentNumber
-        }
-        val numberOfNodes = numberOfNodesList.toTypedArray()
-        val innerNodes = Array<NodeParams>(numberOfNodes.size) { NodeParams.constructNodeParams(it == numberOfNodes.size - 1, filename, PAGESIZE, if(it == 0) numberOfLeafNodes else numberOfNodes[it-1], numberOfNodes[it]) }
-        val oldKeysInnerNodes:Array<Any?> = Array(numberOfNodes.size) { null }
-        var key:K? = null
-        var oldkey = key
-        var index = 0
-        for(entry in iterator) {
-            index++
-            currentLeafNode.writtenEntry++
-            currentLeafNode.writtenEntryInPage++
-            val lastEntryInLeaf = (currentLeafNode.writtenEntry + 1 > currentLeafNode.nextNodeAtPos)
-            oldkey = key
-            key = entry.first
-            val sizeOfKey = if(currentLeafNode.writtenEntryInPage==1) serializedSizeOfKey(key) else serializedSizeOfKeyDiff(key, oldkey!!)
-            val value = entry.second
-            val sizeOfValue = serializedSizeOfValue(value)
-            currentLeafNode.write(key, oldkey, value, sizeOfKey, sizeOfValue, lastEntryInLeaf, PAGESIZE, serializeKey, serializeKeyDiff, serializeValue)
-            if(currentLeafNode.writtenEntry > currentLeafNode.nextNodeAtPos) {
-                var pointerToChild = currentLeafNode.firstNodeNumber
-                // create new leaf node...
-                currentLeafNode.page.putInt(currentLeafNode.adrNode, NodeParams.Companion.node+1)
-                if(index < size) {
-                    NodeParams.Companion.setStatusBytes(currentLeafNode.page, 0, currentLeafNode.writtenEntryInPage) // Is leaf node and rest fits onto this page!
-                    currentLeafNode.overwrite(PAGESIZE)
-                    currentLeafNode.writtenEntryInPage = 0
-                    currentLeafNode.nextNodeAtPos += currentLeafNode.numberOfEntriesPerNode
-                } else {
-                    NodeParams.Companion.setStatusBytes(currentLeafNode.page, 4, currentLeafNode.writtenEntryInPage) // Is last(!) leaf node and rest fits onto this page!
-                    currentLeafNode.mustBeClosed = false
-                }
-                var i: Int = 0
-                while(i < innerNodes.size){
-                    val node = innerNodes[i]
-                    node.writtenEntry++
-                    // anyway write pointer to child node in this level
-                    if (node.adrNode + POINTERSIZE + (if (node.writtenEntry > node.nextNodeAtPos) serializedSizeOfKey(key) else 0) >= node.pageSizeMinusPointer - 1) {
-                        NodeParams.node++
-                        serializeCompressedInt(node.page, node.adrNode, NodeParams.node)
-                        NodeParams.setStatusBytes(node.page, 3, node.writtenEntryInPage) // Is inner node and does not fit onto this page!
-                        node.page = bufferManager.getPage(filename, NodeParams.node)
-                        node.nodeNumber = NodeParams.node
-                        node.pageOffset = node.page.getPageIndex()
-                        node.maxAdr = node.pageOffset + PAGESIZE - 1
-                        node.pageSizeMinusPointer = node.maxAdr - POINTERSIZE
-                        node.adrNode = node.pageOffset + startOffsetInPage
-                        node.writtenEntryInPage = 1
-                    } else {
-                        node.writtenEntryInPage++
-                    }
-                    serializeCompressedInt(node.page, node.adrNode, pointerToChild)
-                    node.adrNode += serializedSizeOfCompressedInt(pointerToChild)
-                    if (node.writtenEntry >= node.nextNodeAtPos) {
-                        // last entry in the inner node -> remember the page number of the current inner node and proceed with the next level
-                        pointerToChild = node.firstNodeNumber
-                        NodeParams.setStatusBytes(node.page, 3, node.writtenEntryInPage)
-                        if (node.writtenEntry < if(i==0) numberOfLeafNodes else numberOfNodes[i-1]) { // else-case: last entry written!
-                            // create new inner node
-                            node.overwrite(PAGESIZE)
-                            node.writtenEntryInPage = 0
-                        } else {
-                            node.mustBeClosed = false
-                        }
-                        node.nextNodeAtPos += node.numberOfEntriesPerNode
-                    } else {
-                        // the key is written into this level
-                        if(node.writtenEntryInPage==1){
-                            serializeKey(node.page, node.adrNode, key)
-                            node.adrNode += serializedSizeOfKey(key)
-                        } else {
-                            val oldkey = oldKeysInnerNodes[i] as K?
-                            serializeKeyDiff(node.page, node.adrNode, key, oldkey!!)
-                            node.adrNode += serializedSizeOfKeyDiff(key, oldkey!!)
-                        }
-                        oldKeysInnerNodes[i] = key
-                        break
-                    }
-                    i++
-                }
-            }
-        }
-        // mark last node
-        if(currentLeafNode.mustBeClosed) {
-            NodeParams.Companion.setStatusBytes(currentLeafNode.page, 4, currentLeafNode.writtenEntryInPage) // Is last (!) leaf node and rest fits onto this page!
-        }
-        var pointer = currentLeafNode.firstNodeNumber
-        // mark remaining inner nodes
-        for (node in innerNodes) {
-            // write pointer to inner node!
-            if(node.mustBeClosed) {
-                serializeCompressedInt(node.page, node.adrNode, pointer)
-                node.adrNode += serializedSizeOfCompressedInt(pointer)
-                node.writtenEntryInPage++
-                NodeParams.Companion.setStatusBytes(node.page, 1, node.writtenEntryInPage)
-            }
-            pointer = node.firstNodeNumber
-        }
+        return generateDifferenceEncodedBPlusTree(this.filename, size, iterator, k, k_star, PAGESIZE, serializeKey, serializedSizeOfKey, serializeKeyDiff, serializedSizeOfKeyDiff, serializeValue, serializedSizeOfValue)
     }
 }
 

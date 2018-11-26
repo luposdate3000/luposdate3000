@@ -155,9 +155,10 @@ fun testBPlusTree5(){
 }
 
 fun testBPlusTree6(){
+    println("Test 6")
     val filename = "test2"
     // initialize and create B_Plus_Tree
-    val b = B_Plus_Tree_Difference_Encoding_Int_to_Int(filename) // , 8000, 8000)
+    val b = B_Plus_Tree_Difference_Encoding_Int_to_Int(filename) //, 100, 100) // 8000, 8000)
     val list = mutableListOf<Pair<Int, Int>>()
     val size = 500000
     for(i in 1..size){
@@ -176,9 +177,10 @@ fun testBPlusTree6(){
 }
 
 fun testBPlusTree7(){
+    println("Test 7")
     val filename = "test7"
     // initialize and create B_Plus_Tree
-    val b = B_Plus_Tree_Difference_Encoding_Int_to_Int(filename) // , 8000, 8000)
+    val b = B_Plus_Tree_Difference_Encoding_Int_to_Int(filename, 100, 100) // , 8000, 8000)
     val list = mutableListOf<Pair<Int, Int>>()
     val size = 500000
     for(i in 1..size){
@@ -186,12 +188,41 @@ fun testBPlusTree7(){
     }
     b.generate(size, list.asIterable().iterator())
     try {
-        val range = b.range_search(5200,10000)
+        val range = b.range_search(5200,30000)
         do {
             val result = range()
             println(result)
         } while(result!=null)
         val range2 = b.range_search(2*size,2*size+10000)
+    }catch(e:NotFoundException){
+        println(e);
+    }
+    // TODO much more rigorously
+}
+
+fun testBPlusTree7b(){
+    println("Test 7b")
+    val filename = "test7b"
+    // initialize and create B_Plus_Tree
+    val b = B_Plus_Tree_Difference_Encoding_Int_to_Int(filename,100,100) // , 8000, 8000)
+    val list = mutableListOf<Pair<Int, Int>>()
+    val size = 500000
+    for(i in 1..size){
+        list+=Pair(i,i)
+    }
+    b.generate(size, list.asIterable().iterator())
+    try {
+        val range = b.sip_search(100, size)
+
+        val result = range(51712)
+        println("51712: $result")
+
+        var i = 101
+        do {
+            val result = range(i)
+            println("$i: $result")
+            i = i*2
+        } while(result!=null)
     }catch(e:NotFoundException){
         println(e);
     }

@@ -170,6 +170,20 @@ class B_Plus_Tree_Difference_Encoding_Int_to_Int(val filename:String, val k:Int 
             leafNodeDeserializerValue = ::deserializeCompressedInt,
             serializedSizeOfValue = ::serializedSizeOfCompressedInt)
 
+    fun sip_search(keyLeft:Int, keyRight:Int) = bplustree.sip_search(
+            { key1:Int, key2:Int -> (key2 - key1) },
+            { key:Int-> key - keyLeft },
+            { key:Int-> key - keyRight },
+            notfoundtext = "left limit: $keyLeft right limit:$keyRight",
+            keyDeserializer = ::deserializeCompressedInt,
+            serializedSizeOfKey = ::serializedSizeOfCompressedInt,
+            keyDiffDeserializer = ::deserializeInt,
+            serializedSizeOfKeyDiff = ::serializedSizeOfInt,
+            valueDeserializer = ::deserializeCompressedInt,
+            serializedSizeOfValue = ::serializedSizeOfCompressedInt,
+            deserializePointer = ::deserializeCompressedInt,
+            serializedSizeOfPointer = ::serializedSizeOfCompressedInt)
+
     fun generate(size:Int, iterator:Iterator<Pair<Int,Int>>){
         bplustree.generate(size, iterator, k, k_star, PAGESIZE,
                 serializeKey = ::serializeCompressedInt,
