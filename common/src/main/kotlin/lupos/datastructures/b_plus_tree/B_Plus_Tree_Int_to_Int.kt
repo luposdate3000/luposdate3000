@@ -195,6 +195,50 @@ class B_Plus_Tree_Difference_Encoding_Int_to_Int(val filename:String, val k:Int 
     }
 }
 
+class B_Plus_Tree_Difference_Encoding_Int(val filename:String, val k:Int = 1000, val k_star:Int = 500){
+    val bplustree = B_Plus_Tree_Difference_Encoding_OnlyKeys<Int>(filename)
+
+    inline operator fun get(key:Int) = bplustree.search(key,
+            compare = ::compareInt,
+            innerNodeDeserializer = ::deserializeCompressedInt,
+            serializedSizeOfKey = ::serializedSizeOfCompressedInt,
+            innerNodeDeserializerDiff = ::deserializeInt,
+            serializedSizeOfKeyDiff = ::serializedSizeOfInt,
+            leafNodeDeserializerKey = ::deserializeCompressedInt,
+            leafNodeDeserializerKeyDiff = ::deserializeInt)
+
+    inline fun range_search(keyLeft:Int, keyRight:Int) = bplustree.range_search(
+            {key:Int-> key - keyLeft},
+            {key:Int-> key - keyRight},
+            notfoundtext = "left limit: $keyLeft right limit: $keyRight",
+            innerNodeDeserializer = ::deserializeCompressedInt,
+            serializedSizeOfKey = ::serializedSizeOfCompressedInt,
+            innerNodeDeserializerDiff = ::deserializeInt,
+            serializedSizeOfKeyDiff = ::serializedSizeOfInt,
+            leafNodeDeserializerKey = ::deserializeCompressedInt,
+            leafNodeDeserializerKeyDiff = ::deserializeInt)
+
+    fun sip_search(keyLeft:Int, keyRight:Int) = bplustree.sip_search(
+            { key1:Int, key2:Int -> (key2 - key1) },
+            { key:Int-> key - keyLeft },
+            { key:Int-> key - keyRight },
+            notfoundtext = "left limit: $keyLeft right limit:$keyRight",
+            keyDeserializer = ::deserializeCompressedInt,
+            serializedSizeOfKey = ::serializedSizeOfCompressedInt,
+            keyDiffDeserializer = ::deserializeInt,
+            serializedSizeOfKeyDiff = ::serializedSizeOfInt,
+            deserializePointer = ::deserializeCompressedInt,
+            serializedSizeOfPointer = ::serializedSizeOfCompressedInt)
+
+    fun generate(size:Int, iterator:Iterator<Int>){
+        bplustree.generate(size, iterator, k, k_star, PAGESIZE,
+                serializeKey = ::serializeCompressedInt,
+                serializedSizeOfKey = ::serializedSizeOfCompressedInt,
+                serializeKeyDiff = ::serializeInt,
+                serializedSizeOfKeyDiff = ::serializedSizeOfInt)
+    }
+}
+
 class B_Plus_Tree_Static_Int_to_Int(val filename:String){
     val bplustree = B_Plus_Tree_Static<Int, Int>(filename)
 

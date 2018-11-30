@@ -69,7 +69,7 @@ fun testBPlusTree2(){
 fun testBPlusTree3(){
     val filename = "test2"
     // initialize and create B_Plus_Tree
-    val b = B_Plus_Tree_VariableSize_Int_to_Int(filename)
+    val b = B_Plus_Tree_VariableSize_Int_to_Int(filename, 50, 50)
     val list = mutableListOf<Pair<Int, Int>>()
     val size = 500000
     for(i in 1..size){
@@ -176,6 +176,28 @@ fun testBPlusTree6(){
     // TODO much more rigorously
 }
 
+fun testBPlusTree6b(){
+    println("Test 6b")
+    val filename = "test6b"
+    // initialize and create B_Plus_Tree
+    val b = B_Plus_Tree_Difference_Encoding_Int(filename) //, 100, 100) // 8000, 8000)
+    val list = mutableListOf<Int>()
+    val size = 500000
+    for(i in 1..size){
+        list+=i
+    }
+    b.generate(size, list.asIterable().iterator())
+    try {
+        for(i in size downTo 1){
+            println(b[i])
+        }
+        b[2*size]
+    }catch(e:NotFoundException){
+        println(e);
+    }
+    // TODO much more rigorously
+}
+
 fun testBPlusTree7(){
     println("Test 7")
     val filename = "test7"
@@ -223,6 +245,59 @@ fun testBPlusTree7b(){
             println("$i: $result")
             i = i*2
         } while(result!=null)
+    }catch(e:NotFoundException){
+        println(e);
+    }
+    // TODO much more rigorously
+}
+
+fun testBPlusTree7c(){
+    println("Test 7c")
+    val filename = "test7c"
+    // initialize and create B_Plus_Tree
+    val b = B_Plus_Tree_Difference_Encoding_Int(filename, 100, 100) // , 8000, 8000)
+    val list = mutableListOf<Int>()
+    val size = 500000
+    for(i in 1..size){
+        list+=i
+    }
+    b.generate(size, list.asIterable().iterator())
+    try {
+        val range = b.range_search(5200,30000)
+        do {
+            val result = range()
+            println(result)
+        } while(result!=null)
+        val range2 = b.range_search(2*size,2*size+10000)
+    }catch(e:NotFoundException){
+        println(e);
+    }
+    // TODO much more rigorously
+}
+
+fun testBPlusTree7d(){
+    println("Test 7d")
+    val filename = "test7d"
+    // initialize and create B_Plus_Tree
+    val b = B_Plus_Tree_Difference_Encoding_Int(filename,100,100) // , 8000, 8000)
+    val list = mutableListOf<Int>()
+    val size = 500000
+    for(i in 1..size){
+        list+=i
+    }
+    b.generate(size, list.asIterable().iterator())
+    try {
+        val range = b.sip_search(100, size)
+
+        val result = range(51712)
+        println("51712: $result")
+
+/*        var i = 101
+        do {
+            val result = range(i)
+            println("$i: $result")
+            i = i*2
+        } while(result!=null) */
     }catch(e:NotFoundException){
         println(e);
     }
