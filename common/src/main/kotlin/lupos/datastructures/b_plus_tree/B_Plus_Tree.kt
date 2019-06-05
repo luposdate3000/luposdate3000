@@ -17,6 +17,12 @@ data class NodeParams(var nodeNumber:Int, val filename:String, var page:Page, va
             page.putInt(1, numberOfStoredEntries)
         }
 
+        fun constructLockedNodeParams(root:Boolean, filename:String, PAGESIZE:Int, numberOfEntries:Int, numberOfNodes:Int):NodeParams {
+            val result = constructNodeParams(root, filename, PAGESIZE, numberOfEntries, numberOfNodes)
+            result.page.lock()
+            return result
+        }
+
         fun constructNodeParams(root:Boolean, filename:String, PAGESIZE:Int, numberOfEntries:Int, numberOfNodes:Int):NodeParams {
             val startOffsetInPage = 5
             val POINTERSIZE = 4
@@ -316,7 +322,7 @@ inline fun<K,V> generate(filename:String, size: Int, iterator: Iterator<Pair<K, 
         numberOfNodesList += currentNumber
     }
     val numberOfNodes = numberOfNodesList.toTypedArray()
-    val innerNodes = Array<NodeParams>(numberOfNodes.size) { NodeParams.constructNodeParams(it == numberOfNodes.size - 1, filename, PAGESIZE, if(it == 0) numberOfLeafNodes else numberOfNodes[it-1], numberOfNodes[it]) }
+    val innerNodes = Array<NodeParams>(numberOfNodes.size) { NodeParams.constructLockedNodeParams(it == numberOfNodes.size - 1, filename, PAGESIZE, if(it == 0) numberOfLeafNodes else numberOfNodes[it-1], numberOfNodes[it]) }
     for(entry in iterator) {
         currentLeafNode.writtenEntry++
         currentLeafNode.writtenEntryInPage++
@@ -343,7 +349,9 @@ inline fun<K,V> generate(filename:String, size: Int, iterator: Iterator<Pair<K, 
                     NodeParams.node++
                     serializePointer(node.page, node.adrNode, NodeParams.node)
                     NodeParams.setStatusBytes(node.page, 3, node.writtenEntryInPage) // Is inner node and does not fit onto this page!
+                    node.page.unlock()
                     node.page = bufferManager.getPage(filename, NodeParams.node)
+                    node.page.lock()
                     node.pageOffset = node.page.getPageIndex()
                     node.maxAdr = node.pageOffset + PAGESIZE - 1
                     node.pageSizeMinusPointer = node.maxAdr - POINTERSIZE
@@ -359,8 +367,10 @@ inline fun<K,V> generate(filename:String, size: Int, iterator: Iterator<Pair<K, 
                     pointerToChild = node.firstNodeNumber
                     if (node.writtenEntry < if(i==0) numberOfLeafNodes else numberOfNodes[i-1]) { // else-case: last entry written!
                         NodeParams.setStatusBytes(node.page, 3, node.writtenEntryInPage)
+                        node.page.unlock()
                         // create new inner node
                         node.overwrite(PAGESIZE)
+                        node.page.lock()
                         node.writtenEntryInPage = 0
                     } else {
                         NodeParams.setStatusBytes(node.page, 1, node.writtenEntryInPage)
@@ -389,6 +399,7 @@ inline fun<K,V> generate(filename:String, size: Int, iterator: Iterator<Pair<K, 
             node.writtenEntryInPage++
             NodeParams.Companion.setStatusBytes(node.page, 1, node.writtenEntryInPage)
         }
+        node.page.unlock()
         pointer = node.firstNodeNumber
     }
 }
@@ -410,7 +421,7 @@ inline fun<K> generate(filename:String, size: Int, iterator: Iterator<K>, k: Int
         numberOfNodesList += currentNumber
     }
     val numberOfNodes = numberOfNodesList.toTypedArray()
-    val innerNodes = Array<NodeParams>(numberOfNodes.size) { NodeParams.constructNodeParams(it == numberOfNodes.size - 1, filename, PAGESIZE, if(it == 0) numberOfLeafNodes else numberOfNodes[it-1], numberOfNodes[it]) }
+    val innerNodes = Array<NodeParams>(numberOfNodes.size) { NodeParams.constructLockedNodeParams(it == numberOfNodes.size - 1, filename, PAGESIZE, if(it == 0) numberOfLeafNodes else numberOfNodes[it-1], numberOfNodes[it]) }
     for(entry in iterator) {
         currentLeafNode.writtenEntry++
         currentLeafNode.writtenEntryInPage++
@@ -435,7 +446,9 @@ inline fun<K> generate(filename:String, size: Int, iterator: Iterator<K>, k: Int
                     NodeParams.node++
                     serializePointer(node.page, node.adrNode, NodeParams.node)
                     NodeParams.setStatusBytes(node.page, 3, node.writtenEntryInPage) // Is inner node and does not fit onto this page!
+                    node.page.unlock()
                     node.page = bufferManager.getPage(filename, NodeParams.node)
+                    node.page.lock()
                     node.pageOffset = node.page.getPageIndex()
                     node.maxAdr = node.pageOffset + PAGESIZE - 1
                     node.pageSizeMinusPointer = node.maxAdr - POINTERSIZE
@@ -451,8 +464,10 @@ inline fun<K> generate(filename:String, size: Int, iterator: Iterator<K>, k: Int
                     pointerToChild = node.firstNodeNumber
                     if (node.writtenEntry < if(i==0) numberOfLeafNodes else numberOfNodes[i-1]) { // else-case: last entry written!
                         NodeParams.setStatusBytes(node.page, 3, node.writtenEntryInPage)
+                        node.page.unlock()
                         // create new inner node
                         node.overwrite(PAGESIZE)
+                        node.page.lock()
                         node.writtenEntryInPage = 0
                     } else {
                         NodeParams.setStatusBytes(node.page, 1, node.writtenEntryInPage)
@@ -481,6 +496,7 @@ inline fun<K> generate(filename:String, size: Int, iterator: Iterator<K>, k: Int
             node.writtenEntryInPage++
             NodeParams.Companion.setStatusBytes(node.page, 1, node.writtenEntryInPage)
         }
+        node.page.unlock()
         pointer = node.firstNodeNumber
     }
 }
@@ -523,7 +539,9 @@ inline fun<K,V> generateStaticTree(filename:String, iterator: Iterator<Pair<K, V
                     innerNode.newNodeOnThisLevel = false
                     maxPageNumber++
                     innerNode.nodeNumber = maxPageNumber
+                    innerNode.page.unlock()
                     innerNode.page = bufferManager.getPage(filename, innerNode.nodeNumber)
+                    innerNode.page.lock()
                     innerNode.adr = startOffsetInPage
                     innerNode.writtenEntryInPage = 0
                 }
@@ -545,6 +563,7 @@ inline fun<K,V> generateStaticTree(filename:String, iterator: Iterator<Pair<K, V
                 // one more level in the inner nodes...
                 maxPageNumber++
                 val innerNode = PageAdr(maxPageNumber, bufferManager.getPage(filename, maxPageNumber), startOffsetInPage)
+                innerNode.page.lock()
                 innerNodes += innerNode
                 serializePointer(innerNode.page, innerNode.adr, pointer)
                 innerNode.adr += serializedSizeOfPointer(pointer)
@@ -571,6 +590,7 @@ inline fun<K,V> generateStaticTree(filename:String, iterator: Iterator<Pair<K, V
         serializePointer(innerNode.page, innerNode.adr, pointerToNode)
         innerNode.writtenEntryInPage++
         NodeParams.Companion.setStatusBytes(innerNode.page, 1, innerNode.writtenEntryInPage)
+        innerNode.page.unlock()
         pointerToNode = innerNode.nodeNumber
     }
     // copy root page to page 0:
@@ -615,7 +635,9 @@ inline fun<K> generateStaticTree(filename:String, iterator: Iterator<K>, PAGESIZ
                     innerNode.newNodeOnThisLevel = false
                     maxPageNumber++
                     innerNode.nodeNumber = maxPageNumber
+                    innerNode.page.unlock()
                     innerNode.page = bufferManager.getPage(filename, innerNode.nodeNumber)
+                    innerNode.page.lock()
                     innerNode.adr = startOffsetInPage
                     innerNode.writtenEntryInPage = 0
                 }
@@ -637,6 +659,7 @@ inline fun<K> generateStaticTree(filename:String, iterator: Iterator<K>, PAGESIZ
                 // one more level in the inner nodes...
                 maxPageNumber++
                 val innerNode = PageAdr(maxPageNumber, bufferManager.getPage(filename, maxPageNumber), startOffsetInPage)
+                innerNode.page.lock()
                 innerNodes += innerNode
                 serializePointer(innerNode.page, innerNode.adr, pointer)
                 innerNode.adr += serializedSizeOfPointer(pointer)
@@ -661,6 +684,7 @@ inline fun<K> generateStaticTree(filename:String, iterator: Iterator<K>, PAGESIZ
         serializePointer(innerNode.page, innerNode.adr, pointerToNode)
         innerNode.writtenEntryInPage++
         NodeParams.Companion.setStatusBytes(innerNode.page, 1, innerNode.writtenEntryInPage)
+        innerNode.page.unlock()
         pointerToNode = innerNode.nodeNumber
     }
     // copy root page to page 0:
@@ -696,7 +720,7 @@ inline fun<K, V> generateDifferenceEncodedBPlusTree(filename:String, size: Int, 
         numberOfNodesList += currentNumber
     }
     val numberOfNodes = numberOfNodesList.toTypedArray()
-    val innerNodes = Array<NodeParams>(numberOfNodes.size) { NodeParams.constructNodeParams(it == numberOfNodes.size - 1, filename, PAGESIZE, if(it == 0) numberOfLeafNodes else numberOfNodes[it-1], numberOfNodes[it]) }
+    val innerNodes = Array<NodeParams>(numberOfNodes.size) { NodeParams.constructLockedNodeParams(it == numberOfNodes.size - 1, filename, PAGESIZE, if(it == 0) numberOfLeafNodes else numberOfNodes[it-1], numberOfNodes[it]) }
     val oldKeysInnerNodes:Array<Any?> = Array(numberOfNodes.size) { null }
     var key:K? = null
     var oldkey = key
@@ -732,7 +756,9 @@ inline fun<K, V> generateDifferenceEncodedBPlusTree(filename:String, size: Int, 
                     NodeParams.node++
                     serializeCompressedInt(node.page, node.adrNode, NodeParams.node)
                     NodeParams.setStatusBytes(node.page, 3, node.writtenEntryInPage) // Is inner node and does not fit onto this page!
+                    node.page.unlock()
                     node.page = bufferManager.getPage(filename, NodeParams.node)
+                    node.page.lock()
                     node.nodeNumber = NodeParams.node
                     node.pageOffset = node.page.getPageIndex()
                     node.maxAdr = node.pageOffset + PAGESIZE - 1
@@ -749,8 +775,10 @@ inline fun<K, V> generateDifferenceEncodedBPlusTree(filename:String, size: Int, 
                     pointerToChild = node.firstNodeNumber
                     if (node.writtenEntry < if(i==0) numberOfLeafNodes else numberOfNodes[i-1]) { // else-case: last entry written!
                         NodeParams.setStatusBytes(node.page, 3, node.writtenEntryInPage)
+                        node.page.unlock()
                         // create new inner node
                         node.overwrite(PAGESIZE)
+                        node.page.lock()
                         node.writtenEntryInPage = 0
                     } else {
                         NodeParams.setStatusBytes(node.page, 1, node.writtenEntryInPage)
@@ -788,6 +816,7 @@ inline fun<K, V> generateDifferenceEncodedBPlusTree(filename:String, size: Int, 
             node.writtenEntryInPage++
             NodeParams.Companion.setStatusBytes(node.page, 1, node.writtenEntryInPage)
         }
+        node.page.unlock()
         pointer = node.firstNodeNumber
     }
 }
@@ -809,7 +838,7 @@ inline fun<K> generateDifferenceEncodedBPlusTree(filename:String, size: Int, ite
         numberOfNodesList += currentNumber
     }
     val numberOfNodes = numberOfNodesList.toTypedArray()
-    val innerNodes = Array<NodeParams>(numberOfNodes.size) { NodeParams.constructNodeParams(it == numberOfNodes.size - 1, filename, PAGESIZE, if(it == 0) numberOfLeafNodes else numberOfNodes[it-1], numberOfNodes[it]) }
+    val innerNodes = Array<NodeParams>(numberOfNodes.size) { NodeParams.constructLockedNodeParams(it == numberOfNodes.size - 1, filename, PAGESIZE, if(it == 0) numberOfLeafNodes else numberOfNodes[it-1], numberOfNodes[it]) }
     val oldKeysInnerNodes:Array<Any?> = Array(numberOfNodes.size) { null }
     var key:K? = null
     var oldkey = key
@@ -844,7 +873,9 @@ inline fun<K> generateDifferenceEncodedBPlusTree(filename:String, size: Int, ite
                     NodeParams.node++
                     serializeCompressedInt(node.page, node.adrNode, NodeParams.node)
                     NodeParams.setStatusBytes(node.page, 3, node.writtenEntryInPage) // Is inner node and does not fit onto this page!
+                    node.page.unlock()
                     node.page = bufferManager.getPage(filename, NodeParams.node)
+                    node.page.lock()
                     node.nodeNumber = NodeParams.node
                     node.pageOffset = node.page.getPageIndex()
                     node.maxAdr = node.pageOffset + PAGESIZE - 1
@@ -861,8 +892,10 @@ inline fun<K> generateDifferenceEncodedBPlusTree(filename:String, size: Int, ite
                     pointerToChild = node.firstNodeNumber
                     if (node.writtenEntry < if(i==0) numberOfLeafNodes else numberOfNodes[i-1]) { // else-case: last entry written!
                         NodeParams.setStatusBytes(node.page, 3, node.writtenEntryInPage)
+                        node.page.unlock()
                         // create new inner node
                         node.overwrite(PAGESIZE)
+                        node.page.lock()
                         node.writtenEntryInPage = 0
                     } else {
                         NodeParams.setStatusBytes(node.page, 1, node.writtenEntryInPage)
@@ -900,6 +933,7 @@ inline fun<K> generateDifferenceEncodedBPlusTree(filename:String, size: Int, ite
             node.writtenEntryInPage++
             NodeParams.Companion.setStatusBytes(node.page, 1, node.writtenEntryInPage)
         }
+        node.page.unlock()
         pointer = node.firstNodeNumber
     }
 }

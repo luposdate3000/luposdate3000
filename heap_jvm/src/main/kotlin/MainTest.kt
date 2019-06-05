@@ -48,8 +48,8 @@ fun Byte.binary():String {
 }
 
 fun main(args:Array<String>){
-
-    testBPlusTree7d()
+    testBPlusTree3()
+    // testBPlusTree7d()
     // testBPlusTree5()
     // testBPlusTree6()
 }

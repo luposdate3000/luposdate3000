@@ -29,6 +29,20 @@ inline fun String.toBytesUTF(bytes: ByteArray, offset: Int):Int {
     return pos
 }
 
+inline fun String.toBytesUTF():ByteArray {
+    val bytes = ByteArray(this.length*2)
+    var pos = 0
+    for(i in 0 until this.length){
+        val c = this[i]
+        val adr = i*2
+        bytes[pos] = (c.toInt() and 0xFF00 shr 8).toByte()
+        pos++
+        bytes[pos] = (c.toInt() and 0x00FF).toByte()
+        pos++
+    }
+    return bytes
+}
+
 inline fun String.toPageUTF(page: Page, address: Long):Long {
     val size = this.length
     page.putInt(address, size)
@@ -60,6 +74,16 @@ inline fun ByteArray.toStringUTF(offset: Int): String {
     val size = this.toInt(offset)
     val buffer = CharArray(size)
     var pos = offset + 4
+    for (i in buffer.indices) {
+        buffer[i] = ((this[pos].toInt() and 0xFF shl 8) + (this[pos + 1].toInt() and 0xFF)).toChar()
+        pos+=2
+    }
+    return createString(buffer)
+}
+
+inline fun ByteArray.toStringUTF(): String {
+    val buffer = CharArray(this.size /2)
+    var pos = 0
     for (i in buffer.indices) {
         buffer[i] = ((this[pos].toInt() and 0xFF shl 8) + (this[pos + 1].toInt() and 0xFF)).toChar()
         pos+=2
