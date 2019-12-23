@@ -10,17 +10,17 @@ There are the following modules in the multiplatform project:
 - `common_diskbased`: This module shares code for traditional databases storing data on disk.
 - `common_mainmemory`: This module shares code for main memory databases.
 - Modules with target JVM:
--- Helper modules:
---- `unsafehelper_jvm`: This module offers the class `lupos.io.buffer.UnsafePage` for using off-heap memory (see [Guide to sun.misc.Unsafe](https://www.baeldung.com/java-unsafe)) and is used by the modules `unsafe_jvm` and `memorymapped_unsafe_jvm`.
--- Modules targeting main memory databases:
---- `heap_jvm`: This class uses pages in the heap of the jvm.
---- `unsafe_jvm`: This class uses off-heap memory (see module `unsafehelper_jvm`).
--- Modules targeting traditional databases storing data on disk:
---- `randomaccess_jvm`: This module uses random access files for storing data on disk.
---- `memorymapped_jvm`: This module uses memory mapped files for storing data on disk.
---- `memorymapped_unsafe_jvm`: This module uses memory mapped files and off-heap memory in combination. The code is currently not working correctly.
+--* Helper modules:
+---* `unsafehelper_jvm`: This module offers the class `lupos.io.buffer.UnsafePage` for using off-heap memory (see [Guide to sun.misc.Unsafe](https://www.baeldung.com/java-unsafe)) and is used by the modules `unsafe_jvm` and `memorymapped_unsafe_jvm`.
+--* Modules targeting main memory databases:
+---* `heap_jvm`: This class uses pages in the heap of the jvm.
+---* `unsafe_jvm`: This class uses off-heap memory (see module `unsafehelper_jvm`).
+--* Modules targeting traditional databases storing data on disk:
+---* `randomaccess_jvm`: This module uses random access files for storing data on disk.
+---* `memorymapped_jvm`: This module uses memory mapped files for storing data on disk.
+---* `memorymapped_unsafe_jvm`: This module uses memory mapped files and off-heap memory in combination. The code is currently not working correctly.
 - Modules with target JavaScript (JS): 
--- `heap_js`: This module contains the code for a main memory database using JavaScript in the browser.
+--* `heap_js`: This module contains the code for a main memory database using JavaScript in the browser.
 
 ## Page
 
