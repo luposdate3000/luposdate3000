@@ -1,5 +1,7 @@
 package lupos.io.buffer
 
+import kotlin.jvm.JvmField
+
 expect inline fun createString(chars: CharArray):String
 
 inline fun Int.toBytes(bytes: ByteArray, offset: Int):Int {
@@ -91,16 +93,17 @@ inline fun ByteArray.toStringUTF(): String {
     return createString(buffer)
 }
 
-/**
- * see also: optimized variant in JVMByteArrayPage (avoiding getters/setters for bytearray)
- */
 class ByteArrayPage {
-
+    @JvmField // in JVM-environment: this does not generate any getter avoiding a virtual method call!
+    val PAGESIZE = 8*1024
+	@JvmField // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     val byteArray = ByteArray(PAGESIZE)
+    @JvmField // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     var locked = 0
-    var modified: Boolean = false
+    @JvmField // in JVM-environment: this does not generate any getter avoiding a virtual method call!
+    var modified = false
 
-	constructor()
+    constructor()
 
     inline fun getInt(address: Long): Int {
         val adr = address.toInt()
@@ -111,7 +114,7 @@ class ByteArrayPage {
     }
     inline fun putInt(address: Long, data: Int){
         this.modified = true
-        var adr0 = address.toInt()
+        val adr0 = address.toInt()
         this.byteArray[adr0] = data.toByte()
         val remaining1 = data ushr 8
         val adr1 = adr0 + 1

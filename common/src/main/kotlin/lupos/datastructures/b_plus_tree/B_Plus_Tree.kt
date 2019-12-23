@@ -6,6 +6,36 @@ import lupos.misc.bit1
 import lupos.misc.bit2
 import kotlin.math.ceil
 
+interface I_B_Plus_Tree<K:Any,V>{
+    operator fun get(key:K):V
+    fun generate(size:Int, iterator:Iterator<Pair<Int,Int>>)
+}
+
+interface I_B_Plus_Tree_KeyRangeSearch<K:Any,V>:I_B_Plus_Tree<K,V>{
+    fun range_search(keyLeft:K, keyRight:K):()-> V?
+    fun sip_search(keyLeft:K, keyRight:K):(K)-> V?
+}
+
+interface I_B_Plus_Tree_ComparatorRangeSearch<K:Any,V>:I_B_Plus_Tree<K,V>{
+    fun range_search(compareLeftLimit: (K) -> Int, compareRightLimit: (K) -> Int):()-> V?
+    fun sip_search(compareLeftLimit: (K) -> Int, compareRightLimit: (K) -> Int):(K)-> V?
+}
+
+interface I_B_Plus_Tree_OnlyKeys<K:Any>{
+    operator fun get(key:K):Boolean
+    fun generate(size:Int, iterator:Iterator<Int>)
+}
+
+interface I_B_Plus_Tree_KeyRangeSearch_OnlyKeys<K:Any>:I_B_Plus_Tree_OnlyKeys<K>{
+    fun range_search(keyLeft:K, keyRight:K):()-> K?
+    fun sip_search(keyLeft:K, keyRight:K):(K)-> K?
+}
+
+interface I_B_Plus_Tree_ComparatorRangeSearch_OnlyKeys<K:Any>:I_B_Plus_Tree_OnlyKeys<K>{
+    fun range_search(compareLeftLimit: (K) -> Int, compareRightLimit: (K) -> Int):()-> K?
+    fun sip_search(compareLeftLimit: (K) -> Int, compareRightLimit: (K) -> Int):(K)-> K?
+}
+
 class NotFoundException(val key:Any):NoSuchElementException(key.toString()+" not found!")
 
 data class NodeParams(var nodeNumber:Int, val filename:String, var page:Page, var pageOffset:Long, var maxAdr:Long, var pageSizeMinusPointer:Long, var adrNode:Long, var numberOfEntriesPerNode:Double){
@@ -290,7 +320,7 @@ inline fun<K:Any> search(filename:String, key:K, compare: (K,K) -> Int, innerNod
                 adr += serializedSizeOfKey(nodekey)
                 val cmp = compare(nodekey, key)
                 if(cmp>0){
-                    throw NotFoundException(key)
+                    return false
                 }
                 if(cmp==0){
                     return true
@@ -938,7 +968,7 @@ inline fun<K> generateDifferenceEncodedBPlusTree(filename:String, size: Int, ite
     }
 }
 
-inline fun<K, V> range_search(filename:String, compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long, deserializePointer:(Page, Long) -> Int, serializedSizeOfPointer: (Int) -> Long):()-> V? {
+inline fun<K, V> range_search(filename:String, compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long, deserializePointer:(Page, Long) -> Int, serializedSizeOfPointer: (Int) -> Long):()-> V? {
     val startOffsetInPage = 5
     var node = 0
     while(true) {
@@ -1011,7 +1041,7 @@ inline fun<K, V> range_search(filename:String, compareLeftLimit: (K) -> Int, cro
                             }
                         }
                     } else {
-                        throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                        return { null }
                     }
                 }
             }
@@ -1019,14 +1049,14 @@ inline fun<K, V> range_search(filename:String, compareLeftLimit: (K) -> Int, cro
                 node = page.getInt(adr) // continue search in next page of this node
             } else {
                 // end of node reached without finding the key...
-                throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                return { null }
             }
         }
     }
 }
 
 // for B+-trees with only keys (without values)
-inline fun<K> range_search(filename:String, compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, deserializePointer:(Page, Long) -> Int, serializedSizeOfPointer: (Int) -> Long):()-> K? {
+inline fun<K> range_search(filename:String, compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, deserializePointer:(Page, Long) -> Int, serializedSizeOfPointer: (Int) -> Long):()-> K? {
     val startOffsetInPage = 5
     var node = 0
     while(true) {
@@ -1095,7 +1125,7 @@ inline fun<K> range_search(filename:String, compareLeftLimit: (K) -> Int, crossi
                             }
                         }
                     } else {
-                        throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                        return { null }
                     }
                 }
             }
@@ -1103,7 +1133,7 @@ inline fun<K> range_search(filename:String, compareLeftLimit: (K) -> Int, crossi
                 node = page.getInt(adr) // continue search in next page of this node
             } else {
                 // end of node reached without finding the key...
-                throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                return { null }
             }
         }
     }
@@ -1111,7 +1141,7 @@ inline fun<K> range_search(filename:String, compareLeftLimit: (K) -> Int, crossi
 
 class NodeInSIPPath<K>(var nodeNumber:Int, var page: Page, var adr:Long, var key: K?, var pointer: Int?, var index:Int, var numberOfElements:Int)
 
-inline fun<K, V> sip_range_search(filename:String, crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long, crossinline deserializePointer:(Page, Long) -> Int, crossinline serializedSizeOfPointer: (Int) -> Long):(K)-> V? {
+inline fun<K, V> sip_range_search(filename:String, crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long, crossinline deserializePointer:(Page, Long) -> Int, crossinline serializedSizeOfPointer: (Int) -> Long):(K)-> V? {
     val startOffsetInPage = 5
     var node = 0
     val path = mutableListOf<NodeInSIPPath<K>>()
@@ -1163,7 +1193,7 @@ inline fun<K, V> sip_range_search(filename:String, crossinline compare: (K, K) -
                         var first = true
                         currentNodeInPath.index = i
                         var numberOfElementsOfCurrentNode = numberOfElements
-                        return {
+                        result_fct@ return {
                             var result:V? = null
                             if(first) {
                                 first = false
@@ -1254,7 +1284,8 @@ inline fun<K, V> sip_range_search(filename:String, crossinline compare: (K, K) -
                                                             path.remove(currentNodeInPath) // replace current page with the next page of this node (within the next iteration)
                                                         } else {
                                                             // end of node reached without finding the key...
-                                                            throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                                                            result = null
+                                                            break@loop
                                                         }
                                                     }
                                                 }
@@ -1296,7 +1327,7 @@ inline fun<K, V> sip_range_search(filename:String, crossinline compare: (K, K) -
                             result
                         }
                     } else {
-                        throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                        return { null }
                     }
                 }
             }
@@ -1305,14 +1336,14 @@ inline fun<K, V> sip_range_search(filename:String, crossinline compare: (K, K) -
                 path.remove(currentNodeInPath) // replace current page with the next page of this node (within the next iteration)
             } else {
                 // end of node reached without finding the key...
-                throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                return { null }
             }
         }
     }
 }
 
 // for B+-tree with only keys (without values)
-inline fun<K> sip_range_search(filename:String, crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline deserializePointer:(Page, Long) -> Int, crossinline serializedSizeOfPointer: (Int) -> Long):(K)-> K? {
+inline fun<K> sip_range_search(filename:String, crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline deserializePointer:(Page, Long) -> Int, crossinline serializedSizeOfPointer: (Int) -> Long):(K)-> K? {
     val startOffsetInPage = 5
     var node = 0
     val path = mutableListOf<NodeInSIPPath<K>>()
@@ -1362,7 +1393,7 @@ inline fun<K> sip_range_search(filename:String, crossinline compare: (K, K) -> I
                         var first = true
                         currentNodeInPath.index = i
                         var numberOfElementsOfCurrentNode = numberOfElements
-                        return {
+                        result_fct@ return {
                             var result:K? = null
                             if(first) {
                                 first = false
@@ -1453,7 +1484,8 @@ inline fun<K> sip_range_search(filename:String, crossinline compare: (K, K) -> I
                                                             path.remove(currentNodeInPath) // replace current page with the next page of this node (within the next iteration)
                                                         } else {
                                                             // end of node reached without finding the key...
-                                                            throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                                                            result = null
+                                                            break@loop
                                                         }
                                                     }
                                                 }
@@ -1493,7 +1525,7 @@ inline fun<K> sip_range_search(filename:String, crossinline compare: (K, K) -> I
                             result
                         }
                     } else {
-                        throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                        return { null }
                     }
                 }
             }
@@ -1502,7 +1534,7 @@ inline fun<K> sip_range_search(filename:String, crossinline compare: (K, K) -> I
                 path.remove(currentNodeInPath) // replace current page with the next page of this node (within the next iteration)
             } else {
                 // end of node reached without finding the key...
-                throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                return { null }
             }
         }
     }
@@ -1540,8 +1572,8 @@ class B_Plus_Tree<K:Any, V:Any>(val filename:String){ // By K:Any and V:Any, nei
         return search(filename, key, compare, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeInt, ::serializedSizeOfInt)
     }
 
-    inline fun<K, V> sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):(K)-> V? {
-        return sip_range_search(filename, compare, compareLeftLimit, compareRightLimit, notfoundtext, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeInt, ::serializedSizeOfInt)
+    inline fun<K, V> sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):(K)-> V? {
+        return sip_range_search(filename, compare, compareLeftLimit, compareRightLimit, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeInt, ::serializedSizeOfInt)
     }
 
     /**
@@ -1610,15 +1642,15 @@ class B_Plus_Tree<K:Any, V:Any>(val filename:String){ // By K:Any and V:Any, nei
         }
     }
 
-    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):()-> V? {
-        return range_search(filename, compareLeftLimit, compareRightLimit, notfoundtext, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeInt, ::serializedSizeOfInt)
+    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):()-> V? {
+        return range_search(filename, compareLeftLimit, compareRightLimit, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeInt, ::serializedSizeOfInt)
     }
 
     /**
      * binary search in inner nodes for range search...
      * prerequirement: size of key is fixed...
      */
-    inline fun range_binary_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):()-> V? {
+    inline fun range_binary_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, serializedSizeOfKey: Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):()-> V? {
         val startOffsetInPage = 5
         var node = 0
         while(true) {
@@ -1704,7 +1736,7 @@ class B_Plus_Tree<K:Any, V:Any>(val filename:String){ // By K:Any and V:Any, nei
                                 }
                             }
                         } else {
-                            throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                            return { null }
                         }
                     }
                 }
@@ -1712,7 +1744,7 @@ class B_Plus_Tree<K:Any, V:Any>(val filename:String){ // By K:Any and V:Any, nei
                     node = page.getInt(adr) // continue search in next page of this node
                 } else {
                     // end of node reached without finding the key...
-                    throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                    return { null }
                 }
             }
         }
@@ -1740,12 +1772,12 @@ class B_Plus_Tree_VariableSizePointers<K:Any, V:Any>(val filename:String){ // By
         return search(filename, key, compare, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeCompressedInt, ::serializedSizeOfCompressedInt)
     }
 
-    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):()-> V? {
-        return range_search(filename, compareLeftLimit, compareRightLimit, notfoundtext, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeCompressedInt, ::serializedSizeOfCompressedInt)
+    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):()-> V? {
+        return range_search(filename, compareLeftLimit, compareRightLimit, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeCompressedInt, ::serializedSizeOfCompressedInt)
     }
 
-    inline fun<K, V> sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):(K)-> V? {
-        return sip_range_search(filename, compare, compareLeftLimit, compareRightLimit, notfoundtext, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeCompressedInt, ::serializedSizeOfCompressedInt)
+    inline fun<K, V> sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):(K)-> V? {
+        return sip_range_search(filename, compare, compareLeftLimit, compareRightLimit, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeCompressedInt, ::serializedSizeOfCompressedInt)
     }
 
     /**
@@ -1838,7 +1870,7 @@ class B_Plus_Tree_Difference_Encoding<K:Any, V:Any>(val filename:String){ // By 
         }
     }
 
-    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline innerNodeDeserializerDiff: (Page, Long, K) -> K, crossinline serializedSizeOfKeyDiff: (K, K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerKeyDiff: (Page, Long, K) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):()-> V? {
+    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline innerNodeDeserializerDiff: (Page, Long, K) -> K, crossinline serializedSizeOfKeyDiff: (K, K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerKeyDiff: (Page, Long, K) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):()-> V? {
         val startOffsetInPage = 5
         var node = 0
         while(true) {
@@ -1926,7 +1958,7 @@ class B_Plus_Tree_Difference_Encoding<K:Any, V:Any>(val filename:String){ // By 
                                 }
                             }
                         } else {
-                            throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                            return { null }
                         }
                     }
                 }
@@ -1934,13 +1966,13 @@ class B_Plus_Tree_Difference_Encoding<K:Any, V:Any>(val filename:String){ // By 
                     node = page.getInt(adr) // continue search in next page of this node
                 } else {
                     // end of node reached without finding the key...
-                    throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                    return { null }
                 }
             }
         }
     }
 
-    inline fun sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, crossinline keyDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline keyDiffDeserializer: (Page, Long, K) -> K, crossinline serializedSizeOfKeyDiff: (K, K) -> Long, crossinline valueDeserializer: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long, crossinline deserializePointer:(Page, Long) -> Int, crossinline serializedSizeOfPointer: (Int) -> Long):(K)-> V? {
+    inline fun sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline keyDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline keyDiffDeserializer: (Page, Long, K) -> K, crossinline serializedSizeOfKeyDiff: (K, K) -> Long, crossinline valueDeserializer: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long, crossinline deserializePointer:(Page, Long) -> Int, crossinline serializedSizeOfPointer: (Int) -> Long):(K)-> V? {
         val startOffsetInPage = 5
         var node = 0
         val path = mutableListOf<NodeInSIPPath<K>>()
@@ -2006,7 +2038,7 @@ class B_Plus_Tree_Difference_Encoding<K:Any, V:Any>(val filename:String){ // By 
                         if(compareRightLimit(nodekey)<=0) {
                             var first = true
                             var numberOfElementsOfCurrentNode = numberOfElements
-                            return {
+                            result_fct@ return {
                                 var result:V? = null
                                 if(first) {
                                     first = false
@@ -2132,7 +2164,8 @@ class B_Plus_Tree_Difference_Encoding<K:Any, V:Any>(val filename:String){ // By 
                                                                 path.remove(currentNodeInPath) // replace current page with the next page of this node (within the next iteration)
                                                             } else {
                                                                 // end of node reached without finding the key...
-                                                                throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                                                                result = null
+                                                                break@loop
                                                             }
                                                         }
                                                     }
@@ -2177,7 +2210,7 @@ class B_Plus_Tree_Difference_Encoding<K:Any, V:Any>(val filename:String){ // By 
                                 result
                             }
                         } else {
-                            throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                            return { null }
                         }
                     }
                 }
@@ -2186,7 +2219,7 @@ class B_Plus_Tree_Difference_Encoding<K:Any, V:Any>(val filename:String){ // By 
                     path.remove(currentNodeInPath) // replace current page with the next page of this node (within the next iteration)
                 } else {
                     // end of node reached without finding the key...
-                    throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                    return { null }
                 }
             }
         }
@@ -2278,7 +2311,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K:Any>(val filename:String){ // B
         }
     }
 
-    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline innerNodeDeserializerDiff: (Page, Long, K) -> K, crossinline serializedSizeOfKeyDiff: (K, K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerKeyDiff: (Page, Long, K) -> K):()-> K? {
+    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline innerNodeDeserializerDiff: (Page, Long, K) -> K, crossinline serializedSizeOfKeyDiff: (K, K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerKeyDiff: (Page, Long, K) -> K):()-> K? {
         val startOffsetInPage = 5
         var node = 0
         while(true) {
@@ -2362,7 +2395,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K:Any>(val filename:String){ // B
                                 }
                             }
                         } else {
-                            throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                            return { null }
                         }
                     }
                 }
@@ -2370,13 +2403,13 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K:Any>(val filename:String){ // B
                     node = page.getInt(adr) // continue search in next page of this node
                 } else {
                     // end of node reached without finding the key...
-                    throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                    return { null }
                 }
             }
         }
     }
 
-    inline fun sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, crossinline keyDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline keyDiffDeserializer: (Page, Long, K) -> K, crossinline serializedSizeOfKeyDiff: (K, K) -> Long, crossinline deserializePointer:(Page, Long) -> Int, crossinline serializedSizeOfPointer: (Int) -> Long):(K)-> K? {
+    inline fun sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline keyDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline keyDiffDeserializer: (Page, Long, K) -> K, crossinline serializedSizeOfKeyDiff: (K, K) -> Long, crossinline deserializePointer:(Page, Long) -> Int, crossinline serializedSizeOfPointer: (Int) -> Long):(K)-> K? {
         val startOffsetInPage = 5
         var node = 0
         val path = mutableListOf<NodeInSIPPath<K>>()
@@ -2440,7 +2473,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K:Any>(val filename:String){ // B
                         if(compareRightLimit(nodekey)<=0) {
                             var first = true
                             var numberOfElementsOfCurrentNode = numberOfElements
-                            return {
+                            result_fct@return {
                                 var result:K? = null
                                 if(first) {
                                     first = false
@@ -2565,7 +2598,8 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K:Any>(val filename:String){ // B
                                                                 path.remove(currentNodeInPath) // replace current page with the next page of this node (within the next iteration)
                                                             } else {
                                                                 // end of node reached without finding the key...
-                                                                throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                                                                result = null
+                                                                break@loop
                                                             }
                                                         }
                                                     }
@@ -2608,7 +2642,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K:Any>(val filename:String){ // B
                                 result
                             }
                         } else {
-                            throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                            return { null }
                         }
                     }
                 }
@@ -2617,7 +2651,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K:Any>(val filename:String){ // B
                     path.remove(currentNodeInPath) // replace current page with the next page of this node (within the next iteration)
                 } else {
                     // end of node reached without finding the key...
-                    throw NotFoundException(notfoundtext) // TODO: better object for not finding left/right limit
+                    return { null }
                 }
             }
         }
@@ -2641,12 +2675,12 @@ class B_Plus_Tree_Static<K:Any, V:Any>(val filename:String) { // By K:Any and V:
         return search(filename, key, compare, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeInt, ::serializedSizeOfInt)
     }
 
-    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):()-> V? {
-        return range_search(filename, compareLeftLimit, compareRightLimit, notfoundtext, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeInt, ::serializedSizeOfInt)
+    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):()-> V? {
+        return range_search(filename, compareLeftLimit, compareRightLimit, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeInt, ::serializedSizeOfInt)
     }
 
-    inline fun<K, V> sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):(K)-> V? {
-        return sip_range_search(filename, compare, compareLeftLimit, compareRightLimit, notfoundtext, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeInt, ::serializedSizeOfInt)
+    inline fun<K, V> sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):(K)-> V? {
+        return sip_range_search(filename, compare, compareLeftLimit, compareRightLimit, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeInt, ::serializedSizeOfInt)
     }
 
     inline fun generate(iterator: Iterator<Pair<K, V>>, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {
@@ -2660,12 +2694,12 @@ class B_Plus_Tree_Static_CompressedPointer<K:Any, V:Any>(val filename:String) { 
         return search(filename, key, compare, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeCompressedInt, ::serializedSizeOfCompressedInt)
     }
 
-    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):()-> V? {
-        return range_search(filename, compareLeftLimit, compareRightLimit, notfoundtext, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeCompressedInt, ::serializedSizeOfCompressedInt)
+    inline fun range_search(compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):()-> V? {
+        return range_search(filename, compareLeftLimit, compareRightLimit, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeCompressedInt, ::serializedSizeOfCompressedInt)
     }
 
-    inline fun<K, V> sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, notfoundtext:String, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):(K)-> V? {
-        return sip_range_search(filename, compare, compareLeftLimit, compareRightLimit, notfoundtext, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeCompressedInt, ::serializedSizeOfCompressedInt)
+    inline fun<K, V> sip_search(crossinline compare: (K, K) -> Int, crossinline compareLeftLimit: (K) -> Int, crossinline compareRightLimit: (K) -> Int, crossinline innerNodeDeserializer: (Page, Long) -> K, crossinline serializedSizeOfKey: (K) -> Long, crossinline leafNodeDeserializerKey: (Page, Long) -> K, crossinline leafNodeDeserializerValue: (Page, Long) -> V, crossinline serializedSizeOfValue: (V) -> Long):(K)-> V? {
+        return sip_range_search(filename, compare, compareLeftLimit, compareRightLimit, innerNodeDeserializer, serializedSizeOfKey, leafNodeDeserializerKey, leafNodeDeserializerValue, serializedSizeOfValue, ::deserializeCompressedInt, ::serializedSizeOfCompressedInt)
     }
 
     inline fun generate(iterator: Iterator<Pair<K, V>>, PAGESIZE: Int, serializeKey: (Page, Long, K) -> Unit, serializedSizeOfKey: (K) -> Long, serializeValue: (Page, Long, V) -> Unit, serializedSizeOfValue: (V) -> Long) {

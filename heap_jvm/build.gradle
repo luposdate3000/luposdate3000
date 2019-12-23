@@ -1,10 +1,11 @@
 apply plugin: 'kotlin-platform-jvm'
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-	compile project(':heaphelper_jvm')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     expectedBy project(':common')
 	expectedBy project(':common_mainmemory')
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 }
 
 compileKotlin { // I do not know if this has some effect on the generated jar...

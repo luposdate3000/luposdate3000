@@ -3,7 +3,7 @@ package lupos.io.buffer
 import java.io.File
 import java.io.RandomAccessFile
 
-actual typealias Page = JVMByteArrayPage
+actual typealias Page = ByteArrayPage
 
 actual inline fun createString(chars: CharArray):String = String(chars)
 
@@ -16,6 +16,7 @@ actual inline fun createString(chars: CharArray):String = String(chars)
 // https://www.slideshare.net/AndreiPangin/do-we-need-unsafe-in-java
 
 actual class CachedFile {
+    @JvmField // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     val file: RandomAccessFile
 
     actual constructor(filename:String){

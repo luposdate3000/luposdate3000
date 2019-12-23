@@ -10,7 +10,7 @@ actual typealias Page = MappedByteBufferPage
 actual inline fun createString(chars: CharArray):String = String(chars)
 
 class MappedByteBufferPage(val buffer: MappedByteBuffer) {
-    @JvmField
+    @JvmField // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     var locked = 0
 
     constructor(): this(RandomAccessFile(File("tmp"), "rw").getChannel().map(FileChannel.MapMode.READ_ONLY, 0, 1)){
