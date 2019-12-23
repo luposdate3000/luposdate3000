@@ -30,7 +30,7 @@ There are mainly two types of pages used in this project:
 - Pages using a byte array in the heap (see `lupos.io.buffer.ByteArrayPage` in module `common`).
 - Pages using the Unsafe API of Java/JVM for the support of off-heap memory (not consuming cycles in the garbage collection), see `lupos.io.buffer.UnsafePage` in module `unsafehelper_jvm`.
 
-The used of page is set in the platform module in the files `lupos.io.buffer.MemoryAccess` by e.g. `actual typealias Page = ByteArrayPage`.
+The used type of page is set in the platform modules in the files `lupos.io.buffer.MemoryAccess` by e.g. `actual typealias Page = ByteArrayPage`.
 
 ## Buffer Manager
 
