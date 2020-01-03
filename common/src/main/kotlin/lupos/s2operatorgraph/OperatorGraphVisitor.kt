@@ -1,9 +1,7 @@
 package lupos.s2operatorgraph
 
 import lupos.s1parser.sparql1_1.*
-import lupos.s2operatorgraph.data.LOPIRI
-import lupos.s2operatorgraph.data.LOPLiteral
-import lupos.s2operatorgraph.data.LOPVariable
+import lupos.s2operatorgraph.data.*
 import lupos.s2operatorgraph.multiinput.LOPJoin
 import lupos.s2operatorgraph.multiinput.LOPMinus
 import lupos.s2operatorgraph.multiinput.LOPUnion
@@ -12,37 +10,6 @@ import lupos.s2operatorgraph.singleinput.modifiers.*
 
 class OperatorGraphVisitor : Visitor<OPBase> {
     override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPBase()
-
-    override fun visit(node: ASTBase, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
-        return LOPPrefix("", node.iri)
-    }
-
-    override fun visit(node: ASTPrefix, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
-        return LOPPrefix(node.name, node.iri)
-    }
-
-    override fun visit(node: ASTQuery, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 1)
-        return childrenValues.first()
-    }
-
-    override fun visit(node: ASTValues, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTValue, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTUndef, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTQueryBaseClass, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     override fun visit(node: ASTSelectQuery, childrenValues: List<OPBase>): OPBase {
         var result = LOPSingleInputBase()
@@ -81,19 +48,27 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         }
         if (node.existsOrderBy()) {
             for (order in node.orderBy) {
-                if (order is ASTOrderCondition) {
+                if (order is ASTOrderCondition)
                     latest = latest.setChild(order.visit(this) as LOPSort)
-                } else {
+                else
                     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
             }
         }
         if (node.existsHaving()) {
-            // var having: Array<ASTNode> = arrayOf<ASTNode>();
+            for (h in node.having) {
+                if (h is ASTGT)
+                    latest = latest.setChild(LOPFilter(h))
+                else
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
         }
         if (node.existsGroupBy()) {
-            // var groupBy: Array<ASTNode> = arrayOf<ASTNode>();
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            for (b in node.groupBy) {
+                if (b is ASTVar)
+                    latest = latest.setChild(LOPGroup(b.visit(this) as LOPVariable))
+                else
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
         }
         var latest2: OPBase = latest
         if (node.where.isNotEmpty()) {
@@ -124,6 +99,39 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         return result.child
     }
 
+    override fun visit(node: ASTQuery, childrenValues: List<OPBase>): OPBase {
+        require(childrenValues.isNotEmpty())
+        var query = childrenValues.first()
+        for (q in childrenValues) {
+            if (q !is LOPPrefix) {
+                query = q
+                for (q in childrenValues) {
+                    if (q is LOPPrefix) {
+                        query = q.setChild(query)
+                    }
+                }
+                return query
+            }
+        }
+        TODO("something went wrong here")
+    }
+
+    override fun visit(node: ASTValues, childrenValues: List<OPBase>): OPBase {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun visit(node: ASTValue, childrenValues: List<OPBase>): OPBase {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun visit(node: ASTUndef, childrenValues: List<OPBase>): OPBase {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun visit(node: ASTQueryBaseClass, childrenValues: List<OPBase>): OPBase {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun visit(node: ASTSubSelectQuery, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -136,45 +144,12 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun visit(node: ASTAskQuery, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
-        return LOPMakeBooleanResult()
-    }
-
-    override fun visit(node: ASTAs, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
-        return LOPBind(node.variable.visit(this), node.expression.visit(this))
-    }
-
     override fun visit(node: ASTDatasetClause, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun visit(node: ASTDefaultGraph, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTNamedGraph, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTOrderCondition, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 1)
-        return LOPSort(node.asc, childrenValues.first())
-    }
-
-    override fun visit(node: ASTVar, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
-        return LOPVariable(node.name)
-    }
-
     override fun visit(node: ASTRDFTerm, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTLiteral, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
-        return LOPLiteral(node.content, node.delimiter)
     }
 
     override fun visit(node: ASTSimpleLiteral, childrenValues: List<OPBase>): OPBase {
@@ -187,11 +162,6 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTLanguageTaggedLiteral, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTIri, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
-        return LOPIRI(node.iri)
     }
 
     override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
@@ -226,35 +196,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun visit(node: ASTGraphRef, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTIriGraphRef, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTNamedIriGraphRef, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTDefaultGraphRef, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTNamedGraphRef, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTAllGraphRef, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTGrapOperation, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -270,75 +212,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun visit(node: ASTUpdateGrapOperation, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTAdd, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("ASTAdd")
-    }
-
-    override fun visit(node: ASTMove, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTCopy, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTGraph, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun visit(node: ASTService, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTModify, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTDeleteData, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTDeleteWhere, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTInsertData, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTModifyWithWhere, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTPathAlternatives, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTPathSequence, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTPathInverse, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTPathArbitraryOccurrences, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTPathOptionalOccurrence, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTPathArbitraryOccurrencesNotZero, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTPathNegatedPropertySet, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -346,23 +220,8 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun visit(node: ASTMinusGroup, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 2)
-        return LOPMinus(childrenValues[0], childrenValues[1])
-    }
-
-    override fun visit(node: ASTUnion, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 2)
-        return LOPUnion(childrenValues[0], childrenValues[1])
-    }
-
     override fun visit(node: ASTGroup, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTFilter, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
-        return LOPFilter()
     }
 
     override fun visit(node: ASTSet, childrenValues: List<OPBase>): OPBase {
@@ -437,16 +296,174 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun visit(node: ASTBuiltInCall, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun visit(node: ASTAggregation, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun visit(node: ASTGroupConcat, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun visit(node: ASTBase, childrenValues: List<OPBase>): OPBase {
+        require(childrenValues.isEmpty())
+        return LOPPrefix("", node.iri)
+    }
+
+    override fun visit(node: ASTPrefix, childrenValues: List<OPBase>): OPBase {
+        require(childrenValues.isEmpty())
+        return LOPPrefix(node.name, node.iri)
+    }
+
+    override fun visit(node: ASTAskQuery, childrenValues: List<OPBase>): OPBase {
+        require(childrenValues.isEmpty())
+        return LOPMakeBooleanResult()
+    }
+
+    override fun visit(node: ASTAs, childrenValues: List<OPBase>): OPBase {
+        require(childrenValues.isEmpty())
+        return LOPBind(node.variable.visit(this), node.expression.visit(this))
+    }
+
+    override fun visit(node: ASTBuiltInCall, childrenValues: List<OPBase>): OPBase {
+        return LOPBuildInCall(node.function, childrenValues)
+    }
+
+    override fun visit(node: ASTAggregation, childrenValues: List<OPBase>): OPBase {
+        return LOPAggregation(node.type, node.distinct, childrenValues)
+    }
+
+    override fun visit(node: ASTMinusGroup, childrenValues: List<OPBase>): OPBase {
+        require(childrenValues.size == 2)
+        return LOPMinus(childrenValues[0], childrenValues[1])
+    }
+
+    override fun visit(node: ASTUnion, childrenValues: List<OPBase>): OPBase {
+        require(childrenValues.size == 2)
+        return LOPUnion(childrenValues[0], childrenValues[1])
+    }
+
+    override fun visit(node: ASTFilter, childrenValues: List<OPBase>): OPBase {
+        require(childrenValues.isEmpty())
+        return LOPFilter(node.children.first())
+    }
+
+    override fun visit(node: ASTOrderCondition, childrenValues: List<OPBase>): OPBase {
+        require(childrenValues.size == 1)
+        return LOPSort(node.asc, childrenValues.first())
+    }
+
+    override fun visit(node: ASTVar, childrenValues: List<OPBase>): OPBase {
+        require(childrenValues.isEmpty())
+        return LOPVariable(node.name)
+    }
+
+    override fun visit(node: ASTLiteral, childrenValues: List<OPBase>): OPBase {
+        require(childrenValues.isEmpty())
+        return LOPLiteral(node.content, node.delimiter)
+    }
+
+    override fun visit(node: ASTIri, childrenValues: List<OPBase>): OPBase {
+        require(childrenValues.isEmpty())
+        return LOPIRI(node.iri)
+    }
+
+    override fun visit(node: ASTAdd, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTMove, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTCopy, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTGraph, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTDefaultGraph, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTNamedGraph, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTGraphRef, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTIriGraphRef, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTNamedIriGraphRef, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTDefaultGraphRef, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTNamedGraphRef, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTAllGraphRef, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTGrapOperation, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTUpdateGrapOperation, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTModify, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Update ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTDeleteData, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Update ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTDeleteWhere, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Update ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTInsertData, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Update ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTModifyWithWhere, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Update ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTPathAlternatives, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Path ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTPathSequence, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Path ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTPathInverse, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Path ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTPathArbitraryOccurrences, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Path ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTPathOptionalOccurrence, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Path ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTPathArbitraryOccurrencesNotZero, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Path ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTPathNegatedPropertySet, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException Path ${node::class.simpleName}")
+    }
 }

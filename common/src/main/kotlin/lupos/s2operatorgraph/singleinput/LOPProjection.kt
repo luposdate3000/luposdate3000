@@ -13,6 +13,6 @@ class LOPProjection(val variables: MutableList<LOPVariable> = mutableListOf()) :
         for (var1 in variables) {
             res += "${indentation}\t\t$var1"
         }
-        return res + "${indentation}\tchild:\n" + child.toString("${indentation}\t")
+        return res + "${indentation}\tchild:\n" + child.toString("${indentation}\t\t")
     }
 }
