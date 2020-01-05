@@ -26,7 +26,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     is ASTAs -> {
                         val v = LOPVariable(sel.variable.name)
                         projection.variables.add(v)
-                        latest = latest.setChild(LOPBind(v, sel.expression.visit(this)))
+                        latest = latest.setChild(LOPBind(v, sel.expression.visit(this))) as LOPSingleInputBase
                     }
                     else -> {
                         TODO("not implemented$sel") //To change body of created functions use File | Settings | File Templates.
@@ -35,21 +35,21 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             }
         }
         if (node.existsLimit()) {
-            latest = latest.setChild(LOPLimit(node.limit))
+            latest = latest.setChild(LOPLimit(node.limit)) as LOPSingleInputBase
         }
         if (node.existsOffset()) {
-            latest = latest.setChild(LOPOffset(node.offset))
+            latest = latest.setChild(LOPOffset(node.offset)) as LOPSingleInputBase
         }
         if (node.distinct) {
-            latest = latest.setChild(LOPDistinct())
+            latest = latest.setChild(LOPDistinct()) as LOPSingleInputBase
         }
         if (node.reduced) {
-            latest = latest.setChild(LOPReduced())
+            latest = latest.setChild(LOPReduced()) as LOPSingleInputBase
         }
         if (node.existsOrderBy()) {
             for (order in node.orderBy) {
                 if (order is ASTOrderCondition)
-                    latest = latest.setChild(order.visit(this) as LOPSort)
+                    latest = latest.setChild(order.visit(this) as LOPSort) as LOPSingleInputBase
                 else
                     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
@@ -57,18 +57,23 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         if (node.existsHaving()) {
             for (h in node.having) {
                 if (h is ASTGT)
-                    latest = latest.setChild(LOPFilter(h))
+                    latest = latest.setChild(LOPFilter(h)) as LOPSingleInputBase
                 else
                     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
         }
         if (node.existsGroupBy()) {
             for (b in node.groupBy) {
-                if (b is ASTVar)
-                    latest = latest.setChild(LOPGroup(b.visit(this) as LOPVariable))
-                else
+                if (b is ASTVar){
+                    latest = latest.setChild(LOPGroup(b.visit(this) as LOPVariable)) as LOPSingleInputBase
+                }else if(b is ASTAs ) {
+                        val v = LOPVariable(b.variable.name)
+                        latest = (latest.setChild(LOPGroup(v)) as LOPSingleInputBase).setChild(LOPBind(v, b.expression.visit(this))) as LOPSingleInputBase
+                    }
+		else{
                     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
+        	    }
+		}
         }
         var latest2: OPBase = latest
         if (node.where.isNotEmpty()) {

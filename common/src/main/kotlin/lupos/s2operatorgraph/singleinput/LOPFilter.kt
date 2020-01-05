@@ -8,5 +8,5 @@ class LOPFilter(val filter: ASTNode) : LOPSingleInputBase() {
         this.child = child
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName} '${filter}'\n"
+    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName} '${filter}'\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
 }

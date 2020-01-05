@@ -6,9 +6,9 @@ import lupos.s2operatorgraph.OPBase
 
 class LOPAggregation(val type: Aggregation, val distinct: Boolean, val children: List<OPBase>) : LOPBase() {
     override fun toString(indentation: String): String {
-        var res = "${indentation}${this::class.simpleName} '${type}' '${distinct}'\n"
+        var res = "${indentation}${this::class.simpleName} '${type}' '${distinct}'\n${indentation}\tparameters:\n"
         for (c in children) {
-            res += c.toString("${indentation}\t")
+            res += c.toString("${indentation}\t\t")
         }
         return res
     }

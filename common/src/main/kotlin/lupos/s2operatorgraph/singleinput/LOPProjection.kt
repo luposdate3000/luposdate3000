@@ -9,7 +9,7 @@ class LOPProjection(val variables: MutableList<LOPVariable> = mutableListOf()) :
     }
 
     override fun toString(indentation: String): String {
-        var res = "${indentation}${this::class.simpleName}\n${indentation}\tparams:\n"
+        var res = "${indentation}${this::class.simpleName}\n${indentation}\tvariables:\n"
         for (var1 in variables) {
             res += "${indentation}\t\t$var1"
         }

@@ -10,8 +10,8 @@ open class LOPSingleInputBase() : LOPBase() {
         this.child = child
     }
 
-    fun setChild(child: OPBase): LOPSingleInputBase {
+    fun setChild(child: OPBase): OPBase {
         this.child = child
-        return this
+        return child
     }
 }
