@@ -56,10 +56,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         }
         if (node.existsHaving()) {
             for (h in node.having) {
-                if (h is ASTGT)
-                    latest = latest.setChild(LOPFilter(h)) as LOPSingleInputBase
-                else
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                latest = latest.setChild(LOPFilter(h.visit(this) as LOPExpression)) as LOPSingleInputBase
             }
         }
         if (node.existsGroupBy()) {
@@ -174,27 +171,27 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTBooleanLiteral, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTNumericLiteral, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTInteger, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTDouble, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTDecimal, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTFunctionCall, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTTriple, childrenValues: List<OPBase>): OPBase {
@@ -234,59 +231,59 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTOr, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTAnd, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTEQ, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTNEQ, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTLEQ, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTGEQ, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTLT, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTGT, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTIn, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTNotIn, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTAddition, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTSubtraction, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTMultiplication, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTDivision, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTNot, childrenValues: List<OPBase>): OPBase {
@@ -326,11 +323,11 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTBuiltInCall, childrenValues: List<OPBase>): OPBase {
-        return LOPBuildInCall(node.function, childrenValues)
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTAggregation, childrenValues: List<OPBase>): OPBase {
-        return LOPAggregation(node.type, node.distinct, childrenValues)
+	return LOPExpression(node)
     }
 
     override fun visit(node: ASTMinusGroup, childrenValues: List<OPBase>): OPBase {
@@ -345,7 +342,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTFilter, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        return LOPFilter(node.children.first())
+        return LOPFilter(node.children.first().visit(this) as LOPExpression)
     }
 
     override fun visit(node: ASTOrderCondition, childrenValues: List<OPBase>): OPBase {
