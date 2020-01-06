@@ -14,4 +14,15 @@ open class LOPSingleInputBase() : LOPBase() {
         this.child = child
         return child
     }
+
+    fun getLatestChild(): LOPSingleInputBase {
+        val c = child
+        if (c is LOPSingleInputBase) {
+            return c.getLatestChild()
+        }
+        return this
+    }
+
+    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
+
 }
