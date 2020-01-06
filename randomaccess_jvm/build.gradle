@@ -4,6 +4,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     expectedBy project(':common')
 	expectedBy project(':common_buffer_diskbased')
+    expectedBy project(':common_result_dictionary_none')
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 }

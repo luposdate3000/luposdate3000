@@ -5,6 +5,7 @@ dependencies {
     implementation project(':unsafehelper_jvm')
     expectedBy project(':common')
 	expectedBy project(':common_buffer_diskbased')
+    expectedBy project(':common_result_dictionary_none')
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 }
