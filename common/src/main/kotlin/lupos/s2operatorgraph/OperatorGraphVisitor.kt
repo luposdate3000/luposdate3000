@@ -2,8 +2,8 @@ package lupos.s2operatorgraph
 
 import lupos.s1parser.sparql1_1.*
 import lupos.s2operatorgraph.data.LOPExpression
-import lupos.s2operatorgraph.data.LOPIRI
-import lupos.s2operatorgraph.data.LOPLiteral
+import lupos.s2operatorgraph.data.LOPTriple
+import lupos.s2operatorgraph.data.LOPValues
 import lupos.s2operatorgraph.data.LOPVariable
 import lupos.s2operatorgraph.multiinput.LOPJoin
 import lupos.s2operatorgraph.multiinput.LOPMinus
@@ -12,10 +12,10 @@ import lupos.s2operatorgraph.singleinput.*
 import lupos.s2operatorgraph.singleinput.modifiers.*
 
 class OperatorGraphVisitor : Visitor<OPBase> {
-    override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPBase()
+    override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPNOOP()
 
     override fun visit(node: ASTSelectQuery, childrenValues: List<OPBase>): OPBase {
-        val result = LOPSingleInputBase()
+        val result = LOPNOOP()
         if (!node.selectAll()) {
             val projection = LOPProjection()
             result.getLatestChild().setChild(projection)
@@ -27,7 +27,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     is ASTAs -> {
                         val v = LOPVariable(sel.variable.name)
                         projection.variables.add(v)
-                        result.getLatestChild().setChild(LOPBind(v, sel.expression.visit(this))) as LOPSingleInputBase
+                        result.getLatestChild().setChild(LOPBind(v, sel.expression.visit(this)))
                     }
                     else -> {
                         throw UnsupportedOperationException("UnsupportedOperationException Select-Parameter ${node::class.simpleName}")
@@ -86,7 +86,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     private fun parseGroup(nodes: Array<ASTNode>): OPBase {
         if (nodes.isEmpty()) {
-            return LOPSingleInputBase()
+            return LOPNOOP()
         }
         var result: OPBase? = null
         var tJoin: OPBase? = null
@@ -106,12 +106,11 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     tMinus.getLatestChild().setChild(tmp2)
                 }
             } else {
-                if (tJoin == null) {
+                val j = tJoin
+                if (j == null) {
                     tJoin = tmp2
                 } else {
-                    val j = tJoin
-                    if (j is LOPSingleInputBase)
-                        (tJoin as LOPSingleInputBase).getLatestChild().setChild(LOPJoin(LOPBase(), tmp2, false))
+                    tJoin = LOPJoin(j, tmp2, false)
                 }
             }
         }
@@ -135,26 +134,52 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTQuery, childrenValues: List<OPBase>): OPBase {
         if (childrenValues.isEmpty())
-            return LOPBase() //empty query
-        var query: OPBase
+            return LOPNOOP() //empty query
+        var query: OPBase = LOPNOOP()
+        var prefix: LOPPrefix? = null
+        var values: OPBase? = null
         for (q in childrenValues) {
-            if (q !is LOPPrefix) {
-                query = q
-                var c = 1
-                for (q2 in childrenValues) {
-                    if (q2 is LOPPrefix) {
-                        q2.setChild(query)
-                        query = q2
-                        c++
-                    }
+            if (q is LOPPrefix) {
+                if (prefix == null)
+                    prefix = q
+                else
+                    prefix.getLatestChild().setChild(q)
+            } else if (q is LOPValues) {
+                if (values == null) {
+                    values = q
+                } else {
+                    values = LOPJoin(values, q, false)
                 }
-                require(c == childrenValues.size)
-                return query
+            } else {
+                query = q
             }
         }
-        return LOPBase() //empty query
+        if (query is LOPNOOP)
+            return LOPNOOP()
+        if (values != null && prefix != null) {
+            prefix.getLatestChild().setChild(joinValuesAndQuery(values, query))
+            return prefix
+        } else if (values != null) {
+            return joinValuesAndQuery(values, query)
+        } else if (prefix != null) {
+            prefix.getLatestChild().setChild(query)
+            return prefix
+        }
+        return LOPNOOP()
     }
 
+    private fun joinValuesAndQuery(values: OPBase, query: OPBase): OPBase {
+        if (query !is LOPProjection)
+            return LOPJoin(values, query, false)
+        var latestProjection = query
+        var realQuery = query
+        while (realQuery is LOPProjection) {
+            latestProjection = realQuery
+            realQuery = realQuery.child
+        }
+        (latestProjection as LOPProjection).setChild(LOPJoin(values, realQuery, false))
+        return query
+    }
 
     override fun visit(node: ASTUndef, childrenValues: List<OPBase>): OPBase {
         return LOPExpression(node)
@@ -300,7 +325,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTMinusGroup, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isNotEmpty())
-        return LOPMinus(LOPBase(), parseGroup(node.children))
+        return LOPMinus(LOPNOOP(), parseGroup(node.children))
     }
 
     override fun visit(node: ASTUnion, childrenValues: List<OPBase>): OPBase {
@@ -325,16 +350,34 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTLiteral, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        return LOPLiteral(node.content, node.delimiter)
+        return LOPExpression(node)
     }
 
     override fun visit(node: ASTIri, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        return LOPIRI(node.iri)
+        return LOPExpression(node)
     }
 
     override fun visit(node: ASTGroup, childrenValues: List<OPBase>): OPBase {
         return parseGroup(node.children)
+    }
+
+    override fun visit(node: ASTValues, childrenValues: List<OPBase>): OPBase {
+        if (node.variables.isEmpty())
+            return LOPNOOP()
+        val variables = mutableListOf<LOPVariable>()
+        val values = mutableListOf<LOPExpression>()
+        for (v in node.variables) {
+            variables.add(v.visit(this) as LOPVariable)
+        }
+        for (v in node.children) {
+            values.add(LOPExpression(v))
+        }
+        return LOPValues(variables, values)
+    }
+
+    override fun visit(node: ASTValue, childrenValues: List<OPBase>): OPBase {
+        return LOPExpression(node)
     }
 
     override fun visit(node: ASTAdd, childrenValues: List<OPBase>): OPBase {
@@ -465,19 +508,11 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         throw UnsupportedOperationException("UnsupportedOperationException Blank Node ${node::class.simpleName}")
     }
 
-    override fun visit(node: ASTValue, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Values ${node::class.simpleName}")
-    }
-
     override fun visit(node: ASTSubSelectQuery, childrenValues: List<OPBase>): OPBase {
         if (node.existsValues()) {
             throw UnsupportedOperationException("UnsupportedOperationException Values ${node::class.simpleName}")
         }
         return visit(node as ASTSelectQuery, childrenValues)
-    }
-
-    override fun visit(node: ASTValues, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Values ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTConstructQuery, childrenValues: List<OPBase>): OPBase {
