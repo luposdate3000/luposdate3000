@@ -1,6 +1,6 @@
 include 'common'
-include 'common_diskbased'
-include 'common_mainmemory'
+include 'common_buffer_diskbased'
+include 'common_buffer_mainmemory'
 include 'heap_js'
 include 'heap_jvm'
 include 'unsafehelper_jvm'

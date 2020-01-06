@@ -16,9 +16,9 @@ actual class BufferManager {
         if (page == null) {
             while (this.cache.entries.size >= MAXPAGES) {
                 val toBeReplaced = this.cache.replaceLeastRecentlyUsed({ it.value!!.isLocked() })
-                val oldPage = toBeReplaced!!.value!!
+                val oldPage = toBeReplaced.value!!
                 if (oldPage.isModified()) { // write modified pages to disk!
-                    val oldPageAddress = toBeReplaced!!.key
+                    val oldPageAddress = toBeReplaced.key
                     CacheOfFiles.getFile(oldPageAddress.fileName).write(oldPageAddress.pageNumber.toLong() * PAGESIZE.toLong(), oldPage)
                 }
                 oldPage.release()

@@ -4,7 +4,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation project(':unsafehelper_jvm')
     expectedBy project(':common')
-	expectedBy project(':common_mainmemory')
+	expectedBy project(':common_buffer_mainmemory')
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 }
