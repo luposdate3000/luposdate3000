@@ -3,14 +3,6 @@ package lupos.s4resultRepresentation
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-fun main() {
-    ResultRowTests().testAddVariable()
-    ResultRowTests().testRetrieveVariable1()
-    ResultRowTests().testRetrieveVariable2()
-    ResultRowTests().testRetrieveVariable3()
-    println("done")
-}
-
 class ResultRowTests {
     @Test
     fun testAddVariable() {

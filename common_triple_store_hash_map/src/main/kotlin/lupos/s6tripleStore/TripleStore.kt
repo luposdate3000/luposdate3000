@@ -1,16 +1,9 @@
 package lupos.s6tripleStore
 
+import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.ResultSetIterator
-import lupos.s4resultRepresentation.ResultRow
 
-val tripleStoreS = mutableMapOf<Int, MutableList<Array<String>>>()
-val tripleStoreP = mutableMapOf<Int, MutableList<Array<String>>>()
-val tripleStoreO = mutableMapOf<Int, MutableList<Array<String>>>()
-val tripleStoreSP = mutableMapOf<Int, MutableList<Array<String>>>()
-val tripleStoreSO = mutableMapOf<Int, MutableList<Array<String>>>()
-val tripleStoreOP = mutableMapOf<Int, MutableList<Array<String>>>()
-val tripleStoreSOP = mutableMapOf<Int, MutableList<Array<String>>>()
 
 class TripleStoreIterator : ResultSetIterator {
     private val resultSet = ResultSet()
@@ -19,9 +12,11 @@ class TripleStoreIterator : ResultSetIterator {
     private var s = resultSet.createVariable("s")
     private var p = resultSet.createVariable("p")
     private var o = resultSet.createVariable("o")
+    private val store: TripleStore
 
-    constructor() {
-        mapIterator = tripleStoreS.iterator()
+    constructor(store: TripleStore) {
+        this.store = store
+        mapIterator = store.tripleStoreS.iterator()
         listIterator = null
     }
 
@@ -51,6 +46,15 @@ class TripleStoreIterator : ResultSetIterator {
 }
 
 actual class TripleStore {
+
+    val tripleStoreS = mutableMapOf<Int, MutableList<Array<String>>>()
+    val tripleStoreP = mutableMapOf<Int, MutableList<Array<String>>>()
+    val tripleStoreO = mutableMapOf<Int, MutableList<Array<String>>>()
+    val tripleStoreSP = mutableMapOf<Int, MutableList<Array<String>>>()
+    val tripleStoreSO = mutableMapOf<Int, MutableList<Array<String>>>()
+    val tripleStoreOP = mutableMapOf<Int, MutableList<Array<String>>>()
+    val tripleStoreSOP = mutableMapOf<Int, MutableList<Array<String>>>()
+
     actual constructor()
 
     fun hashValue(value: String): Int {
@@ -85,6 +89,6 @@ actual class TripleStore {
     }
 
     actual fun getIterator(): ResultSetIterator {
-        return TripleStoreIterator()
+        return TripleStoreIterator(this)
     }
 }

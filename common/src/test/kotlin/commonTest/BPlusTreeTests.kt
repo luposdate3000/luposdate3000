@@ -6,7 +6,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.fail
-import kotlin.test.assertTrue
 
 class BPlusTreeTests {
 
@@ -15,7 +14,7 @@ class BPlusTreeTests {
     fun testBPlusTreeInsertAndExactSearch(tree:I_B_Plus_Tree<Int, Int>){
         // initialize and create B_Plus_Tree
         val list = mutableListOf<Pair<Int, Int>>()
-        val size = 500000
+        val size = 500
         for(i in 1..size){
             list+=Pair(i,i)
         }
@@ -26,8 +25,8 @@ class BPlusTreeTests {
             }
             assertFailsWith<NotFoundException>{tree[2*size]}
         }catch(e:NotFoundException){
-            println(e);
-            fail(e.key.toString()+" not found!")
+            println(e)
+            fail(e.key.toString() + " not found!")
         }
         // TODO much more rigorously
     }
@@ -46,8 +45,8 @@ class BPlusTreeTests {
             }
             assertEquals(tree[2*size], false)
         }catch(e:NotFoundException){
-            println(e);
-            fail(e.key.toString()+" not found!")
+            println(e)
+            fail(e.key.toString() + " not found!")
         }
         // TODO much more rigorously
     }
@@ -71,8 +70,8 @@ class BPlusTreeTests {
             val result = rangeExceedingLimits()
             assertEquals(result, null)
         }catch(e:NotFoundException){
-            println(e);
-            fail(e.key.toString()+" not found!")
+            println(e)
+            fail(e.key.toString() + " not found!")
         }
         // TODO much more rigorously
     }
@@ -94,8 +93,8 @@ class BPlusTreeTests {
             } while(result!=null)
             assertFailsWith<NotFoundException>{tree.range_search(2*size, 3*size)}
         }catch(e:NotFoundException){
-            println(e);
-            fail(e.key.toString()+" not found!")
+            println(e)
+            fail(e.key.toString() + " not found!")
         }
         // TODO much more rigorously
     }
@@ -135,14 +134,14 @@ class BPlusTreeTests {
         val b = B_Plus_Tree_Uncompressed_Int_to_Int(filename)
         try {
             // assertEquals(b[0],0);
-            assertEquals(b[0],0)
-            assertEquals(b[1], 1);
-            assertEquals(b[2], 2);
-            assertEquals(b[3], 3);
-            assertFailsWith<NotFoundException>{b[4]};
+            assertEquals(b[0], 0)
+            assertEquals(b[1], 1)
+            assertEquals(b[2], 2)
+            assertEquals(b[3], 3)
+            assertFailsWith<NotFoundException> { b[4] }
         }catch(e: NotFoundException){
-            println(e);
-            fail(e.key.toString()+" not found!")
+            println(e)
+            fail(e.key.toString() + " not found!")
         }
         println("Test 1 passed...")
         // TODO much more rigorously
@@ -218,8 +217,8 @@ class BPlusTreeTests {
                 i=i*2
             } while(result!=null)
         }catch(e:NotFoundException){
-            println(e);
-            fail(e.key.toString()+" not found!")
+            println(e)
+            fail(e.key.toString() + " not found!")
         }
         // TODO much more rigorously
     }

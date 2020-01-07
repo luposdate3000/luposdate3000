@@ -83,11 +83,6 @@ class TripleStoreTest {
     @Test
     fun testAddValue2() {
         insertAndRetrieve(arrayOf(arrayOf("a", "b", "c"), arrayOf("d", "e", "f")))
+        println("checked")
     }
-
-}
-
-fun main() {
-    TripleStoreTest().testAddValue1()
-    TripleStoreTest().testAddValue2()
 }
