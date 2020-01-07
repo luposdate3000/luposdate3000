@@ -2,51 +2,46 @@ package lupos.s0data
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 
 fun main() {
     ResultRowTests().testAddVariable()
-    ResultRowTests().testNotExistingVariable()
     ResultRowTests().testRetrieveVariable1()
     ResultRowTests().testRetrieveVariable2()
     ResultRowTests().testRetrieveVariable3()
+    println("done")
 }
 
 class ResultRowTests {
     @Test
     fun testAddVariable() {
-        val res = ResultRow()
-        res.setVariable(VariableName("a"), "b")
+        val q = Query()
+        val res = q.createResultRow()
+        res[q.getVariable("a")] = q.getValue("b")
     }
 
     @Test
     fun testRetrieveVariable1() {
-        val res = ResultRow()
-        res.setVariable(VariableName("a"), "b")
-        assertEquals(res.getVariable(VariableName("a")), "b")
+        val q = Query()
+        val res = q.createResultRow()
+        res[q.getVariable("a")] = q.getValue("b")
+        assertEquals(res[q.getVariable("a")], q.getValue("b"))
     }
 
     @Test
     fun testRetrieveVariable2() {
-        val res = ResultRow()
-        res.setVariable(VariableName("a"), "b")
-        res.setVariable(VariableName("c"), "d")
-        assertEquals(res.getVariable(VariableName("a")), "b")
-        assertEquals(res.getVariable(VariableName("c")), "d")
+        val q = Query()
+        val res = q.createResultRow()
+        res[q.getVariable("a")] = q.getValue("b")
+        res[q.getVariable("c")] = q.getValue("d")
+        assertEquals(res[q.getVariable("a")], q.getValue("b"))
     }
 
     @Test
     fun testRetrieveVariable3() {
-        val res = ResultRow()
-        res.setVariable(VariableName("a"), "b")
-        res.setVariable(VariableName("c"), "d")
-        assertEquals(res.getVariable(VariableName("c")), "d")
-        assertEquals(res.getVariable(VariableName("a")), "b")
-    }
-
-    @Test
-    fun testNotExistingVariable() {
-        val res = ResultRow()
-        assertNull(res.getVariable(VariableName("a")))
+        val q = Query()
+        val res = q.createResultRow()
+        res[q.getVariable("a")] = q.getValue("b")
+        res[q.getVariable("c")] = q.getValue("d")
+        assertEquals(res[q.getVariable("c")], q.getValue("d"))
     }
 }

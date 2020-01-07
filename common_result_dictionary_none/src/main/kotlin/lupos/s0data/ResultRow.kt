@@ -1,20 +1,35 @@
 package lupos.s0data
 
-actual class VariableName {
-    var name: String
+actual typealias Variable = String
 
-    actual constructor(name: String) {
-        this.name = name
+actual typealias Value = String
+
+actual class Query {
+    actual constructor()
+
+    actual fun getVariable(variable: String): Variable {
+        return variable
+    }
+
+    actual fun getValue(value: String): Value {
+        return value
+    }
+
+    actual fun createResultRow(): ResultRow {
+        return ResultRow(mutableMapOf<Variable, Value>())
+    }
+
+    actual fun releaseResultRow(row: ResultRow) {
+
     }
 }
 
-actual class ResultRow {
-    private var values: MutableMap<String, String> = mutableMapOf<String, String>()
-    actual fun setVariable(name: VariableName, value: String) {
-        this.values[name.name] = value
+actual inline class ResultRow(val values: Any) {
+    actual operator fun set(name: Variable, value: Value) {
+        (values as MutableMap<Variable, Value>)[name] = value
     }
 
-    actual fun getVariable(name: VariableName): String? {
-        return values[name.name]
+    actual operator fun get(name: Variable): Value {
+        return (values as MutableMap<Variable, Value>)[name]!!
     }
 }
