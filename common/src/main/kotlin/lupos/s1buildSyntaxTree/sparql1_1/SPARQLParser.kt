@@ -1,9 +1,9 @@
-package lupos.s1parser.sparql1_1
+package lupos.s1buildSyntaxTree.sparql1_1
 
-import lupos.s1parser.LookAheadTokenIterator
-import lupos.s1parser.ParseError
-import lupos.s1parser.Token
-import lupos.s1parser.UnexpectedToken
+import lupos.s1buildSyntaxTree.LookAheadTokenIterator
+import lupos.s1buildSyntaxTree.ParseError
+import lupos.s1buildSyntaxTree.Token
+import lupos.s1buildSyntaxTree.UnexpectedToken
 
 interface Visitor<T> {
     fun visit(node: ASTNode, childrenValues: List<T>): T

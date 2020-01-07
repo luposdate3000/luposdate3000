@@ -1,4 +1,4 @@
-package lupos.s1parser
+package lupos.s1buildSyntaxTree
 
 import lupos.s1buildSyntaxTree.turtle.EOF
 

@@ -1,14 +1,14 @@
-package lupos.s0data
+package lupos.s4resultRepresentation
 
 expect class Variable
 
 expect class Value
 
-expect class Query {
+expect class ResultSet {
     constructor()
 
-    fun getVariable(variable: String): Variable
-    fun getValue(value: String): Value
+    fun createVariable(variable: String): Variable
+    fun createValue(value: String): Value
     fun createResultRow(): ResultRow
     fun releaseResultRow(row: ResultRow)
 }

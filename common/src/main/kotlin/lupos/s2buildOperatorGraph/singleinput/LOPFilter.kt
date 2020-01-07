@@ -1,8 +1,7 @@
 package lupos.s2operatorgraph.singleinput
 
-import lupos.s1parser.sparql1_1.ASTNode
 import lupos.s2operatorgraph.OPBase
-import lupos.s2operatorgraph.data.*
+import lupos.s2operatorgraph.data.LOPExpression
 
 class LOPFilter(val filter: LOPExpression) : LOPSingleInputBase() {
     constructor(filter: LOPExpression, child: OPBase) : this(filter) {

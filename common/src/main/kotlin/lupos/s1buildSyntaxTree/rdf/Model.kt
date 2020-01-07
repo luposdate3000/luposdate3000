@@ -1,4 +1,4 @@
-package lupos.s1parser.rdf
+package lupos.s1buildSyntaxTree.rdf
 
 abstract class RDFTerm {
     abstract fun toN3String(): String

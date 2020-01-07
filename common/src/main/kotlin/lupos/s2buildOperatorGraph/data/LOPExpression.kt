@@ -1,8 +1,7 @@
 package lupos.s2operatorgraph.data
 
-import lupos.s1parser.sparql1_1.*
+import lupos.s1buildSyntaxTree.sparql1_1.ASTNode
 import lupos.s2operatorgraph.LOPBase
-import lupos.s2operatorgraph.OPBase
 
 class LOPExpression(val child: ASTNode) : LOPBase() {
     override fun toString(indentation: String): String {

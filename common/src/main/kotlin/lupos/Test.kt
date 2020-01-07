@@ -1,12 +1,12 @@
 package lupos.sparql1_1.test
 
-import lupos.s1parser.ParseError
-import lupos.s1parser.rdf.Dictionary
-import lupos.s1parser.rdf.ID_Triple
-import lupos.s1parser.rdf.IRI
-import lupos.s1parser.rdf.SimpleLiteral
-import lupos.s1parser.sparql1_1.parseSPARQL
-import lupos.s1parser.turtle.TurtleParserWithDictionary
+import lupos.s1buildSyntaxTree.ParseError
+import lupos.s1buildSyntaxTree.rdf.Dictionary
+import lupos.s1buildSyntaxTree.rdf.ID_Triple
+import lupos.s1buildSyntaxTree.rdf.IRI
+import lupos.s1buildSyntaxTree.rdf.SimpleLiteral
+import lupos.s1buildSyntaxTree.sparql1_1.parseSPARQL
+import lupos.s1buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s2operatorgraph.OperatorGraphVisitor
 
 expect fun readFileContents(filename: String): String
@@ -94,9 +94,9 @@ private fun listMembers(data: SevenIndices, start: Long, f: (Long) -> Unit) {
     val nil = rdf + "nil"
     val first = rdf + "first"
     val rest = rdf + "rest"
-    val nil_iri = lupos.s1parser.rdf.Dictionary.IRI(nil)
-    val first_iri = lupos.s1parser.rdf.Dictionary.IRI(first)
-    val rest_iri = lupos.s1parser.rdf.Dictionary.IRI(rest)
+    val nil_iri = lupos.s1buildSyntaxTree.rdf.Dictionary.IRI(nil)
+    val first_iri = lupos.s1buildSyntaxTree.rdf.Dictionary.IRI(first)
+    val rest_iri = lupos.s1buildSyntaxTree.rdf.Dictionary.IRI(rest)
 
     fun recursiveListMembers(current: Long) {
         data.sp(current, first_iri).forEach { f(it) }
@@ -111,7 +111,7 @@ private fun listMembers(data: SevenIndices, start: Long, f: (Long) -> Unit) {
 }
 
 private fun readTurtleData(filename: String, consume_triple: (Long, Long, Long) -> Unit) {
-    val ltit = lupos.s1parser.LookAheadTokenIterator(lupos.s1parser.turtle.TurtleScanner(lupos.s1parser.LexerCharIterator(readFileContents(filename))), 3)
+    val ltit = lupos.s1buildSyntaxTree.LookAheadTokenIterator(lupos.s1buildSyntaxTree.turtle.TurtleScanner(lupos.s1buildSyntaxTree.LexerCharIterator(readFileContents(filename))), 3)
     try {
         TurtleParserWithDictionary(consume_triple, ltit).turtleDoc()
     } catch (e: ParseError) {

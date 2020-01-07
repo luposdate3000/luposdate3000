@@ -1,17 +1,17 @@
-package lupos.s0data
+package lupos.s4resultRepresentation
 
 actual typealias Variable = String
 
 actual typealias Value = String
 
-actual class Query {
+actual class ResultSet {
     actual constructor()
 
-    actual fun getVariable(variable: String): Variable {
+    actual fun createVariable(variable: String): Variable {
         return variable
     }
 
-    actual fun getValue(value: String): Value {
+    actual fun createValue(value: String): Value {
         return value
     }
 

@@ -1,10 +1,10 @@
 package lupos.s2operatorgraph
 
-import lupos.s1parser.LexerCharIterator
-import lupos.s1parser.LookAheadTokenIterator
-import lupos.s1parser.ParseError
-import lupos.s1parser.sparql1_1.SPARQLParser
-import lupos.s1parser.sparql1_1.TokenIteratorSPARQLParser
+import lupos.s1buildSyntaxTree.LexerCharIterator
+import lupos.s1buildSyntaxTree.LookAheadTokenIterator
+import lupos.s1buildSyntaxTree.ParseError
+import lupos.s1buildSyntaxTree.sparql1_1.SPARQLParser
+import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 
 val sparql_test = """
 SELECT ?a ?b ?c WHERE { <a> <b> <c>. <a> <b> ?a }

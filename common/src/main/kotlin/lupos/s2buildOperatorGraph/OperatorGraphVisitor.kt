@@ -1,6 +1,6 @@
 package lupos.s2operatorgraph
 
-import lupos.s1parser.sparql1_1.*
+import lupos.s1buildSyntaxTree.sparql1_1.*
 import lupos.s2operatorgraph.data.LOPExpression
 import lupos.s2operatorgraph.data.LOPTriple
 import lupos.s2operatorgraph.data.LOPValues

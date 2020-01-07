@@ -1,7 +1,7 @@
-package lupos.s1parser.sparql1_1
+package lupos.s1buildSyntaxTree.sparql1_1
 
-import lupos.s1parser.LexerCharIterator
-import lupos.s1parser.LookAheadTokenIterator
+import lupos.s1buildSyntaxTree.LexerCharIterator
+import lupos.s1buildSyntaxTree.LookAheadTokenIterator
 
 enum class BuiltInFunctions {
     STR,

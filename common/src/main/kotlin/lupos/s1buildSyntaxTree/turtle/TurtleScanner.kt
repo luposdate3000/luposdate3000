@@ -1,6 +1,6 @@
-package lupos.s1parser.turtle
+package lupos.s1buildSyntaxTree.turtle
 
-import lupos.s1parser.*
+import lupos.s1buildSyntaxTree.*
 
 class EOF(index: Int) : Token("EOF", index)
 abstract class InBraces(val content: String, index: Int, val leftBrace: String, val rightBrace: String) : Token(leftBrace + content + rightBrace, index) {

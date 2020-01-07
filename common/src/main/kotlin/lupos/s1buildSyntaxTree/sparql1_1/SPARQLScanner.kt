@@ -1,6 +1,6 @@
-package lupos.s1parser.sparql1_1
+package lupos.s1buildSyntaxTree.sparql1_1
 
-import lupos.s1parser.*
+import lupos.s1buildSyntaxTree.*
 
 class EOF(index: Int) : Token("EOF", index)
 abstract class InBraces(val content: String, index: Int, val leftBrace: String, val rightBrace: String) : Token(leftBrace + content + rightBrace, index) {
