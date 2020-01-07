@@ -71,17 +71,17 @@ class TurtleScanner(val iterator: LexerCharIterator) : TokenIterator {
     override fun getColumnNumber() = this.iterator.columnNumber
 
     override fun nextToken(): Token {
-        try{
+        try {
             skip()
-        }catch(e: UnexpectedEndOfFile){
+        } catch (e: UnexpectedEndOfFile) {
             return EOF(this.iterator.index)
         }
         val startToken = this.iterator.index
-        if(!this.iterator.hasNext()){
+        if (!this.iterator.hasNext()) {
             return EOF(startToken)
         }
         val c = this.iterator.nextChar()
-        when{
+        when {
             c == ';' -> {
                 return SEMICOLON(startToken)
             }
@@ -141,7 +141,7 @@ class TurtleScanner(val iterator: LexerCharIterator) : TokenIterator {
             c in '0'..'9' -> {
                 // next token can be an integer, decimal or double literal!
                 var beforeDOT = "" + c
-                while(this.iterator.hasNext()){
+                while (this.iterator.hasNext()) {
                     val nextChar = this.iterator.nextChar()
                     when {
                         nextChar in '0'..'9' -> {
@@ -163,7 +163,7 @@ class TurtleScanner(val iterator: LexerCharIterator) : TokenIterator {
             }
             c == '.' -> {
                 // just dot, or decimal or double literal!
-                if(this.iterator.hasNext() && this.iterator.lookahead() in '0'..'9'){
+                if (this.iterator.hasNext() && this.iterator.lookahead() in '0'..'9') {
                     // token is a decimal or double literal!
                     return numberAfterDot("", startToken)
                 } else {
@@ -172,7 +172,7 @@ class TurtleScanner(val iterator: LexerCharIterator) : TokenIterator {
             }
             c == '^' -> {
                 val nextChar = this.iterator.nextChar()
-                if(nextChar=='^'){
+                if (nextChar == '^') {
                     return DOUBLECIRCUMFLEX(startToken)
                 } else {
                     throw ParseError("'^^' expected!", startToken, this.iterator.lineNumber, this.iterator.columnNumber)
@@ -181,12 +181,12 @@ class TurtleScanner(val iterator: LexerCharIterator) : TokenIterator {
             c == '@' -> {
                 // language tag
                 val nextChar = this.iterator.nextChar()
-                if(nextChar in 'a'..'z' || nextChar in 'A'..'Z'){
+                if (nextChar in 'a'..'z' || nextChar in 'A'..'Z') {
                     var language = "" + nextChar
-                    while(this.iterator.hasNext()){
+                    while (this.iterator.hasNext()) {
                         val nextNextChar = this.iterator.nextChar()
                         when {
-                            nextNextChar in 'a'..'z' || nextNextChar in 'A'..'Z' ->{
+                            nextNextChar in 'a'..'z' || nextNextChar in 'A'..'Z' -> {
                                 language += nextNextChar
                             }
                             nextNextChar == '-' -> {
@@ -212,11 +212,11 @@ class TurtleScanner(val iterator: LexerCharIterator) : TokenIterator {
             c == '_' -> {
                 // blank node
                 val nextChar = this.iterator.nextChar()
-                if(nextChar == ':'){
+                if (nextChar == ':') {
                     val nextNextChar = this.iterator.nextChar()
-                    if(PN_CHARS_U_or_DIGIT(nextNextChar)){
+                    if (PN_CHARS_U_or_DIGIT(nextNextChar)) {
                         var image = "" + nextNextChar
-                        loopblanknode@ while(true){
+                        loopblanknode@ while (true) {
                             val nextNextNextChar = this.iterator.nextChar()
                             when {
                                 nextNextNextChar == '.' -> {
@@ -332,7 +332,7 @@ class TurtleScanner(val iterator: LexerCharIterator) : TokenIterator {
                     this.iterator.putBack(c)
                     return PNAME_NS(beforeColon, startToken)
                 }
-            } else if(PN_CHARS_U_or_DIGIT(c) || PN_LOCAL_ESC(c)){
+            } else if (PN_CHARS_U_or_DIGIT(c) || PN_LOCAL_ESC(c)) {
                 afterColon += c
             } else {
                 this.iterator.putBack(c)
@@ -340,14 +340,14 @@ class TurtleScanner(val iterator: LexerCharIterator) : TokenIterator {
             }
 
             // it is definitely a PNAME_LN!
-            loopPNAME_LN@ while(this.iterator.hasNext()){
+            loopPNAME_LN@ while (this.iterator.hasNext()) {
                 val nextChar = this.iterator.nextChar()
                 when {
                     nextChar == '%' -> {
                         val nextNextChar = this.iterator.nextChar()
-                        if(HEX(nextNextChar)){
+                        if (HEX(nextNextChar)) {
                             val nextNextNextChar = this.iterator.nextChar()
-                            if(HEX(nextNextNextChar)){
+                            if (HEX(nextNextNextChar)) {
                                 afterColon += "" + nextChar + nextNextChar + nextNextNextChar
                             } else {
                                 this.iterator.putBack(nextNextNextChar)
@@ -487,9 +487,9 @@ class TurtleScanner(val iterator: LexerCharIterator) : TokenIterator {
             } else {
                 // case '...' or "..."
                 var content = "" + this.iterator.nextChar()
-                while(iterator.hasNext()) {
+                while (iterator.hasNext()) {
                     var nextChar = iterator.nextChar()
-                    when(nextChar){
+                    when (nextChar) {
                         delimiter -> {
                             return STRING(content, "" + delimiter, startToken)
                         }
@@ -511,7 +511,7 @@ class TurtleScanner(val iterator: LexerCharIterator) : TokenIterator {
         }
     }
 
-    inline fun PN_CHARS_BASE(c:Char) =
+    inline fun PN_CHARS_BASE(c: Char) =
             c in 'A'..'Z'
                     || c in 'a'..'z'
                     || c in '\u00C0'..'\u00D6'
@@ -574,7 +574,11 @@ class TurtleScanner(val iterator: LexerCharIterator) : TokenIterator {
     inline fun HEX(c: Char) = when {
         c in '0'..'9'
                 || c in 'A'..'F'
-                || c in 'a'..'f' -> {true}
-        else -> {false}
+                || c in 'a'..'f' -> {
+            true
+        }
+        else -> {
+            false
+        }
     }
 }
