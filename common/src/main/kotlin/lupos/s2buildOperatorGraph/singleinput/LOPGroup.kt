@@ -1,7 +1,7 @@
-package lupos.s2operatorgraph.singleinput
+package lupos.s2buildOperatorGraph.singleinput
 
-import lupos.s2operatorgraph.OPBase
-import lupos.s2operatorgraph.data.LOPVariable
+import lupos.s2buildOperatorGraph.OPBase
+import lupos.s2buildOperatorGraph.data.LOPVariable
 
 class LOPGroup(var by: LOPVariable) : LOPSingleInputBase() {
     constructor(by: LOPVariable, child: OPBase) : this(by) {

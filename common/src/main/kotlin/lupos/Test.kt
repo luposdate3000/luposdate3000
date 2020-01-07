@@ -7,7 +7,7 @@ import lupos.s1buildSyntaxTree.rdf.IRI
 import lupos.s1buildSyntaxTree.rdf.SimpleLiteral
 import lupos.s1buildSyntaxTree.sparql1_1.parseSPARQL
 import lupos.s1buildSyntaxTree.turtle.TurtleParserWithDictionary
-import lupos.s2operatorgraph.OperatorGraphVisitor
+import lupos.s2buildOperatorGraph.OperatorGraphVisitor
 
 expect fun readFileContents(filename: String): String
 

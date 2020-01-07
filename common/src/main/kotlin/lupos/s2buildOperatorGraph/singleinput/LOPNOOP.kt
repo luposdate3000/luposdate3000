@@ -1,3 +1,3 @@
-package lupos.s2operatorgraph.singleinput
+package lupos.s2buildOperatorGraph.singleinput
 
 class LOPNOOP : LOPSingleInputBase()

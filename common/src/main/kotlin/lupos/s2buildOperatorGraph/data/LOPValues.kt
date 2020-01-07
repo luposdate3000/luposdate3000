@@ -1,6 +1,6 @@
-package lupos.s2operatorgraph.data
+package lupos.s2buildOperatorGraph.data
 
-import lupos.s2operatorgraph.LOPBase
+import lupos.s2buildOperatorGraph.LOPBase
 
 class LOPValues(val variables: List<LOPVariable>, val values: List<LOPExpression>) : LOPBase() {
     override fun toString(indentation: String): String {

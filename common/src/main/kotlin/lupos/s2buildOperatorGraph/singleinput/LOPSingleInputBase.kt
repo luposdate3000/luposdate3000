@@ -1,7 +1,7 @@
-package lupos.s2operatorgraph.singleinput
+package lupos.s2buildOperatorGraph.singleinput
 
-import lupos.s2operatorgraph.LOPBase
-import lupos.s2operatorgraph.OPBase
+import lupos.s2buildOperatorGraph.LOPBase
+import lupos.s2buildOperatorGraph.OPBase
 
 open class LOPSingleInputBase() : LOPBase() {
     var child: OPBase = OPBase()

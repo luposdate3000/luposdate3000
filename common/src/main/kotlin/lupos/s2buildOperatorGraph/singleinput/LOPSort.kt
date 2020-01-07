@@ -1,6 +1,6 @@
-package lupos.s2operatorgraph.singleinput
+package lupos.s2buildOperatorGraph.singleinput
 
-import lupos.s2operatorgraph.OPBase
+import lupos.s2buildOperatorGraph.OPBase
 
 class LOPSort(val asc: Boolean, var by: OPBase) : LOPSingleInputBase() {
     constructor(asc: Boolean, by: OPBase, child: OPBase) : this(asc, by) {

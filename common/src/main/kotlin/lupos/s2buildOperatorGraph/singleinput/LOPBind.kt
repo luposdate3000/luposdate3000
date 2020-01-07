@@ -1,6 +1,6 @@
-package lupos.s2operatorgraph.singleinput
+package lupos.s2buildOperatorGraph.singleinput
 
-import lupos.s2operatorgraph.OPBase
+import lupos.s2buildOperatorGraph.OPBase
 
 class LOPBind(val name: OPBase, val expression: OPBase) : LOPSingleInputBase() {
     constructor(name: OPBase, expression: OPBase, child: OPBase) : this(name, expression) {

@@ -1,4 +1,4 @@
-package lupos.s2operatorgraph
+package lupos.s2buildOperatorGraph
 
 open class OPBase {
 

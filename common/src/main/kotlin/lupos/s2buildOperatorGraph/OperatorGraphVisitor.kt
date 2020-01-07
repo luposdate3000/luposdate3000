@@ -1,15 +1,15 @@
-package lupos.s2operatorgraph
+package lupos.s2buildOperatorGraph
 
 import lupos.s1buildSyntaxTree.sparql1_1.*
-import lupos.s2operatorgraph.data.LOPExpression
-import lupos.s2operatorgraph.data.LOPTriple
-import lupos.s2operatorgraph.data.LOPValues
-import lupos.s2operatorgraph.data.LOPVariable
-import lupos.s2operatorgraph.multiinput.LOPJoin
-import lupos.s2operatorgraph.multiinput.LOPMinus
-import lupos.s2operatorgraph.multiinput.LOPUnion
-import lupos.s2operatorgraph.singleinput.*
-import lupos.s2operatorgraph.singleinput.modifiers.*
+import lupos.s2buildOperatorGraph.data.LOPExpression
+import lupos.s2buildOperatorGraph.data.LOPTriple
+import lupos.s2buildOperatorGraph.data.LOPValues
+import lupos.s2buildOperatorGraph.data.LOPVariable
+import lupos.s2buildOperatorGraph.multiinput.LOPJoin
+import lupos.s2buildOperatorGraph.multiinput.LOPMinus
+import lupos.s2buildOperatorGraph.multiinput.LOPUnion
+import lupos.s2buildOperatorGraph.singleinput.*
+import lupos.s2buildOperatorGraph.singleinput.modifiers.*
 
 class OperatorGraphVisitor : Visitor<OPBase> {
     override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPNOOP()

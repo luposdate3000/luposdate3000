@@ -1,4 +1,4 @@
-package lupos.s2operatorgraph
+package lupos.s2buildOperatorGraph
 
 import lupos.s1buildSyntaxTree.LexerCharIterator
 import lupos.s1buildSyntaxTree.LookAheadTokenIterator

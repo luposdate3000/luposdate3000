@@ -1,7 +1,7 @@
-package lupos.s2operatorgraph.singleinput.modifiers
+package lupos.s2buildOperatorGraph.singleinput.modifiers
 
-import lupos.s2operatorgraph.OPBase
-import lupos.s2operatorgraph.singleinput.LOPSingleInputBase
+import lupos.s2buildOperatorGraph.OPBase
+import lupos.s2buildOperatorGraph.singleinput.LOPSingleInputBase
 
 class LOPOffset(val offset: Int) : LOPSingleInputBase() {
     constructor(offset: Int, child: OPBase) : this(offset) {

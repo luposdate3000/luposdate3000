@@ -1,7 +1,7 @@
-package lupos.s2operatorgraph.singleinput
+package lupos.s2buildOperatorGraph.singleinput
 
-import lupos.s2operatorgraph.OPBase
-import lupos.s2operatorgraph.data.LOPExpression
+import lupos.s2buildOperatorGraph.OPBase
+import lupos.s2buildOperatorGraph.data.LOPExpression
 
 class LOPFilter(val filter: LOPExpression) : LOPSingleInputBase() {
     constructor(filter: LOPExpression, child: OPBase) : this(filter) {
