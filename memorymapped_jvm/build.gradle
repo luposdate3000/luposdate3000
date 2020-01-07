@@ -5,6 +5,7 @@ dependencies {
     expectedBy project(':common')
 	expectedBy project(':common_buffer_diskbased')
     expectedBy project(':common_result_dictionary_none')
+    expectedBy project(':common_triple_store_hash_map')
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 }

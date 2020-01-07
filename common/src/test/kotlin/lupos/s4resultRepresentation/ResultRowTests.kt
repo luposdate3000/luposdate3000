@@ -24,7 +24,7 @@ class ResultRowTests {
         val q = ResultSet()
         val res = q.createResultRow()
         res[q.createVariable("a")] = q.createValue("b")
-        assertEquals(res[q.createVariable("a")], q.createValue("b"))
+        assertEquals(q.createValue("b"), res[q.createVariable("a")])
     }
 
     @Test
@@ -33,7 +33,7 @@ class ResultRowTests {
         val res = q.createResultRow()
         res[q.createVariable("a")] = q.createValue("b")
         res[q.createVariable("c")] = q.createValue("d")
-        assertEquals(res[q.createVariable("a")], q.createValue("b"))
+        assertEquals(q.createValue("b"), res[q.createVariable("a")])
     }
 
     @Test
@@ -42,6 +42,6 @@ class ResultRowTests {
         val res = q.createResultRow()
         res[q.createVariable("a")] = q.createValue("b")
         res[q.createVariable("c")] = q.createValue("d")
-        assertEquals(res[q.createVariable("c")], q.createValue("d"))
+        assertEquals(q.createValue("d"), res[q.createVariable("c")])
     }
 }

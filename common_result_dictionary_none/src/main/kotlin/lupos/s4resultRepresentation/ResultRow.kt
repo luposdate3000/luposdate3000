@@ -22,6 +22,10 @@ actual class ResultSet {
     actual fun releaseResultRow(row: ResultRow) {
 
     }
+
+    actual fun getValue(value: Value): String {
+        return value
+    }
 }
 
 actual inline class ResultRow(val values: Any) {
@@ -31,5 +35,9 @@ actual inline class ResultRow(val values: Any) {
 
     actual operator fun get(name: Variable): Value {
         return (values as MutableMap<Variable, Value>)[name]!!
+    }
+
+    override fun toString(): String {
+        return values.toString()
     }
 }
