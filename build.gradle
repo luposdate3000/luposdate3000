@@ -24,6 +24,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.26"
         classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
         classpath "org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.17"
+	classpath "org.jmailen.gradle:kotlinter-gradle:2.2.0"
     }
 }
 

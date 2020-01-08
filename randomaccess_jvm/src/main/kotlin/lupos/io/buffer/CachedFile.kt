@@ -5,7 +5,7 @@ import java.io.RandomAccessFile
 
 actual typealias Page = ByteArrayPage
 
-actual inline fun createString(chars: CharArray):String = String(chars)
+actual inline fun createString(chars: CharArray): String = String(chars)
 
 // problems unmap:
 // see e.g.: https://stackoverflow.com/questions/2972986/how-to-unmap-a-file-from-memory-mapped-using-filechannel-in-java
@@ -19,24 +19,24 @@ actual class CachedFile {
     @JvmField // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     val file: RandomAccessFile
 
-    actual constructor(filename:String){
+    actual constructor(filename: String) {
         val paths = filename.split("/")
-        if(paths.size>1) {
+        if (paths.size> 1) {
             val dirpath = paths.joinToString(separator = "/", limit = paths.size - 1)
             File(dirpath).mkdirs()
         }
         this.file = RandomAccessFile(File(filename), "rw")
     }
-    actual inline fun close(){
+    actual inline fun close() {
         this.file.close()
     }
-    actual inline fun get(address: Long):Page {
+    actual inline fun get(address: Long): Page {
         this.file.seek(address)
         val page = Page()
         this.file.read(page.byteArray)
         return page
     }
-    actual inline fun write(address: Long, page: Page){
+    actual inline fun write(address: Long, page: Page) {
         this.file.seek(address)
         this.file.write(page.byteArray)
     }

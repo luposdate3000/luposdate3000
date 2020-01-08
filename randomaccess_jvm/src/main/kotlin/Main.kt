@@ -1,3 +1,3 @@
-fun main(args:Array<String>){
-	println("Hello randomaccess_jvm!")
+fun main(args: Array<String>) {
+    println("Hello randomaccess_jvm!")
 }

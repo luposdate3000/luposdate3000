@@ -7,7 +7,7 @@ import sun.nio.ch.FileChannelImpl
 
 actual typealias Page = UnsafePage
 
-actual inline fun createString(chars: CharArray):String = String(chars)
+actual inline fun createString(chars: CharArray): String = String(chars)
 
 // memory mapped file and unsafe api:
 // http://nyeggen.com/post/2014-05-18-memory-mapping-%3E2gb-of-data-in-java/
@@ -16,11 +16,11 @@ actual inline fun createString(chars: CharArray):String = String(chars)
 
 actual class CachedFile {
     val file: RandomAccessFile
-    val PAGESIZE = 8*1024L
+    val PAGESIZE = 8 * 1024L
 
-    actual constructor(filename:String){
+    actual constructor(filename: String) {
         val paths = filename.split("/")
-        if(paths.size>1) {
+        if (paths.size> 1) {
             val dirpath = paths.joinToString(separator = "/", limit = paths.size - 1)
             File(dirpath).mkdirs()
         }
@@ -31,7 +31,7 @@ actual class CachedFile {
         @JvmField // in this way no getter method is used for access to UNSAFE (i.e., for avoiding the costly call of a virtual function)
         val UNSAFE: sun.misc.Unsafe = initUnsafe()
 
-        private fun initUnsafe():sun.misc.Unsafe {
+        private fun initUnsafe(): sun.misc.Unsafe {
             var theUnsafe: Any? = null
 
             try {
@@ -48,9 +48,9 @@ actual class CachedFile {
 
         val mmap = getMethod(FileChannelImpl::class.javaObjectType, "map0", Int::class.javaPrimitiveType, Long::class.javaPrimitiveType, Long::class.javaPrimitiveType)
         val unmmap = getMethod(FileChannelImpl::class.javaObjectType, "unmap0", Long::class.javaPrimitiveType, Long::class.javaPrimitiveType)
-        val BYTE_ARRAY_OFFSET = UNSAFE.arrayBaseOffset(ByteArray::class.javaObjectType);
+        val BYTE_ARRAY_OFFSET = UNSAFE.arrayBaseOffset(ByteArray::class.javaObjectType)
 
-        //Bundle reflection calls to get access to the given method
+        // Bundle reflection calls to get access to the given method
         @Throws(Exception::class)
         private fun getMethod(cls: Class<*>, name: String, vararg params: Class<*>?): Method {
             val m = cls.getDeclaredMethod(name, *params)
@@ -60,12 +60,12 @@ actual class CachedFile {
     }
 
     @Throws(Exception::class)
-    fun mapAndGetOffset(pageOffset: Long):Long {
+    fun mapAndGetOffset(pageOffset: Long): Long {
         // this.file.setLength(this.size)
-        val endOffset = pageOffset+PAGESIZE;
-        println("->"+this.file.length());
-        if(this.file.length()<endOffset) {
-            println(endOffset);
+        val endOffset = pageOffset + PAGESIZE
+        println("->" + this.file.length())
+        if (this.file.length() <endOffset) {
+            println(endOffset)
             this.file.setLength(pageOffset)
         }
         val ch = this.file.getChannel()
@@ -74,14 +74,14 @@ actual class CachedFile {
         return result
     }
 
-    actual inline fun close(){
+    actual inline fun close() {
         this.file.close()
     }
-    actual inline fun get(address: Long):Page {
+    actual inline fun get(address: Long): Page {
         val pageOffset = mapAndGetOffset(address)
-        return UnsafePage(pageOffset, {unmmap.invoke(null, pageOffset, PAGESIZE)})
+        return UnsafePage(pageOffset, { unmmap.invoke(null, pageOffset, PAGESIZE) })
     }
-    actual inline fun write(address: Long, page: Page){
+    actual inline fun write(address: Long, page: Page) {
         // it is already written because technically it is a memory mapped file!
     }
 }

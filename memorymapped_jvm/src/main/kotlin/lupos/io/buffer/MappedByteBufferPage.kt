@@ -7,13 +7,13 @@ import java.nio.channels.FileChannel
 
 actual typealias Page = MappedByteBufferPage
 
-actual inline fun createString(chars: CharArray):String = String(chars)
+actual inline fun createString(chars: CharArray): String = String(chars)
 
 class MappedByteBufferPage(val buffer: MappedByteBuffer) {
     @JvmField // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     var locked = 0
 
-    constructor(): this(RandomAccessFile(File("tmp"), "rw").getChannel().map(FileChannel.MapMode.READ_ONLY, 0, 1)){
+    constructor() : this(RandomAccessFile(File("tmp"), "rw").getChannel().map(FileChannel.MapMode.READ_ONLY, 0, 1)) {
         // the initialization above is dummy code just to have a MappedByteBuffer as parameter for the standard constructor (which is necessary in seldom cases)
         throw Error("MappedByteBufferPage must not be initialized via the standard constructor...")
     }
@@ -25,11 +25,11 @@ class MappedByteBufferPage(val buffer: MappedByteBuffer) {
     inline fun putByte(address: Long, data: Byte) {
         this.buffer.put(address.toInt(), data)
     }
-    inline fun putString(address: Long, data: String):Long {
+    inline fun putString(address: Long, data: String): Long {
         val size = data.length
         this.putInt(address, size)
         var pos = address + 4
-        for(i in 0 until size) {
+        for (i in 0 until size) {
             val strChar = data[i]
             this.putByte(pos, (strChar.toInt() and 0xFF00 shr 8).toByte())
             pos++
@@ -38,15 +38,15 @@ class MappedByteBufferPage(val buffer: MappedByteBuffer) {
         }
         return pos
     }
-    inline fun getPageIndex():Long = 0L
+    inline fun getPageIndex(): Long = 0L
     inline fun lock() {
         this.locked++
     }
     inline fun unlock() {
         this.locked--
     }
-    inline fun isLocked():Boolean = (this.locked > 0)
-    inline fun release(){
+    inline fun isLocked(): Boolean = (this.locked > 0)
+    inline fun release() {
         // according to the standard documentation:
         // MappedByteBuffer is unmapped if garbage collected
         // according to e.g.: https://stackoverflow.com/questions/2972986/how-to-unmap-a-file-from-memory-mapped-using-filechannel-in-java

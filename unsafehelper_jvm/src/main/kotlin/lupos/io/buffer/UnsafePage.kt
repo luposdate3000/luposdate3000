@@ -6,7 +6,7 @@ class UnsafePage {
         @JvmField // in this way no getter method is used for access to UNSAFE (i.e., for avoiding the costly call of a virtual function)
         val UNSAFE: sun.misc.Unsafe = initUnsafe()
 
-        private fun initUnsafe():sun.misc.Unsafe {
+        private fun initUnsafe(): sun.misc.Unsafe {
             var theUnsafe: Any? = null
 
             try {
@@ -23,10 +23,10 @@ class UnsafePage {
     }
 
     @JvmField // this does not generate any setters/getters avoiding a virtual method call!
-    val basepointer:Long
+    val basepointer: Long
 
     @JvmField // this does not generate any getter avoiding a virtual method call!
-    val PAGESIZE = 8*1024L
+    val PAGESIZE = 8 * 1024L
 
     @JvmField
     var locked = 0
@@ -34,20 +34,20 @@ class UnsafePage {
     @JvmField
     val cleaner: () -> Unit
 
-    constructor(){
+    constructor() {
         this.basepointer = allocateMemory(this.PAGESIZE)
-        cleaner = {this.freeMemory()}
+        cleaner = { this.freeMemory() }
     }
 
     /**
      * if the memory has already been allocated (e.g. by FileChannel)
      */
-    constructor(allocatedMemoryPointer:Long, cleaner: () -> Unit){
+    constructor(allocatedMemoryPointer: Long, cleaner: () -> Unit) {
         this.basepointer = allocatedMemoryPointer
         this.cleaner = cleaner
     }
 
-    inline fun getInt(address: Long): Int  =  UNSAFE.getInt(address)
+    inline fun getInt(address: Long): Int = UNSAFE.getInt(address)
     inline fun getByte(address: Long): Byte = UNSAFE.getByte(address)
     inline fun allocateMemory(size: Long): Long {
         return UNSAFE.allocateMemory(size)
@@ -61,11 +61,11 @@ class UnsafePage {
     inline fun putByte(address: Long, data: Byte) {
         UNSAFE.putByte(address, data)
     }
-    inline fun putString(address: Long, data: String):Long {
+    inline fun putString(address: Long, data: String): Long {
         val size = data.length
         this.putInt(address, size)
         var pos = address + 4
-        for(i in 0 until size) {
+        for (i in 0 until size) {
             val strChar = data[i]
             this.putByte(pos, (strChar.toInt() and 0xFF00 shr 8).toByte())
             pos++
@@ -77,16 +77,16 @@ class UnsafePage {
     public inline fun getPageIndex(): Long {
         return this.basepointer
     }
-    inline fun lock(){
+    inline fun lock() {
         this.locked++
     }
-    inline fun unlock(){
+    inline fun unlock() {
         this.locked--
     }
-    inline fun isLocked():Boolean {
-        return this.locked>0
+    inline fun isLocked(): Boolean {
+        return this.locked> 0
     }
-    inline fun release(){
+    inline fun release() {
         this.cleaner()
     }
     inline fun isModified() = false // only used in main memory (-> no need for making it persistence) and for memory mapped files (-> modifications are automatically written back to file)

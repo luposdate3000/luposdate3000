@@ -1,3 +1,3 @@
-fun main(args:Array<String>){
-	println("Hello memorymapped_unsafe!")
+fun main(args: Array<String>) {
+    println("Hello memorymapped_unsafe!")
 }

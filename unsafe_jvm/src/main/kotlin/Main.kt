@@ -1,3 +1,3 @@
-fun main(args:Array<String>){
-	println("Hello unsafe_jvm!")
+fun main(args: Array<String>) {
+    println("Hello unsafe_jvm!")
 }
