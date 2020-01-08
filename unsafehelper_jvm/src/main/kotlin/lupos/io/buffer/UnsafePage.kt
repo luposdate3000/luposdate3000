@@ -3,7 +3,10 @@ package lupos.io.buffer
 class UnsafePage {
 
     companion object {
-        @JvmField // in this way no getter method is used for access to UNSAFE (i.e., for avoiding the costly call of a virtual function)
+        @JvmField
+    /* in this way no getter method is used for access to UNSAFE
+	 * (i.e., for avoiding the costly call of a virtual function)
+	 */
         val UNSAFE: sun.misc.Unsafe = initUnsafe()
 
         private fun initUnsafe(): sun.misc.Unsafe {
@@ -89,5 +92,10 @@ class UnsafePage {
     inline fun release() {
         this.cleaner()
     }
-    inline fun isModified() = false // only used in main memory (-> no need for making it persistence) and for memory mapped files (-> modifications are automatically written back to file)
+    inline fun isModified() = false
+    /*
+	 * only used in main memory (-> no need for making it persistence)
+	 * and for memory mapped files
+	 * (-> modifications are automatically written back to file)
+	 */
 }

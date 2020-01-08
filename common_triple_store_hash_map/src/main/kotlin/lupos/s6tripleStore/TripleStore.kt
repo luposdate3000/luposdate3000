@@ -8,7 +8,8 @@ import lupos.s4resultRepresentation.Variable
 class TripleStoreIterator : ResultSetIterator {
     private val resultSetNew = ResultSet()
     private val resultSetOld: ResultSet
-    private var mapIterator: MutableIterator<MutableMap.MutableEntry<ResultRow, MutableList<ResultRow>>>
+    private var mapIterator:
+    MutableIterator<MutableMap.MutableEntry<ResultRow, MutableList<ResultRow>>>
     private var listIterator: Iterator<ResultRow>?
     private val sNew = resultSetNew.createVariable("s")
     private val pNew = resultSetNew.createVariable("p")
@@ -72,7 +73,11 @@ actual class TripleStore {
 
     actual constructor()
 
-    fun addData(key: ResultRow, value: ResultRow, store: MutableMap<ResultRow, MutableList<ResultRow>>) {
+    fun addData(
+        key: ResultRow,
+        value: ResultRow,
+        store: MutableMap<ResultRow, MutableList<ResultRow>>
+    ) {
         var list = store[key]
         if (list == null) {
             list = mutableListOf<ResultRow>()
@@ -110,7 +115,7 @@ actual class TripleStore {
         addData(rrk, rrv, tripleStoreP)
         }
 
-       run {
+    run {
         val rrk = resultSet.createResultRow()
         val rrv = resultSet.createResultRow()
         rrv[s] = vals
@@ -119,7 +124,7 @@ actual class TripleStore {
         addData(rrk, rrv, tripleStoreO)
         }
 
-        run {
+    run {
         val rrk = resultSet.createResultRow()
         val rrv = resultSet.createResultRow()
         rrk[s] = vals
@@ -158,6 +163,6 @@ actual class TripleStore {
     }
 
     actual fun getIterator(): ResultSetIterator {
-         return TripleStoreIterator(this)
+        return TripleStoreIterator(this)
     }
 }

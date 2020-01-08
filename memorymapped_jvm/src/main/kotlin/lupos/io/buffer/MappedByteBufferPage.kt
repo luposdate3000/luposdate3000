@@ -10,12 +10,18 @@ actual typealias Page = MappedByteBufferPage
 actual inline fun createString(chars: CharArray): String = String(chars)
 
 class MappedByteBufferPage(val buffer: MappedByteBuffer) {
-    @JvmField // in JVM-environment: this does not generate any getter avoiding a virtual method call!
+    @JvmField
+    // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     var locked = 0
 
-    constructor() : this(RandomAccessFile(File("tmp"), "rw").getChannel().map(FileChannel.MapMode.READ_ONLY, 0, 1)) {
-        // the initialization above is dummy code just to have a MappedByteBuffer as parameter for the standard constructor (which is necessary in seldom cases)
-        throw Error("MappedByteBufferPage must not be initialized via the standard constructor...")
+    constructor() : this(RandomAccessFile(File("tmp"), "rw")
+    .getChannel()
+    .map(FileChannel.MapMode.READ_ONLY, 0, 1)) {
+        /* the initialization above is dummy code just to have a MappedByteBuffer as parameter
+	 * for the standard constructor (which is necessary in seldom cases)
+	 */
+        throw
+    Error("MappedByteBufferPage must not be initialized via the standard constructor...")
     }
     inline fun getInt(address: Long): Int = this.buffer.getInt(address.toInt())
     inline fun getByte(address: Long): Byte = this.buffer.get(address.toInt())
@@ -49,9 +55,10 @@ class MappedByteBufferPage(val buffer: MappedByteBuffer) {
     inline fun release() {
         // according to the standard documentation:
         // MappedByteBuffer is unmapped if garbage collected
-        // according to e.g.: https://stackoverflow.com/questions/2972986/how-to-unmap-a-file-from-memory-mapped-using-filechannel-in-java
+        // according to e.g.: https://stackoverflow.com/questions/2972986
         // val cleaner = (buffer as DirectBuffer).cleaner()
         // cleaner.clean()
     }
-    inline fun isModified() = false // the modification have already been automatically written back as it is a memory mapped file
+    inline fun isModified() = false
+    // the modification have already been automatically written back as it is a memory mapped file
 }

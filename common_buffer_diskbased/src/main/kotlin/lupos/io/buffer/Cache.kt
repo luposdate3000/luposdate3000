@@ -15,7 +15,8 @@ class CachedEntry<T, V>(val key:T, val value:V) {
 	var after: CachedEntry<T, V> = this
 
 	/**
-	 * Constructs one element in the doubly linked list and inserts this element after the given other element (in our use case before is the dummy).
+	 * Constructs one element in the doubly linked list and inserts this 
+	 * element after the given other element (in our use case before is the dummy).
 	 *
 	 * @param key the key to be stored
 	 * @param before the element after which the newly created element is stored
@@ -75,12 +76,17 @@ class LeastRecentlyUsed<T, V>(val dummyKey:T, val dummyValue:V, val size:Int) {
 		return leastRecentlyUsed.value
 	}
 
-	inline fun replaceLeastRecentlyUsed(crossinline negativeCheck: (CachedEntry<T, V>) -> Boolean):CachedEntry<T, V> {
-		var leastRecentlyUsed = this.dummy.before // assume that there is at least one entry (not being the dummy) in the list
+	inline fun replaceLeastRecentlyUsed(crossinline negativeCheck: (CachedEntry<T, V>) -> Boolean)
+            :CachedEntry<T, V> {
+		var leastRecentlyUsed = this.dummy.before 
+		// assume that there is at least one entry (not being the dummy) in the list
 		while(negativeCheck(leastRecentlyUsed)){
 			leastRecentlyUsed = leastRecentlyUsed.before
 			if(leastRecentlyUsed===this.dummy){
-				throw Error("All pages in the cache are locked, but we need to replace one page... Plase check the code if unlocking of pages have been forgotten...")
+				throw Error("All pages in the cache are locked, "
+				  + "but we need to replace one page"
+				  + "... Plase check the code if unlocking "
+				  + "of pages have been forgotten...")
 			}
 		}
 		leastRecentlyUsed.remove()

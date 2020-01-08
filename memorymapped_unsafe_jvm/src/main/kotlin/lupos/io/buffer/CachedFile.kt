@@ -28,7 +28,11 @@ actual class CachedFile {
     }
 
     companion object {
-        @JvmField // in this way no getter method is used for access to UNSAFE (i.e., for avoiding the costly call of a virtual function)
+        @JvmField
+    /* 
+	 * in this way no getter method is used for access to UNSAFE
+	 * (i.e., for avoiding the costly call of a virtual function)
+	 */
         val UNSAFE: sun.misc.Unsafe = initUnsafe()
 
         private fun initUnsafe(): sun.misc.Unsafe {
@@ -46,8 +50,15 @@ actual class CachedFile {
             return theUnsafe as sun.misc.Unsafe
         }
 
-        val mmap = getMethod(FileChannelImpl::class.javaObjectType, "map0", Int::class.javaPrimitiveType, Long::class.javaPrimitiveType, Long::class.javaPrimitiveType)
-        val unmmap = getMethod(FileChannelImpl::class.javaObjectType, "unmap0", Long::class.javaPrimitiveType, Long::class.javaPrimitiveType)
+        val mmap = getMethod(FileChannelImpl::class.javaObjectType,
+        "map0",
+        Int::class.javaPrimitiveType,
+        Long::class.javaPrimitiveType,
+        Long::class.javaPrimitiveType)
+        val unmmap = getMethod(FileChannelImpl::class.javaObjectType,
+        "unmap0",
+        Long::class.javaPrimitiveType,
+        Long::class.javaPrimitiveType)
         val BYTE_ARRAY_OFFSET = UNSAFE.arrayBaseOffset(ByteArray::class.javaObjectType)
 
         // Bundle reflection calls to get access to the given method

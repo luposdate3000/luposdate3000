@@ -8,7 +8,7 @@ actual typealias Page = ByteArrayPage
 actual inline fun createString(chars: CharArray): String = String(chars)
 
 // problems unmap:
-// see e.g.: https://stackoverflow.com/questions/2972986/how-to-unmap-a-file-from-memory-mapped-using-filechannel-in-java
+// see e.g.: https://stackoverflow.com/questions/2972986
 
 // furthermore, memory mapped file and unsafe api:
 // http://nyeggen.com/post/2014-05-18-memory-mapping-%3E2gb-of-data-in-java/
@@ -16,7 +16,8 @@ actual inline fun createString(chars: CharArray): String = String(chars)
 // https://www.slideshare.net/AndreiPangin/do-we-need-unsafe-in-java
 
 actual class CachedFile {
-    @JvmField // in JVM-environment: this does not generate any getter avoiding a virtual method call!
+    @JvmField
+    // in JVM-environment: this does not generate any getter avoiding a virtual method call!
     val file: RandomAccessFile
 
     actual constructor(filename: String) {

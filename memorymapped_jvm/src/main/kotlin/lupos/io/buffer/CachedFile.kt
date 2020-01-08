@@ -5,7 +5,7 @@ import java.io.RandomAccessFile
 import java.nio.channels.FileChannel
 
 // problems unmap:
-// see e.g.: https://stackoverflow.com/questions/2972986/how-to-unmap-a-file-from-memory-mapped-using-filechannel-in-java
+// see e.g.: https://stackoverflow.com/questions/2972986
 
 // furthermore, memory mapped file and unsafe api:
 // http://nyeggen.com/post/2014-05-18-memory-mapping-%3E2gb-of-data-in-java/
@@ -28,7 +28,8 @@ actual class CachedFile {
         this.file.close()
     }
     actual inline fun get(address: Long): Page {
-        return MappedByteBufferPage(this.file.getChannel().map(FileChannel.MapMode.READ_WRITE, address, PAGESIZE))
+        return MappedByteBufferPage(this.file.getChannel()
+        .map(FileChannel.MapMode.READ_WRITE, address, PAGESIZE))
     }
     actual inline fun write(address: Long, page: Page) {
         // it is already written by using put-methods of MappedByteBuffer
