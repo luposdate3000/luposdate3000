@@ -24,8 +24,6 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.26"
         classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
         classpath "org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.17"
-        classpath "org.jlleitschuh.gradle:ktlint-gradle:9.1.1"
-        classpath "com.diffplug.spotless:spotless-plugin-gradle:3.27.0"
     }
 }
 
@@ -34,26 +32,5 @@ allprojects {
         jcenter()
         google()
         maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2' }
-    }
-    apply plugin: "com.diffplug.gradle.spotless"
-
-    spotless {
-        kotlin {
-            // This path needs to be relative to each project
-            target fileTree('.') {
-                include '**/*.kt'
-                exclude '**/.gradle/**'
-            }
-            // see https://github.com/shyiko/ktlint#standard-rules
-            ktlint().userData(['max_line_length': '100', 'insert_final_newline': 'true'])
-            //            licenseHeaderFile "${rootDir}/spotless.kotlin.license"  // License header file
-        }
-
-        groovyGradle {
-            target '*.gradle'
-            greclipse().configFile(rootProject.file('formatter.properties'))
-            endWithNewline()
-            paddedCell() // recommended hack to keep gradle files tidy
-        }
     }
 }

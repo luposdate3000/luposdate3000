@@ -1,10 +1,16 @@
 package lupos.s4resultRepresentation
 
 actual class ResultSet {
+    val variables=mutableSetOf<String>()
     actual constructor()
 
     actual fun createVariable(variable: String): Variable {
+	variables.add(variable)
         return variable
+    }
+
+    actual fun getVariableNames():Set<String>{
+	return variables
     }
 
     actual fun createValue(value: String): Value {

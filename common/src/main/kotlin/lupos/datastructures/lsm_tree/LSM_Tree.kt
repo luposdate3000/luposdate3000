@@ -25,10 +25,15 @@ class LSM_Tree_Helper<K : Comparable<in K>, V>(val directoryOfIndex: String? = n
 }
 
 // returns the value of the key, or null if the key is not found
-inline fun <K, V> getOrNull(k: K, firstLevel: (k: K) -> V?, remainingLevels: (k: K) -> V?): V? = firstLevel(k) ?: remainingLevels(k)
+inline fun <K, V> getOrNull(k: K, firstLevel: (k: K) -> V?, remainingLevels: (k: K) -> V?): V? = firstLevel(k)
+        ?: remainingLevels(k)
 
 // the following version throws an exception if the key is not found
-inline fun <K, V> get(k: K, firstLevel: (k: K) -> V, remainingLevels: (k: K) -> V): V = try { firstLevel(k) } catch (e: NotFoundException) { remainingLevels(k) }
+inline fun <K, V> get(k: K, firstLevel: (k: K) -> V, remainingLevels: (k: K) -> V): V = try {
+    firstLevel(k)
+} catch (e: NotFoundException) {
+    remainingLevels(k)
+}
 
 // range search, returns a function returning all key-value-pairs, which are equal to or greater than smallerKey, and which are equal to or smaller than biggerKey
 // TODO: more efficient by having the iterators of all levels/runs at once and do not compare always with null values/do not consider already closed iterators
@@ -81,7 +86,7 @@ inline fun <K, V> rangeNoOrder(noinline firstLevel: () -> Pair<K, V>?, noinline 
     }
 }
 
-inline fun <K, V> put(k: K, v: V, isFirstLevelFull: () -> Boolean, putFirstLevel: (k: K, v: V) -> Unit, runOfFirstLevel: () -> Pair<Int, ()->Pair<K, V>?>, receiveRunFromFirstLevel: (Pair<Int, ()->Pair<K, V>?>) -> Unit, clearFirstLevel: () -> Unit) {
+inline fun <K, V> put(k: K, v: V, isFirstLevelFull: () -> Boolean, putFirstLevel: (k: K, v: V) -> Unit, runOfFirstLevel: () -> Pair<Int, () -> Pair<K, V>?>, receiveRunFromFirstLevel: (Pair<Int, () -> Pair<K, V>?>) -> Unit, clearFirstLevel: () -> Unit) {
     if (isFirstLevelFull()) {
         receiveRunFromFirstLevel(runOfFirstLevel())
         clearFirstLevel()
@@ -103,8 +108,10 @@ inline class HashMapIndexWithLazySorting<K : Comparable<in K>, V>(val mainMemory
 
     // returns the value of the key, or null if the key is not found
     inline fun getOrNull(k: K): V? = this.mainMemoryDatastructure[k]
+
     // the following version throws an exception if the key is not found
     inline fun get(k: K): V = this.mainMemoryDatastructure[k] ?: throw NotFoundException(k)
+
     // range search, returns a function returning all key-value-pairs, which are equal to or greater than smallerKey, and which are equal to or smaller than biggerKey
     inline fun range(smallerKey: K, biggerKey: K): () -> Pair<K, V>? {
         val sortedListIt = this.mainMemoryDatastructure.filterKeys { it in smallerKey..biggerKey }.toList().sortedBy { it.first }.iterator()
@@ -129,7 +136,7 @@ inline class HashMapIndexWithLazySorting<K : Comparable<in K>, V>(val mainMemory
         }
     }
 
-    inline fun getRun(): Pair<Int, ()->Pair<K, V>?> {
+    inline fun getRun(): Pair<Int, () -> Pair<K, V>?> {
         val sortedListIt = this.mainMemoryDatastructure.toList().sortedBy { it.first }.iterator()
         val iterator = {
             if (sortedListIt.hasNext()) {
@@ -144,7 +151,7 @@ inline class HashMapIndexWithLazySorting<K : Comparable<in K>, V>(val mainMemory
 
 // TODO: class implementing this interface...
 interface Searchable<K, V, R> {
-    class Level<K : Comparable<in K>, V, R : Searchable<K, V, R>>(val level: Int, val createRunFromFirstLevelInput: (Pair<Int, ()->Pair<K, V>?>) -> R) {
+    class Level<K : Comparable<in K>, V, R : Searchable<K, V, R>>(val level: Int, val createRunFromFirstLevelInput: (Pair<Int, () -> Pair<K, V>?>) -> R) {
         var MAX_RUNS = 4
         var nextLevel: Level<K, V, R>? = null
 
@@ -165,7 +172,7 @@ interface Searchable<K, V, R> {
             this.numberOfRuns++
         }
 
-        fun receiveFromFirstLevel(input: Pair<Int, ()->Pair<K, V>?>) {
+        fun receiveFromFirstLevel(input: Pair<Int, () -> Pair<K, V>?>) {
             receiveFromLowerLevel(this.createRunFromFirstLevelInput(input))
         }
 
@@ -198,7 +205,7 @@ interface Searchable<K, V, R> {
         fun range(smallerKey: K, biggerKey: K): () -> Pair<K, V>? {
             val iterators =
                     if (this.nextLevel != null)
-                        Array<() -> Pair<K, V>?>(this.numberOfRuns + 1, { i -> if (i <this.numberOfRuns) this.runs[i]!!.rangeNoOrder(smallerKey, biggerKey) else this.nextLevel!!.rangeNoOrder(smallerKey, biggerKey) })
+                        Array<() -> Pair<K, V>?>(this.numberOfRuns + 1, { i -> if (i < this.numberOfRuns) this.runs[i]!!.rangeNoOrder(smallerKey, biggerKey) else this.nextLevel!!.rangeNoOrder(smallerKey, biggerKey) })
                     else
                         Array<() -> Pair<K, V>?>(this.numberOfRuns, { i -> this.runs[i]!!.rangeNoOrder(smallerKey, biggerKey) })
             val currentValues =
@@ -213,12 +220,12 @@ interface Searchable<K, V, R> {
                 }
             }
             return rsfun@{
-                while (noneNullIndex> 0) {
+                while (noneNullIndex > 0) {
                     // determine index with minimum key
                     var minIndex = 0
                     var minKey = currentValues[0]!!.component1()
                     for (i in 1 until noneNullIndex) {
-                        if (currentValues[i]!!.component1() <minKey) {
+                        if (currentValues[i]!!.component1() < minKey) {
                             minIndex = i
                             minKey = currentValues[minIndex]!!.component1()
                         }
@@ -243,12 +250,12 @@ interface Searchable<K, V, R> {
         fun rangeNoOrder(smallerKey: K, biggerKey: K): () -> Pair<K, V>? {
             val iterators =
                     if (this.nextLevel != null)
-                        Array<() -> Pair<K, V>?>(this.numberOfRuns + 1, { i -> if (i <this.numberOfRuns) this.runs[i]!!.rangeNoOrder(smallerKey, biggerKey) else this.nextLevel!!.rangeNoOrder(smallerKey, biggerKey) })
+                        Array<() -> Pair<K, V>?>(this.numberOfRuns + 1, { i -> if (i < this.numberOfRuns) this.runs[i]!!.rangeNoOrder(smallerKey, biggerKey) else this.nextLevel!!.rangeNoOrder(smallerKey, biggerKey) })
                     else
                         Array<() -> Pair<K, V>?>(this.numberOfRuns, { i -> this.runs[i]!!.rangeNoOrder(smallerKey, biggerKey) })
             var index = 0
             return rsfun@{
-                while (index <iterators.size) {
+                while (index < iterators.size) {
                     val result = iterators[index]()
                     if (result != null) {
                         return@rsfun result
@@ -259,6 +266,7 @@ interface Searchable<K, V, R> {
             }
         }
     }
+
     fun getOrNull(k: K): V?
     fun get(k: K): V
     fun range(smallerKey: K, biggerKey: K): () -> Pair<K, V>?

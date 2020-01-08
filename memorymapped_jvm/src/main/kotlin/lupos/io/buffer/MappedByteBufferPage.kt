@@ -15,22 +15,25 @@ class MappedByteBufferPage(val buffer: MappedByteBuffer) {
     var locked = 0
 
     constructor() : this(RandomAccessFile(File("tmp"), "rw")
-    .getChannel()
-    .map(FileChannel.MapMode.READ_ONLY, 0, 1)) {
+            .getChannel()
+            .map(FileChannel.MapMode.READ_ONLY, 0, 1)) {
         /* the initialization above is dummy code just to have a MappedByteBuffer as parameter
 	 * for the standard constructor (which is necessary in seldom cases)
 	 */
         throw
-    Error("MappedByteBufferPage must not be initialized via the standard constructor...")
+        Error("MappedByteBufferPage must not be initialized via the standard constructor...")
     }
+
     inline fun getInt(address: Long): Int = this.buffer.getInt(address.toInt())
     inline fun getByte(address: Long): Byte = this.buffer.get(address.toInt())
     inline fun putInt(address: Long, data: Int) {
         this.buffer.putInt(address.toInt(), data)
     }
+
     inline fun putByte(address: Long, data: Byte) {
         this.buffer.put(address.toInt(), data)
     }
+
     inline fun putString(address: Long, data: String): Long {
         val size = data.length
         this.putInt(address, size)
@@ -44,13 +47,16 @@ class MappedByteBufferPage(val buffer: MappedByteBuffer) {
         }
         return pos
     }
+
     inline fun getPageIndex(): Long = 0L
     inline fun lock() {
         this.locked++
     }
+
     inline fun unlock() {
         this.locked--
     }
+
     inline fun isLocked(): Boolean = (this.locked > 0)
     inline fun release() {
         // according to the standard documentation:
@@ -59,6 +65,7 @@ class MappedByteBufferPage(val buffer: MappedByteBuffer) {
         // val cleaner = (buffer as DirectBuffer).cleaner()
         // cleaner.clean()
     }
+
     inline fun isModified() = false
     // the modification have already been automatically written back as it is a memory mapped file
 }

@@ -81,7 +81,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             // var datasets: Array<ASTDatasetClause> = arrayOf<ASTDatasetClause>();
             TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
         }
-        return result.child
+        return result
     }
 
     private fun parseGroup(nodes: Array<ASTNode>): OPBase {
@@ -133,8 +133,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTQuery, childrenValues: List<OPBase>): OPBase {
-        if (childrenValues.isEmpty())
+        if (childrenValues.isEmpty()){
             return LOPNOOP() // empty query
+	}
         var query: OPBase = LOPNOOP()
         var prefix: LOPPrefix? = null
         var values: OPBase? = null
@@ -154,8 +155,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 query = q
             }
         }
-        if (query is LOPNOOP)
-            return LOPNOOP()
+        if (query is LOPNOOP){
+            return query
+	}
         if (values != null && prefix != null) {
             prefix.getLatestChild().setChild(joinValuesAndQuery(values, query))
             return prefix
@@ -363,8 +365,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTValues, childrenValues: List<OPBase>): OPBase {
-        if (node.variables.isEmpty())
+        if (node.variables.isEmpty()){
             return LOPNOOP()
+	}
         val variables = mutableListOf<LOPVariable>()
         val values = mutableListOf<LOPExpression>()
         for (v in node.variables) {

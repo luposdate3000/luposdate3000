@@ -12,7 +12,7 @@ class POPProjection : POPSingleInputBase {
     private val variablesOld: Array<Variable>
     private val variablesNew: Array<Variable>
 
-    constructor(variables: Array<LOPVariable>, child: POPBase) : super(child) {
+    constructor(variables: MutableList<LOPVariable>, child: POPBase) : super(child) {
         resultSetOld = child.getResultSet()
         this.variablesOld = Array<Variable>(variables.size, init = fun(it: Int) = resultSetOld.createVariable(variables[it].name))
         this.variablesNew = Array<Variable>(variables.size, init = fun(it: Int) = resultSetNew.createVariable(variables[it].name))

@@ -8,12 +8,12 @@ class LOPSort(val asc: Boolean, var by: OPBase) : LOPSingleInputBase() {
     }
 
     override fun toString(indentation: String): String {
-    var res = "${indentation}${this::class.simpleName}\n${indentation}\torder: "
-    if (asc)
-        res += "'ASC'"
-    else
-        res += "'DESC'"
-    res += "\n${indentation}\tby:\n" + by.toString("${indentation}\t\t") + "${indentation}\tchild:\n" + child.toString("${indentation}\t\t")
-    return res
+        var res = "${indentation}${this::class.simpleName}\n${indentation}\torder: "
+        if (asc)
+            res += "'ASC'"
+        else
+            res += "'DESC'"
+        res += "\n${indentation}\tby:\n" + by.toString("${indentation}\t\t") + "${indentation}\tchild:\n" + child.toString("${indentation}\t\t")
+        return res
     }
 }

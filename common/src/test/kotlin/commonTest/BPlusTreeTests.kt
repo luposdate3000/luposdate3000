@@ -23,91 +23,90 @@ import kotlin.test.fail
 
 class BPlusTreeTests {
 
-    fun getFilename(testnumber:String = "") = "../tmp/test/test$testnumber"
+    fun getFilename(testnumber: String = "") = "../tmp/test/test$testnumber"
 
-    fun testBPlusTreeInsertAndExactSearch(tree:I_B_Plus_Tree<Int, Int>){
+    fun testBPlusTreeInsertAndExactSearch(tree: I_B_Plus_Tree<Int, Int>) {
         // initialize and create B_Plus_Tree
         val list = mutableListOf<Pair<Int, Int>>()
         val size = 500
-        for(i in 1..size){
-            list+=Pair(i,i)
+        for (i in 1..size) {
+            list += Pair(i, i)
         }
         tree.generate(size, list.asIterable().iterator())
         try {
-            for(i in size downTo 1){
+            for (i in size downTo 1) {
                 assertEquals(tree[i], i)
             }
-            assertFailsWith<NotFoundException>{tree[2*size]}
-        }catch(e:NotFoundException){
+            assertFailsWith<NotFoundException> { tree[2 * size] }
+        } catch (e: NotFoundException) {
             println(e)
             fail(e.key.toString() + " not found!")
         }
         // TODO much more rigorously
     }
 
-    fun testBPlusTreeInsertAndExactSearch_OnlyKeys(tree:I_B_Plus_Tree_OnlyKeys<Int>){
+    fun testBPlusTreeInsertAndExactSearch_OnlyKeys(tree: I_B_Plus_Tree_OnlyKeys<Int>) {
         // initialize and create B_Plus_Tree
         val list = mutableListOf<Int>()
         val size = 500000
-        for(i in 1..size){
-            list+=i
+        for (i in 1..size) {
+            list += i
         }
         tree.generate(size, list.asIterable().iterator())
         try {
-            for(i in size downTo 1){
+            for (i in size downTo 1) {
                 assertEquals(tree[i], true)
             }
-            assertEquals(tree[2*size], false)
-        }catch(e:NotFoundException){
+            assertEquals(tree[2 * size], false)
+        } catch (e: NotFoundException) {
             println(e)
             fail(e.key.toString() + " not found!")
         }
         // TODO much more rigorously
     }
 
-    fun testBPlusTreeInsertAndRangeSearch(tree:I_B_Plus_Tree_KeyRangeSearch<Int, Int>){
+    fun testBPlusTreeInsertAndRangeSearch(tree: I_B_Plus_Tree_KeyRangeSearch<Int, Int>) {
         val list = mutableListOf<Pair<Int, Int>>()
         val size = 500000
-        for(i in 1..size){
-            list+=Pair(i,i)
+        for (i in 1..size) {
+            list += Pair(i, i)
         }
         tree.generate(size, list.asIterable().iterator())
         try {
-            val range = tree.range_search(100,2000)
+            val range = tree.range_search(100, 2000)
             var i = 100
             do {
                 val result = range()
-                assertEquals(result, if(i<=2000) i else null)
+                assertEquals(result, if (i <= 2000) i else null)
                 i++
-            } while(result!=null)
-            val rangeExceedingLimits = tree.range_search(2*size, 3*size)
+            } while (result != null)
+            val rangeExceedingLimits = tree.range_search(2 * size, 3 * size)
             val result = rangeExceedingLimits()
             assertEquals(result, null)
-        }catch(e:NotFoundException){
+        } catch (e: NotFoundException) {
             println(e)
             fail(e.key.toString() + " not found!")
         }
         // TODO much more rigorously
     }
 
-    fun testBPlusTreeInsertAndRangeSearch_OnlyKeys
-		(tree:I_B_Plus_Tree_KeyRangeSearch_OnlyKeys<Int>){
+    fun testBPlusTreeInsertAndRangeSearch_OnlyKeys(tree: I_B_Plus_Tree_KeyRangeSearch_OnlyKeys<Int>) {
         val list = mutableListOf<Int>()
         val size = 500000
-        for(i in 1..size){
-            list+=i
+        for (i in 1..size) {
+            list += i
         }
         tree.generate(size, list.asIterable().iterator())
         try {
-            val range = tree.range_search(100,2000)
+            val range = tree.range_search(100, 2000)
             var i = 100
             do {
                 val result = range()
-                assertEquals(result, if(i<=2000) i else null)
+                assertEquals(result, if (i <= 2000) i else null)
                 i++
-            } while(result!=null)
-            assertFailsWith<NotFoundException>{tree.range_search(2*size, 3*size)}
-        }catch(e:NotFoundException){
+            } while (result != null)
+            assertFailsWith<NotFoundException> { tree.range_search(2 * size, 3 * size) }
+        } catch (e: NotFoundException) {
             println(e)
             fail(e.key.toString() + " not found!")
         }
@@ -115,7 +114,7 @@ class BPlusTreeTests {
     }
 
     @Test
-    fun testBPlusTree_Uncompressed_Int_to_Int_ManualGeneration(){
+    fun testBPlusTree_Uncompressed_Int_to_Int_ManualGeneration() {
         // build B+-tree
         val filename = getFilename("1")
         val page = bufferManager.getPage(filename, 0)
@@ -123,27 +122,27 @@ class BPlusTreeTests {
         page.putByte(adr, 0.toByte()) // root node is leaf node
         adr++
         page.putInt(adr, 4)
-        adr+=4
+        adr += 4
 
         page.putInt(adr, 0)
-        adr+=4
+        adr += 4
         page.putInt(adr, 0)
-        adr+=4
+        adr += 4
 
         page.putInt(adr, 1)
-        adr+=4
+        adr += 4
         page.putInt(adr, 1)
-        adr+=4
+        adr += 4
 
         page.putInt(adr, 2)
-        adr+=4
+        adr += 4
         page.putInt(adr, 2)
-        adr+=4
+        adr += 4
 
         page.putInt(adr, 3)
-        adr+=4
+        adr += 4
         page.putInt(adr, 3)
-        adr+=4
+        adr += 4
 
         // now test search
         val b = B_Plus_Tree_Uncompressed_Int_to_Int(filename)
@@ -154,7 +153,7 @@ class BPlusTreeTests {
             assertEquals(b[2], 2)
             assertEquals(b[3], 3)
             assertFailsWith<NotFoundException> { b[4] }
-        }catch(e: NotFoundException){
+        } catch (e: NotFoundException) {
             println(e)
             fail(e.key.toString() + " not found!")
         }
@@ -211,16 +210,15 @@ class BPlusTreeTests {
     fun testBPlusTree_RangeSearch_DifferenceEncoding_Int() = testBPlusTreeInsertAndRangeSearch_OnlyKeys(Derived_B_Plus_Tree_DifferenceEncoding_Int_OnlyKeys(getFilename("Range9"), 8000, 8000))
 
 
-
-// TODO: test of sip_search! Similar to the following method...
-    fun testBPlusTree4b(){
+    // TODO: test of sip_search! Similar to the following method...
+    fun testBPlusTree4b() {
         val filename = getFilename("4b")
         // initialize and create B_Plus_Tree
         val b = B_Plus_Tree_StaticCompressed_Int_to_Int(filename) // B_Plus_Tree_Uncompressed_Int_to_Int(filename)
         val list = mutableListOf<Pair<Int, Int>>()
         val size = 500000
-        for(i in 1..size){
-            list+=Pair(i,i)
+        for (i in 1..size) {
+            list += Pair(i, i)
         }
         b.generate(size, list.asIterable().iterator())
         try {
@@ -229,9 +227,9 @@ class BPlusTreeTests {
             do {
                 val result = range(i)
                 println("$i: $result")
-                i=i*2
-            } while(result!=null)
-        }catch(e:NotFoundException){
+                i = i * 2
+            } while (result != null)
+        } catch (e: NotFoundException) {
             println(e)
             fail(e.key.toString() + " not found!")
         }

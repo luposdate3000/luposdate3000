@@ -4,9 +4,9 @@ class UnsafePage {
 
     companion object {
         @JvmField
-    /* in this way no getter method is used for access to UNSAFE
-	 * (i.e., for avoiding the costly call of a virtual function)
-	 */
+                /* in this way no getter method is used for access to UNSAFE
+                 * (i.e., for avoiding the costly call of a virtual function)
+                 */
         val UNSAFE: sun.misc.Unsafe = initUnsafe()
 
         private fun initUnsafe(): sun.misc.Unsafe {
@@ -55,15 +55,19 @@ class UnsafePage {
     inline fun allocateMemory(size: Long): Long {
         return UNSAFE.allocateMemory(size)
     }
+
     inline fun freeMemory() {
         UNSAFE.freeMemory(this.basepointer)
     }
+
     inline fun putInt(address: Long, data: Int) {
         UNSAFE.putInt(address, data)
     }
+
     inline fun putByte(address: Long, data: Byte) {
         UNSAFE.putByte(address, data)
     }
+
     inline fun putString(address: Long, data: String): Long {
         val size = data.length
         this.putInt(address, size)
@@ -77,21 +81,27 @@ class UnsafePage {
         }
         return pos
     }
+
     public inline fun getPageIndex(): Long {
         return this.basepointer
     }
+
     inline fun lock() {
         this.locked++
     }
+
     inline fun unlock() {
         this.locked--
     }
+
     inline fun isLocked(): Boolean {
-        return this.locked> 0
+        return this.locked > 0
     }
+
     inline fun release() {
         this.cleaner()
     }
+
     inline fun isModified() = false
     /*
 	 * only used in main memory (-> no need for making it persistence)

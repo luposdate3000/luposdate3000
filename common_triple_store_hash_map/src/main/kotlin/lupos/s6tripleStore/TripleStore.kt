@@ -9,7 +9,7 @@ class TripleStoreIterator : ResultSetIterator {
     private val resultSetNew = ResultSet()
     private val resultSetOld: ResultSet
     private var mapIterator:
-    MutableIterator<MutableMap.MutableEntry<ResultRow, MutableList<ResultRow>>>
+            MutableIterator<MutableMap.MutableEntry<ResultRow, MutableList<ResultRow>>>
     private var listIterator: Iterator<ResultRow>?
     private val sNew = resultSetNew.createVariable("s")
     private val pNew = resultSetNew.createVariable("p")
@@ -23,12 +23,12 @@ class TripleStoreIterator : ResultSetIterator {
     constructor(store: TripleStore) {
         this.store = store
         mapIterator = store.tripleStoreSPO.iterator()
-    resultSetOld = store.resultSet
-    sOld = resultSetOld.createVariable("s")
-    pOld = resultSetOld.createVariable("p")
-    oOld = resultSetOld.createVariable("o")
+        resultSetOld = store.resultSet
+        sOld = resultSetOld.createVariable("s")
+        pOld = resultSetOld.createVariable("p")
+        oOld = resultSetOld.createVariable("o")
         listIterator = null
-    currentKey = null
+        currentKey = null
     }
 
     override fun next(): ResultRow {
@@ -43,8 +43,8 @@ class TripleStoreIterator : ResultSetIterator {
     override fun hasNext(): Boolean {
         while (listIterator == null || !listIterator!!.hasNext()) {
             if (mapIterator.hasNext()) {
-        val tmp = mapIterator.next()
-        currentKey = tmp.key
+                val tmp = mapIterator.next()
+                currentKey = tmp.key
                 listIterator = tmp.value.iterator()
             } else {
                 break
@@ -74,9 +74,9 @@ actual class TripleStore {
     actual constructor()
 
     fun addData(
-        key: ResultRow,
-        value: ResultRow,
-        store: MutableMap<ResultRow, MutableList<ResultRow>>
+            key: ResultRow,
+            value: ResultRow,
+            store: MutableMap<ResultRow, MutableList<ResultRow>>
     ) {
         var list = store[key]
         if (list == null) {
@@ -93,72 +93,72 @@ actual class TripleStore {
         val oOld = rsOld.createVariable("o")
         while (iterator.hasNext()) {
             var data = iterator.next()
-        val vals = resultSet.createValue(rsOld.getValue(data[sOld]))
-        val valp = resultSet.createValue(rsOld.getValue(data[pOld]))
-        val valo = resultSet.createValue(rsOld.getValue(data[oOld]))
+            val vals = resultSet.createValue(rsOld.getValue(data[sOld]))
+            val valp = resultSet.createValue(rsOld.getValue(data[pOld]))
+            val valo = resultSet.createValue(rsOld.getValue(data[oOld]))
 
-    run {
-        val rrk = resultSet.createResultRow()
-        val rrv = resultSet.createResultRow()
-        rrk[s] = vals
-        rrv[p] = valp
-        rrv[o] = valo
-        addData(rrk, rrv, tripleStoreS)
-        }
+            run {
+                val rrk = resultSet.createResultRow()
+                val rrv = resultSet.createResultRow()
+                rrk[s] = vals
+                rrv[p] = valp
+                rrv[o] = valo
+                addData(rrk, rrv, tripleStoreS)
+            }
 
-    run {
-        val rrk = resultSet.createResultRow()
-        val rrv = resultSet.createResultRow()
-        rrv[s] = vals
-        rrk[p] = valp
-        rrv[o] = valo
-        addData(rrk, rrv, tripleStoreP)
-        }
+            run {
+                val rrk = resultSet.createResultRow()
+                val rrv = resultSet.createResultRow()
+                rrv[s] = vals
+                rrk[p] = valp
+                rrv[o] = valo
+                addData(rrk, rrv, tripleStoreP)
+            }
 
-    run {
-        val rrk = resultSet.createResultRow()
-        val rrv = resultSet.createResultRow()
-        rrv[s] = vals
-        rrv[p] = valp
-        rrk[o] = valo
-        addData(rrk, rrv, tripleStoreO)
-        }
+            run {
+                val rrk = resultSet.createResultRow()
+                val rrv = resultSet.createResultRow()
+                rrv[s] = vals
+                rrv[p] = valp
+                rrk[o] = valo
+                addData(rrk, rrv, tripleStoreO)
+            }
 
-    run {
-        val rrk = resultSet.createResultRow()
-        val rrv = resultSet.createResultRow()
-        rrk[s] = vals
-        rrk[p] = valp
-        rrv[o] = valo
-        addData(rrk, rrv, tripleStoreSP)
-        }
+            run {
+                val rrk = resultSet.createResultRow()
+                val rrv = resultSet.createResultRow()
+                rrk[s] = vals
+                rrk[p] = valp
+                rrv[o] = valo
+                addData(rrk, rrv, tripleStoreSP)
+            }
 
-        run {
-        val rrk = resultSet.createResultRow()
-        val rrv = resultSet.createResultRow()
-        rrk[s] = vals
-        rrv[p] = valp
-        rrk[o] = valo
-        addData(rrk, rrv, tripleStoreSO)
-        }
+            run {
+                val rrk = resultSet.createResultRow()
+                val rrv = resultSet.createResultRow()
+                rrk[s] = vals
+                rrv[p] = valp
+                rrk[o] = valo
+                addData(rrk, rrv, tripleStoreSO)
+            }
 
-        run {
-        val rrk = resultSet.createResultRow()
-        val rrv = resultSet.createResultRow()
-        rrv[s] = vals
-        rrk[p] = valp
-        rrk[o] = valo
-        addData(rrk, rrv, tripleStoreOP)
-        }
+            run {
+                val rrk = resultSet.createResultRow()
+                val rrv = resultSet.createResultRow()
+                rrv[s] = vals
+                rrk[p] = valp
+                rrk[o] = valo
+                addData(rrk, rrv, tripleStoreOP)
+            }
 
-        run {
-        val rrk = resultSet.createResultRow()
-        val rrv = resultSet.createResultRow()
-        rrk[s] = vals
-        rrk[p] = valp
-        rrk[o] = valo
-        addData(rrk, rrv, tripleStoreSPO)
-        }
+            run {
+                val rrk = resultSet.createResultRow()
+                val rrv = resultSet.createResultRow()
+                rrk[s] = vals
+                rrk[p] = valp
+                rrk[o] = valo
+                addData(rrk, rrv, tripleStoreSPO)
+            }
         }
     }
 
