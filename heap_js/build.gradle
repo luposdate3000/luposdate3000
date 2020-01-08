@@ -17,3 +17,9 @@ compileKotlin2Js {
     kotlinOptions.verbose = true
     kotlinOptions.moduleKind = "umd"
 }
+
+test {
+    testLogging {
+        events "failed", "skipped", "passed"
+    }
+}

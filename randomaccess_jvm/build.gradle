@@ -30,3 +30,9 @@ jar {
 
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
+
+test {
+    testLogging {
+        events "failed", "skipped", "passed"
+    }
+}

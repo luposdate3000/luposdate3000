@@ -4,3 +4,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
     implementation project(':common')
 }
+
+test {
+    testLogging {
+        events "failed", "skipped", "passed"
+    }
+}
