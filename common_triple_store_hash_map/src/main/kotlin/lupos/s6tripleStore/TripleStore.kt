@@ -2,37 +2,50 @@ package lupos.s6tripleStore
 
 import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
+import lupos.s4resultRepresentation.Variable
 import lupos.s4resultRepresentation.ResultSetIterator
 
 
 class TripleStoreIterator : ResultSetIterator {
-    private val resultSet = ResultSet()
-    private var mapIterator: MutableIterator<MutableMap.MutableEntry<Int, MutableList<Array<String>>>>
-    private var listIterator: Iterator<Array<String>>?
-    private var s = resultSet.createVariable("s")
-    private var p = resultSet.createVariable("p")
-    private var o = resultSet.createVariable("o")
+    private val resultSetNew = ResultSet()
+    private val resultSetOld : ResultSet
+    private var mapIterator: MutableIterator<MutableMap.MutableEntry<ResultRow, MutableList<ResultRow>>>
+    private var listIterator: Iterator<ResultRow>?
+    private val sNew = resultSetNew.createVariable("s")
+    private val pNew = resultSetNew.createVariable("p")
+    private val oNew = resultSetNew.createVariable("o")
+    private val sOld : Variable
+    private val pOld : Variable
+    private val oOld : Variable
     private val store: TripleStore
+    private var currentKey:ResultRow?
 
     constructor(store: TripleStore) {
         this.store = store
-        mapIterator = store.tripleStoreS.iterator()
+        mapIterator = store.tripleStoreSPO.iterator()
+	resultSetOld = store.resultSet
+	sOld=resultSetOld.createVariable("s")
+	pOld=resultSetOld.createVariable("p")
+	oOld=resultSetOld.createVariable("o")
         listIterator = null
+	currentKey = null
     }
 
     override fun next(): ResultRow {
         val value = listIterator!!.next()
-        val result = resultSet.createResultRow()
-        result[s] = resultSet.createValue(value[0])
-        result[p] = resultSet.createValue(value[1])
-        result[o] = resultSet.createValue(value[2])
+        val result = resultSetNew.createResultRow()
+        result[sNew] = resultSetNew.createValue(resultSetOld.getValue(currentKey!![sOld]))
+        result[pNew] = resultSetNew.createValue(resultSetOld.getValue(currentKey!![pOld]))
+        result[oNew] = resultSetNew.createValue(resultSetOld.getValue(currentKey!![oOld]))
         return result
     }
 
     override fun hasNext(): Boolean {
         while (listIterator == null || !listIterator!!.hasNext()) {
             if (mapIterator.hasNext()) {
-                listIterator = mapIterator.next().value.iterator()
+		val tmp = mapIterator.next()
+		currentKey = tmp.key
+                listIterator = tmp.value.iterator()
             } else {
                 break
             }
@@ -41,54 +54,111 @@ class TripleStoreIterator : ResultSetIterator {
     }
 
     override fun getResultSet(): ResultSet {
-        return resultSet
+        return resultSetNew
     }
 }
 
 actual class TripleStore {
-
-    val tripleStoreS = mutableMapOf<Int, MutableList<Array<String>>>()
-    val tripleStoreP = mutableMapOf<Int, MutableList<Array<String>>>()
-    val tripleStoreO = mutableMapOf<Int, MutableList<Array<String>>>()
-    val tripleStoreSP = mutableMapOf<Int, MutableList<Array<String>>>()
-    val tripleStoreSO = mutableMapOf<Int, MutableList<Array<String>>>()
-    val tripleStoreOP = mutableMapOf<Int, MutableList<Array<String>>>()
-    val tripleStoreSOP = mutableMapOf<Int, MutableList<Array<String>>>()
+    val resultSet = ResultSet()
+    val s = resultSet.createVariable("s")
+    val p = resultSet.createVariable("p")
+    val o = resultSet.createVariable("o")
+    val tripleStoreS = mutableMapOf<ResultRow, MutableList<ResultRow>>()
+    val tripleStoreP = mutableMapOf<ResultRow, MutableList<ResultRow>>()
+    val tripleStoreO = mutableMapOf<ResultRow, MutableList<ResultRow>>()
+    val tripleStoreSP = mutableMapOf<ResultRow, MutableList<ResultRow>>()
+    val tripleStoreSO = mutableMapOf<ResultRow, MutableList<ResultRow>>()
+    val tripleStoreOP = mutableMapOf<ResultRow, MutableList<ResultRow>>()
+    val tripleStoreSPO = mutableMapOf<ResultRow, MutableList<ResultRow>>()
 
     actual constructor()
 
-    fun hashValue(value: String): Int {
-        return value.hashCode()
-    }
-
-    fun addData(hash: Int, values: Array<String>, store: MutableMap<Int, MutableList<Array<String>>>) {
-        var list = store[hash]
+    fun addData(key:ResultRow, value:ResultRow, store: MutableMap<ResultRow, MutableList<ResultRow>>) {
+        var list = store[key]
         if (list == null) {
-            list = mutableListOf<Array<String>>()
-            store[hash] = list
+            list = mutableListOf<ResultRow>()
+            store[key] = list
         }
-        list.add(values)
+        list.add(value)
     }
 
     actual fun addData(iterator: ResultSetIterator) {
-        val resultSet = iterator.getResultSet()
-        val s = resultSet.createVariable("s")
-        val p = resultSet.createVariable("p")
-        val o = resultSet.createVariable("o")
+        val rsOld = iterator.getResultSet()
+        val sOld = rsOld.createVariable("s")
+        val pOld = rsOld.createVariable("p")
+        val oOld = rsOld.createVariable("o")
         while (iterator.hasNext()) {
             var data = iterator.next()
-            var values = arrayOf(resultSet.getValue(data[s]), resultSet.getValue(data[p]), resultSet.getValue(data[o]))
-            addData(hashValue(values[0]), values, tripleStoreS)
-            addData(hashValue(values[1]), values, tripleStoreP)
-            addData(hashValue(values[2]), values, tripleStoreO)
-            addData(hashValue(values[0]) + hashValue(values[1]), values, tripleStoreSO)
-            addData(hashValue(values[0]) + hashValue(values[2]), values, tripleStoreSP)
-            addData(hashValue(values[1]) + hashValue(values[2]), values, tripleStoreOP)
-            addData(hashValue(values[0]) + hashValue(values[1]) + hashValue(values[2]), values, tripleStoreSOP)
+	    val vals = resultSet.createValue(rsOld.getValue(data[sOld]))
+	    val valp = resultSet.createValue(rsOld.getValue(data[pOld]))
+	    val valo = resultSet.createValue(rsOld.getValue(data[oOld]))
+
+	run    {
+		val rrk = resultSet.createResultRow()
+		val rrv = resultSet.createResultRow()
+		rrk[s] = vals
+		rrv[p] = valp
+		rrv[o] = valo
+		addData(rrk,rrv,tripleStoreS)
+	    }
+
+	run    {
+		val rrk = resultSet.createResultRow()
+		val rrv = resultSet.createResultRow()
+		rrv[s] = vals
+		rrk[p] = valp
+		rrv[o] = valo
+		addData(rrk,rrv,tripleStoreP)
+	    }
+
+	   run {
+		val rrk = resultSet.createResultRow()
+		val rrv = resultSet.createResultRow()
+		rrv[s] = vals
+		rrv[p] = valp
+		rrk[o] = valo
+		addData(rrk,rrv,tripleStoreO)
+	    }
+
+	    run{
+		val rrk = resultSet.createResultRow()
+		val rrv = resultSet.createResultRow()
+		rrk[s] = vals
+		rrk[p] = valp
+		rrv[o] = valo
+		addData(rrk,rrv,tripleStoreSP)
+	    }
+
+	    run{
+		val rrk = resultSet.createResultRow()
+		val rrv = resultSet.createResultRow()
+		rrk[s] = vals
+		rrv[p] = valp
+		rrk[o] = valo
+		addData(rrk,rrv,tripleStoreSO)
+	    }
+
+	    run{
+		val rrk = resultSet.createResultRow()
+		val rrv = resultSet.createResultRow()
+		rrv[s] = vals
+		rrk[p] = valp
+		rrk[o] = valo
+		addData(rrk,rrv,tripleStoreOP)
+	    }
+
+	    run{
+		val rrk = resultSet.createResultRow()
+		val rrv = resultSet.createResultRow()
+		rrk[s] = vals
+		rrk[p] = valp
+		rrk[o]=valo
+		addData(rrk,rrv,tripleStoreSPO)
+	    }
         }
     }
 
     actual fun getIterator(): ResultSetIterator {
-        return TripleStoreIterator(this)
+         return TripleStoreIterator(this)
     }
 }

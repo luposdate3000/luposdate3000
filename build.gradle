@@ -35,3 +35,5 @@ allprojects {
         maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2' }
     }
 }
+
+apply plugin: 'org.jmailen.kotlinter'
