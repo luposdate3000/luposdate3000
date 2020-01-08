@@ -133,9 +133,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTQuery, childrenValues: List<OPBase>): OPBase {
-        if (childrenValues.isEmpty()){
+        if (childrenValues.isEmpty()) {
             return LOPNOOP() // empty query
-	}
+        }
         var query: OPBase = LOPNOOP()
         var prefix: LOPPrefix? = null
         var values: OPBase? = null
@@ -155,9 +155,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 query = q
             }
         }
-        if (query is LOPNOOP){
+        if (query is LOPNOOP) {
             return query
-	}
+        }
         if (values != null && prefix != null) {
             prefix.getLatestChild().setChild(joinValuesAndQuery(values, query))
             return prefix
@@ -365,9 +365,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTValues, childrenValues: List<OPBase>): OPBase {
-        if (node.variables.isEmpty()){
+        if (node.variables.isEmpty()) {
             return LOPNOOP()
-	}
+        }
         val variables = mutableListOf<LOPVariable>()
         val values = mutableListOf<LOPExpression>()
         for (v in node.variables) {

@@ -24,8 +24,8 @@ fun main(args: Array<String>) {
         println(ast_node)
         val lop_node = ast_node.visit(OperatorGraphVisitor())
         println(lop_node)
-	val pop_node = transformToPhysicalOperators(lop_node)
-	println(pop_node)
+        val pop_node = transformToPhysicalOperators(lop_node)
+        println(pop_node)
     } catch (e: ParseError) {
         println(e.message)
         println("Error in the following line:")

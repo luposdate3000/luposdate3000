@@ -12,20 +12,20 @@ class POPRename : POPSingleInputBase {
     private val variablesOld: Array<Variable?>
     private val variablesNew: Array<Variable?>
 
-    constructor(nameTo:LOPVariable, nameFrom:LOPVariable, child: POPBase) : super(child) {
+    constructor(nameTo: LOPVariable, nameFrom: LOPVariable, child: POPBase) : super(child) {
         resultSetOld = child.getResultSet()
-	val variableNames = resultSetOld.getVariableNames()
+        val variableNames = resultSetOld.getVariableNames()
         variablesOld = Array<Variable?>(variableNames.size, init = fun(it: Int) = (null as Variable?))
         variablesNew = Array<Variable?>(variableNames.size, init = fun(it: Int) = (null as Variable?))
-	var i=0
-	for (name in variableNames){
-		variablesOld[i]=resultSetOld.createVariable(name)
-		if(name==nameFrom.name)
-			variablesNew[i]=resultSetNew.createVariable(nameTo.name)
-		else
-			variablesNew[i]=resultSetNew.createVariable(name)
-		i++
-	}
+        var i = 0
+        for (name in variableNames) {
+            variablesOld[i] = resultSetOld.createVariable(name)
+            if (name == nameFrom.name)
+                variablesNew[i] = resultSetNew.createVariable(nameTo.name)
+            else
+                variablesNew[i] = resultSetNew.createVariable(name)
+            i++
+        }
     }
 
     override fun getResultSet(): ResultSet {
@@ -40,7 +40,7 @@ class POPRename : POPSingleInputBase {
         var rsNew = resultSetNew.createResultRow()
         val rsOld = child.next()
         for (i in variablesNew.indices) {
-        // TODO reuse resultSet
+            // TODO reuse resultSet
             rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
         }
         return rsNew
