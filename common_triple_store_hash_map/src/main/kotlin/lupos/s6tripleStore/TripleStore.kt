@@ -20,24 +20,65 @@ class TripleStoreIterator : POPBase {
     private val oOld: Variable
     private val store: TripleStore
     private var currentKey: ResultRow?
+    private val index:IndexPattern
 
     constructor(store: TripleStore) {
         this.store = store
-        mapIterator = store.tripleStoreSPO.iterator()
+	this.index = IndexPattern.S
+    }
+
+    constructor(store: TripleStore,index:IndexPattern) {
+        this.store = store
+	when (index){
+		IndexPattern.S -> this.index=index
+		IndexPattern.P -> this.index=index
+		IndexPattern.O -> this.index=index
+		IndexPattern.SP -> this.index=index
+		IndexPattern.SO -> this.index=index
+		IndexPattern.PO -> this.index=index
+		IndexPattern.SPO -> this.index=index
+		IndexPattern.SOP -> this.index=IndexPattern.SO
+		IndexPattern.PSO -> this.index=IndexPattern.PS
+		IndexPattern.POS -> this.index=IndexPattern.PO
+		IndexPattern.OSP -> this.index=IndexPattern.SO
+		IndexPattern.OPS -> this.index=IndexPattern.PO
+		else -> throw UnsupportedOperationException("UnsupportedOperationException TripleStoreIterator ${index}")
+	}
+    }
+
+    init{
+	when(index){
+		IndexPattern.S -> mapIterator = store.tripleStoreS.iterator()
+		IndexPattern.P -> mapIterator = store.tripleStoreP.iterator()
+		IndexPattern.O -> mapIterator = store.tripleStoreO.iterator()
+		IndexPattern.SP -> mapIterator = store.tripleStoreSP.iterator()
+		IndexPattern.SO -> mapIterator = store.tripleStoreSO.iterator()
+		IndexPattern.PO -> mapIterator = store.tripleStorePO.iterator()
+		IndexPattern.SPO -> mapIterator = store.tripleStoreSPO.iterator()
+	}
         resultSetOld = store.resultSet
         sOld = resultSetOld.createVariable("s")
         pOld = resultSetOld.createVariable("p")
         oOld = resultSetOld.createVariable("o")
         listIterator = null
-        currentKey = null
+        currentKey = null        
     }
 
     override fun next(): ResultRow {
         val value = listIterator!!.next()
         val result = resultSetNew.createResultRow()
-        result[sNew] = resultSetNew.createValue(resultSetOld.getValue(currentKey!![sOld]))
-        result[pNew] = resultSetNew.createValue(resultSetOld.getValue(currentKey!![pOld]))
-        result[oNew] = resultSetNew.createValue(resultSetOld.getValue(currentKey!![oOld]))
+	if(index==IndexPattern.SPO || index==IndexPattern.SP || index==IndexPattern.SO || index==IndexPattern.S)
+	        result[sNew] = resultSetNew.createValue(resultSetOld.getValue(currentKey!![sOld]))
+	else
+		result[sNew] = resultSetNew.createValue(resultSetOld.getValue(value[sOld]))
+	if(index==IndexPattern.SPO || index==IndexPattern.SP || index==IndexPattern.PO || index==IndexPattern.P)
+	        result[pNew] = resultSetNew.createValue(resultSetOld.getValue(currentKey!![pOld]))
+	else
+	        result[pNew] = resultSetNew.createValue(resultSetOld.getValue(value[pOld]))
+	if(index==IndexPattern.SPO || index==IndexPattern.SO || index==IndexPattern.PO || index==IndexPattern.O)
+	        result[oNew] = resultSetNew.createValue(resultSetOld.getValue(currentKey!![oOld]))
+	else
+	        result[oNew] = resultSetNew.createValue(resultSetOld.getValue(value[oOld]))
         return result
     }
 
@@ -165,5 +206,9 @@ actual class TripleStore {
 
     actual fun getIterator(): POPBase {
         return TripleStoreIterator(this)
+    }
+
+    actual fun getIterator(index:IndexPattern): POPBase {
+	return TripleStoreIterator(this,index)
     }
 }
