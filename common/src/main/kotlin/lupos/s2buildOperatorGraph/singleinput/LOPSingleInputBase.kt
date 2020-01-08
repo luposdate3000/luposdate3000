@@ -24,5 +24,4 @@ open class LOPSingleInputBase() : LOPBase() {
     }
 
     override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
-
 }

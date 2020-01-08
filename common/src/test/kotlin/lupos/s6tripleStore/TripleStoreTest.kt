@@ -1,11 +1,11 @@
 package lupos.s6tripleStore
 
-import lupos.s4resultRepresentation.ResultRow
-import lupos.s4resultRepresentation.ResultSet
-import lupos.s4resultRepresentation.ResultSetIterator
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import lupos.s4resultRepresentation.ResultRow
+import lupos.s4resultRepresentation.ResultSet
+import lupos.s4resultRepresentation.ResultSetIterator
 
 class ResultSetIteratorTestImpl : ResultSetIterator {
     private var index = 0

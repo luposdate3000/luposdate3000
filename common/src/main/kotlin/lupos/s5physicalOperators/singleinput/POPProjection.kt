@@ -30,7 +30,7 @@ class POPProjection : POPSingleInputBase {
         var rsNew = resultSetNew.createResultRow()
         val rsOld = child.next()
         for (i in variablesNew.indices) {
-	    //TODO reuse resultSet
+        // TODO reuse resultSet
             rsNew[variablesNew[i]] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]]))
         }
         return rsNew

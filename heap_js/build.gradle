@@ -1,5 +1,4 @@
 apply plugin: 'kotlin-platform-js'
-apply plugin: 'org.jmailen.kotlinter'
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"

@@ -16,7 +16,6 @@ actual class ResultSet {
     }
 
     actual fun releaseResultRow(row: ResultRow) {
-
     }
 
     actual fun getValue(value: Value): String {

@@ -553,5 +553,4 @@ class TurtleParserWithStringTriples(val consume_triple: (String, String, String)
             }
         }
     }
-
 }

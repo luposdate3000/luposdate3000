@@ -79,7 +79,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         }
         if (node.existsDatasets()) {
             // var datasets: Array<ASTDatasetClause> = arrayOf<ASTDatasetClause>();
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
         }
         return result.child
     }
@@ -134,7 +134,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTQuery, childrenValues: List<OPBase>): OPBase {
         if (childrenValues.isEmpty())
-            return LOPNOOP() //empty query
+            return LOPNOOP() // empty query
         var query: OPBase = LOPNOOP()
         var prefix: LOPPrefix? = null
         var values: OPBase? = null
@@ -532,19 +532,18 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTQueryBaseClass, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
     override fun visit(node: ASTRDFTerm, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
     override fun visit(node: ASTPlus, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
     override fun visit(node: ASTMinus, childrenValues: List<OPBase>): OPBase {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
-
 }

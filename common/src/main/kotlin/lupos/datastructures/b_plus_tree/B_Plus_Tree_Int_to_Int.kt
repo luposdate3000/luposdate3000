@@ -3,10 +3,10 @@ package lupos.datastructures.b_plus_tree
 import lupos.io.buffer.*
 
 // this class avoids virtual method calls, which speeds up processing of Big Data
-class B_Plus_Tree_Uncompressed_Int_to_Int(val filename:String, val k:Int = 1000, val k_star:Int = 500){
+class B_Plus_Tree_Uncompressed_Int_to_Int(val filename: String, val k: Int = 1000, val k_star: Int = 500) {
     val bplustree = B_Plus_Tree<Int, Int>(filename)
 
-    inline operator fun get(key:Int) = bplustree.search(key,
+    inline operator fun get(key: Int) = bplustree.search(key,
             compare = ::compareInt,
             innerNodeDeserializer = ::deserializeInt,
             serializedSizeOfKey = ::serializedSizeOfInt,
@@ -14,7 +14,7 @@ class B_Plus_Tree_Uncompressed_Int_to_Int(val filename:String, val k:Int = 1000,
             leafNodeDeserializerValue = ::deserializeInt,
             serializedSizeOfValue = ::serializedSizeOfInt)
 
-    inline fun binarySearch(key:Int) = bplustree.binarySearch(key,
+    inline fun binarySearch(key: Int) = bplustree.binarySearch(key,
             compare = ::compareInt,
             innerNodeDeserializer = ::deserializeInt,
             serializedSizeOfKey = 4,
@@ -22,35 +22,35 @@ class B_Plus_Tree_Uncompressed_Int_to_Int(val filename:String, val k:Int = 1000,
             leafNodeDeserializerValue = ::deserializeInt,
             serializedSizeOfValue = ::serializedSizeOfInt)
 
-    inline fun range_search(keyLeft:Int, keyRight:Int) = bplustree.range_search(
-            {key:Int-> key - keyLeft},
-            {key:Int-> key - keyRight},
+    inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
+            { key: Int -> key - keyLeft },
+            { key: Int -> key - keyRight },
             innerNodeDeserializer = ::deserializeInt,
             serializedSizeOfKey = ::serializedSizeOfInt,
             leafNodeDeserializerKey = ::deserializeInt,
             leafNodeDeserializerValue = ::deserializeInt,
             serializedSizeOfValue = ::serializedSizeOfInt)
 
-    inline fun range_binary_search(keyLeft:Int, keyRight:Int) = bplustree.range_binary_search(
-            { key:Int-> key - keyLeft },
-            { key:Int-> key - keyRight },
+    inline fun range_binary_search(keyLeft: Int, keyRight: Int) = bplustree.range_binary_search(
+            { key: Int -> key - keyLeft },
+            { key: Int -> key - keyRight },
             innerNodeDeserializer = ::deserializeInt,
             serializedSizeOfKey = 4,
             leafNodeDeserializerKey = ::deserializeInt,
             leafNodeDeserializerValue = ::deserializeInt,
             serializedSizeOfValue = ::serializedSizeOfInt)
 
-    inline fun sip_search(keyLeft:Int, keyRight:Int) = bplustree.sip_search(
-                                    { key1:Int, key2:Int -> (key2 - key1) },
-                                    { key:Int-> key - keyLeft },
-                                    { key:Int-> key - keyRight },
+    inline fun sip_search(keyLeft: Int, keyRight: Int) = bplustree.sip_search(
+                                    { key1: Int, key2: Int -> (key2 - key1) },
+                                    { key: Int -> key - keyLeft },
+                                    { key: Int -> key - keyRight },
                                     innerNodeDeserializer = ::deserializeInt,
                                     serializedSizeOfKey = ::serializedSizeOfInt,
                                     leafNodeDeserializerKey = ::deserializeInt,
                                     leafNodeDeserializerValue = ::deserializeInt,
                                     serializedSizeOfValue = ::serializedSizeOfInt)
 
-    fun generate(size:Int, iterator:Iterator<Pair<Int,Int>>){
+    fun generate(size: Int, iterator: Iterator<Pair<Int, Int>>) {
         bplustree.generate(size, iterator, k, k_star, PAGESIZE,
                 serializeKey = ::serializeInt,
                 serializedSizeOfKey = ::serializedSizeOfInt,
@@ -60,8 +60,8 @@ class B_Plus_Tree_Uncompressed_Int_to_Int(val filename:String, val k:Int = 1000,
 }
 
 // this class introduces virtual method calls, but implements a generic interface
-inline class Derived_B_Plus_Tree_Uncompressed_Int_to_Int(val tree:B_Plus_Tree_Uncompressed_Int_to_Int):I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
-    constructor(filename:String, k:Int = 1000, k_star:Int = 500):this(B_Plus_Tree_Uncompressed_Int_to_Int(filename, k, k_star))
+inline class Derived_B_Plus_Tree_Uncompressed_Int_to_Int(val tree: B_Plus_Tree_Uncompressed_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
+    constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_Uncompressed_Int_to_Int(filename, k, k_star))
     override fun get(key: Int): Int = this.tree[key]
     override fun range_search(keyLeft: Int, keyRight: Int): () -> Int? = this.tree.range_search(keyLeft, keyRight)
     override fun sip_search(keyLeft: Int, keyRight: Int): (Int) -> Int? = this.tree.sip_search(keyLeft, keyRight)
@@ -70,45 +70,45 @@ inline class Derived_B_Plus_Tree_Uncompressed_Int_to_Int(val tree:B_Plus_Tree_Un
 
 // this class introduces virtual method calls, but implements a generic interface
 // this class applies binary search
-inline class Derived_B_Plus_Tree_Uncompressed_Int_to_Int_BinarySearch(val tree:B_Plus_Tree_Uncompressed_Int_to_Int):I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
-    constructor(filename:String, k:Int = 1000, k_star:Int = 500):this(B_Plus_Tree_Uncompressed_Int_to_Int(filename, k, k_star))
+inline class Derived_B_Plus_Tree_Uncompressed_Int_to_Int_BinarySearch(val tree: B_Plus_Tree_Uncompressed_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
+    constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_Uncompressed_Int_to_Int(filename, k, k_star))
     override fun get(key: Int): Int = this.tree.binarySearch(key)
     override fun range_search(keyLeft: Int, keyRight: Int): () -> Int? = this.tree.range_binary_search(keyLeft, keyRight)
     override fun sip_search(keyLeft: Int, keyRight: Int): (Int) -> Int? = this.tree.sip_search(keyLeft, keyRight)
     override fun generate(size: Int, iterator: Iterator<Pair<Int, Int>>) = this.tree.generate(size, iterator)
 }
 
-class B_Plus_Tree_VariableSize_Int_to_Int(val filename:String, val k:Int = 1000, val k_star:Int = 500){
+class B_Plus_Tree_VariableSize_Int_to_Int(val filename: String, val k: Int = 1000, val k_star: Int = 500) {
     val bplustree = B_Plus_Tree<Int, Int>(filename)
 
-    inline operator fun get(key:Int) = bplustree.search(key,
+    inline operator fun get(key: Int) = bplustree.search(key,
             compare = ::compareInt,
             innerNodeDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
             leafNodeDeserializerKey = ::deserializeCompressedInt,
             leafNodeDeserializerValue = ::deserializeCompressedInt,
-            serializedSizeOfValue= ::serializedSizeOfCompressedInt)
+            serializedSizeOfValue = ::serializedSizeOfCompressedInt)
 
-    inline fun range_search(keyLeft:Int, keyRight:Int) = bplustree.range_search(
-            {key:Int-> key - keyLeft},
-            {key:Int-> key - keyRight},
+    inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
+            { key: Int -> key - keyLeft },
+            { key: Int -> key - keyRight },
             innerNodeDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
             leafNodeDeserializerKey = ::deserializeCompressedInt,
             leafNodeDeserializerValue = ::deserializeCompressedInt,
             serializedSizeOfValue = ::serializedSizeOfCompressedInt)
 
-    fun sip_search(keyLeft:Int, keyRight:Int) = bplustree.sip_search(
-            { key1:Int, key2:Int -> (key2 - key1) },
-            { key:Int-> key - keyLeft },
-            { key:Int-> key - keyRight },
+    fun sip_search(keyLeft: Int, keyRight: Int) = bplustree.sip_search(
+            { key1: Int, key2: Int -> (key2 - key1) },
+            { key: Int -> key - keyLeft },
+            { key: Int -> key - keyRight },
             innerNodeDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
             leafNodeDeserializerKey = ::deserializeCompressedInt,
             leafNodeDeserializerValue = ::deserializeCompressedInt,
             serializedSizeOfValue = ::serializedSizeOfCompressedInt)
 
-    fun generate(size:Int, iterator:Iterator<Pair<Int,Int>>){
+    fun generate(size: Int, iterator: Iterator<Pair<Int, Int>>) {
         bplustree.generate(size, iterator, k, k_star, PAGESIZE,
                 serializeKey = ::serializeCompressedInt,
                 serializedSizeOfKey = ::serializedSizeOfCompressedInt,
@@ -118,45 +118,45 @@ class B_Plus_Tree_VariableSize_Int_to_Int(val filename:String, val k:Int = 1000,
 }
 
 // this class introduces virtual method calls, but implements a generic interface
-inline class Derived_B_Plus_Tree_VariableSize_Int_to_Int(val tree:B_Plus_Tree_VariableSize_Int_to_Int):I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
-    constructor(filename:String, k:Int = 1000, k_star:Int = 500):this(B_Plus_Tree_VariableSize_Int_to_Int(filename, k, k_star))
+inline class Derived_B_Plus_Tree_VariableSize_Int_to_Int(val tree: B_Plus_Tree_VariableSize_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
+    constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_VariableSize_Int_to_Int(filename, k, k_star))
     override fun get(key: Int): Int = this.tree[key]
     override fun range_search(keyLeft: Int, keyRight: Int): () -> Int? = this.tree.range_search(keyLeft, keyRight)
     override fun sip_search(keyLeft: Int, keyRight: Int): (Int) -> Int? = this.tree.sip_search(keyLeft, keyRight)
     override fun generate(size: Int, iterator: Iterator<Pair<Int, Int>>) = this.tree.generate(size, iterator)
 }
 
-class B_Plus_Tree_VariableSizePointers_Int_to_Int(val filename:String, val k:Int = 1000, val k_star:Int = 500){// val k:Int = 1000, val k_star:Int = 500){
+class B_Plus_Tree_VariableSizePointers_Int_to_Int(val filename: String, val k: Int = 1000, val k_star: Int = 500) { // val k:Int = 1000, val k_star:Int = 500){
     val bplustree = B_Plus_Tree_VariableSizePointers<Int, Int>(filename)
 
-    inline operator fun get(key:Int) = bplustree.search(key,
+    inline operator fun get(key: Int) = bplustree.search(key,
             compare = ::compareInt,
             innerNodeDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
             leafNodeDeserializerKey = ::deserializeCompressedInt,
             leafNodeDeserializerValue = ::deserializeCompressedInt,
-            serializedSizeOfValue= ::serializedSizeOfCompressedInt)
+            serializedSizeOfValue = ::serializedSizeOfCompressedInt)
 
-    inline fun range_search(keyLeft:Int, keyRight:Int) = bplustree.range_search(
-            {key:Int-> key - keyLeft},
-            {key:Int-> key - keyRight},
+    inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
+            { key: Int -> key - keyLeft },
+            { key: Int -> key - keyRight },
             innerNodeDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
             leafNodeDeserializerKey = ::deserializeCompressedInt,
             leafNodeDeserializerValue = ::deserializeCompressedInt,
             serializedSizeOfValue = ::serializedSizeOfCompressedInt)
 
-    fun sip_search(keyLeft:Int, keyRight:Int) = bplustree.sip_search(
-            { key1:Int, key2:Int -> (key2 - key1) },
-            { key:Int-> key - keyLeft },
-            { key:Int-> key - keyRight },
+    fun sip_search(keyLeft: Int, keyRight: Int) = bplustree.sip_search(
+            { key1: Int, key2: Int -> (key2 - key1) },
+            { key: Int -> key - keyLeft },
+            { key: Int -> key - keyRight },
             innerNodeDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
             leafNodeDeserializerKey = ::deserializeCompressedInt,
             leafNodeDeserializerValue = ::deserializeCompressedInt,
             serializedSizeOfValue = ::serializedSizeOfCompressedInt)
 
-    fun generate(size:Int, iterator:Iterator<Pair<Int,Int>>){
+    fun generate(size: Int, iterator: Iterator<Pair<Int, Int>>) {
         bplustree.generate(size, iterator, k, k_star, PAGESIZE,
                 serializeKey = ::serializeCompressedInt,
                 serializedSizeOfKey = ::serializedSizeOfCompressedInt,
@@ -166,18 +166,18 @@ class B_Plus_Tree_VariableSizePointers_Int_to_Int(val filename:String, val k:Int
 }
 
 // this class introduces virtual method calls, but implements a generic interface
-inline class Derived_B_Plus_Tree_VariableSizePointers_Int_to_Int(val tree:B_Plus_Tree_VariableSizePointers_Int_to_Int):I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
-    constructor(filename:String, k:Int = 1000, k_star:Int = 500):this(B_Plus_Tree_VariableSizePointers_Int_to_Int(filename, k, k_star))
+inline class Derived_B_Plus_Tree_VariableSizePointers_Int_to_Int(val tree: B_Plus_Tree_VariableSizePointers_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
+    constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_VariableSizePointers_Int_to_Int(filename, k, k_star))
     override fun get(key: Int): Int = this.tree[key]
     override fun range_search(keyLeft: Int, keyRight: Int): () -> Int? = this.tree.range_search(keyLeft, keyRight)
     override fun sip_search(keyLeft: Int, keyRight: Int): (Int) -> Int? = this.tree.sip_search(keyLeft, keyRight)
     override fun generate(size: Int, iterator: Iterator<Pair<Int, Int>>) = this.tree.generate(size, iterator)
 }
 
-class B_Plus_Tree_DifferenceEncoding_Int_to_Int(val filename:String, val k:Int = 1000, val k_star:Int = 500){
+class B_Plus_Tree_DifferenceEncoding_Int_to_Int(val filename: String, val k: Int = 1000, val k_star: Int = 500) {
     val bplustree = B_Plus_Tree_Difference_Encoding<Int, Int>(filename)
 
-    inline operator fun get(key:Int) = bplustree.search(key,
+    inline operator fun get(key: Int) = bplustree.search(key,
             compare = ::compareInt,
             innerNodeDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
@@ -188,9 +188,9 @@ class B_Plus_Tree_DifferenceEncoding_Int_to_Int(val filename:String, val k:Int =
             leafNodeDeserializerValue = ::deserializeCompressedInt,
             serializedSizeOfValue = ::serializedSizeOfCompressedInt)
 
-    inline fun range_search(keyLeft:Int, keyRight:Int) = bplustree.range_search(
-            {key:Int-> key - keyLeft},
-            {key:Int-> key - keyRight},
+    inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
+            { key: Int -> key - keyLeft },
+            { key: Int -> key - keyRight },
             innerNodeDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
             innerNodeDeserializerDiff = ::deserializeInt,
@@ -200,10 +200,10 @@ class B_Plus_Tree_DifferenceEncoding_Int_to_Int(val filename:String, val k:Int =
             leafNodeDeserializerValue = ::deserializeCompressedInt,
             serializedSizeOfValue = ::serializedSizeOfCompressedInt)
 
-    fun sip_search(keyLeft:Int, keyRight:Int) = bplustree.sip_search(
-            { key1:Int, key2:Int -> (key2 - key1) },
-            { key:Int-> key - keyLeft },
-            { key:Int-> key - keyRight },
+    fun sip_search(keyLeft: Int, keyRight: Int) = bplustree.sip_search(
+            { key1: Int, key2: Int -> (key2 - key1) },
+            { key: Int -> key - keyLeft },
+            { key: Int -> key - keyRight },
             keyDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
             keyDiffDeserializer = ::deserializeInt,
@@ -213,7 +213,7 @@ class B_Plus_Tree_DifferenceEncoding_Int_to_Int(val filename:String, val k:Int =
             deserializePointer = ::deserializeCompressedInt,
             serializedSizeOfPointer = ::serializedSizeOfCompressedInt)
 
-    fun generate(size:Int, iterator:Iterator<Pair<Int,Int>>){
+    fun generate(size: Int, iterator: Iterator<Pair<Int, Int>>) {
         bplustree.generate(size, iterator, k, k_star, PAGESIZE,
                 serializeKey = ::serializeCompressedInt,
                 serializedSizeOfKey = ::serializedSizeOfCompressedInt,
@@ -225,18 +225,18 @@ class B_Plus_Tree_DifferenceEncoding_Int_to_Int(val filename:String, val k:Int =
 }
 
 // this class introduces virtual method calls, but implements a generic interface
-inline class Derived_B_Plus_Tree_DifferenceEncoding_Int_to_Int(val tree:B_Plus_Tree_DifferenceEncoding_Int_to_Int):I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
-    constructor(filename:String, k:Int = 1000, k_star:Int = 500):this(B_Plus_Tree_DifferenceEncoding_Int_to_Int(filename, k, k_star))
+inline class Derived_B_Plus_Tree_DifferenceEncoding_Int_to_Int(val tree: B_Plus_Tree_DifferenceEncoding_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
+    constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_DifferenceEncoding_Int_to_Int(filename, k, k_star))
     override fun get(key: Int): Int = this.tree[key]
     override fun range_search(keyLeft: Int, keyRight: Int): () -> Int? = this.tree.range_search(keyLeft, keyRight)
     override fun sip_search(keyLeft: Int, keyRight: Int): (Int) -> Int? = this.tree.sip_search(keyLeft, keyRight)
     override fun generate(size: Int, iterator: Iterator<Pair<Int, Int>>) = this.tree.generate(size, iterator)
 }
 
-class B_Plus_Tree_DifferenceEncoding_Int(val filename:String, val k:Int = 1000, val k_star:Int = 500){
+class B_Plus_Tree_DifferenceEncoding_Int(val filename: String, val k: Int = 1000, val k_star: Int = 500) {
     val bplustree = B_Plus_Tree_Difference_Encoding_OnlyKeys<Int>(filename)
 
-    inline operator fun get(key:Int) = bplustree.search(key,
+    inline operator fun get(key: Int) = bplustree.search(key,
             compare = ::compareInt,
             innerNodeDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
@@ -245,9 +245,9 @@ class B_Plus_Tree_DifferenceEncoding_Int(val filename:String, val k:Int = 1000, 
             leafNodeDeserializerKey = ::deserializeCompressedInt,
             leafNodeDeserializerKeyDiff = ::deserializeInt)
 
-    inline fun range_search(keyLeft:Int, keyRight:Int) = bplustree.range_search(
-            {key:Int-> key - keyLeft},
-            {key:Int-> key - keyRight},
+    inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
+            { key: Int -> key - keyLeft },
+            { key: Int -> key - keyRight },
             innerNodeDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
             innerNodeDeserializerDiff = ::deserializeInt,
@@ -255,10 +255,10 @@ class B_Plus_Tree_DifferenceEncoding_Int(val filename:String, val k:Int = 1000, 
             leafNodeDeserializerKey = ::deserializeCompressedInt,
             leafNodeDeserializerKeyDiff = ::deserializeInt)
 
-    fun sip_search(keyLeft:Int, keyRight:Int) = bplustree.sip_search(
-            { key1:Int, key2:Int -> (key2 - key1) },
-            { key:Int-> key - keyLeft },
-            { key:Int-> key - keyRight },
+    fun sip_search(keyLeft: Int, keyRight: Int) = bplustree.sip_search(
+            { key1: Int, key2: Int -> (key2 - key1) },
+            { key: Int -> key - keyLeft },
+            { key: Int -> key - keyRight },
             keyDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
             keyDiffDeserializer = ::deserializeInt,
@@ -266,7 +266,7 @@ class B_Plus_Tree_DifferenceEncoding_Int(val filename:String, val k:Int = 1000, 
             deserializePointer = ::deserializeCompressedInt,
             serializedSizeOfPointer = ::serializedSizeOfCompressedInt)
 
-    fun generate(size:Int, iterator:Iterator<Int>){
+    fun generate(size: Int, iterator: Iterator<Int>) {
         bplustree.generate(size, iterator, k, k_star, PAGESIZE,
                 serializeKey = ::serializeCompressedInt,
                 serializedSizeOfKey = ::serializedSizeOfCompressedInt,
@@ -276,45 +276,45 @@ class B_Plus_Tree_DifferenceEncoding_Int(val filename:String, val k:Int = 1000, 
 }
 
 // this class introduces virtual method calls, but implements a generic interface
-inline class Derived_B_Plus_Tree_DifferenceEncoding_Int_OnlyKeys(val tree:B_Plus_Tree_DifferenceEncoding_Int):I_B_Plus_Tree_KeyRangeSearch_OnlyKeys<Int> {
-    constructor(filename:String, k:Int = 1000, k_star:Int = 500):this(B_Plus_Tree_DifferenceEncoding_Int(filename, k, k_star))
+inline class Derived_B_Plus_Tree_DifferenceEncoding_Int_OnlyKeys(val tree: B_Plus_Tree_DifferenceEncoding_Int) : I_B_Plus_Tree_KeyRangeSearch_OnlyKeys<Int> {
+    constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_DifferenceEncoding_Int(filename, k, k_star))
     override fun get(key: Int): Boolean = this.tree[key]
     override fun range_search(keyLeft: Int, keyRight: Int): () -> Int? = this.tree.range_search(keyLeft, keyRight)
     override fun sip_search(keyLeft: Int, keyRight: Int): (Int) -> Int? = this.tree.sip_search(keyLeft, keyRight)
     override fun generate(size: Int, iterator: Iterator<Int>) = this.tree.generate(size, iterator)
 }
 
-class B_Plus_Tree_Static_Int_to_Int(val filename:String){
+class B_Plus_Tree_Static_Int_to_Int(val filename: String) {
     val bplustree = B_Plus_Tree_Static<Int, Int>(filename)
 
-    inline operator fun get(key:Int) = bplustree.search(key,
+    inline operator fun get(key: Int) = bplustree.search(key,
             compare = ::compareInt,
             innerNodeDeserializer = ::deserializeInt,
             serializedSizeOfKey = ::serializedSizeOfInt,
             leafNodeDeserializerKey = ::deserializeInt,
             leafNodeDeserializerValue = ::deserializeInt,
-            serializedSizeOfValue= ::serializedSizeOfInt)
+            serializedSizeOfValue = ::serializedSizeOfInt)
 
-    inline fun range_search(keyLeft:Int, keyRight:Int) = bplustree.range_search(
-            {key:Int-> key - keyLeft},
-            {key:Int-> key - keyRight},
+    inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
+            { key: Int -> key - keyLeft },
+            { key: Int -> key - keyRight },
             innerNodeDeserializer = ::deserializeInt,
             serializedSizeOfKey = ::serializedSizeOfInt,
             leafNodeDeserializerKey = ::deserializeInt,
             leafNodeDeserializerValue = ::deserializeInt,
             serializedSizeOfValue = ::serializedSizeOfInt)
 
-    fun sip_search(keyLeft:Int, keyRight:Int) = bplustree.sip_search(
-            { key1:Int, key2:Int -> (key2 - key1) },
-            { key:Int-> key - keyLeft },
-            { key:Int-> key - keyRight },
+    fun sip_search(keyLeft: Int, keyRight: Int) = bplustree.sip_search(
+            { key1: Int, key2: Int -> (key2 - key1) },
+            { key: Int -> key - keyLeft },
+            { key: Int -> key - keyRight },
             innerNodeDeserializer = ::deserializeInt,
             serializedSizeOfKey = ::serializedSizeOfInt,
             leafNodeDeserializerKey = ::deserializeInt,
             leafNodeDeserializerValue = ::deserializeInt,
             serializedSizeOfValue = ::serializedSizeOfInt)
 
-    fun generate(size:Int, iterator:Iterator<Pair<Int,Int>>){
+    fun generate(size: Int, iterator: Iterator<Pair<Int, Int>>) {
         bplustree.generate(iterator, PAGESIZE,
                 serializeKey = ::serializeInt,
                 serializedSizeOfKey = ::serializedSizeOfInt,
@@ -324,45 +324,45 @@ class B_Plus_Tree_Static_Int_to_Int(val filename:String){
 }
 
 // this class introduces virtual method calls, but implements a generic interface
-inline class Derived_B_Plus_Tree_Static_Int_to_Int(val tree:B_Plus_Tree_Static_Int_to_Int):I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
-    constructor(filename:String):this(B_Plus_Tree_Static_Int_to_Int(filename))
+inline class Derived_B_Plus_Tree_Static_Int_to_Int(val tree: B_Plus_Tree_Static_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
+    constructor(filename: String) : this(B_Plus_Tree_Static_Int_to_Int(filename))
     override fun get(key: Int): Int = this.tree[key]
     override fun range_search(keyLeft: Int, keyRight: Int): () -> Int? = this.tree.range_search(keyLeft, keyRight)
     override fun sip_search(keyLeft: Int, keyRight: Int): (Int) -> Int? = this.tree.sip_search(keyLeft, keyRight)
     override fun generate(size: Int, iterator: Iterator<Pair<Int, Int>>) = this.tree.generate(size, iterator)
 }
 
-class B_Plus_Tree_StaticCompressed_Int_to_Int(val filename:String){
+class B_Plus_Tree_StaticCompressed_Int_to_Int(val filename: String) {
     val bplustree = B_Plus_Tree_Static_CompressedPointer<Int, Int>(filename)
 
-    inline operator fun get(key:Int) = bplustree.search(key,
+    inline operator fun get(key: Int) = bplustree.search(key,
             compare = ::compareInt,
             innerNodeDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
             leafNodeDeserializerKey = ::deserializeCompressedInt,
             leafNodeDeserializerValue = ::deserializeCompressedInt,
-            serializedSizeOfValue= ::serializedSizeOfCompressedInt)
+            serializedSizeOfValue = ::serializedSizeOfCompressedInt)
 
-    inline fun range_search(keyLeft:Int, keyRight:Int) = bplustree.range_search(
-            {key:Int-> key - keyLeft},
-            {key:Int-> key - keyRight},
+    inline fun range_search(keyLeft: Int, keyRight: Int) = bplustree.range_search(
+            { key: Int -> key - keyLeft },
+            { key: Int -> key - keyRight },
             innerNodeDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
             leafNodeDeserializerKey = ::deserializeCompressedInt,
             leafNodeDeserializerValue = ::deserializeCompressedInt,
             serializedSizeOfValue = ::serializedSizeOfCompressedInt)
 
-    fun sip_search(keyLeft:Int, keyRight:Int) = bplustree.sip_search(
-            { key1:Int, key2:Int -> (key2 - key1) },
-            { key:Int-> key - keyLeft },
-            { key:Int-> key - keyRight },
+    fun sip_search(keyLeft: Int, keyRight: Int) = bplustree.sip_search(
+            { key1: Int, key2: Int -> (key2 - key1) },
+            { key: Int -> key - keyLeft },
+            { key: Int -> key - keyRight },
             innerNodeDeserializer = ::deserializeCompressedInt,
             serializedSizeOfKey = ::serializedSizeOfCompressedInt,
             leafNodeDeserializerKey = ::deserializeCompressedInt,
             leafNodeDeserializerValue = ::deserializeCompressedInt,
             serializedSizeOfValue = ::serializedSizeOfCompressedInt)
 
-    fun generate(size:Int, iterator:Iterator<Pair<Int,Int>>){
+    fun generate(size: Int, iterator: Iterator<Pair<Int, Int>>) {
         bplustree.generate(iterator, PAGESIZE,
                 serializeKey = ::serializeCompressedInt,
                 serializedSizeOfKey = ::serializedSizeOfCompressedInt,
@@ -372,8 +372,8 @@ class B_Plus_Tree_StaticCompressed_Int_to_Int(val filename:String){
 }
 
 // this class introduces virtual method calls, but implements a generic interface
-inline class Derived_B_Plus_Tree_StaticCompressed_Int_to_Int(val tree:B_Plus_Tree_StaticCompressed_Int_to_Int):I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
-    constructor(filename:String):this(B_Plus_Tree_StaticCompressed_Int_to_Int(filename))
+inline class Derived_B_Plus_Tree_StaticCompressed_Int_to_Int(val tree: B_Plus_Tree_StaticCompressed_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
+    constructor(filename: String) : this(B_Plus_Tree_StaticCompressed_Int_to_Int(filename))
     override fun get(key: Int): Int = this.tree[key]
     override fun range_search(keyLeft: Int, keyRight: Int): () -> Int? = this.tree.range_search(keyLeft, keyRight)
     override fun sip_search(keyLeft: Int, keyRight: Int): (Int) -> Int? = this.tree.sip_search(keyLeft, keyRight)

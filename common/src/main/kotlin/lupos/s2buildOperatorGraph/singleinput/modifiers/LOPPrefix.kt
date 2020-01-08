@@ -8,5 +8,5 @@ class LOPPrefix(val name: String, val iri: String) : LOPSingleInputBase() {
         this.child = child
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName} '${name}' '${iri}'\n" + child.toString("${indentation}\t")
+    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName} '$name' '$iri'\n" + child.toString("${indentation}\t")
 }

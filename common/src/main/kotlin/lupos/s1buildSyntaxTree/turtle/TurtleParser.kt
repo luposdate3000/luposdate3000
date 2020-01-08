@@ -514,5 +514,4 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
                 throw UnexpectedToken(t20, arrayOf("BNODE", "ANON_BNODE"), ltit); }
         }
     }
-
 }

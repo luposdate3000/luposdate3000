@@ -5486,5 +5486,4 @@ class SPARQLParser(val ltit: LookAheadTokenIterator) {
         }
         return result
     }
-
 }

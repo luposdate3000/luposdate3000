@@ -8,5 +8,5 @@ class LOPOffset(val offset: Int) : LOPSingleInputBase() {
         this.child = child
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName} '${offset}'\n" + child.toString("${indentation}\t")
+    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName} '$offset'\n" + child.toString("${indentation}\t")
 }

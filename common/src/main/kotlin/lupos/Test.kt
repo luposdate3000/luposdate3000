@@ -175,8 +175,8 @@ private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> 
                     println("    Type: " + Dictionary[it]?.toN3String())
                     queryEvaluationTest = (it == Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest"))
                     updateEvaluationTest = (it == Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#UpdateEvaluationTest"))
-                    syntaxTest = (it == Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#PositiveSyntaxTest11")
-                            || it == Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#PositiveUpdateSyntaxTest11"))
+                    syntaxTest = (it == Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#PositiveSyntaxTest11") ||
+                            it == Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#PositiveUpdateSyntaxTest11"))
                 }
                 if (queryEvaluationTest) {
                     numberOfTests++

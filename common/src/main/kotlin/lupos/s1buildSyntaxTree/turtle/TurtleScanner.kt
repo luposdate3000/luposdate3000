@@ -470,10 +470,10 @@ class TurtleScanner(val iterator: LexerCharIterator) : TokenIterator {
                     var content = ""
                     while (iterator.hasNext()) {
                         val nextChar = iterator.nextChar()
-                        if (nextChar == delimiter
-                                && this.iterator.lookaheadAvailable(1)
-                                && this.iterator.lookahead() == delimiter
-                                && this.iterator.lookahead(1) == delimiter) {
+                        if (nextChar == delimiter &&
+                                this.iterator.lookaheadAvailable(1) &&
+                                this.iterator.lookahead() == delimiter &&
+                                this.iterator.lookahead(1) == delimiter) {
                             this.iterator.index += 2
                             return STRING(content, "" + delimiter + delimiter + delimiter, startToken)
                         }
@@ -512,31 +512,31 @@ class TurtleScanner(val iterator: LexerCharIterator) : TokenIterator {
     }
 
     inline fun PN_CHARS_BASE(c: Char) =
-            c in 'A'..'Z'
-                    || c in 'a'..'z'
-                    || c in '\u00C0'..'\u00D6'
-                    || c in '\u00D8'..'\u00F6'
-                    || c in '\u00F8'..'\u02FF'
-                    || c in '\u0370'..'\u037D'
-                    || c in '\u037F'..'\u1FFF'
-                    || c in '\u200C'..'\u200D'
-                    || c in '\u2070'..'\u218F'
-                    || c in '\u2C00'..'\u2FEF'
-                    || c in '\u3001'..'\uD7FF'
-                    || c in '\uF900'..'\uFDCF'
-                    || c in '\uFDF0'..'\uFFFD'
-                    || c in '\u1000'..'\uEFFF'
+            c in 'A'..'Z' ||
+                    c in 'a'..'z' ||
+                    c in '\u00C0'..'\u00D6' ||
+                    c in '\u00D8'..'\u00F6' ||
+                    c in '\u00F8'..'\u02FF' ||
+                    c in '\u0370'..'\u037D' ||
+                    c in '\u037F'..'\u1FFF' ||
+                    c in '\u200C'..'\u200D' ||
+                    c in '\u2070'..'\u218F' ||
+                    c in '\u2C00'..'\u2FEF' ||
+                    c in '\u3001'..'\uD7FF' ||
+                    c in '\uF900'..'\uFDCF' ||
+                    c in '\uFDF0'..'\uFFFD' ||
+                    c in '\u1000'..'\uEFFF'
 
     inline fun PN_CHARS_U(c: Char) = PN_CHARS_BASE(c) || c == '_'
 
     inline fun DIGIT(c: Char) = c in '0'..'9'
 
     inline fun VARNAMESECONDCHARANDLATER(c: Char) =
-            PN_CHARS_U(c)
-                    || DIGIT(c)
-                    || c == '\u00B7'
-                    || c in '\u0300'..'\u036F'
-                    || c in '\u203F'..'\u2040'
+            PN_CHARS_U(c) ||
+                    DIGIT(c) ||
+                    c == '\u00B7' ||
+                    c in '\u0300'..'\u036F' ||
+                    c in '\u203F'..'\u2040'
 
     inline fun PN_CHARS(c: Char) = VARNAMESECONDCHARANDLATER(c) || c == '-'
 
@@ -572,8 +572,8 @@ class TurtleScanner(val iterator: LexerCharIterator) : TokenIterator {
     }
 
     inline fun HEX(c: Char) = when {
-        c in '0'..'9'
-                || c in 'A'..'F'
+        c in '0'..'9' ||
+                c in 'A'..'F'
                 || c in 'a'..'f' -> {
             true
         }

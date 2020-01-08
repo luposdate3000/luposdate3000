@@ -7,5 +7,4 @@ open class OPBase {
     override fun toString(): String {
         return toString("")
     }
-
 }
