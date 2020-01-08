@@ -2,6 +2,7 @@ package lupos.io.buffer
 
 expect class Page {
     constructor()
+
     inline fun getInt(address: Long): Int
     inline fun getByte(address: Long): Byte
     inline fun putInt(address: Long, data: Int)

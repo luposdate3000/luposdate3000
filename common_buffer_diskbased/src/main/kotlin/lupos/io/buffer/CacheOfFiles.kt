@@ -2,6 +2,7 @@ package lupos.io.buffer
 
 expect class CachedFile {
     constructor(filename: String)
+
     inline fun close()
     inline fun get(address: Long): Page
     inline fun write(address: Long, page: Page)

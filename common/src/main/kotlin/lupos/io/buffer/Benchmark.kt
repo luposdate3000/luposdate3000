@@ -10,12 +10,13 @@ class OnePageBenchmark {
         val page2 = page
         var adr = offset
         val endAdr = offset + (8 * 1024 / 4)
-        while (adr <endAdr) {
+        while (adr < endAdr) {
             page2.putInt(adr, 10600)
             adr += 4
         }
         bufferManager.writeAllModifiedPages()
     }
+
     inline fun writeOnePageString() {
         val page2 = page1
         var adr = offset1
@@ -23,22 +24,26 @@ class OnePageBenchmark {
         val adr2 = page2.putString(adr, "abc")
         bufferManager.writeAllModifiedPages()
     }
+
     inline fun readOnePage() {
         var adr = offset
         val endAdr = offset + (8 * 1024 / 4)
-        while (adr <endAdr) {
+        while (adr < endAdr) {
             val result = page.getInt(adr)
             adr += 4
         }
     }
+
     inline fun readOnePageString() {
         var adr = offset1
         val endAdr = offset1 + (8 * 1024 / 4)
         val s = page1.getString(adr)
     }
+
     inline fun release() {
         page.release()
     }
+
     inline fun run(measure: (() -> Unit) -> Long) {
         var timeForWrite = 0L
         var timeForWriteString = 0L

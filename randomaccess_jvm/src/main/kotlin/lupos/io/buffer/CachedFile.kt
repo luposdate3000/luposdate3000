@@ -22,21 +22,24 @@ actual class CachedFile {
 
     actual constructor(filename: String) {
         val paths = filename.split("/")
-        if (paths.size> 1) {
+        if (paths.size > 1) {
             val dirpath = paths.joinToString(separator = "/", limit = paths.size - 1)
             File(dirpath).mkdirs()
         }
         this.file = RandomAccessFile(File(filename), "rw")
     }
+
     actual inline fun close() {
         this.file.close()
     }
+
     actual inline fun get(address: Long): Page {
         this.file.seek(address)
         val page = Page()
         this.file.read(page.byteArray)
         return page
     }
+
     actual inline fun write(address: Long, page: Page) {
         this.file.seek(address)
         this.file.write(page.byteArray)

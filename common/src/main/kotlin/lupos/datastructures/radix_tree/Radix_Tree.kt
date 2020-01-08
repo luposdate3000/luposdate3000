@@ -18,13 +18,13 @@ class Radix_Tree_MainMemory_Node<V>(var label: ByteArray = ByteArray(0), var chi
         val maxLengthToCompare = min(remainingLengthKey, this.label.size)
         for (i in 0 until maxLengthToCompare) {
             val diff = (0xFF and k[i + offset].toInt()) - (0xFF and label[i].toInt())
-            if (diff <0) {
-                return -(i+1)
-            } else if (diff> 0) {
+            if (diff < 0) {
+                return -(i + 1)
+            } else if (diff > 0) {
                 return (i + 1)
             }
         }
-        if (remainingLengthKey <this.label.size) {
+        if (remainingLengthKey < this.label.size) {
             throw NotFoundException()
         }
         return 0
@@ -112,7 +112,7 @@ class Radix_Tree_MainMemory_Node<V>(var label: ByteArray = ByteArray(0), var chi
                         // There is a common prefix between label and key and the length of the key is bigger.
                         // Hence there is no other child matching the key...
                         val absCMP = abs(cmp) - 1
-                        this.children[middle].splitNode(absCMP, k, newOffset + absCMP, cmp <0, v)
+                        this.children[middle].splitNode(absCMP, k, newOffset + absCMP, cmp < 0, v)
                         return
                     }
                 }
@@ -125,8 +125,8 @@ class Radix_Tree_MainMemory_Node<V>(var label: ByteArray = ByteArray(0), var chi
         // add new child for given key between right and left index positions...
         val newNode = Radix_Tree_MainMemory_Node<V>(k.copyOfRange(newOffset, k.size), arrayOf(), v)
         val newChildren = Array<Radix_Tree_MainMemory_Node<V>>(this.children.size + 1,
-                {
-                    i -> when {
+                { i ->
+                    when {
                         i <= right -> {
                             this.children[i]
                         }
@@ -164,7 +164,7 @@ class Radix_Tree_MainMemory_Node<V>(var label: ByteArray = ByteArray(0), var chi
 
     fun toStringDataStructure(indent: String): String {
         var result = indent
-        if (this.label.size> 0) {
+        if (this.label.size > 0) {
             if (this.label.size % 2 == 0) {
                 result += this.label.toStringUTF()
             } else {
@@ -188,7 +188,7 @@ class Radix_Tree_MainMemory_Node<V>(var label: ByteArray = ByteArray(0), var chi
 
     fun toStringDataStructure(indent: String, b: Byte): String {
         var result = indent
-        if (this.label.size> 0) {
+        if (this.label.size > 0) {
             if (this.label.size % 2 == 0) {
                 result += (byteArrayOf(b) + this.label.copyOfRange(0, this.label.size - 1)).toStringUTF()
             } else {

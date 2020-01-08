@@ -6,7 +6,10 @@ import lupos.misc.bit2
 
 inline fun compareInt(int1: Int, int2: Int) = int1 - int2
 inline fun deserializeInt(page: Page, address: Long) = page.getInt(address)
-inline fun serializeInt(page: Page, address: Long, value: Int) { page.putInt(address, value) }
+inline fun serializeInt(page: Page, address: Long, value: Int) {
+    page.putInt(address, value)
+}
+
 inline fun serializedSizeOfInt(value: Int) = 4L
 
 /* Int stored in variable number of bytes
@@ -43,12 +46,12 @@ inline fun first2to3BytesOfCompressedInt(value: Int): Byte {
 
 inline fun serializeCompressedInt(page: Page, address: Long, value: Int) {
     val startingBits = first2to3BytesOfCompressedInt(value)
-    if (startingBits <3) {
+    if (startingBits < 3) {
         page.putByte(address, (startingBits + ((value and 0b111111) shl 2)).toByte())
-        if (startingBits> 0) {
+        if (startingBits > 0) {
             val address1 = address + 1
             page.putByte(address1, ((value and 0b11111111_000000) shr 6).toByte())
-            if (startingBits> 1) {
+            if (startingBits > 1) {
                 val address2 = address + 2
                 page.putByte(address2, ((value and 0b11111111_00000000_000000) shr 14).toByte())
             }
@@ -91,5 +94,9 @@ inline fun deserializeCompressedInt(page: Page, address: Long): Int {
 
 /* difference encoding for sorted Int... */
 inline fun deserializeInt(page: Page, address: Long, previous: Int) = deserializeCompressedInt(page, address) + previous
-inline fun serializeInt(page: Page, address: Long, value: Int, previous: Int) { serializeCompressedInt(page, address, value - previous) }
+
+inline fun serializeInt(page: Page, address: Long, value: Int, previous: Int) {
+    serializeCompressedInt(page, address, value - previous)
+}
+
 inline fun serializedSizeOfInt(value: Int, previous: Int) = serializedSizeOfCompressedInt(value - previous)

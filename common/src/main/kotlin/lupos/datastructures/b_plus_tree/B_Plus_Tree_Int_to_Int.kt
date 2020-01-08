@@ -41,14 +41,14 @@ class B_Plus_Tree_Uncompressed_Int_to_Int(val filename: String, val k: Int = 100
             serializedSizeOfValue = ::serializedSizeOfInt)
 
     inline fun sip_search(keyLeft: Int, keyRight: Int) = bplustree.sip_search(
-                                    { key1: Int, key2: Int -> (key2 - key1) },
-                                    { key: Int -> key - keyLeft },
-                                    { key: Int -> key - keyRight },
-                                    innerNodeDeserializer = ::deserializeInt,
-                                    serializedSizeOfKey = ::serializedSizeOfInt,
-                                    leafNodeDeserializerKey = ::deserializeInt,
-                                    leafNodeDeserializerValue = ::deserializeInt,
-                                    serializedSizeOfValue = ::serializedSizeOfInt)
+            { key1: Int, key2: Int -> (key2 - key1) },
+            { key: Int -> key - keyLeft },
+            { key: Int -> key - keyRight },
+            innerNodeDeserializer = ::deserializeInt,
+            serializedSizeOfKey = ::serializedSizeOfInt,
+            leafNodeDeserializerKey = ::deserializeInt,
+            leafNodeDeserializerValue = ::deserializeInt,
+            serializedSizeOfValue = ::serializedSizeOfInt)
 
     fun generate(size: Int, iterator: Iterator<Pair<Int, Int>>) {
         bplustree.generate(size, iterator, k, k_star, PAGESIZE,
@@ -62,6 +62,7 @@ class B_Plus_Tree_Uncompressed_Int_to_Int(val filename: String, val k: Int = 100
 // this class introduces virtual method calls, but implements a generic interface
 inline class Derived_B_Plus_Tree_Uncompressed_Int_to_Int(val tree: B_Plus_Tree_Uncompressed_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
     constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_Uncompressed_Int_to_Int(filename, k, k_star))
+
     override fun get(key: Int): Int = this.tree[key]
     override fun range_search(keyLeft: Int, keyRight: Int): () -> Int? = this.tree.range_search(keyLeft, keyRight)
     override fun sip_search(keyLeft: Int, keyRight: Int): (Int) -> Int? = this.tree.sip_search(keyLeft, keyRight)
@@ -72,6 +73,7 @@ inline class Derived_B_Plus_Tree_Uncompressed_Int_to_Int(val tree: B_Plus_Tree_U
 // this class applies binary search
 inline class Derived_B_Plus_Tree_Uncompressed_Int_to_Int_BinarySearch(val tree: B_Plus_Tree_Uncompressed_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
     constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_Uncompressed_Int_to_Int(filename, k, k_star))
+
     override fun get(key: Int): Int = this.tree.binarySearch(key)
     override fun range_search(keyLeft: Int, keyRight: Int): () -> Int? = this.tree.range_binary_search(keyLeft, keyRight)
     override fun sip_search(keyLeft: Int, keyRight: Int): (Int) -> Int? = this.tree.sip_search(keyLeft, keyRight)
@@ -120,6 +122,7 @@ class B_Plus_Tree_VariableSize_Int_to_Int(val filename: String, val k: Int = 100
 // this class introduces virtual method calls, but implements a generic interface
 inline class Derived_B_Plus_Tree_VariableSize_Int_to_Int(val tree: B_Plus_Tree_VariableSize_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
     constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_VariableSize_Int_to_Int(filename, k, k_star))
+
     override fun get(key: Int): Int = this.tree[key]
     override fun range_search(keyLeft: Int, keyRight: Int): () -> Int? = this.tree.range_search(keyLeft, keyRight)
     override fun sip_search(keyLeft: Int, keyRight: Int): (Int) -> Int? = this.tree.sip_search(keyLeft, keyRight)
@@ -168,6 +171,7 @@ class B_Plus_Tree_VariableSizePointers_Int_to_Int(val filename: String, val k: I
 // this class introduces virtual method calls, but implements a generic interface
 inline class Derived_B_Plus_Tree_VariableSizePointers_Int_to_Int(val tree: B_Plus_Tree_VariableSizePointers_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
     constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_VariableSizePointers_Int_to_Int(filename, k, k_star))
+
     override fun get(key: Int): Int = this.tree[key]
     override fun range_search(keyLeft: Int, keyRight: Int): () -> Int? = this.tree.range_search(keyLeft, keyRight)
     override fun sip_search(keyLeft: Int, keyRight: Int): (Int) -> Int? = this.tree.sip_search(keyLeft, keyRight)
@@ -227,6 +231,7 @@ class B_Plus_Tree_DifferenceEncoding_Int_to_Int(val filename: String, val k: Int
 // this class introduces virtual method calls, but implements a generic interface
 inline class Derived_B_Plus_Tree_DifferenceEncoding_Int_to_Int(val tree: B_Plus_Tree_DifferenceEncoding_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
     constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_DifferenceEncoding_Int_to_Int(filename, k, k_star))
+
     override fun get(key: Int): Int = this.tree[key]
     override fun range_search(keyLeft: Int, keyRight: Int): () -> Int? = this.tree.range_search(keyLeft, keyRight)
     override fun sip_search(keyLeft: Int, keyRight: Int): (Int) -> Int? = this.tree.sip_search(keyLeft, keyRight)
@@ -278,6 +283,7 @@ class B_Plus_Tree_DifferenceEncoding_Int(val filename: String, val k: Int = 1000
 // this class introduces virtual method calls, but implements a generic interface
 inline class Derived_B_Plus_Tree_DifferenceEncoding_Int_OnlyKeys(val tree: B_Plus_Tree_DifferenceEncoding_Int) : I_B_Plus_Tree_KeyRangeSearch_OnlyKeys<Int> {
     constructor(filename: String, k: Int = 1000, k_star: Int = 500) : this(B_Plus_Tree_DifferenceEncoding_Int(filename, k, k_star))
+
     override fun get(key: Int): Boolean = this.tree[key]
     override fun range_search(keyLeft: Int, keyRight: Int): () -> Int? = this.tree.range_search(keyLeft, keyRight)
     override fun sip_search(keyLeft: Int, keyRight: Int): (Int) -> Int? = this.tree.sip_search(keyLeft, keyRight)
@@ -326,6 +332,7 @@ class B_Plus_Tree_Static_Int_to_Int(val filename: String) {
 // this class introduces virtual method calls, but implements a generic interface
 inline class Derived_B_Plus_Tree_Static_Int_to_Int(val tree: B_Plus_Tree_Static_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
     constructor(filename: String) : this(B_Plus_Tree_Static_Int_to_Int(filename))
+
     override fun get(key: Int): Int = this.tree[key]
     override fun range_search(keyLeft: Int, keyRight: Int): () -> Int? = this.tree.range_search(keyLeft, keyRight)
     override fun sip_search(keyLeft: Int, keyRight: Int): (Int) -> Int? = this.tree.sip_search(keyLeft, keyRight)
@@ -374,6 +381,7 @@ class B_Plus_Tree_StaticCompressed_Int_to_Int(val filename: String) {
 // this class introduces virtual method calls, but implements a generic interface
 inline class Derived_B_Plus_Tree_StaticCompressed_Int_to_Int(val tree: B_Plus_Tree_StaticCompressed_Int_to_Int) : I_B_Plus_Tree_KeyRangeSearch<Int, Int> {
     constructor(filename: String) : this(B_Plus_Tree_StaticCompressed_Int_to_Int(filename))
+
     override fun get(key: Int): Int = this.tree[key]
     override fun range_search(keyLeft: Int, keyRight: Int): () -> Int? = this.tree.range_search(keyLeft, keyRight)
     override fun sip_search(keyLeft: Int, keyRight: Int): (Int) -> Int? = this.tree.sip_search(keyLeft, keyRight)

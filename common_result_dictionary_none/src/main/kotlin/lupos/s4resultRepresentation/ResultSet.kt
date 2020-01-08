@@ -10,6 +10,10 @@ actual class ResultSet {
         return variable
     }
 
+    actual fun getVariable(variable: Variable): String {
+        return variable
+    }
+
     actual fun getVariableNames(): Set<String> {
         return variables
     }

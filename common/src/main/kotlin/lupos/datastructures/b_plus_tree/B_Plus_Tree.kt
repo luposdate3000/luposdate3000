@@ -72,6 +72,7 @@ data class NodeParams(var nodeNumber: Int, val filename: String, var page: Page,
             return NodeParams(nodeNumber, filename, page, pageOffset, maxAdr, pageSizeMinusPointer, adrNode, numberOfEntriesPerNode)
         }
     }
+
     var writtenEntryInPage = 0
     var writtenEntry = 0
     var nextNodeAtPos = numberOfEntriesPerNode
@@ -268,7 +269,7 @@ inline fun <K : Any, V> search(filename: String, key: K, compare: (K, K) -> Int,
                 val nodekey = leafNodeDeserializerKey(page, adr)
                 adr += serializedSizeOfKey(nodekey)
                 val cmp = compare(nodekey, key)
-                if (cmp> 0) {
+                if (cmp > 0) {
                     throw NotFoundException(key)
                 }
                 val nodevalue = leafNodeDeserializerValue(page, adr)
@@ -319,7 +320,7 @@ inline fun <K : Any> search(filename: String, key: K, compare: (K, K) -> Int, in
                 val nodekey = leafNodeDeserializerKey(page, adr)
                 adr += serializedSizeOfKey(nodekey)
                 val cmp = compare(nodekey, key)
-                if (cmp> 0) {
+                if (cmp > 0) {
                     return false
                 }
                 if (cmp == 0) {
@@ -1216,7 +1217,7 @@ inline fun <K, V> sip_range_search(filename: String, crossinline compare: (K, K)
                                                 var goDownward = false
                                                 sip_loop@ for (i in path.size - 1 downTo 0) {
                                                     var current = path[i] // current inner node
-                                                    while (current.index <current.numberOfElements) {
+                                                    while (current.index < current.numberOfElements) {
                                                         val pointer = deserializePointer(current.page, current.adr)
                                                         current.adr += serializedSizeOfPointer(pointer)
                                                         current.index++
@@ -1416,7 +1417,7 @@ inline fun <K> sip_range_search(filename: String, crossinline compare: (K, K) ->
                                                 var goDownward = false
                                                 sip_loop@ for (i in path.size - 1 downTo 0) {
                                                     var current = path[i] // current inner node
-                                                    while (current.index <current.numberOfElements) {
+                                                    while (current.index < current.numberOfElements) {
                                                         val pointer = deserializePointer(current.page, current.adr)
                                                         current.adr += serializedSizeOfPointer(pointer)
                                                         current.index++
@@ -1592,7 +1593,7 @@ class B_Plus_Tree<K : Any, V : Any>(val filename: String) { // By K:Any and V:An
             if (firstByte.bit0()) { // inner node
                 var left = 0
                 var right = numberOfElements - 1
-                while (left <right) {
+                while (left < right) {
                     val middle = (left + right) / 2
                     val adrElement = adr + middle * (4 + serializedSizeOfKey)
                     val nodekey = innerNodeDeserializer(page, adrElement + 4)
@@ -1623,7 +1624,7 @@ class B_Plus_Tree<K : Any, V : Any>(val filename: String) { // By K:Any and V:An
                     val nodekey = leafNodeDeserializerKey(page, adr)
                     adr += serializedSizeOfKey
                     val cmp = compare(nodekey, key)
-                    if (cmp> 0) {
+                    if (cmp > 0) {
                         throw NotFoundException(key)
                     }
                     val nodevalue = leafNodeDeserializerValue(page, adr)
@@ -1663,7 +1664,7 @@ class B_Plus_Tree<K : Any, V : Any>(val filename: String) { // By K:Any and V:An
             if (firstByte.bit0()) { // inner node
                 var left = 0
                 var right = numberOfElements - 1
-                while (left <right) {
+                while (left < right) {
                     val middle = (left + right) / 2
                     val adrElement = adr + middle * (4 + serializedSizeOfKey)
                     val nodekey = innerNodeDeserializer(page, adrElement + 4)
@@ -1837,7 +1838,7 @@ class B_Plus_Tree_Difference_Encoding<K : Any, V : Any>(val filename: String) { 
                 var nodekeyOld = leafNodeDeserializerKey(page, adr)
                 adr += serializedSizeOfKey(nodekeyOld)
                 val cmp = compare(nodekeyOld, key)
-                if (cmp> 0) {
+                if (cmp > 0) {
                     throw NotFoundException(key)
                 }
                 val nodevalue = leafNodeDeserializerValue(page, adr)
@@ -1850,7 +1851,7 @@ class B_Plus_Tree_Difference_Encoding<K : Any, V : Any>(val filename: String) { 
                     val nodekey = leafNodeDeserializerKeyDiff(page, adr, nodekeyOld)
                     adr += serializedSizeOfKeyDiff(nodekey, nodekeyOld)
                     val cmp = compare(nodekey, key)
-                    if (cmp> 0) {
+                    if (cmp > 0) {
                         throw NotFoundException(key)
                     }
                     val nodevalue = leafNodeDeserializerValue(page, adr)
@@ -2062,7 +2063,7 @@ class B_Plus_Tree_Difference_Encoding<K : Any, V : Any>(val filename: String) { 
                                                     sip_loop@ for (i in path.size - 1 downTo 0) {
                                                         var current = path[i] // current inner node
                                                         println("#: ${current.numberOfElements}")
-                                                        while (current.index <current.numberOfElements) {
+                                                        while (current.index < current.numberOfElements) {
                                                             var pointer = deserializePointer(current.page, current.adr)
                                                             current.adr += serializedSizeOfPointer(pointer)
                                                             if (current.index == current.numberOfElements - 1) {
@@ -2282,7 +2283,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(val filename: String) { 
                 var nodekeyOld = leafNodeDeserializerKey(page, adr)
                 adr += serializedSizeOfKey(nodekeyOld)
                 val cmp = compare(nodekeyOld, key)
-                if (cmp> 0) {
+                if (cmp > 0) {
                     throw NotFoundException(key)
                 }
                 if (cmp == 0) {
@@ -2293,7 +2294,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(val filename: String) { 
                     val nodekey = leafNodeDeserializerKeyDiff(page, adr, nodekeyOld)
                     adr += serializedSizeOfKeyDiff(nodekey, nodekeyOld)
                     val cmp = compare(nodekey, key)
-                    if (cmp> 0) {
+                    if (cmp > 0) {
                         throw NotFoundException(key)
                     }
                     if (cmp == 0) {
@@ -2473,7 +2474,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(val filename: String) { 
                         if (compareRightLimit(nodekey) <= 0) {
                             var first = true
                             var numberOfElementsOfCurrentNode = numberOfElements
-                            result_fct@return {
+                            result_fct@ return {
                                 var result: K? = null
                                 if (first) {
                                     first = false
@@ -2497,7 +2498,7 @@ class B_Plus_Tree_Difference_Encoding_OnlyKeys<K : Any>(val filename: String) { 
                                                     sip_loop@ for (i in path.size - 1 downTo 0) {
                                                         var current = path[i] // current inner node
                                                         println("#: ${current.numberOfElements}")
-                                                        while (current.index <current.numberOfElements) {
+                                                        while (current.index < current.numberOfElements) {
                                                             if (current.index == current.numberOfElements - 1) {
                                                                 if (current.page.getByte(0L).bit1()) {
                                                                     // node spans over two pages...

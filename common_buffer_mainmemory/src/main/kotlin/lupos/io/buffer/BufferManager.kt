@@ -42,6 +42,7 @@ actual class BufferManager {
             }
         }
     }
+
     actual fun writeAllModifiedPages() {} // main memory implementation does not persist its pages!
     actual fun release() {
         for (entry in this.memoryOfFiles) {

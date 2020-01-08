@@ -20,7 +20,7 @@ actual class CachedFile {
 
     actual constructor(filename: String) {
         val paths = filename.split("/")
-        if (paths.size> 1) {
+        if (paths.size > 1) {
             val dirpath = paths.joinToString(separator = "/", limit = paths.size - 1)
             File(dirpath).mkdirs()
         }
@@ -29,10 +29,10 @@ actual class CachedFile {
 
     companion object {
         @JvmField
-    /* 
-	 * in this way no getter method is used for access to UNSAFE
-	 * (i.e., for avoiding the costly call of a virtual function)
-	 */
+                /*
+                 * in this way no getter method is used for access to UNSAFE
+                 * (i.e., for avoiding the costly call of a virtual function)
+                 */
         val UNSAFE: sun.misc.Unsafe = initUnsafe()
 
         private fun initUnsafe(): sun.misc.Unsafe {
@@ -51,14 +51,14 @@ actual class CachedFile {
         }
 
         val mmap = getMethod(FileChannelImpl::class.javaObjectType,
-        "map0",
-        Int::class.javaPrimitiveType,
-        Long::class.javaPrimitiveType,
-        Long::class.javaPrimitiveType)
+                "map0",
+                Int::class.javaPrimitiveType,
+                Long::class.javaPrimitiveType,
+                Long::class.javaPrimitiveType)
         val unmmap = getMethod(FileChannelImpl::class.javaObjectType,
-        "unmap0",
-        Long::class.javaPrimitiveType,
-        Long::class.javaPrimitiveType)
+                "unmap0",
+                Long::class.javaPrimitiveType,
+                Long::class.javaPrimitiveType)
         val BYTE_ARRAY_OFFSET = UNSAFE.arrayBaseOffset(ByteArray::class.javaObjectType)
 
         // Bundle reflection calls to get access to the given method
@@ -75,7 +75,7 @@ actual class CachedFile {
         // this.file.setLength(this.size)
         val endOffset = pageOffset + PAGESIZE
         println("->" + this.file.length())
-        if (this.file.length() <endOffset) {
+        if (this.file.length() < endOffset) {
             println(endOffset)
             this.file.setLength(pageOffset)
         }
@@ -88,10 +88,12 @@ actual class CachedFile {
     actual inline fun close() {
         this.file.close()
     }
+
     actual inline fun get(address: Long): Page {
         val pageOffset = mapAndGetOffset(address)
         return UnsafePage(pageOffset, { unmmap.invoke(null, pageOffset, PAGESIZE) })
     }
+
     actual inline fun write(address: Long, page: Page) {
         // it is already written because technically it is a memory mapped file!
     }

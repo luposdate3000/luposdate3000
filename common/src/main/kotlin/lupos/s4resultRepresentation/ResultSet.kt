@@ -4,6 +4,7 @@ expect class ResultSet {
     constructor()
 
     fun createVariable(variable: String): Variable
+    fun getVariable(variable: Variable): String
     fun getVariableNames(): Set<String>
 
     fun createValue(value: String): Value
