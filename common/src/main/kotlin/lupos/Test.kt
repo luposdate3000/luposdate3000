@@ -5,9 +5,18 @@ import lupos.s1buildSyntaxTree.rdf.Dictionary
 import lupos.s1buildSyntaxTree.rdf.ID_Triple
 import lupos.s1buildSyntaxTree.rdf.IRI
 import lupos.s1buildSyntaxTree.rdf.SimpleLiteral
-import lupos.s1buildSyntaxTree.sparql1_1.parseSPARQL
+import lupos.s1buildSyntaxTree.sparql1_1.*
+import lupos.s1buildSyntaxTree.LexerCharIterator
+import lupos.s1buildSyntaxTree.LookAheadTokenIterator
 import lupos.s1buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s2buildOperatorGraph.OperatorGraphVisitor
+import lupos.s4resultRepresentation.ResultRow
+import lupos.s4resultRepresentation.ResultSet
+import lupos.s4resultRepresentation.Variable
+import lupos.s5physicalOperators.POPBaseNullableIterator
+import lupos.s6tripleStore.TripleStore
+import lupos.s7physicalOptimisation.transformToPhysicalOperators
+import lupos.s8outputResult.printResult
 
 expect fun readFileContents(filename: String): String
 
@@ -25,7 +34,7 @@ class SevenIndices {
     private val sp = mutableMapOf<Pair<Long, Long>, LongArray>()
     private val so = mutableMapOf<Pair<Long, Long>, LongArray>()
     private val po = mutableMapOf<Pair<Long, Long>, LongArray>()
-    private val spo = mutableSetOf<ID_Triple>()
+    val spo = mutableSetOf<ID_Triple>()
 
     fun s(key: Long): Array<Pair<Long, Long>> = this.s[key] ?: arrayOf()
     fun p(key: Long): Array<Pair<Long, Long>> = this.p[key] ?: arrayOf()
@@ -180,13 +189,13 @@ private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> 
                 }
                 if (queryEvaluationTest) {
                     numberOfTests++
-                    if (!testOneEntry(data, it, "http://www.w3.org/2001/sw/DataAccess/tests/test-query#query", newprefix)) {
+                    if (!testOneEntry(data, it, "http://www.w3.org/2001/sw/DataAccess/tests/test-query#query", "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data", newprefix)) {
                         numberOfErrors++
                     }
                 }
                 if (updateEvaluationTest) {
                     numberOfTests++
-                    if (!testOneEntry(data, it, "http://www.w3.org/2009/sparql/tests/test-update#request", newprefix)) {
+                    if (!updateTestOneEntry(data, it, "http://www.w3.org/2009/sparql/tests/test-update#request", newprefix)) {
                         numberOfErrors++
                     }
                 }
@@ -202,7 +211,33 @@ private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> 
     return Pair<Int, Int>(numberOfTests, numberOfErrors)
 }
 
-private fun testOneEntry(data: SevenIndices, node: Long, queryIdentifier: String, prefix: String): Boolean {
+private fun testOneEntry(data: SevenIndices, node: Long, queryIdentifier: String, inputDataIdentifier: String, prefix: String): Boolean {
+    val action = data.sp(node, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action"))
+    var resultFileTmp = data.sp(node, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result"))
+    var result = true
+    resultFileTmp.forEach {
+        var resultFile = (Dictionary[it] as IRI).iri
+        var targetResult = readFileContents(prefix + resultFile)
+        action.forEach {
+            val inputData = data.sp(it, Dictionary.IRI(inputDataIdentifier))
+            val query = data.sp(it, Dictionary.IRI(queryIdentifier))
+            query.forEach {
+                val queryfile = (Dictionary[it] as IRI).iri
+                inputData.forEach {
+                    val inputDataFile = (Dictionary[it] as IRI).iri
+                    val inputDataSevenIndices = createSevenIndices(prefix + inputDataFile)
+                    println("    Query: " + queryfile)
+                    val querycontents = readFileContents(prefix + queryfile)
+                    result = result && parseSPARQLAndEvaluate(querycontents, inputDataSevenIndices, targetResult)
+                }
+            }
+        }
+    }
+    return result
+}
+
+private fun updateTestOneEntry(data: SevenIndices, node: Long, queryIdentifier: String, prefix: String): Boolean {
+//see for example : common/src/main/resources/sparql11-test-suite/add/manifest.ttl
     val action = data.sp(node, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action"))
     var result = true
     action.forEach {
@@ -250,6 +285,105 @@ fun parseSPARQLAndPrintOut(toParse: String): Boolean {
         return false
     } catch (e: UnsupportedOperationException) {
         println(e.message)
+        return false
+    }
+}
+
+class TripleInsertIterator : POPBaseNullableIterator {
+    var result: ResultRow?
+
+    private val resultSet = ResultSet()
+
+    constructor(triple: ID_Triple) {
+        result = resultSet.createResultRow()
+        result!![resultSet.createVariable("s")] = resultSet.createValue(Dictionary[triple.s]!!.toN3String())
+        result!![resultSet.createVariable("p")] = resultSet.createValue(Dictionary[triple.p]!!.toN3String())
+        result!![resultSet.createVariable("o")] = resultSet.createValue(Dictionary[triple.o]!!.toN3String())
+    }
+
+    override fun getResultSet(): ResultSet {
+        return resultSet
+    }
+
+    override fun nnext(): ResultRow? {
+        var res = result
+        result = null
+        return res
+    }
+
+}
+
+fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData: String): Boolean {
+    var calculatedResult = "<?xml version=\"1.0\"?>\n"
+    calculatedResult += "<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\">"
+    try {
+        val store = TripleStore()
+        println("----------Input Data")
+
+        for (triple in inputData.spo) {
+//sehr inperformant ... 
+            store.addData(TripleInsertIterator(triple))
+        }
+//XXX        insert(dataIn, store)
+
+
+        printResult(store.getIterator())
+        println("----------String Query")
+        println(toParse)
+        println("----------Abstract Syntax Tree")
+        val lcit = LexerCharIterator(toParse)
+        val tit = TokenIteratorSPARQLParser(lcit)
+        val ltit = LookAheadTokenIterator(tit, 3)
+        val parser = SPARQLParser(ltit)
+        val ast_node = parser.expr()
+        println(ast_node)
+        println("----------Logical Operator Graph")
+        val lop_node = ast_node.visit(OperatorGraphVisitor())
+        println(lop_node)
+        println("----------Physical Operator Graph")
+        val pop_node = transformToPhysicalOperators(lop_node, store)
+        println(pop_node)
+        println("----------Query Result")
+        val resultSet = pop_node.getResultSet()
+        val variableNames = resultSet.getVariableNames().toTypedArray()
+        val variables = arrayOfNulls<Variable>(variableNames.size)
+        var i = 0
+        calculatedResult += "  <head>\n"
+        for (variableName in variableNames) {
+            calculatedResult += "    <variable name=\"" + variableName + "\"/>\n"
+            variables[i] = resultSet.createVariable(variableName)
+            i++
+        }
+        calculatedResult += "  </head>\n"
+        var j = 0
+        calculatedResult += "  <results>\n"
+        while (pop_node.hasNext()) {
+            calculatedResult += "    <result>\n"
+            val resultRow = pop_node.next()
+            i = 0
+            for (variable in variables) {
+                calculatedResult += "      <binding name=\"" + variableNames[i] + "\">\n"
+                calculatedResult += "        " + resultSet.getValue(resultRow[variable!!]) + "\n"
+                calculatedResult += "      </binding>\n"
+                i++
+            }
+            j++
+            calculatedResult += "    </result>\n"
+        }
+        calculatedResult += "  </results>\n"
+        calculatedResult += "</sparql>\n"
+        println(calculatedResult)
+        return calculatedResult == resultData
+    } catch (e: ParseError) {
+        println(e.message)
+        println("Error in the following line:")
+        println(e.lineNumber)
+        return false
+    } catch (e: UnsupportedOperationException) {
+        println(e.message)
+        return false
+    } catch (e: Throwable) {
+        println(e)
         return false
     }
 }

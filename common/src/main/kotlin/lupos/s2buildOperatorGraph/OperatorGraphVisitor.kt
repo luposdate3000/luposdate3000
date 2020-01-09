@@ -155,9 +155,6 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 query = q
             }
         }
-        if (query is LOPNOOP) {
-            return query
-        }
         if (values != null && prefix != null) {
             prefix.getLatestChild().setChild(joinValuesAndQuery(values, query))
             return prefix
@@ -167,7 +164,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             prefix.getLatestChild().setChild(query)
             return prefix
         }
-        return LOPNOOP()
+        return query
     }
 
     private fun joinValuesAndQuery(values: OPBase, query: OPBase): OPBase {

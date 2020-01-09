@@ -110,7 +110,7 @@ actual class TripleStore {
 
     actual constructor()
 
-    fun addData(
+    private fun addData(
             key: ResultRow,
             value: ResultRow,
             store: MutableMap<ResultRow, MutableList<ResultRow>>
