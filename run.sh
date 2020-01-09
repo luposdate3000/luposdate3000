@@ -12,5 +12,6 @@ done
 )
 #java -cp ./heap_jvm/build/libs/heap_jvm.jar lupos/sparql1_1/test/TestKt
 #java -cp ./heap_jvm/build/libs/heap_jvm.jar lupos/s2buildOperatorGraph/OperatorGraphVisitorTestKt
-java -cp ./heap_jvm/build/libs/heap_jvm.jar lupos/s7physicalOptimisation/TestKt
+#java -cp ./heap_jvm/build/libs/heap_jvm.jar lupos/s7physicalOptimisation/TestKt
+java -cp ./heap_jvm/build/libs/heap_jvm.jar lupos/s8outputResult/TestKt
 

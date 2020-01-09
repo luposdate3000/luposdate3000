@@ -40,9 +40,13 @@ class POPFilterExact : POPSingleInputBase {
     fun calculateNext() {
         while (true) {
             val res = child.hasNext()
+            if (!res) {
+                hasNextRow = false
+                return
+            }
             nextRow = child.next()
-            if (!res || resultSetOld.getValue(nextRow!![filterVariable]) == filterValue) {
-                hasNextRow = res
+            if (resultSetOld.getValue(nextRow!![filterVariable]) == filterValue) {
+                hasNextRow = true
                 return
             }
         }
