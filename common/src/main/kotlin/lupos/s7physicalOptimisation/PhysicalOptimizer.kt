@@ -11,7 +11,7 @@ import lupos.s6tripleStore.*
 
 class PhysicalOptimizer() {
 
-    fun optimize(graph: OPBase, store: TripleStore = persistentTripleStore): POPBase {
+    fun optimize(graph: OPBase, store: TripleStore): POPBase {
         when (graph) {
             is LOPSingleInputBase ->
                 when (graph) {
@@ -30,7 +30,7 @@ class PhysicalOptimizer() {
                         return POPRename(graph.s, LOPVariable("s"), optimize(LOPTriple(LOPVariable("s"), graph.p, graph.o), store))
                 } else if (graph.s is LOPExpression) {
                     if (graph.s.child is ASTIri) {
-                        return POPFilterExact(LOPVariable("s"), graph.s.child.iri, optimize(LOPTriple(LOPVariable("s"), graph.p, graph.o), store))
+                        return POPFilterExact(LOPVariable("s"), "<" + graph.s.child.iri + ">", optimize(LOPTriple(LOPVariable("s"), graph.p, graph.o), store))
                     }
                 }
                 if (graph.p is LOPVariable) {
@@ -40,7 +40,7 @@ class PhysicalOptimizer() {
                         return POPRename(graph.p, LOPVariable("p"), optimize(LOPTriple(graph.s, LOPVariable("p"), graph.o), store))
                 } else if (graph.p is LOPExpression) {
                     if (graph.p.child is ASTIri) {
-                        return POPFilterExact(LOPVariable("p"), graph.p.child.iri, optimize(LOPTriple(graph.s, LOPVariable("p"), graph.o), store))
+                        return POPFilterExact(LOPVariable("p"), "<" + graph.p.child.iri + ">", optimize(LOPTriple(graph.s, LOPVariable("p"), graph.o), store))
                     }
                 }
                 if (graph.o is LOPVariable) {
@@ -51,7 +51,7 @@ class PhysicalOptimizer() {
                     }
                 } else if (graph.o is LOPExpression) {
                     if (graph.o.child is ASTIri) {
-                        return POPFilterExact(LOPVariable("o"), graph.o.child.iri, optimize(LOPTriple(graph.s, graph.p, LOPVariable("o")), store))
+                        return POPFilterExact(LOPVariable("o"), "<" + graph.o.child.iri + ">", optimize(LOPTriple(graph.s, graph.p, LOPVariable("o")), store))
                     }
                 }
                 if (done == 3)

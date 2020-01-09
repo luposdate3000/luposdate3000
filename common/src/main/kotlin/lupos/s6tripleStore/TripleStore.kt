@@ -14,5 +14,3 @@ expect class TripleStore() {
     // TODO fun getIterator(tripelmuster): ResultSetIterator /*nur selectiv result sets generieren ggf gleichheut einiger variablen prüfen/garantieren*/
     // TODO fun getIterator(tripelmuster,sort): ResultSetIteratorSidewaysInformationPassing /*nur selectiv result sets generieren ggf gleichheut einiger variablen prüfen/garantieren*/
 }
-
-val persistentTripleStore = TripleStore()

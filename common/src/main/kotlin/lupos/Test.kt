@@ -316,18 +316,14 @@ class TripleInsertIterator : POPBaseNullableIterator {
 
 fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData: String): Boolean {
     var calculatedResult = "<?xml version=\"1.0\"?>\n"
-    calculatedResult += "<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\">"
+    calculatedResult += "<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\">\n"
     try {
         val store = TripleStore()
         println("----------Input Data")
-
         for (triple in inputData.spo) {
-//sehr inperformant ... 
+            //sehr inperformant ...
             store.addData(TripleInsertIterator(triple))
         }
-//XXX        insert(dataIn, store)
-
-
         printResult(store.getIterator())
         println("----------String Query")
         println(toParse)
@@ -360,7 +356,11 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         }
         calculatedResult += "  </head>\n"
         var j = 0
-        calculatedResult += "  <results>\n"
+        val atLeastOneResult = pop_node.hasNext()
+        if (atLeastOneResult)
+            calculatedResult += "  <results>\n"
+        else
+            calculatedResult += "  <results/>\n"
         while (pop_node.hasNext()) {
             calculatedResult += "    <result>\n"
             val resultRow = pop_node.next()
@@ -374,9 +374,16 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
             j++
             calculatedResult += "    </result>\n"
         }
-        calculatedResult += "  </results>\n"
+        if (atLeastOneResult)
+            calculatedResult += "  </results>\n"
         calculatedResult += "</sparql>\n"
         println(calculatedResult)
+        println("----------Target Result")
+        println(resultData)
+        if (calculatedResult == resultData)
+            println("----------Success")
+        else
+            println("----------Failed")
         return calculatedResult == resultData
     } catch (e: ParseError) {
         println(e.message)
