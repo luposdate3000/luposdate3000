@@ -23,7 +23,8 @@ class POPProjection : POPSingleInputBase {
     }
 
     override fun hasNext(): Boolean {
-        return child.hasNext()
+        val res = child.hasNext()
+        return res
     }
 
     override fun next(): ResultRow {

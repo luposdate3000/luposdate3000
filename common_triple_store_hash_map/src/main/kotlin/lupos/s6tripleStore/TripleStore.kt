@@ -86,7 +86,8 @@ class TripleStoreIterator : POPBase {
                 break
             }
         }
-        return listIterator != null && listIterator!!.hasNext()
+        val res = listIterator != null && listIterator!!.hasNext()
+        return res
     }
 
     override fun getResultSet(): ResultSet {

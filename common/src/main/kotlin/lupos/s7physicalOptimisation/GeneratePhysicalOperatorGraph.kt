@@ -42,10 +42,11 @@ fun transformToPhysicalOperators(graph: OPBase): POPBase {
                 }
             }
             if (graph.o is LOPVariable) {
-                if (graph.o.name != "o")
+                if (graph.o.name == "o") {
                     done++
-                else
+                } else {
                     return POPRename(graph.o, LOPVariable("o"), transformToPhysicalOperators(LOPTriple(graph.s, graph.p, LOPVariable("o"))))
+                }
             } else if (graph.o is LOPExpression) {
                 if (graph.o.child is ASTIri) {
                     return POPFilterExact(LOPVariable("o"), graph.o.child.iri, transformToPhysicalOperators(LOPTriple(graph.s, graph.p, LOPVariable("o"))))

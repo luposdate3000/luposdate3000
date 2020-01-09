@@ -6,16 +6,13 @@ import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
 
-class POPFilterExact : POPSingleInputBase {
+class POPFilterExact : POPSingleInputBaseNullableIterator {
     private val resultSetOld: ResultSet
     private val resultSetNew = ResultSet()
     private val variablesOld: Array<Variable?>
     private val variablesNew: Array<Variable?>
     private val filterVariable: Variable
     private val filterValue: String
-    private var nextRow: ResultRow? = null
-    private var hasNextRow: Boolean = false
-    private var hasInit: Boolean
 
     constructor(variable: LOPVariable, value: String, child: POPBase) : super(child) {
         resultSetOld = child.getResultSet()
@@ -30,44 +27,29 @@ class POPFilterExact : POPSingleInputBase {
         }
         filterVariable = resultSetOld.createVariable(variable.name)
         filterValue = value
-        hasInit = false;
     }
 
     override fun getResultSet(): ResultSet {
         return resultSetNew
     }
 
-    fun calculateNext() {
+    override fun nnext(): ResultRow? {
+        var nextRow: ResultRow? = null
         while (true) {
-            val res = child.hasNext()
-            if (!res) {
-                hasNextRow = false
-                return
-            }
+            if (!child.hasNext())
+                return null
             nextRow = child.next()
             if (resultSetOld.getValue(nextRow!![filterVariable]) == filterValue) {
-                hasNextRow = true
-                return
+                break
             }
         }
-    }
-
-    override fun hasNext(): Boolean {
-        if (!hasInit) {
-            calculateNext()
-            hasInit = true
-        }
-        return hasNextRow
-    }
-
-    override fun next(): ResultRow {
         var rsNew = resultSetNew.createResultRow()
+
         val rsOld = nextRow!!
         for (i in variablesNew.indices) {
             // TODO reuse resultSet
             rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
         }
-        calculateNext()
         return rsNew
     }
 

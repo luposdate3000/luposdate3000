@@ -11,8 +11,12 @@ class POPRename : POPSingleInputBase {
     private val resultSetNew = ResultSet()
     private val variablesOld: Array<Variable?>
     private val variablesNew: Array<Variable?>
+    private val nameTo: LOPVariable
+    private val nameFrom: LOPVariable
 
     constructor(nameTo: LOPVariable, nameFrom: LOPVariable, child: POPBase) : super(child) {
+        this.nameTo = nameTo
+        this.nameFrom = nameFrom
         resultSetOld = child.getResultSet()
         val variableNames = resultSetOld.getVariableNames()
         variablesOld = Array<Variable?>(variableNames.size, init = fun(it: Int) = (null as Variable?))
@@ -33,7 +37,8 @@ class POPRename : POPSingleInputBase {
     }
 
     override fun hasNext(): Boolean {
-        return child.hasNext()
+        val res = child.hasNext()
+        return res
     }
 
     override fun next(): ResultRow {
@@ -45,4 +50,6 @@ class POPRename : POPSingleInputBase {
         }
         return rsNew
     }
+
+    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\tfrom:\n${indentation}\t\t${nameFrom.name}\n${indentation}\tto:\n${indentation}\t\t${nameTo.name}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
 }
