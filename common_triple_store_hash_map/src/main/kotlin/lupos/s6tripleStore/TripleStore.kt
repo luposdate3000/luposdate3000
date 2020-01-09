@@ -36,7 +36,7 @@ class TripleStoreIterator : POPBase {
             IndexPattern.POS -> this.index = IndexPattern.PO
             IndexPattern.OSP -> this.index = IndexPattern.SO
             IndexPattern.OPS -> this.index = IndexPattern.PO
-            else -> throw UnsupportedOperationException("UnsupportedOperationException TripleStoreIterator ${index}")
+            else -> throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} ${index}")
         }
         when (index) {
             IndexPattern.S -> mapIterator = store.tripleStoreS.iterator()
@@ -46,7 +46,7 @@ class TripleStoreIterator : POPBase {
             IndexPattern.SO -> mapIterator = store.tripleStoreSO.iterator()
             IndexPattern.PO -> mapIterator = store.tripleStorePO.iterator()
             IndexPattern.SPO -> mapIterator = store.tripleStoreSPO.iterator()
-            else -> throw UnsupportedOperationException("UnsupportedOperationException TripleStoreIterator ${index}")
+            else -> throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} ${index}")
         }
         resultSetOld = store.resultSet
         sOld = resultSetOld.createVariable("s")

@@ -10,12 +10,13 @@ import lupos.s1buildSyntaxTree.LexerCharIterator
 import lupos.s1buildSyntaxTree.LookAheadTokenIterator
 import lupos.s1buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s2buildOperatorGraph.OperatorGraphVisitor
+import lupos.s3logicalOptimisation.LogicalOptimizer
 import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBaseNullableIterator
 import lupos.s6tripleStore.TripleStore
-import lupos.s7physicalOptimisation.transformToPhysicalOperators
+import lupos.s7physicalOptimisation.PhysicalOptimizer
 import lupos.s8outputResult.printResult
 
 expect fun readFileContents(filename: String): String
@@ -340,8 +341,11 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         println("----------Logical Operator Graph")
         val lop_node = ast_node.visit(OperatorGraphVisitor())
         println(lop_node)
+        println("----------Logical Operator Graph optimized")
+        val lop_node2 = LogicalOptimizer().optimize(lop_node)
+        println(lop_node2)
         println("----------Physical Operator Graph")
-        val pop_node = transformToPhysicalOperators(lop_node, store)
+        val pop_node = PhysicalOptimizer().optimize(lop_node2, store)
         println(pop_node)
         println("----------Query Result")
         val resultSet = pop_node.getResultSet()

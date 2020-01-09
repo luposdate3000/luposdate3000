@@ -30,7 +30,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         result.getLatestChild().setChild(LOPBind(v, sel.expression.visit(this)))
                     }
                     else -> {
-                        throw UnsupportedOperationException("UnsupportedOperationException Select-Parameter ${node::class.simpleName}")
+                        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Select-Parameter ${node::class.simpleName}")
                     }
                 }
             }
@@ -69,7 +69,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         result.getLatestChild().setChild(LOPBind(v, b.expression.visit(this)))
                     }
                     else -> {
-                        throw UnsupportedOperationException("UnsupportedOperationException Group-Parameter ${node::class.simpleName}")
+                        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Group-Parameter ${node::class.simpleName}")
                     }
                 }
             }
@@ -381,154 +381,154 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTAdd, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTMove, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTCopy, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTGraph, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTDefaultGraph, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTNamedGraph, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTIriGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTNamedIriGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTDefaultGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTNamedGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTAllGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTGrapOperation, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTUpdateGrapOperation, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTClear, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTDrop, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTCreate, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTModify, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Update ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Update ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTDeleteData, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Update ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Update ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTDeleteWhere, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Update ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Update ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTInsertData, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Update ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Update ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTModifyWithWhere, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Update ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Update ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTPathAlternatives, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Path ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTPathSequence, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Path ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTPathInverse, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Path ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTPathArbitraryOccurrences, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Path ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTPathOptionalOccurrence, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Path ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTPathArbitraryOccurrencesNotZero, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Path ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTPathNegatedPropertySet, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Path ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTGroupConcat, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Group ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Group ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Blank Node ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Blank Node ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTSubSelectQuery, childrenValues: List<OPBase>): OPBase {
         if (node.existsValues()) {
-            throw UnsupportedOperationException("UnsupportedOperationException Values ${node::class.simpleName}")
+            throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Values ${node::class.simpleName}")
         }
         return visit(node as ASTSelectQuery, childrenValues)
     }
 
     override fun visit(node: ASTConstructQuery, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Query Type ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Query Type ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTDescribeQuery, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Query Type ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Query Type ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTDatasetClause, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Query Type ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Query Type ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTService, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException Service ${node::class.simpleName}")
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Service ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTQueryBaseClass, childrenValues: List<OPBase>): OPBase {

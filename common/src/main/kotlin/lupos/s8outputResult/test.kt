@@ -6,6 +6,7 @@ import lupos.s1buildSyntaxTree.ParseError
 import lupos.s1buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s2buildOperatorGraph.*
+import lupos.s3logicalOptimisation.LogicalOptimizer
 import lupos.s4resultRepresentation.*
 import lupos.s5physicalOperators.*
 import lupos.s6tripleStore.*
@@ -69,8 +70,11 @@ fun main(args: Array<String>) {
         println("----------Logical Operator Graph")
         val lop_node = ast_node.visit(OperatorGraphVisitor())
         println(lop_node)
+        println("----------Logical Operator Graph optimized")
+        val lop_node2 = LogicalOptimizer().optimize(lop_node)
+        println(lop_node2)
         println("----------Physical Operator Graph")
-        val pop_node = transformToPhysicalOperators(lop_node)
+        val pop_node = PhysicalOptimizer().optimize(lop_node2)
         println(pop_node)
         println("----------Query Result")
         printResult(pop_node)

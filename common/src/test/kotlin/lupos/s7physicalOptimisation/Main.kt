@@ -7,6 +7,7 @@ import kotlin.test.assertEquals
 import lupos.s1buildSyntaxTree.*
 import lupos.s1buildSyntaxTree.sparql1_1.*
 import lupos.s2buildOperatorGraph.*
+import lupos.s3logicalOptimisation.LogicalOptimizer
 import lupos.s4resultRepresentation.*
 import lupos.s5physicalOperators.*
 import lupos.s6tripleStore.*
@@ -89,7 +90,8 @@ class TripleStoreTest {
         val parser = SPARQLParser(ltit)
         val ast_node = parser.expr()
         val lop_node = ast_node.visit(OperatorGraphVisitor())
-        val pop_node = transformToPhysicalOperators(lop_node, store)
+        val lop_node2 = LogicalOptimizer().optimize(lop_node)
+        val pop_node = PhysicalOptimizer().optimize(lop_node2, store)
         val resultSet = pop_node.getResultSet()
         val variableNames = resultSet.getVariableNames().toTypedArray()
         val variables = arrayOfNulls<Variable>(variableNames.size)
