@@ -83,49 +83,58 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         }
         return result
     }
-enum class GroupMember{
-	GMLOPFilter,GMLOPMinus,GMLOPTriple,GMLOPBind
-}
+
+    enum class GroupMember {
+        GMLOPFilter, GMLOPMinus, GMLOPTriple, GMLOPBind, GMLOPSubGroup
+    }
+
     private fun parseGroup(nodes: Array<ASTNode>): OPBase {
         if (nodes.isEmpty()) {
             return LOPNOOP()
         }
         var result: OPBase? = null
-	var members=mutableMapOf<GroupMember,OPBase>()
+        var members = mutableMapOf<GroupMember, OPBase>()
         for (n in nodes) {
             val tmp2 = n.visit(this)
             when (tmp2) {
                 is LOPMinus -> {
-		    if(members.containsKey(GroupMember.GMLOPMinus))
-			(members[GroupMember.GMLOPMinus] as LOPSingleInputBase).getLatestChild().setChild(tmp2)
-		    else
-			members[GroupMember.GMLOPMinus]=tmp2
+                    if (members.containsKey(GroupMember.GMLOPMinus))
+                        (members[GroupMember.GMLOPMinus] as LOPSingleInputBase).getLatestChild().setChild(tmp2)
+                    else
+                        members[GroupMember.GMLOPMinus] = tmp2
                 }
                 is LOPFilter -> {
-		    if(members.containsKey(GroupMember.GMLOPFilter))
-			(members[GroupMember.GMLOPFilter] as LOPSingleInputBase).getLatestChild().setChild(tmp2)
-		    else
-			members[GroupMember.GMLOPFilter]=tmp2
+                    if (members.containsKey(GroupMember.GMLOPFilter))
+                        (members[GroupMember.GMLOPFilter] as LOPSingleInputBase).getLatestChild().setChild(tmp2)
+                    else
+                        members[GroupMember.GMLOPFilter] = tmp2
                 }
-		is LOPBind -> {
-		    if(members.containsKey(GroupMember.GMLOPBind))
-			(members[GroupMember.GMLOPBind] as LOPSingleInputBase).getLatestChild().setChild(tmp2)
-		    else
-			members[GroupMember.GMLOPBind]=tmp2
-		}
+                is LOPBind -> {
+                    if (members.containsKey(GroupMember.GMLOPBind))
+                        (members[GroupMember.GMLOPBind] as LOPSingleInputBase).getLatestChild().setChild(tmp2)
+                    else
+                        members[GroupMember.GMLOPBind] = tmp2
+                }
                 is LOPTriple -> {
                     if (members.containsKey(GroupMember.GMLOPTriple)) {
-			members[GroupMember.GMLOPTriple]=LOPJoin(members[GroupMember.GMLOPTriple]!!, tmp2, false)
+                        members[GroupMember.GMLOPTriple] = LOPJoin(members[GroupMember.GMLOPTriple]!!, tmp2, false)
                     } else {
-			members[GroupMember.GMLOPTriple]=tmp2
+                        members[GroupMember.GMLOPTriple] = tmp2
+                    }
+                }
+                is LOPSubGroup -> {
+                    if (members.containsKey(GroupMember.GMLOPSubGroup)) {
+                        members[GroupMember.GMLOPSubGroup] = LOPJoin(members[GroupMember.GMLOPSubGroup]!!, tmp2, false)
+                    } else {
+                        members[GroupMember.GMLOPSubGroup] = tmp2
                     }
                 }
                 else ->
                     throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} GroupMember ${tmp2::class.simpleName}")
             }
         }
-	if(members.containsKey(GroupMember.GMLOPMinus)){
-            result =  members[GroupMember.GMLOPMinus]
+        if (members.containsKey(GroupMember.GMLOPMinus)) {
+            result = members[GroupMember.GMLOPMinus]
         }
         if (members.containsKey(GroupMember.GMLOPFilter)) {
             if (result == null)
@@ -144,6 +153,12 @@ enum class GroupMember{
                 result = members[GroupMember.GMLOPTriple]
             else
                 (result as LOPSingleInputBase).getLatestChild().setChild(members[GroupMember.GMLOPTriple]!!)
+        }
+        if (members.containsKey(GroupMember.GMLOPSubGroup)) {
+            if (result == null)
+                result = members[GroupMember.GMLOPSubGroup]
+            else
+                (result as LOPSingleInputBase).getLatestChild().setChild(members[GroupMember.GMLOPSubGroup]!!)
         }
         return result!!
     }
@@ -369,7 +384,7 @@ enum class GroupMember{
     }
 
     override fun visit(node: ASTGroup, childrenValues: List<OPBase>): OPBase {
-        return parseGroup(node.children)
+        return LOPSubGroup(parseGroup(node.children))
     }
 
     override fun visit(node: ASTValues, childrenValues: List<OPBase>): OPBase {

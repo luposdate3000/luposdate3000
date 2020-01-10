@@ -17,6 +17,17 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
         return POPProjection(node.variables, optimize(node.child) as POPBase)
     }
 
+    override fun visit(node: LOPBind): OPBase {
+        val variable = optimize(node.name) as LOPVariable
+        val child = optimize(node.child) as POPBase
+        when (node.expression) {
+            is LOPVariable ->
+                return POPRename(variable, node.expression, child)
+            else ->
+                return POPBind(variable, optimize(node.expression) as POPExpression, child)
+        }
+    }
+
     override fun visit(node: LOPTriple): OPBase {
         var done = 0
         if (node.s is LOPVariable) {

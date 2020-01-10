@@ -24,12 +24,17 @@ open abstract class OptimizerVisitorPOP() : OptimizerVisitorLOP() {
         return node
     }
 
+    open fun visit(node: POPBind): OPBase {
+        return POPBind(node.name, node.expression, optimize(node.child) as POPBase)
+    }
+
     override open fun optimize(node: OPBase): OPBase {
         when (node) {
             is POPFilterExact -> return visit(node)
             is POPProjection -> return visit(node)
             is POPRename -> return visit(node)
             is POPTripleStoreIteratorBase -> return visit(node)
+            is POPBind -> return visit(node)
         }
         return super.optimize(node)
     }

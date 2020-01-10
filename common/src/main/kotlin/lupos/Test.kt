@@ -315,9 +315,18 @@ class TripleInsertIterator : POPBaseNullableIterator {
 
 }
 
+fun createXMLBinding(s: String): String {
+    val dataTypeInt = "^^<http://www.w3.org/2001/XMLSchema#integer>"
+    when {
+        s.startsWith("<http") -> return "<uri>" + s.substring(1, s.length - 1) + "</uri>"
+        s.endsWith(dataTypeInt) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#integer\">" + s.substring(1, s.length - 1 - dataTypeInt.length) + "</literal>"
+        else -> throw UnsupportedOperationException("UnsupportedOperationException createXMLBinding ${s}")
+    }
+}
+
 fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData: String): Boolean {
     var calculatedResult = "<?xml version=\"1.0\"?>\n"
-    calculatedResult += "<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\">\n"
+    calculatedResult += "<sparql>\n"
     try {
         val store = TripleStore()
         println("----------Input Data")
@@ -370,7 +379,7 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
             i = 0
             for (variable in variables) {
                 calculatedResult += "      <binding name=\"" + variableNames[i] + "\">\n"
-                calculatedResult += "        " + resultSet.getValue(resultRow[variable!!]) + "\n"
+                calculatedResult += "        " + createXMLBinding(resultSet.getValue(resultRow[variable!!])) + "\n"
                 calculatedResult += "      </binding>\n"
                 i++
             }
@@ -382,12 +391,17 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         calculatedResult += "</sparql>\n"
         println(calculatedResult)
         println("----------Target Result")
-        println(resultData)
-        if (calculatedResult == resultData)
+
+        var resultDataToUse = resultData
+        val regex = "<sparql[^>]+>".toRegex()
+        resultDataToUse = resultDataToUse.replace(regex, "<sparql>")
+
+        println(resultDataToUse)
+        if (calculatedResult == resultDataToUse)
             println("----------Success")
         else
             println("----------Failed")
-        return calculatedResult == resultData
+        return calculatedResult == resultDataToUse
     } catch (e: ParseError) {
         println(e.message)
         println("Error in the following line:")
