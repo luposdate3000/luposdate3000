@@ -14,6 +14,7 @@ import lupos.s3logicalOptimisation.LogicalOptimizer
 import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
+import lupos.s5physicalOperators.POPBase
 import lupos.s5physicalOperators.POPBaseNullableIterator
 import lupos.s6tripleStore.TripleStore
 import lupos.s7physicalOptimisation.PhysicalOptimizer
@@ -341,7 +342,9 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         val lop_node2 = LogicalOptimizer().optimize(lop_node)
         println(lop_node2)
         println("----------Physical Operator Graph")
-        val pop_node = PhysicalOptimizer().optimize(lop_node2, store)
+        val pop_optimizer = PhysicalOptimizer()
+        pop_optimizer.store = store
+        val pop_node = pop_optimizer.optimize(lop_node2) as POPBase
         println(pop_node)
         println("----------Query Result")
         val resultSet = pop_node.getResultSet()

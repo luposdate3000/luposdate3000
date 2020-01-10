@@ -2,9 +2,10 @@ package lupos.s2buildOperatorGraph.singleinput
 
 import lupos.s2buildOperatorGraph.LOPBase
 import lupos.s2buildOperatorGraph.OPBase
+import lupos.s2buildOperatorGraph.OPNothing
 
 abstract class LOPSingleInputBase() : LOPBase() {
-    var child: OPBase = LOPNOOP()
+    var child: OPBase = OPNothing()
 
     constructor(child: OPBase) : this() {
         this.child = child

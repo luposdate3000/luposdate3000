@@ -75,7 +75,9 @@ fun main(args: Array<String>) {
         val lop_node2 = LogicalOptimizer().optimize(lop_node)
         println(lop_node2)
         println("----------Physical Operator Graph")
-        val pop_node = PhysicalOptimizer().optimize(lop_node2, store)
+        val pop_optimizer = PhysicalOptimizer()
+        pop_optimizer.store = store
+        val pop_node = pop_optimizer.optimize(lop_node2) as POPBase
         println(pop_node)
         println("----------Query Result")
         printResult(pop_node)

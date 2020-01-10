@@ -94,24 +94,30 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         var tFilter: LOPSingleInputBase? = null
         for (n in nodes) {
             val tmp2 = n.visit(this)
-            if (tmp2 is LOPFilter) {
-                if (tFilter == null) {
-                    tFilter = tmp2
-                } else
-                    tFilter.getLatestChild().setChild(tmp2)
-            } else if (tmp2 is LOPMinus) {
-                if (tMinus == null) {
-                    tMinus = tmp2
-                } else {
-                    tMinus.getLatestChild().setChild(tmp2)
+            when (tmp2) {
+                is LOPFilter -> {
+                    if (tFilter == null) {
+                        tFilter = tmp2
+                    } else
+                        tFilter.getLatestChild().setChild(tmp2)
                 }
-            } else {
-                val j = tJoin
-                if (j == null) {
-                    tJoin = tmp2
-                } else {
-                    tJoin = LOPJoin(j, tmp2, false)
+                is LOPMinus -> {
+                    if (tMinus == null) {
+                        tMinus = tmp2
+                    } else {
+                        tMinus.getLatestChild().setChild(tmp2)
+                    }
                 }
+                is LOPTriple -> {
+                    val j = tJoin
+                    if (j == null) {
+                        tJoin = tmp2
+                    } else {
+                        tJoin = LOPJoin(j, tmp2, false)
+                    }
+                }
+                else ->
+                    throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} GroupMember ${tmp2::class.simpleName}")
             }
         }
         if (tMinus != null) {
@@ -302,11 +308,6 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     override fun visit(node: ASTPrefix, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
         return LOPPrefix(node.name, node.iri)
-    }
-
-    override fun visit(node: ASTAskQuery, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
-        return LOPMakeBooleanResult()
     }
 
     override fun visit(node: ASTAs, childrenValues: List<OPBase>): OPBase {
@@ -524,6 +525,10 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTDatasetClause, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Query Type ${node::class.simpleName}")
+    }
+
+    override fun visit(node: ASTAskQuery, childrenValues: List<OPBase>): OPBase {
         throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Query Type ${node::class.simpleName}")
     }
 

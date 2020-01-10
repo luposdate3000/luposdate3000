@@ -91,7 +91,9 @@ class TripleStoreTest {
         val ast_node = parser.expr()
         val lop_node = ast_node.visit(OperatorGraphVisitor())
         val lop_node2 = LogicalOptimizer().optimize(lop_node)
-        val pop_node = PhysicalOptimizer().optimize(lop_node2, store)
+        val pop_optimizer = PhysicalOptimizer()
+        pop_optimizer.store = store
+        val pop_node = pop_optimizer.optimize(lop_node2) as POPBase
         val resultSet = pop_node.getResultSet()
         val variableNames = resultSet.getVariableNames().toTypedArray()
         val variables = arrayOfNulls<Variable>(variableNames.size)

@@ -7,17 +7,30 @@ import lupos.s5physicalOperators.*
 import lupos.s5physicalOperators.singleinput.*
 import lupos.s6tripleStore.POPTripleStoreIteratorBase
 
-open abstract class OptimizerVisitorPOP():OptimizerVisitorLOP(){
-	open fun visit(node:POPFilterExact):OPBase{
-		return POPFilterExact(visit(node.variable)as LOPVariable,node.value,visit(node.child)as POPBase)
-	}
-	open fun visit(node:POPProjection):OPBase{
-		return POPProjection(node.variables,visit(node.child)as POPBase)
-	}
-	open fun visit(node:POPRename):OPBase{
-		return POPRename(visit(node.nameTo)as LOPVariable,visit(node.nameFrom)as LOPVariable,visit(node.child)as POPBase)
-	}
-	open fun visit(node:POPTripleStoreIteratorBase):OPBase{
-		return node
-	}
+open abstract class OptimizerVisitorPOP() : OptimizerVisitorLOP() {
+    open fun visit(node: POPFilterExact): OPBase {
+        return POPFilterExact(optimize(node.variable) as LOPVariable, node.value, optimize(node.child) as POPBase)
+    }
+
+    open fun visit(node: POPProjection): OPBase {
+        return POPProjection(node.variables, optimize(node.child) as POPBase)
+    }
+
+    open fun visit(node: POPRename): OPBase {
+        return POPRename(optimize(node.nameTo) as LOPVariable, optimize(node.nameFrom) as LOPVariable, optimize(node.child) as POPBase)
+    }
+
+    open fun visit(node: POPTripleStoreIteratorBase): OPBase {
+        return node
+    }
+
+    override open fun optimize(node: OPBase): OPBase {
+        when (node) {
+            is POPFilterExact -> return visit(node)
+            is POPProjection -> return visit(node)
+            is POPRename -> return visit(node)
+            is POPTripleStoreIteratorBase -> return visit(node)
+        }
+        return super.optimize(node)
+    }
 }

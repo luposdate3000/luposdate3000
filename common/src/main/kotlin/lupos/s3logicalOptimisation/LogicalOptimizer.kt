@@ -11,14 +11,11 @@ import lupos.s3logicalOptimisation.OptimizerVisitorLOP
 
 class LogicalOptimizer() : OptimizerVisitorLOP() {
     override fun visit(node: LOPPrefix): OPBase {
-        return visit(node.child)
+        return optimize(node.child)
     }
 
     override fun visit(node: LOPNOOP): OPBase {
-        return visit(node.child)
+        return optimize(node.child)
     }
 
-    fun optimize(graph: OPBase): OPBase {
-        return visit(graph)
-    }
 }
