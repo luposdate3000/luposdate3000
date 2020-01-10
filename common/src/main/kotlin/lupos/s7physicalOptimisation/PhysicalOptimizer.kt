@@ -22,7 +22,10 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
         val child = optimize(node.child) as POPBase
         when (node.expression) {
             is LOPVariable ->
-                return POPRename(variable, node.expression, child)
+                if (child.getResultSet().getVariableNames().contains(variable.name))
+                    return POPRename(variable, node.expression, child)
+                else
+                    return POPBind(variable, POPExpression(), child)
             else ->
                 return POPBind(variable, optimize(node.expression) as POPExpression, child)
         }

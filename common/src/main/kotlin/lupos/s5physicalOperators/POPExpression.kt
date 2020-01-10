@@ -8,11 +8,11 @@ import lupos.s5physicalOperators.POPBase
 
 class POPExpression {
 
-constructor(){
-}
+    constructor() {
+    }
 
-fun evaluate(resultSet:ResultSet,resultRow:ResultRow):String{
-return ""
-}
+    fun evaluate(resultSet: ResultSet, resultRow: ResultRow): String {
+        return ""
+    }
 
 }

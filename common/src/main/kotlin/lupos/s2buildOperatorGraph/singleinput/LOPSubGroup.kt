@@ -6,6 +6,6 @@ import lupos.s2buildOperatorGraph.OPNothing
 
 class LOPSubGroup() : LOPSingleInputBase() {
     constructor(child: OPBase) : this() {
-	this.child=child
+        this.child = child
     }
 }

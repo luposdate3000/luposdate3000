@@ -378,9 +378,12 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
             val resultRow = pop_node.next()
             i = 0
             for (variable in variables) {
-                calculatedResult += "      <binding name=\"" + variableNames[i] + "\">\n"
-                calculatedResult += "        " + createXMLBinding(resultSet.getValue(resultRow[variable!!])) + "\n"
-                calculatedResult += "      </binding>\n"
+                var tmp = resultSet.getValue(resultRow[variable!!])
+                if (!tmp.isEmpty()) {
+                    calculatedResult += "      <binding name=\"" + variableNames[i] + "\">\n"
+                    calculatedResult += "        " + createXMLBinding(tmp) + "\n"
+                    calculatedResult += "      </binding>\n"
+                }
                 i++
             }
             j++
@@ -390,24 +393,33 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
             calculatedResult += "  </results>\n"
         calculatedResult += "</sparql>\n"
         println(calculatedResult)
-	println(calculatedResult.length)
+        println(calculatedResult.length)
         println("----------Target Result")
 
         var resultDataToUse = resultData
         resultDataToUse = resultDataToUse.replace("<sparql[^>]+>".toRegex(), "<sparql>")
 
         println(resultDataToUse)
-	println(resultDataToUse.length)
+        println(resultDataToUse.length)
 
-val a = calculatedResult.replace("\\s".toRegex(),"")
-val b = resultDataToUse.replace("\\s".toRegex(),"")
-println("a:$a")
-println("b:$b")
-	val res = a == b
+
+        val a = calculatedResult.replace("\\s".toRegex(), "")
+        val b = resultDataToUse.replace("\\s".toRegex(), "")
+        println("a:$a")
+        println("b:$b")
+        val res = a == b
         if (res)
             println("----------Success")
-        else
-            println("----------Failed")
+        else {
+            val aa = calculatedResult.lines().sorted().joinToString().replace("\\s".toRegex(), "")
+            val bb = resultDataToUse.lines().sorted().joinToString().replace("\\s".toRegex(), "")
+            println("c:$aa")
+            println("d:$bb")
+            if (aa == bb)
+                println("----------Success(Unordered)")
+            else
+                println("----------Failed")
+        }
         return calculatedResult == resultDataToUse
     } catch (e: ParseError) {
         println(e.message)
