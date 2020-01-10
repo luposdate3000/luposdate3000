@@ -1,6 +1,6 @@
 package lupos.s2buildOperatorGraph
 
-open class OPBase {
+abstract class OPBase {
 
     open fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n"
 

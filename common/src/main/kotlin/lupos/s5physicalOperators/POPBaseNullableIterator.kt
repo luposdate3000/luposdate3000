@@ -5,7 +5,7 @@ import lupos.s4resultRepresentation.ResultSetIterator
 import lupos.s4resultRepresentation.ResultRow
 
 
-open abstract class POPBaseNullableIterator : POPBase() {
+abstract class POPBaseNullableIterator : POPBase() {
     var tmpResult: ResultRow? = null
     abstract fun nnext(): ResultRow?
     override fun hasNext(): Boolean {

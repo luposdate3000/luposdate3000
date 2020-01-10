@@ -7,6 +7,10 @@ import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
 
 class POPFilterExact : POPSingleInputBaseNullableIterator {
+
+    val variable: LOPVariable
+    val value: String
+
     private val resultSetOld: ResultSet
     private val resultSetNew = ResultSet()
     private val variablesOld: Array<Variable?>
@@ -15,6 +19,8 @@ class POPFilterExact : POPSingleInputBaseNullableIterator {
     private val filterValue: String
 
     constructor(variable: LOPVariable, value: String, child: POPBase) : super(child) {
+        this.variable = variable
+        this.value = value
         resultSetOld = child.getResultSet()
         val variableNames = resultSetOld.getVariableNames()
         variablesOld = Array<Variable?>(variableNames.size, init = fun(it: Int) = (null as Variable?))

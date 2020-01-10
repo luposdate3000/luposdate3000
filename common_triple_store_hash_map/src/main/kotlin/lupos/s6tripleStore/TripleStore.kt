@@ -6,7 +6,7 @@ import lupos.s4resultRepresentation.ResultSetIterator
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
 
-class TripleStoreIterator : POPBase {
+class TripleStoreIterator : POPTripleStoreIteratorBase {
     private val resultSetNew = ResultSet()
     private val resultSetOld: ResultSet
     private var mapIterator: MutableIterator<MutableMap.MutableEntry<ResultRow, MutableList<ResultRow>>>
@@ -199,11 +199,11 @@ actual class TripleStore {
         }
     }
 
-    actual fun getIterator(): POPBase {
+    actual fun getIterator(): POPTripleStoreIteratorBase {
         return TripleStoreIterator(this)
     }
 
-    actual fun getIterator(index: IndexPattern): POPBase {
+    actual fun getIterator(index: IndexPattern): POPTripleStoreIteratorBase {
         return TripleStoreIterator(this, index)
     }
 }

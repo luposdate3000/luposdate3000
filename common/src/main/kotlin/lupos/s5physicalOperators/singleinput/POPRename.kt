@@ -7,12 +7,12 @@ import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
 
 class POPRename : POPSingleInputBase {
+    var nameTo: LOPVariable
+    var nameFrom: LOPVariable
     private val resultSetOld: ResultSet
     private val resultSetNew = ResultSet()
     private val variablesOld: Array<Variable?>
     private val variablesNew: Array<Variable?>
-    private val nameTo: LOPVariable
-    private val nameFrom: LOPVariable
 
     constructor(nameTo: LOPVariable, nameFrom: LOPVariable, child: POPBase) : super(child) {
         this.nameTo = nameTo

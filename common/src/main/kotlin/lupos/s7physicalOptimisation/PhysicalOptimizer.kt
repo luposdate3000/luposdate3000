@@ -9,57 +9,54 @@ import lupos.s5physicalOperators.*
 import lupos.s5physicalOperators.singleinput.*
 import lupos.s6tripleStore.*
 
-class PhysicalOptimizer() {
+class PhysicalOptimizer() : OptimizerVisitorPOP() {
+
+    var store: TripleStore = TripleStore()
+
+    override fun visit(node: LOPProjection): OPBase {
+        return POPProjection(node.variables, visit(node.child) as POPBase)
+    }
+
+    override fun visit(node: LOPTriple): OPBase {
+        var done = 0
+        if (node.s is LOPVariable) {
+            if (node.s.name == "s")
+                done++
+            else
+                return POPRename(node.s, LOPVariable("s"), optimize(LOPTriple(LOPVariable("s"), node.p, node.o), store))
+        } else if (node.s is LOPExpression) {
+            if (node.s.child is ASTIri) {
+                return POPFilterExact(LOPVariable("s"), "<" + node.s.child.iri + ">", optimize(LOPTriple(LOPVariable("s"), node.p, node.o), store))
+            }
+        }
+        if (node.p is LOPVariable) {
+            if (node.p.name == "p")
+                done++
+            else
+                return POPRename(node.p, LOPVariable("p"), optimize(LOPTriple(node.s, LOPVariable("p"), node.o), store))
+        } else if (node.p is LOPExpression) {
+            if (node.p.child is ASTIri) {
+                return POPFilterExact(LOPVariable("p"), "<" + node.p.child.iri + ">", optimize(LOPTriple(node.s, LOPVariable("p"), node.o), store))
+            }
+        }
+        if (node.o is LOPVariable) {
+            if (node.o.name == "o") {
+                done++
+            } else {
+                return POPRename(node.o, LOPVariable("o"), optimize(LOPTriple(node.s, node.p, LOPVariable("o")), store))
+            }
+        } else if (node.o is LOPExpression) {
+            if (node.o.child is ASTIri) {
+                return POPFilterExact(LOPVariable("o"), "<" + node.o.child.iri + ">", optimize(LOPTriple(node.s, node.p, LOPVariable("o")), store))
+            }
+        }
+        if (done == 3)
+            return store.getIterator()
+        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} 1 ${node::class.simpleName}, ${node.s::class.simpleName},  ${node.p::class.simpleName}, ${node.o::class.simpleName}")
+    }
 
     fun optimize(graph: OPBase, store: TripleStore): POPBase {
-        when (graph) {
-            is LOPSingleInputBase ->
-                when (graph) {
-                    is LOPNOOP ->
-                        return optimize(graph.child, store)
-                    is LOPProjection ->
-                        return POPProjection(graph.variables, optimize(graph.child, store))
-                    else -> throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} 0 ${graph::class.simpleName}")
-                }
-            is LOPTriple -> {
-                var done = 0
-                if (graph.s is LOPVariable) {
-                    if (graph.s.name == "s")
-                        done++
-                    else
-                        return POPRename(graph.s, LOPVariable("s"), optimize(LOPTriple(LOPVariable("s"), graph.p, graph.o), store))
-                } else if (graph.s is LOPExpression) {
-                    if (graph.s.child is ASTIri) {
-                        return POPFilterExact(LOPVariable("s"), "<" + graph.s.child.iri + ">", optimize(LOPTriple(LOPVariable("s"), graph.p, graph.o), store))
-                    }
-                }
-                if (graph.p is LOPVariable) {
-                    if (graph.p.name == "p")
-                        done++
-                    else
-                        return POPRename(graph.p, LOPVariable("p"), optimize(LOPTriple(graph.s, LOPVariable("p"), graph.o), store))
-                } else if (graph.p is LOPExpression) {
-                    if (graph.p.child is ASTIri) {
-                        return POPFilterExact(LOPVariable("p"), "<" + graph.p.child.iri + ">", optimize(LOPTriple(graph.s, LOPVariable("p"), graph.o), store))
-                    }
-                }
-                if (graph.o is LOPVariable) {
-                    if (graph.o.name == "o") {
-                        done++
-                    } else {
-                        return POPRename(graph.o, LOPVariable("o"), optimize(LOPTriple(graph.s, graph.p, LOPVariable("o")), store))
-                    }
-                } else if (graph.o is LOPExpression) {
-                    if (graph.o.child is ASTIri) {
-                        return POPFilterExact(LOPVariable("o"), "<" + graph.o.child.iri + ">", optimize(LOPTriple(graph.s, graph.p, LOPVariable("o")), store))
-                    }
-                }
-                if (done == 3)
-                    return store.getIterator()
-                throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} 1 ${graph::class.simpleName}, ${graph.s::class.simpleName},  ${graph.p::class.simpleName}, ${graph.o::class.simpleName}")
-
-            }
-            else -> throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} 2 ${graph::class.simpleName}")
-        }
+        this.store = store
+        return visit(graph) as POPBase
     }
 }

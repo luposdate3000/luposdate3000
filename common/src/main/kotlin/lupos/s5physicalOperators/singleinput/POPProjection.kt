@@ -7,12 +7,14 @@ import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
 
 class POPProjection : POPSingleInputBase {
+    val variables: MutableList<LOPVariable>
     private val resultSetOld: ResultSet
     private val resultSetNew = ResultSet()
     private val variablesOld: Array<Variable>
     private val variablesNew: Array<Variable>
 
     constructor(variables: MutableList<LOPVariable>, child: POPBase) : super(child) {
+        this.variables = variables
         resultSetOld = child.getResultSet()
         this.variablesOld = Array<Variable>(variables.size, init = fun(it: Int) = resultSetOld.createVariable(variables[it].name))
         this.variablesNew = Array<Variable>(variables.size, init = fun(it: Int) = resultSetNew.createVariable(variables[it].name))

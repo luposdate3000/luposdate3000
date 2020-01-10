@@ -3,8 +3,8 @@ package lupos.s2buildOperatorGraph.singleinput
 import lupos.s2buildOperatorGraph.LOPBase
 import lupos.s2buildOperatorGraph.OPBase
 
-open class LOPSingleInputBase() : LOPBase() {
-    var child: OPBase = OPBase()
+abstract class LOPSingleInputBase() : LOPBase() {
+    var child: OPBase = LOPNOOP()
 
     constructor(child: OPBase) : this() {
         this.child = child
