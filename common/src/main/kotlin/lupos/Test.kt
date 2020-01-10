@@ -390,14 +390,21 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
             calculatedResult += "  </results>\n"
         calculatedResult += "</sparql>\n"
         println(calculatedResult)
+	println(calculatedResult.length)
         println("----------Target Result")
 
         var resultDataToUse = resultData
-        val regex = "<sparql[^>]+>".toRegex()
-        resultDataToUse = resultDataToUse.replace(regex, "<sparql>")
+        resultDataToUse = resultDataToUse.replace("<sparql[^>]+>".toRegex(), "<sparql>")
 
         println(resultDataToUse)
-        if (calculatedResult == resultDataToUse)
+	println(resultDataToUse.length)
+
+val a = calculatedResult.replace("\\s".toRegex(),"")
+val b = resultDataToUse.replace("\\s".toRegex(),"")
+println("a:$a")
+println("b:$b")
+	val res = a == b
+        if (res)
             println("----------Success")
         else
             println("----------Failed")
