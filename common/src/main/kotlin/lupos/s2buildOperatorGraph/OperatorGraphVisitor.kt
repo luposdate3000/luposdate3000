@@ -83,57 +83,67 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         }
         return result
     }
-
+enum class GroupMember{
+	GMLOPFilter,GMLOPMinus,GMLOPTriple,GMLOPBind
+}
     private fun parseGroup(nodes: Array<ASTNode>): OPBase {
         if (nodes.isEmpty()) {
             return LOPNOOP()
         }
         var result: OPBase? = null
-        var tJoin: OPBase? = null
-        var tMinus: LOPSingleInputBase? = null
-        var tFilter: LOPSingleInputBase? = null
+	var members=mutableMapOf<GroupMember,OPBase>()
         for (n in nodes) {
             val tmp2 = n.visit(this)
             when (tmp2) {
-                is LOPFilter -> {
-                    if (tFilter == null) {
-                        tFilter = tmp2
-                    } else
-                        tFilter.getLatestChild().setChild(tmp2)
-                }
                 is LOPMinus -> {
-                    if (tMinus == null) {
-                        tMinus = tmp2
-                    } else {
-                        tMinus.getLatestChild().setChild(tmp2)
-                    }
+		    if(members.containsKey(GroupMember.GMLOPMinus))
+			(members[GroupMember.GMLOPMinus] as LOPSingleInputBase).getLatestChild().setChild(tmp2)
+		    else
+			members[GroupMember.GMLOPMinus]=tmp2
                 }
+                is LOPFilter -> {
+		    if(members.containsKey(GroupMember.GMLOPFilter))
+			(members[GroupMember.GMLOPFilter] as LOPSingleInputBase).getLatestChild().setChild(tmp2)
+		    else
+			members[GroupMember.GMLOPFilter]=tmp2
+                }
+		is LOPBind -> {
+		    if(members.containsKey(GroupMember.GMLOPBind))
+			(members[GroupMember.GMLOPBind] as LOPSingleInputBase).getLatestChild().setChild(tmp2)
+		    else
+			members[GroupMember.GMLOPBind]=tmp2
+		}
                 is LOPTriple -> {
-                    val j = tJoin
-                    if (j == null) {
-                        tJoin = tmp2
+                    if (members.containsKey(GroupMember.GMLOPTriple)) {
+			members[GroupMember.GMLOPTriple]=LOPJoin(members[GroupMember.GMLOPTriple]!!, tmp2, false)
                     } else {
-                        tJoin = LOPJoin(j, tmp2, false)
+			members[GroupMember.GMLOPTriple]=tmp2
                     }
                 }
                 else ->
                     throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} GroupMember ${tmp2::class.simpleName}")
             }
         }
-        if (tMinus != null) {
-            result = tMinus
+	if(members.containsKey(GroupMember.GMLOPMinus)){
+            result =  members[GroupMember.GMLOPMinus]
         }
-        if (tFilter != null) {
+        if (members.containsKey(GroupMember.GMLOPFilter)) {
             if (result == null)
-                result = tFilter
+                result = members[GroupMember.GMLOPFilter]
             else
-                (result as LOPSingleInputBase).getLatestChild().setChild(tFilter)
+                (result as LOPSingleInputBase).getLatestChild().setChild(members[GroupMember.GMLOPFilter]!!)
         }
-        if (tJoin != null) {
+        if (members.containsKey(GroupMember.GMLOPBind)) {
             if (result == null)
-                result = tJoin
+                result = members[GroupMember.GMLOPBind]
             else
-                (result as LOPSingleInputBase).getLatestChild().setChild(tJoin)
+                (result as LOPSingleInputBase).getLatestChild().setChild(members[GroupMember.GMLOPBind]!!)
+        }
+        if (members.containsKey(GroupMember.GMLOPTriple)) {
+            if (result == null)
+                result = members[GroupMember.GMLOPTriple]
+            else
+                (result as LOPSingleInputBase).getLatestChild().setChild(members[GroupMember.GMLOPTriple]!!)
         }
         return result!!
     }
