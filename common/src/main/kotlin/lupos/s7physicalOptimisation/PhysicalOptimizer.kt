@@ -70,4 +70,8 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
         }
         return result
     }
+
+    override fun visit(node: OPNothing): OPBase {
+        return POPEmptyRow()
+    }
 }
