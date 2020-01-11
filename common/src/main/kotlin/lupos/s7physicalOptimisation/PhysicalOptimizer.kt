@@ -36,47 +36,38 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
         return POPJoin(optimize(node.child) as POPBase, optimize(node.second) as POPBase, node.optional)
     }
 
+    fun optimizeTriple(param: OPBase, name: String, child: POPBase, node: LOPTriple): POPBase {
+        when (param) {
+            is LOPVariable -> {
+                if (param.name != name)
+                    return POPRename(param, LOPVariable(name), child)
+            }
+            is LOPExpression -> {
+                if (param.child is ASTIri) {
+                    return POPFilterExact(LOPVariable(name), "<" + param.child.iri + ">", child)
+                } else {
+                    throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} 2 ${node::class.simpleName}, ${param.child::class.simpleName}")
+                }
+            }
+        }
+        return child
+    }
+
     override fun visit(node: LOPTriple): OPBase {
-        var done = 0
-        if (node.s is LOPVariable) {
-            if (node.s.name == "s")
-                done++
-            else
-                return POPRename(node.s, LOPVariable("s"), optimize(LOPTriple(LOPVariable("s"), node.p, node.o)) as POPBase)
-        } else if (node.s is LOPExpression) {
-            if (node.s.child is ASTIri) {
-                return POPFilterExact(LOPVariable("s"), "<" + node.s.child.iri + ">", optimize(LOPTriple(LOPVariable("s"), node.p, node.o)) as POPBase)
-            } else {
-                throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} 2 ${node::class.simpleName}, ${node.s.child::class.simpleName}")
-            }
+        val variables = mutableListOf<LOPVariable>()
+        if (node.s is LOPVariable)
+            variables.add(node.s)
+        if (node.p is LOPVariable)
+            variables.add(node.p)
+        if (node.o is LOPVariable)
+            variables.add(node.o)
+        var result: POPBase = store.getIterator()
+        result = optimizeTriple(node.s, "s", result, node)
+        result = optimizeTriple(node.p, "p", result, node)
+        result = optimizeTriple(node.o, "o", result, node)
+        if (variables.size < 3) {
+            result = POPProjection(variables, result)
         }
-        if (node.p is LOPVariable) {
-            if (node.p.name == "p")
-                done++
-            else
-                return POPRename(node.p, LOPVariable("p"), optimize(LOPTriple(node.s, LOPVariable("p"), node.o)) as POPBase)
-        } else if (node.p is LOPExpression) {
-            if (node.p.child is ASTIri) {
-                return POPFilterExact(LOPVariable("p"), "<" + node.p.child.iri + ">", optimize(LOPTriple(node.s, LOPVariable("p"), node.o)) as POPBase)
-            } else {
-                throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} 2 ${node::class.simpleName}, ${node.p.child::class.simpleName}")
-            }
-        }
-        if (node.o is LOPVariable) {
-            if (node.o.name == "o") {
-                done++
-            } else {
-                return POPRename(node.o, LOPVariable("o"), optimize(LOPTriple(node.s, node.p, LOPVariable("o"))) as POPBase)
-            }
-        } else if (node.o is LOPExpression) {
-            if (node.o.child is ASTIri) {
-                return POPFilterExact(LOPVariable("o"), "<" + node.o.child.iri + ">", optimize(LOPTriple(node.s, node.p, LOPVariable("o"))) as POPBase)
-            } else {
-                throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} 2 ${node::class.simpleName}, ${node.o.child::class.simpleName}")
-            }
-        }
-        if (done == 3)
-            return store.getIterator()
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} 1 ${node::class.simpleName}, ${node.s::class.simpleName}, ${node.p::class.simpleName}, ${node.o::class.simpleName}")
+        return result
     }
 }

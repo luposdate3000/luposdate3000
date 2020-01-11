@@ -320,7 +320,12 @@ fun createXMLBinding(s: String): String {
     when {
         s.startsWith("<http") -> return "<uri>" + s.substring(1, s.length - 1) + "</uri>"
         s.endsWith(dataTypeInt) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#integer\">" + s.substring(1, s.length - 1 - dataTypeInt.length) + "</literal>"
-        else -> throw UnsupportedOperationException("UnsupportedOperationException createXMLBinding ${s}")
+        s.startsWith("_:") -> return "<bnode>" + s.substring(2, s.length) + "</bnode>"
+        s.endsWith(">") -> {
+            println("UnsupportedOperationException createXMLBinding ${s}")
+            return s
+        }
+        else -> return "<literal>" + s + "</literal>"
     }
 }
 
