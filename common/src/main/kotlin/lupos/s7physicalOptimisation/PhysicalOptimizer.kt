@@ -26,7 +26,7 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
                 if (child.getResultSet().getVariableNames().contains(variable.name))
                     return POPRename(variable, node.expression, child)
                 else
-                    return POPBind(variable, POPExpression(), child)
+                    return POPBindUndefined(variable, child)
             else ->
                 return POPBind(variable, optimize(node.expression) as POPExpression, child)
         }
@@ -43,10 +43,10 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
                     return POPRename(param, LOPVariable(name), child)
             }
             is LOPExpression -> {
-                if (param.child is ASTIri) {
-                    return POPFilterExact(LOPVariable(name), "<" + param.child.iri + ">", child)
-                } else {
-                    throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} 2 ${node::class.simpleName}, ${param.child::class.simpleName}")
+                when (param.child) {
+                    is ASTIri -> return POPFilterExact(LOPVariable(name), "<" + param.child.iri + ">", child)
+                    is ASTLanguageTaggedLiteral -> return POPFilterExact(LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter + "@" + param.child.language, child)
+                    else -> throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} 2 ${node::class.simpleName}, ${param.child::class.simpleName}")
                 }
             }
         }
