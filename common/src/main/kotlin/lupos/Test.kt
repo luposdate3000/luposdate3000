@@ -426,9 +426,6 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         println("Error in the following line:")
         println(e.lineNumber)
         return false
-    } catch (e: UnsupportedOperationException) {
-        println(e.message)
-        return false
     } catch (e: Throwable) {
         println(e)
         return false

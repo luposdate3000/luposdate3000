@@ -6,6 +6,7 @@ import lupos.s2buildOperatorGraph.singleinput.*
 import lupos.s2buildOperatorGraph.multiinput.*
 import lupos.s2buildOperatorGraph.data.*
 import lupos.s5physicalOperators.*
+import lupos.s5physicalOperators.multiinput.POPJoin
 import lupos.s5physicalOperators.singleinput.*
 import lupos.s6tripleStore.*
 
@@ -29,6 +30,10 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
             else ->
                 return POPBind(variable, optimize(node.expression) as POPExpression, child)
         }
+    }
+
+    override fun visit(node: LOPJoin): OPBase {
+        return POPJoin(optimize(node.child) as POPBase, optimize(node.second) as POPBase, node.optional)
     }
 
     override fun visit(node: LOPTriple): OPBase {
