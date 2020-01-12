@@ -40,7 +40,7 @@ class POPFilter : POPSingleInputBaseNullableIterator {
             if (!child.hasNext())
                 return null
             nextRow = child.next()
-            if (filter.evaluate(resultSetOld, nextRow) == "true")
+            if (filter.evaluateBoolean(resultSetOld, nextRow))
                 break
         }
         var rsNew = resultSetNew.createResultRow()

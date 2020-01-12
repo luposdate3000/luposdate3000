@@ -320,10 +320,12 @@ class TripleInsertIterator : POPBaseNullableIterator {
 fun createXMLBinding(s: String): String {
     val dataTypeInt = "^^<http://www.w3.org/2001/XMLSchema#integer>"
     val dataTypeDecimal = "^^<http://www.w3.org/2001/XMLSchema#decimal>"
+    val dataTypeBoolean = "^^<http://www.w3.org/2001/XMLSchema#boolean>"
     when {
         s.startsWith("<http") -> return "<uri>" + s.substring(1, s.length - 1) + "</uri>"
         s.endsWith(dataTypeInt) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#integer\">" + s.substring(1, s.length - 1 - dataTypeInt.length) + "</literal>"
         s.endsWith(dataTypeDecimal) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#decimal\">" + s.substring(1, s.length - 1 - dataTypeDecimal.length) + "</literal>"
+        s.endsWith(dataTypeBoolean) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#boolean\">" + s.substring(1, s.length - 1 - dataTypeBoolean.length) + "</literal>"
         s.startsWith("_:") -> return "<bnode>" + s.substring(2, s.length) + "</bnode>"
         s.endsWith(">") -> {
             println("UnsupportedOperationException createXMLBinding ${s}")
@@ -334,8 +336,7 @@ fun createXMLBinding(s: String): String {
 }
 
 fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData: String): Boolean {
-    var calculatedResult = "<?xml>\n"
-    calculatedResult += "<sparql>\n"
+    var calculatedResult = "<sparql>\n"
     try {
         val store = TripleStore()
         println("----------Input Data")
@@ -406,14 +407,24 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         println("----------Target Result")
 
         var resultDataToUse = resultData
-        resultDataToUse = resultDataToUse.replace("<sparql[^>]+>".toRegex(), "<sparql>").replace("<.xml[^>]+>".toRegex(), "<?xml>")
+        resultDataToUse = resultDataToUse.replace("<sparql[^>]+>".toRegex(), "<sparql>").replace("<.xml[^>]+>".toRegex(), "")
 
         println(resultDataToUse)
         println(resultDataToUse.length)
 
 
         val a = calculatedResult.replace("\\s".toRegex(), "")
-        val b = resultDataToUse.replace("\\s".toRegex(), "")
+        val bt = resultDataToUse.replace("\\s".toRegex(), "")
+        var tmp = mutableListOf<String>()
+        bt.replace("><".toRegex(), ">\n<").lines().forEach() {
+            if (it.contains("='"))
+                tmp.add(it.replace("='", "=\"").replace("'>", "\">").replace("'/>", "\"/>"))
+            else
+                tmp.add(it)
+        }
+        val b = tmp.joinToString("")
+
+
         println("a:$a")
         println("b:$b")
         val res = a == b

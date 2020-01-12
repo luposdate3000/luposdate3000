@@ -16,6 +16,7 @@ enum class TmpResultType {
 class POPExpression : OPBase {
     private val dataTypeInteger = "^^<http://www.w3.org/2001/XMLSchema#integer>"
     private val dataTypeDouble = "^^<http://www.w3.org/2001/XMLSchema#decimal>"
+    private val dataTypeBoolean = "^^<http://www.w3.org/2001/XMLSchema#boolean>"
     var child: ASTNode
 
     constructor(child: ASTNode) {
@@ -41,6 +42,7 @@ class POPExpression : OPBase {
                 when {
                     tmp.endsWith(dataTypeInteger) -> return TmpResultType.RSInteger
                     tmp.endsWith(dataTypeDouble) -> return TmpResultType.RSDouble
+                    tmp.endsWith(dataTypeBoolean) -> return TmpResultType.RSBoolean
                     tmp.startsWith("<http") -> return TmpResultType.RSString
                     else -> {
                         println("guess result type to be TmpResultType.RSString (${tmp})")
@@ -106,7 +108,7 @@ class POPExpression : OPBase {
                     BuiltInFunctions.ABS -> return abs(evaluateHelperDouble(resultSet, resultRow, node.children[0]))
                     BuiltInFunctions.CEIL -> return ceil(evaluateHelperDouble(resultSet, resultRow, node.children[0]))
                     BuiltInFunctions.FLOOR -> return floor(evaluateHelperDouble(resultSet, resultRow, node.children[0]))
-                    BuiltInFunctions.ROUND -> return round(evaluateHelperDouble(resultSet, resultRow, node.children[0]))
+                    BuiltInFunctions.ROUND -> return evaluateHelperDouble(resultSet, resultRow, node.children[0]).roundToInt().toDouble()
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDouble ${node::class.simpleName} ${node.function}")
                 }
             }
@@ -167,7 +169,10 @@ class POPExpression : OPBase {
                 val a = evaluateHelperBoolean(resultSet, resultRow, left)
                 val b = evaluateHelperBoolean(resultSet, resultRow, right)
                 when (node) {
-                    is ASTEQ -> return a == b
+                    is ASTEQ -> {
+                        println("ASTEQ a:: ${a} ${b} ${a == b}")
+                        return a == b
+                    }
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName}")
                 }
             }
@@ -175,7 +180,10 @@ class POPExpression : OPBase {
                 val a = evaluateHelperInteger(resultSet, resultRow, left)
                 val b = evaluateHelperInteger(resultSet, resultRow, right)
                 when (node) {
-                    is ASTEQ -> return a == b
+                    is ASTEQ -> {
+                        println("ASTEQ b:: ${a} ${b} ${a == b}")
+                        return a == b
+                    }
                     is ASTGEQ -> return a >= b
                     is ASTLEQ -> return a <= b
                     is ASTGT -> return a > b
@@ -188,7 +196,10 @@ class POPExpression : OPBase {
                 val a = evaluateHelperDouble(resultSet, resultRow, left)
                 val b = evaluateHelperInteger(resultSet, resultRow, right)
                 when (node) {
-                    is ASTEQ -> return a == b.toDouble()
+                    is ASTEQ -> {
+                        println("ASTEQ c:: ${a} ${b} ${a == b.toDouble()}")
+                        return a == b.toDouble()
+                    }
                     is ASTGEQ -> return a >= b
                     is ASTLEQ -> return a <= b
                     is ASTGT -> return a > b
@@ -201,7 +212,10 @@ class POPExpression : OPBase {
                 val a = evaluateHelperInteger(resultSet, resultRow, left)
                 val b = evaluateHelperDouble(resultSet, resultRow, right)
                 when (node) {
-                    is ASTEQ -> return a.toDouble() == b
+                    is ASTEQ -> {
+                        println("ASTEQ d:: ${a} ${b} ${a.toDouble() == b}")
+                        return a.toDouble() == b
+                    }
                     is ASTGEQ -> return a >= b
                     is ASTLEQ -> return a <= b
                     is ASTGT -> return a > b
@@ -240,7 +254,7 @@ class POPExpression : OPBase {
 
     private fun evaluateHelperString(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): String {
         when (getResultType(resultSet, resultRow, node)) {
-            TmpResultType.RSBoolean -> return "" + evaluateHelperBoolean(resultSet, resultRow, node)
+            TmpResultType.RSBoolean -> return "\"" + evaluateHelperBoolean(resultSet, resultRow, node) + "\"" + dataTypeBoolean
             TmpResultType.RSInteger -> return "\"" + evaluateHelperInteger(resultSet, resultRow, node) + "\"" + dataTypeInteger
             TmpResultType.RSDouble -> {
                 val res = evaluateHelperDouble(resultSet, resultRow, node).toString()
@@ -262,7 +276,13 @@ class POPExpression : OPBase {
     }
 
     fun evaluate(resultSet: ResultSet, resultRow: ResultRow): String {
+        println("resultRow:: " + resultRow)
         return evaluateHelperString(resultSet, resultRow, child)
+    }
+
+    fun evaluateBoolean(resultSet: ResultSet, resultRow: ResultRow): Boolean {
+        println("resultRow:: " + resultRow)
+        return evaluateHelperBoolean(resultSet, resultRow, child)
     }
 
     override fun toString(indentation: String): String {
