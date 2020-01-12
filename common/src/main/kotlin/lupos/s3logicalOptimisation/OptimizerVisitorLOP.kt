@@ -17,7 +17,11 @@ import lupos.s2buildOperatorGraph.singleinput.LOPProjection
 import lupos.s2buildOperatorGraph.singleinput.LOPRename
 import lupos.s2buildOperatorGraph.singleinput.LOPSort
 import lupos.s2buildOperatorGraph.singleinput.LOPSubGroup
-import lupos.s2buildOperatorGraph.singleinput.modifiers.*
+import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPDistinct
+import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPLimit
+import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPOffset
+import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPPrefix
+import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPReduced
 import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.OPNothing
 

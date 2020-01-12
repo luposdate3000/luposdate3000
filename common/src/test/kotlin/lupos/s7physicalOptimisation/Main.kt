@@ -5,13 +5,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import kotlin.test.assertEquals
 import lupos.s1buildSyntaxTree
-import lupos.s1buildSyntaxTree.sparql1_1.*
-import lupos.s2buildOperatorGraph.*
 import lupos.s3logicalOptimisation.LogicalOptimizer
-import lupos.s4resultRepresentation.*
-import lupos.s5physicalOperators.*
-import lupos.s6tripleStore.*
-import lupos.s8outputResult.*
 
 class ResultSetIteratorTestImpl : ResultSetIterator {
     private var index = 0

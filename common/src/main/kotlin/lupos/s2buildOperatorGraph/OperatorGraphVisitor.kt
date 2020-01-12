@@ -96,8 +96,20 @@ import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s2buildOperatorGraph.multiinput.LOPJoin
 import lupos.s2buildOperatorGraph.multiinput.LOPMinus
 import lupos.s2buildOperatorGraph.multiinput.LOPUnion
-import lupos.s2buildOperatorGraph.singleinput.*
-import lupos.s2buildOperatorGraph.singleinput.modifiers.*
+import lupos.s2buildOperatorGraph.singleinput.LOPBind
+import lupos.s2buildOperatorGraph.singleinput.LOPFilter
+import lupos.s2buildOperatorGraph.singleinput.LOPGroup
+import lupos.s2buildOperatorGraph.singleinput.LOPNOOP
+import lupos.s2buildOperatorGraph.singleinput.LOPOptional
+import lupos.s2buildOperatorGraph.singleinput.LOPProjection
+import lupos.s2buildOperatorGraph.singleinput.LOPSingleInputBase
+import lupos.s2buildOperatorGraph.singleinput.LOPSort
+import lupos.s2buildOperatorGraph.singleinput.LOPSubGroup
+import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPDistinct
+import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPLimit
+import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPOffset
+import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPPrefix
+import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPReduced
 
 class OperatorGraphVisitor : Visitor<OPBase> {
     override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPNOOP()

@@ -4,7 +4,10 @@ import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s3logicalOptimisation.OptimizerVisitorLOP
 import lupos.s5physicalOperators.POPBase
-import lupos.s5physicalOperators.singleinput.*
+import lupos.s5physicalOperators.singleinput.POPBind
+import lupos.s5physicalOperators.singleinput.POPFilterExact
+import lupos.s5physicalOperators.singleinput.POPProjection
+import lupos.s5physicalOperators.singleinput.POPRename
 import lupos.s6tripleStore.POPTripleStoreIteratorBase
 
 open abstract class OptimizerVisitorPOP() : OptimizerVisitorLOP() {

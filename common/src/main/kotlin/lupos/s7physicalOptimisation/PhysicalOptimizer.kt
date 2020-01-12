@@ -2,14 +2,24 @@ package lupos.s7physicalOptimisation
 
 import lupos.s1buildSyntaxTree.sparql1_1.ASTIri
 import lupos.s1buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
-import lupos.s2buildOperatorGraph.*
-import lupos.s2buildOperatorGraph.singleinput.*
-import lupos.s2buildOperatorGraph.multiinput.*
-import lupos.s2buildOperatorGraph.data.*
-import lupos.s5physicalOperators.*
+import lupos.s2buildOperatorGraph.OPBase
+import lupos.s2buildOperatorGraph.OPNothing
+import lupos.s2buildOperatorGraph.singleinput.LOPBind
+import lupos.s2buildOperatorGraph.singleinput.LOPProjection
+import lupos.s2buildOperatorGraph.multiinput.LOPJoin
+import lupos.s2buildOperatorGraph.data.LOPExpression
+import lupos.s2buildOperatorGraph.data.LOPTriple
+import lupos.s2buildOperatorGraph.data.LOPVariable
+import lupos.s5physicalOperators.POPBase
+import lupos.s5physicalOperators.POPEmptyRow
+import lupos.s5physicalOperators.POPExpression
 import lupos.s5physicalOperators.multiinput.POPJoin
-import lupos.s5physicalOperators.singleinput.*
-import lupos.s6tripleStore.*
+import lupos.s5physicalOperators.singleinput.POPBind
+import lupos.s5physicalOperators.singleinput.POPBindUndefined
+import lupos.s5physicalOperators.singleinput.POPFilterExact
+import lupos.s5physicalOperators.singleinput.POPProjection
+import lupos.s5physicalOperators.singleinput.POPRename
+import lupos.s6tripleStore.TripleStore
 
 class PhysicalOptimizer() : OptimizerVisitorPOP() {
 

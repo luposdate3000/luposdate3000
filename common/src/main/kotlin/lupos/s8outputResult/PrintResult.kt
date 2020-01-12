@@ -1,7 +1,7 @@
 package lupos.s8outputResult
 
 import lupos.s5physicalOperators.POPBase
-import lupos.s4resultRepresentation.*
+import lupos.s4resultRepresentation.Variable
 
 fun printResult(graph: POPBase) {
     val resultSet = graph.getResultSet()

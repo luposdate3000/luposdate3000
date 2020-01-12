@@ -7,10 +7,12 @@ import lupos.s1buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s2buildOperatorGraph.OperatorGraphVisitor
 import lupos.s3logicalOptimisation.LogicalOptimizer
-import lupos.s4resultRepresentation.*
-import lupos.s5physicalOperators.*
-import lupos.s6tripleStore.*
-import lupos.s7physicalOptimisation.*
+import lupos.s4resultRepresentation.ResultRow
+import lupos.s4resultRepresentation.ResultSet
+import lupos.s4resultRepresentation.ResultSetIterator
+import lupos.s5physicalOperators.POPBase
+import lupos.s6tripleStore.TripleStore
+import lupos.s7physicalOptimisation.PhysicalOptimizer
 
 var sparql_test_input = arrayOf(arrayOf("a", "b", "c"))
 

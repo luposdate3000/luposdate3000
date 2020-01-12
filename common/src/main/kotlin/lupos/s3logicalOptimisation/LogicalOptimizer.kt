@@ -1,11 +1,8 @@
 package lupos.s3logicalOptimisation
 
-import lupos.s2buildOperatorGraph.*
 import lupos.s2buildOperatorGraph.OPBase
-import lupos.s2buildOperatorGraph.singleinput.*
-import lupos.s2buildOperatorGraph.singleinput.modifiers.*
-import lupos.s2buildOperatorGraph.multiinput.*
-import lupos.s2buildOperatorGraph.data.*
+import lupos.s2buildOperatorGraph.singleinput.LOPNOOP
+import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPPrefix
 import lupos.s3logicalOptimisation.OptimizerVisitorLOP
 
 class LogicalOptimizer() : OptimizerVisitorLOP() {
