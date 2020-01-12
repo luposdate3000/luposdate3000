@@ -10,7 +10,7 @@ import lupos.s5physicalOperators.singleinput.POPProjection
 import lupos.s5physicalOperators.singleinput.POPRename
 import lupos.s6tripleStore.POPTripleStoreIteratorBase
 
-open abstract class OptimizerVisitorPOP() : OptimizerVisitorLOP() {
+abstract class OptimizerVisitorPOP() : OptimizerVisitorLOP() {
     open fun visit(node: POPFilterExact): OPBase {
         return POPFilterExact(optimize(node.variable) as LOPVariable, node.value, optimize(node.child) as POPBase)
     }

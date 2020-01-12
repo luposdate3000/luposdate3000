@@ -232,7 +232,7 @@ interface Searchable<K, V, R> {
                     }
                     val result = currentValues[minIndex]
                     // dtermine already next value and check if it is none-empty
-                    val nextValue = iterators[minIndex]!!()
+                    val nextValue = iterators[minIndex]()
                     if (nextValue == null) {
                         // reorder the array of continously none-empty iterators...
                         noneNullIndex--

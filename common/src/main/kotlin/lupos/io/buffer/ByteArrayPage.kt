@@ -36,7 +36,6 @@ inline fun String.toBytesUTF(): ByteArray {
     var pos = 0
     for (i in 0 until this.length) {
         val c = this[i]
-        val adr = i * 2
         bytes[pos] = (c.toInt() and 0xFF00 shr 8).toByte()
         pos++
         bytes[pos] = (c.toInt() and 0x00FF).toByte()

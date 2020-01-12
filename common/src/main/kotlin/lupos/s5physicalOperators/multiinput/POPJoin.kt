@@ -108,8 +108,8 @@ class POPJoin : POPBaseNullableIterator {
                 try {
                     for (p in variablesOldJ) {
                         // TODO reuse resultSet
-                        val a = resultSetOldA!!.getValue(resultRowA!![p.first.first])
-                        val b = resultSetOldB!!.getValue(resultRowB!![p.first.second])
+                        val a = resultSetOldA.getValue(resultRowA!![p.first.first])
+                        val b = resultSetOldB.getValue(resultRowB[p.first.second])
                         if (a != b) {
                             println("no match " + a + " " + b)
                             joinVariableOk = false
@@ -135,7 +135,7 @@ class POPJoin : POPBaseNullableIterator {
                 try {
                     for (p in variablesOldB) {
                         // TODO reuse resultSet
-                        rsNew[p.second] = resultSetNew.createValue(resultSetOldB.getValue(resultRowB!![p.first]))
+                        rsNew[p.second] = resultSetNew.createValue(resultSetOldB.getValue(resultRowB[p.first]))
                     }
                 } catch (e: Throwable) {
                     println("POPJoin d:: " + e)

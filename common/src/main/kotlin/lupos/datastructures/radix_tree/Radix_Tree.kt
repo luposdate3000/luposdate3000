@@ -246,7 +246,6 @@ class Static_Radix_Tree<V>(val filename: String) {
     fun create(mainMemoryRadixTree: Radix_Tree_MainMemory<V>) {
         var p: Page = bufferManager.getPage(this.filename, 0)
         p.lock()
-        var index = 0
         val queueOfNodes = ArrayList<Radix_Tree_MainMemory_Node<V>>()
         queueOfNodes += mainMemoryRadixTree.root
         while (queueOfNodes.isNotEmpty()) {

@@ -23,8 +23,8 @@ class POPFilterExact : POPSingleInputBaseNullableIterator {
         this.value = value
         resultSetOld = child.getResultSet()
         val variableNames = resultSetOld.getVariableNames()
-        variablesOld = Array<Variable?>(variableNames.size, init = fun(it: Int) = (null as Variable?))
-        variablesNew = Array<Variable?>(variableNames.size, init = fun(it: Int) = (null as Variable?))
+        variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
+        variablesNew = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
         var i = 0
         for (name in variableNames) {
             variablesOld[i] = resultSetOld.createVariable(name)
@@ -45,7 +45,7 @@ class POPFilterExact : POPSingleInputBaseNullableIterator {
             if (!child.hasNext())
                 return null
             nextRow = child.next()
-            if (resultSetOld.getValue(nextRow!![filterVariable]) == filterValue) {
+            if (resultSetOld.getValue(nextRow[filterVariable]) == filterValue) {
                 break
             }
         }

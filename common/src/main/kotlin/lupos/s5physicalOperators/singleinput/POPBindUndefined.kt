@@ -18,8 +18,8 @@ class POPBindUndefined : POPSingleInputBase {
         this.name = name
         resultSetOld = child.getResultSet()
         val variableNames = resultSetOld.getVariableNames()
-        variablesOld = Array<Variable?>(variableNames.size, init = fun(it: Int) = (null as Variable?))
-        variablesNew = Array<Variable?>(variableNames.size + 1, init = fun(it: Int) = (null as Variable?))
+        variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
+        variablesNew = Array<Variable?>(variableNames.size + 1, init = fun(_: Int) = (null as Variable?))
         var i = 0
         variableBound = resultSetNew.createVariable(name.name)
         for (n in variableNames) {

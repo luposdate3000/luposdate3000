@@ -19,8 +19,8 @@ class POPRename : POPSingleInputBase {
         this.nameFrom = nameFrom
         resultSetOld = child.getResultSet()
         val variableNames = resultSetOld.getVariableNames()
-        variablesOld = Array<Variable?>(variableNames.size, init = fun(it: Int) = (null as Variable?))
-        variablesNew = Array<Variable?>(variableNames.size, init = fun(it: Int) = (null as Variable?))
+        variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
+        variablesNew = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
         var i = 0
         for (name in variableNames) {
             variablesOld[i] = resultSetOld.createVariable(name)

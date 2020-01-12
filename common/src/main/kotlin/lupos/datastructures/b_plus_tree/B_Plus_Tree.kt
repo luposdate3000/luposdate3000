@@ -201,7 +201,7 @@ data class NodeParams(var nodeNumber: Int, val filename: String, var page: Page,
             adrNode += serializedSizeOfKey(key)
         } else {
             serializeKeyDiff(page, adrNode, key, oldkey!!)
-            adrNode += serializedSizeOfKeyDiff(key, oldkey!!)
+            adrNode += serializedSizeOfKeyDiff(key, oldkey)
         }
         // write value
         serializeValue(page, adrNode, value)
@@ -240,7 +240,7 @@ data class NodeParams(var nodeNumber: Int, val filename: String, var page: Page,
             adrNode += serializedSizeOfKey(key)
         } else {
             serializeKeyDiff(page, adrNode, key, oldkey!!)
-            adrNode += serializedSizeOfKeyDiff(key, oldkey!!)
+            adrNode += serializedSizeOfKeyDiff(key, oldkey)
         }
     }
 }
@@ -831,7 +831,7 @@ inline fun <K, V> generateDifferenceEncodedBPlusTree(filename: String, size: Int
                     } else {
                         val oldkey = oldKeysInnerNodes[i] as K?
                         serializeKeyDiff(node.page, node.adrNode, key, oldkey!!)
-                        node.adrNode += serializedSizeOfKeyDiff(key, oldkey!!)
+                        node.adrNode += serializedSizeOfKeyDiff(key, oldkey)
                     }
                     oldKeysInnerNodes[i] = key
                     break
@@ -948,7 +948,7 @@ inline fun <K> generateDifferenceEncodedBPlusTree(filename: String, size: Int, i
                     } else {
                         val oldkey = oldKeysInnerNodes[i] as K?
                         serializeKeyDiff(node.page, node.adrNode, key, oldkey!!)
-                        node.adrNode += serializedSizeOfKeyDiff(key, oldkey!!)
+                        node.adrNode += serializedSizeOfKeyDiff(key, oldkey)
                     }
                     oldKeysInnerNodes[i] = key
                     break
