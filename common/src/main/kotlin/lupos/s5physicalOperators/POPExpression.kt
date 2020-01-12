@@ -9,6 +9,71 @@ import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
 
+class ArithmeticException() : Exception()
+
+class DateTime {
+    val year: Int
+    val month: Int
+    val day: Int
+    val hours: Int
+    val minutes: Int
+    val seconds: Int
+    val timezoneHours: Int
+    val timezoneMinutes: Int
+
+    constructor(str: String) {
+        println("DateTime from $str")
+        if (str.length >= 11) {
+            println("#" + str.substring(1, 5) + "#")
+            year = str.substring(1, 5).toInt()
+            println("#" + str.substring(6, 8) + "#")
+            month = str.substring(6, 8).toInt()
+            println("#" + str.substring(9, 11) + "#")
+            day = str.substring(9, 11).toInt()
+        } else {
+            year = 0
+            month = 0
+            day = 0
+        }
+        if (str.length >= 20) {
+            println("#" + str.substring(12, 14) + "#")
+            hours = str.substring(12, 14).toInt()
+            println("#" + str.substring(15, 17) + "#")
+            minutes = str.substring(15, 17).toInt()
+            println("#" + str.substring(18, 20) + "#")
+            seconds = str.substring(18, 20).toInt()
+        } else {
+            hours = 0
+            minutes = 0
+            seconds = 0
+        }
+        if (str.length >= 26 && str[21] == '-') {
+            println("#" + str[21] + "#")
+            println("#" + str.substring(21, 23) + "#")
+            timezoneHours = str.substring(21, 23).toInt()
+            println("#" + str.substring(24, 26) + "#")
+            timezoneMinutes = str.substring(24, 26).toInt()
+        } else if (str.length >= 21 && str[21] == 'Z') {
+            println("#" + str[21] + "#")
+            timezoneHours = 0
+            timezoneMinutes = 0
+        } else {
+            timezoneHours = -1
+            timezoneMinutes = -1
+        }
+        println("DateTime extracted :: " + toString())
+    }
+
+    override fun toString(): String {
+        if (timezoneHours == -1 && timezoneMinutes == -1)
+            return "$year-$month-${day}T$hours:$minutes:$seconds"
+        else if (timezoneHours == 0 && timezoneMinutes == 0)
+            return "$year-$month-${day}T$hours:$minutes:${seconds}Z"
+        else
+            return "$year-$month-${day}T$hours:$minutes:${seconds}-${timezoneHours}:${timezoneMinutes}"
+    }
+}
+
 enum class TmpResultType {
     RSBoolean, RSString, RSInteger, RSDouble, RSDateTime
 }
@@ -28,6 +93,7 @@ class POPExpression : OPBase {
     private fun getResultType(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): TmpResultType {
         when (node) {
             is ASTLiteral -> return TmpResultType.RSString
+            is ASTBooleanLiteral -> return TmpResultType.RSBoolean
             is ASTOr -> return TmpResultType.RSBoolean
             is ASTAnd -> return TmpResultType.RSBoolean
             is ASTEQ -> return TmpResultType.RSBoolean
@@ -39,6 +105,7 @@ class POPExpression : OPBase {
             is ASTInteger -> return TmpResultType.RSInteger
             is ASTAddition -> return TmpResultType.RSInteger
             is ASTMultiplication -> return TmpResultType.RSInteger
+            is ASTDivision -> return TmpResultType.RSInteger
             is ASTVar -> {
                 val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
                 println("XXX ${tmp} -> ${tmp.endsWith(dataTypeInteger)} ${tmp.endsWith(dataTypeDouble)} ${tmp.startsWith("<http")}")
@@ -62,7 +129,6 @@ class POPExpression : OPBase {
                     BuiltInFunctions.CEIL -> return getResultType(resultSet, resultRow, node.children[0])
                     BuiltInFunctions.FLOOR -> return getResultType(resultSet, resultRow, node.children[0])
                     BuiltInFunctions.ROUND -> return getResultType(resultSet, resultRow, node.children[0])
-                    BuiltInFunctions.IF -> return TmpResultType.RSBoolean
                     BuiltInFunctions.sameTerm -> return TmpResultType.RSBoolean
                     BuiltInFunctions.isIRI -> return TmpResultType.RSBoolean
                     BuiltInFunctions.isURI -> return TmpResultType.RSBoolean
@@ -71,6 +137,12 @@ class POPExpression : OPBase {
                     BuiltInFunctions.isNUMERIC -> return TmpResultType.RSBoolean
                     BuiltInFunctions.Exists -> return TmpResultType.RSBoolean
                     BuiltInFunctions.NotExists -> return TmpResultType.RSBoolean
+                    BuiltInFunctions.DAY -> return TmpResultType.RSInteger
+                    BuiltInFunctions.MONTH -> return TmpResultType.RSInteger
+                    BuiltInFunctions.YEAR -> return TmpResultType.RSInteger
+                    BuiltInFunctions.HOURS -> return TmpResultType.RSInteger
+                    BuiltInFunctions.MINUTES -> return TmpResultType.RSInteger
+                    BuiltInFunctions.SECONDS -> return TmpResultType.RSInteger
                     else -> return TmpResultType.RSString
                 }
             }
@@ -90,10 +162,20 @@ class POPExpression : OPBase {
                 when (node) {
                     is ASTAddition -> return a + b
                     is ASTMultiplication -> return a * b
+                    is ASTDivision -> return a / b
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDouble2 ${node::class.simpleName}")
                 }
             }
             else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDouble2 ${node::class.simpleName} ${typeA} ${typeB}")
+        }
+    }
+
+    private fun evaluateHelperDateTime(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): DateTime {
+        when (node) {
+            is ASTVar -> {
+                return DateTime(resultSet.getValue(resultRow[resultSet.createVariable(node.name)]))
+            }
+            else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDateTime ${node::class.simpleName}")
         }
     }
 
@@ -132,6 +214,7 @@ class POPExpression : OPBase {
                 when (node) {
                     is ASTAddition -> return a + b
                     is ASTMultiplication -> return a * b
+                    is ASTDivision -> return a / b
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperInteger2 ${node::class.simpleName}")
                 }
             }
@@ -156,6 +239,12 @@ class POPExpression : OPBase {
                     BuiltInFunctions.CEIL -> return evaluateHelperInteger(resultSet, resultRow, node.children[0])
                     BuiltInFunctions.FLOOR -> return evaluateHelperInteger(resultSet, resultRow, node.children[0])
                     BuiltInFunctions.ROUND -> return evaluateHelperInteger(resultSet, resultRow, node.children[0])
+                    BuiltInFunctions.DAY -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).day
+                    BuiltInFunctions.MONTH -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).month
+                    BuiltInFunctions.YEAR -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).year
+                    BuiltInFunctions.HOURS -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).hours
+                    BuiltInFunctions.MINUTES -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).minutes
+                    BuiltInFunctions.SECONDS -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).seconds
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperInteger ${node::class.simpleName} ${node.function}")
                 }
             }
@@ -177,6 +266,7 @@ class POPExpression : OPBase {
                         println("ASTEQ a:: ${a} ${b} ${a == b}")
                         return a == b
                     }
+                    is ASTDivision -> throw ArithmeticException("the output of ASTDivision is not a boolean")
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName}")
                 }
             }
@@ -192,6 +282,7 @@ class POPExpression : OPBase {
                     is ASTLEQ -> return a <= b
                     is ASTGT -> return a > b
                     is ASTLT -> return a < b
+                    is ASTDivision -> throw ArithmeticException("the output of ASTDivision is not a boolean")
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName}")
                 }
 
@@ -208,6 +299,7 @@ class POPExpression : OPBase {
                     is ASTLEQ -> return a <= b
                     is ASTGT -> return a > b
                     is ASTLT -> return a < b
+                    is ASTDivision -> throw ArithmeticException("the output of ASTDivision is not a boolean")
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName}")
                 }
 
@@ -224,10 +316,20 @@ class POPExpression : OPBase {
                     is ASTLEQ -> return a <= b
                     is ASTGT -> return a > b
                     is ASTLT -> return a < b
+                    is ASTDivision -> throw ArithmeticException("the output of ASTDivision is not a boolean")
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName}")
                 }
 
             }
+            typeA == TmpResultType.RSString && typeB == TmpResultType.RSString -> {
+                val a = evaluateHelperString(resultSet, resultRow, left)
+                val b = evaluateHelperString(resultSet, resultRow, right)
+                when (node) {
+                    is ASTEQ -> return a == b
+                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName}")
+                }
+            }
+            node is ASTDivision -> throw ArithmeticException("the output of ASTDivision is not a boolean")
             else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName} ${typeA} ${typeB}")
         }
     }
@@ -241,8 +343,17 @@ class POPExpression : OPBase {
         }
     }
 
+    private fun extractLanguageFromLiteral(literal: String): String {
+        println("extractLanguageFromLiteral ${literal} ${literal.endsWith(dataTypeString)} ${!literal.endsWith(">")}")
+        when {
+            !literal.endsWith("\"") && !literal.endsWith(">") -> return literal.substring(literal.lastIndexOf("@") + 1, literal.length)
+            else -> return ""
+        }
+    }
+
     private fun evaluateHelperBoolean(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): Boolean {
         when (node) {
+            is ASTBooleanLiteral -> return node.value
             is ASTOr -> {
                 var res = false
                 for (n in node.children) {
@@ -263,6 +374,11 @@ class POPExpression : OPBase {
                     BuiltInFunctions.isNUMERIC -> {
                         val typeA = getResultType(resultSet, resultRow, node.children[0])
                         return typeA == TmpResultType.RSInteger || typeA == TmpResultType.RSDouble
+                    }
+                    BuiltInFunctions.LANGMATCHES -> {
+                        val a = extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
+                        val b = extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1]))
+                        return a == b
                     }
                     BuiltInFunctions.STRENDS -> {
                         val a = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
@@ -301,10 +417,22 @@ class POPExpression : OPBase {
             }
         }
         when (node) {
+            is ASTIri -> return node.iri
             is ASTLiteral -> return node.delimiter + node.content + node.delimiter
             is ASTVar -> return resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
             is ASTBuiltInCall -> {
-                throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperString ${node::class.simpleName} ${node.function}")
+                when (node.function) {
+                    BuiltInFunctions.IF -> {
+                        if (evaluateHelperBoolean(resultSet, resultRow, node.children[0]))
+                            return evaluateHelperString(resultSet, resultRow, node.children[1])
+                        else
+                            return evaluateHelperString(resultSet, resultRow, node.children[2])
+                    }
+                    BuiltInFunctions.CONCAT -> return evaluateHelperString(resultSet, resultRow, node.children[0]) + evaluateHelperString(resultSet, resultRow, node.children[1])
+                    BuiltInFunctions.LANG -> return extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
+                    BuiltInFunctions.STR -> return evaluateHelperString(resultSet, resultRow, node.children[0])
+                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperString ${node::class.simpleName} ${node.function}")
+                }
             }
             else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperString ${node::class.simpleName}")
         }
