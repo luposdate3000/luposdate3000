@@ -23,7 +23,7 @@ class DateTime {
 
     constructor(str: String) {
         println("DateTime from $str")
-        if (str.length >= 11) {
+        if (str.length >= 10) {
             println("#" + str.substring(1, 5) + "#")
             year = str.substring(1, 5).toInt()
             println("#" + str.substring(6, 8) + "#")
@@ -35,7 +35,7 @@ class DateTime {
             month = 0
             day = 0
         }
-        if (str.length >= 20) {
+        if (str.length >= 19) {
             println("#" + str.substring(12, 14) + "#")
             hours = str.substring(12, 14).toInt()
             println("#" + str.substring(15, 17) + "#")
@@ -47,14 +47,14 @@ class DateTime {
             minutes = 0
             seconds = 0
         }
-        if (str.length >= 26 && str[21] == '-') {
+        if (str.length >= 25 && str[20] == '-') {
             println("#" + str[21] + "#")
             println("#" + str.substring(21, 23) + "#")
             timezoneHours = str.substring(21, 23).toInt()
             println("#" + str.substring(24, 26) + "#")
             timezoneMinutes = str.substring(24, 26).toInt()
-        } else if (str.length >= 21 && str[21] == 'Z') {
-            println("#" + str[21] + "#")
+        } else if (str.length >= 20 && str[20] == 'Z') {
+            println("#" + str[20] + "#")
             timezoneHours = 0
             timezoneMinutes = 0
         } else {
@@ -62,6 +62,22 @@ class DateTime {
             timezoneMinutes = -1
         }
         println("DateTime extracted :: " + toString())
+    }
+
+    fun getTZ(): String {
+        if (timezoneHours == 0 && timezoneMinutes == 0)
+            return "\"Z\""
+        if (timezoneHours == -1 && timezoneMinutes == -1)
+            return ""
+        return "-${timezoneHours}:${timezoneMinutes}"
+    }
+
+    fun getTimeZone(): String {
+        if (timezoneHours == 0 && timezoneMinutes == 0)
+            return "\"PT0S\"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>"
+        if (timezoneHours >= 0 && timezoneMinutes == 0)
+            return "\"-PT${timezoneHours}H\"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>"
+        return ""
     }
 
     override fun toString(): String {
@@ -143,6 +159,7 @@ class POPExpression : OPBase {
                     BuiltInFunctions.HOURS -> return TmpResultType.RSInteger
                     BuiltInFunctions.MINUTES -> return TmpResultType.RSInteger
                     BuiltInFunctions.SECONDS -> return TmpResultType.RSInteger
+                    BuiltInFunctions.STRLEN -> return TmpResultType.RSInteger
                     else -> return TmpResultType.RSString
                 }
             }
@@ -245,6 +262,7 @@ class POPExpression : OPBase {
                     BuiltInFunctions.HOURS -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).hours
                     BuiltInFunctions.MINUTES -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).minutes
                     BuiltInFunctions.SECONDS -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).seconds
+                    BuiltInFunctions.STRLEN -> return extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).length
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperInteger ${node::class.simpleName} ${node.function}")
                 }
             }
@@ -427,6 +445,31 @@ class POPExpression : OPBase {
                             return evaluateHelperString(resultSet, resultRow, node.children[1])
                         else
                             return evaluateHelperString(resultSet, resultRow, node.children[2])
+                    }
+                    BuiltInFunctions.IRI -> return evaluateHelperString(resultSet, resultRow, node.children[0])
+                    BuiltInFunctions.TZ -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).getTZ()
+                    BuiltInFunctions.TIMEZONE -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).getTimeZone()
+                    BuiltInFunctions.LCASE -> {
+                        var tmp = evaluateHelperString(resultSet, resultRow, node.children[0])
+                        println("LCASE $tmp")
+                        if (tmp.endsWith("\""))
+                            return tmp.toLowerCase()
+                        if (tmp.endsWith(dataTypeString)) {
+                            return tmp.substring(0, tmp.length - dataTypeString.length).toLowerCase() + dataTypeString
+                        }
+                        val idx = tmp.lastIndexOf("@")
+                        return tmp.substring(0, idx).toLowerCase() + tmp.substring(idx, tmp.length)
+                    }
+                    BuiltInFunctions.UCASE -> {
+                        var tmp = evaluateHelperString(resultSet, resultRow, node.children[0])
+                        println("UCASE $tmp")
+                        if (tmp.endsWith("\""))
+                            return tmp.toUpperCase()
+                        if (tmp.endsWith(dataTypeString)) {
+                            return tmp.substring(0, tmp.length - dataTypeString.length).toUpperCase() + dataTypeString
+                        }
+                        val idx = tmp.lastIndexOf("@")
+                        return tmp.substring(0, idx).toUpperCase() + tmp.substring(idx, tmp.length)
                     }
                     BuiltInFunctions.CONCAT -> return evaluateHelperString(resultSet, resultRow, node.children[0]) + evaluateHelperString(resultSet, resultRow, node.children[1])
                     BuiltInFunctions.LANG -> return extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))

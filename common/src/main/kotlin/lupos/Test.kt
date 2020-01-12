@@ -323,6 +323,8 @@ fun createXMLBinding(s: String): String {
     val dataTypeBoolean = "^^<http://www.w3.org/2001/XMLSchema#boolean>"
     val dataTypeString = "^^<http://www.w3.org/2001/XMLSchema#string>"
     val dataTypeDateTime = "^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+    val dataTypeDayTimeDuration = "^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>"
+    println("createXMLBinding $s")
     when {
         s.startsWith("<http") -> return "<uri>" + s.substring(1, s.length - 1) + "</uri>"
         s.endsWith(dataTypeInt) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#integer\">" + s.substring(1, s.length - 1 - dataTypeInt.length) + "</literal>"
@@ -330,13 +332,15 @@ fun createXMLBinding(s: String): String {
         s.endsWith(dataTypeBoolean) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#boolean\">" + s.substring(1, s.length - 1 - dataTypeBoolean.length) + "</literal>"
         s.endsWith(dataTypeString) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#string\">" + s.substring(1, s.length - 1 - dataTypeString.length) + "</literal>"
         s.endsWith(dataTypeDateTime) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#dateTime\">" + s.substring(1, s.length - 1 - dataTypeDateTime.length) + "</literal>"
+        s.endsWith(dataTypeDayTimeDuration) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#dayTimeDuration\">" + s.substring(1, s.length - 1 - dataTypeDayTimeDuration.length) + "</literal>"
         s.startsWith("_:") -> return "<bnode>" + s.substring(2, s.length) + "</bnode>"
         s.endsWith(">") -> {
             println("UnsupportedOperationException createXMLBinding ${s}")
             return s
         }
         s.startsWith("\"") && !s.endsWith("\"") -> return "<literal xml:lang=\"" + s.substring(s.lastIndexOf("@") + 1, s.length) + "\">" + s.substring(1, s.lastIndexOf("@") - 1) + "</literal>"
-        else -> return "<literal>" + s.substring(1, s.length - 1) + "</literal>"
+        else ->
+            return "<literal>" + s.substring(1, s.length - 1) + "</literal>"
     }
 }
 
