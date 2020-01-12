@@ -1,6 +1,7 @@
 package lupos.s7physicalOptimisation
 
-import lupos.s1buildSyntaxTree.sparql1_1.*
+import lupos.s1buildSyntaxTree.sparql1_1.ASTIri
+import lupos.s1buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s2buildOperatorGraph.*
 import lupos.s2buildOperatorGraph.singleinput.*
 import lupos.s2buildOperatorGraph.multiinput.*

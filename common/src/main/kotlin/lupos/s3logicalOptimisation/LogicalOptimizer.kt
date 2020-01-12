@@ -1,6 +1,5 @@
 package lupos.s3logicalOptimisation
 
-import lupos.s1buildSyntaxTree.sparql1_1.*
 import lupos.s2buildOperatorGraph.*
 import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.singleinput.*

@@ -5,7 +5,9 @@ import lupos.s1buildSyntaxTree.rdf.Dictionary
 import lupos.s1buildSyntaxTree.rdf.ID_Triple
 import lupos.s1buildSyntaxTree.rdf.IRI
 import lupos.s1buildSyntaxTree.rdf.SimpleLiteral
-import lupos.s1buildSyntaxTree.sparql1_1.*
+import lupos.s1buildSyntaxTree.sparql1_1.parseSPARQL
+import lupos.s1buildSyntaxTree.sparql1_1.SPARQLParser
+import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s1buildSyntaxTree.LexerCharIterator
 import lupos.s1buildSyntaxTree.LookAheadTokenIterator
 import lupos.s1buildSyntaxTree.turtle.TurtleParserWithDictionary

@@ -7,7 +7,16 @@ import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s2buildOperatorGraph.multiinput.LOPJoin
 import lupos.s2buildOperatorGraph.multiinput.LOPMinus
 import lupos.s2buildOperatorGraph.multiinput.LOPUnion
-import lupos.s2buildOperatorGraph.singleinput.*
+import lupos.s2buildOperatorGraph.singleinput.LOPBind
+import lupos.s2buildOperatorGraph.singleinput.LOPFilter
+import lupos.s2buildOperatorGraph.singleinput.LOPGroup
+import lupos.s2buildOperatorGraph.singleinput.LOPMakeBooleanResult
+import lupos.s2buildOperatorGraph.singleinput.LOPNOOP
+import lupos.s2buildOperatorGraph.singleinput.LOPOptional
+import lupos.s2buildOperatorGraph.singleinput.LOPProjection
+import lupos.s2buildOperatorGraph.singleinput.LOPRename
+import lupos.s2buildOperatorGraph.singleinput.LOPSort
+import lupos.s2buildOperatorGraph.singleinput.LOPSubGroup
 import lupos.s2buildOperatorGraph.singleinput.modifiers.*
 import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.OPNothing

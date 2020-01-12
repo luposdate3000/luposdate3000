@@ -3,7 +3,7 @@ package lupos.s7physicalOptimisation
 import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s3logicalOptimisation.OptimizerVisitorLOP
-import lupos.s5physicalOperators.*
+import lupos.s5physicalOperators.POPBase
 import lupos.s5physicalOperators.singleinput.*
 import lupos.s6tripleStore.POPTripleStoreIteratorBase
 

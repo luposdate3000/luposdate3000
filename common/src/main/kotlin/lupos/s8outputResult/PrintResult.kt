@@ -1,6 +1,6 @@
 package lupos.s8outputResult
 
-import lupos.s5physicalOperators.*
+import lupos.s5physicalOperators.POPBase
 import lupos.s4resultRepresentation.*
 
 fun printResult(graph: POPBase) {

@@ -5,7 +5,7 @@ import lupos.s1buildSyntaxTree.LookAheadTokenIterator
 import lupos.s1buildSyntaxTree.ParseError
 import lupos.s1buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s2buildOperatorGraph.*
+import lupos.s2buildOperatorGraph.OperatorGraphVisitor
 import lupos.s3logicalOptimisation.LogicalOptimizer
 import lupos.s4resultRepresentation.*
 import lupos.s5physicalOperators.*
