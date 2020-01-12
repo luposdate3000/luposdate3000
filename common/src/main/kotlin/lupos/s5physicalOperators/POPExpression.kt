@@ -10,13 +10,15 @@ import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
 
 enum class TmpResultType {
-    RSBoolean, RSString, RSInteger, RSDouble
+    RSBoolean, RSString, RSInteger, RSDouble, RSDateTime
 }
 
 class POPExpression : OPBase {
     private val dataTypeInteger = "^^<http://www.w3.org/2001/XMLSchema#integer>"
     private val dataTypeDouble = "^^<http://www.w3.org/2001/XMLSchema#decimal>"
     private val dataTypeBoolean = "^^<http://www.w3.org/2001/XMLSchema#boolean>"
+    private val dataTypeDateTime = "^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+    private val dataTypeString = "^^<http://www.w3.org/2001/XMLSchema#string>"
     var child: ASTNode
 
     constructor(child: ASTNode) {
@@ -25,6 +27,7 @@ class POPExpression : OPBase {
 
     private fun getResultType(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): TmpResultType {
         when (node) {
+            is ASTLiteral -> return TmpResultType.RSString
             is ASTOr -> return TmpResultType.RSBoolean
             is ASTAnd -> return TmpResultType.RSBoolean
             is ASTEQ -> return TmpResultType.RSBoolean
@@ -43,6 +46,7 @@ class POPExpression : OPBase {
                     tmp.endsWith(dataTypeInteger) -> return TmpResultType.RSInteger
                     tmp.endsWith(dataTypeDouble) -> return TmpResultType.RSDouble
                     tmp.endsWith(dataTypeBoolean) -> return TmpResultType.RSBoolean
+                    tmp.endsWith(dataTypeDateTime) -> return TmpResultType.RSDateTime
                     tmp.startsWith("<http") -> return TmpResultType.RSString
                     else -> {
                         println("guess result type to be TmpResultType.RSString (${tmp})")
@@ -228,6 +232,15 @@ class POPExpression : OPBase {
         }
     }
 
+    private fun extractStringFromLiteral(literal: String): String {
+        println("extractStringFromLiteral ${literal} ${literal.endsWith(dataTypeString)} ${!literal.endsWith(">")}")
+        when {
+            literal.endsWith(dataTypeString) -> return literal.substring(1, literal.length - 1 - dataTypeString.length)
+            !literal.endsWith("\"") && !literal.endsWith(">") -> return literal.substring(1, literal.lastIndexOf("@") - 1)
+            else -> return literal.substring(1, literal.length - 1)
+        }
+    }
+
     private fun evaluateHelperBoolean(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): Boolean {
         when (node) {
             is ASTOr -> {
@@ -246,7 +259,29 @@ class POPExpression : OPBase {
             }
             is ASTBinaryOperationFixedName -> return evaluateHelperBoolean2(resultSet, resultRow, node)
             is ASTBuiltInCall -> {
-                throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean ${node::class.simpleName} ${node.function}")
+                when (node.function) {
+                    BuiltInFunctions.isNUMERIC -> {
+                        val typeA = getResultType(resultSet, resultRow, node.children[0])
+                        return typeA == TmpResultType.RSInteger || typeA == TmpResultType.RSDouble
+                    }
+                    BuiltInFunctions.STRENDS -> {
+                        val a = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
+                        val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1]))
+                        println("STRENDS $a $b")
+                        return a.endsWith(b)
+                    }
+                    BuiltInFunctions.STRSTARTS -> {
+                        val a = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
+                        val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1]))
+                        return a.startsWith(b)
+                    }
+                    BuiltInFunctions.CONTAINS -> {
+                        val a = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
+                        val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1]))
+                        return a.contains(b)
+                    }
+                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean ${node::class.simpleName} ${node.function}")
+                }
             }
             else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean ${node::class.simpleName}")
         }
