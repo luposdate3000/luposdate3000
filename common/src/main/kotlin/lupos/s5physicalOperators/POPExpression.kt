@@ -1,4 +1,4 @@
-package lupos.s5physicalOperators.singleinput
+package lupos.s5physicalOperators
 
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s4resultRepresentation.ResultRow

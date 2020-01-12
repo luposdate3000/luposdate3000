@@ -1,4 +1,4 @@
-package lupos.sparql1_1.test
+package lupos
 
 actual fun readFileContents(filename: String): String {
     TODO("not implemented")

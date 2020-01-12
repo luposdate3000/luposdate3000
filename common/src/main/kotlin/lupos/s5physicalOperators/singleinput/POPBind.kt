@@ -5,6 +5,7 @@ import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
+import lupos.s5physicalOperators.POPExpression
 
 class POPBind : POPSingleInputBase {
     val name: LOPVariable

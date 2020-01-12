@@ -1,4 +1,4 @@
-package lupos.sparql1_1.test
+package lupos
 
 import lupos.s1buildSyntaxTree.ParseError
 import lupos.s1buildSyntaxTree.rdf.Dictionary

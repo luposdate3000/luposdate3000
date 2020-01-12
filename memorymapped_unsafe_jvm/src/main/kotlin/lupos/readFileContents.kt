@@ -1,4 +1,4 @@
-package lupos.sparql1_1.test
+package lupos
 
 import java.io.File
 import java.io.InputStream
