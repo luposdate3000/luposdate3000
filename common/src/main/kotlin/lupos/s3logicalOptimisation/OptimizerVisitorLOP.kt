@@ -146,7 +146,6 @@ abstract class OptimizerVisitorLOP() {
             is LOPValues -> return visit(node)
             is LOPOptional -> return visit(node)
             is LOPUnion -> return visit(node)
-            is LOPTriple -> return visit(node)
             is LOPSubGroup -> return visit(node)
         }
         throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} c ${node::class.simpleName}")

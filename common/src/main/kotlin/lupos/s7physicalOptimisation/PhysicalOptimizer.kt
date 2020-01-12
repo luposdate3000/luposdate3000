@@ -6,6 +6,7 @@ import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.OPNothing
 import lupos.s2buildOperatorGraph.singleinput.LOPBind
 import lupos.s2buildOperatorGraph.singleinput.LOPProjection
+import lupos.s2buildOperatorGraph.singleinput.LOPFilter
 import lupos.s2buildOperatorGraph.multiinput.LOPJoin
 import lupos.s2buildOperatorGraph.data.LOPExpression
 import lupos.s2buildOperatorGraph.data.LOPTriple
@@ -15,11 +16,13 @@ import lupos.s5physicalOperators.POPEmptyRow
 import lupos.s5physicalOperators.POPExpression
 import lupos.s5physicalOperators.multiinput.POPJoin
 import lupos.s5physicalOperators.singleinput.POPBind
+import lupos.s5physicalOperators.singleinput.POPFilter
 import lupos.s5physicalOperators.singleinput.POPBindUndefined
 import lupos.s5physicalOperators.singleinput.POPFilterExact
 import lupos.s5physicalOperators.singleinput.POPProjection
 import lupos.s5physicalOperators.singleinput.POPRename
 import lupos.s6tripleStore.TripleStore
+import lupos.s6tripleStore.POPTripleStoreIteratorBase
 
 class PhysicalOptimizer() : OptimizerVisitorPOP() {
 
@@ -27,6 +30,14 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
 
     override fun visit(node: LOPProjection): OPBase {
         return POPProjection(node.variables, optimize(node.child) as POPBase)
+    }
+
+    override fun visit(node: LOPExpression): OPBase {
+        return POPExpression(node.child)
+    }
+
+    override fun visit(node: LOPFilter): OPBase {
+        return POPFilter(optimize(node.filter) as POPExpression, optimize(node.child) as POPBase)
     }
 
     override fun visit(node: LOPBind): OPBase {
@@ -73,9 +84,12 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
         if (node.o is LOPVariable)
             variables.add(node.o)
         var result: POPBase = store.getIterator()
-        result = optimizeTriple(node.s, "s", result, node)
-        result = optimizeTriple(node.p, "p", result, node)
-        result = optimizeTriple(node.o, "o", result, node)
+        var sname = (result as POPTripleStoreIteratorBase).getNameForS()
+        var pname = (result as POPTripleStoreIteratorBase).getNameForP()
+        var oname = (result as POPTripleStoreIteratorBase).getNameForO()
+        result = optimizeTriple(node.s, sname, result, node)
+        result = optimizeTriple(node.p, pname, result, node)
+        result = optimizeTriple(node.o, oname, result, node)
         if (variables.size < 3) {
             result = POPProjection(variables, result)
         }

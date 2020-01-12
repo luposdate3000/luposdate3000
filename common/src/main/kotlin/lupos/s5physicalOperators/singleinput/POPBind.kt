@@ -53,5 +53,5 @@ class POPBind : POPSingleInputBase {
         return rsNew
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\tname:\n${indentation}\t\t${name.name}\n${indentation}\texpression:\n${expression.toString()}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
+    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\tname:\n${indentation}\t\t${name.name}\n${indentation}\texpression:\n${expression.toString("${indentation}\t\t")}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
 }

@@ -1,26 +1,23 @@
 package lupos.s5physicalOperators.singleinput
 
 import lupos.s2buildOperatorGraph.data.LOPVariable
+import lupos.s2buildOperatorGraph.data.LOPExpression
 import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
+import lupos.s5physicalOperators.POPExpression
 
-class POPFilterExact : POPSingleInputBaseNullableIterator {
+class POPFilter : POPSingleInputBaseNullableIterator {
 
-    val variable: LOPVariable
-    val value: String
-
+    val filter: POPExpression
     private val resultSetOld: ResultSet
     private val resultSetNew = ResultSet()
     private val variablesOld: Array<Variable?>
     private val variablesNew: Array<Variable?>
-    private val filterVariable: Variable
-    private val filterValue: String
 
-    constructor(variable: LOPVariable, value: String, child: POPBase) : super(child) {
-        this.variable = variable
-        this.value = value
+    constructor(filter: POPExpression, child: POPBase) : super(child) {
+        this.filter = filter
         resultSetOld = child.getResultSet()
         val variableNames = resultSetOld.getVariableNames()
         variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
@@ -31,8 +28,6 @@ class POPFilterExact : POPSingleInputBaseNullableIterator {
             variablesNew[i] = resultSetNew.createVariable(name)
             i++
         }
-        filterVariable = resultSetOld.createVariable(variable.name)
-        filterValue = value
     }
 
     override fun getResultSet(): ResultSet {
@@ -45,9 +40,8 @@ class POPFilterExact : POPSingleInputBaseNullableIterator {
             if (!child.hasNext())
                 return null
             nextRow = child.next()
-            if (resultSetOld.getValue(nextRow[filterVariable]) == filterValue) {
+            if (filter.evaluate(resultSetOld, nextRow) == "true")
                 break
-            }
         }
         var rsNew = resultSetNew.createResultRow()
 
@@ -59,5 +53,5 @@ class POPFilterExact : POPSingleInputBaseNullableIterator {
         return rsNew
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\tvariable:\n${indentation}\t\t${resultSetOld.getVariable(filterVariable)}\n${indentation}\tvalue:\n${indentation}\t\t${filterValue}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
+    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\t${indentation}\tfilter:\n${indentation}\t\t${filter}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
 }

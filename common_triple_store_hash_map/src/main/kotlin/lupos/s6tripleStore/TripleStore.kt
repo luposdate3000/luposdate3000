@@ -11,9 +11,9 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
     private val resultSetOld: ResultSet
     private var mapIterator: MutableIterator<MutableMap.MutableEntry<ResultRow, MutableList<ResultRow>>>
     private var listIterator: Iterator<ResultRow>?
-    private val sNew = resultSetNew.createVariable("s")
-    private val pNew = resultSetNew.createVariable("p")
-    private val oNew = resultSetNew.createVariable("o")
+    private val sNew = resultSetNew.createVariable(getNameForS())
+    private val pNew = resultSetNew.createVariable(getNameForP())
+    private val oNew = resultSetNew.createVariable(getNameForO())
     private val sOld: Variable
     private val pOld: Variable
     private val oOld: Variable
@@ -36,7 +36,6 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
             IndexPattern.POS -> this.index = IndexPattern.PO
             IndexPattern.OSP -> this.index = IndexPattern.SO
             IndexPattern.OPS -> this.index = IndexPattern.PO
-            else -> throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} ${index}")
         }
         when (index) {
             IndexPattern.S -> mapIterator = store.tripleStoreS.iterator()

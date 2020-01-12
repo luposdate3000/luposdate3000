@@ -142,7 +142,7 @@ class TurtleScanner(val iterator: LexerCharIterator) : TokenIterator {
             c == '"' -> {
                 return dealWithString('"', startToken)
             }
-            c in '0'..'9' -> {
+            c in '0'..'9' || c == '-' -> {
                 // next token can be an integer, decimal or double literal!
                 var beforeDOT = "" + c
                 while (this.iterator.hasNext()) {

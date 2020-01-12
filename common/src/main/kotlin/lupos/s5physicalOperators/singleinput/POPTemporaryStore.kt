@@ -34,30 +34,20 @@ class POPTemporaryStore : POPBase {
 
     override fun next(): ResultRow {
         if (iterator == child) {
-            try {
-                val rsOld = child.next()
-                var rsNew = resultSetNew.createResultRow()
-                for (variable in variables) {
-                    rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
-                }
-                data.add(rsNew)
-                return rsNew
-            } catch (e: Throwable) {
-                println("POPTemporaryStore a: " + e)
-                throw (e)
-            }
-        }
-        try {
-            val rsOld = iterator.next()
+            val rsOld = child.next()
             var rsNew = resultSetNew.createResultRow()
             for (variable in variables) {
                 rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
             }
+            data.add(rsNew)
             return rsNew
-        } catch (e: Throwable) {
-            println("POPTemporaryStore b: " + e)
-            throw (e)
         }
+        val rsOld = iterator.next()
+        var rsNew = resultSetNew.createResultRow()
+        for (variable in variables) {
+            rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
+        }
+        return rsNew
     }
 
     fun reset() {

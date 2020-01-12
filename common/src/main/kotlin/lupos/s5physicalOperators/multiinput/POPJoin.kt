@@ -50,102 +50,61 @@ class POPJoin : POPBaseNullableIterator {
     }
 
     override fun nnext(): ResultRow? {
-        try {
-            while (true) {
-                var resultRowB: ResultRow? = null
-                try {
-                    if (!childB.hasNext()) {
-                        try {
-                            childB.reset()
-                            if (optional && !hadMatchForA && resultRowA != null) {
-                                var rsNew = resultSetNew.createResultRow()
-                                for (p in variablesOldA) {
-                                    // TODO reuse resultSet
-                                    rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(resultRowA!![p.first]))
-                                }
-                                resultRowA = null
-                                return rsNew
-                            }
-                            resultRowA = null
-                        } catch (e: Throwable) {
-                            println("POPJoin f:: " + e)
-                            throw e
-                        }
-                        if (!childB.hasNext()) {
-                            return null
-                        }
-                    }
-                    try {
-                        if (resultRowA == null) {
-                            if (!childA.hasNext())
-                                return null
-                            else {
-                                resultRowA = childA.next()
-                                println("join a:" + resultRowA)
-                                hadMatchForA = false
-                            }
-                        }
-                    } catch (e: Throwable) {
-                        println("POPJoin h:: " + e)
-                        throw e
-                    }
-                    require(resultRowA != null)
-                    try {
-                        resultRowB = childB.next()
-                        println("join b:" + resultRowB)
-                        hadMatchForA = true
-                    } catch (e: Throwable) {
-                        println("POPJoin g:: " + e)
-                        throw e
-                    }
-                    require(resultRowB != null)
-                } catch (e: Throwable) {
-                    println("POPJoin a:: " + e)
-                    throw e
-                }
-                var joinVariableOk = true
-                var rsNew = resultSetNew.createResultRow()
-                try {
-                    for (p in variablesOldJ) {
-                        // TODO reuse resultSet
-                        val a = resultSetOldA.getValue(resultRowA!![p.first.first])
-                        val b = resultSetOldB.getValue(resultRowB[p.first.second])
-                        if (a != b) {
-                            println("no match " + a + " " + b)
-                            joinVariableOk = false
-                            break
-                        }
-                        rsNew[p.second] = resultSetNew.createValue(a)
-                    }
-                } catch (e: Throwable) {
-                    println("POPJoin b ${resultSetOldA} ${resultSetOldB} ${resultRowA} ${resultRowB}:: " + e)
-                    throw e
-                }
-                try {
-                    if (!joinVariableOk)
-                        continue
+        while (true) {
+            var resultRowB: ResultRow?
+            if (!childB.hasNext()) {
+                childB.reset()
+                if (optional && !hadMatchForA && resultRowA != null) {
+                    var rsNew = resultSetNew.createResultRow()
                     for (p in variablesOldA) {
                         // TODO reuse resultSet
                         rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(resultRowA!![p.first]))
                     }
-                } catch (e: Throwable) {
-                    println("POPJoin c:: " + e)
-                    throw e
+                    resultRowA = null
+                    return rsNew
                 }
-                try {
-                    for (p in variablesOldB) {
-                        // TODO reuse resultSet
-                        rsNew[p.second] = resultSetNew.createValue(resultSetOldB.getValue(resultRowB[p.first]))
-                    }
-                } catch (e: Throwable) {
-                    println("POPJoin d:: " + e)
-                    throw e
+                resultRowA = null
+                if (!childB.hasNext()) {
+                    return null
                 }
-                return rsNew
             }
-        } catch (e: Throwable) {
-            println("POPJoin:: " + e)
-            throw e
+            if (resultRowA == null) {
+                if (!childA.hasNext())
+                    return null
+                else {
+                    resultRowA = childA.next()
+                    println("join a:" + resultRowA)
+                    hadMatchForA = false
+                }
+            }
+            require(resultRowA != null)
+            resultRowB = childB.next()
+            println("join b:" + resultRowB)
+            hadMatchForA = true
+            var joinVariableOk = true
+            var rsNew = resultSetNew.createResultRow()
+            for (p in variablesOldJ) {
+                // TODO reuse resultSet
+                val a = resultSetOldA.getValue(resultRowA!![p.first.first])
+                val b = resultSetOldB.getValue(resultRowB[p.first.second])
+                if (a != b) {
+                    println("no match " + a + " " + b)
+                    joinVariableOk = false
+                    break
+                }
+                rsNew[p.second] = resultSetNew.createValue(a)
+            }
+            if (!joinVariableOk)
+                continue
+            for (p in variablesOldA) {
+                // TODO reuse resultSet
+                rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(resultRowA!![p.first]))
+            }
+            for (p in variablesOldB) {
+                // TODO reuse resultSet
+                rsNew[p.second] = resultSetNew.createValue(resultSetOldB.getValue(resultRowB[p.first]))
+            }
+            return rsNew
         }
     }
 
