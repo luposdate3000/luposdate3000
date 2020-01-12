@@ -335,7 +335,8 @@ fun createXMLBinding(s: String): String {
             println("UnsupportedOperationException createXMLBinding ${s}")
             return s
         }
-        else -> return "<literal>" + s + "</literal>"
+        s.startsWith("\"") && !s.endsWith("\"") -> return "<literal xml:lang=\"" + s.substring(s.lastIndexOf("@") + 1, s.length) + "\">" + s.substring(1, s.lastIndexOf("@") - 1) + "</literal>"
+        else -> return "<literal>" + s.substring(1, s.length - 1) + "</literal>"
     }
 }
 
