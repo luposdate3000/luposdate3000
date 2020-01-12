@@ -8,6 +8,7 @@ import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
+import lupos.crypto.MD5
 
 class ArithmeticException() : Exception()
 
@@ -68,8 +69,8 @@ class DateTime {
         if (timezoneHours == 0 && timezoneMinutes == 0)
             return "\"Z\""
         if (timezoneHours == -1 && timezoneMinutes == -1)
-            return ""
-        return "-${timezoneHours}:${timezoneMinutes}"
+            return "\"\""
+        return "\"-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}\""
     }
 
     fun getTimeZone(): String {
@@ -82,11 +83,11 @@ class DateTime {
 
     override fun toString(): String {
         if (timezoneHours == -1 && timezoneMinutes == -1)
-            return "$year-$month-${day}T$hours:$minutes:$seconds"
+            return "${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}"
         else if (timezoneHours == 0 && timezoneMinutes == 0)
-            return "$year-$month-${day}T$hours:$minutes:${seconds}Z"
+            return "${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}Z"
         else
-            return "$year-$month-${day}T$hours:$minutes:${seconds}-${timezoneHours}:${timezoneMinutes}"
+            return "${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}-timezoneHours:${timezoneMinutes.toString().padStart(2, '0')}"
     }
 }
 
@@ -474,6 +475,7 @@ class POPExpression : OPBase {
                     BuiltInFunctions.CONCAT -> return evaluateHelperString(resultSet, resultRow, node.children[0]) + evaluateHelperString(resultSet, resultRow, node.children[1])
                     BuiltInFunctions.LANG -> return extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
                     BuiltInFunctions.STR -> return evaluateHelperString(resultSet, resultRow, node.children[0])
+                    BuiltInFunctions.MD5 -> return MD5.compute(evaluateHelperString(resultSet, resultRow, node.children[0]))
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperString ${node::class.simpleName} ${node.function}")
                 }
             }

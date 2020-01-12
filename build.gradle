@@ -33,4 +33,9 @@ allprojects {
         google()
         maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2' }
     }
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+        kotlinOptions {
+            freeCompilerArgs["-Xuse-experimental=kotlin.ExperimentalStdlibApi"]
+        }
+    }
 }

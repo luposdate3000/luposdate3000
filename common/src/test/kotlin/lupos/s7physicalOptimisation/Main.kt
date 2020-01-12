@@ -4,8 +4,14 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import kotlin.test.assertEquals
-import lupos.s1buildSyntaxTree
+import lupos.s1buildSyntaxTree.*
+import lupos.s1buildSyntaxTree.sparql1_1.*
+import lupos.s2buildOperatorGraph.*
 import lupos.s3logicalOptimisation.LogicalOptimizer
+import lupos.s4resultRepresentation.*
+import lupos.s5physicalOperators.*
+import lupos.s6tripleStore.*
+
 
 class ResultSetIteratorTestImpl : ResultSetIterator {
     private var index = 0
@@ -76,7 +82,7 @@ class TripleStoreTest {
 
     private fun checkQuery(query: String, dataIn: Array<Array<String>>, dataOutVariables: Array<String>, dataOut: Array<Array<String>>) {
         val store = TripleStore()
-        val toParse = sparql_test
+        val toParse = query
         val lcit = LexerCharIterator(toParse)
         val tit = TokenIteratorSPARQLParser(lcit)
         val ltit = LookAheadTokenIterator(tit, 3)
