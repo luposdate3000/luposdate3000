@@ -319,9 +319,11 @@ class TripleInsertIterator : POPBaseNullableIterator {
 
 fun createXMLBinding(s: String): String {
     val dataTypeInt = "^^<http://www.w3.org/2001/XMLSchema#integer>"
+    val dataTypeDecimal = "^^<http://www.w3.org/2001/XMLSchema#decimal>"
     when {
         s.startsWith("<http") -> return "<uri>" + s.substring(1, s.length - 1) + "</uri>"
         s.endsWith(dataTypeInt) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#integer\">" + s.substring(1, s.length - 1 - dataTypeInt.length) + "</literal>"
+        s.endsWith(dataTypeDecimal) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#decimal\">" + s.substring(1, s.length - 1 - dataTypeDecimal.length) + "</literal>"
         s.startsWith("_:") -> return "<bnode>" + s.substring(2, s.length) + "</bnode>"
         s.endsWith(">") -> {
             println("UnsupportedOperationException createXMLBinding ${s}")
@@ -332,7 +334,7 @@ fun createXMLBinding(s: String): String {
 }
 
 fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData: String): Boolean {
-    var calculatedResult = "<?xml version=\"1.0\"?>\n"
+    var calculatedResult = "<?xml>\n"
     calculatedResult += "<sparql>\n"
     try {
         val store = TripleStore()
@@ -387,8 +389,8 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
             for (variable in variables) {
                 var tmp = resultSet.getValue(resultRow[variable!!])
                 if (!tmp.isEmpty()) {
-                    calculatedResult += "      <binding name=\"" + variableNames[i] + "\">\n"
-                    calculatedResult += "        " + createXMLBinding(tmp) + "\n"
+                    calculatedResult += "      <binding name=\"" + variableNames[i] + "\">"
+                    calculatedResult += "        " + createXMLBinding(tmp)
                     calculatedResult += "      </binding>\n"
                 }
                 i++
@@ -404,7 +406,7 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         println("----------Target Result")
 
         var resultDataToUse = resultData
-        resultDataToUse = resultDataToUse.replace("<sparql[^>]+>".toRegex(), "<sparql>")
+        resultDataToUse = resultDataToUse.replace("<sparql[^>]+>".toRegex(), "<sparql>").replace("<.xml[^>]+>".toRegex(), "<?xml>")
 
         println(resultDataToUse)
         println(resultDataToUse.length)
@@ -418,8 +420,8 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         if (res)
             println("----------Success")
         else {
-            val aa = calculatedResult.lines().sorted().joinToString().replace("\\s".toRegex(), "")
-            val bb = resultDataToUse.lines().sorted().joinToString().replace("\\s".toRegex(), "")
+            val aa = a.replace("><".toRegex(), ">\n<").lines().sorted().joinToString()
+            val bb = b.replace("><".toRegex(), ">\n<").lines().sorted().joinToString()
             println("c:$aa")
             println("d:$bb")
             if (aa == bb)
