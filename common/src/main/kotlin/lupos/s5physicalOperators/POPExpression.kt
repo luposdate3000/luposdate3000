@@ -110,6 +110,18 @@ class POPExpression : OPBase {
         this.child = child
     }
 
+    private fun commonDatatype(resultSet: ResultSet, resultRow: ResultRow, nodeA: ASTNode, nodeB: ASTNode): TmpResultType {
+        val aType = getResultType(resultSet, resultRow, nodeA)
+        val bType = getResultType(resultSet, resultRow, nodeB)
+        if (aType == bType)
+            return aType
+        if (aType == TmpResultType.RSInteger && bType == TmpResultType.RSDouble)
+            return TmpResultType.RSDouble
+        if (aType == TmpResultType.RSDouble && bType == TmpResultType.RSInteger)
+            return TmpResultType.RSDouble
+        throw ArithmeticException("incompatible datatypes $aType $bType")
+    }
+
     private fun getResultType(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): TmpResultType {
         when (node) {
             is ASTLiteral -> return TmpResultType.RSString
@@ -123,9 +135,9 @@ class POPExpression : OPBase {
             is ASTLT -> return TmpResultType.RSBoolean
             is ASTIri -> return TmpResultType.RSString
             is ASTInteger -> return TmpResultType.RSInteger
-            is ASTAddition -> return TmpResultType.RSInteger
-            is ASTMultiplication -> return TmpResultType.RSInteger
-            is ASTDivision -> return TmpResultType.RSInteger
+            is ASTAddition -> return commonDatatype(resultSet, resultRow, node.children[0], node.children[1])
+            is ASTMultiplication -> return commonDatatype(resultSet, resultRow, node.children[0], node.children[1])
+            is ASTDivision -> return commonDatatype(resultSet, resultRow, node.children[0], node.children[1])
             is ASTVar -> {
                 if (!resultSet.getVariableNames().contains(node.name))
                     return TmpResultType.RSUndefined
@@ -446,6 +458,7 @@ class POPExpression : OPBase {
             is ASTIri -> return node.iri
             is ASTLiteral -> return node.delimiter + node.content + node.delimiter
             is ASTVar -> return resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
+            is ASTAddition -> throw ArithmeticException("ASTAddition can not be applied to String-Datatype")
             is ASTBuiltInCall -> {
                 when (node.function) {
                     BuiltInFunctions.IF -> {
