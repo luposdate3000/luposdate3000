@@ -28,8 +28,7 @@ class POPTemporaryStore : POPBase {
     }
 
     override fun hasNext(): Boolean {
-        val res = iterator.hasNext()
-        return res
+        return iterator.hasNext()
     }
 
     override fun next(): ResultRow {

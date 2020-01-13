@@ -13,7 +13,9 @@ import lupos.s2buildOperatorGraph.multiinput.LOPJoin
 import lupos.s2buildOperatorGraph.data.LOPExpression
 import lupos.s2buildOperatorGraph.data.LOPTriple
 import lupos.s2buildOperatorGraph.data.LOPVariable
+import lupos.s2buildOperatorGraph.data.LOPValues
 import lupos.s5physicalOperators.POPBase
+import lupos.s5physicalOperators.POPValues
 import lupos.s5physicalOperators.POPEmptyRow
 import lupos.s5physicalOperators.POPExpression
 import lupos.s5physicalOperators.multiinput.POPJoin
@@ -33,6 +35,10 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
 
     override fun visit(node: LOPProjection): OPBase {
         return POPProjection(node.variables, optimize(node.child) as POPBase)
+    }
+
+    override fun visit(node: LOPValues): OPBase {
+        return POPValues(node)
     }
 
     override fun visit(node: LOPExpression): OPBase {
@@ -79,7 +85,7 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
                 when (param.child) {
                     is ASTIri -> return POPFilterExact(LOPVariable(name), "<" + param.child.iri + ">", child)
                     is ASTLanguageTaggedLiteral -> return POPFilterExact(LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter + "@" + param.child.language, child)
-                    else -> throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} 2 ${node::class.simpleName}, ${param.child::class.simpleName}")
+                    else -> throw UnsupportedOperationException("${this::class.simpleName} ${node::class.simpleName}, ${param.child::class.simpleName}")
                 }
             }
         }
