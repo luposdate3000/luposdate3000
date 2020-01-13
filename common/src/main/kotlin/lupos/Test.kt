@@ -287,8 +287,8 @@ fun parseSPARQLAndPrintOut(toParse: String): Boolean {
         println("Error in the following line:")
         println(e.lineNumber)
         return false
-    } catch (e: UnsupportedOperationException) {
-        println(e.message)
+    } catch (e: Throwable) {
+        println(e)
         return false
     }
 }

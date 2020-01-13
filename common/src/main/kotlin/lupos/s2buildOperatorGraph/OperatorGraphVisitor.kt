@@ -130,7 +130,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         result.getLatestChild().setChild(LOPBind(v, sel.expression.visit(this)))
                     }
                     else -> {
-                        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Select-Parameter ${node::class.simpleName}")
+                        throw UnsupportedOperationException("${this::class.simpleName} Select-Parameter ${node::class.simpleName}")
                     }
                 }
             }
@@ -169,7 +169,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         result.getLatestChild().setChild(LOPBind(v, b.expression.visit(this)))
                     }
                     else -> {
-                        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Group-Parameter ${node::class.simpleName}")
+                        throw UnsupportedOperationException("${this::class.simpleName} Group-Parameter ${node::class.simpleName}")
                     }
                 }
             }
@@ -185,7 +185,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     enum class GroupMember {
-        GMLOPFilter, GMLOPMinus, GMLOPTriple, GMLOPBind, GMLOPSubGroup
+        GMLOPFilter, GMLOPMinus, GMLOPTriple, GMLOPBind, GMLOPOptional, GMLOPProjection
     }
 
     private fun parseGroup(nodes: Array<ASTNode>): OPBase {
@@ -195,7 +195,10 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         var result: OPBase? = null
         var members = mutableMapOf<GroupMember, OPBase>()
         for (n in nodes) {
-            val tmp2 = n.visit(this)
+            var tmp2 = n.visit(this)
+            while (tmp2 is LOPNOOP) {
+                tmp2 = tmp2.child
+            }
             when (tmp2) {
                 is LOPMinus -> {
                     if (members.containsKey(GroupMember.GMLOPMinus))
@@ -208,6 +211,12 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         (members[GroupMember.GMLOPFilter] as LOPSingleInputBase).getLatestChild().setChild(tmp2)
                     else
                         members[GroupMember.GMLOPFilter] = tmp2
+                }
+                is LOPProjection -> {
+                    if (members.containsKey(GroupMember.GMLOPProjection))
+                        (members[GroupMember.GMLOPProjection] as LOPSingleInputBase).getLatestChild().setChild(tmp2)
+                    else
+                        members[GroupMember.GMLOPProjection] = tmp2
                 }
                 is LOPBind -> {
                     if (members.containsKey(GroupMember.GMLOPBind))
@@ -222,19 +231,46 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         members[GroupMember.GMLOPTriple] = tmp2
                     }
                 }
-                is LOPSubGroup -> {
-                    if (members.containsKey(GroupMember.GMLOPSubGroup)) {
-                        members[GroupMember.GMLOPSubGroup] = LOPJoin(members[GroupMember.GMLOPSubGroup]!!, tmp2, false)
+                is LOPUnion -> {
+                    if (members.containsKey(GroupMember.GMLOPTriple)) {
+                        members[GroupMember.GMLOPTriple] = LOPJoin(members[GroupMember.GMLOPTriple]!!, tmp2, false)
                     } else {
-                        members[GroupMember.GMLOPSubGroup] = tmp2
+                        members[GroupMember.GMLOPTriple] = tmp2
+                    }
+                }
+                is LOPValues -> {
+                    if (members.containsKey(GroupMember.GMLOPTriple)) {
+                        members[GroupMember.GMLOPTriple] = LOPJoin(members[GroupMember.GMLOPTriple]!!, tmp2, false)
+                    } else {
+                        members[GroupMember.GMLOPTriple] = tmp2
+                    }
+                }
+                is LOPOptional -> {
+                    if (members.containsKey(GroupMember.GMLOPOptional)) {
+                        members[GroupMember.GMLOPOptional] = LOPJoin(members[GroupMember.GMLOPOptional]!!, tmp2.child, true)
+                    } else {
+                        members[GroupMember.GMLOPOptional] = tmp2.child
+                    }
+                }
+                is LOPSubGroup -> {
+                    if (members.containsKey(GroupMember.GMLOPTriple)) {
+                        members[GroupMember.GMLOPTriple] = LOPJoin(members[GroupMember.GMLOPTriple]!!, tmp2, false)
+                    } else {
+                        members[GroupMember.GMLOPTriple] = tmp2
                     }
                 }
                 else ->
-                    throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} GroupMember ${tmp2::class.simpleName}")
+                    throw UnsupportedOperationException("${this::class.simpleName} GroupMember ${tmp2::class.simpleName}")
             }
         }
+        if (members.containsKey(GroupMember.GMLOPProjection)) {
+            result = members[GroupMember.GMLOPProjection]
+        }
         if (members.containsKey(GroupMember.GMLOPMinus)) {
-            result = members[GroupMember.GMLOPMinus]
+            if (result == null)
+                result = members[GroupMember.GMLOPMinus]
+            else
+                (result as LOPSingleInputBase).getLatestChild().setChild(members[GroupMember.GMLOPMinus]!!)
         }
         if (members.containsKey(GroupMember.GMLOPFilter)) {
             if (result == null)
@@ -254,11 +290,11 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             else
                 (result as LOPSingleInputBase).getLatestChild().setChild(members[GroupMember.GMLOPTriple]!!)
         }
-        if (members.containsKey(GroupMember.GMLOPSubGroup)) {
+        if (members.containsKey(GroupMember.GMLOPOptional)) {
             if (result == null)
-                result = members[GroupMember.GMLOPSubGroup]
+                result = LOPOptional(members[GroupMember.GMLOPOptional])
             else
-                (result as LOPSingleInputBase).getLatestChild().setChild(members[GroupMember.GMLOPSubGroup]!!)
+                result = LOPJoin(result, members[GroupMember.GMLOPOptional]!!, true)
         }
         return result!!
     }
@@ -507,158 +543,158 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTAdd, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTMove, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTCopy, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTGraph, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTDefaultGraph, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTNamedGraph, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTIriGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTNamedIriGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTDefaultGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTNamedGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTAllGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTGrapOperation, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTUpdateGrapOperation, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTClear, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTDrop, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTCreate, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTModify, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Update ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Update ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTDeleteData, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Update ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Update ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTDeleteWhere, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Update ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Update ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTInsertData, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Update ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Update ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTModifyWithWhere, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Update ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Update ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTPathAlternatives, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Path ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTPathSequence, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Path ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTPathInverse, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Path ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTPathArbitraryOccurrences, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Path ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTPathOptionalOccurrence, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Path ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTPathArbitraryOccurrencesNotZero, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Path ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTPathNegatedPropertySet, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Path ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTGroupConcat, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Group ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Group ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Blank Node ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Blank Node ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTSubSelectQuery, childrenValues: List<OPBase>): OPBase {
         if (node.existsValues()) {
-            throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Values ${node::class.simpleName}")
+            throw UnsupportedOperationException("${this::class.simpleName} Values ${node::class.simpleName}")
         }
         return visit(node as ASTSelectQuery, childrenValues)
     }
 
     override fun visit(node: ASTConstructQuery, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Query Type ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Query Type ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTDescribeQuery, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Query Type ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Query Type ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTDatasetClause, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Query Type ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Query Type ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTAskQuery, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Query Type ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Query Type ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTService, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} Service ${node::class.simpleName}")
+        throw UnsupportedOperationException("${this::class.simpleName} Service ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTQueryBaseClass, childrenValues: List<OPBase>): OPBase {
