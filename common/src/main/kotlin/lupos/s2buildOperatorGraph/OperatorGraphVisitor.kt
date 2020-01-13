@@ -220,9 +220,8 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 }
                 is LOPBind -> {
                     if (members.containsKey(GroupMember.GMLOPBind))
-                        (members[GroupMember.GMLOPBind] as LOPSingleInputBase).getLatestChild().setChild(tmp2)
-                    else
-                        members[GroupMember.GMLOPBind] = tmp2
+                        (tmp2 as LOPSingleInputBase).getLatestChild().setChild(members[GroupMember.GMLOPBind]!!)
+                    members[GroupMember.GMLOPBind] = tmp2
                 }
                 is LOPTriple -> {
                     if (members.containsKey(GroupMember.GMLOPTriple)) {

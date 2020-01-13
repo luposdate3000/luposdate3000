@@ -427,7 +427,7 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         println("----------Target Result")
 
         var resultDataToUse = resultData
-        resultDataToUse = resultDataToUse.replace("<sparql[^>]+>".toRegex(), "<sparql>").replace("<.xml[^>]+>".toRegex(), "").replace("<!--[^>]+-->".toRegex(), "")
+        resultDataToUse = resultDataToUse.replace("<sparql[^>]+>".toRegex(), "<sparql>").replace("<.xml[^>]+>".toRegex(), "").replace("<!--[^>]+-->".toRegex(), "").replace("<results>\\s*</results>".toRegex(), "<results/>")
 
         println(resultDataToUse)
         println(resultDataToUse.length)

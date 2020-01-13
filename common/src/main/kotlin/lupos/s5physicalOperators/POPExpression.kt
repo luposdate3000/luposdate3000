@@ -94,7 +94,7 @@ class DateTime {
 }
 
 enum class TmpResultType {
-    RSBoolean, RSString, RSInteger, RSDouble, RSDateTime
+    RSBoolean, RSString, RSInteger, RSDouble, RSDateTime, RSUndefined
 }
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
@@ -127,6 +127,8 @@ class POPExpression : OPBase {
             is ASTMultiplication -> return TmpResultType.RSInteger
             is ASTDivision -> return TmpResultType.RSInteger
             is ASTVar -> {
+                if (!resultSet.getVariableNames().contains(node.name))
+                    return TmpResultType.RSUndefined
                 val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
                 println("XXX ${tmp} -> ${tmp.endsWith(dataTypeInteger)} ${tmp.endsWith(dataTypeDouble)} ${tmp.startsWith("<http")}")
                 when {
@@ -280,6 +282,7 @@ class POPExpression : OPBase {
         val typeA = getResultType(resultSet, resultRow, left)
         val typeB = getResultType(resultSet, resultRow, right)
         when {
+            typeA == TmpResultType.RSUndefined || typeB == TmpResultType.RSUndefined -> return typeA == typeB
             typeA == TmpResultType.RSBoolean && typeB == TmpResultType.RSBoolean -> {
                 val a = evaluateHelperBoolean(resultSet, resultRow, left)
                 val b = evaluateHelperBoolean(resultSet, resultRow, right)
@@ -429,6 +432,7 @@ class POPExpression : OPBase {
         when (getResultType(resultSet, resultRow, node)) {
             TmpResultType.RSBoolean -> return "\"" + evaluateHelperBoolean(resultSet, resultRow, node) + "\"" + dataTypeBoolean
             TmpResultType.RSInteger -> return "\"" + evaluateHelperInteger(resultSet, resultRow, node) + "\"" + dataTypeInteger
+            TmpResultType.RSUndefined -> return ""
             TmpResultType.RSDouble -> {
                 val res = evaluateHelperDouble(resultSet, resultRow, node).toString()
                 when {
