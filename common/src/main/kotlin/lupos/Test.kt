@@ -298,11 +298,22 @@ class TripleInsertIterator : POPBaseNullableIterator {
 
     private val resultSet = ResultSet()
 
+    fun cleanString(s: String): String {
+        var res = s
+        while (true) {
+            val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
+            if (match == null)
+                return res
+            val replacement = match.value.substring(2, 6).toInt(16).toChar() + ""
+            res = res.replace(match.value, replacement)
+        }
+    }
+
     constructor(triple: ID_Triple) {
         result = resultSet.createResultRow()
-        result!![resultSet.createVariable("s")] = resultSet.createValue(Dictionary[triple.s]!!.toN3String())
-        result!![resultSet.createVariable("p")] = resultSet.createValue(Dictionary[triple.p]!!.toN3String())
-        result!![resultSet.createVariable("o")] = resultSet.createValue(Dictionary[triple.o]!!.toN3String())
+        result!![resultSet.createVariable("s")] = resultSet.createValue(cleanString(Dictionary[triple.s]!!.toN3String()))
+        result!![resultSet.createVariable("p")] = resultSet.createValue(cleanString(Dictionary[triple.p]!!.toN3String()))
+        result!![resultSet.createVariable("o")] = resultSet.createValue(cleanString(Dictionary[triple.o]!!.toN3String()))
     }
 
     override fun getResultSet(): ResultSet {
