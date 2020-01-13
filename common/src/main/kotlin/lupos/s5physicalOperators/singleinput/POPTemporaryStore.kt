@@ -19,7 +19,7 @@ class POPTemporaryStore : POPBase {
         iterator = child
         resultSetOld = child.getResultSet()
         for (name in resultSetOld.getVariableNames()) {
-            variables.add(Pair(resultSetOld.createVariable(name), resultSetNew.createVariable(name)))
+            variables.add(Pair(resultSetNew.createVariable(name), resultSetOld.createVariable(name)))
         }
     }
 

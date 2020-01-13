@@ -128,10 +128,10 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTSelectQuery, childrenValues: List<OPBase>): OPBase {
         val result = LOPNOOP()
+        var bind: LOPBind? = null
         if (!node.selectAll()) {
             val projection = LOPProjection()
             result.getLatestChild().setChild(projection)
-            var bind: LOPBind? = null
             for (sel in node.select) {
                 when (sel) {
                     is ASTVar -> {
@@ -151,9 +151,6 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     }
                 }
             }
-            if (bind != null) {
-                result.getLatestChild().setChild(bind)
-            }
         }
         if (node.existsLimit()) {
             result.getLatestChild().setChild(LOPLimit(node.limit))
@@ -171,6 +168,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             for (order in node.orderBy) {
                 result.getLatestChild().setChild(order.visit(this) as LOPSort)
             }
+        }
+        if (bind != null) {
+            result.getLatestChild().setChild(bind)
         }
         if (node.existsHaving()) {
             for (h in node.having) {

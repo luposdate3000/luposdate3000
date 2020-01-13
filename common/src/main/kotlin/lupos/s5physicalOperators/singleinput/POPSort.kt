@@ -14,18 +14,18 @@ class POPSort : POPBaseNullableIterator {
     private val resultSetNew = ResultSet()
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     private var iterator: Iterator<ResultRow>? = null
-    private val sortBy: Variable
+    private var sortBy: Variable
     private val child: POPBase
     private val sortOrder: Boolean
 
     constructor(sortBy: LOPVariable, sortOrder: Boolean, child: POPBase) : super() {
         this.child = child
         this.sortOrder = sortOrder
-        this.sortBy = resultSetNew.createVariable(sortBy.name)
         resultSetOld = child.getResultSet()
         for (name in resultSetOld.getVariableNames()) {
-            variables.add(Pair(resultSetOld.createVariable(name), resultSetNew.createVariable(name)))
+            variables.add(Pair(resultSetNew.createVariable(name), resultSetOld.createVariable(name)))
         }
+        this.sortBy = resultSetNew.createVariable(sortBy.name)
     }
 
     override fun getResultSet(): ResultSet {
