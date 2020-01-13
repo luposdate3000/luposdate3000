@@ -188,6 +188,15 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         GMLOPFilter, GMLOPMinus, GMLOPTriple, GMLOPBind, GMLOPOptional, GMLOPProjection
     }
 
+    fun getAllVariablesInChildren(node: ASTNode): List<String> {
+        val res = mutableListOf<String>()
+        if (node is ASTVar)
+            res.add(node.name)
+        for (c in node.children)
+            res.addAll(getAllVariablesInChildren(c))
+        return res
+    }
+
     private fun parseGroup(nodes: Array<ASTNode>): OPBase {
         if (nodes.isEmpty()) {
             return LOPNOOP()
@@ -219,9 +228,18 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         members[GroupMember.GMLOPProjection] = tmp2
                 }
                 is LOPBind -> {
-                    if (members.containsKey(GroupMember.GMLOPBind))
-                        (tmp2 as LOPSingleInputBase).getLatestChild().setChild(members[GroupMember.GMLOPBind]!!)
-                    members[GroupMember.GMLOPBind] = tmp2
+                    if (members.containsKey(GroupMember.GMLOPBind)) {
+                        val t = getAllVariablesInChildren((tmp2.expression as LOPExpression).child)
+                        println("bindchilds >> ${t} ${tmp2} << bindchilds")
+                        if (t.contains(((members[GroupMember.GMLOPBind]!! as LOPBind).name as LOPVariable).name)) {
+                            (tmp2 as LOPSingleInputBase).getLatestChild().setChild(members[GroupMember.GMLOPBind]!!)
+                            members[GroupMember.GMLOPBind] = tmp2
+                        } else {
+                            (members[GroupMember.GMLOPBind] as LOPSingleInputBase).getLatestChild().setChild(tmp2)
+                        }
+                    } else {
+                        members[GroupMember.GMLOPBind] = tmp2
+                    }
                 }
                 is LOPTriple -> {
                     if (members.containsKey(GroupMember.GMLOPTriple)) {
