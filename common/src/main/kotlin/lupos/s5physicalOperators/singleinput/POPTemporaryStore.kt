@@ -58,5 +58,3 @@ class POPTemporaryStore : POPBase {
         return "${indentation}${this::class.simpleName}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
     }
 }
-
-//java.lang.ClassCastException: java.util.LinkedHashMap cannot be cast to lupos.s4resultRepresentation.ResultRow

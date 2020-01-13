@@ -5,6 +5,7 @@ import lupos.s1buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.OPNothing
 import lupos.s2buildOperatorGraph.singleinput.LOPBind
+import lupos.s2buildOperatorGraph.singleinput.LOPSort
 import lupos.s2buildOperatorGraph.singleinput.LOPProjection
 import lupos.s2buildOperatorGraph.singleinput.LOPFilter
 import lupos.s2buildOperatorGraph.singleinput.LOPSubGroup
@@ -17,6 +18,7 @@ import lupos.s5physicalOperators.POPEmptyRow
 import lupos.s5physicalOperators.POPExpression
 import lupos.s5physicalOperators.multiinput.POPJoin
 import lupos.s5physicalOperators.singleinput.POPBind
+import lupos.s5physicalOperators.singleinput.POPSort
 import lupos.s5physicalOperators.singleinput.POPFilter
 import lupos.s5physicalOperators.singleinput.POPBindUndefined
 import lupos.s5physicalOperators.singleinput.POPFilterExact
@@ -35,6 +37,10 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
 
     override fun visit(node: LOPExpression): OPBase {
         return POPExpression(node.child)
+    }
+
+    override fun visit(node: LOPSort): OPBase {
+        return POPSort(node.by as LOPVariable, node.asc, optimize(node.child) as POPBase)
     }
 
     override fun visit(node: LOPSubGroup): OPBase {
