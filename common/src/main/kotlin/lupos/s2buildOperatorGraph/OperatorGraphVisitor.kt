@@ -292,7 +292,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         }
         if (members.containsKey(GroupMember.GMLOPOptional)) {
             if (result == null)
-                result = LOPOptional(members[GroupMember.GMLOPOptional])
+                result = LOPOptional(members[GroupMember.GMLOPOptional]!!)
             else
                 result = LOPJoin(result, members[GroupMember.GMLOPOptional]!!, true)
         }

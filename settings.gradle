@@ -1,3 +1,4 @@
+enableFeaturePreview('GRADLE_METADATA')
 include 'common'
 include 'common_buffer_diskbased'
 include 'common_buffer_mainmemory'
@@ -10,3 +11,4 @@ include 'unsafe_jvm'
 include 'memorymapped_jvm'
 include 'memorymapped_unsafe_jvm'
 include 'randomaccess_jvm'
+

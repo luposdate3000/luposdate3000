@@ -8,7 +8,7 @@ import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
-import lupos.crypto.MD5
+import com.soywiz.krypto.md5
 
 class ArithmeticException() : Exception()
 
@@ -95,6 +95,7 @@ enum class TmpResultType {
     RSBoolean, RSString, RSInteger, RSDouble, RSDateTime
 }
 
+@UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class POPExpression : OPBase {
     private val dataTypeInteger = "^^<http://www.w3.org/2001/XMLSchema#integer>"
     private val dataTypeDouble = "^^<http://www.w3.org/2001/XMLSchema#decimal>"
@@ -475,7 +476,7 @@ class POPExpression : OPBase {
                     BuiltInFunctions.CONCAT -> return evaluateHelperString(resultSet, resultRow, node.children[0]) + evaluateHelperString(resultSet, resultRow, node.children[1])
                     BuiltInFunctions.LANG -> return extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
                     BuiltInFunctions.STR -> return evaluateHelperString(resultSet, resultRow, node.children[0])
-                    BuiltInFunctions.MD5 -> return MD5.compute(evaluateHelperString(resultSet, resultRow, node.children[0]))
+                    BuiltInFunctions.MD5 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().md5().toHexString() + "\""
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperString ${node::class.simpleName} ${node.function}")
                 }
             }
@@ -497,4 +498,17 @@ class POPExpression : OPBase {
         return "${indentation}${this::class.simpleName}\n${child.toString("${indentation}\t")}"
     }
 
+}
+
+@UseExperimental(kotlin.ExperimentalStdlibApi::class)
+fun ByteArray.toHexString(): String {
+    val sb = StringBuilder()
+    for (b in this) {
+        val tmp = (b + 256) % 256
+        if (tmp == 0)
+            sb.append("00")
+        else
+            sb.append(tmp.toString(16).padStart(2, '0'))
+    }
+    return sb.toString()
 }
