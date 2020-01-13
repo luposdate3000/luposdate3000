@@ -475,7 +475,25 @@ class POPExpression : OPBase {
                         val idx = tmp.lastIndexOf("@")
                         return tmp.substring(0, idx).toUpperCase() + tmp.substring(idx, tmp.length)
                     }
-                    BuiltInFunctions.CONCAT -> return evaluateHelperString(resultSet, resultRow, node.children[0]) + evaluateHelperString(resultSet, resultRow, node.children[1])
+                    BuiltInFunctions.CONCAT -> {
+                        val a = evaluateHelperString(resultSet, resultRow, node.children[0])
+                        val b = evaluateHelperString(resultSet, resultRow, node.children[1])
+                        val aas = extractStringFromLiteral(a)
+                        val bbs = extractStringFromLiteral(b)
+                        if (a.endsWith(dataTypeString) && b.endsWith(dataTypeString))
+                            return "\"" + aas + bbs + "\"" + dataTypeString
+                        if (a.endsWith(">") && !a.endsWith(dataTypeString))
+                            return ""
+                        if (b.endsWith(">") && !b.endsWith(dataTypeString))
+                            return ""
+                        if (a.endsWith(">") || b.endsWith(">"))
+                            return "\"" + aas + bbs + "\""
+                        val aa = extractLanguageFromLiteral(a)
+                        val bb = extractLanguageFromLiteral(b)
+                        if (aa != bb || aa == "")
+                            return "\"" + aas + bbs + "\""
+                        return "\"" + aas + bbs + "\"@" + aa
+                    }
                     BuiltInFunctions.LANG -> return extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
                     BuiltInFunctions.STR -> return evaluateHelperString(resultSet, resultRow, node.children[0])
                     BuiltInFunctions.MD5 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().md5().toHexString() + "\""
