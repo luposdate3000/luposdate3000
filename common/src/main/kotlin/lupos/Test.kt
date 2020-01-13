@@ -21,6 +21,7 @@ import lupos.s5physicalOperators.POPBaseNullableIterator
 import lupos.s6tripleStore.TripleStore
 import lupos.s7physicalOptimisation.PhysicalOptimizer
 import lupos.s8outputResult.printResult
+import lupos.misc.*
 
 expect fun readFileContents(filename: String): String
 
@@ -288,7 +289,7 @@ fun parseSPARQLAndPrintOut(toParse: String): Boolean {
         println(e.lineNumber)
         return false
     } catch (e: Throwable) {
-        println(e)
+        e.kotlinStacktrace()
         return false
     }
 }
@@ -467,7 +468,7 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         println(e.lineNumber)
         return false
     } catch (e: Throwable) {
-        println(e)
+        e.kotlinStacktrace()
         return false
     }
 }

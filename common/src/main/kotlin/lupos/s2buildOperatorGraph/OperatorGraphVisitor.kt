@@ -114,11 +114,24 @@ import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPReduced
 class OperatorGraphVisitor : Visitor<OPBase> {
     override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPNOOP()
 
+    fun mergeLOPBind(a: LOPBind, b: LOPBind): LOPBind {
+        val aName = ((a!! as LOPBind).name as LOPVariable).name
+        if ((b.expression is LOPExpression && getAllVariablesInChildren((b.expression as LOPExpression).child).contains(aName))
+                || (b.expression is LOPVariable && (b.expression as LOPVariable).name == aName)) {
+            b.getLatestChild().setChild(a)
+            return b
+        } else {
+            a.getLatestChild().setChild(b)
+            return a
+        }
+    }
+
     override fun visit(node: ASTSelectQuery, childrenValues: List<OPBase>): OPBase {
         val result = LOPNOOP()
         if (!node.selectAll()) {
             val projection = LOPProjection()
             result.getLatestChild().setChild(projection)
+            var bind: LOPBind? = null
             for (sel in node.select) {
                 when (sel) {
                     is ASTVar -> {
@@ -127,12 +140,19 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     is ASTAs -> {
                         val v = LOPVariable(sel.variable.name)
                         projection.variables.add(v)
-                        result.getLatestChild().setChild(LOPBind(v, sel.expression.visit(this)))
+                        val tmp2 = LOPBind(v, sel.expression.visit(this))
+                        if (bind != null)
+                            bind = mergeLOPBind(bind, tmp2)
+                        else
+                            bind = tmp2
                     }
                     else -> {
                         throw UnsupportedOperationException("${this::class.simpleName} Select-Parameter ${node::class.simpleName}")
                     }
                 }
+            }
+            if (bind != null) {
+                result.getLatestChild().setChild(bind)
             }
         }
         if (node.existsLimit()) {
@@ -229,14 +249,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 }
                 is LOPBind -> {
                     if (members.containsKey(GroupMember.GMLOPBind)) {
-                        val t = getAllVariablesInChildren((tmp2.expression as LOPExpression).child)
-                        println("bindchilds >> ${t} ${tmp2} << bindchilds")
-                        if (t.contains(((members[GroupMember.GMLOPBind]!! as LOPBind).name as LOPVariable).name)) {
-                            (tmp2 as LOPSingleInputBase).getLatestChild().setChild(members[GroupMember.GMLOPBind]!!)
-                            members[GroupMember.GMLOPBind] = tmp2
-                        } else {
-                            (members[GroupMember.GMLOPBind] as LOPSingleInputBase).getLatestChild().setChild(tmp2)
-                        }
+                        members[GroupMember.GMLOPBind] = mergeLOPBind(members[GroupMember.GMLOPBind]!! as LOPBind, tmp2)
                     } else {
                         members[GroupMember.GMLOPBind] = tmp2
                     }
