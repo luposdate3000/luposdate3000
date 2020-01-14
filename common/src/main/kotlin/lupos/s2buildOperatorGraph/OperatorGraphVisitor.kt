@@ -126,9 +126,19 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         }
     }
 
+    fun containsAggregate(node: ASTNode): Boolean {
+        if (node is ASTAggregation)
+            return true
+        for (c in node.children)
+            if (containsAggregate(c))
+                return true
+        return false
+    }
+
     override fun visit(node: ASTSelectQuery, childrenValues: List<OPBase>): OPBase {
         val result = LOPNOOP()
         var bind: LOPBind? = null
+        var bindIsAggregate = false
         val groupBindings: OPBase
         if (!node.selectAll()) {
             val projection = LOPProjection()
@@ -142,6 +152,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         val v = LOPVariable(sel.variable.name)
                         projection.variables.add(v)
                         val tmp2 = LOPBind(v, sel.expression.visit(this))
+                        bindIsAggregate = bindIsAggregate || containsAggregate(sel.expression)
                         if (bind != null)
                             bind = mergeLOPBind(bind, tmp2)
                         else
@@ -208,8 +219,12 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 }
                 result.getLatestChild().setChild(LOPGroup(mutableListOf<LOPVariable>(), bind as LOPBind?, LOPNOOP()))
             } else {
-                if (bind != null) {
-                    result.getLatestChild().setChild(bind)
+                if (bindIsAggregate) {
+                    result.getLatestChild().setChild(LOPGroup(mutableListOf<LOPVariable>(), bind as LOPBind?, LOPNOOP()))
+                } else {
+                    if (bind != null) {
+                        result.getLatestChild().setChild(bind)
+                    }
                 }
             }
         }
