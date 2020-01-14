@@ -261,7 +261,7 @@ class POPExpression : OPBase {
                 when (node.type) {
                     Aggregation.AVG -> {
                         if (aggregateMode == TmpAggregateMode.AMCollect)
-                            aggregateTmpDouble[node.uuid] = last + childValue / (1.0 + aggregateCount)
+                            aggregateTmpDouble[node.uuid] = last + childValue / (0.0 + aggregateCount)
                     }
                     Aggregation.MIN -> {
                         if (aggregateMode == TmpAggregateMode.AMCollect && (aggregateTmpDouble[node.uuid] == null || childValue < last))
@@ -666,7 +666,7 @@ class POPExpression : OPBase {
     fun evaluate(resultSet: ResultSet, resultRows: List<ResultRow>): String {
         println("resultRow:: " + resultRows)
         aggregateMode = TmpAggregateMode.AMCollect
-        aggregateCount = resultRows.size
+        aggregateCount = resultRows.count()
         aggregateTmpInteger.clear()
         aggregateTmpDouble.clear()
         aggregateTmpString.clear()
