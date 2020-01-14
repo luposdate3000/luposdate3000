@@ -524,14 +524,19 @@ class POPExpression : OPBase {
         }
     }
 
+    fun evaluateBoolean(resultSet: ResultSet, resultRow: ResultRow): Boolean {
+        println("resultRow:: " + resultRow)
+        return evaluateHelperBoolean(resultSet, resultRow, child)
+    }
+
     fun evaluate(resultSet: ResultSet, resultRow: ResultRow): String {
         println("resultRow:: " + resultRow)
         return evaluateHelperString(resultSet, resultRow, child)
     }
 
-    fun evaluateBoolean(resultSet: ResultSet, resultRow: ResultRow): Boolean {
-        println("resultRow:: " + resultRow)
-        return evaluateHelperBoolean(resultSet, resultRow, child)
+    fun evaluate(resultSet: ResultSet, resultRows: List<ResultRow>): String {
+        println("resultRow:: " + resultRows)
+        throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperAggregate")
     }
 
     override fun toString(indentation: String): String {

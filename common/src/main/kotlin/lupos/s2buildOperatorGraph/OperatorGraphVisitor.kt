@@ -177,8 +177,8 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 }
             }
             val variables = mutableListOf<LOPVariable>()
+            var child: LOPBind? = null
             for (b in node.groupBy) {
-//TODO this block is the same as in node.select ... merge this into a function
                 when (b) {
                     is ASTVar -> {
                         variables.add(b.visit(this) as LOPVariable)
@@ -187,17 +187,20 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         val v = LOPVariable(b.variable.name)
                         variables.add(v)
                         val tmp2 = LOPBind(v, b.expression.visit(this))
-                        if (bind != null)
-                            bind = mergeLOPBind(bind, tmp2)
+                        if (child != null)
+                            child = mergeLOPBind(child, tmp2)
                         else
-                            bind = tmp2
+                            child = tmp2
                     }
                     else -> {
                         throw UnsupportedOperationException("${this::class.simpleName} Group-Parameter ${node::class.simpleName}")
                     }
                 }
-                result.getLatestChild().setChild(LOPGroup(variables, bind as LOPBind?, LOPNOOP()))
             }
+            if (child == null)
+                result.getLatestChild().setChild(LOPGroup(variables, bind as LOPBind?, LOPNOOP()))
+            else
+                result.getLatestChild().setChild(LOPGroup(variables, bind as LOPBind?, child))
         } else {
             if (node.existsHaving()) {
                 for (h in node.having) {

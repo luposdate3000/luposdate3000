@@ -6,6 +6,7 @@ import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.OPNothing
 import lupos.s2buildOperatorGraph.singleinput.LOPBind
 import lupos.s2buildOperatorGraph.singleinput.LOPSort
+import lupos.s2buildOperatorGraph.singleinput.LOPGroup
 import lupos.s2buildOperatorGraph.singleinput.LOPProjection
 import lupos.s2buildOperatorGraph.singleinput.LOPFilter
 import lupos.s2buildOperatorGraph.singleinput.LOPSubGroup
@@ -23,6 +24,7 @@ import lupos.s5physicalOperators.multiinput.POPJoin
 import lupos.s5physicalOperators.multiinput.POPUnion
 import lupos.s5physicalOperators.singleinput.POPBind
 import lupos.s5physicalOperators.singleinput.POPSort
+import lupos.s5physicalOperators.singleinput.POPGroup
 import lupos.s5physicalOperators.singleinput.POPFilter
 import lupos.s5physicalOperators.singleinput.POPBindUndefined
 import lupos.s5physicalOperators.singleinput.POPFilterExact
@@ -41,6 +43,12 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
 
     override fun visit(node: LOPValues): OPBase {
         return POPValues(node)
+    }
+
+    override fun visit(node: LOPGroup): OPBase {
+        if (node.bindings != null)
+            return POPGroup(node.by, optimize(node.bindings!!) as POPBind, optimize(node.child) as POPBase)
+        return POPGroup(node.by, null, optimize(node.child) as POPBase)
     }
 
     override fun visit(node: LOPUnion): OPBase {

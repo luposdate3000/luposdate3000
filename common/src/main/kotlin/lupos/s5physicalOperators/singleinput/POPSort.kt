@@ -8,18 +8,16 @@ import lupos.s4resultRepresentation.Value
 import lupos.s5physicalOperators.POPBase
 import lupos.s5physicalOperators.POPBaseNullableIterator
 
-class POPSort : POPBaseNullableIterator {
+class POPSort : POPSingleInputBaseNullableIterator {
     private var data: MutableList<ResultRow>? = null
     private val resultSetOld: ResultSet
     private val resultSetNew = ResultSet()
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     private var iterator: Iterator<ResultRow>? = null
     private var sortBy: Variable
-    private val child: POPBase
     private val sortOrder: Boolean
 
-    constructor(sortBy: LOPVariable, sortOrder: Boolean, child: POPBase) : super() {
-        this.child = child
+    constructor(sortBy: LOPVariable, sortOrder: Boolean, child: POPBase) : super(child) {
         this.sortOrder = sortOrder
         resultSetOld = child.getResultSet()
         for (name in resultSetOld.getVariableNames()) {
