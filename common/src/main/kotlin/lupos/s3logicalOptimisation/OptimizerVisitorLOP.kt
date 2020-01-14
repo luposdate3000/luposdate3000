@@ -47,7 +47,9 @@ abstract class OptimizerVisitorLOP() {
     }
 
     open fun visit(node: LOPGroup): OPBase {
-        return LOPGroup(optimize(node.by) as LOPVariable, optimize(node.child))
+        if (node.bindings != null)
+            return LOPGroup(node.by, optimize(node.bindings!!), optimize(node.child))
+        return LOPGroup(node.by, null, optimize(node.child))
     }
 
     open fun visit(node: LOPMakeBooleanResult): OPBase {

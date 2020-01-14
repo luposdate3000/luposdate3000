@@ -129,6 +129,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     override fun visit(node: ASTSelectQuery, childrenValues: List<OPBase>): OPBase {
         val result = LOPNOOP()
         var bind: LOPBind? = null
+        val groupBindings: OPBase
         if (!node.selectAll()) {
             val projection = LOPProjection()
             result.getLatestChild().setChild(projection)
@@ -169,29 +170,34 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 result.getLatestChild().setChild(order.visit(this) as LOPSort)
             }
         }
-        if (bind != null) {
-            result.getLatestChild().setChild(bind)
-        }
-        if (node.existsHaving()) {
-            for (h in node.having) {
-                result.getLatestChild().setChild(LOPFilter(h.visit(this) as LOPExpression))
-            }
-        }
         if (node.existsGroupBy()) {
+            if (node.existsHaving()) {
+                for (h in node.having) {
+                    result.getLatestChild().setChild(LOPFilter(h.visit(this) as LOPExpression))
+                }
+            }
+            val variables = mutableListOf<LOPVariable>()
+            val child = LOPNOOP()
             for (b in node.groupBy) {
                 when (b) {
                     is ASTVar -> {
-                        result.getLatestChild().setChild(LOPGroup(b.visit(this) as LOPVariable))
+                        variables.add(b.visit(this) as LOPVariable)
                     }
                     is ASTAs -> {
                         val v = LOPVariable(b.variable.name)
-                        result.getLatestChild().setChild(LOPGroup(v))
-                        result.getLatestChild().setChild(LOPBind(v, b.expression.visit(this)))
+                        variables.add(v)
+                        child.getLatestChild().setChild(LOPBind(v, b.expression.visit(this)))
                     }
                     else -> {
                         throw UnsupportedOperationException("${this::class.simpleName} Group-Parameter ${node::class.simpleName}")
                     }
                 }
+                result.getLatestChild().setChild(LOPGroup(variables, bind as LOPBind?, child))
+            }
+        } else {
+            require(!node.existsHaving())
+            if (bind != null) {
+                result.getLatestChild().setChild(bind)
             }
         }
         if (node.where.isNotEmpty()) {
