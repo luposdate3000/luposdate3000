@@ -1,7 +1,9 @@
 package lupos.s1buildSyntaxTree.rdf
 
+import lupos.s1buildSyntaxTree.*
+
 object Dictionary {
-    private var max_id = 0L
+    private var max_id = 0L;
 
     private val RDFTerm_to_ID = mutableMapOf<String, Long>()
     private val ID_to_RDFTerm = mutableMapOf<Long, RDFTerm>()

@@ -95,6 +95,66 @@ class UnexpectedToken(token: Token, expectedTokens: Array<String>, lineNumber: I
     constructor(token: Token, expectedTokens: Array<String>, tokenIterator: LookAheadTokenIterator) : this(token, expectedTokens, tokenIterator.tokenIterator.getLineNumber(), tokenIterator.tokenIterator.getColumnNumber())
 }
 
+/*
+class LexerCharIterator(val content:String) {
+    var index = 0;
+    var lineNumber = 0
+    var columnNumber = 0
+
+    inline fun hasNext() = (this.index<this.content.length);
+
+    inline fun nextChar(): Char {
+        if(this.index<this.content.length){
+            val result = this.content[this.index];
+            this.index++;
+            return result;
+        } else {
+            throw UnexpectedEndOfFile(this.index-1, this.content);
+        }
+    }
+
+    inline fun putBack(){
+        this.index = if(this.index>0) this.index-1 else 0;
+    }
+
+    inline fun putBack(number:Int){
+        this.index = if(this.index>number) this.index-number else 0;
+    }
+
+    inline fun lookahead(number:Int=0): Char {
+        if(this.index+number<this.content.length){
+            return this.content[this.index+number];
+        } else {
+            throw LookAheadOverLimit(number, this.content.length-this.index, this.index, this.content);
+        }
+    }
+}
+
+fun main(args : Array<String>){
+    val lci = LexerCharIterator("abcdefghijklmnopqrstuvwxyz")
+    val n = lci.nextChar()
+    if(lci.lookaheadAvailable(1)) {
+        val nn = if (lci.lookaheadAvailable()) lci.lookahead() else '0'
+        val nnn = if (lci.lookaheadAvailable(1)) lci.lookahead(1) else '0'
+        lci.putBack(n)
+        val nc = lci.nextChar()
+        val nnc = lci.nextChar()
+        val nnnc = lci.nextChar()
+        if (n != nc) {
+            println("Expected: " + n + " found: " + nc)
+        } else println(n)
+        if (nn != nnc) {
+            println("Expected: " + nn + " found: " + nnc)
+        } else println(nn)
+        if (nnn != nnnc) {
+            println("Expected: " + nnn + " found: " + nnnc)
+        } else println(nnn)
+    } else {
+        println("lookahead(1) is not available!")
+    }
+}
+*/
+
 class LexerCharIterator(val content: CharIterator) {
 
     constructor(contentString: String) : this(contentString.iterator())
@@ -142,7 +202,7 @@ class LexerCharIterator(val content: CharIterator) {
             updateLineNumber(result)
             return result
         }
-        throw UnexpectedEndOfFile(this.index - 1, this.lineNumber, this.columnNumber)
+        throw UnexpectedEndOfFile(this.index - 1, this.lineNumber, this.columnNumber);
     }
 
     inline fun putBack(c: Char) {
@@ -181,9 +241,9 @@ class LexerCharIterator(val content: CharIterator) {
         if (number + 1 >= MAXSIZEPUTBACK) {
             throw PutBackOverLimit(this.index, this.lineNumber, this.columnNumber)
         }
-        for (i in 0..number) {
+        for (i in 0..number - this.backArrayIndex) {
             if (content.hasNext()) {
-                this.lookahead()
+                this.lookahead(i)
             } else {
                 return false
             }
@@ -193,74 +253,64 @@ class LexerCharIterator(val content: CharIterator) {
 
     inline fun lookahead(number: Int = 0): Char {
         if (this.backArrayIndex > number) {
-            return this.backArray[number]
+            return this.backArray[this.backArrayIndex - number - 1]
         }
+        val bai = this.backArrayIndex
         if (number + 1 >= MAXSIZEPUTBACK) {
             throw PutBackOverLimit(this.index, this.lineNumber, this.columnNumber)
         }
         if (this.backArrayIndex > 0) {
             for (i in this.backArrayIndex - 1 downTo 0) {
-                this.backArray[i + number + 1] = this.backArray[i]
-                this.backArrayIndex++
+                this.backArray[i + number] = this.backArray[i]
             }
         }
-        for (i in number downTo 0) {
+        for (i in number - bai downTo 0) {
             this.backArray[i] = content.nextChar()
             this.backArrayIndex++
         }
-        return this.backArray[number]
+        return this.backArray[this.backArrayIndex - number - 1]
     }
 }
 
 abstract class Token(val image: String, val index: Int) {
-    override fun toString(): String {
-        return super.toString() + ": " + image
+    override public fun toString(): String {
+        return super.toString() + ": " + image;
     }
 }
 
 open abstract class ASTNode(val children: Array<ASTNode>) {
     override fun toString(): String {
-        return toString("")
+        return toString("");
     }
 
     fun toString(indentation: String): String {
-        var result = indentation + nodeToString() + "\r\n"
+        var result = indentation + nodeToString() + "\r\n";
         for (i in 0..children.size - 1) {
-            result += children[i].toString(indentation + "  ")
+            result += children[i].toString(indentation + "  ");
         }
-        return result
+        return result;
     }
 
-    abstract fun nodeToString(): String
+    abstract fun nodeToString(): String;
 
-/*    inline fun<T> getChildrensValues(visitor:Visitor<T>):List<T> {
-        return List<T>(children.size) { children[it].visit(visitor) };
-    }
+//    inline fun <T> getChildrensValues(visitor: Visitor<T>, nodes: Array<out ASTNode> = this.children): List<T> = List<T>(children.size) { children[it].visit(visitor) }
 
-    open fun<T> visit(visitor:Visitor<T>):T {
-        return visitor.visit(this, this.getChildrensValues(visitor));
-    } */
+//    open fun <T> visit(visitor: Visitor<T>): T = visitor.visit(this, this.getChildrensValues(visitor));
 }
 
 open abstract class ASTUnaryOperation(child: ASTNode) : ASTNode(arrayOf<ASTNode>(child))
 open abstract class ASTUnaryOperationFixedName(child: ASTNode, val name: String) : ASTNode(arrayOf<ASTNode>(child)) {
-    override fun nodeToString(): String {
-        return name
-    }
+    override fun nodeToString(): String = name
 }
 
-open abstract class ASTBinaryOperation(left: ASTNode, right: ASTNode) : ASTNode(arrayOf<ASTNode>(left, right))
+open abstract class ASTBinaryOperation(left: ASTNode, right: ASTNode) : ASTNode(arrayOf<ASTNode>(left, right));
 open abstract class ASTBinaryOperationFixedName(left: ASTNode, right: ASTNode, val name: String) : ASTNode(arrayOf<ASTNode>(left, right)) {
-    override fun nodeToString(): String {
-        return name
-    }
+    override fun nodeToString(): String = name
 }
 
-open abstract class ASTNaryOperation(children: Array<ASTNode>) : ASTNode(children)
+open abstract class ASTNaryOperation(children: Array<ASTNode>) : ASTNode(children);
 open abstract class ASTNaryOperationFixedName(children: Array<ASTNode>, val name: String) : ASTNode(children) {
-    override fun nodeToString(): String {
-        return name
-    }
+    override fun nodeToString(): String = name
 }
 
-open abstract class ASTLeafNode : ASTNode(arrayOf<ASTNode>())
+open abstract class ASTLeafNode() : ASTNode(arrayOf<ASTNode>());

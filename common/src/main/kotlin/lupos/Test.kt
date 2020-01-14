@@ -129,7 +129,7 @@ private fun readTurtleData(filename: String, consume_triple: (Long, Long, Long) 
     try {
         TurtleParserWithDictionary(consume_triple, ltit).turtleDoc()
     } catch (e: ParseError) {
-	 e.kotlinStacktrace()
+        e.kotlinStacktrace()
         println("Error in the following line:")
         println(e.lineNumber)
     }
