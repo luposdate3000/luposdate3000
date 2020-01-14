@@ -32,4 +32,6 @@ actual class ResultSet {
     actual fun getValue(value: Value): String {
         return value
     }
+
+    actual fun getUndefValue(): String = ""
 }

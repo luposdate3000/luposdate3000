@@ -83,19 +83,6 @@ class POPJoin : POPBaseNullableIterator {
             hadMatchForA = true
             var joinVariableOk = true
             var rsNew = resultSetNew.createResultRow()
-            for (p in variablesOldJ) {
-                // TODO reuse resultSet
-                val a = resultSetOldA.getValue(resultRowA!![p.first.first])
-                val b = resultSetOldB.getValue(resultRowB[p.first.second])
-                if (a != b) {
-                    println("no match " + a + " " + b)
-                    joinVariableOk = false
-                    break
-                }
-                rsNew[p.second] = resultSetNew.createValue(a)
-            }
-            if (!joinVariableOk)
-                continue
             for (p in variablesOldA) {
                 // TODO reuse resultSet
                 rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(resultRowA!![p.first]))
@@ -104,6 +91,22 @@ class POPJoin : POPBaseNullableIterator {
                 // TODO reuse resultSet
                 rsNew[p.second] = resultSetNew.createValue(resultSetOldB.getValue(resultRowB[p.first]))
             }
+            for (p in variablesOldJ) {
+                // TODO reuse resultSet
+                val a = resultSetOldA.getValue(resultRowA!![p.first.first])
+                val b = resultSetOldB.getValue(resultRowB[p.first.second])
+                if (a != b && a != resultSetOldA.getUndefValue() && b != resultSetOldB.getUndefValue()) {
+                    println("no match " + a + " " + b + " ${a != b} ${a != resultSetOldA.getUndefValue()} ${b != resultSetOldB.getUndefValue()}")
+                    joinVariableOk = false
+                    break
+                }
+                if (a == resultSetOldA.getUndefValue())
+                    rsNew[p.second] = resultSetNew.createValue(b)
+                rsNew[p.second] = resultSetNew.createValue(a)
+            }
+            if (!joinVariableOk)
+                continue
+            println("join c:" + rsNew)
             return rsNew
         }
     }

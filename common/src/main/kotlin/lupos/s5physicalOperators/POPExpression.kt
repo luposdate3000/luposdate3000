@@ -124,6 +124,7 @@ class POPExpression : OPBase {
 
     private fun getResultType(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): TmpResultType {
         when (node) {
+            is ASTUndef -> return TmpResultType.RSUndefined
             is ASTLiteral -> return TmpResultType.RSString
             is ASTBooleanLiteral -> return TmpResultType.RSBoolean
             is ASTOr -> return TmpResultType.RSBoolean
@@ -444,7 +445,7 @@ class POPExpression : OPBase {
         when (getResultType(resultSet, resultRow, node)) {
             TmpResultType.RSBoolean -> return "\"" + evaluateHelperBoolean(resultSet, resultRow, node) + "\"" + dataTypeBoolean
             TmpResultType.RSInteger -> return "\"" + evaluateHelperInteger(resultSet, resultRow, node) + "\"" + dataTypeInteger
-            TmpResultType.RSUndefined -> return ""
+            TmpResultType.RSUndefined -> return resultSet.getUndefValue()
             TmpResultType.RSDouble -> {
                 val res = evaluateHelperDouble(resultSet, resultRow, node).toString()
                 when {
@@ -455,7 +456,7 @@ class POPExpression : OPBase {
             }
         }
         when (node) {
-            is ASTIri -> return node.iri
+            is ASTIri -> return "<" + node.iri + ">"
             is ASTLiteral -> return node.delimiter + node.content + node.delimiter
             is ASTVar -> return resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
             is ASTAddition -> throw ArithmeticException("ASTAddition can not be applied to String-Datatype")
@@ -500,9 +501,9 @@ class POPExpression : OPBase {
                         if (a.endsWith(dataTypeString) && b.endsWith(dataTypeString))
                             return "\"" + aas + bbs + "\"" + dataTypeString
                         if (a.endsWith(">") && !a.endsWith(dataTypeString))
-                            return ""
+                            return resultSet.getUndefValue()
                         if (b.endsWith(">") && !b.endsWith(dataTypeString))
-                            return ""
+                            return resultSet.getUndefValue()
                         if (a.endsWith(">") || b.endsWith(">"))
                             return "\"" + aas + bbs + "\""
                         val aa = extractLanguageFromLiteral(a)

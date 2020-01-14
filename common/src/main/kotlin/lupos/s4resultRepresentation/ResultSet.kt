@@ -12,4 +12,6 @@ expect class ResultSet {
 
     fun createResultRow(): ResultRow
     fun releaseResultRow(row: ResultRow)
+
+    fun getUndefValue(): String
 }
