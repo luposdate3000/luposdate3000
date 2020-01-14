@@ -567,7 +567,7 @@ class TokenIteratorSPARQLParser(val iterator: LexerCharIterator) : TokenIterator
         if (nextChar in '0'..'9') {
             while (this.iterator.hasNext()) {
                 val nextNextChar = this.iterator.nextChar();
-                if (nextChar in '0'..'9') {
+                if (nextNextChar in '0'..'9') {
                     expnumber += nextNextChar;
                 } else {
                     this.iterator.putBack(nextNextChar);
