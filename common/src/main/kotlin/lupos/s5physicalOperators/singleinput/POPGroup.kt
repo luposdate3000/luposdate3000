@@ -83,6 +83,6 @@ class POPGroup : POPSingleInputBaseNullableIterator {
     }
 
     override fun toString(indentation: String): String {
-        return "${indentation}${this::class.simpleName}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
+        return "${indentation}${this::class.simpleName}\n${indentation}\tby\n${indentation}\t\t${by}\n${indentation}\tbindings:\n${indentation}\t\t${bindings}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
     }
 }

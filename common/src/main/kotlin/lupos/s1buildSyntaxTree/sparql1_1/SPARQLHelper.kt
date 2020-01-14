@@ -65,6 +65,12 @@ enum class Aggregation {
 }
 
 open abstract class ASTNode(val children: Array<ASTNode>) {
+    companion object {
+        var global_uuid = 0
+    }
+
+    val uuid = global_uuid++
+
     override fun toString(): String {
         return toString("")
     }

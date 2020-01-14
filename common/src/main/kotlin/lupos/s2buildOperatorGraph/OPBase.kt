@@ -8,11 +8,7 @@ abstract class OPBase {
         var global_uuid = 0
     }
 
-    val uuid: Int
-
-    constructor() {
-        uuid = global_uuid++
-    }
+    val uuid = global_uuid++
 
     override fun toString(): String {
         return toString("")

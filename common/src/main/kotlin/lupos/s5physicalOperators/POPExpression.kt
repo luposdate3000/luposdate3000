@@ -97,13 +97,25 @@ enum class TmpResultType {
     RSBoolean, RSString, RSInteger, RSDouble, RSDateTime, RSUndefined
 }
 
+enum class TmpAggregateMode {
+    AMCollect, AMResult
+}
+
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class POPExpression : OPBase {
+
+    private var aggregateMode = TmpAggregateMode.AMCollect
+
     private val dataTypeInteger = "^^<http://www.w3.org/2001/XMLSchema#integer>"
     private val dataTypeDouble = "^^<http://www.w3.org/2001/XMLSchema#decimal>"
     private val dataTypeBoolean = "^^<http://www.w3.org/2001/XMLSchema#boolean>"
     private val dataTypeDateTime = "^^<http://www.w3.org/2001/XMLSchema#dateTime>"
     private val dataTypeString = "^^<http://www.w3.org/2001/XMLSchema#string>"
+    private var aggregateCount = 0
+    private val aggregateTmpType = mutableMapOf<Int, TmpResultType>()
+    private val aggregateTmpInteger = mutableMapOf<Int, Int>()
+    private val aggregateTmpDouble = mutableMapOf<Int, Double>()
+    private val aggregateTmpString = mutableMapOf<Int, String>()
     var child: ASTNode
 
     constructor(child: ASTNode) {
@@ -124,6 +136,11 @@ class POPExpression : OPBase {
 
     private fun getResultType(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): TmpResultType {
         when (node) {
+            is ASTAggregation -> {
+                if (aggregateMode == TmpAggregateMode.AMResult)
+                    return aggregateTmpType[node.uuid]!!
+                return getResultType(resultSet, resultRow, node.children[0])
+            }
             is ASTUndef -> return TmpResultType.RSUndefined
             is ASTLiteral -> return TmpResultType.RSString
             is ASTBooleanLiteral -> return TmpResultType.RSBoolean
@@ -143,7 +160,6 @@ class POPExpression : OPBase {
                 if (!resultSet.getVariableNames().contains(node.name))
                     return TmpResultType.RSUndefined
                 val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
-                println("XXX ${tmp} -> ${tmp.endsWith(dataTypeInteger)} ${tmp.endsWith(dataTypeDouble)} ${tmp.startsWith("<http")}")
                 when {
                     tmp.endsWith(dataTypeInteger) -> return TmpResultType.RSInteger
                     tmp.endsWith(dataTypeDouble) -> return TmpResultType.RSDouble
@@ -217,6 +233,50 @@ class POPExpression : OPBase {
 
     private fun evaluateHelperDouble(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): Double {
         when (node) {
+            is ASTAggregation -> {
+                if (aggregateTmpType[node.uuid] == null || aggregateTmpType[node.uuid] == TmpResultType.RSDouble || aggregateTmpType[node.uuid] == TmpResultType.RSInteger)
+                    aggregateTmpType[node.uuid] = TmpResultType.RSDouble
+                else
+                    throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDouble ${node::class.simpleName} aggregate merge from ${aggregateTmpType[node.uuid]} to ${TmpResultType.RSDouble}")
+                if (node.type == Aggregation.COUNT)
+                    return aggregateCount.toDouble()
+                val childValue = if (aggregateMode == TmpAggregateMode.AMCollect)
+                    evaluateHelperDouble(resultSet, resultRow, node.children[0])
+                else
+                    0.0
+                if (node.type == Aggregation.SAMPLE) {
+                    aggregateTmpDouble[node.uuid] = childValue
+                    return childValue
+                }
+                var last = aggregateTmpDouble[node.uuid]
+                if (last == null)
+                    last = 0.0
+                if (node.distinct)
+                    throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDouble ${node::class.simpleName} ${node.type} DISTINCT")
+                when (node.type) {
+                    Aggregation.AVG -> {
+                        if (aggregateMode == TmpAggregateMode.AMCollect)
+                            aggregateTmpDouble[node.uuid] = last + childValue / (1.0 + aggregateCount)
+                        return aggregateTmpDouble[node.uuid]!!
+                    }
+                    Aggregation.MIN -> {
+                        if (aggregateMode == TmpAggregateMode.AMCollect && aggregateTmpDouble[node.uuid] != null && childValue < last)
+                            aggregateTmpDouble[node.uuid] = childValue
+                        return aggregateTmpDouble[node.uuid]!!
+                    }
+                    Aggregation.MAX -> {
+                        if (aggregateMode == TmpAggregateMode.AMCollect && aggregateTmpDouble[node.uuid] != null && childValue > last)
+                            aggregateTmpDouble[node.uuid] = childValue
+                        return aggregateTmpDouble[node.uuid]!!
+                    }
+                    Aggregation.SUM -> {
+                        if (aggregateMode == TmpAggregateMode.AMCollect)
+                            aggregateTmpDouble[node.uuid] = last + childValue
+                        return aggregateTmpDouble[node.uuid]!!
+                    }
+                }
+                throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDouble ${node::class.simpleName} ${node.type}")
+            }
             is ASTVar -> {
                 val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
                 val tmp2 = tmp.substring(1, tmp.length - 1 - dataTypeDouble.length)
@@ -260,6 +320,63 @@ class POPExpression : OPBase {
 
     private fun evaluateHelperInteger(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): Int {
         when (node) {
+            is ASTAggregation -> {
+                if (aggregateTmpType[node.uuid] == null || aggregateTmpType[node.uuid] == TmpResultType.RSInteger)
+                    aggregateTmpType[node.uuid] = TmpResultType.RSInteger
+                else if (aggregateTmpType[node.uuid] != TmpResultType.RSDouble)
+                    throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDouble ${node::class.simpleName} aggregate merge from ${aggregateTmpType[node.uuid]} to ${TmpResultType.RSDouble}")
+                if (node.type == Aggregation.COUNT)
+                    return aggregateCount
+                val childValue = if (aggregateMode == TmpAggregateMode.AMCollect)
+                    evaluateHelperInteger(resultSet, resultRow, node.children[0])
+                else
+                    0
+                val childValueDouble = if (aggregateMode == TmpAggregateMode.AMCollect)
+                    childValue.toDouble()
+                else
+                    0.0
+                if (node.type == Aggregation.SAMPLE)
+                    return childValue
+                var lastInt = aggregateTmpInteger[node.uuid]
+                if (lastInt == null)
+                    lastInt = 0
+                var lastDouble = aggregateTmpDouble[node.uuid]
+                if (lastDouble == null)
+                    lastDouble = 0.0
+                if (node.distinct)
+                    throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperInteger ${node::class.simpleName} ${node.type} DISTINCT")
+                when (node.type) {
+                    Aggregation.AVG -> {
+                        if (aggregateMode == TmpAggregateMode.AMCollect) {
+                            aggregateTmpInteger[node.uuid] = lastInt + childValue
+                            aggregateTmpDouble[node.uuid] = lastDouble + childValue.toDouble()
+                        }
+                        return aggregateTmpInteger[node.uuid]!! / aggregateCount
+                    }
+                    Aggregation.MIN -> {
+                        if (aggregateMode == TmpAggregateMode.AMCollect && aggregateTmpInteger[node.uuid] != null && childValueDouble < lastDouble) {
+                            aggregateTmpInteger[node.uuid] = childValue
+                            aggregateTmpDouble[node.uuid] = childValueDouble
+                        }
+                        return aggregateTmpInteger[node.uuid]!!
+                    }
+                    Aggregation.MAX -> {
+                        if (aggregateMode == TmpAggregateMode.AMCollect && aggregateTmpInteger[node.uuid] != null && childValueDouble > lastDouble) {
+                            aggregateTmpInteger[node.uuid] = childValue
+                            aggregateTmpDouble[node.uuid] = childValueDouble
+                        }
+                        return aggregateTmpInteger[node.uuid]!!
+                    }
+                    Aggregation.SUM -> {
+                        if (aggregateMode == TmpAggregateMode.AMCollect) {
+                            aggregateTmpInteger[node.uuid] = lastInt + childValue
+                            aggregateTmpDouble[node.uuid] = lastDouble + childValueDouble
+                        }
+                        return aggregateTmpInteger[node.uuid]!!
+                    }
+                }
+                throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperInteger ${node::class.simpleName} ${node.type}")
+            }
             is ASTInteger -> return node.value
             is ASTVar -> {
                 val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
@@ -456,6 +573,9 @@ class POPExpression : OPBase {
             }
         }
         when (node) {
+            is ASTAggregation -> {
+                throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperString ${node::class.simpleName} ${node.type} ${node.distinct}")
+            }
             is ASTIri -> return "<" + node.iri + ">"
             is ASTLiteral -> return node.delimiter + node.content + node.delimiter
             is ASTVar -> return resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
@@ -536,7 +656,16 @@ class POPExpression : OPBase {
 
     fun evaluate(resultSet: ResultSet, resultRows: List<ResultRow>): String {
         println("resultRow:: " + resultRows)
-        throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperAggregate")
+        aggregateMode = TmpAggregateMode.AMCollect
+        aggregateCount = resultRows.size
+        aggregateTmpInteger.clear()
+        aggregateTmpDouble.clear()
+        aggregateTmpString.clear()
+        for (resultRow in resultRows) {
+            evaluate(resultSet, resultRow)
+        }
+        aggregateMode = TmpAggregateMode.AMResult
+        return evaluate(resultSet, resultSet.createResultRow())
     }
 
     override fun toString(indentation: String): String {

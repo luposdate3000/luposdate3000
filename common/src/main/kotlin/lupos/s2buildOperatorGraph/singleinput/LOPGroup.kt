@@ -16,5 +16,10 @@ class LOPGroup(var by: List<LOPVariable>) : LOPSingleInputBase() {
         this.child = child
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\tvariable:\n${by.toString()}${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
+    override fun toString(indentation: String): String {
+        var bindings: OPBase? = this.bindings
+        if (bindings == null)
+            bindings = LOPNOOP()
+        return "${indentation}${this::class.simpleName}\n${indentation}\tvariable:\n${by.toString()}${indentation}\tbindings:\n${bindings.toString("${indentation}\t\t")}${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
+    }
 }
