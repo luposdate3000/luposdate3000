@@ -95,27 +95,259 @@ class DateTime {
 }
 
 enum class TmpResultType {
-    RSBoolean, RSString, RSInteger, RSDouble, RSDateTime, RSUndefined
+    RSBoolean, RSString, RSInteger, RSDecimal, RSDateTime, RSUndefined, RSDouble
 }
 
 enum class TmpAggregateMode {
     AMCollect, AMResult
 }
 
+class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: TmpResultType, val dataType: String) {
+
+    fun myAbs(a: T): T {
+        return when (a) {
+            is Double -> abs(a) as T
+            is Int -> abs(a) as T
+            else -> throw UnsupportedOperationException("${this::class.simpleName} helperPlus")
+        }
+    }
+
+    fun myCeil(a: T): T {
+        return when (a) {
+            is Double -> ceil(a) as T
+            is Int -> a as T
+            else -> throw UnsupportedOperationException("${this::class.simpleName} helperPlus")
+        }
+    }
+
+    fun myFloor(a: T): T {
+        return when (a) {
+            is Double -> floor(a) as T
+            is Int -> a as T
+            else -> throw UnsupportedOperationException("${this::class.simpleName} helperPlus")
+        }
+    }
+
+    private fun myRound(a: Any): T {
+        return when (a) {
+            is Double -> a.roundToInt().toDouble() as T
+            is Int -> a as T
+            else -> throw UnsupportedOperationException("${this::class.simpleName} round")
+        }
+    }
+
+    operator fun T.plus(b: T): T {
+        return when (this) {
+            is Double -> (this + (b as Double)) as T
+            is Int -> (this + (b as Int)) as T
+            else -> throw UnsupportedOperationException("${this::class.simpleName} helperPlus")
+        }
+    }
+
+    operator fun T.minus(b: T): T {
+        return when (this) {
+            is Double -> (this - (b as Double)) as T
+            is Int -> (this - (b as Int)) as T
+            else -> throw UnsupportedOperationException("${this::class.simpleName} helperMinus")
+        }
+    }
+
+    operator fun T.times(b: T): T {
+        return when (this) {
+            is Double -> (this * (b as Double)) as T
+            is Int -> (this * (b as Int)) as T
+            else -> throw UnsupportedOperationException("${this::class.simpleName} helperMultiplication")
+        }
+    }
+
+    operator fun T.div(b: T): T {
+        return when (this) {
+            is Double -> (this / (b as Double)) as T
+            is Int -> (this / (b as Int)) as T
+            else -> throw UnsupportedOperationException("${this::class.simpleName} helperDivision")
+        }
+    }
+
+    operator fun T.compareTo(b: T): Int {
+        return when (this) {
+            is Double -> {
+                if (this < (b as Double))
+                    -1
+                else if (this > (b as Double))
+                    return 1
+                else
+                    return 0
+            }
+            is Int -> {
+                if (this < (b as Int))
+                    -1
+                else if (this > (b as Int))
+                    return 1
+                else
+                    return 0
+            }
+            else -> throw UnsupportedOperationException("${this::class.simpleName} helperDivision")
+        }
+    }
+
+    private fun helperNull(): T {
+        val a: T? = null
+        return when (a) {
+            is Double? -> (0.0) as T
+            is Int? -> (0) as T
+            else -> throw UnsupportedOperationException("${this::class.simpleName} helperNull")
+        }
+    }
+
+    private fun helperToT(a: Number): T {
+        val b: T? = null
+        return when (b) {
+            is Double? -> a.toDouble() as T
+            is Int? -> a.toInt() as T
+            else -> throw UnsupportedOperationException("${this::class.simpleName} helperToT")
+        }
+    }
+
+    private fun fromString(a: String): T {
+        val b: T? = null
+        return when (b) {
+            is Double? -> a.toDouble() as T
+            is Int? -> a.toInt() as T
+            else -> throw UnsupportedOperationException("${this::class.simpleName} fromString")
+        }
+    }
+
+    fun evaluateChildTyped(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): T {
+        return when (expression.getResultType(resultSet, resultRow, node)) {
+            TmpResultType.RSInteger -> helperToT(expression.evaluateInteger.evaluateHelper(resultSet, resultRow, node))
+            TmpResultType.RSDecimal -> helperToT(expression.evaluateDecimal.evaluateHelper(resultSet, resultRow, node))
+            TmpResultType.RSDouble -> helperToT(expression.evaluateDouble.evaluateHelper(resultSet, resultRow, node))
+            else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateChildTyped ${node::class.simpleName}")
+        }
+    }
+
+    fun evaluateHelper2(resultSet: ResultSet, resultRow: ResultRow, node: ASTBinaryOperationFixedName): T {
+        val a = evaluateChildTyped(resultSet, resultRow, node.children[0])
+        val b = evaluateChildTyped(resultSet, resultRow, node.children[1])
+        when (node) {
+            is ASTAddition -> return a + b
+            is ASTMultiplication -> return a * b
+            is ASTDivision -> return a / b
+            else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelper2 ${node::class.simpleName}")
+        }
+    }
+
+    fun evaluateHelperBoolean(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): Boolean {
+        val a: T = evaluateChildTyped(resultSet, resultRow, node.children[0])
+        val b: T = evaluateChildTyped(resultSet, resultRow, node.children[1])
+        when (node) {
+            is ASTEQ -> return a == b
+            is ASTGEQ -> return a >= b
+            is ASTLEQ -> return a <= b
+            is ASTGT -> return a > b
+            is ASTLT -> return a < b
+            else -> throw ArithmeticException("the output of ${node::class.simpleName} is not a boolean")
+        }
+    }
+
+    fun evaluateHelper(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): T {
+        when (node) {
+            is ASTAggregation -> {
+                if (expression.aggregateTmpType[node.uuid] == null || expression.aggregateTmpType[node.uuid] == resultType)
+                    expression.aggregateTmpType[node.uuid] = resultType
+                else if (expression.isAUpgradeableToB(expression.aggregateTmpType[node.uuid]!!, resultType)) {
+                    if (expression.aggregateTmp[node.uuid] != null)
+                        expression.aggregateTmp[node.uuid] = helperToT(expression.aggregateTmp[node.uuid]!!)
+                } else
+                    throw UnsupportedOperationException("${this::class.simpleName} evaluateHelper ${node::class.simpleName} aggregate merge from ${expression.aggregateTmpType[node.uuid]} to ${resultType}")
+                if (node.type == Aggregation.COUNT)
+                    return helperToT(expression.aggregateCount)
+                val childValue: T = if (expression.aggregateMode == TmpAggregateMode.AMCollect)
+                    evaluateChildTyped(resultSet, resultRow, node.children[0])
+                else
+                    helperNull()
+                if (node.type == Aggregation.SAMPLE) {
+                    expression.aggregateTmp[node.uuid] = childValue
+                    return childValue
+                }
+                var last: T? = expression.aggregateTmp[node.uuid] as T?
+                if (last == null)
+                    last = helperNull()
+                if (node.distinct)
+                    throw UnsupportedOperationException("${this::class.simpleName} evaluateHelper ${node::class.simpleName} ${node.type} DISTINCT")
+                when (node.type) {
+                    Aggregation.AVG -> {
+                        if (expression.aggregateMode == TmpAggregateMode.AMCollect)
+                            expression.aggregateTmp[node.uuid] = last + childValue / helperToT(expression.aggregateCount)
+                    }
+                    Aggregation.MIN -> {
+                        if (expression.aggregateMode == TmpAggregateMode.AMCollect && (expression.aggregateTmp[node.uuid] == null || childValue < last))
+                            expression.aggregateTmp[node.uuid] = childValue
+                    }
+                    Aggregation.MAX -> {
+                        if (expression.aggregateMode == TmpAggregateMode.AMCollect && (expression.aggregateTmp[node.uuid] == null || childValue > last))
+                            expression.aggregateTmp[node.uuid] = childValue
+                    }
+                    Aggregation.SUM -> {
+                        if (expression.aggregateMode == TmpAggregateMode.AMCollect)
+                            expression.aggregateTmp[node.uuid] = last + childValue
+                    }
+                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelper ${node::class.simpleName} ${node.type}")
+                }
+                val res: T? = expression.aggregateTmp[node.uuid] as T?
+                if (res == null)
+                    return helperNull()
+                return res
+            }
+            is ASTVar -> {
+                val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
+                val tmp2 = tmp.substring(1, tmp.length - 1 - dataType.length)
+                println("XXD1 " + tmp)
+                println("XXD2 " + tmp2)
+                return fromString(tmp2)
+            }
+            is ASTInteger -> return helperToT(node.value)
+            is ASTBinaryOperationFixedName -> return evaluateHelper2(resultSet, resultRow, node)
+            is ASTBuiltInCall -> {
+                when (node.function) {
+                    BuiltInFunctions.ABS -> return myAbs(evaluateChildTyped(resultSet, resultRow, node.children[0]))
+                    BuiltInFunctions.CEIL -> return myCeil(evaluateChildTyped(resultSet, resultRow, node.children[0]))
+                    BuiltInFunctions.FLOOR -> return myFloor(evaluateChildTyped(resultSet, resultRow, node.children[0]))
+                    BuiltInFunctions.ROUND -> return myRound(evaluateChildTyped(resultSet, resultRow, node.children[0]))
+                    BuiltInFunctions.DAY -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).day)
+                    BuiltInFunctions.MONTH -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).month)
+                    BuiltInFunctions.YEAR -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).year)
+                    BuiltInFunctions.HOURS -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).hours)
+                    BuiltInFunctions.MINUTES -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).minutes)
+                    BuiltInFunctions.SECONDS -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).seconds)
+                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelper ${node::class.simpleName} ${node.function}")
+                }
+            }
+            else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelper ${node::class.simpleName}")
+        }
+    }
+
+
+}
+
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class POPExpression : OPBase {
 
-    private var aggregateMode = TmpAggregateMode.AMCollect
+    var aggregateMode = TmpAggregateMode.AMCollect
 
     private val dataTypeInteger = "^^<http://www.w3.org/2001/XMLSchema#integer>"
-    private val dataTypeDouble = "^^<http://www.w3.org/2001/XMLSchema#decimal>"
+    private val dataTypeDecimal = "^^<http://www.w3.org/2001/XMLSchema#decimal>"
+    private val dataTypeDouble = "^^<http://www.w3.org/2001/XMLSchema#double>"
     private val dataTypeBoolean = "^^<http://www.w3.org/2001/XMLSchema#boolean>"
     private val dataTypeDateTime = "^^<http://www.w3.org/2001/XMLSchema#dateTime>"
     private val dataTypeString = "^^<http://www.w3.org/2001/XMLSchema#string>"
-    private var aggregateCount = 0
-    private val aggregateTmpType = mutableMapOf<Int, TmpResultType>()
-    private val aggregateTmpInteger = mutableMapOf<Int, Int>()
-    private val aggregateTmpDouble = mutableMapOf<Int, Double>()
+    val evaluateInteger = EvaluateNumber<Int>(this, TmpResultType.RSInteger, dataTypeInteger)
+    val evaluateDecimal = EvaluateNumber<Double>(this, TmpResultType.RSDecimal, dataTypeDecimal)
+    val evaluateDouble = EvaluateNumber<Double>(this, TmpResultType.RSDouble, dataTypeDouble)
+
+    var aggregateCount = 0
+    val aggregateTmpType = mutableMapOf<Int, TmpResultType>()
+    val aggregateTmp = mutableMapOf<Int, Number>()
     private val aggregateTmpString = mutableMapOf<Int, String>()
     var child: ASTNode
 
@@ -123,19 +355,37 @@ class POPExpression : OPBase {
         this.child = child
     }
 
+    fun isAUpgradeableToB(a: TmpResultType, b: TmpResultType): Boolean {
+        if (a == b)
+            return true
+        when (a) {
+            TmpResultType.RSInteger -> {
+                when (b) {
+                    TmpResultType.RSDecimal, TmpResultType.RSDouble -> return true
+                }
+            }
+            TmpResultType.RSDecimal -> {
+                when (b) {
+                    TmpResultType.RSDouble -> return true
+                }
+            }
+        }
+        return false
+    }
+
     private fun commonDatatype(resultSet: ResultSet, resultRow: ResultRow, nodeA: ASTNode, nodeB: ASTNode): TmpResultType {
         val aType = getResultType(resultSet, resultRow, nodeA)
         val bType = getResultType(resultSet, resultRow, nodeB)
         if (aType == bType)
             return aType
-        if (aType == TmpResultType.RSInteger && bType == TmpResultType.RSDouble)
-            return TmpResultType.RSDouble
-        if (aType == TmpResultType.RSDouble && bType == TmpResultType.RSInteger)
-            return TmpResultType.RSDouble
+        if (isAUpgradeableToB(aType, bType))
+            return bType
+        if (isAUpgradeableToB(bType, aType))
+            return aType
         throw ArithmeticException("incompatible datatypes $aType $bType")
     }
 
-    private fun getResultType(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): TmpResultType {
+    fun getResultType(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): TmpResultType {
         when (node) {
             is ASTAggregation -> {
                 if (aggregateMode == TmpAggregateMode.AMResult) {
@@ -169,6 +419,7 @@ class POPExpression : OPBase {
                 val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
                 when {
                     tmp.endsWith(dataTypeInteger) -> return TmpResultType.RSInteger
+                    tmp.endsWith(dataTypeDecimal) -> return TmpResultType.RSDecimal
                     tmp.endsWith(dataTypeDouble) -> return TmpResultType.RSDouble
                     tmp.endsWith(dataTypeBoolean) -> return TmpResultType.RSBoolean
                     tmp.endsWith(dataTypeDateTime) -> return TmpResultType.RSDateTime
@@ -209,209 +460,12 @@ class POPExpression : OPBase {
         }
     }
 
-    private fun evaluateHelperDouble2(resultSet: ResultSet, resultRow: ResultRow, node: ASTBinaryOperationFixedName): Double {
-        val left = node.children[0]
-        val right = node.children[1]
-        val typeA = getResultType(resultSet, resultRow, left)
-        val typeB = getResultType(resultSet, resultRow, right)
-        when {
-            typeA == TmpResultType.RSDouble && typeB == TmpResultType.RSDouble -> {
-                val a = evaluateHelperDouble(resultSet, resultRow, left)
-                val b = evaluateHelperDouble(resultSet, resultRow, right)
-                when (node) {
-                    is ASTAddition -> return a + b
-                    is ASTMultiplication -> return a * b
-                    is ASTDivision -> return a / b
-                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDouble2 ${node::class.simpleName}")
-                }
-            }
-            else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDouble2 ${node::class.simpleName} ${typeA} ${typeB}")
-        }
-    }
-
-    private fun evaluateHelperDateTime(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): DateTime {
+    fun evaluateHelperDateTime(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): DateTime {
         when (node) {
             is ASTVar -> {
                 return DateTime(resultSet.getValue(resultRow[resultSet.createVariable(node.name)]))
             }
             else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDateTime ${node::class.simpleName}")
-        }
-    }
-
-    private fun evaluateHelperDouble(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): Double {
-        when (node) {
-            is ASTAggregation -> {
-                if (aggregateTmpType[node.uuid] == null || aggregateTmpType[node.uuid] == TmpResultType.RSDouble || aggregateTmpType[node.uuid] == TmpResultType.RSInteger)
-                    aggregateTmpType[node.uuid] = TmpResultType.RSDouble
-                else
-                    throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDouble ${node::class.simpleName} aggregate merge from ${aggregateTmpType[node.uuid]} to ${TmpResultType.RSDouble}")
-                val childValue = if (aggregateMode == TmpAggregateMode.AMCollect)
-                    evaluateHelperDouble(resultSet, resultRow, node.children[0])
-                else
-                    0.0
-                if (node.type == Aggregation.SAMPLE) {
-                    aggregateTmpDouble[node.uuid] = childValue
-                    return childValue
-                }
-                var last = aggregateTmpDouble[node.uuid]
-                if (last == null)
-                    last = 0.0
-                if (node.distinct)
-                    throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDouble ${node::class.simpleName} ${node.type} DISTINCT")
-                when (node.type) {
-                    Aggregation.AVG -> {
-                        if (aggregateMode == TmpAggregateMode.AMCollect)
-                            aggregateTmpDouble[node.uuid] = last + childValue / (0.0 + aggregateCount)
-                    }
-                    Aggregation.MIN -> {
-                        if (aggregateMode == TmpAggregateMode.AMCollect && (aggregateTmpDouble[node.uuid] == null || childValue < last))
-                            aggregateTmpDouble[node.uuid] = childValue
-                    }
-                    Aggregation.MAX -> {
-                        if (aggregateMode == TmpAggregateMode.AMCollect && (aggregateTmpDouble[node.uuid] == null || childValue > last))
-                            aggregateTmpDouble[node.uuid] = childValue
-                    }
-                    Aggregation.SUM -> {
-                        if (aggregateMode == TmpAggregateMode.AMCollect)
-                            aggregateTmpDouble[node.uuid] = last + childValue
-                    }
-                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDouble ${node::class.simpleName} ${node.type}")
-                }
-                val res = aggregateTmpDouble[node.uuid]
-                if (res == null)
-                    return 0.0
-                return res
-            }
-            is ASTVar -> {
-                val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
-                val tmp2 = tmp.substring(1, tmp.length - 1 - dataTypeDouble.length)
-                println("XXD1 " + tmp)
-                println("XXD2 " + tmp2)
-                return tmp2.toDouble()
-            }
-            is ASTBinaryOperationFixedName -> return evaluateHelperDouble2(resultSet, resultRow, node)
-            is ASTBuiltInCall -> {
-                when (node.function) {
-                    BuiltInFunctions.ABS -> return abs(evaluateHelperDouble(resultSet, resultRow, node.children[0]))
-                    BuiltInFunctions.CEIL -> return ceil(evaluateHelperDouble(resultSet, resultRow, node.children[0]))
-                    BuiltInFunctions.FLOOR -> return floor(evaluateHelperDouble(resultSet, resultRow, node.children[0]))
-                    BuiltInFunctions.ROUND -> return evaluateHelperDouble(resultSet, resultRow, node.children[0]).roundToInt().toDouble()
-                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDouble ${node::class.simpleName} ${node.function}")
-                }
-            }
-            else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDouble ${node::class.simpleName}")
-        }
-    }
-
-    private fun evaluateHelperInteger2(resultSet: ResultSet, resultRow: ResultRow, node: ASTBinaryOperationFixedName): Int {
-        val left = node.children[0]
-        val right = node.children[1]
-        val typeA = getResultType(resultSet, resultRow, left)
-        val typeB = getResultType(resultSet, resultRow, right)
-        when {
-            typeA == TmpResultType.RSInteger && typeB == TmpResultType.RSInteger -> {
-                val a = evaluateHelperInteger(resultSet, resultRow, left)
-                val b = evaluateHelperInteger(resultSet, resultRow, right)
-                when (node) {
-                    is ASTAddition -> return a + b
-                    is ASTMultiplication -> return a * b
-                    is ASTDivision -> return a / b
-                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperInteger2 ${node::class.simpleName}")
-                }
-            }
-            else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperInteger2 ${node::class.simpleName} ${typeA} ${typeB}")
-        }
-    }
-
-    private fun evaluateHelperInteger(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): Int {
-        when (node) {
-            is ASTAggregation -> {
-                if (aggregateTmpType[node.uuid] == null || aggregateTmpType[node.uuid] == TmpResultType.RSInteger)
-                    aggregateTmpType[node.uuid] = TmpResultType.RSInteger
-                else if (aggregateTmpType[node.uuid] != TmpResultType.RSDouble)
-                    throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDouble ${node::class.simpleName} aggregate merge from ${aggregateTmpType[node.uuid]} to ${TmpResultType.RSDouble}")
-                if (node.type == Aggregation.COUNT)
-                    return aggregateCount
-                val childValue = if (aggregateMode == TmpAggregateMode.AMCollect)
-                    evaluateHelperInteger(resultSet, resultRow, node.children[0])
-                else
-                    0
-                val childValueDouble = if (aggregateMode == TmpAggregateMode.AMCollect)
-                    childValue.toDouble()
-                else
-                    0.0
-                if (node.type == Aggregation.SAMPLE)
-                    return childValue
-                var lastInt = aggregateTmpInteger[node.uuid]
-                if (lastInt == null)
-                    lastInt = 0
-                var lastDouble = aggregateTmpDouble[node.uuid]
-                if (lastDouble == null)
-                    lastDouble = 0.0
-                if (node.distinct)
-                    throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperInteger ${node::class.simpleName} ${node.type} DISTINCT")
-                when (node.type) {
-                    Aggregation.AVG -> {
-                        if (aggregateMode == TmpAggregateMode.AMCollect) {
-                            aggregateTmpInteger[node.uuid] = lastInt + childValue
-                            aggregateTmpDouble[node.uuid] = lastDouble + childValue.toDouble()
-                        }
-                        return aggregateTmpInteger[node.uuid]!! / aggregateCount
-                    }
-                    Aggregation.MIN -> {
-                        if (aggregateMode == TmpAggregateMode.AMCollect && (aggregateTmpInteger[node.uuid] == null || childValueDouble < lastDouble)) {
-                            aggregateTmpInteger[node.uuid] = childValue
-                            aggregateTmpDouble[node.uuid] = childValueDouble
-                        }
-                        return aggregateTmpInteger[node.uuid]!!
-                    }
-                    Aggregation.MAX -> {
-                        if (aggregateMode == TmpAggregateMode.AMCollect && (aggregateTmpInteger[node.uuid] == null || childValueDouble > lastDouble)) {
-                            aggregateTmpInteger[node.uuid] = childValue
-                            aggregateTmpDouble[node.uuid] = childValueDouble
-                        }
-                        return aggregateTmpInteger[node.uuid]!!
-                    }
-                    Aggregation.SUM -> {
-                        if (aggregateMode == TmpAggregateMode.AMCollect) {
-                            aggregateTmpInteger[node.uuid] = lastInt + childValue
-                            aggregateTmpDouble[node.uuid] = lastDouble + childValueDouble
-                        }
-                        return aggregateTmpInteger[node.uuid]!!
-                    }
-                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperInteger ${node::class.simpleName} ${node.type}")
-                }
-                val res = aggregateTmpInteger[node.uuid]
-                if (res == null)
-                    return 0
-                return res
-            }
-            is ASTInteger -> return node.value
-            is ASTVar -> {
-                val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
-                val tmp2 = tmp.substring(1, tmp.length - 1 - dataTypeInteger.length)
-                println("XXI" + tmp2)
-                return tmp2.toInt()
-            }
-            is ASTBinaryOperationFixedName -> return evaluateHelperInteger2(resultSet, resultRow, node)
-            is ASTBuiltInCall -> {
-                val typeA = getResultType(resultSet, resultRow, node.children[0])
-                when (node.function) {
-                    BuiltInFunctions.ABS -> return abs(evaluateHelperInteger(resultSet, resultRow, node.children[0])).toInt()
-                    BuiltInFunctions.CEIL -> return evaluateHelperInteger(resultSet, resultRow, node.children[0])
-                    BuiltInFunctions.FLOOR -> return evaluateHelperInteger(resultSet, resultRow, node.children[0])
-                    BuiltInFunctions.ROUND -> return evaluateHelperInteger(resultSet, resultRow, node.children[0])
-                    BuiltInFunctions.DAY -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).day
-                    BuiltInFunctions.MONTH -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).month
-                    BuiltInFunctions.YEAR -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).year
-                    BuiltInFunctions.HOURS -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).hours
-                    BuiltInFunctions.MINUTES -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).minutes
-                    BuiltInFunctions.SECONDS -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).seconds
-                    BuiltInFunctions.STRLEN -> return extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).length
-                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperInteger ${node::class.simpleName} ${node.function}")
-                }
-            }
-            else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperInteger ${node::class.simpleName}")
         }
     }
 
@@ -434,57 +488,9 @@ class POPExpression : OPBase {
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName}")
                 }
             }
-            typeA == TmpResultType.RSInteger && typeB == TmpResultType.RSInteger -> {
-                val a = evaluateHelperInteger(resultSet, resultRow, left)
-                val b = evaluateHelperInteger(resultSet, resultRow, right)
-                when (node) {
-                    is ASTEQ -> {
-                        println("ASTEQ b:: ${a} ${b} ${a == b}")
-                        return a == b
-                    }
-                    is ASTGEQ -> return a >= b
-                    is ASTLEQ -> return a <= b
-                    is ASTGT -> return a > b
-                    is ASTLT -> return a < b
-                    is ASTDivision -> throw ArithmeticException("the output of ASTDivision is not a boolean")
-                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName}")
-                }
-
-            }
-            typeA == TmpResultType.RSDouble && typeB == TmpResultType.RSInteger -> {
-                val a = evaluateHelperDouble(resultSet, resultRow, left)
-                val b = evaluateHelperInteger(resultSet, resultRow, right)
-                when (node) {
-                    is ASTEQ -> {
-                        println("ASTEQ c:: ${a} ${b} ${a == b.toDouble()}")
-                        return a == b.toDouble()
-                    }
-                    is ASTGEQ -> return a >= b
-                    is ASTLEQ -> return a <= b
-                    is ASTGT -> return a > b
-                    is ASTLT -> return a < b
-                    is ASTDivision -> throw ArithmeticException("the output of ASTDivision is not a boolean")
-                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName}")
-                }
-
-            }
-            typeA == TmpResultType.RSInteger && typeB == TmpResultType.RSDouble -> {
-                val a = evaluateHelperInteger(resultSet, resultRow, left)
-                val b = evaluateHelperDouble(resultSet, resultRow, right)
-                when (node) {
-                    is ASTEQ -> {
-                        println("ASTEQ d:: ${a} ${b} ${a.toDouble() == b}")
-                        return a.toDouble() == b
-                    }
-                    is ASTGEQ -> return a >= b
-                    is ASTLEQ -> return a <= b
-                    is ASTGT -> return a > b
-                    is ASTLT -> return a < b
-                    is ASTDivision -> throw ArithmeticException("the output of ASTDivision is not a boolean")
-                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName}")
-                }
-
-            }
+            isAUpgradeableToB(commonDatatype(resultSet, resultRow, left, right), TmpResultType.RSDouble) -> return evaluateDouble.evaluateHelperBoolean(resultSet, resultRow, node)
+            isAUpgradeableToB(commonDatatype(resultSet, resultRow, left, right), TmpResultType.RSDecimal) -> return evaluateDecimal.evaluateHelperBoolean(resultSet, resultRow, node)
+            isAUpgradeableToB(commonDatatype(resultSet, resultRow, left, right), TmpResultType.RSInteger) -> return evaluateInteger.evaluateHelperBoolean(resultSet, resultRow, node)
             typeA == TmpResultType.RSString && typeB == TmpResultType.RSString -> {
                 val a = evaluateHelperString(resultSet, resultRow, left)
                 val b = evaluateHelperString(resultSet, resultRow, right)
@@ -537,7 +543,7 @@ class POPExpression : OPBase {
                 when (node.function) {
                     BuiltInFunctions.isNUMERIC -> {
                         val typeA = getResultType(resultSet, resultRow, node.children[0])
-                        return typeA == TmpResultType.RSInteger || typeA == TmpResultType.RSDouble
+                        return typeA == TmpResultType.RSInteger || typeA == TmpResultType.RSDecimal
                     }
                     BuiltInFunctions.LANGMATCHES -> {
                         val a = extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
@@ -570,16 +576,10 @@ class POPExpression : OPBase {
     private fun evaluateHelperString(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): String {
         when (getResultType(resultSet, resultRow, node)) {
             TmpResultType.RSBoolean -> return "\"" + evaluateHelperBoolean(resultSet, resultRow, node) + "\"" + dataTypeBoolean
-            TmpResultType.RSInteger -> return "\"" + evaluateHelperInteger(resultSet, resultRow, node) + "\"" + dataTypeInteger
+            TmpResultType.RSInteger -> return "\"" + evaluateInteger.evaluateHelper(resultSet, resultRow, node) + "\"" + dataTypeInteger
             TmpResultType.RSUndefined -> return resultSet.getUndefValue()
-            TmpResultType.RSDouble -> {
-                val res = evaluateHelperDouble(resultSet, resultRow, node).toString()
-                when {
-                    res.endsWith(".0") -> return "\"" + res.substring(0, res.length - 2) + "\"" + dataTypeDouble
-                    res.contains('.') -> return "\"" + res + "\"" + dataTypeDouble
-                    else -> return "\"" + res + ".0\"" + dataTypeDouble
-                }
-            }
+            TmpResultType.RSDecimal -> return "\"" + evaluateDecimal.evaluateHelper(resultSet, resultRow, node) + "\"" + dataTypeDecimal
+            TmpResultType.RSDouble -> return "\"" + evaluateDouble.evaluateHelper(resultSet, resultRow, node) + "\"" + dataTypeDouble
         }
         when (node) {
             is ASTAggregation -> {
@@ -667,8 +667,7 @@ class POPExpression : OPBase {
         println("resultRow:: " + resultRows)
         aggregateMode = TmpAggregateMode.AMCollect
         aggregateCount = resultRows.count()
-        aggregateTmpInteger.clear()
-        aggregateTmpDouble.clear()
+        aggregateTmp.clear()
         aggregateTmpString.clear()
         for (resultRow in resultRows) {
             try {
