@@ -128,7 +128,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         }
     }
 
-    private fun myRound(a: Any): T {
+    fun myRound(a: Any): T {
         return when (a) {
             is Double -> a.roundToInt().toDouble() as T
             is Int -> a as T
@@ -310,8 +310,6 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
             is ASTVar -> {
                 val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
                 val tmp2 = tmp.substring(1, tmp.length - 1 - dataType.length)
-                println("XXD1 " + tmp)
-                println("XXD2 " + tmp2)
                 return fromString(tmp2)
             }
             is ASTInteger -> return helperToT(node.value)
@@ -561,6 +559,11 @@ class POPExpression : OPBase {
                 }
                 return res
             }
+            is ASTVar -> {
+                val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
+                val tmp2 = tmp.substring(1, tmp.length - 1 - dataTypeBoolean.length)
+                return tmp2.toBoolean()
+            }
             is ASTAnd -> {
                 var res = true
                 for (n in node.children) {
@@ -614,7 +617,12 @@ class POPExpression : OPBase {
             TmpResultType.RSBoolean -> return "\"" + evaluateHelperBoolean(resultSet, resultRow, node) + "\"" + dataTypeBoolean
             TmpResultType.RSInteger -> return "\"" + evaluateInteger.evaluateHelper(resultSet, resultRow, node) + "\"" + dataTypeInteger
             TmpResultType.RSUndefined -> return resultSet.getUndefValue()
-            TmpResultType.RSDecimal -> return "\"" + evaluateDecimal.evaluateHelper(resultSet, resultRow, node) + "\"" + dataTypeDecimal
+            TmpResultType.RSDecimal -> {
+                val tmp = evaluateDecimal.evaluateHelper(resultSet, resultRow, node).toString()
+                if (tmp.contains(".") || tmp.contains("e") || tmp.contains("E"))
+                    return "\"" + tmp + "\"" + dataTypeDecimal
+                return "\"" + tmp + ".0\"" + dataTypeDecimal
+            }
             TmpResultType.RSDouble -> return "\"" + evaluateDouble.evaluateHelper(resultSet, resultRow, node) + "\"" + dataTypeDouble
         }
         when (node) {

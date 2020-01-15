@@ -215,7 +215,14 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         } else {
             if (node.existsHaving()) {
                 for (h in node.having) {
-                    result.getLatestChild().setChild(LOPFilter(h.visit(this) as LOPExpression))
+                    val expression = h.visit(this) as LOPExpression
+                    val tmpVar = LOPVariable("#f${expression.uuid}")
+                    val tmpBind = LOPBind(tmpVar, expression)
+                    if (bind != null)
+                        bind = mergeLOPBind(bind, tmpBind)
+                    else
+                        bind = tmpBind
+                    result.getLatestChild().setChild(LOPFilter(LOPExpression(ASTVar(tmpVar.name))))
                 }
                 result.getLatestChild().setChild(LOPGroup(mutableListOf<LOPVariable>(), bind as LOPBind?, LOPNOOP()))
             } else {

@@ -330,21 +330,14 @@ class TripleInsertIterator : POPBaseNullableIterator {
 }
 
 fun createXMLBinding(s: String): String {
-    val dataTypeInt = "^^<http://www.w3.org/2001/XMLSchema#integer>"
-    val dataTypeDecimal = "^^<http://www.w3.org/2001/XMLSchema#decimal>"
-    val dataTypeBoolean = "^^<http://www.w3.org/2001/XMLSchema#boolean>"
-    val dataTypeString = "^^<http://www.w3.org/2001/XMLSchema#string>"
-    val dataTypeDateTime = "^^<http://www.w3.org/2001/XMLSchema#dateTime>"
-    val dataTypeDayTimeDuration = "^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>"
     println("createXMLBinding $s")
+    if (s.endsWith(">")) {
+        val idx = s.lastIndexOf("<")
+        if (idx > 4 && s[idx - 1] == '^' && s[idx - 2] == '^')
+            return "<literal datatype=\"" + s.substring(idx + 1, s.length - 1) + "\">" + s.substring(1, idx - 3) + "</literal>"
+    }
     when {
         s.startsWith("<http") -> return "<uri>" + s.substring(1, s.length - 1) + "</uri>"
-        s.endsWith(dataTypeInt) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#integer\">" + s.substring(1, s.length - 1 - dataTypeInt.length) + "</literal>"
-        s.endsWith(dataTypeDecimal) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#decimal\">" + s.substring(1, s.length - 1 - dataTypeDecimal.length) + "</literal>"
-        s.endsWith(dataTypeBoolean) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#boolean\">" + s.substring(1, s.length - 1 - dataTypeBoolean.length) + "</literal>"
-        s.endsWith(dataTypeString) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#string\">" + s.substring(1, s.length - 1 - dataTypeString.length) + "</literal>"
-        s.endsWith(dataTypeDateTime) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#dateTime\">" + s.substring(1, s.length - 1 - dataTypeDateTime.length) + "</literal>"
-        s.endsWith(dataTypeDayTimeDuration) -> return "<literal datatype=\"http://www.w3.org/2001/XMLSchema#dayTimeDuration\">" + s.substring(1, s.length - 1 - dataTypeDayTimeDuration.length) + "</literal>"
         s.startsWith("_:") -> return "<bnode>" + s.substring(2, s.length) + "</bnode>"
         s.endsWith(">") -> {
             println("UnsupportedOperationException createXMLBinding ${s}")
