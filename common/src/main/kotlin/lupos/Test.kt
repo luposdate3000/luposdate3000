@@ -329,26 +329,6 @@ class TripleInsertIterator : POPBaseNullableIterator {
 
 }
 
-fun createXMLBinding(s: String): String {
-    println("createXMLBinding $s")
-    if (s.endsWith(">")) {
-        val idx = s.lastIndexOf("<")
-        if (idx > 4 && s[idx - 1] == '^' && s[idx - 2] == '^')
-            return "<literal datatype=\"" + s.substring(idx + 1, s.length - 1) + "\">" + s.substring(1, idx - 3) + "</literal>"
-    }
-    when {
-        s.startsWith("<http") -> return "<uri>" + s.substring(1, s.length - 1) + "</uri>"
-        s.startsWith("_:") -> return "<bnode>" + s.substring(2, s.length) + "</bnode>"
-        s.endsWith(">") -> {
-            println("UnsupportedOperationException createXMLBinding ${s}")
-            return s
-        }
-        s.startsWith("\"") && !s.endsWith("\"") -> return "<literal xml:lang=\"" + s.substring(s.lastIndexOf("@") + 1, s.length) + "\">" + s.substring(1, s.lastIndexOf("@") - 1) + "</literal>"
-        else ->
-            return "<literal>" + s.substring(1, s.length - 1) + "</literal>"
-    }
-}
-
 class QueryResult() {
     val variables = mutableListOf<String>()
     val rows = mutableListOf<MutableMap<String, String>>()
@@ -371,13 +351,10 @@ class QueryResult() {
     }
 
     fun equalsUnordered(other: Any?): Boolean {
-        println("equ 0")
         if (other == null || !(other is QueryResult))
             return false
-        println("equ 1")
         if (variables.size != (other as QueryResult).variables.size)
             return false
-        println("equ 2")
         for (a in variables) {
             var found = false
             for (b in (other as QueryResult).variables) {
@@ -389,10 +366,8 @@ class QueryResult() {
             if (!found)
                 return false
         }
-        println("equ 3")
         if (rows.size != (other as QueryResult).rows.size)
             return false
-        println("equ 4")
         for (a in rows) {
             var found = false
             for (b in (other as QueryResult).rows) {
@@ -404,8 +379,6 @@ class QueryResult() {
             if (!found)
                 return false
         }
-        println("equ 6")
-        println("equ 7")
         return true
     }
 }
@@ -430,14 +403,12 @@ fun nextToken(xml: String, indention: String, solution: QueryResult) {
         if (value.length > 0 && !value.startsWith("<?") && !value.startsWith("<!--")) {
             var nodeName = "^(<[a-zA-Z]+)".toRegex().find(value)!!.value
             nodeName = nodeName.substring(1, nodeName.length)
-//			println("${indention}nodeName: ${nodeName}")
             var nodeAttributes = "[^>]*>".toRegex().find(value)!!.value
             value = value.substring(nodeAttributes.length, value.length)
             if (value.endsWith("</${nodeName}>"))
                 nodeAttributes = nodeAttributes.substring(nodeName.length + 1, nodeAttributes.length - 1)
             else
                 nodeAttributes = nodeAttributes.substring(nodeName.length + 1, nodeAttributes.length - 2)
-//			println("${indention}nodeAttributes: ${nodeAttributes}")
             if (nodeName == "result") {
                 solution.rows.add(mutableMapOf<String, String>())
             }
@@ -453,9 +424,13 @@ fun nextToken(xml: String, indention: String, solution: QueryResult) {
                     val dataType = extractAttribute(nodeAttributes, "datatype")
                     val lang = extractAttribute(nodeAttributes, "xml:lang")
                     val latestRow = solution.rows.last()!!
-                    if (dataType != "")
-                        latestRow[solution.tmpBinding] = "\"" + value + "\"^^<" + dataType + ">"
-                    else if (lang != "")
+                    if (dataType != "") {
+                        when (dataType) {
+                            "http://www.w3.org/2001/XMLSchema#double" -> latestRow[solution.tmpBinding] = "\"" + value.toDouble() + "\"^^<" + dataType + ">"
+                            "http://www.w3.org/2001/XMLSchema#decimal" -> latestRow[solution.tmpBinding] = "\"" + value.toDouble() + "\"^^<" + dataType + ">"
+                            else -> latestRow[solution.tmpBinding] = "\"" + value + "\"^^<" + dataType + ">"
+                        }
+                    } else if (lang != "")
                         latestRow[solution.tmpBinding] = "\"" + value + "\"@" + lang
                     else
                         latestRow[solution.tmpBinding] = "\"" + value + "\""
@@ -475,19 +450,16 @@ fun nextToken(xml: String, indention: String, solution: QueryResult) {
 }
 
 fun parseXMLTarget(xmlFile: String): QueryResult {
-    println("parseXMLTarget::begin")
     val solution = QueryResult()
     try {
         nextToken(xmlFile.replace("\n", "").replace("\r", ""), "", solution)
     } catch (e: Throwable) {
         e.kotlinStacktrace()
     }
-    println("parseXMLTarget::end")
     return solution
 }
 
 fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData: String): Boolean {
-    var calculatedResult = "<sparql>\n"
     try {
         val store = TripleStore()
         println("----------Input Data")
@@ -522,102 +494,41 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         val variableNames = resultSet.getVariableNames().toTypedArray()
         val variables = arrayOfNulls<Pair<Variable, String>>(variableNames.size)
         var i = 0
-        calculatedResult += "  <head>\n"
         for (variableName in variableNames) {
             queryResult.variables.add(variableName)
-            calculatedResult += "    <variable name=\"" + variableName + "\"/>\n"
             variables[i] = Pair(resultSet.createVariable(variableName), variableName)
             i++
         }
-        calculatedResult += "  </head>\n"
         var j = 0
-        val atLeastOneResult = pop_node.hasNext()
-        if (atLeastOneResult)
-            calculatedResult += "  <results>\n"
-        else
-            calculatedResult += "  <results/>\n"
         while (pop_node.hasNext()) {
             val row = mutableMapOf<String, String>()
             queryResult.rows.add(row)
-            calculatedResult += "    <result>\n"
             val resultRow = pop_node.next()
             i = 0
             for (variable in variables) {
                 var tmp = resultSet.getValue(resultRow[variable!!.first])
                 if (!tmp.isEmpty()) {
                     row[variable.second] = tmp
-                    calculatedResult += "      <binding name=\"" + variable.second + "\">"
-                    calculatedResult += "        " + createXMLBinding(tmp)
-                    calculatedResult += "      </binding>\n"
                 }
                 i++
             }
             j++
-            calculatedResult += "    </result>\n"
         }
-        if (atLeastOneResult)
-            calculatedResult += "  </results>\n"
-        calculatedResult += "</sparql>\n"
-        println(calculatedResult)
-        println(calculatedResult.length)
         println("----------Target Result")
         val querySolution = parseXMLTarget(resultData)
-        var resultDataToUse = resultData
-        resultDataToUse = resultDataToUse.replace("<sparql[^>]+>".toRegex(), "<sparql>").replace("<.xml[^>]+>".toRegex(), "").replace("<!--[^>]+-->".toRegex(), "").replace("<results>\\s*</results>".toRegex(), "<results/>")
-
-        println(resultDataToUse)
-        println(resultDataToUse.length)
-
-
-        val a = calculatedResult.replace("\\s".toRegex(), "")
-        val bt = resultDataToUse.replace("\\s".toRegex(), "")
-        var tmp = mutableListOf<String>()
-        bt.replace("><".toRegex(), ">\n<").lines().forEach() {
-            if (it.contains("='"))
-                tmp.add(it.replace("='", "=\"").replace("'>", "\">").replace("'/>", "\"/>"))
-            else
-                tmp.add(it)
-        }
-        val b = tmp.joinToString("")
-
-
         println(queryResult)
         println(querySolution)
-        var r1 = 0
-        var r2 = 0
-        if (queryResult == querySolution) {
-            r1 += 1
-            println("----------NewSuccess")
-        }
-        println("a:$a")
-        println("b:$b")
-        val res = a == b
+        val res = queryResult == querySolution
         if (res) {
-            r2 += 1
             println("----------Success")
         } else {
-            val aa = a.replace("><".toRegex(), ">\n<").lines().sorted().joinToString()
-            val bb = b.replace("><".toRegex(), ">\n<").lines().sorted().joinToString()
-            println("c:$aa")
-            println("d:$bb")
             if (queryResult.equalsUnordered(querySolution)) {
-                r1 += 2
-                println("----------NewSuccess(Unordered)")
-            } else {
-                r1 += 4
-                println("----------NewFailed")
-            }
-            if (aa == bb) {
-                r2 += 2
                 println("----------Success(Unordered)")
             } else {
-                r2 += 4
                 println("----------Failed")
             }
         }
-        if (r1 != r2)
-            println("----------Diff")
-        return calculatedResult == resultDataToUse
+        return res
     } catch (e: ParseError) {
         println(e.message)
         println("Error in the following line:")
