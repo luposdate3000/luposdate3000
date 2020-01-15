@@ -447,7 +447,7 @@ class POPExpression : OPBase {
             is ASTDouble -> return TmpResultType.RSDouble
             is ASTAddition -> return commonDatatype(resultSet, resultRow, node.children[0], node.children[1])
             is ASTMultiplication -> return commonDatatype(resultSet, resultRow, node.children[0], node.children[1])
-            is ASTDivision -> return commonDatatype(resultSet, resultRow, node.children[0], node.children[1])
+            is ASTDivision -> return commonDatatype(commonDatatype(resultSet, resultRow, node.children[0], node.children[1]), TmpResultType.RSDecimal)
             is ASTVar -> {
                 if (!resultSet.getVariableNames().contains(node.name))
                     return TmpResultType.RSUndefined
@@ -740,12 +740,7 @@ class POPExpression : OPBase {
         aggregateTmpTypeUsed.clear()
         aggregateTmpString.clear()
         for (resultRow in resultRows) {
-            try {
-                evaluate(resultSet, resultRow)
-            } catch (e: Throwable) {
-                print("silent :: ")
-                e.kotlinStacktrace()
-            }
+            evaluate(resultSet, resultRow)
         }
         aggregateMode = TmpAggregateMode.AMResult
         return evaluate(resultSet, resultSet.createResultRow())

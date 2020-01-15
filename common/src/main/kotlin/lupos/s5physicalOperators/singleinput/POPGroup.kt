@@ -12,6 +12,7 @@ import lupos.s5physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 import lupos.s5physicalOperators.POPBaseNullableIterator
 import lupos.s5physicalOperators.POPBase
 import lupos.s5physicalOperators.POPExpression
+import lupos.misc.*
 
 class POPGroup : POPSingleInputBaseNullableIterator {
     private var data: MutableList<ResultRow>? = null
@@ -67,7 +68,13 @@ class POPGroup : POPSingleInputBaseNullableIterator {
                     rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
                 }
                 for (b in bindings) {
-                    rsNew[b.first] = resultSetNew.createValue(b.second.evaluate(resultSetOld, tmpMutableMap[k]!!))
+                    try {
+                        rsNew[b.first] = resultSetNew.createValue(b.second.evaluate(resultSetOld, tmpMutableMap[k]!!))
+                    } catch (e: Throwable) {
+                        rsNew[b.first] = resultSetNew.createValue(resultSetNew.getUndefValue())
+                        print("silent :: ")
+                        e.kotlinStacktrace()
+                    }
                 }
                 data!!.add(rsNew)
             }
