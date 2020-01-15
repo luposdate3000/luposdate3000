@@ -349,6 +349,143 @@ fun createXMLBinding(s: String): String {
     }
 }
 
+class QueryResult() {
+    val variables = mutableListOf<String>()
+    val rows = mutableListOf<MutableMap<String, String>>()
+    var tmpBinding: String = ""
+    override fun toString(): String {
+        return "variables:" + variables + "\nrows:" + rows
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other == null || !(other is QueryResult))
+            return false
+        if (variables.size != (other as QueryResult).variables.size)
+            return false
+        if (variables != (other as QueryResult).variables)
+//		if(!variables .containsAll( (other as QueryResult).variables))
+            return false
+        if (rows != (other as QueryResult).rows)
+            return false
+        return true
+    }
+
+    fun equalsUnordered(other: Any?): Boolean {
+        println("equ 0")
+        if (other == null || !(other is QueryResult))
+            return false
+        println("equ 1")
+        if (variables.size != (other as QueryResult).variables.size)
+            return false
+        println("equ 2")
+        for (a in variables) {
+            var found = false
+            for (b in (other as QueryResult).variables) {
+                if (a == b) {
+                    found = true
+                    break
+                }
+            }
+            if (!found)
+                return false
+        }
+        println("equ 3")
+        if (rows.size != (other as QueryResult).rows.size)
+            return false
+        println("equ 4")
+        for (a in rows) {
+            var found = false
+            for (b in (other as QueryResult).rows) {
+                if (a == b) {
+                    found = true
+                    break
+                }
+            }
+            if (!found)
+                return false
+        }
+        println("equ 6")
+        println("equ 7")
+        return true
+    }
+}
+
+fun extractAttribute(xml: String, attr: String): String {
+    val start = xml.indexOf(attr)
+    if (start >= 0) {
+        val s = start + attr.length + 2
+        val stop = xml.indexOf("\"", s)
+        if (stop > s)
+            return xml.substring(s, stop)
+        val stop2 = xml.indexOf("'", s)
+        if (stop2 > s)
+            return xml.substring(s, stop2)
+    }
+    return ""
+}
+
+fun nextToken(xml: String, indention: String, solution: QueryResult) {
+    "((<([a-zA-Z]+).*?\\3>)|(<([a-zA-Z]+).*?>)|(<\\?.*?\\?>)|(<!--.*?-->))?".toRegex().findAll(xml).forEach() { child ->
+        var value = child.value
+        if (value.length > 0 && !value.startsWith("<?") && !value.startsWith("<!--")) {
+            var nodeName = "^(<[a-zA-Z]+)".toRegex().find(value)!!.value
+            nodeName = nodeName.substring(1, nodeName.length)
+//			println("${indention}nodeName: ${nodeName}")
+            var nodeAttributes = "[^>]*>".toRegex().find(value)!!.value
+            value = value.substring(nodeAttributes.length, value.length)
+            if (value.endsWith("</${nodeName}>"))
+                nodeAttributes = nodeAttributes.substring(nodeName.length + 1, nodeAttributes.length - 1)
+            else
+                nodeAttributes = nodeAttributes.substring(nodeName.length + 1, nodeAttributes.length - 2)
+//			println("${indention}nodeAttributes: ${nodeAttributes}")
+            if (nodeName == "result") {
+                solution.rows.add(mutableMapOf<String, String>())
+            }
+            if (nodeName == "binding") {
+                solution.tmpBinding = extractAttribute(nodeAttributes, "name")
+            }
+            if (nodeName == "variable") {
+                solution.variables.add(extractAttribute(nodeAttributes, "name"))
+            }
+            if (value.endsWith("</${nodeName}>")) {
+                value = value.substring(0, value.length - nodeName.length - 3)
+                if (nodeName == "literal") {
+                    val dataType = extractAttribute(nodeAttributes, "datatype")
+                    val lang = extractAttribute(nodeAttributes, "xml:lang")
+                    val latestRow = solution.rows.last()!!
+                    if (dataType != "")
+                        latestRow[solution.tmpBinding] = "\"" + value + "\"^^<" + dataType + ">"
+                    else if (lang != "")
+                        latestRow[solution.tmpBinding] = "\"" + value + "\"@" + lang
+                    else
+                        latestRow[solution.tmpBinding] = "\"" + value + "\""
+                }
+                if (nodeName == "uri") {
+                    val latestRow = solution.rows.last()!!
+                    latestRow[solution.tmpBinding] = "<" + value + ">"
+                }
+                if (nodeName == "bnode") {
+                    val latestRow = solution.rows.last()!!
+                    latestRow[solution.tmpBinding] = "_:" + value
+                }
+                nextToken(value, indention + "\t", solution)
+            }
+        }
+    }
+}
+
+fun parseXMLTarget(xmlFile: String): QueryResult {
+    println("parseXMLTarget::begin")
+    val solution = QueryResult()
+    try {
+        nextToken(xmlFile.replace("\n", "").replace("\r", ""), "", solution)
+    } catch (e: Throwable) {
+        e.kotlinStacktrace()
+    }
+    println("parseXMLTarget::end")
+    return solution
+}
+
 fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData: String): Boolean {
     var calculatedResult = "<sparql>\n"
     try {
@@ -380,14 +517,16 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         val pop_node = pop_optimizer.optimize(lop_node2) as POPBase
         println(pop_node)
         println("----------Query Result")
+        var queryResult = QueryResult()
         val resultSet = pop_node.getResultSet()
         val variableNames = resultSet.getVariableNames().toTypedArray()
-        val variables = arrayOfNulls<Variable>(variableNames.size)
+        val variables = arrayOfNulls<Pair<Variable, String>>(variableNames.size)
         var i = 0
         calculatedResult += "  <head>\n"
         for (variableName in variableNames) {
+            queryResult.variables.add(variableName)
             calculatedResult += "    <variable name=\"" + variableName + "\"/>\n"
-            variables[i] = resultSet.createVariable(variableName)
+            variables[i] = Pair(resultSet.createVariable(variableName), variableName)
             i++
         }
         calculatedResult += "  </head>\n"
@@ -398,13 +537,16 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         else
             calculatedResult += "  <results/>\n"
         while (pop_node.hasNext()) {
+            val row = mutableMapOf<String, String>()
+            queryResult.rows.add(row)
             calculatedResult += "    <result>\n"
             val resultRow = pop_node.next()
             i = 0
             for (variable in variables) {
-                var tmp = resultSet.getValue(resultRow[variable!!])
+                var tmp = resultSet.getValue(resultRow[variable!!.first])
                 if (!tmp.isEmpty()) {
-                    calculatedResult += "      <binding name=\"" + variableNames[i] + "\">"
+                    row[variable.second] = tmp
+                    calculatedResult += "      <binding name=\"" + variable.second + "\">"
                     calculatedResult += "        " + createXMLBinding(tmp)
                     calculatedResult += "      </binding>\n"
                 }
@@ -419,7 +561,7 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         println(calculatedResult)
         println(calculatedResult.length)
         println("----------Target Result")
-
+        val querySolution = parseXMLTarget(resultData)
         var resultDataToUse = resultData
         resultDataToUse = resultDataToUse.replace("<sparql[^>]+>".toRegex(), "<sparql>").replace("<.xml[^>]+>".toRegex(), "").replace("<!--[^>]+-->".toRegex(), "").replace("<results>\\s*</results>".toRegex(), "<results/>")
 
@@ -439,21 +581,42 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         val b = tmp.joinToString("")
 
 
+        println(queryResult)
+        println(querySolution)
+        var r1 = 0
+        var r2 = 0
+        if (queryResult == querySolution) {
+            r1 += 1
+            println("----------NewSuccess")
+        }
         println("a:$a")
         println("b:$b")
         val res = a == b
-        if (res)
+        if (res) {
+            r2 += 1
             println("----------Success")
-        else {
+        } else {
             val aa = a.replace("><".toRegex(), ">\n<").lines().sorted().joinToString()
             val bb = b.replace("><".toRegex(), ">\n<").lines().sorted().joinToString()
             println("c:$aa")
             println("d:$bb")
-            if (aa == bb)
+            if (queryResult.equalsUnordered(querySolution)) {
+                r1 += 2
+                println("----------NewSuccess(Unordered)")
+            } else {
+                r1 += 4
+                println("----------NewFailed")
+            }
+            if (aa == bb) {
+                r2 += 2
                 println("----------Success(Unordered)")
-            else
+            } else {
+                r2 += 4
                 println("----------Failed")
+            }
         }
+        if (r1 != r2)
+            println("----------Diff")
         return calculatedResult == resultDataToUse
     } catch (e: ParseError) {
         println(e.message)

@@ -264,6 +264,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                 if (expression.aggregateTmpType[node.uuid] == null || expression.aggregateTmpType[node.uuid] == resultType)
                     expression.aggregateTmpType[node.uuid] = resultType
                 else if (expression.isAUpgradeableToB(expression.aggregateTmpType[node.uuid]!!, resultType)) {
+                    expression.aggregateTmpType[node.uuid] = resultType
                     if (expression.aggregateTmp[node.uuid] != null)
                         expression.aggregateTmp[node.uuid] = helperToT(expression.aggregateTmp[node.uuid]!!)
                 } else
@@ -388,9 +389,7 @@ class POPExpression : OPBase {
         return false
     }
 
-    private fun commonDatatype(resultSet: ResultSet, resultRow: ResultRow, nodeA: ASTNode, nodeB: ASTNode): TmpResultType {
-        val aType = getResultType(resultSet, resultRow, nodeA)
-        val bType = getResultType(resultSet, resultRow, nodeB)
+    private fun commonDatatype(aType: TmpResultType, bType: TmpResultType): TmpResultType {
         if (aType == bType)
             return aType
         if (isAUpgradeableToB(aType, bType))
@@ -398,6 +397,12 @@ class POPExpression : OPBase {
         if (isAUpgradeableToB(bType, aType))
             return aType
         throw ArithmeticException("incompatible datatypes $aType $bType")
+    }
+
+    private fun commonDatatype(resultSet: ResultSet, resultRow: ResultRow, nodeA: ASTNode, nodeB: ASTNode): TmpResultType {
+        val aType = getResultType(resultSet, resultRow, nodeA)
+        val bType = getResultType(resultSet, resultRow, nodeB)
+        return commonDatatype(aType, bType)
     }
 
     fun getResultType(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): TmpResultType {
@@ -411,7 +416,11 @@ class POPExpression : OPBase {
                 }
                 if (node.type == Aggregation.COUNT)
                     return TmpResultType.RSInteger
-                return getResultType(resultSet, resultRow, node.children[0])
+                val oldType = aggregateTmpType[node.uuid]
+                val newType = getResultType(resultSet, resultRow, node.children[0])
+                if (oldType == null)
+                    return newType
+                return commonDatatype(oldType, newType)
             }
             is ASTUndef -> return TmpResultType.RSUndefined
             is ASTLiteral -> return TmpResultType.RSString
