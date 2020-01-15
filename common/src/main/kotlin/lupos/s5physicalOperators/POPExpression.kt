@@ -313,6 +313,8 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                 return fromString(tmp2)
             }
             is ASTInteger -> return helperToT(node.value)
+            is ASTDecimal -> return helperToT(node.toDouble())
+            is ASTDouble -> return helperToT(node.toDouble())
             is ASTBinaryOperationFixedName -> return evaluateHelper2(resultSet, resultRow, node)
             is ASTBuiltInCall -> {
                 when (node.function) {
@@ -423,6 +425,8 @@ class POPExpression : OPBase {
             is ASTLT -> return TmpResultType.RSBoolean
             is ASTIri -> return TmpResultType.RSString
             is ASTInteger -> return TmpResultType.RSInteger
+            is ASTDecimal -> return TmpResultType.RSDecimal
+            is ASTDouble -> return TmpResultType.RSDouble
             is ASTAddition -> return commonDatatype(resultSet, resultRow, node.children[0], node.children[1])
             is ASTMultiplication -> return commonDatatype(resultSet, resultRow, node.children[0], node.children[1])
             is ASTDivision -> return commonDatatype(resultSet, resultRow, node.children[0], node.children[1])
