@@ -267,8 +267,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                     expression.aggregateTmpType[node.uuid] = resultType
                     if (expression.aggregateTmp[node.uuid] != null)
                         expression.aggregateTmp[node.uuid] = helperToT(expression.aggregateTmp[node.uuid]!!)
-                } else
-                    throw UnsupportedOperationException("${this::class.simpleName} evaluateHelper ${node::class.simpleName} aggregate merge from ${expression.aggregateTmpType[node.uuid]} to ${resultType}")
+                }
                 if (node.type == Aggregation.COUNT)
                     return helperToT(expression.aggregateCount)
                 val childValue: T = if (expression.aggregateMode == TmpAggregateMode.AMCollect)
@@ -284,29 +283,33 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                     last = helperNull()
                 if (node.distinct)
                     throw UnsupportedOperationException("${this::class.simpleName} evaluateHelper ${node::class.simpleName} ${node.type} DISTINCT")
-                when (node.type) {
-                    Aggregation.AVG -> {
-                        if (expression.aggregateMode == TmpAggregateMode.AMCollect)
+                if (expression.aggregateMode == TmpAggregateMode.AMCollect) {
+                    when (node.type) {
+                        Aggregation.AVG -> {
                             expression.aggregateTmp[node.uuid] = last + childValue / helperToT(expression.aggregateCount)
-                    }
-                    Aggregation.MIN -> {
-                        if (expression.aggregateMode == TmpAggregateMode.AMCollect && (expression.aggregateTmp[node.uuid] == null || childValue < last))
-                            expression.aggregateTmp[node.uuid] = childValue
-                    }
-                    Aggregation.MAX -> {
-                        if (expression.aggregateMode == TmpAggregateMode.AMCollect && (expression.aggregateTmp[node.uuid] == null || childValue > last))
-                            expression.aggregateTmp[node.uuid] = childValue
-                    }
-                    Aggregation.SUM -> {
-                        if (expression.aggregateMode == TmpAggregateMode.AMCollect)
+                        }
+                        Aggregation.MIN -> {
+                            if (expression.aggregateTmp[node.uuid] == null || childValue < last) {
+                                expression.aggregateTmp[node.uuid] = childValue
+                                expression.aggregateTmpTypeUsed[node.uuid] = expression.getResultType(resultSet, resultRow, node.children[0])
+                            }
+                        }
+                        Aggregation.MAX -> {
+                            if (expression.aggregateTmp[node.uuid] == null || childValue > last) {
+                                expression.aggregateTmp[node.uuid] = childValue
+                                expression.aggregateTmpTypeUsed[node.uuid] = expression.getResultType(resultSet, resultRow, node.children[0])
+                            }
+                        }
+                        Aggregation.SUM -> {
                             expression.aggregateTmp[node.uuid] = last + childValue
+                        }
+                        else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelper ${node::class.simpleName} ${node.type}")
                     }
-                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelper ${node::class.simpleName} ${node.type}")
                 }
-                val res: T? = expression.aggregateTmp[node.uuid] as T?
+                val res: Number? = expression.aggregateTmp[node.uuid] as Number?
                 if (res == null)
                     return helperNull()
-                return res
+                return helperToT(res)
             }
             is ASTVar -> {
                 val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
@@ -362,6 +365,7 @@ class POPExpression : OPBase {
     val evaluateDouble = EvaluateNumber<Double>(this, TmpResultType.RSDouble, dataTypeDouble)
 
     var aggregateCount = 0
+    val aggregateTmpTypeUsed = mutableMapOf<Int, TmpResultType>()//min and max should return the original type and not something casted
     val aggregateTmpType = mutableMapOf<Int, TmpResultType>()
     val aggregateTmp = mutableMapOf<Int, Number>()
     private val aggregateTmpString = mutableMapOf<Int, String>()
@@ -412,6 +416,9 @@ class POPExpression : OPBase {
                     val tmp = aggregateTmpType[node.uuid]
                     if (tmp == null)
                         return TmpResultType.RSUndefined
+                    val tmp2 = aggregateTmpTypeUsed[node.uuid]
+                    if (tmp2 != null && tmp != tmp2)
+                        return tmp2
                     return tmp
                 }
                 if (node.type == Aggregation.COUNT)
@@ -730,6 +737,7 @@ class POPExpression : OPBase {
         aggregateCount = resultRows.count()
         aggregateTmp.clear()
         aggregateTmpType.clear()
+        aggregateTmpTypeUsed.clear()
         aggregateTmpString.clear()
         for (resultRow in resultRows) {
             try {
