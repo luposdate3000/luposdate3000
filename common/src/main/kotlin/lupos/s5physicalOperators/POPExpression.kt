@@ -727,6 +727,7 @@ class POPExpression : OPBase {
         aggregateMode = TmpAggregateMode.AMCollect
         aggregateCount = resultRows.count()
         aggregateTmp.clear()
+        aggregateTmpType.clear()
         aggregateTmpString.clear()
         for (resultRow in resultRows) {
             try {

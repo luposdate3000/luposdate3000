@@ -25,6 +25,8 @@ import lupos.misc.*
 
 expect fun readFileContents(filename: String): String
 
+val errorBoundForDecimalsDigits = 6
+
 fun main(args: Array<String>) {
     println("Starting tests...")
     val (nr_t, nr_e) = parseManifestFile("common/src/main/resources/sparql11-test-suite/", "manifest-all.ttl")
@@ -427,7 +429,18 @@ fun nextToken(xml: String, indention: String, solution: QueryResult) {
                     if (dataType != "") {
                         when (dataType) {
                             "http://www.w3.org/2001/XMLSchema#double" -> latestRow[solution.tmpBinding] = "\"" + value.toDouble() + "\"^^<" + dataType + ">"
-                            "http://www.w3.org/2001/XMLSchema#decimal" -> latestRow[solution.tmpBinding] = "\"" + value.toDouble() + "\"^^<" + dataType + ">"
+                            "http://www.w3.org/2001/XMLSchema#decimal" -> {
+                                value = value.toDouble().toString()
+                                if (value.contains('.') && !value.contains('e') && !value.contains('E')) {
+                                    val last = value.indexOf(".") + errorBoundForDecimalsDigits + 1
+                                    val len = value.length
+                                    if (len < last)
+                                        value = value.substring(0, len)
+                                    else
+                                        value = value.substring(0, last)
+                                }
+                                latestRow[solution.tmpBinding] = "\"" + value.toDouble() + "\"^^<" + dataType + ">"
+                            }
                             else -> latestRow[solution.tmpBinding] = "\"" + value + "\"^^<" + dataType + ">"
                         }
                     } else if (lang != "")
@@ -507,8 +520,22 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
             i = 0
             for (variable in variables) {
                 var tmp = resultSet.getValue(resultRow[variable!!.first])
-                if (!tmp.isEmpty()) {
-                    row[variable.second] = tmp
+                if (tmp != resultSet.getUndefValue()) {
+                    val decimal_string = "\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                    if (tmp.endsWith(decimal_string)) {
+                        var t = tmp.substring(1, tmp.length - decimal_string.length)
+                        if (t.contains('.') && !t.contains('e') && !t.contains('E')) {
+                            val last = t.indexOf(".") + errorBoundForDecimalsDigits + 1
+                            val len = t.length
+                            if (len < last)
+                                t = t.substring(0, len)
+                            else
+                                t = t.substring(0, last).toDouble().toString()
+                        }
+                        row[variable.second] = "\"" + t + decimal_string
+                    } else {
+                        row[variable.second] = tmp
+                    }
                 }
                 i++
             }
