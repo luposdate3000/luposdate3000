@@ -32,9 +32,8 @@ class POPGroup : POPSingleInputBaseNullableIterator {
             tmpBind = tmpBind.child
         }
         this.bindings = this.bindings.asReversed()
-        for (v in by) {
+        for (v in by)
             resultSetNew.createVariable(v.name)
-        }
     }
 
     override fun getResultSet(): ResultSet {
@@ -45,9 +44,8 @@ class POPGroup : POPSingleInputBaseNullableIterator {
         if (data == null) {
             val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
             val variables = mutableListOf<Pair<Variable, Variable>>()
-            for (v in by) {
+            for (v in by)
                 variables.add(Pair(resultSetNew.createVariable(v.name), resultSetOld.createVariable(v.name)))
-            }
             while (child.hasNext()) {
                 val rsOld = child.next()
                 var key: String = "|"
@@ -61,12 +59,19 @@ class POPGroup : POPSingleInputBaseNullableIterator {
                 tmp!!.add(rsOld)
             }
             data = mutableListOf<ResultRow>()
+            if (tmpMutableMap.keys.size == 0) {
+                val rsNew = resultSetNew.createResultRow()
+                for (b in variables)
+                    rsNew[b.first] = resultSetNew.createValue(resultSetNew.getUndefValue())
+                for (b in bindings)
+                    rsNew[b.first] = resultSetNew.createValue(resultSetNew.getUndefValue())
+                data!!.add(rsNew)
+            }
             for (k in tmpMutableMap.keys) {
                 val rsOld = tmpMutableMap[k]!!.first()!!
                 val rsNew = resultSetNew.createResultRow()
-                for (variable in variables) {
+                for (variable in variables)
                     rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
-                }
                 for (b in bindings) {
                     try {
                         rsNew[b.first] = resultSetNew.createValue(b.second.evaluate(resultSetOld, tmpMutableMap[k]!!))

@@ -752,7 +752,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         if (node.existsValues()) {
             throw UnsupportedOperationException("${this::class.simpleName} Values ${node::class.simpleName}")
         }
-        return visit(node as ASTSelectQuery, childrenValues)
+        return LOPSubGroup(visit(node as ASTSelectQuery, childrenValues))
     }
 
     override fun visit(node: ASTConstructQuery, childrenValues: List<OPBase>): OPBase {
