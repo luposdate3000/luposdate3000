@@ -20,6 +20,7 @@ class POPEmptyRow() : POPBase() {
     }
 
     override fun next(): ResultRow {
+        first = false
         return resultSetNew.createResultRow()
     }
 

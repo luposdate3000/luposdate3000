@@ -162,8 +162,16 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
 
     operator fun T.div(b: T): T {
         return when (this) {
-            is Double -> (this / (b as Double)) as T
-            is Int -> (this / (b as Int)) as T
+            is Double -> {
+                if ((b as Double) == 0.0)
+                    throw ArithmeticException("the output of ${this::class.simpleName} divide by zero")
+                (this / (b as Double)) as T
+            }
+            is Int -> {
+                if ((b as Int) == 0)
+                    throw ArithmeticException("the output of ${this::class.simpleName} divide by zero")
+                (this / (b as Int)) as T
+            }
             else -> throw UnsupportedOperationException("${this::class.simpleName} helperDivision")
         }
     }
@@ -320,6 +328,13 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                     BuiltInFunctions.HOURS -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).hours)
                     BuiltInFunctions.MINUTES -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).minutes)
                     BuiltInFunctions.SECONDS -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).seconds)
+                    BuiltInFunctions.STRLEN -> return helperToT(expression.extractStringFromLiteral(expression.evaluateHelperString(resultSet, resultRow, node.children[0])).length)
+                    BuiltInFunctions.IF -> {
+                        if (expression.aggregateTmp[node.uuid] == 1)
+                            return evaluateHelper(resultSet, resultRow, node.children[1])
+                        else
+                            return evaluateHelper(resultSet, resultRow, node.children[2])
+                    }
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelper ${node::class.simpleName} ${node.function}")
                 }
             }
@@ -432,6 +447,20 @@ class POPExpression : OPBase {
             }
             is ASTBuiltInCall -> {
                 when (node.function) {
+                    BuiltInFunctions.IF -> {
+                        val condition: Boolean = evaluateHelperBoolean(resultSet, resultRow, node.children[0])
+                        if (condition) {
+                            aggregateTmp[node.uuid] = 1
+                            return getResultType(resultSet, resultRow, node.children[1])
+                        } else {
+                            aggregateTmp[node.uuid] = 0
+                            return getResultType(resultSet, resultRow, node.children[2])
+                        }
+                    }
+                    BuiltInFunctions.CONTAINS -> return TmpResultType.RSBoolean
+                    BuiltInFunctions.STRSTARTS -> return TmpResultType.RSBoolean
+                    BuiltInFunctions.STRENDS -> return TmpResultType.RSBoolean
+                    BuiltInFunctions.LANGMATCHES -> return TmpResultType.RSBoolean
                     BuiltInFunctions.BOUND -> return TmpResultType.RSBoolean
                     BuiltInFunctions.RAND -> return TmpResultType.RSInteger
                     BuiltInFunctions.ABS -> return getResultType(resultSet, resultRow, node.children[0])
@@ -494,6 +523,7 @@ class POPExpression : OPBase {
             typeA == TmpResultType.RSString && typeB == TmpResultType.RSString -> {
                 val a = evaluateHelperString(resultSet, resultRow, left)
                 val b = evaluateHelperString(resultSet, resultRow, right)
+                println("XXXY <$a> <$b>")
                 when (node) {
                     is ASTEQ -> return a == b
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName}")
@@ -504,7 +534,7 @@ class POPExpression : OPBase {
         }
     }
 
-    private fun extractStringFromLiteral(literal: String): String {
+    fun extractStringFromLiteral(literal: String): String {
         println("extractStringFromLiteral ${literal} ${literal.endsWith(dataTypeString)} ${!literal.endsWith(">")}")
         when {
             literal.endsWith(dataTypeString) -> return literal.substring(1, literal.length - 1 - dataTypeString.length)
@@ -513,7 +543,7 @@ class POPExpression : OPBase {
         }
     }
 
-    private fun extractLanguageFromLiteral(literal: String): String {
+    fun extractLanguageFromLiteral(literal: String): String {
         println("extractLanguageFromLiteral ${literal} ${literal.endsWith(dataTypeString)} ${!literal.endsWith(">")}")
         when {
             !literal.endsWith("\"") && !literal.endsWith(">") -> return literal.substring(literal.lastIndexOf("@") + 1, literal.length)
@@ -521,7 +551,7 @@ class POPExpression : OPBase {
         }
     }
 
-    private fun evaluateHelperBoolean(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): Boolean {
+    fun evaluateHelperBoolean(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): Boolean {
         when (node) {
             is ASTBooleanLiteral -> return node.value
             is ASTOr -> {
@@ -541,6 +571,12 @@ class POPExpression : OPBase {
             is ASTBinaryOperationFixedName -> return evaluateHelperBoolean2(resultSet, resultRow, node)
             is ASTBuiltInCall -> {
                 when (node.function) {
+                    BuiltInFunctions.IF -> {
+                        if (aggregateTmp[node.uuid] == 1)
+                            return evaluateHelperBoolean(resultSet, resultRow, node.children[1])
+                        else
+                            return evaluateHelperBoolean(resultSet, resultRow, node.children[2])
+                    }
                     BuiltInFunctions.isNUMERIC -> {
                         val typeA = getResultType(resultSet, resultRow, node.children[0])
                         return typeA == TmpResultType.RSInteger || typeA == TmpResultType.RSDecimal
@@ -573,7 +609,7 @@ class POPExpression : OPBase {
         }
     }
 
-    private fun evaluateHelperString(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): String {
+    fun evaluateHelperString(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): String {
         when (getResultType(resultSet, resultRow, node)) {
             TmpResultType.RSBoolean -> return "\"" + evaluateHelperBoolean(resultSet, resultRow, node) + "\"" + dataTypeBoolean
             TmpResultType.RSInteger -> return "\"" + evaluateInteger.evaluateHelper(resultSet, resultRow, node) + "\"" + dataTypeInteger
@@ -592,7 +628,7 @@ class POPExpression : OPBase {
             is ASTBuiltInCall -> {
                 when (node.function) {
                     BuiltInFunctions.IF -> {
-                        if (evaluateHelperBoolean(resultSet, resultRow, node.children[0]))
+                        if (aggregateTmp[node.uuid] == 1)
                             return evaluateHelperString(resultSet, resultRow, node.children[1])
                         else
                             return evaluateHelperString(resultSet, resultRow, node.children[2])
@@ -655,6 +691,8 @@ class POPExpression : OPBase {
 
     fun evaluateBoolean(resultSet: ResultSet, resultRow: ResultRow): Boolean {
         println("resultRow:: " + resultRow)
+        if (getResultType(resultSet, resultRow, child) != TmpResultType.RSBoolean)
+            throw UnsupportedOperationException("${this::class.simpleName} evaluateBoolean ${child::class.simpleName}")
         return evaluateHelperBoolean(resultSet, resultRow, child)
     }
 
