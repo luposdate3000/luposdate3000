@@ -541,9 +541,9 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
             }
             j++
         }
+        println(queryResult)
         println("----------Target Result")
         val querySolution = parseXMLTarget(resultData)
-        println(queryResult)
         println(querySolution)
         val res = queryResult == querySolution
         if (res) {

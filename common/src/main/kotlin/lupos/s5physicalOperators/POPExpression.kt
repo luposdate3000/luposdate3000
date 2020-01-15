@@ -416,8 +416,10 @@ class POPExpression : OPBase {
                 }
                 if (node.type == Aggregation.COUNT)
                     return TmpResultType.RSInteger
+                var newType = getResultType(resultSet, resultRow, node.children[0])
+                if (node.type == Aggregation.AVG)
+                    newType = commonDatatype(newType, TmpResultType.RSDecimal)
                 val oldType = aggregateTmpType[node.uuid]
-                val newType = getResultType(resultSet, resultRow, node.children[0])
                 if (oldType == null)
                     return newType
                 return commonDatatype(oldType, newType)
