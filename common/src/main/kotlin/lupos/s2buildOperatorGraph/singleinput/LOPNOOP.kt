@@ -7,6 +7,14 @@ class LOPNOOP() : LOPSingleInputBase() {
         this.child = child
     }
 
+    override fun getProvidedVariableNames(): List<String> {
+        return child.getProvidedVariableNames()
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        return child.getRequiredVariableNames()
+    }
+
     override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
 }
 

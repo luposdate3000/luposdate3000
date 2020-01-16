@@ -8,5 +8,13 @@ class LOPOffset(val offset: Int) : LOPSingleInputBase() {
         this.child = child
     }
 
+    override fun getProvidedVariableNames(): List<String> {
+        return child.getProvidedVariableNames()
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        return child.getRequiredVariableNames()
+    }
+
     override fun toString(indentation: String): String = "${indentation}${this::class.simpleName} '$offset'\n" + child.toString("${indentation}\t")
 }

@@ -24,6 +24,20 @@ class POPProjection : POPSingleInputBase {
         return resultSetNew
     }
 
+    override fun getProvidedVariableNames(): List<String> {
+        val res = mutableListOf<String>()
+        for (v in variables)
+            res.add(v.name)
+        return res
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        val res = mutableListOf<String>()
+        for (v in variables)
+            res.add(v.name)
+        return res
+    }
+
     override fun hasNext(): Boolean {
         val res = child.hasNext()
         return res

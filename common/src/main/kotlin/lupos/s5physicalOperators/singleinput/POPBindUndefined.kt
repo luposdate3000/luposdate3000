@@ -30,6 +30,14 @@ class POPBindUndefined : POPSingleInputBase {
         variablesNew[i] = variableBound
     }
 
+    override fun getProvidedVariableNames(): List<String> {
+        return mutableListOf<String>(name.name) + child.getRequiredVariableNames()
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        return child.getRequiredVariableNames()
+    }
+
     override fun getResultSet(): ResultSet {
         return resultSetNew
     }
@@ -46,7 +54,7 @@ class POPBindUndefined : POPSingleInputBase {
             // TODO reuse resultSet
             rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
         }
-        rsNew[variableBound] = resultSetNew.createValue("")
+        rsNew[variableBound] = resultSetNew.createValue(resultSetNew.getUndefValue())
         return rsNew
     }
 

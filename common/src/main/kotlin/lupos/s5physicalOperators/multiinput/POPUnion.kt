@@ -17,6 +17,14 @@ class POPUnion : POPBaseNullableIterator {
     private val variablesOldB = mutableListOf<Pair<Variable, Variable>>()
     private val resultSetNew = ResultSet()
 
+    override fun getProvidedVariableNames(): List<String> {
+        return childA.getProvidedVariableNames() + childB.getProvidedVariableNames()
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        return childA.getRequiredVariableNames() + childB.getRequiredVariableNames()
+    }
+
     constructor(childA: POPBase, childB: POPBase) : super() {
         this.childA = childA
         this.childB = POPTemporaryStore(childB)

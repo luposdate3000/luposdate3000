@@ -17,12 +17,22 @@ class POPValues : POPBase {
     private var iterator: Iterator<LOPExpression>
     private val rs = ResultSet()
     private val rr = rs.createResultRow()
+    private val stringVars = mutableListOf<String>()
 
     constructor(values: LOPValues) : super() {
         for (name in values.variables) {
+            stringVars.add(name.name)
             variables.add(resultSet.createVariable(name.name))
         }
         iterator = values.values.iterator()
+    }
+
+    override fun getProvidedVariableNames(): List<String> {
+        return stringVars
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        return mutableListOf<String>()
     }
 
     override fun getResultSet(): ResultSet {

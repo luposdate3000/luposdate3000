@@ -8,6 +8,20 @@ class LOPProjection(val variables: MutableList<LOPVariable> = mutableListOf()) :
         this.child = child
     }
 
+    override fun getProvidedVariableNames(): List<String> {
+        val res = mutableListOf<String>()
+        for (v in variables)
+            res.add(v.name)
+        return res
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        val res = mutableListOf<String>()
+        for (v in variables)
+            res.add(v.name)
+        return res
+    }
+
     override fun toString(indentation: String): String {
         var res = "${indentation}${this::class.simpleName}\n${indentation}\tvariables:\n"
         for (var1 in variables) {

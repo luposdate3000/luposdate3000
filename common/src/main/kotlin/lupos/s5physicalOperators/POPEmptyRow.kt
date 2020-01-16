@@ -24,5 +24,13 @@ class POPEmptyRow() : POPBase() {
         return resultSetNew.createResultRow()
     }
 
+    override fun getProvidedVariableNames(): List<String> {
+        return mutableListOf<String>()
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        return mutableListOf<String>()
+    }
+
     override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n"
 }

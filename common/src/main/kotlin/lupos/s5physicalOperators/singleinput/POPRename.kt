@@ -32,6 +32,28 @@ class POPRename : POPSingleInputBase {
         }
     }
 
+    override fun getProvidedVariableNames(): List<String> {
+        val res = mutableListOf<String>()
+        val variables = child.getProvidedVariableNames()
+        for (v in variables) {
+            if (v == nameFrom.name)
+                res.add(nameTo.name)
+            else
+                res.add(v)
+        }
+        return res
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        val res = mutableListOf<String>()
+        val variables = child.getProvidedVariableNames()
+        for (v in variables) {
+            res.add(v)
+        }
+        res.add(nameFrom.name)
+        return res
+    }
+
     override fun getResultSet(): ResultSet {
         return resultSetNew
     }

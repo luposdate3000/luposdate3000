@@ -6,6 +6,7 @@ import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
 import lupos.s5physicalOperators.POPExpression
+import lupos.misc.*
 
 class POPBind : POPSingleInputBase {
     val name: LOPVariable
@@ -33,6 +34,14 @@ class POPBind : POPSingleInputBase {
         variablesNew[i] = variableBound
     }
 
+    override fun getProvidedVariableNames(): List<String> {
+        return mutableListOf<String>(name.name)
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        return expression.getRequiredVariableNames()
+    }
+
     override fun getResultSet(): ResultSet {
         return resultSetNew
     }
@@ -49,7 +58,13 @@ class POPBind : POPSingleInputBase {
             // TODO reuse resultSet
             rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
         }
-        rsNew[variableBound] = resultSetNew.createValue(expression.evaluate(resultSetOld, rsOld))
+        try {
+            rsNew[variableBound] = resultSetNew.createValue(expression.evaluate(resultSetOld, rsOld))
+        } catch (e: Throwable) {
+            rsNew[variableBound] = resultSetNew.createValue(resultSetNew.getUndefValue())
+            print("silent :: ")
+            e.kotlinStacktrace()
+        }
         return rsNew
     }
 

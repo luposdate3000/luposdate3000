@@ -26,6 +26,14 @@ class POPSort : POPSingleInputBaseNullableIterator {
         this.sortBy = resultSetNew.createVariable(sortBy.name)
     }
 
+    override fun getProvidedVariableNames(): List<String> {
+        return child.getProvidedVariableNames()
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        return child.getRequiredVariableNames()
+    }
+
     override fun getResultSet(): ResultSet {
         return resultSetNew
     }

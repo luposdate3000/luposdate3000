@@ -36,6 +36,24 @@ class POPGroup : POPSingleInputBaseNullableIterator {
             resultSetNew.createVariable(v.name)
     }
 
+    override fun getProvidedVariableNames(): List<String> {
+        val tmp = mutableListOf<String>()
+        for (v in by)
+            tmp.add(v.name)
+        for (v in bindings)
+            tmp.addAll(v.second.getProvidedVariableNames())
+        return tmp
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        val tmp = mutableListOf<String>()
+        for (v in by)
+            tmp.add(v.name)
+        for (v in bindings)
+            tmp.addAll(v.second.getRequiredVariableNames())
+        return tmp
+    }
+
     override fun getResultSet(): ResultSet {
         return resultSetNew
     }

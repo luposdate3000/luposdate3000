@@ -110,14 +110,14 @@ import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPLimit
 import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPOffset
 import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPPrefix
 import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPReduced
+import lupos.misc.*
 
 class OperatorGraphVisitor : Visitor<OPBase> {
     override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPNOOP()
 
     fun mergeLOPBind(a: LOPBind, b: LOPBind): LOPBind {
         val aName = ((a!! as LOPBind).name as LOPVariable).name
-        if ((b.expression is LOPExpression && getAllVariablesInChildren((b.expression as LOPExpression).child).contains(aName))
-                || (b.expression is LOPVariable && (b.expression as LOPVariable).name == aName)) {
+        if (b.expression.getRequiredVariableNames().contains(aName)) {
             b.getLatestChild().setChild(a)
             return b
         } else {
@@ -253,16 +253,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     enum class GroupMember {
-        GMLOPFilter, GMLOPMinus, GMLOPTriple, GMLOPBind, GMLOPOptional, GMLOPProjection
-    }
-
-    fun getAllVariablesInChildren(node: ASTNode): List<String> {
-        val res = mutableListOf<String>()
-        if (node is ASTVar)
-            res.add(node.name)
-        for (c in node.children)
-            res.addAll(getAllVariablesInChildren(c))
-        return res
+        GMLOPFilter, GMLOPMinus, GMLOPDataSource, GMLOPOptional
     }
 
     private fun parseGroup(nodes: Array<ASTNode>): OPBase {
@@ -270,6 +261,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             return LOPNOOP()
         }
         var result: OPBase? = null
+        val bind = mutableListOf<LOPBind>()
         var members = mutableMapOf<GroupMember, OPBase>()
         for (n in nodes) {
             var tmp2 = n.visit(this)
@@ -290,37 +282,33 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         members[GroupMember.GMLOPFilter] = tmp2
                 }
                 is LOPProjection -> {
-                    if (members.containsKey(GroupMember.GMLOPProjection))
-                        (members[GroupMember.GMLOPProjection] as LOPSingleInputBase).getLatestChild().setChild(tmp2)
+                    if (members.containsKey(GroupMember.GMLOPDataSource))
+                        members[GroupMember.GMLOPDataSource] = LOPJoin(members[GroupMember.GMLOPDataSource]!!, tmp2, false)
                     else
-                        members[GroupMember.GMLOPProjection] = tmp2
+                        members[GroupMember.GMLOPDataSource] = tmp2
                 }
                 is LOPBind -> {
-                    if (members.containsKey(GroupMember.GMLOPBind)) {
-                        members[GroupMember.GMLOPBind] = mergeLOPBind(members[GroupMember.GMLOPBind]!! as LOPBind, tmp2)
-                    } else {
-                        members[GroupMember.GMLOPBind] = tmp2
-                    }
+                    bind.add(tmp2)
                 }
                 is LOPTriple -> {
-                    if (members.containsKey(GroupMember.GMLOPTriple)) {
-                        members[GroupMember.GMLOPTriple] = LOPJoin(members[GroupMember.GMLOPTriple]!!, tmp2, false)
+                    if (members.containsKey(GroupMember.GMLOPDataSource)) {
+                        members[GroupMember.GMLOPDataSource] = LOPJoin(members[GroupMember.GMLOPDataSource]!!, tmp2, false)
                     } else {
-                        members[GroupMember.GMLOPTriple] = tmp2
+                        members[GroupMember.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPUnion -> {
-                    if (members.containsKey(GroupMember.GMLOPTriple)) {
-                        members[GroupMember.GMLOPTriple] = LOPJoin(members[GroupMember.GMLOPTriple]!!, tmp2, false)
+                    if (members.containsKey(GroupMember.GMLOPDataSource)) {
+                        members[GroupMember.GMLOPDataSource] = LOPJoin(members[GroupMember.GMLOPDataSource]!!, tmp2, false)
                     } else {
-                        members[GroupMember.GMLOPTriple] = tmp2
+                        members[GroupMember.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPValues -> {
-                    if (members.containsKey(GroupMember.GMLOPTriple)) {
-                        members[GroupMember.GMLOPTriple] = LOPJoin(members[GroupMember.GMLOPTriple]!!, tmp2, false)
+                    if (members.containsKey(GroupMember.GMLOPDataSource)) {
+                        members[GroupMember.GMLOPDataSource] = LOPJoin(members[GroupMember.GMLOPDataSource]!!, tmp2, false)
                     } else {
-                        members[GroupMember.GMLOPTriple] = tmp2
+                        members[GroupMember.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPOptional -> {
@@ -331,24 +319,18 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     }
                 }
                 is LOPSubGroup -> {
-                    if (members.containsKey(GroupMember.GMLOPTriple)) {
-                        members[GroupMember.GMLOPTriple] = LOPJoin(members[GroupMember.GMLOPTriple]!!, tmp2, false)
+                    if (members.containsKey(GroupMember.GMLOPDataSource)) {
+                        members[GroupMember.GMLOPDataSource] = LOPJoin(members[GroupMember.GMLOPDataSource]!!, tmp2, false)
                     } else {
-                        members[GroupMember.GMLOPTriple] = tmp2
+                        members[GroupMember.GMLOPDataSource] = tmp2
                     }
                 }
                 else ->
                     throw UnsupportedOperationException("${this::class.simpleName} GroupMember ${tmp2::class.simpleName}")
             }
         }
-        if (members.containsKey(GroupMember.GMLOPProjection)) {
-            result = members[GroupMember.GMLOPProjection]
-        }
         if (members.containsKey(GroupMember.GMLOPMinus)) {
-            if (result == null)
-                result = members[GroupMember.GMLOPMinus]
-            else
-                (result as LOPSingleInputBase).getLatestChild().setChild(members[GroupMember.GMLOPMinus]!!)
+            result = members[GroupMember.GMLOPMinus]
         }
         if (members.containsKey(GroupMember.GMLOPFilter)) {
             if (result == null)
@@ -356,25 +338,68 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             else
                 (result as LOPSingleInputBase).getLatestChild().setChild(members[GroupMember.GMLOPFilter]!!)
         }
-        if (members.containsKey(GroupMember.GMLOPBind)) {
-            if (result == null)
-                result = members[GroupMember.GMLOPBind]
-            else
-                (result as LOPSingleInputBase).getLatestChild().setChild(members[GroupMember.GMLOPBind]!!)
-        }
-        if (members.containsKey(GroupMember.GMLOPTriple)) {
-            if (result == null)
-                result = members[GroupMember.GMLOPTriple]
-            else
-                (result as LOPSingleInputBase).getLatestChild().setChild(members[GroupMember.GMLOPTriple]!!)
+        var firstJoin: OPBase? = null
+        if (members.containsKey(GroupMember.GMLOPDataSource)) {
+            firstJoin = members[GroupMember.GMLOPDataSource]
         }
         if (members.containsKey(GroupMember.GMLOPOptional)) {
-            if (result == null)
-                result = LOPOptional(members[GroupMember.GMLOPOptional]!!)
+            if (firstJoin == null)
+                firstJoin = LOPOptional(members[GroupMember.GMLOPOptional]!!)
             else
-                result = LOPJoin(result, members[GroupMember.GMLOPOptional]!!, true)
+                firstJoin = LOPJoin(firstJoin, members[GroupMember.GMLOPOptional]!!, true)
+        }
+        if (firstJoin == null) {
+            var bb: LOPBind? = null
+            for (b in bind) {
+                if (bb == null)
+                    bb = b
+                else
+                    bb = mergeLOPBind(bb, b)
+            }
+            firstJoin = bb
+        } else {
+            for (b in bind) {
+                firstJoin = insertLOPBind(firstJoin!!, b)
+            }
+        }
+        if (firstJoin != null) {
+            if (result == null)
+                result = firstJoin
+            else
+                (result as LOPSingleInputBase).getLatestChild().setChild(firstJoin)
         }
         return result!!
+    }
+
+    fun insertLOPBind(a: OPBase, b: LOPBind): OPBase {
+        if (a is LOPJoin) {
+            val requiredVariables = b.expression.getRequiredVariableNames()
+            val providedLeft = a.child.getProvidedVariableNames()
+            var leftOk = true
+            for (v in requiredVariables) {
+                if (!providedLeft.contains(v)) {
+                    leftOk = false
+                    break
+                }
+            }
+            val providedRight = a.second.getProvidedVariableNames()
+            var rightOk = true
+            for (v in requiredVariables) {
+                if (!providedRight.contains(v)) {
+                    rightOk = false
+                    break
+                }
+            }
+            if (leftOk != rightOk) {
+                if (leftOk)
+                    a.child = insertLOPBind(a.child, b)
+                else
+                    return LOPJoin(a.child, insertLOPBind(a.second, b), a.optional)
+                return a
+            }
+        }
+        b.getLatestChild().setChild(a)
+        return b
     }
 
     override fun visit(node: ASTQuery, childrenValues: List<OPBase>): OPBase {
@@ -551,7 +576,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTAs, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        return LOPBind(node.variable.visit(this), node.expression.visit(this))
+        return LOPBind(node.variable.visit(this) as LOPVariable, node.expression.visit(this))
     }
 
     override fun visit(node: ASTBuiltInCall, childrenValues: List<OPBase>): OPBase {

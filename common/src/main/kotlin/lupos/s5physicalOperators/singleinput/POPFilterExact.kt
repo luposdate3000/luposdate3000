@@ -35,6 +35,14 @@ class POPFilterExact : POPSingleInputBaseNullableIterator {
         filterValue = value
     }
 
+    override fun getProvidedVariableNames(): List<String> {
+        return child.getProvidedVariableNames()
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        return child.getRequiredVariableNames() + variable.name
+    }
+
     override fun getResultSet(): ResultSet {
         return resultSetNew
     }

@@ -39,7 +39,7 @@ abstract class OptimizerVisitorLOP() {
     }
 
     open fun visit(node: LOPBind): OPBase {
-        return LOPBind(optimize(node.name), optimize(node.expression), optimize(node.child))
+        return LOPBind(optimize(node.name) as LOPVariable, optimize(node.expression), optimize(node.child))
     }
 
     open fun visit(node: LOPFilter): OPBase {
@@ -69,7 +69,7 @@ abstract class OptimizerVisitorLOP() {
     }
 
     open fun visit(node: LOPRename): OPBase {
-        return LOPRename(optimize(node.nameTo), optimize(node.nameFrom), optimize(node.child))
+        return LOPRename(optimize(node.nameTo) as LOPVariable, optimize(node.nameFrom) as LOPVariable, optimize(node.child))
     }
 
     open fun visit(node: LOPSort): OPBase {

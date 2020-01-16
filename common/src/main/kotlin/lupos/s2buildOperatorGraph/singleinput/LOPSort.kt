@@ -7,6 +7,15 @@ class LOPSort(val asc: Boolean, var by: OPBase) : LOPSingleInputBase() {
         this.child = child
     }
 
+
+    override fun getProvidedVariableNames(): List<String> {
+        return child.getProvidedVariableNames()
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        return child.getRequiredVariableNames()
+    }
+
     override fun toString(indentation: String): String {
         var res = "${indentation}${this::class.simpleName}\n${indentation}\torder: "
         if (asc)

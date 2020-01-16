@@ -7,6 +7,22 @@ import lupos.s2buildOperatorGraph.data.LOPVariable
 class LOPGroup(var by: List<LOPVariable>) : LOPSingleInputBase() {
     var bindings: OPBase? = null
 
+    override fun getProvidedVariableNames(): List<String> {
+        val tmp = mutableListOf<String>()
+        for (v in by)
+            tmp.add(v.name)
+        if (bindings != null)
+            return tmp + bindings!!.getProvidedVariableNames()
+        return tmp
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        if (bindings != null)
+            return child.getRequiredVariableNames() + bindings!!.getRequiredVariableNames()
+        else
+            return child.getRequiredVariableNames()
+    }
+
     constructor(by: List<LOPVariable>, child: OPBase) : this(by) {
         this.child = child
     }

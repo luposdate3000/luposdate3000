@@ -13,4 +13,7 @@ abstract class OPBase {
     override fun toString(): String {
         return toString("")
     }
+
+    abstract fun getRequiredVariableNames(): List<String>
+    abstract fun getProvidedVariableNames(): List<String>
 }
