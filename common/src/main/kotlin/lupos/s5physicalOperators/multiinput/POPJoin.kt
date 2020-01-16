@@ -42,6 +42,10 @@ class POPJoin : POPBaseNullableIterator {
         variablesA = variablesA.subtract(joinVariables)
         variablesB = variablesB.subtract(joinVariables)
 
+        println("JOIN variablesA ${variablesA}")
+        println("JOIN variablesB ${variablesB}")
+        println("JOIN variablesJ ${joinVariables}")
+
         for (name in variablesA) {
             variablesOldA.add(Pair(resultSetOldA.createVariable(name), resultSetNew.createVariable(name)))
         }
@@ -110,7 +114,8 @@ class POPJoin : POPBaseNullableIterator {
                 }
                 if (a == resultSetOldA.getUndefValue())
                     rsNew[p.second] = resultSetNew.createValue(b)
-                rsNew[p.second] = resultSetNew.createValue(a)
+                else
+                    rsNew[p.second] = resultSetNew.createValue(a)
             }
             if (!joinVariableOk)
                 continue

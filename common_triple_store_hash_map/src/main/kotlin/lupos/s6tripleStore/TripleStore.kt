@@ -57,6 +57,14 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
 
     constructor(store: TripleStore) : this(store, IndexPattern.S)
 
+    override fun getProvidedVariableNames(): List<String> {
+        return mutableListOf<String>(getNameForS(), getNameForP(), getNameForO())
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        return mutableListOf<String>()
+    }
+
     override fun next(): ResultRow {
         val value = listIterator!!.next()
         val result = resultSetNew.createResultRow()
