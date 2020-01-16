@@ -13,8 +13,11 @@ import kotlinx.coroutines.sync.*
 import kotlin.coroutines.*
 import kotlinx.coroutines.channels.*
 
-val MESSAGE_HEADER_RESPONSE = 0
-val MESSAGE_HEADER_ECHO_STRING = 1
+val MESSAGE_HEADER_RESPONSE = 0/*to indicate that this message is the response to a running request*/
+val MESSAGE_HEADER_FINISH = 1/*finish answering the running request*/
+val MESSAGE_HEADER_ECHO_STRING = 2
+
+class ClientWrapper(val client: AsyncClient, var used: KorAtomicBoolean = KorAtomicBoolean(false))
 
 abstract class Message() {
     companion object {
@@ -23,45 +26,41 @@ abstract class Message() {
 
     var uuid = global_uuid++
 
-    suspend abstract fun write(client: AsyncClient): Message
-    suspend abstract fun read(client: AsyncClient): Message
-    suspend abstract fun readAndProcess(client: AsyncClient): Message
+    suspend abstract fun write(client: ClientWrapper): Message
+    suspend abstract fun read(client: ClientWrapper): Message
+    suspend abstract fun readAndProcess(client: ClientWrapper): Message
 }
 
 class MessageEchoString() : Message() {
     var data = ""
-    suspend override fun read(client: AsyncClient): Message {
-        data = client.readStringz()
-        println("data = client.readStringz()")
+    suspend override fun read(client: ClientWrapper): Message {
+        data = client.client.readStringz()
         return this
     }
 
-    suspend override fun write(client: AsyncClient): Message {
-        client.write32LE(MESSAGE_HEADER_ECHO_STRING)
-        println("client.write32LE(MESSAGE_HEADER_ECHO_STRING)")
-        client.write32LE(uuid)
-        println("client.write32LE(uuid)")
-        client.writeStringz(data)
-        println("client.writeStringz(data)")
+    suspend override fun write(client: ClientWrapper): Message {
+        client.client.write32LE(MESSAGE_HEADER_ECHO_STRING)
+        client.client.write32LE(uuid)
+        client.client.writeStringz(data)
         return this
     }
 
-    suspend override fun readAndProcess(client: AsyncClient): Message {
+    suspend override fun readAndProcess(client: ClientWrapper): Message {
         read(client)
+//do sth here
         write(client)
         return this
     }
 }
 
 object P2P {
-
     var port: Int = 8080
-    var bootstrap: String? = null
-    private val clients = mutableMapOf<String, AsyncClient>()
-    private val channels = mutableMapOf<Int, Channel<Message>>()
-    private var server: Any? = null
+    var bootstrap: String? = null//connect to any known node at startup
+    private val clients = mutableMapOf<String, ClientWrapper>()//connections to any other known node
+    private val channels = mutableMapOf<Int, Channel<Message>>()//running requests started by this peer
+    private var server: Any? = null//this is always initialized
 
-    suspend fun addClient(name: String, client: AsyncClient) {
+    suspend fun addClient(name: String, client: ClientWrapper) {
         clients[name] = client
         onConnect(name, client)
     }
@@ -78,8 +77,7 @@ object P2P {
             server = createTcpServer(port)
             (server!! as AsyncServer).listen { client ->
                 val name = client.readStringz()
-                println(" val name = client.readStringz()")
-                addClient(name, client)
+                addClient(name, ClientWrapper(client))
             }
         }
         launch(Dispatchers.Default) {
@@ -93,48 +91,64 @@ object P2P {
                 }
                 val client = createTcpClient(host, port)
                 client.writeStringz((server!! as AsyncServer).host + ":" + (server!! as AsyncServer).port)
-                println("client.writeStringz(servername)")
-                addClient(bootstrap!!, client)
+                addClient(bootstrap!!, ClientWrapper(client))
             }
         }
     }
 
-    suspend fun onConnect(name: String, client: AsyncClient) {
-//        println("onConnect $name")
+    suspend fun onConnect(name: String, client: ClientWrapper) {
+        println("onConnect $name")
         var buffer = ByteArray(10)
-        while (client.connected) {
-            var header = client.readS32LE()
-            println("var header = client.readS32LE()")
+        while (client.client.connected) {
+            var header = client.client.readS32LE()
+            client.used.compareAndSet(false, true)
             onReceive(name, client, header)
         }
     }
 
-    suspend fun onReceive(name: String, client: AsyncClient, header: Int) {
-        // println("onReceive $name $header")
+    suspend fun onReceive(name: String, client: ClientWrapper, header: Int) {
+        println("onReceive $name $header")
         if (header == MESSAGE_HEADER_RESPONSE) {
-            val header2 = client.readS32LE()
-            println("val header2 = client.readS32LE()")
-            val uuid = client.readS32LE()
-            println("val uuid = client.readS32LE()")
-            val message: Message = when (header2) {
-                MESSAGE_HEADER_ECHO_STRING -> MessageEchoString().read(client)
+            val header2 = client.client.readS32LE()
+            val uuid = client.client.readS32LE()
+            if (header2 == MESSAGE_HEADER_FINISH) {
+                channels.remove(uuid)?.close()
+                println("closedChannel $port :: ${uuid}")
+                require(client.used.compareAndSet(true, false))
+            } else {
+                val message: Message = when (header2) {
+                    MESSAGE_HEADER_ECHO_STRING -> MessageEchoString().read(client)
+                    else -> throw Exception("unknown Message header $header")
+                }
+                message.uuid = uuid
+                println("writingToChannel $port :: ${uuid}")
+                channels[uuid]!!.send(message)
+            }
+        } else {
+            client.client.write32LE(MESSAGE_HEADER_RESPONSE)
+            val uuid = client.client.readS32LE()
+            val message: Message = when (header) {
+                MESSAGE_HEADER_ECHO_STRING -> MessageEchoString()
                 else -> throw Exception("unknown Message header $header")
             }
-            channels[uuid]!!.send(message)
-        } else {
-            client.write32LE(MESSAGE_HEADER_RESPONSE)
-            println("client.write32LE(MESSAGE_HEADER_RESPONSE)")
-            val uuid = client.readS32LE()
-            println("val uuid = client.readS32LE()")
-            when (header) {
-                MESSAGE_HEADER_ECHO_STRING -> MessageEchoString().readAndProcess(client)
-            }
+            message.uuid = uuid
+            message.readAndProcess(client)
+            client.client.write32LE(MESSAGE_HEADER_RESPONSE)
+            client.client.write32LE(MESSAGE_HEADER_FINISH)
+            client.client.write32LE(uuid)
+            require(client.used.compareAndSet(true, false))
         }
     }
 
     suspend fun send_message(target: String, message: Message): Channel<Message> {
         val client = clients[target]!!
+        while (!client.used.compareAndSet(false, true)) {
+            println("blocked :: $target")
+            delay(10)
+        }
+        println("continue :: $target")
         val channel = Channel<Message>()
+        println("openingChannel $port :: ${message.uuid}")
         channels[message.uuid] = channel
         message.write(client)
         return channel
@@ -157,20 +171,24 @@ fun main(args: Array<String>) {
     P2P.port = serverPort
     P2P.bootstrap = bootStrapServer
     P2P.start()
-    if (bootStrapServer != null) {
-        var result = async(Dispatchers.Default) {
+//    if (bootStrapServer != null) {
+    var result = async(Dispatchers.Default) {
+        if (serverPort == 8080)
+            delay(500)
+        for (i in 0..20) {
             delay(1000)
             for (c in P2P.getClients()) {
                 val message = MessageEchoString()
-                message.data = "test"
+                message.data = "test " + serverPort + " " + i
                 val channel = P2P.send_message(c, message)
                 for (m in channel) {
-                    println("recieved-finally" + message.data)
+                    println("recieved-finally " + serverPort + " -- " + message.data)
                 }
             }
-            delay(1000)
         }
+        delay(1000)
     }
+//    }
     while (true) {
     }
 }
