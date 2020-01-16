@@ -68,11 +68,20 @@ class POPJoin : POPBaseNullableIterator {
                 childB.reset()
                 if (optional && !hadMatchForA && resultRowA != null) {
                     var rsNew = resultSetNew.createResultRow()
+                    for (p in variablesOldB) {
+                        // TODO reuse resultSet
+                        rsNew[p.second] = resultSetNew.createValue(resultSetNew.getUndefValue())
+                    }
+                    for (p in variablesOldJ) {
+                        // TODO reuse resultSet
+                        rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(resultRowA!![p.first.first]))
+                    }
                     for (p in variablesOldA) {
                         // TODO reuse resultSet
                         rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(resultRowA!![p.first]))
                     }
                     resultRowA = null
+                    println("join #${uuid} optional:" + rsNew)
                     return rsNew
                 }
                 resultRowA = null
@@ -85,14 +94,13 @@ class POPJoin : POPBaseNullableIterator {
                     return null
                 else {
                     resultRowA = childA.next()
-                    println("join a:" + resultRowA)
+                    println("join #${uuid} a:" + resultRowA)
                     hadMatchForA = false
                 }
             }
             require(resultRowA != null)
             resultRowB = childB.next()
-            println("join b:" + resultRowB)
-            hadMatchForA = true
+            println("join #${uuid} b:" + resultRowB)
             var joinVariableOk = true
             var rsNew = resultSetNew.createResultRow()
             for (p in variablesOldA) {
@@ -108,7 +116,7 @@ class POPJoin : POPBaseNullableIterator {
                 val a = resultSetOldA.getValue(resultRowA!![p.first.first])
                 val b = resultSetOldB.getValue(resultRowB[p.first.second])
                 if (a != b && a != resultSetOldA.getUndefValue() && b != resultSetOldB.getUndefValue()) {
-                    println("no match " + a + " " + b + " ${a != b} ${a != resultSetOldA.getUndefValue()} ${b != resultSetOldB.getUndefValue()}")
+                    println("join #${uuid} no match " + a + " " + b + " ${a != b} ${a != resultSetOldA.getUndefValue()} ${b != resultSetOldB.getUndefValue()}")
                     joinVariableOk = false
                     break
                 }
@@ -119,12 +127,13 @@ class POPJoin : POPBaseNullableIterator {
             }
             if (!joinVariableOk)
                 continue
-            println("join c:" + rsNew)
+            hadMatchForA = true
+            println("join #${uuid} c:" + rsNew)
             return rsNew
         }
     }
 
     override fun toString(indentation: String): String {
-        return "${indentation}${this::class.simpleName}\n${indentation}\tchilds:\n${childA.toString("${indentation}\t\t")}${childB.toString("${indentation}\t\t")}"
+        return "${indentation}${this::class.simpleName} optional: ${optional}\n${indentation}\tchilds:\n${childA.toString("${indentation}\t\t")}${childB.toString("${indentation}\t\t")}"
     }
 }
