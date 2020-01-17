@@ -13,17 +13,18 @@ import kotlinx.coroutines.sync.*
 import kotlin.coroutines.*
 import kotlinx.coroutines.channels.*
 
-suspend fun myRequestHandler(request:HttpServer.Request){
-println("listen::Request")
-println("${request.uri} ${request.method}")
-request.replaceHeader("Connection","close")
-request.replaceHeader("Content-Type","text/html")
-println("listen::Requesta")
-request.end("test")
-println("listen::Requestb")
+suspend fun myRequestHandler(request: HttpServer.Request) {
+    println("listen::Request")
+    println("${request.uri} ${request.method}")
+    request.replaceHeader("Connection", "close")
+    request.replaceHeader("Content-Type", "text/html")
+    println("listen::Requesta")
+    request.end("test")
+    println("listen::Requestb")
 }
-suspend fun myWsRequestHandler(request:HttpServer.WsRequest){
-println("listen::WsRequest")
+
+suspend fun myWsRequestHandler(request: HttpServer.WsRequest) {
+    println("listen::WsRequest")
 }
 
 fun main(args: Array<String>) {
@@ -39,21 +40,21 @@ fun main(args: Array<String>) {
             2 -> bootStrapServer = a
         }
         i++
-    }	
-var result = async(Dispatchers.Default) {
-	val server=createHttpServer().listen(serverPort,serverName,::myRequestHandler).websocketHandler(::myWsRequestHandler)
-}
-if(bootStrapServer!=null){
-var result = async(Dispatchers.Default) {
-delay(500)
-val client=createHttpClient()
-println("XXX::"+"http://${bootStrapServer}/")
-val response=client.request(Http.Method.GET,"http://${bootStrapServer}/").readAllString()
-println(response)
-}
-}
-while(true){
-}
+    }
+    var result = async(Dispatchers.Default) {
+        val server = createHttpServer().listen(serverPort, serverName, ::myRequestHandler).websocketHandler(::myWsRequestHandler)
+    }
+    if (bootStrapServer != null) {
+        var result = async(Dispatchers.Default) {
+            delay(500)
+            val client = createHttpClient()
+            println("XXX::" + "http://${bootStrapServer}/")
+            val response = client.request(Http.Method.GET, "http://${bootStrapServer}/").readAllString()
+            println(response)
+        }
+    }
+    while (true) {
+    }
 }
 
 //maybe better :: ../korio/korio/src/commonMain/kotlin/com/soywiz/korio/net/http/HttpServer.kt
