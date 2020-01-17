@@ -95,18 +95,9 @@ data class URL private constructor(
 					val (nonFragment, fragment) = nonScheme.split('#', limit = 2).run { first() to getOrNull(1) }
 					val (nonQuery, query) = nonFragment.split('?', limit = 2).run { first() to getOrNull(1) }
 					val (authority, path) = nonQuery.split('/', limit = 2).run { first() to getOrNull(1) }
-					val (host, userInfo) = authority.split('@', limit = 2).reversed().run { first() to getOrNull(1) }
-					println("URL::"+isHierarchical)
-					println("URL::"+nonScheme)
-					println("URL::"+scheme)
-					println("URL::"+nonFragment)
-					println("URL::"+fragment)
-					println("URL::"+nonQuery)
-					println("URL::"+query)
-					println("URL::"+authority)
-					println("URL::"+path)
-					println("URL::"+host)
-					println("URL::"+userInfo)
+					val (nonUserInfo, userInfo) = authority.split('@', limit = 2).reversed().run { first() to getOrNull(1) }
+					val (host, portString) = nonUserInfo.split(':', limit = 2).run { first() to getOrNull(1) }
+					val myport=if(portString!=null) portString.toInt() else DEFAULT_PORT
 					URL(
 						opaque = !isHierarchical,
 						scheme = scheme,
@@ -114,7 +105,8 @@ data class URL private constructor(
 						host = host.takeIf { it.isNotEmpty() },
 						path = if (path != null) "/$path" else "",
 						query = query,
-						fragment = fragment
+						fragment = fragment,
+						port = myport
 					)
 				}
 				else -> {
