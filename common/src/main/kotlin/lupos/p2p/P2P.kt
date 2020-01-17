@@ -1,5 +1,6 @@
 package lupos.p2p
 
+import lupos.misc.*
 import com.soywiz.korio.stream.*
 import com.soywiz.korio.net.*
 import com.soywiz.korio.net.http.*
@@ -13,18 +14,53 @@ import kotlinx.coroutines.sync.*
 import kotlin.coroutines.*
 import kotlinx.coroutines.channels.*
 
-suspend fun myRequestHandler(request: HttpServer.Request) {
-    println("listen::Request")
-    println("${request.uri} ${request.method}")
-    request.replaceHeader("Connection", "close")
-    request.replaceHeader("Content-Type", "text/html")
-    println("listen::Requesta")
-    request.end("test")
-    println("listen::Requestb")
-}
+object P2P {
+    val REQUEST_GET_KNOWN_HOSTS = arrayOf("getKnownHosts", "hostname")
+    var hostname = "localhost"
+    var port = 8080
+    val knownClients = mutableListOf<String>()
+    var server: HttpServer? = null
+    val client = createHttpClient()
 
-suspend fun myWsRequestHandler(request: HttpServer.WsRequest) {
-    println("listen::WsRequest")
+    suspend fun process_get_known_hosts(hostname: String): String {
+        return knownClients.toString()
+    }
+
+    suspend fun myRequestHandler(request: HttpServer.Request) {
+        println("listen::Request")
+        val params = request.getParams
+        println(params)
+        println(request.path)
+        println(request.method)
+        request.replaceHeader("Connection", "close")
+        request.replaceHeader("Content-Type", "text/html")
+        var response = ""
+        try {
+            when (request.path) {
+                REQUEST_GET_KNOWN_HOSTS[0] -> response = process_get_known_hosts(params[REQUEST_GET_KNOWN_HOSTS[1]]!![0]!!)
+                else -> request.setStatus(404)
+            }
+        } catch (e: Throwable) {
+            e.kotlinStacktrace()
+            response = e.toString()
+            request.setStatus(404)
+        }
+        request.end(response)
+    }
+
+    fun start() {
+        var result = async(Dispatchers.Default) {
+            server = createHttpServer().listen(port, hostname, ::myRequestHandler)
+        }
+    }
+
+    fun joinNetwork(bootstrap: String) {
+        var result = async(Dispatchers.Default) {
+            var response = client.request(Http.Method.GET, "http://${bootstrap}/${REQUEST_GET_KNOWN_HOSTS[0]}?${REQUEST_GET_KNOWN_HOSTS[1]}=${hostname}")
+            var responseString = response.readAllString()
+            println(responseString)
+        }
+    }
 }
 
 fun main(args: Array<String>) {
@@ -35,26 +71,15 @@ fun main(args: Array<String>) {
     for (a in args) {
         println("args[$i]=$a")
         when (i) {
-            0 -> serverPort = a.toInt()
-            1 -> serverName = a
+            0 -> P2P.port = a.toInt()
+            1 -> P2P.hostname = a
             2 -> bootStrapServer = a
         }
         i++
     }
-    var result = async(Dispatchers.Default) {
-        val server = createHttpServer().listen(serverPort, serverName, ::myRequestHandler).websocketHandler(::myWsRequestHandler)
-    }
-    if (bootStrapServer != null) {
-        var result = async(Dispatchers.Default) {
-            delay(500)
-            val client = createHttpClient()
-            println("XXX::" + "http://${bootStrapServer}/")
-            val response = client.request(Http.Method.GET, "http://${bootStrapServer}/").readAllString()
-            println(response)
-        }
-    }
+    P2P.start()
+    if (bootStrapServer != null)
+        P2P.joinNetwork(bootStrapServer)
     while (true) {
     }
 }
-
-//maybe better :: ../korio/korio/src/commonMain/kotlin/com/soywiz/korio/net/http/HttpServer.kt
