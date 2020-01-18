@@ -1,3 +1,4 @@
+//asynchronous errors ... calls to write are executed out of order and the sceduler fails to serialize multiple calls to "write"
 package lupos.p2p
 
 import com.soywiz.korio.stream.*
