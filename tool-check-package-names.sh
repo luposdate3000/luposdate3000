@@ -1,5 +1,5 @@
 #!/bin/bash
-for f in $(find -name "*.kt")
+for f in $(grep -rwl "^package" --include "*.kt" --exclude-dir=".git" --exclude-dir="korio" --exclude-dir="build")
 do
 	f2=$(echo $f | sed "s-.*/src/-/-g")
 	f2=$(echo $f2 | sed "s-/main/-/-g")
