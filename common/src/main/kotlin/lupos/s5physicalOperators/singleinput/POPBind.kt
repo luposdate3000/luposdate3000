@@ -1,4 +1,5 @@
 package lupos.s5physicalOperators.singleinput
+
 import lupos.misc.kotlinStacktrace
 
 import lupos.s2buildOperatorGraph.data.LOPVariable

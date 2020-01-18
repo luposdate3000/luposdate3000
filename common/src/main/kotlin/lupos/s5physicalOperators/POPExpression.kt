@@ -1,4 +1,5 @@
 package lupos.s5physicalOperators
+
 import lupos.s1buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s1buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s1buildSyntaxTree.sparql1_1.ASTAggregation

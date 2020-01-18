@@ -1,4 +1,5 @@
 package lupos
+
 import lupos.misc.kotlinStacktrace
 
 import lupos.s1buildSyntaxTree.ParseError

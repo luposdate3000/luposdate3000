@@ -1,4 +1,5 @@
 package lupos.s1buildSyntaxTree.turtle
+
 import lupos.s1buildSyntaxTree.LexerCharIterator
 import lupos.s1buildSyntaxTree.ParseError
 import lupos.s1buildSyntaxTree.Token
