@@ -18,7 +18,7 @@ do
 				cat $f | grep -v -F "import $i" > tmp
 				mv tmp $f
 				grep "^package " $f > tmp
-				for e in $(./tool-build-without-tests.sh 2>&1 | grep "^e: " | sed "s/.*Unresolved reference: //g" | sort | uniq)
+				for e in $(./tool-build-without-tests.sh 2>&1 | grep "^e: " | grep "Unresolved reference" | sed "s/.*Unresolved reference: //g" | sort | uniq)
 				do
 					echo "import ${i::-1}$e" >> tmp
 					echo $e

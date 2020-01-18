@@ -1,6 +1,9 @@
 package lupos.s1buildSyntaxTree.turtle
+import lupos.s1buildSyntaxTree.LookAheadTokenIterator
+import lupos.s1buildSyntaxTree.ParseError
+import lupos.s1buildSyntaxTree.Token
+import lupos.s1buildSyntaxTree.UnexpectedToken
 
-import lupos.s1buildSyntaxTree.*
 
 class TurtleParserWithStringTriples(val consume_triple: (String, String, String) -> Unit, val ltit: LookAheadTokenIterator) {
     // for storing the prefixes...

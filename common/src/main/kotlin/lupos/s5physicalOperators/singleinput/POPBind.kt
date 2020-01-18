@@ -1,4 +1,5 @@
 package lupos.s5physicalOperators.singleinput
+import lupos.misc.kotlinStacktrace
 
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s4resultRepresentation.ResultRow
@@ -6,7 +7,6 @@ import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
 import lupos.s5physicalOperators.POPExpression
-import lupos.misc.*
 
 class POPBind : POPSingleInputBase {
     val name: LOPVariable

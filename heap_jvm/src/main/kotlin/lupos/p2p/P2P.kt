@@ -1,8 +1,10 @@
 package lupos.p2p
+import kotlin.concurrent.thread
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
-import kotlinx.coroutines.*
-import kotlin.coroutines.*
-import kotlin.concurrent.*
 
 fun main(args: Array<String>) = runBlocking {
     var i = 0

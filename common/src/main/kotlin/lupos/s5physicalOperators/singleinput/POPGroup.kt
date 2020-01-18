@@ -1,4 +1,5 @@
 package lupos.s5physicalOperators.singleinput
+import lupos.misc.kotlinStacktrace
 
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s2buildOperatorGraph.data.LOPExpression
@@ -12,7 +13,6 @@ import lupos.s5physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 import lupos.s5physicalOperators.POPBaseNullableIterator
 import lupos.s5physicalOperators.POPBase
 import lupos.s5physicalOperators.POPExpression
-import lupos.misc.*
 
 class POPGroup : POPSingleInputBaseNullableIterator {
     private var data: MutableList<ResultRow>? = null

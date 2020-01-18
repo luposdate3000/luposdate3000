@@ -1,4 +1,5 @@
 package lupos
+import lupos.misc.kotlinStacktrace
 
 import lupos.s1buildSyntaxTree.ParseError
 import lupos.s1buildSyntaxTree.rdf.Dictionary
@@ -21,7 +22,6 @@ import lupos.s5physicalOperators.POPBaseNullableIterator
 import lupos.s6tripleStore.TripleStore
 import lupos.s7physicalOptimisation.PhysicalOptimizer
 import lupos.s8outputResult.printResult
-import lupos.misc.*
 
 expect fun readFileContents(filename: String): String
 

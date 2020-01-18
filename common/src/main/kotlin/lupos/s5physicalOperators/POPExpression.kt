@@ -1,7 +1,33 @@
 package lupos.s5physicalOperators
+import lupos.s1buildSyntaxTree.sparql1_1.Aggregation
+import lupos.s1buildSyntaxTree.sparql1_1.ASTAddition
+import lupos.s1buildSyntaxTree.sparql1_1.ASTAggregation
+import lupos.s1buildSyntaxTree.sparql1_1.ASTAnd
+import lupos.s1buildSyntaxTree.sparql1_1.ASTBinaryOperationFixedName
+import lupos.s1buildSyntaxTree.sparql1_1.ASTBooleanLiteral
+import lupos.s1buildSyntaxTree.sparql1_1.ASTBuiltInCall
+import lupos.s1buildSyntaxTree.sparql1_1.ASTDecimal
+import lupos.s1buildSyntaxTree.sparql1_1.ASTDivision
+import lupos.s1buildSyntaxTree.sparql1_1.ASTDouble
+import lupos.s1buildSyntaxTree.sparql1_1.ASTEQ
+import lupos.s1buildSyntaxTree.sparql1_1.ASTGEQ
+import lupos.s1buildSyntaxTree.sparql1_1.ASTGT
+import lupos.s1buildSyntaxTree.sparql1_1.ASTInteger
+import lupos.s1buildSyntaxTree.sparql1_1.ASTIri
+import lupos.s1buildSyntaxTree.sparql1_1.ASTLEQ
+import lupos.s1buildSyntaxTree.sparql1_1.ASTLiteral
+import lupos.s1buildSyntaxTree.sparql1_1.ASTLT
+import lupos.s1buildSyntaxTree.sparql1_1.ASTMultiplication
+import lupos.s1buildSyntaxTree.sparql1_1.ASTNode
+import lupos.s1buildSyntaxTree.sparql1_1.ASTOr
+import lupos.s1buildSyntaxTree.sparql1_1.ASTUndef
+import lupos.s1buildSyntaxTree.sparql1_1.ASTVar
+import lupos.s1buildSyntaxTree.sparql1_1.BuiltInFunctions
+import kotlin.math.abs
+import kotlin.math.ceil
+import kotlin.math.floor
+import kotlin.math.roundToInt
 
-import kotlin.math.*
-import lupos.s1buildSyntaxTree.sparql1_1.*
 import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s4resultRepresentation.ResultRow
@@ -11,7 +37,6 @@ import lupos.s5physicalOperators.POPBase
 import com.soywiz.krypto.md5
 import com.soywiz.krypto.sha1
 import com.soywiz.krypto.sha256
-import lupos.misc.*
 
 class ArithmeticException() : Exception()
 

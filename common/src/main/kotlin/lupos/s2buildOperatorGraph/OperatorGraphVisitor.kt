@@ -110,7 +110,6 @@ import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPLimit
 import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPOffset
 import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPPrefix
 import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPReduced
-import lupos.misc.*
 
 class OperatorGraphVisitor : Visitor<OPBase> {
     override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPNOOP()
