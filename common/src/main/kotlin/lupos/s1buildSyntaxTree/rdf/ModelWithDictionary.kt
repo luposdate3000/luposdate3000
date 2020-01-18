@@ -1,6 +1,5 @@
 package lupos.s1buildSyntaxTree.rdf
 
-import lupos.s1buildSyntaxTree.*
 
 object Dictionary {
     private var max_id = 0L;
