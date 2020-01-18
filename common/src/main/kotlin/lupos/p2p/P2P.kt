@@ -146,7 +146,7 @@ class XMLElement(val tag: String) {
 }
 
 object P2P {
-    val REQUEST_PEERS_LIST = arrayOf("/peers/list", "hostname")
+    val REQUEST_PEERS_LIST = arrayOf("/peers/list")
     val REQUEST_PEERS_JOIN = arrayOf("/peers/join", "hostname")
     var hostname = "localhost"
     var port = 8080
@@ -155,15 +155,14 @@ object P2P {
     val client = createHttpClient()
     var fullname = hostname + ":" + port
 
-    suspend fun process_peers_list(hostname: String?): String {
+    suspend fun process_peers_list(): String {
         return XMLElement("servers").addContent(knownClients, "server").toPrettyString()
     }
 
     suspend fun process_peers_join(hostname: String?): String {
-        val res = ""
         if (hostname != null && hostname != "localhost")
             knownClients.add(hostname)
-        return res
+        return ""
     }
 
     suspend fun myRequestHandler(request: HttpServer.Request) {
@@ -177,7 +176,7 @@ object P2P {
         var response = XMLElement.XMLHeader
         try {
             when (request.path) {
-                REQUEST_PEERS_LIST[0] -> response = response + process_peers_list(params[REQUEST_PEERS_LIST[1]]?.first())
+                REQUEST_PEERS_LIST[0] -> response = response + process_peers_list()
                 REQUEST_PEERS_JOIN[0] -> response = response + process_peers_join(params[REQUEST_PEERS_JOIN[1]]?.first())
                 else -> request.setStatus(404)
             }
@@ -191,11 +190,10 @@ object P2P {
 
     suspend fun start(bootstrap: String?) {
         fullname = hostname + ":" + port
+        knownClients.add(fullname)
         if (bootstrap != null && bootstrap != "$hostname:$port") {
-            var response = client.request(Http.Method.GET, "http://${bootstrap}${REQUEST_PEERS_LIST[0]}?${REQUEST_PEERS_LIST[1]}=${fullname}")
+            var response = client.request(Http.Method.GET, "http://${bootstrap}${REQUEST_PEERS_LIST[0]}")
             var responseString = response.readAllString()
-            knownClients.add(bootstrap)
-            client.request(Http.Method.GET, "http://${bootstrap}${REQUEST_PEERS_JOIN[0]}?${REQUEST_PEERS_JOIN[1]}=${fullname}")
             XMLElement.parseFromXml(responseString)?.forEach() { root ->
                 if (root.tag == "servers") {
                     root.childs.forEach() { server ->

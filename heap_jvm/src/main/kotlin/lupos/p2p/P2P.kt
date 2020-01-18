@@ -24,7 +24,6 @@ fun main(args: Array<String>) = runBlocking {
         }
     }
     while (true) {
-        println("alive ${serverPort}")
         delay(1000)
     }
 }
