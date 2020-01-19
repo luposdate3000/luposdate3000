@@ -98,71 +98,72 @@ internal object HttpPortable {
 						//val fline = cb.readBufferedUntil('\n'.toByte()).toString(UTF8).trim()
 						val fline = cb.readUntil('\n'.toByte(), limit = LimitRequestFieldSize).toString(UTF8).trim()
 						//println("fline: $fline")
-						val match = HeaderRegex.matchEntire(fline)
-							?: throw IllegalStateException("Not a valid request '$fline'")
-						val method = match.groupValues[1]
-						val url = match.groupValues[2]
-						val httpVersion = match.groupValues[3]
-						val headerList = arrayListOf<Pair<String, String>>()
-						for (n in 0 until LimitRequestFields) { // up to 1024 headers
-							val line = cb.readUntil('\n'.toByte(), limit = LimitRequestFieldSize).toString(UTF8).trim()
-							if (line.isEmpty()) break
-							val parts = line.split(':', limit = 2)
-							headerList += parts.getOrElse(0) { "" }.trim() to parts.getOrElse(1) { "" }.trim()
-						}
-						val headers = Http.Headers(headerList)
-						val keepAlive = headers["connection"]?.toLowerCase() == "keep-alive"
-						val contentLength = headers[Http.Headers.ContentLength]?.toLongOrNull()
-
-						//println("REQ: $method, $url, $headerList")
-
-						val requestCompleted = CompletableDeferred<Unit>(Job())
-
-						var bodyHandler: (ByteArray) -> Unit = {}
-						var endHandler: () -> Unit = {}
-
-						launchImmediately(coroutineContext) {
-							handler(object : Request(Http.Method(method), url, headers) {
-								override suspend fun _handler(handler: (ByteArray) -> Unit) =
-									run { bodyHandler = handler }
-
-								override suspend fun _endHandler(handler: () -> Unit) = run { endHandler = handler }
-
-								override suspend fun _sendHeader(code: Int, message: String, headers: Http.Headers) {
-									val sb = StringBuilder()
-									sb.append("$httpVersion $code $message\r\n")
-									for (header in headers) sb.append("${header.first}: ${header.second}\r\n")
-									sb.append("\r\n")
-									client.write(sb.toString().toByteArray(UTF8))
-								}
-
-								override suspend fun _write(data: ByteArray, offset: Int, size: Int) {
-									client.write(data, offset, size)
-								}
-
-								override suspend fun _end() {
-									requestCompleted.complete(Unit)
-								}
-							})
-						}
-
-						//println("Content-Length: '${headers["content-length"]}'")
-						//println("Content-Length: $contentLength")
-						if (contentLength != null) {
-							var remaining = contentLength
-							while (remaining > 0) {
-								val toRead = min(BodyChunkSize.toLong(), remaining).toInt()
-								val read = cb.readBytesUpToFirst(toRead)
-								bodyHandler(read)
-								remaining -= read.size
+						if(fline!=""){
+							val match = HeaderRegex.matchEntire(fline)
+								?: throw IllegalStateException("Not a valid request '$fline'")
+							val method = match.groupValues[1]
+							val url = match.groupValues[2]
+							val httpVersion = match.groupValues[3]
+							val headerList = arrayListOf<Pair<String, String>>()
+							for (n in 0 until LimitRequestFields) { // up to 1024 headers
+								val line = cb.readUntil('\n'.toByte(), limit = LimitRequestFieldSize).toString(UTF8).trim()
+								if (line.isEmpty()) break
+								val parts = line.split(':', limit = 2)
+								headerList += parts.getOrElse(0) { "" }.trim() to parts.getOrElse(1) { "" }.trim()
 							}
+							val headers = Http.Headers(headerList)
+							val keepAlive = headers["connection"]?.toLowerCase() == "keep-alive"
+							val contentLength = headers[Http.Headers.ContentLength]?.toLongOrNull()
+
+							//println("REQ: $method, $url, $headerList")
+
+							val requestCompleted = CompletableDeferred<Unit>(Job())
+
+							var bodyHandler: (ByteArray) -> Unit = {}
+							var endHandler: () -> Unit = {}
+
+							launchImmediately(coroutineContext) {
+								handler(object : Request(Http.Method(method), url, headers) {
+									override suspend fun _handler(handler: (ByteArray) -> Unit) =
+										run { bodyHandler = handler }
+
+									override suspend fun _endHandler(handler: () -> Unit) = run { endHandler = handler }
+
+									override suspend fun _sendHeader(code: Int, message: String, headers: Http.Headers) {
+										val sb = StringBuilder()
+										sb.append("$httpVersion $code $message\r\n")
+										for (header in headers) sb.append("${header.first}: ${header.second}\r\n")
+										sb.append("\r\n")
+										client.write(sb.toString().toByteArray(UTF8))
+									}
+
+									override suspend fun _write(data: ByteArray, offset: Int, size: Int) {
+										client.write(data, offset, size)
+									}
+
+									override suspend fun _end() {
+										requestCompleted.complete(Unit)
+									}
+								})
+							}
+
+							//println("Content-Length: '${headers["content-length"]}'")
+							//println("Content-Length: $contentLength")
+							if (contentLength != null) {
+								var remaining = contentLength
+								while (remaining > 0) {
+									val toRead = min(BodyChunkSize.toLong(), remaining).toInt()
+									val read = cb.readBytesUpToFirst(toRead)
+									bodyHandler(read)
+									remaining -= read.size
+								}
+							}
+							endHandler()
+
+							requestCompleted.await()
+
+							if (keepAlive) continue
 						}
-						endHandler()
-
-						requestCompleted.await()
-
-						if (keepAlive) continue
-
 						client.close()
 						break
 					}
