@@ -317,6 +317,13 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         members[GroupMember.GMLOPOptional] = tmp2.child
                     }
                 }
+                is LOPJoin -> {
+                    if (members.containsKey(GroupMember.GMLOPDataSource)) {
+                        members[GroupMember.GMLOPDataSource] = LOPJoin(members[GroupMember.GMLOPDataSource]!!, tmp2, true)
+                    } else {
+                        members[GroupMember.GMLOPDataSource] = tmp2
+                    }
+                }
                 is LOPSubGroup -> {
                     if (members.containsKey(GroupMember.GMLOPDataSource)) {
                         members[GroupMember.GMLOPDataSource] = LOPJoin(members[GroupMember.GMLOPDataSource]!!, tmp2, false)
@@ -495,8 +502,13 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTOptional, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size == 1)
-        return LOPOptional(childrenValues.first())
+        require(childrenValues.size >= 1)
+        if (childrenValues.size == 1)
+            return LOPOptional(childrenValues.first())
+        var res: OPBase = LOPNOOP()
+        for (c in childrenValues)
+            res = LOPJoin(res, c, true)
+        return LOPOptional(res)
     }
 
     override fun visit(node: ASTSet, childrenValues: List<OPBase>): OPBase {

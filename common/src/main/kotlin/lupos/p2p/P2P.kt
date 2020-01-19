@@ -198,9 +198,9 @@ class TripleInsertIterator : POPBaseNullableIterator {
 }
 
 fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
-val        triple= ID_Triple(triple_s, triple_p, triple_o)
-PhysicalOptimizer._store.addData(TripleInsertIterator(triple))
-    }
+    val triple = ID_Triple(triple_s, triple_p, triple_o)
+    PhysicalOptimizer._store.addData(TripleInsertIterator(triple))
+}
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 object P2P {
@@ -226,15 +226,15 @@ object P2P {
     }
 
     suspend fun process_turtle_input(data: String): String {
-val lcit=LexerCharIterator(data)
-val tit=TurtleScanner(lcit)
-val ltit = LookAheadTokenIterator(tit, 3)
-    TurtleParserWithDictionary(::consume_triple, ltit).turtleDoc()
-	return XMLElement("done").toPrettyString()
-	}
+        val lcit = LexerCharIterator(data)
+        val tit = TurtleScanner(lcit)
+        val ltit = LookAheadTokenIterator(tit, 3)
+        TurtleParserWithDictionary(::consume_triple, ltit).turtleDoc()
+        return XMLElement("done").toPrettyString()
+    }
 
     suspend fun process_sparql_query(query: String): String {
-            var res = ""
+        var res = ""
         try {
             val lcit = LexerCharIterator(query)
             val tit = TokenIteratorSPARQLParser(lcit)
@@ -271,6 +271,7 @@ val ltit = LookAheadTokenIterator(tit, 3)
                 res += "\n"
             }
         } catch (e: Throwable) {
+            e.kotlinStacktrace()
             res = e.toString()
         }
         return res
@@ -300,7 +301,12 @@ val ltit = LookAheadTokenIterator(tit, 3)
             when (request.path) {
                 REQUEST_PEERS_LIST[0] -> response = response + process_peers_list()
                 REQUEST_PEERS_JOIN[0] -> response = response + process_peers_join(params[REQUEST_PEERS_JOIN[1]]?.first())
-                REQUEST_SPARQL_QUERY[0] -> response = response + process_sparql_query(data)
+                REQUEST_SPARQL_QUERY[0] -> {
+                    if (request.method == Http.Method.POST)
+                        response = response + process_sparql_query(data)
+                    else
+                        response = response + process_sparql_query(params["query"]!!.first()!!)
+                }
                 REQUEST_TURTLE_INPUT[0] -> response = response + process_turtle_input(data)
                 else -> request.setStatus(404)
             }
