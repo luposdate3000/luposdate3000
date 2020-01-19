@@ -4,7 +4,32 @@ import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
 import com.soywiz.korio.net.http.HttpServer
+import lupos.s1buildSyntaxTree.ParseError
+import lupos.s1buildSyntaxTree.rdf.Dictionary
+import lupos.s1buildSyntaxTree.rdf.ID_Triple
+import lupos.s1buildSyntaxTree.rdf.IRI
+import lupos.s1buildSyntaxTree.rdf.SimpleLiteral
+import lupos.s1buildSyntaxTree.sparql1_1.parseSPARQL
+import lupos.s1buildSyntaxTree.sparql1_1.SPARQLParser
+import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
+import lupos.s1buildSyntaxTree.LexerCharIterator
+import lupos.s1buildSyntaxTree.LookAheadTokenIterator
+import lupos.s1buildSyntaxTree.turtle.TurtleParserWithDictionary
+import lupos.s2buildOperatorGraph.OperatorGraphVisitor
+import lupos.s3logicalOptimisation.LogicalOptimizer
+import lupos.s4resultRepresentation.ResultRow
+import lupos.s4resultRepresentation.ResultSet
+import lupos.s4resultRepresentation.Variable
+import lupos.s5physicalOperators.POPBase
+import lupos.s5physicalOperators.POPBaseNullableIterator
+import lupos.s6tripleStore.TripleStore
+import lupos.s7physicalOptimisation.PhysicalOptimizer
+import lupos.s8outputResult.printResult
 import lupos.misc.kotlinStacktrace
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
+import kotlin.text.*
 
 class XMLElement(val tag: String) {
     // https://regex101.com
@@ -137,7 +162,9 @@ class XMLElement(val tag: String) {
 
 }
 
+@UseExperimental(kotlin.ExperimentalStdlibApi::class)
 object P2P {
+    val REQUEST_QUERY_SPARQL = arrayOf("/query/sparql")
     val REQUEST_PEERS_LIST = arrayOf("/peers/list")
     val REQUEST_PEERS_JOIN = arrayOf("/peers/join", "hostname")
     var hostname = "localhost"
@@ -157,6 +184,49 @@ object P2P {
         return ""
     }
 
+    suspend fun process_query_sparql(query: String): String {
+            var res = ""
+        try {
+            val lcit = LexerCharIterator(query)
+            val tit = TokenIteratorSPARQLParser(lcit)
+            val ltit = LookAheadTokenIterator(tit, 3)
+            val parser = SPARQLParser(ltit)
+            val ast_node = parser.expr()
+            val lop_node = ast_node.visit(OperatorGraphVisitor())
+            val lop_node2 = LogicalOptimizer().optimize(lop_node)
+            val pop_optimizer = PhysicalOptimizer()
+            val pop_node = pop_optimizer.optimize(lop_node2) as POPBase
+            val resultSet = pop_node.getResultSet()
+            val variableNames = resultSet.getVariableNames().toTypedArray()
+            val variables = arrayOfNulls<Variable>(variableNames.size)
+            var i = 0
+            for (variableName in variableNames) {
+                if (i == 0)
+                    res += variableName
+                else
+                    res += ", " + variableName
+                variables[i] = resultSet.createVariable(variableName)
+                i++
+            }
+            res += "\n\n"
+            while (pop_node.hasNext()) {
+                val resultRow = pop_node.next()
+                i = 0
+                for (variable in variables) {
+                    if (i == 0)
+                        res += resultSet.getValue(resultRow[variable!!])
+                    else
+                        res += ", " + resultSet.getValue(resultRow[variable!!])
+                    i++
+                }
+                res += "\n"
+            }
+        } catch (e: Throwable) {
+            res = e.toString()
+        }
+        return res
+    }
+
     suspend fun myRequestHandler(request: HttpServer.Request) {
         println("listen::Request")
         val params = request.getParams
@@ -166,10 +236,26 @@ object P2P {
         request.replaceHeader("Connection", "close")
         request.replaceHeader("Content-Type", "text/html")
         var response = XMLElement.XMLHeader
+        var data = ""
+        var endFlag = true
+        request.handler { it ->
+            println("c")
+            data += it.decodeToString()
+            println(data)
+        }
+        request.endHandler {
+            println("d")
+            endFlag = false
+        }
+        while (endFlag)
+            delay(1)
+        println("e")
+        println(data)
         try {
             when (request.path) {
                 REQUEST_PEERS_LIST[0] -> response = response + process_peers_list()
                 REQUEST_PEERS_JOIN[0] -> response = response + process_peers_join(params[REQUEST_PEERS_JOIN[1]]?.first())
+                REQUEST_QUERY_SPARQL[0] -> response = response + process_query_sparql(data)
                 else -> request.setStatus(404)
             }
         } catch (e: Throwable) {
