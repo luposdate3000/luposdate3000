@@ -13,8 +13,8 @@ import lupos.s1buildSyntaxTree.sparql1_1.parseSPARQL
 import lupos.s1buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s1buildSyntaxTree.LexerCharIterator
-import lupos.s1buildSyntaxTree.LookAheadTokenIterator
-import lupos.s1buildSyntaxTree.turtle.TurtleParserWithDictionary
+import lupos.s1buildSyntaxTree.*
+import lupos.s1buildSyntaxTree.turtle.*
 import lupos.s2buildOperatorGraph.OperatorGraphVisitor
 import lupos.s3logicalOptimisation.LogicalOptimizer
 import lupos.s4resultRepresentation.ResultRow
@@ -35,7 +35,6 @@ class XMLElement(val tag: String) {
     // https://regex101.com
     companion object {
         val XMLHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-
         fun parseFromXml(xml: String): List<XMLElement>? {
             val x = xml.replace("\n", "").replace("\r", "")
             val res = mutableListOf<XMLElement>()
@@ -43,7 +42,6 @@ class XMLElement(val tag: String) {
             """((<([a-zA-Z]+)([^>]*?)>(.*?)<\/\3>)|(<([a-zA-Z]+)([^>]*?)>)|(<\?.*?\?>)|(<!--.*?-->))?""".toRegex().findAll(x).forEach() { child ->
                 var value = child.value
                 if (value.length > 0 && !value.startsWith("<?") && !value.startsWith("<!--") && child.range.start >= lastindex) {
-
                     var nodeName = ""
                     if (child.groups[3] != null)
                         nodeName = child.groups[3]!!.value
@@ -51,13 +49,11 @@ class XMLElement(val tag: String) {
                         nodeName = child.groups[7]!!.value
                     val childNode = XMLElement(nodeName)
                     res.add(childNode)
-
                     var nodeAttributes = ""
                     if (child.groups[4] != null)
                         nodeAttributes = child.groups[4]!!.value
                     if (child.groups[8] != null)
                         nodeAttributes = child.groups[8]!!.value
-
                     """([^\s]*?)="(([^\\"]*(\\"|\\)*)*)"""".toRegex().findAll(nodeAttributes).forEach() { attrMatch ->
                         if (attrMatch.groups[1] != null && attrMatch.groups[2] != null)
                             childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
@@ -124,16 +120,14 @@ class XMLElement(val tag: String) {
 
     override fun toString(): String {
         var res = "<${tag}"
-        for ((k, v) in attributes) {
+        for ((k, v) in attributes)
             res += " ${k}=\"${v}\""
-        }
         if (content.isEmpty() && childs.isEmpty()) {
             res += "/>"
         } else {
             res += ">"
-            for (c in childs) {
+            for (c in childs)
                 res += c.toString()
-            }
             res += "${content}</${tag}>"
         }
         return res
@@ -141,17 +135,15 @@ class XMLElement(val tag: String) {
 
     fun toPrettyString(indention: String = ""): String {
         var res = "${indention}<${tag}"
-        for ((k, v) in attributes) {
+        for ((k, v) in attributes)
             res += " ${k}=\"${v}\""
-        }
         if (content.isEmpty() && childs.isEmpty()) {
             res += "/>\n"
         } else {
             if (content.isEmpty()) {
                 res += ">\n"
-                for (c in childs) {
+                for (c in childs)
                     res += c.toPrettyString(indention + "\t")
-                }
                 res += "${indention}</${tag}>\n"
             } else {
                 res += ">${content}</${tag}>\n"
@@ -162,9 +154,58 @@ class XMLElement(val tag: String) {
 
 }
 
+class TripleInsertIterator : POPBaseNullableIterator {
+    var result: ResultRow?
+
+    private val resultSet = ResultSet()
+
+    fun cleanString(s: String): String {
+        var res = s
+        while (true) {
+            val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
+            if (match == null)
+                return res
+            val replacement = match.value.substring(2, 6).toInt(16).toChar() + ""
+            res = res.replace(match.value, replacement)
+        }
+    }
+
+    constructor(triple: ID_Triple) {
+        result = resultSet.createResultRow()
+        result!![resultSet.createVariable("s")] = resultSet.createValue(cleanString(Dictionary[triple.s]!!.toN3String()))
+        result!![resultSet.createVariable("p")] = resultSet.createValue(cleanString(Dictionary[triple.p]!!.toN3String()))
+        result!![resultSet.createVariable("o")] = resultSet.createValue(cleanString(Dictionary[triple.o]!!.toN3String()))
+    }
+
+    override fun getProvidedVariableNames(): List<String> {
+        return mutableListOf<String>()
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        return mutableListOf<String>()
+    }
+
+    override fun getResultSet(): ResultSet {
+        return resultSet
+    }
+
+    override fun nnext(): ResultRow? {
+        var res = result
+        result = null
+        return res
+    }
+
+}
+
+fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
+val        triple= ID_Triple(triple_s, triple_p, triple_o)
+PhysicalOptimizer._store.addData(TripleInsertIterator(triple))
+    }
+
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 object P2P {
-    val REQUEST_QUERY_SPARQL = arrayOf("/query/sparql")
+    val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query")
+    val REQUEST_TURTLE_INPUT = arrayOf("/turtle/input")
     val REQUEST_PEERS_LIST = arrayOf("/peers/list")
     val REQUEST_PEERS_JOIN = arrayOf("/peers/join", "hostname")
     var hostname = "localhost"
@@ -184,7 +225,15 @@ object P2P {
         return ""
     }
 
-    suspend fun process_query_sparql(query: String): String {
+    suspend fun process_turtle_input(data: String): String {
+val lcit=LexerCharIterator(data)
+val tit=TurtleScanner(lcit)
+val ltit = LookAheadTokenIterator(tit, 3)
+    TurtleParserWithDictionary(::consume_triple, ltit).turtleDoc()
+	return XMLElement("done").toPrettyString()
+	}
+
+    suspend fun process_sparql_query(query: String): String {
             var res = ""
         try {
             val lcit = LexerCharIterator(query)
@@ -239,23 +288,20 @@ object P2P {
         var data = ""
         var endFlag = true
         request.handler { it ->
-            println("c")
             data += it.decodeToString()
             println(data)
         }
         request.endHandler {
-            println("d")
             endFlag = false
         }
         while (endFlag)
             delay(1)
-        println("e")
-        println(data)
         try {
             when (request.path) {
                 REQUEST_PEERS_LIST[0] -> response = response + process_peers_list()
                 REQUEST_PEERS_JOIN[0] -> response = response + process_peers_join(params[REQUEST_PEERS_JOIN[1]]?.first())
-                REQUEST_QUERY_SPARQL[0] -> response = response + process_query_sparql(data)
+                REQUEST_SPARQL_QUERY[0] -> response = response + process_sparql_query(data)
+                REQUEST_TURTLE_INPUT[0] -> response = response + process_turtle_input(data)
                 else -> request.setStatus(404)
             }
         } catch (e: Throwable) {

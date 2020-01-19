@@ -15,7 +15,7 @@ clientCount=10
 for i in $(seq $clientCount)
 do
 	sleep 1
-	java -cp ./heap_jvm/build/libs/heap_jvm.jar lupos/p2p/P2PKt $((8080 + $i)) 127.0.0.1 127.0.0.1:8081 &
+	java -cp ./heap_jvm/build/libs/heap_jvm.jar lupos/p2p/MainKt $((8080 + $i)) 127.0.0.1 127.0.0.1:8081 &
 done
 sleep 1
 for i in $(seq $clientCount)

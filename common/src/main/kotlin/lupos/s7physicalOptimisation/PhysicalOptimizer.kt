@@ -35,8 +35,10 @@ import lupos.s6tripleStore.POPTripleStoreIteratorBase
 
 class PhysicalOptimizer() : OptimizerVisitorPOP() {
 
-    var store: TripleStore = TripleStore()
-
+companion object{
+    val _store: TripleStore = TripleStore()
+}
+var store=_store
     override fun visit(node: LOPProjection): OPBase {
         return POPProjection(node.variables, optimize(node.child) as POPBase)
     }
