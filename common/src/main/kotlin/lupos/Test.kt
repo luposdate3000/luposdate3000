@@ -18,11 +18,12 @@ import lupos.s3logicalOptimisation.LogicalOptimizer
 import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
-import lupos.s5physicalOperators.POPBase
+import lupos.s5physicalOperators.*
+import lupos.s5physicalOperators.singleinput.*
 import lupos.s5physicalOperators.POPBaseNullableIterator
 import lupos.s6tripleStore.TripleStore
 import lupos.s7physicalOptimisation.PhysicalOptimizer
-import lupos.s8outputResult.printResult
+import lupos.s8outputResult.*
 
 expect fun readFileContents(filename: String): String
 
@@ -508,8 +509,9 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         println("----------Physical Operator Graph")
         val pop_optimizer = PhysicalOptimizer()
         pop_optimizer.store = store
-        val pop_node = pop_optimizer.optimize(lop_node2) as POPBase
-        println(pop_node)
+        val pop_node2 = pop_optimizer.optimize(lop_node2) as POPBase
+        println(pop_node2)
+        val pop_node = POPTemporaryStore(pop_node2)
         println("----------Query Result")
         var queryResult = QueryResult()
         val resultSet = pop_node.getResultSet()
@@ -550,6 +552,11 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
             }
             j++
         }
+
+        pop_node.reset()
+        val xmlResult = "<?xml version=\"1.0\"?>" + QueryResultToXML.toXML(pop_node).first().toString()
+
+
         println(queryResult)
         println("----------Target Result")
         val querySolution = parseXMLTarget(resultData)
@@ -563,6 +570,12 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
             } else {
                 println("----------Failed")
             }
+        }
+        val cleanresult = resultData.replace("\n", "").replace("\r", "").replace(">\\s+<".toRegex(), "><")
+        if (res != (xmlResult == cleanresult)) {
+            println("XMLDiff ::")
+            println(xmlResult)
+            println(cleanresult)
         }
         return res
     } catch (e: ParseError) {
