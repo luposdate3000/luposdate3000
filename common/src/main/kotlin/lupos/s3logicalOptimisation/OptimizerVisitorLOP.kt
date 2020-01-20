@@ -60,10 +60,6 @@ abstract class OptimizerVisitorLOP() {
         return LOPOptional(optimize(node.child))
     }
 
-    open fun visit(node: LOPConstruct): OPBase {
-        return LOPConstruct(node.construct, optimize(node.child))
-    }
-
     open fun visit(node: LOPSubGroup): OPBase {
         return LOPSubGroup(optimize(node.child))
     }
@@ -155,7 +151,7 @@ abstract class OptimizerVisitorLOP() {
             is LOPSubGroup -> return visit(node)
             is LOPLimit -> return visit(node)
             is LOPOffset -> return visit(node)
-            is LOPConstruct -> return visit(node)
+            is LOPRename -> return visit(node)
         }
         throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} c ${node::class.simpleName}")
     }

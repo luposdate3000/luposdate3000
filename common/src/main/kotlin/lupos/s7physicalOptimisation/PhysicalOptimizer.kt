@@ -46,12 +46,12 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
         return POPProjection(node.variables, optimize(node.child) as POPBase)
     }
 
-    override fun visit(node: LOPValues): OPBase {
-        return POPValues(node)
+    override fun visit(node: LOPRename): OPBase {
+        return POPRename(node.nameTo, node.nameFrom, optimize(node.child) as POPBase)
     }
 
-    override fun visit(node: LOPConstruct): OPBase {
-        return POPConstruct(node.construct, optimize(node.child) as POPBase)
+    override fun visit(node: LOPValues): OPBase {
+        return POPValues(node)
     }
 
     override fun visit(node: LOPLimit): OPBase {

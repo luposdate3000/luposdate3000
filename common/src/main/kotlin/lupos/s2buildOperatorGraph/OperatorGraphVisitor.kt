@@ -174,38 +174,42 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTConstructQuery, childrenValues: List<OPBase>): OPBase {
-        val result = LOPNOOP()
-        var bind: LOPBind? = null
-        var bindIsAggregate = false
-        val templates = mutableListOf<List<LOPBase>>()
+        var result: OPBase? = null
+        val child = visitQueryBase(node, null, false, false, false)
         for (t in node.template) {
-            val template = mutableListOf<LOPBase>()
-            templates.add(template)
+            val template = t.visit(this)
+            var tmp: OPBase = LOPProjection()
+            for (v in template.getProvidedVariableNames())
+                (tmp as LOPProjection).variables.add(LOPVariable(v))
+            (tmp as LOPProjection).setChild(LOPJoin(child, template, false))
             when {
                 t is ASTTriple -> {
                     val s = t.children[0]
                     val p = t.children[1]
                     val o = t.children[2]
-                    when {
-                        s is ASTVar -> template.add(LOPVariable(s.name))
-                        else -> template.add(LOPExpression(s))
-                    }
-                    when {
-                        p is ASTVar -> template.add(LOPVariable(p.name))
-                        else -> template.add(LOPExpression(p))
-                    }
-                    when {
-                        o is ASTVar -> template.add(LOPVariable(o.name))
-                        else -> template.add(LOPExpression(o))
-                    }
+                    if (s is ASTVar)
+                        tmp = LOPRename(LOPVariable("s"), LOPVariable(s.name), tmp)
+                    else
+                        tmp = LOPBind(LOPVariable("s"), s.visit(this), tmp)
+                    if (p is ASTVar)
+                        tmp = LOPRename(LOPVariable("p"), LOPVariable(p.name), tmp)
+                    else
+                        tmp = LOPBind(LOPVariable("p"), p.visit(this), tmp)
+                    if (o is ASTVar)
+                        tmp = LOPRename(LOPVariable("o"), LOPVariable(o.name), tmp)
+                    else
+                        tmp = LOPBind(LOPVariable("o"), o.visit(this), tmp)
                 }
-                else ->
-                    throw UnsupportedOperationException("${this::class.simpleName} construct 4 ${node::class.simpleName}")
+                else -> throw UnsupportedOperationException("${this::class.simpleName} template ${t::class.simpleName}")
             }
-            println("${t::class.simpleName}")
+            if (result == null)
+                result = tmp
+            else
+                result = LOPUnion(result, tmp)
         }
-        result.getLatestChild().setChild(visitQueryBase(node, bind, bindIsAggregate, false, false))
-        return LOPConstruct(templates, result)
+        if (result == null)
+            return LOPNOOP()
+        return result
     }
 
     fun visitQueryBase(node: ASTQueryBaseClass, bindp: LOPBind?, bindIsAggregate: Boolean, distinct: Boolean, reduced: Boolean): OPBase {

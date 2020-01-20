@@ -38,8 +38,8 @@ class POPOffset : POPSingleInputBaseNullableIterator {
             if (child.hasNext()) {
                 child.next()
                 count++
-            }else
-		count=offset
+            } else
+                count = offset
         }
         if (!child.hasNext())
             return null

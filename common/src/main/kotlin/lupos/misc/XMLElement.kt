@@ -69,14 +69,14 @@ class XMLElement(val tag: String) {
             nodeHead.addContent(XMLElement("variable").addAttribute("name", "s"))
             nodeHead.addContent(XMLElement("variable").addAttribute("name", "p"))
             nodeHead.addContent(XMLElement("variable").addAttribute("name", "o"))
-            val ltit = lupos.s1buildSyntaxTree.LookAheadTokenIterator(lupos.s1buildSyntaxTree.turtle.TurtleScanner(lupos.s1buildSyntaxTree.LexerCharIterator(ttl)), 3)
+            val ltit = LookAheadTokenIterator(TurtleScanner(LexerCharIterator(ttl)), 3)
             val parser = TurtleParser({ triple ->
                 val nodeResult = XMLElement("result")
                 nodeResults.addContent(nodeResult)
                 parseBindingFromString(nodeResult, triple.s.toN3String(), "s")
                 parseBindingFromString(nodeResult, triple.p.toN3String(), "p")
                 parseBindingFromString(nodeResult, triple.o.toN3String(), "o")
-            }, ltit)
+            }, ltit).turtleDoc()
             return res
         }
 
@@ -84,16 +84,13 @@ class XMLElement(val tag: String) {
             val nodeBinding = XMLElement("binding").addAttribute("name", name)
             if (value != null && value != "") {
                 if (value.startsWith("\"") && !value.endsWith("\"")) {
-                    println("value:" + value)
                     val idx = value.lastIndexOf("\"^^<")
-                    println("idx:" + idx)
                     if (idx >= 0) {
                         val data = value.substring(1, idx)
                         val type = value.substring(idx + 4, value.length - 1)
                         nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("datatype", type))
                     } else {
                         val idx2 = value.lastIndexOf("\"@")
-                        println("idx2:" + idx2)
                         if (idx2 >= 0) {
                             val data = value.substring(1, idx2)
                             val lang = value.substring(idx2 + 2, value.length)
@@ -165,59 +162,46 @@ class XMLElement(val tag: String) {
     val childs = mutableListOf<XMLElement>()
 
     fun myEquals(other: XMLElement?): Boolean {
-        if (other == null) {
-            println("aa $this $other");return false
-        }
-        if (tag != other.tag) {
-            println("ba $this $other");return false
-        }
+        if (other == null)
+            return false
+        if (tag != other.tag)
+            return false
         val c1 = content.replace("""^\s*$""".toRegex(), "")
         val c2 = other.content.replace("""^\s*$""".toRegex(), "")
-        if (c1 != c2) {
-            println("ca $this $other");return false
-        }
-        if (childs.count() != other.childs.count()) {
-            println("da $this $other");return false
-        }
-        if (attributes != other.attributes) {
-            println("ea $this $other");return false
-        }
+        if (c1 != c2)
+            return false
+        if (childs.count() != other.childs.count())
+            return false
+        if (attributes != other.attributes)
+            return false
         var i = 0
         for (c in childs) {
             var d = other.childs[i]
-            if (!c.myEquals(d)) {
-                println("fa $this $other");return false
-            }
+            if (!c.myEquals(d))
+                return false
             i++
         }
-        println("g");
         return true
     }
 
     fun myEqualsUnclean(other: XMLElement?): Boolean {
-        if (other == null) {
-            println("ab $this $other");return false
-        }
-        if (tag != other.tag) {
-            println("bb $this $other");return false
-        }
-        if (childs.count() != other.childs.count()) {
-            println("cb $this $other");return false
-        }
-        if (tag != "sparql" && attributes != other.attributes) {
-            println("db $this $other");return false
-        }
+        if (other == null)
+            return false
+        if (tag != other.tag)
+            return false
+        if (childs.count() != other.childs.count())
+            return false
+        if (tag != "sparql" && attributes != other.attributes)
+            return false
         val c1 = content.replace("""^\s*$""".toRegex(), "")
         val c2 = other.content.replace("""^\s*$""".toRegex(), "")
         if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#decimal" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#double") {
             val a = c1.toDouble()
             val b = c2.toDouble()
-            if (abs(a - b) > 0.00001) {
-                println("eb $this $other");return false
-            }
-        } else if (c1 != c2) {
-            println("fb $this $other");return false
-        }
+            if (abs(a - b) > 0.00001)
+                return false
+        } else if (c1 != c2)
+            return false
         for (c in childs) {
             var found = false
             for (d in other.childs) {
@@ -226,11 +210,9 @@ class XMLElement(val tag: String) {
                     break
                 }
             }
-            if (!found) {
-                println("gb $this $other");return false
-            }
+            if (!found)
+                return false
         }
-        println("h");
         return true
     }
 

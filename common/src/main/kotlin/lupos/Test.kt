@@ -515,7 +515,6 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         val xmlQueryResult = QueryResultToXML.toXML(pop_node)
         println(xmlQueryResult.first()?.toPrettyString())
         println("----------Target Result")
-
         var xmlQueryTarget: List<XMLElement>? = null
         when {
             resultDataFileName.endsWith(".srx") -> xmlQueryTarget = XMLElement.parseFromXml(resultData)
@@ -527,6 +526,7 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         }
 
         println(xmlQueryTarget?.first()?.toPrettyString())
+        println(resultData)
         val res = xmlQueryResult?.first()?.myEquals(xmlQueryTarget?.first())
         if (res) {
             println("----------Success")
