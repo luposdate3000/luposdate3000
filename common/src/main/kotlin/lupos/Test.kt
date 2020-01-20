@@ -1,7 +1,7 @@
 package lupos
 
-import lupos.misc.kotlinStacktrace
-
+import kotlin.math.*
+import lupos.misc.*
 import lupos.s1buildSyntaxTree.ParseError
 import lupos.s1buildSyntaxTree.rdf.Dictionary
 import lupos.s1buildSyntaxTree.rdf.ID_Triple
@@ -513,69 +513,20 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         println(pop_node2)
         val pop_node = POPTemporaryStore(pop_node2)
         println("----------Query Result")
-        var queryResult = QueryResult()
-        val resultSet = pop_node.getResultSet()
-        val variableNames = resultSet.getVariableNames().toTypedArray()
-        val variables = arrayOfNulls<Pair<Variable, String>>(variableNames.size)
-        var i = 0
-        for (variableName in variableNames) {
-            queryResult.variables.add(variableName)
-            variables[i] = Pair(resultSet.createVariable(variableName), variableName)
-            i++
-        }
-        var j = 0
-        while (pop_node.hasNext()) {
-            val row = mutableMapOf<String, String>()
-            queryResult.rows.add(row)
-            val resultRow = pop_node.next()
-            i = 0
-            for (variable in variables) {
-                var tmp = resultSet.getValue(resultRow[variable!!.first])
-                if (tmp != resultSet.getUndefValue()) {
-                    val decimal_string = "\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                    if (tmp.endsWith(decimal_string)) {
-                        var t = tmp.substring(1, tmp.length - decimal_string.length)
-                        if (t.contains('.') && !t.contains('e') && !t.contains('E')) {
-                            val last = t.indexOf(".") + errorBoundForDecimalsDigits + 1
-                            val len = t.length
-                            if (len < last)
-                                t = t.substring(0, len)
-                            else
-                                t = t.substring(0, last).toDouble().toString()
-                        }
-                        row[variable.second] = "\"" + t + decimal_string
-                    } else {
-                        row[variable.second] = tmp
-                    }
-                }
-                i++
-            }
-            j++
-        }
-
-        pop_node.reset()
-        val xmlResult = "<?xml version=\"1.0\"?>" + QueryResultToXML.toXML(pop_node).first().toString()
-
-
-        println(queryResult)
+        val xmlQueryResult = QueryResultToXML.toXML(pop_node)
+        println(xmlQueryResult.first()?.toPrettyString())
         println("----------Target Result")
-        val querySolution = parseXMLTarget(resultData)
-        println(querySolution)
-        val res = queryResult == querySolution
+        val xmlQueryTarget = XMLElement.parseFromXml(resultData)
+        println(xmlQueryTarget?.first()?.toPrettyString())
+        val res = xmlQueryResult?.first()?.myEquals(xmlQueryTarget?.first())
         if (res) {
             println("----------Success")
         } else {
-            if (queryResult.equalsUnordered(querySolution)) {
+            if (xmlQueryResult?.first()?.myEqualsUnclean(xmlQueryTarget?.first())) {
                 println("----------Success(Unordered)")
             } else {
                 println("----------Failed")
             }
-        }
-        val cleanresult = resultData.replace("\n", "").replace("\r", "").replace(">\\s+<".toRegex(), "><")
-        if (res != (xmlResult == cleanresult)) {
-            println("XMLDiff ::")
-            println(xmlResult)
-            println(cleanresult)
         }
         return res
     } catch (e: ParseError) {

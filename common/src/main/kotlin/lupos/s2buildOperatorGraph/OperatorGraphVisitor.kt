@@ -56,7 +56,7 @@ import lupos.s1buildSyntaxTree.sparql1_1.ASTNamedGraphRef
 import lupos.s1buildSyntaxTree.sparql1_1.ASTNamedIriGraphRef
 import lupos.s1buildSyntaxTree.sparql1_1.ASTNEQ
 import lupos.s1buildSyntaxTree.sparql1_1.ASTNode
-import lupos.s1buildSyntaxTree.sparql1_1.ASTNot
+import lupos.s1buildSyntaxTree.sparql1_1.*
 import lupos.s1buildSyntaxTree.sparql1_1.ASTNotIn
 import lupos.s1buildSyntaxTree.sparql1_1.ASTNumericLiteral
 import lupos.s1buildSyntaxTree.sparql1_1.ASTOptional
@@ -104,7 +104,7 @@ import lupos.s2buildOperatorGraph.singleinput.LOPOptional
 import lupos.s2buildOperatorGraph.singleinput.LOPProjection
 import lupos.s2buildOperatorGraph.singleinput.LOPSingleInputBase
 import lupos.s2buildOperatorGraph.singleinput.LOPSort
-import lupos.s2buildOperatorGraph.singleinput.LOPSubGroup
+import lupos.s2buildOperatorGraph.singleinput.*
 import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPDistinct
 import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPLimit
 import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPOffset
@@ -134,11 +134,17 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         return false
     }
 
+    override fun visit(node: ASTSubSelectQuery, childrenValues: List<OPBase>): OPBase {
+        if (node.existsValues()) {
+            throw UnsupportedOperationException("${this::class.simpleName} Values ${node::class.simpleName}")
+        }
+        return LOPSubGroup(visit(node as ASTSelectQuery, childrenValues))
+    }
+
     override fun visit(node: ASTSelectQuery, childrenValues: List<OPBase>): OPBase {
         val result = LOPNOOP()
         var bind: LOPBind? = null
         var bindIsAggregate = false
-        val groupBindings: OPBase
         if (!node.selectAll()) {
             val projection = LOPProjection()
             result.getLatestChild().setChild(projection)
@@ -163,16 +169,58 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 }
             }
         }
+        result.getLatestChild().setChild(visitQueryBase(node, bind, bindIsAggregate, node.distinct, node.reduced))
+        return LOPSubGroup(result)
+    }
+
+    override fun visit(node: ASTConstructQuery, childrenValues: List<OPBase>): OPBase {
+        val result = LOPNOOP()
+        var bind: LOPBind? = null
+        var bindIsAggregate = false
+        val templates = mutableListOf<List<LOPBase>>()
+        for (t in node.template) {
+            val template = mutableListOf<LOPBase>()
+            templates.add(template)
+            when {
+                t is ASTTriple -> {
+                    val s = t.children[0]
+                    val p = t.children[1]
+                    val o = t.children[2]
+                    when {
+                        s is ASTVar -> template.add(LOPVariable(s.name))
+                        else -> template.add(LOPExpression(s))
+                    }
+                    when {
+                        p is ASTVar -> template.add(LOPVariable(p.name))
+                        else -> template.add(LOPExpression(p))
+                    }
+                    when {
+                        o is ASTVar -> template.add(LOPVariable(o.name))
+                        else -> template.add(LOPExpression(o))
+                    }
+                }
+                else ->
+                    throw UnsupportedOperationException("${this::class.simpleName} construct 4 ${node::class.simpleName}")
+            }
+            println("${t::class.simpleName}")
+        }
+        result.getLatestChild().setChild(visitQueryBase(node, bind, bindIsAggregate, false, false))
+        return LOPConstruct(templates, result)
+    }
+
+    fun visitQueryBase(node: ASTQueryBaseClass, bindp: LOPBind?, bindIsAggregate: Boolean, distinct: Boolean, reduced: Boolean): OPBase {
+        var bind = bindp
+        val result = LOPNOOP()
         if (node.existsLimit()) {
             result.getLatestChild().setChild(LOPLimit(node.limit))
         }
         if (node.existsOffset()) {
             result.getLatestChild().setChild(LOPOffset(node.offset))
         }
-        if (node.distinct) {
+        if (distinct) {
             result.getLatestChild().setChild(LOPDistinct())
         }
-        if (node.reduced) {
+        if (reduced) {
             result.getLatestChild().setChild(LOPReduced())
         }
         if (node.existsOrderBy()) {
@@ -776,17 +824,6 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
         throw UnsupportedOperationException("${this::class.simpleName} Blank Node ${node::class.simpleName}")
-    }
-
-    override fun visit(node: ASTSubSelectQuery, childrenValues: List<OPBase>): OPBase {
-        if (node.existsValues()) {
-            throw UnsupportedOperationException("${this::class.simpleName} Values ${node::class.simpleName}")
-        }
-        return LOPSubGroup(visit(node as ASTSelectQuery, childrenValues))
-    }
-
-    override fun visit(node: ASTConstructQuery, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Query Type ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTDescribeQuery, childrenValues: List<OPBase>): OPBase {

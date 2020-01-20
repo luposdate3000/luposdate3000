@@ -1,5 +1,7 @@
 package lupos.misc
 
+import kotlin.math.*
+
 class XMLElement(val tag: String) {
     // https://regex101.com
     companion object {
@@ -24,6 +26,10 @@ class XMLElement(val tag: String) {
                     if (child.groups[8] != null)
                         nodeAttributes = child.groups[8]!!.value
                     """([^\s]*?)="(([^\\"]*(\\"|\\)*)*)"""".toRegex().findAll(nodeAttributes).forEach() { attrMatch ->
+                        if (attrMatch.groups[1] != null && attrMatch.groups[2] != null)
+                            childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
+                    }
+                    """([^\s]*?)='([^']*)'""".toRegex().findAll(nodeAttributes).forEach() { attrMatch ->
                         if (attrMatch.groups[1] != null && attrMatch.groups[2] != null)
                             childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
                     }
@@ -54,6 +60,77 @@ class XMLElement(val tag: String) {
     val attributes = mutableMapOf<String, String>()
     var content: String = ""
     val childs = mutableListOf<XMLElement>()
+
+    fun myEquals(other: XMLElement?): Boolean {
+        if (other == null) {
+            println("aa $this $other");return false
+        }
+        if (tag != other.tag) {
+            println("ba $this $other");return false
+        }
+        val c1 = content.replace("""^\s*$""".toRegex(), "")
+        val c2 = other.content.replace("""^\s*$""".toRegex(), "")
+        if (c1 != c2) {
+            println("ca $this $other");return false
+        }
+        if (childs.count() != other.childs.count()) {
+            println("da $this $other");return false
+        }
+        if (attributes != other.attributes) {
+            println("ea $this $other");return false
+        }
+        var i = 0
+        for (c in childs) {
+            var d = other.childs[i]
+            if (!c.myEquals(d)) {
+                println("fa $this $other");return false
+            }
+            i++
+        }
+        println("g");
+        return true
+    }
+
+    fun myEqualsUnclean(other: XMLElement?): Boolean {
+        if (other == null) {
+            println("ab $this $other");return false
+        }
+        if (tag != other.tag) {
+            println("bb $this $other");return false
+        }
+        if (childs.count() != other.childs.count()) {
+            println("cb $this $other");return false
+        }
+        if (tag != "sparql" && attributes != other.attributes) {
+            println("db $this $other");return false
+        }
+        val c1 = content.replace("""^\s*$""".toRegex(), "")
+        val c2 = other.content.replace("""^\s*$""".toRegex(), "")
+        if (attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#decimal" || attributes["datatype"] == "http://www.w3.org/2001/XMLSchema#double") {
+            val a = c1.toDouble()
+            val b = c2.toDouble()
+            if (abs(a - b) > 0.00001) {
+                println("eb $this $other");return false
+            }
+        } else if (c1 != c2) {
+            println("fb $this $other");return false
+        }
+        for (c in childs) {
+            var found = false
+            for (d in other.childs) {
+                if (c.myEqualsUnclean(d)) {
+                    found = true
+                    break
+                }
+            }
+            if (!found) {
+                println("gb $this $other");return false
+            }
+        }
+        println("h");
+        return true
+    }
+
     fun addAttribute(name: String, value: String): XMLElement {
         attributes[name] = value
         return this
@@ -88,34 +165,36 @@ class XMLElement(val tag: String) {
     }
 
     override fun toString(): String {
+        val c = content.replace("^\\s*$".toRegex(), "")
         var res = "<${tag}"
         for ((k, v) in attributes)
             res += " ${k}=\"${v}\""
-        if (content.isEmpty() && childs.isEmpty()) {
+        if (c.isEmpty() && childs.isEmpty()) {
             res += "/>"
         } else {
             res += ">"
             for (c in childs)
                 res += c.toString()
-            res += "${content}</${tag}>"
+            res += "${c}</${tag}>"
         }
         return res
     }
 
     fun toPrettyString(indention: String = ""): String {
+        val c = content.replace("^\\s*$".toRegex(), "")
         var res = "${indention}<${tag}"
         for ((k, v) in attributes)
             res += " ${k}=\"${v}\""
-        if (content.isEmpty() && childs.isEmpty()) {
+        if (c.isEmpty() && childs.isEmpty()) {
             res += "/>\n"
         } else {
-            if (content.isEmpty()) {
+            if (c.isEmpty()) {
                 res += ">\n"
                 for (c in childs)
                     res += c.toPrettyString(indention + "\t")
                 res += "${indention}</${tag}>\n"
             } else {
-                res += ">${content}</${tag}>\n"
+                res += ">${c}</${tag}>\n"
             }
         }
         return res

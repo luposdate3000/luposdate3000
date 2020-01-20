@@ -50,6 +50,10 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
         return POPValues(node)
     }
 
+    override fun visit(node: LOPConstruct): OPBase {
+        return POPConstruct(node.construct, optimize(node.child) as POPBase)
+    }
+
     override fun visit(node: LOPLimit): OPBase {
         return POPLimit(node.limit, optimize(node.child) as POPBase)
     }

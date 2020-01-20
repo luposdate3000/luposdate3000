@@ -11,7 +11,7 @@ import lupos.s2buildOperatorGraph.singleinput.LOPBind
 import lupos.s2buildOperatorGraph.singleinput.LOPFilter
 import lupos.s2buildOperatorGraph.singleinput.LOPGroup
 import lupos.s2buildOperatorGraph.singleinput.LOPMakeBooleanResult
-import lupos.s2buildOperatorGraph.singleinput.LOPNOOP
+import lupos.s2buildOperatorGraph.singleinput.*
 import lupos.s2buildOperatorGraph.singleinput.LOPOptional
 import lupos.s2buildOperatorGraph.singleinput.LOPProjection
 import lupos.s2buildOperatorGraph.singleinput.LOPRename
@@ -58,6 +58,10 @@ abstract class OptimizerVisitorLOP() {
 
     open fun visit(node: LOPOptional): OPBase {
         return LOPOptional(optimize(node.child))
+    }
+
+    open fun visit(node: LOPConstruct): OPBase {
+        return LOPConstruct(node.construct, optimize(node.child))
     }
 
     open fun visit(node: LOPSubGroup): OPBase {
@@ -151,6 +155,7 @@ abstract class OptimizerVisitorLOP() {
             is LOPSubGroup -> return visit(node)
             is LOPLimit -> return visit(node)
             is LOPOffset -> return visit(node)
+            is LOPConstruct -> return visit(node)
         }
         throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} c ${node::class.simpleName}")
     }
