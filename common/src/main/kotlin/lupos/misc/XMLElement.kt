@@ -166,6 +166,8 @@ class XMLElement(val tag: String) {
             return false
         if (tag != other.tag)
             return false
+        if (tag == "bnode")
+            return true
         val c1 = content.replace("""^\s*$""".toRegex(), "")
         val c2 = other.content.replace("""^\s*$""".toRegex(), "")
         if (c1 != c2)
@@ -189,6 +191,8 @@ class XMLElement(val tag: String) {
             return false
         if (tag != other.tag)
             return false
+        if (tag == "bnode")
+            return true
         if (childs.count() != other.childs.count())
             return false
         if (tag != "sparql" && attributes != other.attributes)
