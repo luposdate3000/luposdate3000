@@ -22,4 +22,3 @@ for i in $(seq $clientCount)
 do
 	curl 127.0.0.1:$((8080 + $i))/peers/list
 done
-#java -cp ./heap_jvm/build/libs/heap_jvm.jar lupos/TestKt

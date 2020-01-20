@@ -110,22 +110,25 @@ object P2P {
         return XMLElement("done").toPrettyString()
     }
 
-    suspend fun process_sparql_query(query: String): String {
-        var res = XMLElement.XMLHeader + "\n"
-        try {
-            val lcit = LexerCharIterator(query)
-            val tit = TokenIteratorSPARQLParser(lcit)
-            val ltit = LookAheadTokenIterator(tit, 3)
-            val parser = SPARQLParser(ltit)
-            val ast_node = parser.expr()
-            val lop_node = ast_node.visit(OperatorGraphVisitor())
-            val lop_node2 = LogicalOptimizer().optimize(lop_node)
-            val pop_optimizer = PhysicalOptimizer()
-            val pop_node = pop_optimizer.optimize(lop_node2) as POPBase
-            res += QueryResultToXML.toXML(pop_node).first().toPrettyString()
-        } catch (e: Throwable) {
-            e.kotlinStacktrace()
-            res = e.toString()
+    suspend fun process_sparql_query(query: String?): String {
+        var res = ""
+        if (query != null) {
+            res = XMLElement.XMLHeader + "\n"
+            try {
+                val lcit = LexerCharIterator(query)
+                val tit = TokenIteratorSPARQLParser(lcit)
+                val ltit = LookAheadTokenIterator(tit, 3)
+                val parser = SPARQLParser(ltit)
+                val ast_node = parser.expr()
+                val lop_node = ast_node.visit(OperatorGraphVisitor())
+                val lop_node2 = LogicalOptimizer().optimize(lop_node)
+                val pop_optimizer = PhysicalOptimizer()
+                val pop_node = pop_optimizer.optimize(lop_node2) as POPBase
+                res += QueryResultToXML.toXML(pop_node).first().toPrettyString()
+            } catch (e: Throwable) {
+                e.kotlinStacktrace()
+                res = e.toString()
+            }
         }
         return res
     }
@@ -158,7 +161,7 @@ object P2P {
                     if (request.method == Http.Method.POST)
                         response = process_sparql_query(data)
                     else
-                        response = process_sparql_query(params["query"]!!.first()!!)
+                        response = process_sparql_query(params["query"]?.first())
                 }
                 REQUEST_TURTLE_INPUT[0] -> response = response + process_turtle_input(data)
                 else -> request.setStatus(404)
