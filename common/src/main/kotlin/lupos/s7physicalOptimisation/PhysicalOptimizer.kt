@@ -77,7 +77,13 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
     }
 
     override fun visit(node: LOPSort): OPBase {
-        return POPSort(node.by as LOPVariable, node.asc, optimize(node.child) as POPBase)
+        if (node.by is LOPVariable)
+            return POPSort(node.by as LOPVariable, node.asc, optimize(node.child) as POPBase)
+        else if (node.by is LOPExpression) {
+            val v = LOPVariable("#" + node.uuid)
+            return POPSort(v, node.asc, POPBind(v, optimize(node.by) as POPExpression, optimize(node.child) as POPBase))
+        } else
+            throw UnsupportedOperationException("${this::class.simpleName} ${node::class.simpleName}, ${node.by::class.simpleName}")
     }
 
     override fun visit(node: LOPSubGroup): OPBase {
