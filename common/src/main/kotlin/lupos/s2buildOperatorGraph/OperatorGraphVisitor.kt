@@ -209,7 +209,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         }
         if (result == null)
             return LOPNOOP()
-        return result
+        return LOPDistinct(result)
     }
 
     fun visitQueryBase(node: ASTQueryBaseClass, bindp: LOPBind?, bindIsAggregate: Boolean, distinct: Boolean, reduced: Boolean): OPBase {
