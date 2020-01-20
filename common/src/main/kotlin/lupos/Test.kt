@@ -237,7 +237,7 @@ private fun testOneEntry(data: SevenIndices, node: Long, queryIdentifier: String
                     val inputDataSevenIndices = createSevenIndices(prefix + inputDataFile)
                     println("    Query: " + queryfile)
                     val querycontents = readFileContents(prefix + queryfile)
-                    result = result && parseSPARQLAndEvaluate(querycontents, inputDataSevenIndices, targetResult)
+                    result = result && parseSPARQLAndEvaluate(querycontents, inputDataSevenIndices, targetResult, prefix + resultFile)
                 }
             }
         }
@@ -482,7 +482,7 @@ fun parseXMLTarget(xmlFile: String): QueryResult {
     return solution
 }
 
-fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData: String): Boolean {
+fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData: String, resultDataFileName: String): Boolean {
     try {
         val store = TripleStore()
         println("----------Input Data")
@@ -509,14 +509,21 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         println("----------Physical Operator Graph")
         val pop_optimizer = PhysicalOptimizer()
         pop_optimizer.store = store
-        val pop_node2 = pop_optimizer.optimize(lop_node2) as POPBase
-        println(pop_node2)
-        val pop_node = POPTemporaryStore(pop_node2)
+        val pop_node = pop_optimizer.optimize(lop_node2) as POPBase
+        println(pop_node)
         println("----------Query Result")
         val xmlQueryResult = QueryResultToXML.toXML(pop_node)
         println(xmlQueryResult.first()?.toPrettyString())
         println("----------Target Result")
-        val xmlQueryTarget = XMLElement.parseFromXml(resultData)
+
+        var xmlQueryTarget: List<XMLElement>? = null
+        when {
+            resultDataFileName.endsWith(".srx") -> xmlQueryTarget = XMLElement.parseFromXml(resultData)
+            else -> {
+                throw Exception("query result file type '${resultDataFileName}' unknown")
+            }
+        }
+
         println(xmlQueryTarget?.first()?.toPrettyString())
         val res = xmlQueryResult?.first()?.myEquals(xmlQueryTarget?.first())
         if (res) {
