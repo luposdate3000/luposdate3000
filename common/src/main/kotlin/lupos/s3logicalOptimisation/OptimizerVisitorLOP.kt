@@ -149,6 +149,8 @@ abstract class OptimizerVisitorLOP() {
             is LOPOptional -> return visit(node)
             is LOPUnion -> return visit(node)
             is LOPSubGroup -> return visit(node)
+            is LOPLimit -> return visit(node)
+            is LOPOffset -> return visit(node)
         }
         throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} c ${node::class.simpleName}")
     }

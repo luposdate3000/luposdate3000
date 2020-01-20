@@ -115,16 +115,28 @@ object P2P {
         if (query != null) {
             res = XMLElement.XMLHeader + "\n"
             try {
+                println("----------String Query")
+                println(query)
+                println("----------Abstract Syntax Tree")
                 val lcit = LexerCharIterator(query)
                 val tit = TokenIteratorSPARQLParser(lcit)
                 val ltit = LookAheadTokenIterator(tit, 3)
                 val parser = SPARQLParser(ltit)
                 val ast_node = parser.expr()
+                println(ast_node)
+                println("----------Logical Operator Graph")
                 val lop_node = ast_node.visit(OperatorGraphVisitor())
+                println(lop_node)
+                println("----------Logical Operator Graph optimized")
                 val lop_node2 = LogicalOptimizer().optimize(lop_node)
+                println(lop_node2)
+                println("----------Physical Operator Graph")
                 val pop_optimizer = PhysicalOptimizer()
                 val pop_node = pop_optimizer.optimize(lop_node2) as POPBase
+                println(pop_node)
                 res += QueryResultToXML.toXML(pop_node).first().toPrettyString()
+                println("----------Query Result")
+                println(res)
             } catch (e: Throwable) {
                 e.kotlinStacktrace()
                 res = e.toString()

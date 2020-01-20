@@ -5,7 +5,8 @@ import lupos.s1buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.OPNothing
 import lupos.s2buildOperatorGraph.singleinput.LOPBind
-import lupos.s2buildOperatorGraph.singleinput.LOPSort
+import lupos.s2buildOperatorGraph.singleinput.*
+import lupos.s2buildOperatorGraph.singleinput.modifiers.*
 import lupos.s2buildOperatorGraph.singleinput.LOPGroup
 import lupos.s2buildOperatorGraph.singleinput.LOPProjection
 import lupos.s2buildOperatorGraph.singleinput.LOPFilter
@@ -23,7 +24,8 @@ import lupos.s5physicalOperators.POPExpression
 import lupos.s5physicalOperators.multiinput.POPJoin
 import lupos.s5physicalOperators.multiinput.POPUnion
 import lupos.s5physicalOperators.singleinput.POPBind
-import lupos.s5physicalOperators.singleinput.POPSort
+import lupos.s5physicalOperators.singleinput.modifiers.*
+import lupos.s5physicalOperators.singleinput.*
 import lupos.s5physicalOperators.singleinput.POPGroup
 import lupos.s5physicalOperators.singleinput.POPFilter
 import lupos.s5physicalOperators.singleinput.POPBindUndefined
@@ -46,6 +48,14 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
 
     override fun visit(node: LOPValues): OPBase {
         return POPValues(node)
+    }
+
+    override fun visit(node: LOPLimit): OPBase {
+        return POPLimit(node.limit, optimize(node.child) as POPBase)
+    }
+
+    override fun visit(node: LOPOffset): OPBase {
+        return POPOffset(node.offset, optimize(node.child) as POPBase)
     }
 
     override fun visit(node: LOPGroup): OPBase {

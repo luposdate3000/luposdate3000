@@ -502,13 +502,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTOptional, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.size >= 1)
-        if (childrenValues.size == 1)
-            return LOPOptional(childrenValues.first())
-        var res: OPBase = LOPNOOP()
-        for (c in childrenValues)
-            res = LOPJoin(res, c, true)
-        return LOPOptional(res)
+        return LOPOptional(parseGroup(node.children))
     }
 
     override fun visit(node: ASTSet, childrenValues: List<OPBase>): OPBase {

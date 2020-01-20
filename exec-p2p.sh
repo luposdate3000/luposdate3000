@@ -1,11 +1,4 @@
 cd /src/luposdate3000
-for f in $(ls | grep common)
-do
-(
-	cd $f
-	gradle build -x test
-)
-done
 (
 	cd heap_jvm
 	gradle build -x test
