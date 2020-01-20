@@ -55,6 +55,71 @@ class XMLElement(val tag: String) {
                 return null
             return res
         }
+
+        fun parseFromTsv(tsv: String): List<XMLElement>? {
+            val res = mutableListOf<XMLElement>()
+            val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
+            res.add(nodeSparql)
+            val nodeHead = XMLElement("head")
+            val nodeResults = XMLElement("results")
+            nodeSparql.addContent(nodeHead)
+            nodeSparql.addContent(nodeResults)
+            val lines = tsv.lines()
+            val variables = mutableListOf<Pair<String, Int>>()
+            var i = 0
+            for (variableName in lines.first().split("\t")) {
+                nodeHead.addContent(XMLElement("variable").addAttribute("name", variableName))
+                variables.add(Pair(variableName, i))
+                i++
+            }
+            var firstLine = true
+            for (line in lines) {
+                if (firstLine) {
+                    firstLine = false
+                    continue
+                }
+                val nodeResult = XMLElement("result")
+                nodeResults.addContent(nodeResult)
+                val values = line.split("\t")
+                for (variable in variables) {
+                    val nodeBinding = XMLElement("binding").addAttribute("name", variable.first)
+                    if (values.size > variable.second) {
+                        val value = values[variable.second]
+                        if (value != null && value != "") {
+                            if (value.startsWith("\"") && !value.endsWith("\"")) {
+                                println("value:" + value)
+                                val idx = value.lastIndexOf("\"^^<")
+                                println("idx:" + idx)
+                                if (idx >= 0) {
+                                    val data = value.substring(1, idx)
+                                    val type = value.substring(idx + 4, value.length - 1)
+                                    nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("datatype", type))
+                                } else {
+                                    val idx2 = value.lastIndexOf("\"@")
+                                    println("idx2:" + idx2)
+                                    if (idx2 >= 0) {
+                                        val data = value.substring(1, idx2)
+                                        val lang = value.substring(idx2 + 2, value.length)
+                                        nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("xml:lang", lang))
+                                    } else {
+                                        nodeBinding.addContent(XMLElement("literal").addContent(value))
+                                    }
+                                }
+                            } else if (value.startsWith("<") && value.endsWith(">"))
+                                nodeBinding.addContent(XMLElement("uri").addContent(value.substring(1, value.length - 1)))
+                            else if (value.startsWith("_:"))
+                                nodeBinding.addContent(XMLElement("bnode").addContent(value.substring(2, value.length)))
+                            else
+                                nodeBinding.addContent(XMLElement("literal").addContent(value))
+                            nodeResult.addContent(nodeBinding)
+                        }
+                    }
+                }
+            }
+            if (res.isEmpty() && !tsv.isEmpty())
+                return null
+            return res
+        }
     }
 
     val attributes = mutableMapOf<String, String>()
