@@ -1,6 +1,8 @@
 package lupos.misc
 
 import kotlin.math.*
+import lupos.s1buildSyntaxTree.turtle.*
+import lupos.s1buildSyntaxTree.*
 
 class XMLElement(val tag: String) {
     // https://regex101.com
@@ -56,6 +58,71 @@ class XMLElement(val tag: String) {
             return res
         }
 
+        fun parseFromTtl(ttl: String): List<XMLElement>? {
+            val res = mutableListOf<XMLElement>()
+            val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
+            res.add(nodeSparql)
+            val nodeHead = XMLElement("head")
+            val nodeResults = XMLElement("results")
+            nodeSparql.addContent(nodeHead)
+            nodeSparql.addContent(nodeResults)
+            nodeHead.addContent(XMLElement("variable").addAttribute("name", "s"))
+            nodeHead.addContent(XMLElement("variable").addAttribute("name", "p"))
+            nodeHead.addContent(XMLElement("variable").addAttribute("name", "o"))
+            val ltit = lupos.s1buildSyntaxTree.LookAheadTokenIterator(lupos.s1buildSyntaxTree.turtle.TurtleScanner(lupos.s1buildSyntaxTree.LexerCharIterator(ttl)), 3)
+            val parser = TurtleParser({ triple ->
+                val nodeResult = XMLElement("result")
+                nodeResults.addContent(nodeResult)
+                parseBindingFromString(nodeResult, triple.s.toN3String(), "s")
+                parseBindingFromString(nodeResult, triple.p.toN3String(), "p")
+                parseBindingFromString(nodeResult, triple.o.toN3String(), "o")
+            }, ltit)
+            return res
+        }
+
+        fun parseBindingFromString(nodeResult: XMLElement, value: String?, name: String) {
+            val nodeBinding = XMLElement("binding").addAttribute("name", name)
+            if (value != null && value != "") {
+                if (value.startsWith("\"") && !value.endsWith("\"")) {
+                    println("value:" + value)
+                    val idx = value.lastIndexOf("\"^^<")
+                    println("idx:" + idx)
+                    if (idx >= 0) {
+                        val data = value.substring(1, idx)
+                        val type = value.substring(idx + 4, value.length - 1)
+                        nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("datatype", type))
+                    } else {
+                        val idx2 = value.lastIndexOf("\"@")
+                        println("idx2:" + idx2)
+                        if (idx2 >= 0) {
+                            val data = value.substring(1, idx2)
+                            val lang = value.substring(idx2 + 2, value.length)
+                            nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("xml:lang", lang))
+                        } else {
+                            nodeBinding.addContent(XMLElement("literal").addContent(value))
+                        }
+                    }
+                } else if (value.startsWith("<") && value.endsWith(">"))
+                    nodeBinding.addContent(XMLElement("uri").addContent(value.substring(1, value.length - 1)))
+                else if (value.startsWith("_:"))
+                    nodeBinding.addContent(XMLElement("bnode").addContent(value.substring(2, value.length)))
+                else if (value.startsWith("\"") && value.endsWith("\""))
+                    nodeBinding.addContent(XMLElement("literal").addContent(value.substring(1, value.length - 1)))
+                else {
+                    val literal = XMLElement("literal").addContent(value)
+                    if ("""[0-9]+""".toRegex().matches(value))
+                        literal.addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#integer")
+                    if ("""[0-9]*\.[0-9]+""".toRegex().matches(value))
+                        literal.addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#decimal")
+                    if ("""[0-9]*\.[0-9]+[eE][0-9]+""".toRegex().matches(value))
+                        literal.addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#double")
+                    nodeBinding.addContent(literal)
+                }
+                nodeResult.addContent(nodeBinding)
+            }
+        }
+
+
         fun parseFromTsv(tsv: String): List<XMLElement>? {
             val res = mutableListOf<XMLElement>()
             val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
@@ -84,52 +151,11 @@ class XMLElement(val tag: String) {
                 nodeResults.addContent(nodeResult)
                 val values = line.split("\t")
                 for (variable in variables) {
-                    val nodeBinding = XMLElement("binding").addAttribute("name", variable.first)
                     if (values.size > variable.second) {
-                        val value = values[variable.second]
-                        if (value != null && value != "") {
-                            if (value.startsWith("\"") && !value.endsWith("\"")) {
-                                println("value:" + value)
-                                val idx = value.lastIndexOf("\"^^<")
-                                println("idx:" + idx)
-                                if (idx >= 0) {
-                                    val data = value.substring(1, idx)
-                                    val type = value.substring(idx + 4, value.length - 1)
-                                    nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("datatype", type))
-                                } else {
-                                    val idx2 = value.lastIndexOf("\"@")
-                                    println("idx2:" + idx2)
-                                    if (idx2 >= 0) {
-                                        val data = value.substring(1, idx2)
-                                        val lang = value.substring(idx2 + 2, value.length)
-                                        nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("xml:lang", lang))
-                                    } else {
-                                        nodeBinding.addContent(XMLElement("literal").addContent(value))
-                                    }
-                                }
-                            } else if (value.startsWith("<") && value.endsWith(">"))
-                                nodeBinding.addContent(XMLElement("uri").addContent(value.substring(1, value.length - 1)))
-                            else if (value.startsWith("_:"))
-                                nodeBinding.addContent(XMLElement("bnode").addContent(value.substring(2, value.length)))
-                            else if (value.startsWith("\"") && value.endsWith("\""))
-                                nodeBinding.addContent(XMLElement("literal").addContent(value.substring(1, value.length - 1)))
-                            else {
-                                val literal = XMLElement("literal").addContent(value)
-                                if ("""[0-9]+""".toRegex().matches(value))
-                                    literal.addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#integer")
-                                if ("""[0-9]*\.[0-9]+""".toRegex().matches(value))
-                                    literal.addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#decimal")
-                                if ("""[0-9]*\.[0-9]+[eE][0-9]+""".toRegex().matches(value))
-                                    literal.addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#double")
-                                nodeBinding.addContent(literal)
-                            }
-                            nodeResult.addContent(nodeBinding)
-                        }
+                        parseBindingFromString(nodeResult, values[variable.second], variable.first)
                     }
                 }
             }
-            if (res.isEmpty() && !tsv.isEmpty())
-                return null
             return res
         }
     }

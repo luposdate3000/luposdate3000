@@ -520,6 +520,7 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         when {
             resultDataFileName.endsWith(".srx") -> xmlQueryTarget = XMLElement.parseFromXml(resultData)
             resultDataFileName.endsWith(".tsv") -> xmlQueryTarget = XMLElement.parseFromTsv(resultData)
+            resultDataFileName.endsWith(".ttl") -> xmlQueryTarget = XMLElement.parseFromTtl(resultData)
             else -> {
                 throw Exception("query result file type '${resultDataFileName}' unknown")
             }
