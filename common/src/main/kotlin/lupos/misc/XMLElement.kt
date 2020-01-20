@@ -68,8 +68,8 @@ class XMLElement(val tag: String) {
             val variables = mutableListOf<Pair<String, Int>>()
             var i = 0
             for (variableName in lines.first().split("\t")) {
-                nodeHead.addContent(XMLElement("variable").addAttribute("name", variableName))
-                variables.add(Pair(variableName, i))
+                nodeHead.addContent(XMLElement("variable").addAttribute("name", variableName.substring(1, variableName.length)))
+                variables.add(Pair(variableName.substring(1, variableName.length), i))
                 i++
             }
             var firstLine = true
@@ -78,6 +78,8 @@ class XMLElement(val tag: String) {
                     firstLine = false
                     continue
                 }
+                if (line.isEmpty())
+                    continue
                 val nodeResult = XMLElement("result")
                 nodeResults.addContent(nodeResult)
                 val values = line.split("\t")
@@ -109,8 +111,18 @@ class XMLElement(val tag: String) {
                                 nodeBinding.addContent(XMLElement("uri").addContent(value.substring(1, value.length - 1)))
                             else if (value.startsWith("_:"))
                                 nodeBinding.addContent(XMLElement("bnode").addContent(value.substring(2, value.length)))
-                            else
-                                nodeBinding.addContent(XMLElement("literal").addContent(value))
+                            else if (value.startsWith("\"") && value.endsWith("\""))
+                                nodeBinding.addContent(XMLElement("literal").addContent(value.substring(1, value.length - 1)))
+                            else {
+                                val literal = XMLElement("literal").addContent(value)
+                                if ("""[0-9]+""".toRegex().matches(value))
+                                    literal.addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#integer")
+                                if ("""[0-9]*\.[0-9]+""".toRegex().matches(value))
+                                    literal.addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#decimal")
+                                if ("""[0-9]*\.[0-9]+[eE][0-9]+""".toRegex().matches(value))
+                                    literal.addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#double")
+                                nodeBinding.addContent(literal)
+                            }
                             nodeResult.addContent(nodeBinding)
                         }
                     }
