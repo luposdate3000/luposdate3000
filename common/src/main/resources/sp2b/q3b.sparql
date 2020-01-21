@@ -5,6 +5,6 @@ PREFIX swrc:  <http://swrc.ontoware.org/ontology#>
 SELECT ?article
 WHERE {
   ?article rdf:type bench:Article .
-  ?article ?property ?value
+  ?article ?property ?value .
   FILTER (?property=swrc:month)
 }

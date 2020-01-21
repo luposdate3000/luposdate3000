@@ -10,6 +10,6 @@ WHERE {
   ?inproc rdf:type bench:Inproceedings .
   ?inproc dc:creator ?person2 .
   ?person foaf:name ?name .
-  ?person2 foaf:name ?name2
+  ?person2 foaf:name ?name2 .
   FILTER (?name=?name2)
 }

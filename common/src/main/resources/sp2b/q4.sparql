@@ -14,6 +14,6 @@ WHERE {
   ?article2 dc:creator ?author2 .
   ?author2 foaf:name ?name2 .
   ?article1 swrc:journal ?journal .
-  ?article2 swrc:journal ?journal
+  ?article2 swrc:journal ?journal .
   FILTER (?name1<?name2)
 }

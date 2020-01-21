@@ -1,1 +1,10 @@
-Error 404: Not Found
+{
+  "head": {
+    "vars": [ "inproc" , "author" , "booktitle" , "title" , "proc" , "ee" , "page" , "url" , "yr" , "abstract" ]
+  } ,
+  "results": {
+    "bindings": [
+      
+    ]
+  }
+}

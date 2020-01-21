@@ -5,6 +5,6 @@ PREFIX bench: <http://localhost/vocabulary/bench/>
 SELECT ?article
 WHERE {
   ?article rdf:type bench:Article .
-  ?article ?property ?value
+  ?article ?property ?value .
   FILTER (?property=swrc:isbn)
 }

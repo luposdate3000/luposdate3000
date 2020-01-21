@@ -1,1 +1,10 @@
-Error 404: Not Found
+{
+  "head": {
+    "vars": [ "yr" , "name" , "document" ]
+  } ,
+  "results": {
+    "bindings": [
+      
+    ]
+  }
+}

@@ -1,1 +1,21 @@
-Error 404: Not Found
+{
+  "head": {
+    "vars": [ "predicate" ]
+  } ,
+  "results": {
+    "bindings": [
+      {
+        "predicate": { "type": "uri" , "value": "http://purl.org/dc/elements/1.1/creator" }
+      } ,
+      {
+        "predicate": { "type": "uri" , "value": "http://swrc.ontoware.org/ontology#editor" }
+      } ,
+      {
+        "predicate": { "type": "uri" , "value": "http://xmlns.com/foaf/0.1/name" }
+      } ,
+      {
+        "predicate": { "type": "uri" , "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" }
+      }
+    ]
+  }
+}

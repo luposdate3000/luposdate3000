@@ -12,7 +12,7 @@ WHERE {
     ?document dc:creator ?author .
     ?document2 dc:creator ?author .
     ?document2 dc:creator ?author2 .
-    ?author2 foaf:name ?name
+    ?author2 foaf:name ?name .
     FILTER (?author!=?erdoes &&
             ?document2!=?document &&
             ?author2!=?erdoes &&
@@ -20,7 +20,7 @@ WHERE {
   } UNION {
     ?document dc:creator ?erdoes.
     ?document dc:creator ?author.
-    ?author foaf:name ?name
+    ?author foaf:name ?name .
     FILTER (?author!=?erdoes)
   }
 }

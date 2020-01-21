@@ -1,1 +1,39 @@
-Error 404: Not Found
+{
+  "head": {
+    "vars": [ "name" ]
+  } ,
+  "results": {
+    "bindings": [
+      {
+        "name": { "type": "literal" , "value": "Edmondo Rommelfanger" }
+      } ,
+      {
+        "name": { "type": "literal" , "value": "Martina Mcclary" }
+      } ,
+      {
+        "name": { "type": "literal" , "value": "Ashley Kesselring" }
+      } ,
+      {
+        "name": { "type": "literal" , "value": "Pilib Seu" }
+      } ,
+      {
+        "name": { "type": "literal" , "value": "Akina Jang" }
+      } ,
+      {
+        "name": { "type": "literal" , "value": "Cecil Kochler" }
+      } ,
+      {
+        "name": { "type": "literal" , "value": "Tatsukichi Gerstenberger" }
+      } ,
+      {
+        "name": { "type": "literal" , "value": "Fahroni Anglea" }
+      } ,
+      {
+        "name": { "type": "literal" , "value": "Adamanta Schlitt" }
+      } ,
+      {
+        "name": { "type": "literal" , "value": "Amalia Krajcik" }
+      }
+    ]
+  }
+}

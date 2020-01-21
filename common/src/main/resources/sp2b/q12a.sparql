@@ -9,6 +9,6 @@ ASK {
   ?inproc  rdf:type bench:Inproceedings .
   ?inproc  dc:creator ?person2 .
   ?person1 foaf:name ?name1 .
-  ?person2 foaf:name ?name2
+  ?person2 foaf:name ?name2 .
   FILTER (?name1=?name2)
 }
