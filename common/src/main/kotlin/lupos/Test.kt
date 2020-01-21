@@ -275,7 +275,7 @@ private fun syntaxTestOneEntry(data: SevenIndices, node: Long, prefix: String): 
         val queryfile = (Dictionary[it] as IRI).iri
         println("    Query: " + queryfile)
         val querycontents = readFileContents(prefix + queryfile)
-        result = result && parseSPARQLAndPrintOut(querycontents)
+        result = result && parseSPARQLAndEvaluate(querycontents, null, null, null, null)
     }
     return result
 }
@@ -365,7 +365,6 @@ class TripleInsertIterator : POPBaseNullableIterator {
             return null
         val node = iterator!!.next()
         val result = resultSet.createResultRow()
-
         for (v in node.childs) {
             val name = v.attributes["name"]
             val child = v.childs.first()
@@ -382,18 +381,19 @@ class TripleInsertIterator : POPBaseNullableIterator {
         }
         return result
     }
-
 }
 
-fun parseSPARQLAndEvaluate(toParse: String, inputData: String, inputDataFileName: String, resultData: String, resultDataFileName: String): Boolean {
+fun parseSPARQLAndEvaluate(toParse: String, inputData: String?, inputDataFileName: String?, resultData: String?, resultDataFileName: String?): Boolean {
     try {
         val store = TripleStore()
-        println("InputData Original")
-        println(inputData)
-        println("----------Input Data")
-        var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
-        store.addData(TripleInsertIterator(xmlQueryInput!!.first()))
-        println(xmlQueryInput.first().toPrettyString())
+        if (inputData != null && inputDataFileName != null) {
+            println("InputData Original")
+            println(inputData)
+            println("----------Input Data")
+            var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
+            store.addData(TripleInsertIterator(xmlQueryInput!!.first()))
+            println(xmlQueryInput.first().toPrettyString())
+        }
         println("----------String Query")
         println(toParse)
         println("----------Abstract Syntax Tree")
@@ -417,28 +417,35 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: String, inputDataFileName
         println("----------Query Result")
         val xmlQueryResult = QueryResultToXML.toXML(pop_node)
         println(xmlQueryResult.first().toPrettyString())
-        println("----------Target Result")
-        var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)
-        println(xmlQueryTarget?.first()?.toPrettyString())
-        println(resultData)
-        val res = xmlQueryResult.first().myEquals(xmlQueryTarget?.first())
-        if (res) {
-            println("----------Success")
-        } else {
-            if (xmlQueryResult.first().myEqualsUnclean(xmlQueryTarget?.first())) {
-                println("----------Success(Unordered)")
+        if (resultData != null && resultDataFileName != null) {
+            println("----------Target Result")
+            var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)
+            println(xmlQueryTarget?.first()?.toPrettyString())
+            println(resultData)
+            val res = xmlQueryResult.first().myEquals(xmlQueryTarget?.first())
+            if (res) {
+                println("----------Success")
             } else {
-                println("----------Failed")
+                if (xmlQueryResult.first().myEqualsUnclean(xmlQueryTarget?.first())) {
+                    println("----------Success(Unordered)")
+                } else {
+                    println("----------Failed")
+                }
             }
+            return res
+        } else {
+            println("----------Success(NoResult)")
+            return true
         }
-        return res
     } catch (e: ParseError) {
         println(e.message)
         println("Error in the following line:")
         println(e.lineNumber)
+        println("----------Failed(ParseError)")
         return false
     } catch (e: Throwable) {
         e.kotlinStacktrace()
+        println("----------Failed(Throwable)")
         return false
     }
 }
