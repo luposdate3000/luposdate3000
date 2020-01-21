@@ -305,148 +305,6 @@ fun parseSPARQLAndPrintOut(toParse: String): Boolean {
     }
 }
 
-
-class QueryResult() {
-    val variables = mutableListOf<String>()
-    val rows = mutableListOf<MutableMap<String, String>>()
-    var tmpBinding: String = ""
-    override fun toString(): String {
-        return "variables:" + variables + "\nrows:" + rows
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (other == null || !(other is QueryResult))
-            return false
-        if (variables.size != (other as QueryResult).variables.size)
-            return false
-        if (variables != (other as QueryResult).variables)
-//		if(!variables .containsAll( (other as QueryResult).variables))
-            return false
-        if (rows != (other as QueryResult).rows)
-            return false
-        return true
-    }
-
-    fun equalsUnordered(other: Any?): Boolean {
-        if (other == null || !(other is QueryResult))
-            return false
-        if (variables.size != (other as QueryResult).variables.size)
-            return false
-        for (a in variables) {
-            var found = false
-            for (b in (other as QueryResult).variables) {
-                if (a == b) {
-                    found = true
-                    break
-                }
-            }
-            if (!found)
-                return false
-        }
-        if (rows.size != (other as QueryResult).rows.size)
-            return false
-        for (a in rows) {
-            var found = false
-            for (b in (other as QueryResult).rows) {
-                if (a == b) {
-                    found = true
-                    break
-                }
-            }
-            if (!found)
-                return false
-        }
-        return true
-    }
-}
-
-fun extractAttribute(xml: String, attr: String): String {
-    val start = xml.indexOf(attr)
-    if (start >= 0) {
-        val s = start + attr.length + 2
-        val stop = xml.indexOf("\"", s)
-        if (stop > s)
-            return xml.substring(s, stop)
-        val stop2 = xml.indexOf("'", s)
-        if (stop2 > s)
-            return xml.substring(s, stop2)
-    }
-    return ""
-}
-
-fun nextToken(xml: String, indention: String, solution: QueryResult) {
-    "((<([a-zA-Z]+).*?\\3>)|(<([a-zA-Z]+).*?>)|(<\\?.*?\\?>)|(<!--.*?-->))?".toRegex().findAll(xml).forEach() { child ->
-        var value = child.value
-        if (value.length > 0 && !value.startsWith("<?") && !value.startsWith("<!--")) {
-            var nodeName = "^(<[a-zA-Z]+)".toRegex().find(value)!!.value
-            nodeName = nodeName.substring(1, nodeName.length)
-            var nodeAttributes = "[^>]*>".toRegex().find(value)!!.value
-            value = value.substring(nodeAttributes.length, value.length)
-            if (value.endsWith("</${nodeName}>"))
-                nodeAttributes = nodeAttributes.substring(nodeName.length + 1, nodeAttributes.length - 1)
-            else
-                nodeAttributes = nodeAttributes.substring(nodeName.length + 1, nodeAttributes.length - 2)
-            if (nodeName == "result") {
-                solution.rows.add(mutableMapOf<String, String>())
-            }
-            if (nodeName == "binding") {
-                solution.tmpBinding = extractAttribute(nodeAttributes, "name")
-            }
-            if (nodeName == "variable") {
-                solution.variables.add(extractAttribute(nodeAttributes, "name"))
-            }
-            if (value.endsWith("</${nodeName}>")) {
-                value = value.substring(0, value.length - nodeName.length - 3)
-                if (nodeName == "literal") {
-                    val dataType = extractAttribute(nodeAttributes, "datatype")
-                    val lang = extractAttribute(nodeAttributes, "xml:lang")
-                    val latestRow = solution.rows.last()!!
-                    if (dataType != "") {
-                        when (dataType) {
-                            "http://www.w3.org/2001/XMLSchema#double" -> latestRow[solution.tmpBinding] = "\"" + value.toDouble() + "\"^^<" + dataType + ">"
-                            "http://www.w3.org/2001/XMLSchema#decimal" -> {
-                                value = value.toDouble().toString()
-                                if (value.contains('.') && !value.contains('e') && !value.contains('E')) {
-                                    val last = value.indexOf(".") + errorBoundForDecimalsDigits + 1
-                                    val len = value.length
-                                    if (len < last)
-                                        value = value.substring(0, len)
-                                    else
-                                        value = value.substring(0, last)
-                                }
-                                latestRow[solution.tmpBinding] = "\"" + value.toDouble() + "\"^^<" + dataType + ">"
-                            }
-                            else -> latestRow[solution.tmpBinding] = "\"" + value + "\"^^<" + dataType + ">"
-                        }
-                    } else if (lang != "")
-                        latestRow[solution.tmpBinding] = "\"" + value + "\"@" + lang
-                    else
-                        latestRow[solution.tmpBinding] = "\"" + value + "\""
-                }
-                if (nodeName == "uri") {
-                    val latestRow = solution.rows.last()!!
-                    latestRow[solution.tmpBinding] = "<" + value + ">"
-                }
-                if (nodeName == "bnode") {
-                    val latestRow = solution.rows.last()!!
-                    latestRow[solution.tmpBinding] = "_:" + value
-                }
-                nextToken(value, indention + "\t", solution)
-            }
-        }
-    }
-}
-
-fun parseXMLTarget(xmlFile: String): QueryResult {
-    val solution = QueryResult()
-    try {
-        nextToken(xmlFile.replace("\n", "").replace("\r", ""), "", solution)
-    } catch (e: Throwable) {
-        e.kotlinStacktrace()
-    }
-    return solution
-}
-
 class TripleInsertIterator : POPBaseNullableIterator {
     private val resultSet = ResultSet()
     val data: XMLElement
@@ -507,18 +365,18 @@ class TripleInsertIterator : POPBaseNullableIterator {
             return null
         val node = iterator!!.next()
         val result = resultSet.createResultRow()
-        var i = 0
+
         for (v in node.childs) {
             val name = v.attributes["name"]
-            var value = ""
             val child = v.childs.first()
             val content = cleanString(child.content)
-            when {
-                child.tag == "uri" -> value = "<" + content + ">"
-                child.tag == "literal" && child.attributes["datatype"] != null -> value = "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
-                child.tag == "literal" && child.attributes["xml:lang"] != null -> value = "\"" + content + "\"@" + child.attributes["xml:lang"]
-                child.tag == "bnode" -> value = "_:" + content
-                else -> value = "\"" + content + "\""
+
+            val value = when {
+                child.tag == "uri" -> "<" + content + ">"
+                child.tag == "literal" && child.attributes["datatype"] != null -> "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
+                child.tag == "literal" && child.attributes["xml:lang"] != null -> "\"" + content + "\"@" + child.attributes["xml:lang"]
+                child.tag == "bnode" -> "_:" + content
+                else -> "\"" + content + "\""
             }
             result[variables[name]!!] = resultSet.createValue(value)
         }
@@ -534,8 +392,8 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: String, inputDataFileName
         println(inputData)
         println("----------Input Data")
         var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
-        store.addData(TripleInsertIterator(xmlQueryInput!!.first()!!))
-        println(xmlQueryInput!!.first()!!.toPrettyString())
+        store.addData(TripleInsertIterator(xmlQueryInput!!.first()))
+        println(xmlQueryInput.first().toPrettyString())
         println("----------String Query")
         println(toParse)
         println("----------Abstract Syntax Tree")
@@ -558,16 +416,16 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: String, inputDataFileName
         println(pop_node)
         println("----------Query Result")
         val xmlQueryResult = QueryResultToXML.toXML(pop_node)
-        println(xmlQueryResult.first()?.toPrettyString())
+        println(xmlQueryResult.first().toPrettyString())
         println("----------Target Result")
         var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)
         println(xmlQueryTarget?.first()?.toPrettyString())
         println(resultData)
-        val res = xmlQueryResult?.first()?.myEquals(xmlQueryTarget?.first())
+        val res = xmlQueryResult.first().myEquals(xmlQueryTarget?.first())
         if (res) {
             println("----------Success")
         } else {
-            if (xmlQueryResult?.first()?.myEqualsUnclean(xmlQueryTarget?.first())) {
+            if (xmlQueryResult.first().myEqualsUnclean(xmlQueryTarget?.first())) {
                 println("----------Success(Unordered)")
             } else {
                 println("----------Failed")

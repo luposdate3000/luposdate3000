@@ -115,7 +115,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPNOOP()
 
     fun mergeLOPBind(a: LOPBind, b: LOPBind): LOPBind {
-        val aName = ((a!! as LOPBind).name as LOPVariable).name
+        val aName = a.name.name
         if (b.expression.getRequiredVariableNames().contains(aName)) {
             b.getLatestChild().setChild(a)
             return b
@@ -288,9 +288,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 }
             }
             if (child == null)
-                result.getLatestChild().setChild(LOPGroup(variables, bind as LOPBind?, LOPNOOP()))
+                result.getLatestChild().setChild(LOPGroup(variables, bind, LOPNOOP()))
             else
-                result.getLatestChild().setChild(LOPGroup(variables, bind as LOPBind?, child))
+                result.getLatestChild().setChild(LOPGroup(variables, bind, child))
         } else {
             if (node.existsHaving()) {
                 for (h in node.having) {
@@ -303,10 +303,10 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         bind = tmpBind
                     result.getLatestChild().setChild(LOPFilter(LOPExpression(ASTVar(tmpVar.name))))
                 }
-                result.getLatestChild().setChild(LOPGroup(mutableListOf<LOPVariable>(), bind as LOPBind?, LOPNOOP()))
+                result.getLatestChild().setChild(LOPGroup(mutableListOf<LOPVariable>(), bind, LOPNOOP()))
             } else {
                 if (bindIsAggregate) {
-                    result.getLatestChild().setChild(LOPGroup(mutableListOf<LOPVariable>(), bind as LOPBind?, LOPNOOP()))
+                    result.getLatestChild().setChild(LOPGroup(mutableListOf<LOPVariable>(), bind, LOPNOOP()))
                 } else {
                     if (bind != null) {
                         result.getLatestChild().setChild(bind)

@@ -56,7 +56,7 @@ class POPSort : POPSingleInputBaseNullableIterator {
                     tmp = mutableListOf<ResultRow>()
                     tmpMutableMap[key] = tmp
                 }
-                tmp!!.add(rsNew)
+                tmp.add(rsNew)
             }
             data = mutableListOf<ResultRow>()
             val allKeys = Array<String>(tmpMutableMap.keys.size) { "" }

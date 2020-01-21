@@ -141,7 +141,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
     fun myCeil(a: T): T {
         return when (a) {
             is Double -> ceil(a) as T
-            is Int -> a as T
+            is Int -> a
             else -> throw UnsupportedOperationException("${this::class.simpleName} helperPlus")
         }
     }
@@ -149,7 +149,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
     fun myFloor(a: T): T {
         return when (a) {
             is Double -> floor(a) as T
-            is Int -> a as T
+            is Int -> a
             else -> throw UnsupportedOperationException("${this::class.simpleName} helperPlus")
         }
     }
@@ -332,7 +332,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                         else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelper ${node::class.simpleName} ${node.type}")
                     }
                 }
-                val res: Number? = expression.aggregateTmp[node.uuid] as Number?
+                val res: Number? = expression.aggregateTmp[node.uuid]
                 if (res == null)
                     return helperNull()
                 return helperToT(res)

@@ -51,7 +51,7 @@ class POPUnion : POPBaseNullableIterator {
             val rsNew = resultSetNew.createResultRow()
             for (p in variablesOldA) {
                 // TODO reuse resultSet
-                rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(rsOld!![p.first]))
+                rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(rsOld[p.first]))
             }
             return rsNew
         }
@@ -60,7 +60,7 @@ class POPUnion : POPBaseNullableIterator {
             val rsNew = resultSetNew.createResultRow()
             for (p in variablesOldB) {
                 // TODO reuse resultSet
-                rsNew[p.second] = resultSetNew.createValue(resultSetOldB.getValue(rsOld!![p.first]))
+                rsNew[p.second] = resultSetNew.createValue(resultSetOldB.getValue(rsOld[p.first]))
             }
             return rsNew
         }

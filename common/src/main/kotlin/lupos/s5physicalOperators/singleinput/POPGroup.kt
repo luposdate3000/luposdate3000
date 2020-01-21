@@ -28,8 +28,8 @@ class POPGroup : POPSingleInputBaseNullableIterator {
         resultSetOld = child.getResultSet()
         var tmpBind: POPBase? = bindings
         while (tmpBind != null && tmpBind is POPBind) {
-            this.bindings.add(Pair(resultSetNew.createVariable((tmpBind.name as LOPVariable).name), tmpBind.expression as POPExpression))
-            resultSetNew.createVariable((tmpBind.name as LOPVariable).name)
+            this.bindings.add(Pair(resultSetNew.createVariable(tmpBind.name.name), tmpBind.expression))
+            resultSetNew.createVariable(tmpBind.name.name)
             tmpBind = tmpBind.child
         }
         this.bindings = this.bindings.asReversed()
@@ -75,7 +75,7 @@ class POPGroup : POPSingleInputBaseNullableIterator {
                     tmp = mutableListOf<ResultRow>()
                     tmpMutableMap[key] = tmp
                 }
-                tmp!!.add(rsOld)
+                tmp.add(rsOld)
             }
             data = mutableListOf<ResultRow>()
             if (tmpMutableMap.keys.size == 0) {
@@ -87,7 +87,7 @@ class POPGroup : POPSingleInputBaseNullableIterator {
                 data!!.add(rsNew)
             }
             for (k in tmpMutableMap.keys) {
-                val rsOld = tmpMutableMap[k]!!.first()!!
+                val rsOld = tmpMutableMap[k]!!.first()
                 val rsNew = resultSetNew.createResultRow()
                 for (variable in variables)
                     rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
