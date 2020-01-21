@@ -142,14 +142,14 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTSelectQuery, childrenValues: List<OPBase>): OPBase {
-	return visitSelectBase(node,node.select,node.distinct,node.reduced)
+        return visitSelectBase(node, node.select, node.distinct, node.reduced)
     }
 
-    fun visitSelectBase(node: ASTQueryBaseClass,select: Array<ASTNode>, distinct: Boolean, reduced: Boolean):OPBase{
+    fun visitSelectBase(node: ASTQueryBaseClass, select: Array<ASTNode>, distinct: Boolean, reduced: Boolean): OPBase {
         val result = LOPNOOP()
         var bind: LOPBind? = null
         var bindIsAggregate = false
-        if (select.size>0) {
+        if (select.size > 0) {
             val projection = LOPProjection()
             result.getLatestChild().setChild(projection)
             for (sel in select) {
@@ -175,16 +175,29 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         }
         result.getLatestChild().setChild(visitQueryBase(node, bind, bindIsAggregate, distinct, reduced))
         return LOPSubGroup(result)
-	}
+    }
 
     override fun visit(node: ASTDescribeQuery, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Query Type ${node::class.simpleName}")
+        val child = visitSelectBase(node, node.select, false, false)
+        val template = mutableListOf<ASTNode>()
+        for (v in child.getProvidedVariableNames()) {
+            template.add(ASTTriple(ASTVar("s"), ASTVar("p"), ASTVar(v)))
+            template.add(ASTTriple(ASTVar("s"), ASTVar(v), ASTVar("o")))
+            template.add(ASTTriple(ASTVar(v), ASTVar("p"), ASTVar("o")))
+        }
+        val itr = template.iterator()
+        val array = Array<ASTNode>(template.size) { itr.next() }
+        return visitConstructBase(child, array)
     }
 
     override fun visit(node: ASTConstructQuery, childrenValues: List<OPBase>): OPBase {
-        var result: OPBase? = null
         val child = visitQueryBase(node, null, false, false, false)
-        for (t in node.template) {
+        return visitConstructBase(child, node.template)
+    }
+
+    fun visitConstructBase(child: OPBase, template: Array<ASTNode>): OPBase {
+        var result: OPBase? = null
+        for (t in template) {
             val template = t.visit(this)
             var tmp: OPBase = LOPProjection()
             for (v in template.getProvidedVariableNames())
