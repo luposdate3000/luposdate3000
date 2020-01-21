@@ -34,6 +34,16 @@ fun main(args: Array<String>) {
     val (nr_t, nr_e) = parseManifestFile("common/src/main/resources/sparql11-test-suite/", "manifest-all.ttl")
     println("Number of tests: " + nr_t)
     println("Number of errors: " + nr_e)
+val sp2bFiles=listOf("q3a","q9","q4","q5b","q10","q2","q6","q12a","q3b","q8","q1","q5a","q11","q12b","q12c","q3c","q7")
+val inputDataFile = "common/src/main/resources/sp2b/sp2b.n3"
+val inputData = readFileContents(inputDataFile)
+for(f in sp2bFiles){
+	val queryFile = "common/src/main/resources/sp2b/$f.sparql"
+	val query  =readFileContents(queryFile)
+	val resultFile = "common/src/main/resources/sp2b/$f.srj"
+	val result  =readFileContents(resultFile)
+	parseSPARQLAndEvaluate(query,inputData,inputDataFile,result,resultFile)
+}
 }
 
 class SevenIndices {
@@ -227,6 +237,16 @@ private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> 
 }
 
 private fun testOneEntry(data: SevenIndices, node: Long, queryIdentifier: String, inputDataIdentifier: String, prefix: String): Boolean {
+/*
+:rdf01 rdf:type mf:QueryEvaluationTest ;
+    mf:name    "RDF inference test" ;
+    dawgt:approval dawgt:NotClassified ;
+    mf:action
+         [ qt:query  <rdf01.rq> ;
+           qt:data   <rdf01.ttl> ;
+           sd:entailmentRegime ent:RDF ] ;
+    mf:result  <rdf01.srx> .
+*/
     val action = data.sp(node, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action"))
     var resultFileTmp = data.sp(node, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result"))
     var result = true
@@ -240,8 +260,6 @@ private fun testOneEntry(data: SevenIndices, node: Long, queryIdentifier: String
                 val queryfile: String = (Dictionary[it] as IRI).iri
                 inputData.forEach {
                     val inputDataFile: String = (Dictionary[it] as IRI).iri
-//                    val inputDataSevenIndices = createSevenIndices(prefix + inputDataFile)
-//                    println("    Query: " + queryfile)
                     val querycontents: String = readFileContents(prefix + queryfile)
                     val inputdatacontent: String = readFileContents(prefix + inputDataFile)
                     result = result && parseSPARQLAndEvaluate(querycontents, inputdatacontent, prefix + inputDataFile, targetResult, prefix + resultFile)
@@ -253,7 +271,20 @@ private fun testOneEntry(data: SevenIndices, node: Long, queryIdentifier: String
 }
 
 private fun updateTestOneEntry(data: SevenIndices, node: Long, queryIdentifier: String, prefix: String): Boolean {
-//see for example : common/src/main/resources/sparql11-test-suite/add/manifest.ttl
+/*
+    mf:name "MOVE 1" ;
+    rdfs:comment "Move the default graph to an existing graph" ;
+    dawgt:approval dawgt:Approved ;
+    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-05-22#resolution_2> ;
+    mf:action [ ut:request <move-01.ru> ;
+                ut:data <move-default.ttl> ;
+                ut:graphData [ ut:graph <move-01.ttl> ;
+                               rdfs:label "http://example.org/g1" ]
+              ] ;
+    mf:result [ ut:graphData [ ut:graph <move-default.ttl> ;
+                               rdfs:label "http://example.org/g1" ]
+              ] .
+*/
     val action = data.sp(node, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action"))
     var result = true
     action.forEach {

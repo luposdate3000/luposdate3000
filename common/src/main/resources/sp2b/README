@@ -1,0 +1,5 @@
+#!/bin/bash
+for f in *.sparql
+do
+	curl -X POST --data-urlencode "query=$(cat $f)" -H "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" localhost:3030/sp2b/query > "${f%.sparql}.srj"
+done

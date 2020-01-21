@@ -14,6 +14,7 @@ class XMLElement(val tag: String) {
                 filename.endsWith(".tsv") -> return XMLElement.parseFromTsv(data)
                 filename.endsWith(".ttl") -> return XMLElement.parseFromTtl(data)
                 filename.endsWith(".nt") -> return XMLElement.parseFromTtl(data)
+                filename.endsWith(".n3") -> return XMLElement.parseFromTtl(data)
                 else -> {
                     throw Exception("data parser :: file type '${filename}' unknown")
                 }
