@@ -13,8 +13,10 @@ class POPUnion : POPBaseNullableIterator {
     val childB: POPBase
     private val resultSetOldA: ResultSet
     private val variablesOldA = mutableListOf<Pair<Variable, Variable>>()
+    private val variablesOldAMissing = mutableListOf<Variable>()
     private val resultSetOldB: ResultSet
     private val variablesOldB = mutableListOf<Pair<Variable, Variable>>()
+    private val variablesOldBMissing = mutableListOf<Variable>()
     private val resultSetNew = ResultSet()
 
     override fun getProvidedVariableNames(): List<String> {
@@ -35,10 +37,15 @@ class POPUnion : POPBaseNullableIterator {
 
         for (name in variablesA) {
             variablesOldA.add(Pair(resultSetOldA.createVariable(name), resultSetNew.createVariable(name)))
+            if (!variablesB.contains(name))
+                variablesOldBMissing.add(resultSetNew.createVariable(name))
         }
         for (name in variablesB) {
             variablesOldB.add(Pair(resultSetOldB.createVariable(name), resultSetNew.createVariable(name)))
+            if (!variablesA.contains(name))
+                variablesOldAMissing.add(resultSetNew.createVariable(name))
         }
+
     }
 
     override fun getResultSet(): ResultSet {
@@ -49,6 +56,9 @@ class POPUnion : POPBaseNullableIterator {
         if (childA.hasNext()) {
             val rsOld = childA.next()
             val rsNew = resultSetNew.createResultRow()
+            for (p in variablesOldAMissing) {
+                rsNew[p] = resultSetNew.createValue(resultSetNew.getUndefValue())
+            }
             for (p in variablesOldA) {
                 // TODO reuse resultSet
                 rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(rsOld[p.first]))
@@ -58,6 +68,9 @@ class POPUnion : POPBaseNullableIterator {
         if (childB.hasNext()) {
             val rsOld = childB.next()
             val rsNew = resultSetNew.createResultRow()
+            for (p in variablesOldBMissing) {
+                rsNew[p] = resultSetNew.createValue(resultSetNew.getUndefValue())
+            }
             for (p in variablesOldB) {
                 // TODO reuse resultSet
                 rsNew[p.second] = resultSetNew.createValue(resultSetOldB.getValue(rsOld[p.first]))

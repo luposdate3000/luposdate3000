@@ -34,16 +34,17 @@ fun main(args: Array<String>) {
     val (nr_t, nr_e) = parseManifestFile("common/src/main/resources/sparql11-test-suite/", "manifest-all.ttl")
     println("Number of tests: " + nr_t)
     println("Number of errors: " + nr_e)
-val sp2bFiles=listOf("q3a","q9","q4","q5b","q10","q2","q6","q12a","q3b","q8","q1","q5a","q11","q12b","q12c","q3c","q7")
-val inputDataFile = "common/src/main/resources/sp2b/sp2b.n3"
-val inputData = readFileContents(inputDataFile)
-for(f in sp2bFiles){
-	val queryFile = "common/src/main/resources/sp2b/$f.sparql"
-	val query  =readFileContents(queryFile)
-	val resultFile = "common/src/main/resources/sp2b/$f.srj"
-	val result  =readFileContents(resultFile)
-	parseSPARQLAndEvaluate(query,inputData,inputDataFile,result,resultFile)
-}
+    val sp2bFiles = listOf("q3a", "q9", "q4", "q5b", "q10", "q2", "q6", "q12a", "q3b", "q8", "q1", "q5a", "q11", "q12b", "q12c", "q3c", "q7")
+    val inputDataFile = "common/src/main/resources/sp2b/sp2b.n3"
+    val inputData = readFileContents(inputDataFile)
+    for (f in sp2bFiles) {
+        println("  Test: sp2b/$f")
+        val queryFile = "common/src/main/resources/sp2b/$f.sparql"
+        val query = readFileContents(queryFile)
+        val resultFile = "common/src/main/resources/sp2b/$f.srj"
+        val result = readFileContents(resultFile)
+        parseSPARQLAndEvaluate(query, inputData, inputDataFile, result, resultFile)
+    }
 }
 
 class SevenIndices {
@@ -445,10 +446,10 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: String?, inputDataFileNam
         pop_optimizer.store = store
         val pop_node = pop_optimizer.optimize(lop_node2) as POPBase
         println(pop_node)
-        println("----------Query Result")
-        val xmlQueryResult = QueryResultToXML.toXML(pop_node)
-        println(xmlQueryResult.first().toPrettyString())
         if (resultData != null && resultDataFileName != null) {
+            println("----------Query Result")
+            val xmlQueryResult = QueryResultToXML.toXML(pop_node)
+            println(xmlQueryResult.first().toPrettyString())
             println("----------Target Result")
             var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)
             println(xmlQueryTarget?.first()?.toPrettyString())
