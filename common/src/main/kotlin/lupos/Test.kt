@@ -191,10 +191,16 @@ private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> 
                 var syntaxTest = false
                 type.forEach {
                     println("    Type: " + Dictionary[it]?.toN3String())
-                    queryEvaluationTest = (it == Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest"))
-                    updateEvaluationTest = (it == Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#UpdateEvaluationTest"))
-                    syntaxTest = (it == Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#PositiveSyntaxTest11") ||
-                            it == Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#PositiveUpdateSyntaxTest11"))
+                    queryEvaluationTest = false
+                    updateEvaluationTest = false
+                    syntaxTest = false
+                    when (Dictionary[it]?.toN3String()) {
+                        "<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest>" -> queryEvaluationTest = true
+                        "<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#UpdateEvaluationTest>" -> updateEvaluationTest = true
+                        "<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#PositiveSyntaxTest11>" -> syntaxTest = true
+                        "<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#PositiveUpdateSyntaxTest11>" -> syntaxTest = true
+                        else -> println(Exception("Unknown Test Type: ${Dictionary[it]?.toN3String()}").toString())
+                    }
                 }
                 if (queryEvaluationTest) {
                     numberOfTests++
@@ -225,19 +231,20 @@ private fun testOneEntry(data: SevenIndices, node: Long, queryIdentifier: String
     var resultFileTmp = data.sp(node, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result"))
     var result = true
     resultFileTmp.forEach {
-        var resultFile = (Dictionary[it] as IRI).iri
-        var targetResult = readFileContents(prefix + resultFile)
+        var resultFile: String = (Dictionary[it] as IRI).iri
+        var targetResult: String = readFileContents(prefix + resultFile)
         action.forEach {
             val inputData = data.sp(it, Dictionary.IRI(inputDataIdentifier))
             val query = data.sp(it, Dictionary.IRI(queryIdentifier))
             query.forEach {
-                val queryfile = (Dictionary[it] as IRI).iri
+                val queryfile: String = (Dictionary[it] as IRI).iri
                 inputData.forEach {
-                    val inputDataFile = (Dictionary[it] as IRI).iri
-                    val inputDataSevenIndices = createSevenIndices(prefix + inputDataFile)
-                    println("    Query: " + queryfile)
-                    val querycontents = readFileContents(prefix + queryfile)
-                    result = result && parseSPARQLAndEvaluate(querycontents, inputDataSevenIndices, targetResult, prefix + resultFile)
+                    val inputDataFile: String = (Dictionary[it] as IRI).iri
+//                    val inputDataSevenIndices = createSevenIndices(prefix + inputDataFile)
+//                    println("    Query: " + queryfile)
+                    val querycontents: String = readFileContents(prefix + queryfile)
+                    val inputdatacontent: String = readFileContents(prefix + inputDataFile)
+                    result = result && parseSPARQLAndEvaluate(querycontents, inputdatacontent, prefix + inputDataFile, targetResult, prefix + resultFile)
                 }
             }
         }
@@ -298,48 +305,6 @@ fun parseSPARQLAndPrintOut(toParse: String): Boolean {
     }
 }
 
-class TripleInsertIterator : POPBaseNullableIterator {
-    var result: ResultRow?
-
-    private val resultSet = ResultSet()
-
-    fun cleanString(s: String): String {
-        var res = s
-        while (true) {
-            val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
-            if (match == null)
-                return res
-            val replacement = match.value.substring(2, 6).toInt(16).toChar() + ""
-            res = res.replace(match.value, replacement)
-        }
-    }
-
-    constructor(triple: ID_Triple) {
-        result = resultSet.createResultRow()
-        result!![resultSet.createVariable("s")] = resultSet.createValue(cleanString(Dictionary[triple.s]!!.toN3String()))
-        result!![resultSet.createVariable("p")] = resultSet.createValue(cleanString(Dictionary[triple.p]!!.toN3String()))
-        result!![resultSet.createVariable("o")] = resultSet.createValue(cleanString(Dictionary[triple.o]!!.toN3String()))
-    }
-
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
-    override fun getResultSet(): ResultSet {
-        return resultSet
-    }
-
-    override fun nnext(): ResultRow? {
-        var res = result
-        result = null
-        return res
-    }
-
-}
 
 class QueryResult() {
     val variables = mutableListOf<String>()
@@ -482,15 +447,95 @@ fun parseXMLTarget(xmlFile: String): QueryResult {
     return solution
 }
 
-fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData: String, resultDataFileName: String): Boolean {
+class TripleInsertIterator : POPBaseNullableIterator {
+    private val resultSet = ResultSet()
+    val data: XMLElement
+    var iterator: Iterator<XMLElement>? = null
+    val variables = mutableMapOf<String, Variable>()
+
+    constructor(data: XMLElement) {
+        this.data = data
+        if (data.tag != "sparql")
+            throw Exception("can only parse sparql xml into an iterator")
+        for (r in data.childs) {
+            if (r.tag == "results") {
+                iterator = r.childs.iterator()
+            }
+            if (r.tag == "head") {
+                if (r.childs.size != 3)
+                    throw Exception("can only parse sparql xml containing only triples into an iterator")
+                var i = 0
+                for (v in r.childs) {
+                    when (i) {
+                        0 -> variables[v.attributes["name"]!!] = resultSet.createVariable("s")
+                        1 -> variables[v.attributes["name"]!!] = resultSet.createVariable("p")
+                        2 -> variables[v.attributes["name"]!!] = resultSet.createVariable("o")
+                    }
+                    i++
+                }
+            }
+        }
+        if (iterator == null)
+            throw Exception("can only parse sparql xml into an iterator")
+    }
+
+    override fun getProvidedVariableNames(): List<String> {
+        return mutableListOf<String>("s", "p", "o")
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        return mutableListOf<String>()
+    }
+
+    override fun getResultSet(): ResultSet {
+        return resultSet
+    }
+
+    fun cleanString(s: String): String {
+        var res = s
+        while (true) {
+            val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
+            if (match == null)
+                return res
+            val replacement = match.value.substring(2, 6).toInt(16).toChar() + ""
+            res = res.replace(match.value, replacement)
+        }
+    }
+
+    override fun nnext(): ResultRow? {
+        if (!iterator!!.hasNext())
+            return null
+        val node = iterator!!.next()
+        val result = resultSet.createResultRow()
+        var i = 0
+        for (v in node.childs) {
+            val name = v.attributes["name"]
+            var value = ""
+            val child = v.childs.first()
+            val content = cleanString(child.content)
+            when {
+                child.tag == "uri" -> value = "<" + content + ">"
+                child.tag == "literal" && child.attributes["datatype"] != null -> value = "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
+                child.tag == "literal" && child.attributes["xml:lang"] != null -> value = "\"" + content + "\"@" + child.attributes["xml:lang"]
+                child.tag == "bnode" -> value = "_:" + content
+                else -> value = "\"" + content + "\""
+            }
+            result[variables[name]!!] = resultSet.createValue(value)
+        }
+        return result
+    }
+
+}
+
+fun parseSPARQLAndEvaluate(toParse: String, inputData: String, inputDataFileName: String, resultData: String, resultDataFileName: String): Boolean {
     try {
         val store = TripleStore()
+        println("InputData Original")
+        println(inputData)
         println("----------Input Data")
-        for (triple in inputData.spo) {
-            //sehr inperformant ...
-            store.addData(TripleInsertIterator(triple))
-        }
-        printResult(store.getIterator())
+        var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
+        store.addData(TripleInsertIterator(xmlQueryInput!!.first()!!))
+        println(xmlQueryInput!!.first()!!.toPrettyString())
         println("----------String Query")
         println(toParse)
         println("----------Abstract Syntax Tree")
@@ -515,16 +560,7 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: SevenIndices, resultData:
         val xmlQueryResult = QueryResultToXML.toXML(pop_node)
         println(xmlQueryResult.first()?.toPrettyString())
         println("----------Target Result")
-        var xmlQueryTarget: List<XMLElement>? = null
-        when {
-            resultDataFileName.endsWith(".srx") -> xmlQueryTarget = XMLElement.parseFromXml(resultData)
-            resultDataFileName.endsWith(".tsv") -> xmlQueryTarget = XMLElement.parseFromTsv(resultData)
-            resultDataFileName.endsWith(".ttl") -> xmlQueryTarget = XMLElement.parseFromTtl(resultData)
-            else -> {
-                throw Exception("query result file type '${resultDataFileName}' unknown")
-            }
-        }
-
+        var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)
         println(xmlQueryTarget?.first()?.toPrettyString())
         println(resultData)
         val res = xmlQueryResult?.first()?.myEquals(xmlQueryTarget?.first())

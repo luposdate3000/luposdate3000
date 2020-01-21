@@ -8,6 +8,18 @@ class XMLElement(val tag: String) {
     // https://regex101.com
     companion object {
         val XMLHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        fun parseFromAny(data: String, filename: String): List<XMLElement>? {
+            when {
+                filename.endsWith(".srx") -> return XMLElement.parseFromXml(data)
+                filename.endsWith(".tsv") -> return XMLElement.parseFromTsv(data)
+                filename.endsWith(".ttl") -> return XMLElement.parseFromTtl(data)
+                filename.endsWith(".nt") -> return XMLElement.parseFromTtl(data)
+                else -> {
+                    throw Exception("data parser :: file type '${filename}' unknown")
+                }
+            }
+        }
+
         fun parseFromXml(xml: String): List<XMLElement>? {
             val x = xml.replace("\n", "").replace("\r", "")
             val res = mutableListOf<XMLElement>()
