@@ -142,13 +142,17 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTSelectQuery, childrenValues: List<OPBase>): OPBase {
+	return visitSelectBase(node,node.select,node.distinct,node.reduced)
+    }
+
+    fun visitSelectBase(node: ASTQueryBaseClass,select: Array<ASTNode>, distinct: Boolean, reduced: Boolean):OPBase{
         val result = LOPNOOP()
         var bind: LOPBind? = null
         var bindIsAggregate = false
-        if (!node.selectAll()) {
+        if (select.size>0) {
             val projection = LOPProjection()
             result.getLatestChild().setChild(projection)
-            for (sel in node.select) {
+            for (sel in select) {
                 when (sel) {
                     is ASTVar -> {
                         projection.variables.add(LOPVariable(sel.name))
@@ -169,8 +173,12 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 }
             }
         }
-        result.getLatestChild().setChild(visitQueryBase(node, bind, bindIsAggregate, node.distinct, node.reduced))
+        result.getLatestChild().setChild(visitQueryBase(node, bind, bindIsAggregate, distinct, reduced))
         return LOPSubGroup(result)
+	}
+
+    override fun visit(node: ASTDescribeQuery, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("${this::class.simpleName} Query Type ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTConstructQuery, childrenValues: List<OPBase>): OPBase {
@@ -828,10 +836,6 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
         throw UnsupportedOperationException("${this::class.simpleName} Blank Node ${node::class.simpleName}")
-    }
-
-    override fun visit(node: ASTDescribeQuery, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Query Type ${node::class.simpleName}")
     }
 
     override fun visit(node: ASTDatasetClause, childrenValues: List<OPBase>): OPBase {
