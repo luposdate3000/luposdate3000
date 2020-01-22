@@ -1,0 +1,18 @@
+query,repititions,time,query per second
+q10.sparql,90,1008,89.28
+q11.sparql,66,1008,65.47
+q12a.sparql,58,1009,57.48
+q12b.sparql,109,1004,108.56
+q12c.sparql,76,1011,75.17
+q1.sparql,89,1007,88.38
+q2.sparql,107,1015,105.41
+q3a.sparql,82,1001,81.91
+q3b.sparql,79,1006,78.52
+q3c.sparql,86,1002,85.82
+q4.sparql,98,1007,97.31
+q5a.sparql,108,1017,106.19
+q5b.sparql,111,1004,110.55
+q6.sparql,68,1004,67.72
+q7.sparql,89,1007,88.38
+q8.sparql,77,1012,76.08
+q9.sparql,87,1010,86.13

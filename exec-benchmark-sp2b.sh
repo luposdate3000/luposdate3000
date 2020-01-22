@@ -1,12 +1,18 @@
 #!/bin/bash
 pkill java
 
-triples=100
+benchmarkMinimumTime=1000
+
+(
+        cd heap_jvm
+        gradle build -x test
+)
+
+for triples in 100 1000 10000 20000 30000 40000 50000 100000 500000
+do
 
 p=$(pwd)/benchmark_results/sp2b
 mkdir -p $p
-csvfile=$p/fuseki-server-${triples}.csv
-echo "query,repititions,time,query per second" > "$csvfile"
 triplesfile=$p/sp2b-${triples}.n3
 (
 	cd /opt/sp2b/bin
@@ -15,18 +21,27 @@ triplesfile=$p/sp2b-${triples}.n3
 )
 cat /opt/sp2b/bin/sp2b.n3 | sed "s/\.$/ ./g" > "$triplesfile"
 
+csvglobal=$p/all.csv
+(
+	cd common/src/main/resources/sp2b
+	l="title"
+	for f in *.sparql
+	do
+		l="$l,$f"
+	done
+	echo $l >> "$csvglobal"
+)
+benchmarkJena(){
+csvfile=$p/fuseki-server-${triples}.csv
+echo "query,repititions,time,query per second" > "$csvfile"
 pkill java
 sleep 3
-
 /opt/apache-jena-fuseki-3.14.0/fuseki-server &
-
 sleep 3
-
-curl -X POST --data-urlencode "dbName=sp2b" --data-urlencode "dbType=mem" -H  "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" localhost:3030/$/datasets > tmp 2>&1
-
-curl -X POST -d "@${triplesfile}" -H "Content-Type: text/turtle" localhost:3030/sp2b/data > tmp 2>&1
-
+curl -X POST --data-urlencode "dbName=sp2b" --data-urlencode "dbType=mem" -H  "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" localhost:3030/$/datasets > /dev/null 2>&1
+curl -X POST -d "@${triplesfile}" -H "Content-Type: text/turtle" localhost:3030/sp2b/data > /dev/null 2>&1
 (
+	l="fuseki-server-${triples}"
 	cd common/src/main/resources/sp2b
 	for f in *.sparql
 	do
@@ -34,17 +49,59 @@ curl -X POST -d "@${triplesfile}" -H "Content-Type: text/turtle" localhost:3030/
 		n=1
 		while true
 		do
-			curl -X POST --data-urlencode "query=$(cat $f)" -H "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" localhost:3030/sp2b/query > tmp 2>&1
+			curl -X POST --data-urlencode "query=$(cat $f)" -H "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" localhost:3030/sp2b/query > /dev/null 2>&1
 			b=$(($(date +%s%N)/1000000))
 			c=$((b - a))
-			if((c > 1000))
+			if((c > benchmarkMinimumTime))
 			then
 				qps=$(bc <<< "scale=2;$n * 1000 / $c")
 				echo "$f,$n,$c,${qps}" >> $csvfile
+				l="$l,${qps}"
 				break
 			fi
 			n=$((n + 1))
 		done
 	done
+	echo $l >> "$csvglobal"
 )
 pkill java
+sleep 3
+}
+
+benchmarkLuposdate3000(){
+csvfile=$p/luposdate3000-${triples}.csv
+echo "query,repititions,time,query per second" > "$csvfile"
+pkill java
+sleep 3
+java -cp ./heap_jvm/build/libs/heap_jvm.jar lupos/p2p/MainKt 8080 127.0.0.1 &
+sleep 3
+curl -X POST --data-binary "@${triplesfile}" http://localhost:8080/turtle/insert --header "Content-Type:text/plain"
+(
+	l="luposdate3000-${triples}"
+	cd common/src/main/resources/sp2b
+	for f in *.sparql
+	do
+		a=$(($(date +%s%N)/1000000))
+		n=1
+		while true
+		do
+			curl -X POST --data-binary "@$f" http://localhost:8080/sparql/query > /dev/null 2>&1
+			b=$(($(date +%s%N)/1000000))
+			c=$((b - a))
+			if((c > benchmarkMinimumTime))
+			then
+				qps=$(bc <<< "scale=2;$n * 1000 / $c")
+				echo "$f,$n,$c,${qps}" >> $csvfile
+				l="$l,${qps}"
+				break
+			fi
+			n=$((n + 1))
+		done
+	done
+	echo $l >> "$csvglobal"
+)
+}
+
+benchmarkJena > /dev/null 2>&1
+benchmarkLuposdate3000 > /dev/null 2>&1
+done
