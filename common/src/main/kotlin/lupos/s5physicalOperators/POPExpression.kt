@@ -12,6 +12,7 @@ import lupos.s1buildSyntaxTree.sparql1_1.ASTDivision
 import lupos.s1buildSyntaxTree.sparql1_1.ASTDouble
 import lupos.s1buildSyntaxTree.sparql1_1.ASTEQ
 import lupos.s1buildSyntaxTree.sparql1_1.ASTGEQ
+import lupos.s1buildSyntaxTree.sparql1_1.ASTNEQ
 import lupos.s1buildSyntaxTree.sparql1_1.ASTGT
 import lupos.s1buildSyntaxTree.sparql1_1.ASTInteger
 import lupos.s1buildSyntaxTree.sparql1_1.ASTIri
@@ -276,6 +277,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         val b: T = evaluateChildTyped(resultSet, resultRow, node.children[1])
         when (node) {
             is ASTEQ -> return a == b
+            is ASTNEQ -> return a == b
             is ASTGEQ -> return a >= b
             is ASTLEQ -> return a <= b
             is ASTGT -> return a > b
@@ -463,6 +465,7 @@ class POPExpression : OPBase {
             is ASTOr -> return TmpResultType.RSBoolean
             is ASTAnd -> return TmpResultType.RSBoolean
             is ASTEQ -> return TmpResultType.RSBoolean
+            is ASTNEQ -> return TmpResultType.RSBoolean
             is ASTGEQ -> return TmpResultType.RSBoolean
             is ASTLEQ -> return TmpResultType.RSBoolean
             is ASTGT -> return TmpResultType.RSBoolean
@@ -555,10 +558,8 @@ class POPExpression : OPBase {
                 val a = evaluateHelperBoolean(resultSet, resultRow, left)
                 val b = evaluateHelperBoolean(resultSet, resultRow, right)
                 when (node) {
-                    is ASTEQ -> {
-                        println("ASTEQ a:: ${a} ${b} ${a == b}")
-                        return a == b
-                    }
+                    is ASTEQ -> return a == b
+                    is ASTNEQ -> return a != b
                     is ASTDivision -> throw ArithmeticException("the output of ASTDivision is not a boolean")
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName}")
                 }
@@ -569,9 +570,9 @@ class POPExpression : OPBase {
             typeA == TmpResultType.RSString && typeB == TmpResultType.RSString -> {
                 val a = evaluateHelperString(resultSet, resultRow, left)
                 val b = evaluateHelperString(resultSet, resultRow, right)
-                println("XXXY <$a> <$b>")
                 when (node) {
                     is ASTEQ -> return a == b
+                    is ASTNEQ -> return a != b
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName}")
                 }
             }
