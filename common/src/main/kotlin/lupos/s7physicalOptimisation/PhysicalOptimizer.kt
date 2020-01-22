@@ -46,6 +46,10 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
         return POPProjection(node.variables, optimize(node.child) as POPBase)
     }
 
+    override fun visit(node: LOPMakeBooleanResult): OPBase {
+        return POPMakeBooleanResult(optimize(node.child) as POPBase)
+    }
+
     override fun visit(node: LOPRename): OPBase {
         return POPRename(node.nameTo, node.nameFrom, optimize(node.child) as POPBase)
     }

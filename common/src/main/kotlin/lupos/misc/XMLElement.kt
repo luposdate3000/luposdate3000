@@ -149,7 +149,7 @@ class XMLElement(val tag: String) {
             var nodeResult: XMLElement? = null
             var nodeBinding: XMLElement? = null
             val attributes = mutableMapOf<String, String>()
-            val regexToken = """("([^"]*)")|[0-9]+ |\{|\}|\[|\]|,|:""".toRegex()
+            val regexToken = """("([^"]*)")|[0-9]+ |\{|\}|\[|\]|,|:|true|false""".toRegex()
             while (idx < json.length) {
                 val token = regexToken.find(json, idx + 1)
                 if (token == null)
@@ -216,9 +216,8 @@ class XMLElement(val tag: String) {
                                     flag = true
                                 }
                             }
-                        }
-                        if (!flag) {
-                            if (token.value == "boolean") {
+                        } else {
+                            if (token.value == "\"boolean\"") {
                                 val token3 = regexToken.find(json, idx + 1)
                                 if (token3 == null)
                                     return res
@@ -231,11 +230,13 @@ class XMLElement(val tag: String) {
                                 val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
                                 res.clear()
                                 res.add(nodeSparql)
-                                val node = XMLElement("boolean").addContent(token2.value.substring(1, token2.value.length - 1))
+                                val node = XMLElement("boolean").addContent(token2.value).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#boolean")
                                 nodeSparql.addContent(nodeHead)
                                 nodeSparql.addContent(node)
                                 return res
                             }
+                        }
+                        if (!flag) {
                             if (nodeBinding != null) {
                                 val token3 = regexToken.find(json, idx + 1)
                                 if (token3 == null)

@@ -134,6 +134,10 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         return false
     }
 
+    override fun visit(node: ASTAskQuery, childrenValues: List<OPBase>): OPBase {
+        return LOPMakeBooleanResult(visitSelectBase(node, arrayOf<ASTNode>(), false, false))
+    }
+
     override fun visit(node: ASTSubSelectQuery, childrenValues: List<OPBase>): OPBase {
         if (node.existsValues()) {
             throw UnsupportedOperationException("${this::class.simpleName} Values ${node::class.simpleName}")
@@ -852,10 +856,6 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTDatasetClause, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Query Type ${node::class.simpleName}")
-    }
-
-    override fun visit(node: ASTAskQuery, childrenValues: List<OPBase>): OPBase {
         throw UnsupportedOperationException("${this::class.simpleName} Query Type ${node::class.simpleName}")
     }
 

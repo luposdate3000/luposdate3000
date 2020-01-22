@@ -8,7 +8,7 @@ class LOPMakeBooleanResult() : LOPSingleInputBase() {
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        return child.getProvidedVariableNames()
+        return listOf("?boolean")
     }
 
     override fun getRequiredVariableNames(): List<String> {
