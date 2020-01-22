@@ -1,6 +1,6 @@
 package lupos.s7physicalOptimisation
 
-import lupos.s1buildSyntaxTree.sparql1_1.ASTIri
+import lupos.s1buildSyntaxTree.sparql1_1.*
 import lupos.s1buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.OPNothing
@@ -130,6 +130,7 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
                 when (param.child) {
                     is ASTIri -> return POPFilterExact(LOPVariable(name), "<" + param.child.iri + ">", child)
                     is ASTLanguageTaggedLiteral -> return POPFilterExact(LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter + "@" + param.child.language, child)
+                    is ASTTypedLiteral -> return POPFilterExact(LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter + "^^<" + param.child.type_iri + ">", child)
                     else -> throw UnsupportedOperationException("${this::class.simpleName} ${node::class.simpleName}, ${param.child::class.simpleName}")
                 }
             }
