@@ -626,6 +626,10 @@ class POPExpression : OPBase {
             is ASTBinaryOperationFixedName -> return evaluateHelperBoolean2(resultSet, resultRow, node)
             is ASTBuiltInCall -> {
                 when (node.function) {
+                    BuiltInFunctions.BOUND -> {
+                        val name = (node.children[0] as ASTVar).name
+                        return resultSet.getVariableNames().contains(name) && resultSet.getUndefValue() != resultSet.getValue(resultRow[resultSet.createVariable(name)])
+                    }
                     BuiltInFunctions.IF -> {
                         if (aggregateTmp[node.uuid] == 1)
                             return evaluateHelperBoolean(resultSet, resultRow, node.children[1])
