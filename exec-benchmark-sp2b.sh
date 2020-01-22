@@ -1,6 +1,8 @@
 #!/bin/bash
 pkill java
 
+rm y
+
 benchmarkMinimumTime=1000
 
 (
@@ -24,7 +26,7 @@ cat /opt/sp2b/bin/sp2b.n3 | sed "s/\.$/ ./g" > "$triplesfile"
 csvglobal=$p/all.csv
 (
 	cd common/src/main/resources/sp2b
-	l="title"
+	l="title,triples"
 	for f in *.sparql
 	do
 		l="$l,$f"
@@ -41,7 +43,7 @@ sleep 3
 curl -X POST --data-urlencode "dbName=sp2b" --data-urlencode "dbType=mem" -H  "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" localhost:3030/$/datasets > /dev/null 2>&1
 curl -X POST -d "@${triplesfile}" -H "Content-Type: text/turtle" localhost:3030/sp2b/data > /dev/null 2>&1
 (
-	l="fuseki-server-${triples}"
+	l="fuseki-server,${triples}"
 	cd common/src/main/resources/sp2b
 	for f in *.sparql
 	do
@@ -75,9 +77,9 @@ pkill java
 sleep 3
 java -cp ./heap_jvm/build/libs/heap_jvm.jar lupos/p2p/MainKt 8080 127.0.0.1 &
 sleep 3
-curl -X POST --data-binary "@${triplesfile}" http://localhost:8080/turtle/insert --header "Content-Type:text/plain"
+curl -X POST --data-binary "@${triplesfile}" http://localhost:8080/turtle/input --header "Content-Type:text/plain"
 (
-	l="luposdate3000-${triples}"
+	l="luposdate3000,${triples}"
 	cd common/src/main/resources/sp2b
 	for f in *.sparql
 	do

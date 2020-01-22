@@ -136,7 +136,6 @@ object P2P {
                 println(pop_node)
                 res += QueryResultToXML.toXML(pop_node).first().toPrettyString()
                 println("----------Query Result")
-                println(res)
             } catch (e: Throwable) {
                 e.kotlinStacktrace()
                 res = e.toString()
@@ -175,8 +174,8 @@ object P2P {
                     else
                         response = process_sparql_query(params["query"]?.first())
                 }
-                REQUEST_TURTLE_INPUT[0] -> response = response + process_turtle_input(data)
-                else -> request.setStatus(404)
+                REQUEST_TURTLE_INPUT[0] -> response = process_turtle_input(data)
+                else -> throw Exception("unknown request path: \""+request.path+"\"")
             }
         } catch (e: Throwable) {
             e.kotlinStacktrace()
@@ -184,6 +183,7 @@ object P2P {
             request.setStatus(404)
         }
         request.end(response)
+println("response::"+response)
     }
 
     suspend fun start(bootstrap: String?) {
