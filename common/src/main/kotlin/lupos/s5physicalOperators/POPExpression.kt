@@ -11,6 +11,7 @@ import lupos.s1buildSyntaxTree.sparql1_1.ASTDecimal
 import lupos.s1buildSyntaxTree.sparql1_1.ASTDivision
 import lupos.s1buildSyntaxTree.sparql1_1.ASTDouble
 import lupos.s1buildSyntaxTree.sparql1_1.ASTEQ
+import lupos.s1buildSyntaxTree.sparql1_1.ASTNot
 import lupos.s1buildSyntaxTree.sparql1_1.ASTGEQ
 import lupos.s1buildSyntaxTree.sparql1_1.ASTNEQ
 import lupos.s1buildSyntaxTree.sparql1_1.ASTGT
@@ -465,6 +466,7 @@ class POPExpression : OPBase {
             is ASTOr -> return TmpResultType.RSBoolean
             is ASTAnd -> return TmpResultType.RSBoolean
             is ASTEQ -> return TmpResultType.RSBoolean
+            is ASTNot -> return TmpResultType.RSBoolean
             is ASTNEQ -> return TmpResultType.RSBoolean
             is ASTGEQ -> return TmpResultType.RSBoolean
             is ASTLEQ -> return TmpResultType.RSBoolean
@@ -601,6 +603,7 @@ class POPExpression : OPBase {
     fun evaluateHelperBoolean(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): Boolean {
         when (node) {
             is ASTBooleanLiteral -> return node.value
+            is ASTNot -> return !evaluateHelperBoolean(resultSet, resultRow, node.children[0])
             is ASTOr -> {
                 var res = false
                 for (n in node.children) {
