@@ -16,7 +16,7 @@ WHERE {
     ?document2 rdf:type ?class2 .
     ?document2 dcterms:issued ?yr2 .
     ?document2 dc:creator ?author2 .
-    FILTER (?author=?author2 && ?yr2<?yr) .
+    FILTER ( ?author = ?author2 && ?yr2 < ?yr )
   } .
-  FILTER (!bound(?author2)) .
+  FILTER ( !bound( ?author2 ) )
 }

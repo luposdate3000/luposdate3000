@@ -574,6 +574,10 @@ class POPExpression : OPBase {
                 val b = evaluateHelperString(resultSet, resultRow, right)
                 when (node) {
                     is ASTEQ -> return a == b
+                    is ASTLT -> return a < b
+                    is ASTGT -> return a > b
+                    is ASTGEQ -> return a >= b
+                    is ASTLEQ -> return a <= b
                     is ASTNEQ -> return a != b
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName}")
                 }
