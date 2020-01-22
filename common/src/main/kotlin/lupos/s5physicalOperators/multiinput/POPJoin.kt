@@ -42,10 +42,6 @@ class POPJoin : POPBaseNullableIterator {
         variablesA = variablesA.subtract(joinVariables)
         variablesB = variablesB.subtract(joinVariables)
 
-        println("JOIN variablesA ${variablesA}")
-        println("JOIN variablesB ${variablesB}")
-        println("JOIN variablesJ ${joinVariables}")
-
         for (name in variablesA) {
             variablesOldA.add(Pair(resultSetOldA.createVariable(name), resultSetNew.createVariable(name)))
         }
@@ -81,7 +77,6 @@ class POPJoin : POPBaseNullableIterator {
                         rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(resultRowA!![p.first]))
                     }
                     resultRowA = null
-                    println("join #${uuid} optional:" + rsNew)
                     return rsNew
                 }
                 resultRowA = null
@@ -94,13 +89,11 @@ class POPJoin : POPBaseNullableIterator {
                     return null
                 else {
                     resultRowA = childA.next()
-                    println("join #${uuid} a:" + resultRowA)
                     hadMatchForA = false
                 }
             }
             require(resultRowA != null)
             resultRowB = childB.next()
-            println("join #${uuid} b:" + resultRowB)
             var joinVariableOk = true
             var rsNew = resultSetNew.createResultRow()
             for (p in variablesOldA) {
@@ -116,7 +109,6 @@ class POPJoin : POPBaseNullableIterator {
                 val a = resultSetOldA.getValue(resultRowA!![p.first.first])
                 val b = resultSetOldB.getValue(resultRowB[p.first.second])
                 if (a != b && a != resultSetOldA.getUndefValue() && b != resultSetOldB.getUndefValue()) {
-                    println("join #${uuid} no match " + a + " " + b + " ${a != b} ${a != resultSetOldA.getUndefValue()} ${b != resultSetOldB.getUndefValue()}")
                     joinVariableOk = false
                     break
                 }
@@ -128,7 +120,6 @@ class POPJoin : POPBaseNullableIterator {
             if (!joinVariableOk)
                 continue
             hadMatchForA = true
-            println("join #${uuid} c:" + rsNew)
             return rsNew
         }
     }

@@ -149,6 +149,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         val result = LOPNOOP()
         var bind: LOPBind? = null
         var bindIsAggregate = false
+        if (distinct) {
+            result.getLatestChild().setChild(LOPDistinct())
+        }
         if (select.size > 0) {
             val projection = LOPProjection()
             result.getLatestChild().setChild(projection)
@@ -173,7 +176,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 }
             }
         }
-        result.getLatestChild().setChild(visitQueryBase(node, bind, bindIsAggregate, distinct, reduced))
+        result.getLatestChild().setChild(visitQueryBase(node, bind, bindIsAggregate, reduced))
         return LOPSubGroup(result)
     }
 
@@ -191,7 +194,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTConstructQuery, childrenValues: List<OPBase>): OPBase {
-        val child = visitQueryBase(node, null, false, false, false)
+        val child = visitQueryBase(node, null, false, false)
         return visitConstructBase(child, node.template)
     }
 
@@ -233,7 +236,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         return LOPDistinct(result)
     }
 
-    fun visitQueryBase(node: ASTQueryBaseClass, bindp: LOPBind?, bindIsAggregate: Boolean, distinct: Boolean, reduced: Boolean): OPBase {
+    fun visitQueryBase(node: ASTQueryBaseClass, bindp: LOPBind?, bindIsAggregate: Boolean, reduced: Boolean): OPBase {
         var bind = bindp
         val result = LOPNOOP()
         if (node.existsLimit()) {
@@ -241,9 +244,6 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         }
         if (node.existsOffset()) {
             result.getLatestChild().setChild(LOPOffset(node.offset))
-        }
-        if (distinct) {
-            result.getLatestChild().setChild(LOPDistinct())
         }
         if (reduced) {
             result.getLatestChild().setChild(LOPReduced())
