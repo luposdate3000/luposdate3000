@@ -1,5 +1,6 @@
 package lupos.s5physicalOperators.singleinput
 
+import lupos.misc.*
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s2buildOperatorGraph.data.LOPExpression
 import lupos.s4resultRepresentation.ResultRow
@@ -62,4 +63,10 @@ class POPFilter : POPSingleInputBaseNullableIterator {
     }
 
     override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\t${indentation}\tfilter:\n${indentation}\t\t${filter}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("POPFilter")
+        res.addContent(filter.toXMLElement())
+        res.addContent(child.toXMLElement())
+        return res
+    }
 }

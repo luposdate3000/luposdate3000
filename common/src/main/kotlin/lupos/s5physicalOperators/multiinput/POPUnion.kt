@@ -1,5 +1,6 @@
 package lupos.s5physicalOperators.multiinput
 
+import lupos.misc.*
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
@@ -82,5 +83,12 @@ class POPUnion : POPBaseNullableIterator {
 
     override fun toString(indentation: String): String {
         return "${indentation}${this::class.simpleName}\n${indentation}\tchilds:\n${childA.toString("${indentation}\t\t")}${childB.toString("${indentation}\t\t")}"
+    }
+
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("POPUnion")
+        res.addContent(childA.toXMLElement())
+        res.addContent(childB.toXMLElement())
+        return res
     }
 }

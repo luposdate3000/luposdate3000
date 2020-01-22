@@ -1,5 +1,6 @@
 package lupos.s5physicalOperators.singleinput
 
+import lupos.misc.*
 import lupos.misc.kotlinStacktrace
 
 import lupos.s2buildOperatorGraph.data.LOPVariable
@@ -115,5 +116,16 @@ class POPGroup : POPSingleInputBaseNullableIterator {
 
     override fun toString(indentation: String): String {
         return "${indentation}${this::class.simpleName}\n${indentation}\tby\n${indentation}\t\t${by}\n${indentation}\tbindings:\n${indentation}\t\t${bindings}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
+    }
+
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("POPGroup")
+        var byString = ""
+        for (b in by) {
+            byString = byString + "," + b.name
+        }
+        res.addAttribute("by", byString)
+        res.addContent(child.toXMLElement())
+        return res
     }
 }

@@ -1,5 +1,6 @@
 package lupos.s2buildOperatorGraph.singleinput
 
+import lupos.misc.*
 import lupos.s2buildOperatorGraph.OPBase
 
 class LOPOptional() : LOPSingleInputBase() {
@@ -16,4 +17,9 @@ class LOPOptional() : LOPSingleInputBase() {
     }
 
     override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("LOPOptional")
+        res.addContent(child.toXMLElement())
+        return res
+    }
 }

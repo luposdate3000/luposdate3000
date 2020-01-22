@@ -1,7 +1,9 @@
 package lupos.s2buildOperatorGraph.singleinput
 
-import lupos.s2buildOperatorGraph.OPBase
-import lupos.s2buildOperatorGraph.data.LOPVariable
+import lupos.misc.*
+import lupos.s2buildOperatorGraph.*
+import lupos.s2buildOperatorGraph.singleinput.*
+import lupos.s2buildOperatorGraph.data.*
 
 class LOPBind(val name: LOPVariable, val expression: OPBase) : LOPSingleInputBase() {
     constructor(name: LOPVariable, expression: OPBase, child: OPBase) : this(name, expression) {
@@ -17,4 +19,14 @@ class LOPBind(val name: LOPVariable, val expression: OPBase) : LOPSingleInputBas
     }
 
     override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n$indentation\tvariable:\n${name.toString("$indentation\t\t")}$indentation\texpression:\n${expression.toString("$indentation\t\t")}$indentation\tchild:\n${child.toString("$indentation\t\t")}"
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("LOPBind")
+        res.addAttribute("name", name.name)
+        if (expression is LOPExpression)
+            res.addAttribute("expression", (expression as LOPExpression).child.toString())
+        else
+            res.addAttribute("expression", (expression as LOPVariable).name)
+        res.addContent(child.toXMLElement())
+        return res
+    }
 }

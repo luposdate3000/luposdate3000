@@ -1,5 +1,6 @@
 package lupos.s5physicalOperators.singleinput
 
+import lupos.misc.*
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
@@ -74,4 +75,11 @@ class POPRename : POPSingleInputBase {
     }
 
     override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\tfrom:\n${indentation}\t\t${nameFrom.name}\n${indentation}\tto:\n${indentation}\t\t${nameTo.name}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("POPRename")
+        res.addAttribute("nameTo", nameTo.name)
+        res.addAttribute("nameFrom", nameFrom.name)
+        res.addContent(child.toXMLElement())
+        return res
+    }
 }

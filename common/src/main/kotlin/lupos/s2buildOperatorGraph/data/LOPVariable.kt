@@ -1,5 +1,6 @@
 package lupos.s2buildOperatorGraph.data
 
+import lupos.misc.*
 import lupos.s2buildOperatorGraph.LOPBase
 
 class LOPVariable(var name: String) : LOPBase() {
@@ -10,5 +11,9 @@ class LOPVariable(var name: String) : LOPBase() {
 
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf<String>(name)
+    }
+
+    override fun toXMLElement(): XMLElement {
+        return XMLElement("LOPVariable")
     }
 }

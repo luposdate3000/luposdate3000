@@ -1,5 +1,6 @@
 package lupos.s5physicalOperators.singleinput
 
+import lupos.misc.*
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
@@ -59,6 +60,16 @@ class POPProjection : POPSingleInputBase {
             res += "${indentation}\t\t${resultSetOld.getVariable(variablesNew[i])}\n"
         }
         res += "${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
+        return res
+    }
+
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("POPProjection")
+        var vars = ""
+        for (v in variables)
+            vars = vars + "," + v.name
+        res.addAttribute("variables", vars)
+        res.addContent(child.toXMLElement())
         return res
     }
 }

@@ -1,5 +1,6 @@
 package lupos.s5physicalOperators
 
+import lupos.misc.*
 import lupos.s1buildSyntaxTree.sparql1_1.ASTValue
 import lupos.s1buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s2buildOperatorGraph.data.LOPVariable
@@ -55,5 +56,10 @@ class POPValues : POPBase {
 
     override fun toString(indentation: String): String {
         return "${indentation}${this::class.simpleName}\n"
+    }
+
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("POPValues")
+        return res
     }
 }

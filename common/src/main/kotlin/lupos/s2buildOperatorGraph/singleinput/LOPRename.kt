@@ -1,5 +1,6 @@
 package lupos.s2buildOperatorGraph.singleinput
 
+import lupos.misc.*
 import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.data.LOPVariable
 
@@ -31,4 +32,11 @@ class LOPRename(val nameTo: LOPVariable, val nameFrom: LOPVariable) : LOPSingleI
     }
 
     override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n$indentation\tnameTo:\n${nameTo.toString("$indentation\t\t")}$indentation\t´nameFrom:\n${nameFrom.toString("$indentation\t\t")}$indentation\tchild:\n${child.toString("$indentation\t\t")}"
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("LOPRename")
+        res.addAttribute("nameTo", nameTo.name)
+        res.addAttribute("nameFrom", nameFrom.name)
+        res.addContent(child.toXMLElement())
+        return res
+    }
 }

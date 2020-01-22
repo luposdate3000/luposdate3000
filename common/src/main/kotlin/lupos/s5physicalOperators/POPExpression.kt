@@ -1,5 +1,6 @@
 package lupos.s5physicalOperators
 
+import lupos.misc.*
 import lupos.s1buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s1buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s1buildSyntaxTree.sparql1_1.ASTAggregation
@@ -805,6 +806,11 @@ class POPExpression : OPBase {
         return "${indentation}${this::class.simpleName}\n${child.toString("${indentation}\t")}"
     }
 
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("LOPExpression")
+        res.addAttribute("expression", child.toString())
+        return res
+    }
 }
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)

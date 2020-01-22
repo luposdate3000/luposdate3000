@@ -1,5 +1,6 @@
 package lupos.s2buildOperatorGraph.multiinput
 
+import lupos.misc.*
 import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.singleinput.LOPSingleInputBase
 
@@ -13,4 +14,11 @@ class LOPJoin(first: OPBase, val second: OPBase, val optional: Boolean) : LOPSin
     }
 
     override fun toString(indentation: String): String = "${indentation}${this::class.simpleName} optional: ${optional}\n${child.toString("$indentation\t")}${second.toString("$indentation\t")}"
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("LOPJoin")
+        res.addAttribute("optional", "" + optional)
+        res.addContent(child.toXMLElement())
+        res.addContent(second.toXMLElement())
+        return res
+    }
 }

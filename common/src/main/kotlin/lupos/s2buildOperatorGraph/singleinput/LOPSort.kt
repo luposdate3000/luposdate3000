@@ -1,6 +1,8 @@
 package lupos.s2buildOperatorGraph.singleinput
 
+import lupos.misc.*
 import lupos.s2buildOperatorGraph.OPBase
+import lupos.s2buildOperatorGraph.data.*
 
 class LOPSort(val asc: Boolean, var by: OPBase) : LOPSingleInputBase() {
     constructor(asc: Boolean, by: OPBase, child: OPBase) : this(asc, by) {
@@ -23,6 +25,17 @@ class LOPSort(val asc: Boolean, var by: OPBase) : LOPSingleInputBase() {
         else
             res += "'DESC'"
         res += "\n${indentation}\tby:\n" + by.toString("${indentation}\t\t") + "${indentation}\tchild:\n" + child.toString("${indentation}\t\t")
+        return res
+    }
+
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("LOPSort")
+        res.addAttribute("by", (by as LOPVariable).name)
+        if (asc)
+            res.addAttribute("order", "ASC")
+        else
+            res.addAttribute("order", "DESC")
+        res.addContent(child.toXMLElement())
         return res
     }
 }

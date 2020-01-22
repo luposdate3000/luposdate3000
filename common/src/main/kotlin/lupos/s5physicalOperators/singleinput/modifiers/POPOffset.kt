@@ -1,5 +1,6 @@
 package lupos.s5physicalOperators.singleinput.modifiers
 
+import lupos.misc.*
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
@@ -55,6 +56,13 @@ class POPOffset : POPSingleInputBaseNullableIterator {
     override fun toString(indentation: String): String {
         var res = "${indentation}${this::class.simpleName}\n${indentation}\toffset: ${offset}\n"
         res += "${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
+        return res
+    }
+
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("POPOffset")
+        res.addAttribute("offset", "" + offset)
+        res.addContent(child.toXMLElement())
         return res
     }
 }

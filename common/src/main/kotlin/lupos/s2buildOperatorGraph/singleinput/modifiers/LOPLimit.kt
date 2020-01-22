@@ -1,5 +1,6 @@
 package lupos.s2buildOperatorGraph.singleinput.modifiers
 
+import lupos.misc.*
 import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.singleinput.LOPSingleInputBase
 
@@ -17,4 +18,10 @@ class LOPLimit(val limit: Int) : LOPSingleInputBase() {
     }
 
     override fun toString(indentation: String): String = "${indentation}${this::class.simpleName} '$limit'\n" + child.toString("${indentation}\t")
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("LOPLimit")
+        res.addAttribute("limit", "" + limit)
+        res.addContent(child.toXMLElement())
+        return res
+    }
 }

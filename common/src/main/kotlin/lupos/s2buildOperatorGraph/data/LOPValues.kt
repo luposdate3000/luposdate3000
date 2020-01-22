@@ -1,5 +1,6 @@
 package lupos.s2buildOperatorGraph.data
 
+import lupos.misc.*
 import lupos.s2buildOperatorGraph.LOPBase
 
 class LOPValues(val variables: List<LOPVariable>, val values: List<LOPExpression>) : LOPBase() {
@@ -24,5 +25,9 @@ class LOPValues(val variables: List<LOPVariable>, val values: List<LOPExpression
             res += v.toString("${indentation}\t\t")
         }
         return res
+    }
+
+    override fun toXMLElement(): XMLElement {
+        return XMLElement("LOPValues")
     }
 }

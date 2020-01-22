@@ -35,6 +35,9 @@ class TripleInsertIterator : POPBaseNullableIterator {
     var result: ResultRow?
 
     private val resultSet = ResultSet()
+    override fun toXMLElement(): XMLElement {
+        return XMLElement("TripleInsertIterator")
+    }
 
     fun cleanString(s: String): String {
         var res = s
@@ -175,7 +178,7 @@ object P2P {
                         response = process_sparql_query(params["query"]?.first())
                 }
                 REQUEST_TURTLE_INPUT[0] -> response = process_turtle_input(data)
-                else -> throw Exception("unknown request path: \""+request.path+"\"")
+                else -> throw Exception("unknown request path: \"" + request.path + "\"")
             }
         } catch (e: Throwable) {
             e.kotlinStacktrace()
@@ -183,7 +186,7 @@ object P2P {
             request.setStatus(404)
         }
         request.end(response)
-println("response::"+response)
+        println("response::" + response)
     }
 
     suspend fun start(bootstrap: String?) {

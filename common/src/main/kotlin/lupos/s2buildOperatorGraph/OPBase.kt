@@ -1,5 +1,7 @@
 package lupos.s2buildOperatorGraph
 
+import lupos.misc.*
+
 abstract class OPBase {
 
     open fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n"
@@ -16,4 +18,5 @@ abstract class OPBase {
 
     abstract fun getRequiredVariableNames(): List<String>
     abstract fun getProvidedVariableNames(): List<String>
+    abstract fun toXMLElement(): XMLElement
 }

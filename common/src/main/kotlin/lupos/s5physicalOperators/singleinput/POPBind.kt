@@ -1,5 +1,6 @@
 package lupos.s5physicalOperators.singleinput
 
+import lupos.misc.*
 import lupos.misc.kotlinStacktrace
 
 import lupos.s2buildOperatorGraph.data.LOPVariable
@@ -70,4 +71,11 @@ class POPBind : POPSingleInputBase {
     }
 
     override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\tname:\n${indentation}\t\t${name.name}\n${indentation}\texpression:\n${expression.toString("${indentation}\t\t")}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("POPBind")
+        res.addAttribute("name", name.name)
+        res.addAttribute("expression", expression.child.toString())
+        res.addContent(child.toXMLElement())
+        return res
+    }
 }

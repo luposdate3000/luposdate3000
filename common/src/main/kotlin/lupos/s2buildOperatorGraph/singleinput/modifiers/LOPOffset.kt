@@ -1,5 +1,6 @@
 package lupos.s2buildOperatorGraph.singleinput.modifiers
 
+import lupos.misc.*
 import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.singleinput.LOPSingleInputBase
 
@@ -17,4 +18,10 @@ class LOPOffset(val offset: Int) : LOPSingleInputBase() {
     }
 
     override fun toString(indentation: String): String = "${indentation}${this::class.simpleName} '$offset'\n" + child.toString("${indentation}\t")
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("LOPOffset")
+        res.addAttribute("offset", "" + offset)
+        res.addContent(child.toXMLElement())
+        return res
+    }
 }

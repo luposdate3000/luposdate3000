@@ -342,6 +342,9 @@ class TripleInsertIterator : POPBaseNullableIterator {
     val data: XMLElement
     var iterator: Iterator<XMLElement>? = null
     val variables = mutableMapOf<String, Variable>()
+    override fun toXMLElement(): XMLElement {
+        return XMLElement("TripleInsertIterator")
+    }
 
     constructor(data: XMLElement) {
         this.data = data
@@ -437,15 +440,15 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: String?, inputDataFileNam
         println(ast_node)
         println("----------Logical Operator Graph")
         val lop_node = ast_node.visit(OperatorGraphVisitor())
-        println(lop_node)
+        println(lop_node.toXMLElement().toPrettyString())
         println("----------Logical Operator Graph optimized")
         val lop_node2 = LogicalOptimizer().optimize(lop_node)
-        println(lop_node2)
+        println(lop_node2.toXMLElement().toPrettyString())
         println("----------Physical Operator Graph")
         val pop_optimizer = PhysicalOptimizer()
         pop_optimizer.store = store
         val pop_node = pop_optimizer.optimize(lop_node2) as POPBase
-        println(pop_node)
+        println(pop_node.toXMLElement().toPrettyString())
         if (resultData != null && resultDataFileName != null) {
             println("----------Query Result")
             val xmlQueryResult = QueryResultToXML.toXML(pop_node)

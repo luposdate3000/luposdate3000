@@ -1,5 +1,6 @@
 package lupos.s5physicalOperators
 
+import lupos.misc.*
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
@@ -33,4 +34,8 @@ class POPEmptyRow() : POPBase() {
     }
 
     override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n"
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("POPEmptyRow")
+        return res
+    }
 }

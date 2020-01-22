@@ -1,5 +1,6 @@
 package lupos.s2buildOperatorGraph.singleinput
 
+import lupos.misc.*
 import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.data.LOPVariable
 
@@ -28,5 +29,15 @@ class LOPProjection(val variables: MutableList<LOPVariable> = mutableListOf()) :
             res += "${indentation}\t\t$var1"
         }
         return res + "${indentation}\tchild:\n" + child.toString("${indentation}\t\t")
+    }
+
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("LOPProjection")
+        var vars = ""
+        for (v in variables)
+            vars = vars + "," + v.name
+        res.addAttribute("variables", vars)
+        res.addContent(child.toXMLElement())
+        return res
     }
 }
