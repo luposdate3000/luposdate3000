@@ -42,13 +42,14 @@ class LOPGroup(var by: List<LOPVariable>) : LOPSingleInputBase() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPGroup")
-        var byString = ""
-        for (b in by) {
-            byString = byString + "," + b.name
-        }
-        res.addAttribute("by", byString)
+	val byxml=XMLElement("LocalBy")
+	res.addContent(byxml)
+        for (b in by) 
+		byxml.addContent(XMLElement("LocalVariable").addAttribute("name",b.name))
+	val xmlbindings = XMLElement("LocalBindings")
+	res.addContent(xmlbindings)
         if (bindings != null)
-            res.addContent(bindings!!.toXMLElement())
+            xmlbindings.addContent(bindings!!.toXMLElement())
         res.addContent(child.toXMLElement())
         return res
     }

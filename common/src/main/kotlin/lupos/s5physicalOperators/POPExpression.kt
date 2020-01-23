@@ -807,7 +807,7 @@ class POPExpression : OPBase {
     }
 
     override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPExpression")
+        val res = XMLElement("POPExpression")
         res.addAttribute("expression", child.toString())
         return res
     }

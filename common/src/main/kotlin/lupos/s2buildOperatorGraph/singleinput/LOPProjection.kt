@@ -33,10 +33,10 @@ class LOPProjection(val variables: MutableList<LOPVariable> = mutableListOf()) :
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPProjection")
-        var vars = ""
+	val vars = XMLElement("LocalVariables")
+	res.addContent(vars)
         for (v in variables)
-            vars = vars + "," + v.name
-        res.addAttribute("variables", vars)
+            vars.addContent(XMLElement("LocalVariable").addAttribute("name", v.name))
         res.addContent(child.toXMLElement())
         return res
     }

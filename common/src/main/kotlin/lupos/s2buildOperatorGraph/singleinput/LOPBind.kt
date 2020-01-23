@@ -22,10 +22,7 @@ class LOPBind(val name: LOPVariable, val expression: OPBase) : LOPSingleInputBas
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPBind")
         res.addAttribute("name", name.name)
-        if (expression is LOPExpression)
-            res.addAttribute("expression", (expression as LOPExpression).child.toString())
-        else
-            res.addAttribute("expression", (expression as LOPVariable).name)
+        res.addContent(XMLElement("LocalValue").addContent(expression.toXMLElement()))
         res.addContent(child.toXMLElement())
         return res
     }
