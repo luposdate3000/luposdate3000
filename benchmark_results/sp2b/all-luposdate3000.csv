@@ -1,5 +1,12 @@
 title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
 title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
 title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
+title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
+title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
+title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
+title,triples,q10.sparql,q11.sparql,q12a.sparql,q12b.sparql,q12c.sparql,q1.sparql,q2.sparql,q3a.sparql,q3b.sparql,q3c.sparql,q4.sparql,q5a.sparql,q5b.sparql,q6.sparql,q7.sparql,q8.sparql,q9.sparql
 luposdate3000,100,97.31,91.45,83.33,37.36,67.86,72.62,79.36,51.33,35.53,48.61,13.55,83.41,103.07,79.52,76.23,41.37,45.67
 luposdate3000,1000,76.01,68.82,90.72,.88,72.70,47.61,54.78,13.46,14.08,14.24,.09,86.39,64.61,54.18,9.31,.79,8.29
+luposdate3000,100,107.03,62.87,76.61,52.73,75.62,69.44,71.92,74.40,59.40,51.89,27.15,80.43,74.62,68.89,84.72,50.34,77.07
+luposdate3000,1000,73.81,76.16,70.72,5.58,79.84,46.95,59.23,45.71,48.56,45.72,.89,50.59,57.89,47.33,43.90,5.17,56.66
+luposdate3000,10000,40.51,63.17,1.38,.80,68.65,44.91,13.63,11.75,24.41,24.67,.01,.17,3.63,14.07,11.18,.45,22.46

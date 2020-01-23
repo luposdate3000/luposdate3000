@@ -70,7 +70,6 @@ class POPJoinHashMap : POPBaseNullableIterator {
                 if (v != resultSet[1 - idx].getUndefValue())
                     row[p.second] = resultSetNew.createValue(v)
             }
-            println("joining $rowA $rowB to $row")
             queue.add(row)
         }
     }
@@ -102,7 +101,6 @@ class POPJoinHashMap : POPBaseNullableIterator {
             }
             keys = newkeys
         }
-        println("keys = " + exactkey + " && " + keys.toString())
         var t = map[idx][exactkey]
         if (t == null)
             t = mutableListOf<ResultRow>()
@@ -139,7 +137,6 @@ class POPJoinHashMap : POPBaseNullableIterator {
                         map[1][k] = mutableListOf<ResultRow>()
                     }
                 }
-                println("optional :: " + queue.toString())
                 hadOptionals = true
             } else
                 return null
