@@ -12,23 +12,11 @@ import lupos.s5physicalOperators.POPExpression
 class POPFilter : POPSingleInputBaseNullableIterator {
 
     val filter: POPExpression
-    private val resultSetOld: ResultSet
-    private val resultSetNew = ResultSet()
-    private val variablesOld: Array<Variable?>
-    private val variablesNew: Array<Variable?>
+    private val resultSet: ResultSet
 
     constructor(filter: POPExpression, child: POPBase) : super(child) {
         this.filter = filter
-        resultSetOld = child.getResultSet()
-        val variableNames = resultSetOld.getVariableNames()
-        variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
-        variablesNew = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
-        var i = 0
-        for (name in variableNames) {
-            variablesOld[i] = resultSetOld.createVariable(name)
-            variablesNew[i] = resultSetNew.createVariable(name)
-            i++
-        }
+        resultSet = child.getResultSet()
     }
 
     override fun getProvidedVariableNames(): List<String> {
@@ -40,26 +28,17 @@ class POPFilter : POPSingleInputBaseNullableIterator {
     }
 
     override fun getResultSet(): ResultSet {
-        return resultSetNew
+        return resultSet
     }
 
     override fun nnext(): ResultRow? {
-        var nextRow: ResultRow?
         while (true) {
             if (!child.hasNext())
                 return null
-            nextRow = child.next()
-            if (filter.evaluateBoolean(resultSetOld, nextRow))
-                break
+            val  nextRow = child.next()
+            if (filter.evaluateBoolean(resultSet, nextRow))
+                return nextRow!!
         }
-        var rsNew = resultSetNew.createResultRow()
-
-        val rsOld = nextRow!!
-        for (i in variablesNew.indices) {
-            // TODO reuse resultSet
-            rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
-        }
-        return rsNew
     }
 
     override fun toXMLElement(): XMLElement {
