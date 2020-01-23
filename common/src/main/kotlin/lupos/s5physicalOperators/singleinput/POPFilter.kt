@@ -35,7 +35,7 @@ class POPFilter : POPSingleInputBaseNullableIterator {
         while (true) {
             if (!child.hasNext())
                 return null
-            val  nextRow = child.next()
+            val nextRow = child.next()
             if (filter.evaluateBoolean(resultSet, nextRow))
                 return nextRow!!
         }
