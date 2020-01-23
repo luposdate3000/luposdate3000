@@ -1,5 +1,6 @@
 package lupos.s6tripleStore
 
+import lupos.misc.*
 import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.ResultSetIterator
@@ -20,6 +21,9 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
     private val store: TripleStore
     private var currentKey: ResultRow?
     private var index: IndexPattern = IndexPattern.S
+    override fun toXMLElement(): XMLElement {
+        return XMLElement("TripleStoreIterator")
+    }
 
     constructor(store: TripleStore, index: IndexPattern) {
         this.store = store
