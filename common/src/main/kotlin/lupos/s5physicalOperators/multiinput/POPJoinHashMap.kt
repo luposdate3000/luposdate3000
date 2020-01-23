@@ -84,9 +84,8 @@ class POPJoinHashMap : POPBaseNullableIterator {
         t.add(rowA)
         map[idx][key] = t
         val rowsB = map[1 - idx][key]
-        if (rowsB != null) {
+        if (rowsB != null)
             joinHelper(rowA, rowsB, idx)
-        }
     }
 
     override fun nnext(): ResultRow? {
@@ -102,14 +101,19 @@ class POPJoinHashMap : POPBaseNullableIterator {
                     if (map[1][k] == null) {
                         for (rowA in v) {
                             val row = resultSetNew.createResultRow()
+                            for (p in variables[1])
+                                row[p.second] = resultSetNew.createValue(resultSetNew.getUndefValue())
                             for (p in variables[0])
                                 row[p.second] = resultSetNew.createValue(resultSet[0].getValue(rowA[p.first]))
                             for (p in variablesJ[0])
                                 row[p.second] = resultSetNew.createValue(resultSet[0].getValue(rowA[p.first]))
                             queue.add(row)
                         }
+			map[1][k]= mutableListOf<ResultRow>()
                     }
                 }
+		if(queue.isEmpty())
+			return null
             } else
                 return null
         }
