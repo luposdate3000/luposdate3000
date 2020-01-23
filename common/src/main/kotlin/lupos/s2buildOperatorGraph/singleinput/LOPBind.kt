@@ -18,7 +18,6 @@ class LOPBind(val name: LOPVariable, val expression: OPBase) : LOPSingleInputBas
         return expression.getRequiredVariableNames() + child.getRequiredVariableNames()
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n$indentation\tvariable:\n${name.toString("$indentation\t\t")}$indentation\texpression:\n${expression.toString("$indentation\t\t")}$indentation\tchild:\n${child.toString("$indentation\t\t")}"
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPBind")
         res.addAttribute("name", name.name)

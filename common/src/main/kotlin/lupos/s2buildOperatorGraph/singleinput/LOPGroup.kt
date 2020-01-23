@@ -33,21 +33,14 @@ class LOPGroup(var by: List<LOPVariable>) : LOPSingleInputBase() {
         this.child = child
     }
 
-    override fun toString(indentation: String): String {
-        var bindings: OPBase? = this.bindings
-        if (bindings == null)
-            bindings = LOPNOOP()
-        return "${indentation}${this::class.simpleName}\n${indentation}\tvariable:\n${by.toString()}${indentation}\tbindings:\n${bindings.toString("${indentation}\t\t")}${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
-    }
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPGroup")
-	val byxml=XMLElement("LocalBy")
-	res.addContent(byxml)
-        for (b in by) 
-		byxml.addContent(XMLElement("LocalVariable").addAttribute("name",b.name))
-	val xmlbindings = XMLElement("LocalBindings")
-	res.addContent(xmlbindings)
+        val byxml = XMLElement("LocalBy")
+        res.addContent(byxml)
+        for (b in by)
+            byxml.addContent(XMLElement("LocalVariable").addAttribute("name", b.name))
+        val xmlbindings = XMLElement("LocalBindings")
+        res.addContent(xmlbindings)
         if (bindings != null)
             xmlbindings.addContent(bindings!!.toXMLElement())
         res.addContent(child.toXMLElement())

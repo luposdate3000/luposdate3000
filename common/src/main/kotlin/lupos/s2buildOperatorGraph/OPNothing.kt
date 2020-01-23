@@ -6,7 +6,6 @@ import lupos.misc.*
 
 class OPNothing() : OPBase() {
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}"
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()
     }

@@ -54,17 +54,8 @@ class POPProjection : POPSingleInputBase {
         return rsNew
     }
 
-    override fun toString(indentation: String): String {
-        var res = "${indentation}${this::class.simpleName}\n${indentation}\tvariables:\n"
-        for (i in variablesNew.indices) {
-            res += "${indentation}\t\t${resultSetOld.getVariable(variablesNew[i])}\n"
-        }
-        res += "${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
-        return res
-    }
-
     override fun toXMLElement(): XMLElement {
-	val res = XMLElement("POPProjection")
+        val res = XMLElement("POPProjection")
         val vars = XMLElement("LocalVariables")
         res.addContent(vars)
         for (v in variables)

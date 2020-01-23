@@ -33,7 +33,6 @@ class POPEmptyRow() : POPBase() {
         return mutableListOf<String>()
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n"
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPEmptyRow")
         return res

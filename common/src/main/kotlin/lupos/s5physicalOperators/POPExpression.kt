@@ -94,7 +94,6 @@ class DateTime {
             timezoneHours = -1
             timezoneMinutes = -1
         }
-        println("DateTime extracted :: " + toString())
     }
 
     fun getTZ(): String {
@@ -802,13 +801,9 @@ class POPExpression : OPBase {
         return getAllVariablesInChildren(child)
     }
 
-    override fun toString(indentation: String): String {
-        return "${indentation}${this::class.simpleName}\n${child.toString("${indentation}\t")}"
-    }
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPExpression")
-        res.addAttribute("expression", child.toString())
+        res.addContent(XMLElement("expression").addContent(child.toString()))
         return res
     }
 }

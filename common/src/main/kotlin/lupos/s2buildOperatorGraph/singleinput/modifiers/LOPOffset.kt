@@ -17,7 +17,6 @@ class LOPOffset(val offset: Int) : LOPSingleInputBase() {
         return child.getRequiredVariableNames()
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName} '$offset'\n" + child.toString("${indentation}\t")
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPOffset")
         res.addAttribute("offset", "" + offset)

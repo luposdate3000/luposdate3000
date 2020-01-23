@@ -15,30 +15,18 @@ class LOPValues(val variables: List<LOPVariable>, val values: List<LOPExpression
         return mutableListOf<String>()
     }
 
-    override fun toString(indentation: String): String {
-        var res = "${indentation}${this::class.simpleName}\n${indentation}\tvariables:\n"
-        for (v in variables) {
-            res += v.toString("${indentation}\t\t")
-        }
-        res += "$indentation\tvalues:\n"
-        for (v in values) {
-            res += v.toString("${indentation}\t\t")
-        }
-        return res
-    }
-
     override fun toXMLElement(): XMLElement {
-	val res = XMLElement("LOPValues")
+        val res = XMLElement("LOPValues")
         val xmlvariables = XMLElement("LocalVariables")
         res.addContent(xmlvariables)
-        val bindings=XMLElement("LocalBindings")
+        val bindings = XMLElement("LocalBindings")
         res.addContent(bindings)
-        for(v in variables)
-                xmlvariables.addContent(XMLElement("LocalVariable").addAttribute("name",v.name))
-        for (v in values){
-                val it = v.child.children.iterator()
-                for(v2 in variables)
-		        bindings.addContent(XMLElement("LocalBinding").addAttribute("name",v2.name).addContent(LOPExpression(it.next()).toXMLElement()))
+        for (v in variables)
+            xmlvariables.addContent(XMLElement("LocalVariable").addAttribute("name", v.name))
+        for (v in values) {
+            val it = v.child.children.iterator()
+            for (v2 in variables)
+                bindings.addContent(XMLElement("LocalBinding").addAttribute("name", v2.name).addContent(LOPExpression(it.next()).toXMLElement()))
         }
         return res
     }

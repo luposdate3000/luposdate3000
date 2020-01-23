@@ -53,12 +53,6 @@ class POPOffset : POPSingleInputBaseNullableIterator {
         return rsNew
     }
 
-    override fun toString(indentation: String): String {
-        var res = "${indentation}${this::class.simpleName}\n${indentation}\toffset: ${offset}\n"
-        res += "${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
-        return res
-    }
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPOffset")
         res.addAttribute("offset", "" + offset)

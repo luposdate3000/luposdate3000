@@ -12,10 +12,7 @@ abstract class OPBase {
 
     val uuid = global_uuid++
 
-    override fun toString(): String {
-        return toString("")
-    }
-
+    override fun toString(): String = toXMLElement().toPrettyString()
     abstract fun getRequiredVariableNames(): List<String>
     abstract fun getProvidedVariableNames(): List<String>
     abstract fun toXMLElement(): XMLElement

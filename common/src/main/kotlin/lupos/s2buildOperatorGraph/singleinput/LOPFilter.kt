@@ -17,7 +17,6 @@ class LOPFilter(val filter: LOPExpression) : LOPSingleInputBase() {
         return child.getRequiredVariableNames() + filter.getRequiredVariableNames()
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\tfilter:\n'${filter.toString("${indentation}\t\t")}'\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPFilter")
         res.addContent(XMLElement("LocalFilter").addContent(filter.toXMLElement()))

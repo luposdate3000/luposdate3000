@@ -74,7 +74,6 @@ class POPRename : POPSingleInputBase {
         return rsNew
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\tfrom:\n${indentation}\t\t${nameFrom.name}\n${indentation}\tto:\n${indentation}\t\t${nameTo.name}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPRename")
         res.addAttribute("nameTo", nameTo.name)

@@ -23,18 +23,10 @@ class LOPProjection(val variables: MutableList<LOPVariable> = mutableListOf()) :
         return res
     }
 
-    override fun toString(indentation: String): String {
-        var res = "${indentation}${this::class.simpleName}\n${indentation}\tvariables:\n"
-        for (var1 in variables) {
-            res += "${indentation}\t\t$var1"
-        }
-        return res + "${indentation}\tchild:\n" + child.toString("${indentation}\t\t")
-    }
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPProjection")
-	val vars = XMLElement("LocalVariables")
-	res.addContent(vars)
+        val vars = XMLElement("LocalVariables")
+        res.addContent(vars)
         for (v in variables)
             vars.addContent(XMLElement("LocalVariable").addAttribute("name", v.name))
         res.addContent(child.toXMLElement())

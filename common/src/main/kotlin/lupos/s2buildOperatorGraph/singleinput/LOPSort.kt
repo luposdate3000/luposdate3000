@@ -18,16 +18,6 @@ class LOPSort(val asc: Boolean, var by: OPBase) : LOPSingleInputBase() {
         return child.getRequiredVariableNames()
     }
 
-    override fun toString(indentation: String): String {
-        var res = "${indentation}${this::class.simpleName}\n${indentation}\torder: "
-        if (asc)
-            res += "'ASC'"
-        else
-            res += "'DESC'"
-        res += "\n${indentation}\tby:\n" + by.toString("${indentation}\t\t") + "${indentation}\tchild:\n" + child.toString("${indentation}\t\t")
-        return res
-    }
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPSort")
         res.addAttribute("by", (by as LOPVariable).name)

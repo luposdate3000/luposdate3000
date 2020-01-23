@@ -17,7 +17,6 @@ class LOPPrefix(val name: String, val iri: String) : LOPSingleInputBase() {
         return child.getRequiredVariableNames()
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName} '$name' '$iri'\n" + child.toString("${indentation}\t")
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPPrefix")
         res.addAttribute("name", name)

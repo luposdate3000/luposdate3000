@@ -81,10 +81,6 @@ class POPSort : POPSingleInputBaseNullableIterator {
         iterator = data!!.listIterator()
     }
 
-    override fun toString(indentation: String): String {
-        return "${indentation}${this::class.simpleName}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
-    }
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPSort")
         res.addAttribute("by", resultSetNew.getVariable(sortBy))

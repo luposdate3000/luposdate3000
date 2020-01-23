@@ -41,12 +41,6 @@ class POPMakeBooleanResult : POPSingleInputBase {
         return rsNew
     }
 
-    override fun toString(indentation: String): String {
-        var res = "${indentation}${this::class.simpleName}\n"
-        res += "${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
-        return res
-    }
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPMakeBooleanResult")
         res.addContent(child.toXMLElement())

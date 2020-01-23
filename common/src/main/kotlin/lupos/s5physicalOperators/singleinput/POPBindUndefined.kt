@@ -59,7 +59,6 @@ class POPBindUndefined : POPSingleInputBase {
         return rsNew
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\tname:\n${indentation}\t\t${name.name}\n${indentation}\t${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPBindUndefined")
         res.addAttribute("name", name.name)

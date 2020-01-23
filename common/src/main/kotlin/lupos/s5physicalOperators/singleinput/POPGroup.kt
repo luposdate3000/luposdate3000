@@ -114,16 +114,12 @@ class POPGroup : POPSingleInputBaseNullableIterator {
         iterator = data!!.listIterator()
     }
 
-    override fun toString(indentation: String): String {
-        return "${indentation}${this::class.simpleName}\n${indentation}\tby\n${indentation}\t\t${by}\n${indentation}\tbindings:\n${indentation}\t\t${bindings}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
-    }
-
-override fun toXMLElement(): XMLElement {
+    override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPGroup")
-        val byxml=XMLElement("LocalBy")
+        val byxml = XMLElement("LocalBy")
         res.addContent(byxml)
         for (b in by)
-                byxml.addContent(XMLElement("LocalVariable").addAttribute("name",b.name))
+            byxml.addContent(XMLElement("LocalVariable").addAttribute("name", b.name))
         val xmlbindings = XMLElement("LocalBindings")
         res.addContent(xmlbindings)
         for (b in bindings)

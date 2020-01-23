@@ -31,7 +31,6 @@ class LOPRename(val nameTo: LOPVariable, val nameFrom: LOPVariable) : LOPSingleI
         return res
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n$indentation\tnameTo:\n${nameTo.toString("$indentation\t\t")}$indentation\t´nameFrom:\n${nameFrom.toString("$indentation\t\t")}$indentation\tchild:\n${child.toString("$indentation\t\t")}"
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPRename")
         res.addAttribute("nameTo", nameTo.name)

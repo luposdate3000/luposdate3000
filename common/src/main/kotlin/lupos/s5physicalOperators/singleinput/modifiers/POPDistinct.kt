@@ -60,10 +60,6 @@ class POPDistinct : POPSingleInputBaseNullableIterator {
         return iterator!!.next()
     }
 
-    override fun toString(indentation: String): String {
-        return "${indentation}${this::class.simpleName}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
-    }
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPDistinct")
         res.addContent(child.toXMLElement())

@@ -24,11 +24,9 @@ class LOPExpression(val child: ASTNode) : LOPBase() {
         return getAllVariablesInChildren(child)
     }
 
-    override fun toString(indentation: String): String {
-        return "${indentation}${this::class.simpleName}\n${child.toString("${indentation}\t")}"
-    }
-
     override fun toXMLElement(): XMLElement {
-        return XMLElement("LOPExpression")
+        val res = XMLElement("POPExpression")
+        res.addContent(XMLElement("expression").addContent(child.toString()))
+        return res
     }
 }

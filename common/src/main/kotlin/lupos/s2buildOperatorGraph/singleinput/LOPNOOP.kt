@@ -16,7 +16,6 @@ class LOPNOOP() : LOPSingleInputBase() {
         return child.getRequiredVariableNames()
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPNOOP")
         res.addContent(child.toXMLElement())

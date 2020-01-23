@@ -19,14 +19,14 @@ class POPValues : POPBase {
     private val rs = ResultSet()
     private val rr = rs.createResultRow()
     private val stringVars = mutableListOf<String>()
-private val values:List<LOPExpression>
+    private val values: List<LOPExpression>
 
     constructor(values: LOPValues) : super() {
         for (name in values.variables) {
             stringVars.add(name.name)
             variables.add(resultSet.createVariable(name.name))
         }
-	this.values=values.values
+        this.values = values.values
         iterator = values.values.iterator()
     }
 
@@ -56,22 +56,18 @@ private val values:List<LOPExpression>
         return rsNew
     }
 
-    override fun toString(indentation: String): String {
-        return "${indentation}${this::class.simpleName}\n"
-    }
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPValues")
         val xmlvariables = XMLElement("LocalVariables")
-	res.addContent(xmlvariables)
-	val bindings=XMLElement("LocalBindings")
-	res.addContent(bindings)
-	for(v in variables)
-		xmlvariables.addContent(XMLElement("LocalVariable").addAttribute("name",resultSet.getVariable(v)))
-	for (v in values){
-                val it = v.child.children.iterator()
-                for(v2 in variables)
-                        bindings.addContent(XMLElement("LocalBinding").addAttribute("name",resultSet.getVariable(v2)).addContent(POPExpression(it.next()).evaluate(rs, rr)))
+        res.addContent(xmlvariables)
+        val bindings = XMLElement("LocalBindings")
+        res.addContent(bindings)
+        for (v in variables)
+            xmlvariables.addContent(XMLElement("LocalVariable").addAttribute("name", resultSet.getVariable(v)))
+        for (v in values) {
+            val it = v.child.children.iterator()
+            for (v2 in variables)
+                bindings.addContent(XMLElement("LocalBinding").addAttribute("name", resultSet.getVariable(v2)).addContent(POPExpression(it.next()).evaluate(rs, rr)))
         }
         return res
     }

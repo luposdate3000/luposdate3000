@@ -17,7 +17,6 @@ class LOPLimit(val limit: Int) : LOPSingleInputBase() {
         return child.getRequiredVariableNames()
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName} '$limit'\n" + child.toString("${indentation}\t")
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPLimit")
         res.addAttribute("limit", "" + limit)

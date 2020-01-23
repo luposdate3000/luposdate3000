@@ -68,7 +68,6 @@ class POPFilterExact : POPSingleInputBaseNullableIterator {
         return rsNew
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${indentation}\tvariable:\n${indentation}\t\t${resultSetOld.getVariable(filterVariable)}\n${indentation}\tvalue:\n${indentation}\t\t${filterValue}\n${indentation}\tchild:\n${child.toString("${indentation}\t\t")}"
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPFilterExact")
         res.addAttribute("name", variable.name)

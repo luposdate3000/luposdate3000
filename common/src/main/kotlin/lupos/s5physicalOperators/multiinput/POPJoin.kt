@@ -125,10 +125,6 @@ class POPJoin : POPBaseNullableIterator {
         }
     }
 
-    override fun toString(indentation: String): String {
-        return "${indentation}${this::class.simpleName} optional: ${optional}\n${indentation}\tchilds:\n${childA.toString("${indentation}\t\t")}${childB.toString("${indentation}\t\t")}"
-    }
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPJoin")
         res.addAttribute("optional", "" + optional)

@@ -81,10 +81,6 @@ class POPUnion : POPBaseNullableIterator {
         return null
     }
 
-    override fun toString(indentation: String): String {
-        return "${indentation}${this::class.simpleName}\n${indentation}\tchilds:\n${childA.toString("${indentation}\t\t")}${childB.toString("${indentation}\t\t")}"
-    }
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPUnion")
         res.addContent(childA.toXMLElement())

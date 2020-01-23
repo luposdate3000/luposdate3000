@@ -13,7 +13,6 @@ class LOPMinus(first: OPBase, var second: OPBase) : LOPSingleInputBase(first) {
         return child.getRequiredVariableNames() + second.getRequiredVariableNames()
     }
 
-    override fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n${child.toString("$indentation\t")}${second.toString("$indentation\t")}"
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPMinus")
         res.addContent(child.toXMLElement())
