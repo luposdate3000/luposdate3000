@@ -1,5 +1,12 @@
 package lupos.p2p
 
+import lupos.misc.kotlinStacktrace
+import lupos.misc.XMLElement
+import lupos.s8outputResult.QueryResultToXML
+import lupos.s1buildSyntaxTree.turtle.TurtleParserWithDictionary
+import lupos.s1buildSyntaxTree.turtle.TurtleScanner
+import lupos.s1buildSyntaxTree.LookAheadTokenIterator
+
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
@@ -13,8 +20,6 @@ import lupos.s1buildSyntaxTree.sparql1_1.parseSPARQL
 import lupos.s1buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s1buildSyntaxTree.LexerCharIterator
-import lupos.s1buildSyntaxTree.*
-import lupos.s1buildSyntaxTree.turtle.*
 import lupos.s2buildOperatorGraph.OperatorGraphVisitor
 import lupos.s3logicalOptimisation.LogicalOptimizer
 import lupos.s4resultRepresentation.ResultRow
@@ -24,12 +29,9 @@ import lupos.s5physicalOperators.POPBase
 import lupos.s5physicalOperators.POPBaseNullableIterator
 import lupos.s6tripleStore.TripleStore
 import lupos.s7physicalOptimisation.PhysicalOptimizer
-import lupos.s8outputResult.*
-import lupos.misc.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
-import kotlin.text.*
 
 class TripleInsertIterator : POPBaseNullableIterator {
     var result: ResultRow?

@@ -1,6 +1,7 @@
 package lupos.s2buildOperatorGraph
 
-import lupos.misc.*
+import lupos.misc.XMLElement
+
 
 abstract class OPBase {
 

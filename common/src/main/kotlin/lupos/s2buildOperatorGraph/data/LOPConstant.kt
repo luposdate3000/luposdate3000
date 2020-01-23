@@ -1,6 +1,7 @@
 package lupos.s2buildOperatorGraph.data
 
-import lupos.misc.*
+import lupos.misc.XMLElement
+
 import lupos.s2buildOperatorGraph.LOPBase
 
 class LOPConstant(var value: String) : LOPBase() {

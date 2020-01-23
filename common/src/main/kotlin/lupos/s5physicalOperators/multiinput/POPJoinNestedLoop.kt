@@ -1,6 +1,7 @@
 package lupos.s5physicalOperators.multiinput
 
-import lupos.misc.*
+import lupos.misc.XMLElement
+
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
@@ -9,7 +10,7 @@ import lupos.s5physicalOperators.POPBase
 import lupos.s5physicalOperators.singleinput.POPTemporaryStore
 import lupos.s5physicalOperators.POPBaseNullableIterator
 
-class POPJoin : POPBaseNullableIterator {
+class POPJoinNestedLoop : POPBaseNullableIterator {
     val childA: POPBase
     val childB: POPTemporaryStore
     val optional: Boolean
@@ -126,7 +127,7 @@ class POPJoin : POPBaseNullableIterator {
     }
 
     override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPJoin")
+        val res = XMLElement("POPJoinNestedLoop")
         res.addAttribute("optional", "" + optional)
         res.addContent(childA.toXMLElement())
         res.addContent(childB.toXMLElement())

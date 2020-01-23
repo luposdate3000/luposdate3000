@@ -1,6 +1,7 @@
 package lupos.s2buildOperatorGraph.data
 
-import lupos.misc.*
+import lupos.misc.XMLElement
+
 import lupos.s1buildSyntaxTree.sparql1_1.ASTNode
 import lupos.s1buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s2buildOperatorGraph.LOPBase

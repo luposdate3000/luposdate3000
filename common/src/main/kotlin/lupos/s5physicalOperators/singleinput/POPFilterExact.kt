@@ -1,6 +1,7 @@
 package lupos.s5physicalOperators.singleinput
 
-import lupos.misc.*
+import lupos.misc.XMLElement
+
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s2buildOperatorGraph.data.LOPExpression
 import lupos.s4resultRepresentation.ResultRow

@@ -1,6 +1,7 @@
 package lupos.s2buildOperatorGraph.singleinput
 
-import lupos.misc.*
+import lupos.misc.XMLElement
+
 import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.singleinput.LOPSingleInputBase
 import lupos.s2buildOperatorGraph.data.LOPVariable

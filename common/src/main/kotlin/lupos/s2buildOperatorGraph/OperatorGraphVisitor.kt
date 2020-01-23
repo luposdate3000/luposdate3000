@@ -1,5 +1,10 @@
 package lupos.s2buildOperatorGraph
 
+import lupos.s2buildOperatorGraph.singleinput.LOPMakeBooleanResult
+import lupos.s2buildOperatorGraph.singleinput.LOPRename
+import lupos.s2buildOperatorGraph.singleinput.LOPSubGroup
+import lupos.s1buildSyntaxTree.sparql1_1.ASTNot
+
 import lupos.s1buildSyntaxTree.sparql1_1.ASTAdd
 import lupos.s1buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s1buildSyntaxTree.sparql1_1.ASTAggregation
@@ -56,7 +61,6 @@ import lupos.s1buildSyntaxTree.sparql1_1.ASTNamedGraphRef
 import lupos.s1buildSyntaxTree.sparql1_1.ASTNamedIriGraphRef
 import lupos.s1buildSyntaxTree.sparql1_1.ASTNEQ
 import lupos.s1buildSyntaxTree.sparql1_1.ASTNode
-import lupos.s1buildSyntaxTree.sparql1_1.*
 import lupos.s1buildSyntaxTree.sparql1_1.ASTNotIn
 import lupos.s1buildSyntaxTree.sparql1_1.ASTNumericLiteral
 import lupos.s1buildSyntaxTree.sparql1_1.ASTOptional
@@ -104,7 +108,6 @@ import lupos.s2buildOperatorGraph.singleinput.LOPOptional
 import lupos.s2buildOperatorGraph.singleinput.LOPProjection
 import lupos.s2buildOperatorGraph.singleinput.LOPSingleInputBase
 import lupos.s2buildOperatorGraph.singleinput.LOPSort
-import lupos.s2buildOperatorGraph.singleinput.*
 import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPDistinct
 import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPLimit
 import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPOffset

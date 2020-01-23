@@ -1,8 +1,9 @@
 package lupos.s2buildOperatorGraph.singleinput
 
-import lupos.misc.*
+import lupos.s2buildOperatorGraph.data.LOPVariable
+import lupos.misc.XMLElement
+
 import lupos.s2buildOperatorGraph.OPBase
-import lupos.s2buildOperatorGraph.data.*
 
 class LOPSort(val asc: Boolean, var by: OPBase) : LOPSingleInputBase() {
     constructor(asc: Boolean, by: OPBase, child: OPBase) : this(asc, by) {

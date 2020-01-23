@@ -1,6 +1,7 @@
 package lupos.s5physicalOperators
 
-import lupos.misc.*
+import lupos.misc.XMLElement
+
 import lupos.s1buildSyntaxTree.sparql1_1.ASTValue
 import lupos.s1buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s2buildOperatorGraph.data.LOPVariable

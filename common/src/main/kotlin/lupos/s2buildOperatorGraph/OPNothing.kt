@@ -1,8 +1,9 @@
 package lupos.s2buildOperatorGraph
 
+import lupos.misc.XMLElement
+
 import lupos.s2buildOperatorGraph.LOPBase
 import lupos.s2buildOperatorGraph.OPBase
-import lupos.misc.*
 
 class OPNothing() : OPBase() {
 

@@ -1,5 +1,7 @@
 package lupos.s3logicalOptimisation
 
+import lupos.s2buildOperatorGraph.singleinput.LOPNOOP
+
 import lupos.s2buildOperatorGraph.data.LOPExpression
 import lupos.s2buildOperatorGraph.data.LOPTriple
 import lupos.s2buildOperatorGraph.data.LOPValues
@@ -11,7 +13,6 @@ import lupos.s2buildOperatorGraph.singleinput.LOPBind
 import lupos.s2buildOperatorGraph.singleinput.LOPFilter
 import lupos.s2buildOperatorGraph.singleinput.LOPGroup
 import lupos.s2buildOperatorGraph.singleinput.LOPMakeBooleanResult
-import lupos.s2buildOperatorGraph.singleinput.*
 import lupos.s2buildOperatorGraph.singleinput.LOPOptional
 import lupos.s2buildOperatorGraph.singleinput.LOPProjection
 import lupos.s2buildOperatorGraph.singleinput.LOPRename

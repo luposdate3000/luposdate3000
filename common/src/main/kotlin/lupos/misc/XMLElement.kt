@@ -1,8 +1,11 @@
 package lupos.misc
 
-import kotlin.math.*
-import lupos.s1buildSyntaxTree.turtle.*
-import lupos.s1buildSyntaxTree.*
+import lupos.s1buildSyntaxTree.LexerCharIterator
+import lupos.s1buildSyntaxTree.LookAheadTokenIterator
+import lupos.s1buildSyntaxTree.turtle.TurtleParser
+import lupos.s1buildSyntaxTree.turtle.TurtleScanner
+import kotlin.math.abs
+
 
 class XMLElement(val tag: String) {
     // https://regex101.com

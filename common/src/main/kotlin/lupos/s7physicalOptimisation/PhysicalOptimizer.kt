@@ -21,7 +21,7 @@ import lupos.s5physicalOperators.POPBase
 import lupos.s5physicalOperators.POPValues
 import lupos.s5physicalOperators.POPEmptyRow
 import lupos.s5physicalOperators.POPExpression
-import lupos.s5physicalOperators.multiinput.POPJoin
+import lupos.s5physicalOperators.multiinput.POPJoinNestedLoop
 import lupos.s5physicalOperators.multiinput.POPUnion
 import lupos.s5physicalOperators.singleinput.POPBind
 import lupos.s5physicalOperators.singleinput.modifiers.*
@@ -117,7 +117,7 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
     }
 
     override fun visit(node: LOPJoin): OPBase {
-        return POPJoin(optimize(node.child) as POPBase, optimize(node.second) as POPBase, node.optional)
+        return POPJoinNestedLoop(optimize(node.child) as POPBase, optimize(node.second) as POPBase, node.optional)
     }
 
     fun optimizeTriple(param: OPBase, name: String, child: POPBase, node: LOPTriple): POPBase {
