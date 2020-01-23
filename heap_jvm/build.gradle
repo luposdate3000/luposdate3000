@@ -1,4 +1,5 @@
 apply plugin: 'kotlin-platform-jvm'
+apply plugin: 'jacoco'
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -9,7 +10,6 @@ dependencies {
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 }
-
 compileKotlin {
     // I do not know if this has some effect on the generated jar...
     // to specify some flags for optimization according to:
@@ -37,7 +37,23 @@ jar {
 }
 
 test {
+ useJUnitPlatform()
+    jacoco {
+        destinationFile = file("${buildDir}/jacoco/test.exec")
+    }
     testLogging {
         events "failed", "skipped", "passed"
+    }
+}
+jacoco {
+    // You may modify the Jacoco version here
+    toolVersion = "0.8.2"
+}
+
+jacocoTestReport {
+    // Adjust the output of the test report
+    reports {
+        xml.enabled true
+        csv.enabled false
     }
 }
