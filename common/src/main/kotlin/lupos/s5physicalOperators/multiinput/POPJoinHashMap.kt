@@ -16,6 +16,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
     val joinVariables: Set<String>
     val map: Array<MutableMap<String, MutableList<ResultRow>>>
     val queue = mutableListOf<ResultRow>()
+    var hadOptionals = false
     private val resultSet: Array<ResultSet>
     private val variables: Array<MutableList<Pair<Variable, Variable>>>
     private val variablesJ: Array<MutableList<Pair<Variable, Variable>>>
@@ -30,7 +31,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
     }
 
     constructor(childA: POPBase, childB: POPBase, optional: Boolean) : super() {
-	map = arrayOf(mutableMapOf<String, MutableList<ResultRow>>(),mutableMapOf<String, MutableList<ResultRow>>())
+        map = arrayOf(mutableMapOf<String, MutableList<ResultRow>>(), mutableMapOf<String, MutableList<ResultRow>>())
         child = arrayOf(childA, childB)
         this.optional = optional
         resultSet = arrayOf(childA.getResultSet(), childB.getResultSet())
@@ -63,29 +64,55 @@ class POPJoinHashMap : POPBaseNullableIterator {
             for (p in variables[1 - idx])
                 row[p.second] = resultSetNew.createValue(resultSet[1 - idx].getValue(rowB[p.first]))
             for (p in variablesJ[idx])
-                row[p.second] = resultSetNew.createValue(resultSet[idx].getValue(rowB[p.first]))
+                row[p.second] = resultSetNew.createValue(resultSet[idx].getValue(rowA[p.first]))
+            for (p in variablesJ[1 - idx]) {
+                val v = resultSet[1 - idx].getValue(rowB[p.first])
+                if (v != resultSet[1 - idx].getUndefValue())
+                    row[p.second] = resultSetNew.createValue(v)
+            }
+            println("joining $rowA $rowB to $row")
             queue.add(row)
         }
     }
 
     fun joinHelper(idx: Int) {
         val rowA = child[idx].next()
-        var key = ""
+        var keys = mutableSetOf<String>()
+        keys.add("")
+        var exactkey = ""
         for (k in variablesJ[idx]) {
             val v = resultSet[idx].getValue(rowA[k.first])
-            if (v == resultSet[idx].getUndefValue())
-                key += "-"
+            val kk = if (v == resultSet[idx].getUndefValue())
+                "-"
             else
-                key += v + "-"
+                v + "-"
+            exactkey += kk
+            val newkeys = mutableSetOf<String>()
+            for (x in keys) {
+                if (kk == "-") {
+                    newkeys.add(x + "-")
+                    for ((a, b) in map[1 - idx])
+                        if (a.startsWith(x)) {
+                            newkeys.add(a.substring(0, a.indexOf("-", x.length + 1) + 1))
+                        }
+                } else {
+                    newkeys.add(x + kk)
+                    newkeys.add(x + "-")
+                }
+            }
+            keys = newkeys
         }
-        var t = map[idx][key]
+        println("keys = " + exactkey + " && " + keys.toString())
+        var t = map[idx][exactkey]
         if (t == null)
             t = mutableListOf<ResultRow>()
         t.add(rowA)
-        map[idx][key] = t
-        val rowsB = map[1 - idx][key]
-        if (rowsB != null)
-            joinHelper(rowA, rowsB, idx)
+        map[idx][exactkey] = t
+        for (key in keys) {
+            val rowsB = map[1 - idx][key]
+            if (rowsB != null)
+                joinHelper(rowA, rowsB, idx)
+        }
     }
 
     override fun nnext(): ResultRow? {
@@ -96,7 +123,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
                 joinHelper(0)
             else if (child[1].hasNext())
                 joinHelper(1)
-            else if (optional) {
+            else if (optional && !hadOptionals) {
                 for ((k, v) in map[0]) {
                     if (map[1][k] == null) {
                         for (rowA in v) {
@@ -109,11 +136,11 @@ class POPJoinHashMap : POPBaseNullableIterator {
                                 row[p.second] = resultSetNew.createValue(resultSet[0].getValue(rowA[p.first]))
                             queue.add(row)
                         }
-			map[1][k]= mutableListOf<ResultRow>()
+                        map[1][k] = mutableListOf<ResultRow>()
                     }
                 }
-		if(queue.isEmpty())
-			return null
+                println("optional :: " + queue.toString())
+                hadOptionals = true
             } else
                 return null
         }
