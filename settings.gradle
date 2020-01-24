@@ -1,14 +1,3 @@
-enableFeaturePreview('GRADLE_METADATA')
-include 'common'
-include 'common_buffer_diskbased'
-include 'common_buffer_mainmemory'
-include 'common_result_dictionary_none'
-include 'common_triple_store_hash_map'
-include 'heap_js'
-include 'heap_jvm'
-include 'unsafehelper_jvm'
-include 'unsafe_jvm'
-include 'memorymapped_jvm'
-include 'memorymapped_unsafe_jvm'
-include 'randomaccess_jvm'
+rootProject.name = "luposdate3000"
 
+enableFeaturePreview("GRADLE_METADATA")
