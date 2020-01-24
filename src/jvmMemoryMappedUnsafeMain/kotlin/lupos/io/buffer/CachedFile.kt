@@ -5,20 +5,20 @@ import java.io.RandomAccessFile
 import java.lang.reflect.Method
 import sun.nio.ch.FileChannelImpl
 
-actual typealias Page = UnsafePage
+typealias Page = UnsafePage
 
-actual inline fun createString(chars: CharArray): String = String(chars)
+inline fun createString(chars: CharArray): String = String(chars)
 
 // memory mapped file and unsafe api:
 // http://nyeggen.com/post/2014-05-18-memory-mapping-%3E2gb-of-data-in-java/
 // and slides comparing different ways:
 // https://www.slideshare.net/AndreiPangin/do-we-need-unsafe-in-java
 
-actual class CachedFile {
+class CachedFile {
     val file: RandomAccessFile
     val PAGESIZE = 8 * 1024L
 
-    actual constructor(filename: String) {
+    constructor(filename: String) {
         val paths = filename.split("/")
         if (paths.size > 1) {
             val dirpath = paths.joinToString(separator = "/", limit = paths.size - 1)
@@ -85,16 +85,16 @@ actual class CachedFile {
         return result
     }
 
-    actual inline fun close() {
+    inline fun close() {
         this.file.close()
     }
 
-    actual inline fun get(address: Long): Page {
+    inline fun get(address: Long): Page {
         val pageOffset = mapAndGetOffset(address)
         return UnsafePage(pageOffset, { unmmap.invoke(null, pageOffset, PAGESIZE) })
     }
 
-    actual inline fun write(address: Long, page: Page) {
+    inline fun write(address: Long, page: Page) {
         // it is already written because technically it is a memory mapped file!
     }
 }

@@ -25,8 +25,6 @@ import lupos.s6tripleStore.TripleStore
 import lupos.s7physicalOptimisation.PhysicalOptimizer
 import lupos.s8outputResult.*
 
-expect fun readFileContents(filename: String): String
-
 val errorBoundForDecimalsDigits = 6
 
 fun main(args: Array<String>) {

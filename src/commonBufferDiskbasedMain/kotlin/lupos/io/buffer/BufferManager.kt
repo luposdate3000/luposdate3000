@@ -1,17 +1,17 @@
 package lupos.io.buffer
 
-actual class BufferManager {
+class BufferManager {
 
     /**
      * the max. number of opened files
      */
-    val MAXPAGES = 10 // first like this, should be dependent on actual size of main memory in the used computer
+    val MAXPAGES = 10 // first like this, should be dependent on size of main memory in the used computer
 
     private val cache = LeastRecentlyUsed<PageAddress, Page?>(PageAddress("", -1), null, MAXPAGES)
 
-    actual fun getPage(file: String, number: Int): Page = getPage(PageAddress(file, number))
+    fun getPage(file: String, number: Int): Page = getPage(PageAddress(file, number))
 
-    actual fun getPage(pageAddress: PageAddress): Page {
+    fun getPage(pageAddress: PageAddress): Page {
         val page = this.cache.getEntry(pageAddress)
         if (page == null) {
             while (this.cache.entries.size >= MAXPAGES) {
@@ -33,7 +33,7 @@ actual class BufferManager {
         }
     }
 
-    actual fun writeAllModifiedPages() {
+    fun writeAllModifiedPages() {
         for (entry in this.cache.entries) {
             val pageAddress = entry.key
             val page = entry.value.value
@@ -45,7 +45,7 @@ actual class BufferManager {
         }
     }
 
-    actual fun release() {
+    fun release() {
         for (entry in this.cache.entries) {
             val pageAddress = entry.key
             val page = entry.value.value

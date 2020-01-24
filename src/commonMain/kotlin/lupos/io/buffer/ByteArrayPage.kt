@@ -2,8 +2,6 @@ package lupos.io.buffer
 
 import kotlin.jvm.JvmField
 
-expect inline fun createString(chars: CharArray): String
-
 inline fun Int.toBytes(bytes: ByteArray, offset: Int): Int {
     bytes[offset] = this.toByte()
     val remaining1 = this ushr 8

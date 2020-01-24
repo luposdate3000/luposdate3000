@@ -1,14 +1,14 @@
 package lupos.io.buffer
 
-actual class BufferManager {
+class BufferManager {
 
     val memoryOfFiles = hashMapOf<String, Array<Page?>>()
 
-    actual fun getPage(pageAddress: PageAddress): Page {
+    fun getPage(pageAddress: PageAddress): Page {
         return this.getPage(pageAddress.fileName, pageAddress.pageNumber)
     }
 
-    actual fun getPage(file: String, number: Int): Page {
+    fun getPage(file: String, number: Int): Page {
         val memoryOfFile = this.memoryOfFiles.get(file)
         if (memoryOfFile == null) {
             val array = arrayOfNulls<Page>(number + 1)
@@ -43,8 +43,8 @@ actual class BufferManager {
         }
     }
 
-    actual fun writeAllModifiedPages() {} // main memory implementation does not persist its pages!
-    actual fun release() {
+    fun writeAllModifiedPages() {} // main memory implementation does not persist its pages!
+    fun release() {
         for (entry in this.memoryOfFiles) {
             for (page in entry.value) {
                 if (page != null) {

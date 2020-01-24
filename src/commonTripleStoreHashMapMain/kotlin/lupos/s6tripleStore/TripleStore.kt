@@ -106,7 +106,7 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
     }
 }
 
-actual class TripleStore {
+class TripleStore {
     val resultSet = ResultSet()
     val s = resultSet.createVariable("s")
     val p = resultSet.createVariable("p")
@@ -119,7 +119,7 @@ actual class TripleStore {
     val tripleStorePO = mutableMapOf<ResultRow, MutableList<ResultRow>>()
     val tripleStoreSPO = mutableMapOf<ResultRow, MutableList<ResultRow>>()
 
-    actual constructor()
+    constructor()
 
     private fun addData(
             key: ResultRow,
@@ -134,7 +134,7 @@ actual class TripleStore {
         list.add(value)
     }
 
-    actual fun addData(iterator: ResultSetIterator) {
+    fun addData(iterator: ResultSetIterator) {
         val rsOld = iterator.getResultSet()
         val sOld = rsOld.createVariable("s")
         val pOld = rsOld.createVariable("p")
@@ -210,11 +210,11 @@ actual class TripleStore {
         }
     }
 
-    actual fun getIterator(): POPTripleStoreIteratorBase {
+    fun getIterator(): POPTripleStoreIteratorBase {
         return TripleStoreIterator(this)
     }
 
-    actual fun getIterator(index: IndexPattern): POPTripleStoreIteratorBase {
+    fun getIterator(index: IndexPattern): POPTripleStoreIteratorBase {
         return TripleStoreIterator(this, index)
     }
 }

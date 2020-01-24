@@ -5,9 +5,9 @@ import java.io.RandomAccessFile
 import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
 
-actual typealias Page = MappedByteBufferPage
+typealias Page = MappedByteBufferPage
 
-actual inline fun createString(chars: CharArray): String = String(chars)
+inline fun createString(chars: CharArray): String = String(chars)
 
 class MappedByteBufferPage(val buffer: MappedByteBuffer) {
     @JvmField

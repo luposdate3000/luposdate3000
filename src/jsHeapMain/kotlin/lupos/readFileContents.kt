@@ -1,5 +1,5 @@
 package lupos
 
-actual fun readFileContents(filename: String): String {
+fun readFileContents(filename: String): String {
     TODO("not implemented")
 }

@@ -1,37 +1,37 @@
 package lupos.s4resultRepresentation
 
-actual class ResultSet {
+class ResultSet {
     val variables = mutableSetOf<String>()
 
-    actual constructor()
+    constructor()
 
-    actual fun createVariable(variable: String): Variable {
+    fun createVariable(variable: String): Variable {
         variables.add(variable)
         return variable
     }
 
-    actual fun getVariable(variable: Variable): String {
+    fun getVariable(variable: Variable): String {
         return variable
     }
 
-    actual fun getVariableNames(): Set<String> {
+    fun getVariableNames(): Set<String> {
         return variables
     }
 
-    actual fun createValue(value: String): Value {
+    fun createValue(value: String): Value {
         return value
     }
 
-    actual fun createResultRow(): ResultRow {
+    fun createResultRow(): ResultRow {
         return ResultRow(mutableMapOf<Variable, Value>())
     }
 
-    actual fun releaseResultRow(row: ResultRow) {
+    fun releaseResultRow(row: ResultRow) {
     }
 
-    actual fun getValue(value: Value): String {
+    fun getValue(value: Value): String {
         return value
     }
 
-    actual fun getUndefValue(): String = ""
+    fun getUndefValue(): String = ""
 }

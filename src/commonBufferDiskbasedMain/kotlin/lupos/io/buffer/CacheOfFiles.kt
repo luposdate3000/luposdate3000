@@ -1,13 +1,5 @@
 package lupos.io.buffer
 
-expect class CachedFile {
-    constructor(filename: String)
-
-    inline fun close()
-    inline fun get(address: Long): Page
-    inline fun write(address: Long, page: Page)
-}
-
 /**
  * This class is used for caching opened files (such that we do not need to close and open the files for each single access)
  */
