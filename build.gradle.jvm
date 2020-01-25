@@ -91,6 +91,7 @@ sourceSets {
     main.kotlin.srcDirs += 'src/commonResultDictionaryNoneMain/kotlin'
     main.kotlin.srcDirs += 'src/commonTripleStoreHashMapMain/kotlin'
     main.kotlin.srcDirs += 'src/jvmHeapMain/kotlin'
+    main.kotlin.srcDirs += 'src/jvmMain/kotlin'
 //    main.kotlin.srcDirs += 'src/jvmMemoryMappedMain'
 //    main.kotlin.srcDirs += 'src/jvmMemoryMappedUnsafeMain'
 //    main.kotlin.srcDirs += 'src/jvmRandomAccessMain'

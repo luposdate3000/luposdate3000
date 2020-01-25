@@ -46,7 +46,6 @@ kotlin {
 			    //-fPIC for debug required
 			executable()
 		}
-//		srcDirs += "src/linuxX64Main/kotlin"
 	}
 	sourceSets {
 		commonMain {
@@ -71,5 +70,4 @@ kotlin {
 		}
 	}
 	sourceSets["linuxX64Main"].kotlin.srcDir("src/linuxX64Main/kotlin")
-	sourceSets.forEach{println(it)}
 }

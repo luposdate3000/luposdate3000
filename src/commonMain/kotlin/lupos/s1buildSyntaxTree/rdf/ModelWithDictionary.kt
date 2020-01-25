@@ -1,15 +1,15 @@
 package lupos.s1buildSyntaxTree.rdf
 
+import lupos.misc.Uuid
 
 object Dictionary {
-    private var max_id = 0L;
+    private var max_id = Uuid();
 
     private val RDFTerm_to_ID = mutableMapOf<String, Long>()
     private val ID_to_RDFTerm = mutableMapOf<Long, RDFTerm>()
 
     private fun addRDFTerm(term: RDFTerm): Long {
-        val result = this.max_id
-        this.max_id++
+        val result = max_id.next()
         this.RDFTerm_to_ID.put(term.toN3String(), result)
         this.ID_to_RDFTerm.put(result, term)
         return result
