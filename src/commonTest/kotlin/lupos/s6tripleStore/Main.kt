@@ -75,7 +75,7 @@ class TripleStoreTest {
         assertFalse(iterator2.hasNext())
     }
 
-    @Test
+/*    @Test
     fun testAddValue1() {
         insertAndRetrieve(arrayOf(arrayOf("a", "b", "c")))
     }
@@ -85,4 +85,5 @@ class TripleStoreTest {
         insertAndRetrieve(arrayOf(arrayOf("a", "b", "c"), arrayOf("d", "e", "f")))
         println("checked")
     }
+*/
 }

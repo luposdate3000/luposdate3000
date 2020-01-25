@@ -58,6 +58,7 @@ kotlin {
 			}
 		}
 		commonTest {
+			kotlin.srcDir("src/commonTest/kotlin")
 			dependencies {
 				implementation(kotlin("test-common"))
 				implementation(kotlin("test-annotations-common"))
