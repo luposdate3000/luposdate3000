@@ -135,15 +135,15 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
 
     fun myAbs(a: T): T {
         return when (a) {
-            is Double -> abs(a) as T
-            is Int -> abs(a) as T
+            is Double -> abs(a).toDouble() as T
+            is Int -> abs(a).toInt() as T
             else -> throw UnsupportedOperationException("${classNameToString(this)} helperPlus")
         }
     }
 
     fun myCeil(a: T): T {
         return when (a) {
-            is Double -> ceil(a) as T
+            is Double -> ceil(a).toInt() as T
             is Int -> a
             else -> throw UnsupportedOperationException("${classNameToString(this)} helperPlus")
         }
@@ -151,7 +151,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
 
     fun myFloor(a: T): T {
         return when (a) {
-            is Double -> floor(a) as T
+            is Double -> floor(a).toInt() as T
             is Int -> a
             else -> throw UnsupportedOperationException("${classNameToString(this)} helperPlus")
         }

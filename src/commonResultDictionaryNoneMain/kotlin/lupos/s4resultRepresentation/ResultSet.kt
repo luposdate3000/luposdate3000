@@ -23,7 +23,7 @@ class ResultSet {
     }
 
     fun createResultRow(): ResultRow {
-        return ResultRow(mutableMapOf<Variable, Value>())
+        return ResultRow()
     }
 
     fun releaseResultRow(row: ResultRow) {

@@ -1,6 +1,7 @@
 package lupos.s4resultRepresentation
 
-inline class ResultRow(val values: MutableMap<Variable, Value>) {
+class ResultRow() {
+	val values=mutableMapOf<Variable, Value>()
     operator fun set(name: Variable, value: Value) {
         values[name] = value
     }

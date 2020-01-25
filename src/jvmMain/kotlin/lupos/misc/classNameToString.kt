@@ -1,5 +1,8 @@
 package lupos.misc
 
 fun classNameToString(c:Any):String{
-	return c::class.simpleName
+	val res = c::class.simpleName
+	if(res==null)
+	return ""
+return res
 }

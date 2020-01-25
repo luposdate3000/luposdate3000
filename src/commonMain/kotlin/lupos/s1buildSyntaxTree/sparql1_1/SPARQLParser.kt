@@ -1,5 +1,6 @@
 package lupos.s1buildSyntaxTree.sparql1_1
 
+import lupos.misc.*
 import lupos.s1buildSyntaxTree.LookAheadTokenIterator
 import lupos.s1buildSyntaxTree.ParseError
 import lupos.s1buildSyntaxTree.Token
@@ -353,11 +354,9 @@ class ASTBlankNode(val name: String) : ASTRDFTerm() {
     override fun nodeToString() = "_:" + name
 
     private companion object {
-        var label_index = 0;
+        val label_index = ThreadSafeUuid();
         fun getNewName(): String {
-            val result = "_" + label_index;
-            label_index++;
-            return result;
+            return "_" + label_index.next()
         }
     }
 
