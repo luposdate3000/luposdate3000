@@ -1,16 +1,16 @@
 package lupos
 
-import kotlinx.cinterop.*
-import platform.posix.*
+//import kotlinx.cinterop.*
+//import platform.posix.*
 
 fun readFileContents(filename: String): String {
-    println("filename $filename")
+var result:String=""
+/*    println("filename $filename")
 val file = fopen(filename, "r")
     if (file == null) {
         perror("cannot open input file $filename")
         return ""
     }
-var result:String=""
     try {
         memScoped {
             val bufferLength = 64 * 1024
@@ -25,5 +25,6 @@ var result:String=""
     } finally {
         fclose(file)
     }
+*/
 return result
 }
