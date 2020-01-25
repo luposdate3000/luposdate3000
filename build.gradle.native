@@ -55,7 +55,7 @@ kotlin {
 			dependsOn commonResultDictionaryNoneMain
 			dependsOn commonTripleStoreHashMapMain
 			dependencies {
-				implementation kotlin('stdlib-common')
+				implementation "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
 				implementation "com.soywiz.korlibs.krypto:krypto:1.9.1"
 				implementation "com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT"
 			}
