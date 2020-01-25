@@ -136,14 +136,14 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
     fun myAbs(a: T): T {
         return when (a) {
             is Double -> abs(a).toDouble() as T
-            is Int -> abs(a).toInt() as T
+            is Int -> abs(a) as T
             else -> throw UnsupportedOperationException("${classNameToString(this)} helperPlus")
         }
     }
 
     fun myCeil(a: T): T {
         return when (a) {
-            is Double -> ceil(a).toInt() as T
+            is Double -> ceil(a) as T
             is Int -> a
             else -> throw UnsupportedOperationException("${classNameToString(this)} helperPlus")
         }
@@ -151,7 +151,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
 
     fun myFloor(a: T): T {
         return when (a) {
-            is Double -> floor(a).toInt() as T
+            is Double -> floor(a) as T
             is Int -> a
             else -> throw UnsupportedOperationException("${classNameToString(this)} helperPlus")
         }
@@ -298,8 +298,10 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                     if (expression.aggregateTmp[node.uuid] != null)
                         expression.aggregateTmp[node.uuid] = helperToT(expression.aggregateTmp[node.uuid]!!)
                 }
-                if (node.type == Aggregation.COUNT)
+                if (node.type == Aggregation.COUNT){
+			require(expression.getResultType(resultSet, resultRow, node)==TmpResultType.RSInteger)
                     return helperToT(expression.aggregateCount)
+		}
                 val childValue: T = if (expression.aggregateMode == TmpAggregateMode.AMCollect)
                     evaluateChildTyped(resultSet, resultRow, node.children[0])
                 else
@@ -394,7 +396,7 @@ class POPExpression : OPBase {
     val evaluateDecimal = EvaluateNumber<Double>(this, TmpResultType.RSDecimal, dataTypeDecimal)
     val evaluateDouble = EvaluateNumber<Double>(this, TmpResultType.RSDouble, dataTypeDouble)
 
-    var aggregateCount = 0
+    var aggregateCount :Int= 0
     val aggregateTmpTypeUsed = mutableMapOf<Long, TmpResultType>()//min and max should return the original type and not something casted
     val aggregateTmpType = mutableMapOf<Long, TmpResultType>()
     val aggregateTmp = mutableMapOf<Long, Number>()
@@ -676,7 +678,32 @@ class POPExpression : OPBase {
     fun evaluateHelperString(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): String {
         when (getResultType(resultSet, resultRow, node)) {
             TmpResultType.RSBoolean -> return "\"" + evaluateHelperBoolean(resultSet, resultRow, node) + "\"" + dataTypeBoolean
-            TmpResultType.RSInteger -> return "\"" + evaluateInteger.evaluateHelper(resultSet, resultRow, node) + "\"" + dataTypeInteger
+            TmpResultType.RSInteger -> {
+/*
+ATTENTION !!! here is only ONE correct solution ... if compiled as native
+val tmp = evaluateInteger.evaluateHelper(resultSet, resultRow, node)
+val tmp2:Int=tmp
+println("int::")
+println(evaluateInteger.evaluateHelper(resultSet, resultRow, node))
+println(evaluateInteger.evaluateHelper(resultSet, resultRow, node).toInt())
+println(evaluateInteger.evaluateHelper(resultSet, resultRow, node).toDouble().roundToInt())
+println(evaluateInteger.evaluateHelper(resultSet, resultRow, node).toString())
+println(evaluateInteger.evaluateHelper(resultSet, resultRow, node).toString().replace(".0",""))
+println(""+evaluateInteger.evaluateHelper(resultSet, resultRow, node))
+println((""+evaluateInteger.evaluateHelper(resultSet, resultRow, node)).replace(".0",""))
+println(tmp)
+println(tmp.toInt())
+println(tmp.toDouble().roundToInt())
+println(tmp.toString())
+println(tmp.toString().replace(".0",""))
+println(tmp2)
+println(tmp2.toInt())
+println(tmp2.toDouble().roundToInt())
+println(tmp2.toString())
+println(tmp2.toString().replace(".0",""))
+*/
+	return "\"" + (""+evaluateInteger.evaluateHelper(resultSet, resultRow, node)).replace(".0","") + "\"" + dataTypeInteger
+}
             TmpResultType.RSUndefined -> return resultSet.getUndefValue()
             TmpResultType.RSDecimal -> {
                 val tmp = evaluateDecimal.evaluateHelper(resultSet, resultRow, node).toString()
