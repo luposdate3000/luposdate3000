@@ -7,10 +7,10 @@ import lupos.s1buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s1buildSyntaxTree.turtle.TurtleScanner
 import lupos.s1buildSyntaxTree.LookAheadTokenIterator
 
-import com.soywiz.korio.net.http.createHttpClient
-import com.soywiz.korio.net.http.createHttpServer
-import com.soywiz.korio.net.http.Http
-import com.soywiz.korio.net.http.HttpServer
+//import com.soywiz.korio.net.http.createHttpClient
+//import com.soywiz.korio.net.http.createHttpServer
+//import com.soywiz.korio.net.http.Http
+//import com.soywiz.korio.net.http.HttpServer
 import lupos.s1buildSyntaxTree.ParseError
 import lupos.s1buildSyntaxTree.rdf.Dictionary
 import lupos.s1buildSyntaxTree.rdf.ID_Triple
@@ -29,9 +29,9 @@ import lupos.s5physicalOperators.POPBase
 import lupos.s5physicalOperators.POPBaseNullableIterator
 import lupos.s6tripleStore.TripleStore
 import lupos.s7physicalOptimisation.PhysicalOptimizer
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.delay
+//import kotlinx.coroutines.Dispatchers
+//import kotlinx.coroutines.launch
+//import kotlinx.coroutines.delay
 
 class TripleInsertIterator : POPBaseNullableIterator {
     var result: ResultRow?
@@ -83,7 +83,7 @@ fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
     val triple = ID_Triple(triple_s, triple_p, triple_o)
     PhysicalOptimizer._store.addData(TripleInsertIterator(triple))
 }
-
+/*
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 object P2P {
     val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query")
@@ -211,3 +211,4 @@ object P2P {
         server = createHttpServer().listen(port, hostname, ::myRequestHandler)
     }
 }
+*/

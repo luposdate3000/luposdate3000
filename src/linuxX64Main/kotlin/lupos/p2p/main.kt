@@ -1,6 +1,6 @@
 package lupos.p2p
 
-import kotlinx.coroutines.delay
+/*import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -28,3 +28,4 @@ println("todo deleteme")
         delay(1000)
     }
 }
+*/

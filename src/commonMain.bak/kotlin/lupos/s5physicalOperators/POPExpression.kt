@@ -39,9 +39,9 @@ import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
-import com.soywiz.krypto.md5
-import com.soywiz.krypto.sha1
-import com.soywiz.krypto.sha256
+//import com.soywiz.krypto.md5
+//import com.soywiz.krypto.sha1
+//import com.soywiz.krypto.sha256
 
 class ArithmeticException() : Exception()
 
@@ -748,9 +748,9 @@ class POPExpression : OPBase {
                     }
                     BuiltInFunctions.LANG -> return "\"" + extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])) + "\""
                     BuiltInFunctions.STR -> return evaluateHelperString(resultSet, resultRow, node.children[0])
-                    BuiltInFunctions.MD5 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().md5().toHexString() + "\""
-                    BuiltInFunctions.SHA1 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().sha1().toHexString() + "\""
-                    BuiltInFunctions.SHA256 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().sha256().toHexString() + "\""
+//                    BuiltInFunctions.MD5 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().md5().toHexString() + "\""
+//                    BuiltInFunctions.SHA1 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().sha1().toHexString() + "\""
+//                    BuiltInFunctions.SHA256 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().sha256().toHexString() + "\""
                     else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperString ${node::class.simpleName} ${node.function}")
                 }
             }
