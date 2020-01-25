@@ -395,10 +395,10 @@ class POPExpression : OPBase {
     val evaluateDouble = EvaluateNumber<Double>(this, TmpResultType.RSDouble, dataTypeDouble)
 
     var aggregateCount = 0
-    val aggregateTmpTypeUsed = mutableMapOf<Int, TmpResultType>()//min and max should return the original type and not something casted
-    val aggregateTmpType = mutableMapOf<Int, TmpResultType>()
-    val aggregateTmp = mutableMapOf<Int, Number>()
-    private val aggregateTmpString = mutableMapOf<Int, String>()
+    val aggregateTmpTypeUsed = mutableMapOf<Long, TmpResultType>()//min and max should return the original type and not something casted
+    val aggregateTmpType = mutableMapOf<Long, TmpResultType>()
+    val aggregateTmp = mutableMapOf<Long, Number>()
+    private val aggregateTmpString = mutableMapOf<Long, String>()
     var child: ASTNode
 
     constructor(child: ASTNode) {

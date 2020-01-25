@@ -3,6 +3,7 @@ package lupos.s1buildSyntaxTree.sparql1_1
 import lupos.s1buildSyntaxTree.LexerCharIterator
 import lupos.s1buildSyntaxTree.LookAheadTokenIterator
 import lupos.s1buildSyntaxTree.ParseError
+import lupos.misc.*
 
 enum class BuiltInFunctions {
     STR,
@@ -67,10 +68,10 @@ enum class Aggregation {
 
 open abstract class ASTNode(val children: Array<ASTNode>) {
     companion object {
-        var global_uuid = 0
+private	val global_uuid = ThreadSafeUuid()
     }
 
-    val uuid = global_uuid++
+    val uuid:Long = global_uuid.next()
 
     override fun toString(): String {
         return toString("");

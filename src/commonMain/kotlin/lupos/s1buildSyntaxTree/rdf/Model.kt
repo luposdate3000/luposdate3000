@@ -1,5 +1,6 @@
 package lupos.s1buildSyntaxTree.rdf
 
+import lupos.misc.ThreadSafeUuid
 
 abstract open class RDFTerm() {
     abstract fun toN3String(): String;
@@ -15,11 +16,9 @@ class BlankNode(val local_name: String) : RDFResource() {
     override fun toN3String(): String = "_:" + local_name
 
     companion object NewNameCreator { // just for creating internal new names in case of [] in RDF documents...
-        var counter = 0;
+	private val counter = ThreadSafeUuid();
         fun createNewName(): String {
-            val result = "_" + counter; // local names for blank nodes in RDF documents cannot start with "_". Hence we start internally given names with "_"!
-            counter++;
-            return result;
+            return "_" + counter.next(); // local names for blank nodes in RDF documents cannot start with "_". Hence we start internally given names with "_"!
         }
     }
 }

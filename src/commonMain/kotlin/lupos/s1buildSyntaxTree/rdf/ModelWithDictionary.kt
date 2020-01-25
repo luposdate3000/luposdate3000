@@ -4,7 +4,7 @@ import lupos.misc.ThreadSafeUuid
 import lupos.misc.ThreadSafeMutableMap
 
 object Dictionary {
-    private var max_id = ThreadSafeUuid();
+    private val max_id = ThreadSafeUuid();
 
     private val RDFTerm_to_ID = ThreadSafeMutableMap<String, Long>()
     private val ID_to_RDFTerm = ThreadSafeMutableMap<Long, RDFTerm>()

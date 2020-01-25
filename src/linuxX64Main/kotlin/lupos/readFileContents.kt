@@ -25,6 +25,5 @@ val file = fopen(filename, "r")
     } finally {
         fclose(file)
     }
-println(result)
 return result
 }
