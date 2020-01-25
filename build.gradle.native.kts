@@ -46,9 +46,8 @@ kotlin {
 	sourceSets {
 		commonMain {
 //			kotlin.srcDir("src/linuxX64Main/kotlin")
-			kotlin.srcDir("src/commonS1Main/kotlin")
-//			kotlin.srcDir("src/commonMain/kotlin")
-			kotlin.srcDir("src/commonBufferMainmemoryMain/kotlin")
+			kotlin.srcDir("src/commonMain/kotlin")
+//			kotlin.srcDir("src/commonBufferMainmemoryMain/kotlin")
 //			kotlin.srcDir("src/commonResultDictionaryNoneMain/kotlin")
 //			kotlin.srcDir("src/commonTripleStoreHashMapMain/kotlin")
 			dependencies {
