@@ -49,7 +49,7 @@ kotlin {
 			kotlin.srcDir("src/commonMain/kotlin")
 //			kotlin.srcDir("src/commonBufferMainmemoryMain/kotlin")
 			kotlin.srcDir("src/commonResultDictionaryNoneMain/kotlin")
-//			kotlin.srcDir("src/commonTripleStoreHashMapMain/kotlin")
+			kotlin.srcDir("src/commonTripleStoreHashMapMain/kotlin")
 			dependencies {
 				implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
 //				implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
