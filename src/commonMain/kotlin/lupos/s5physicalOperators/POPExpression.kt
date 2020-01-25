@@ -1,7 +1,7 @@
 package lupos.s5physicalOperators
 
 import lupos.misc.XMLElement
-
+import lupos.misc.*
 import lupos.s1buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s1buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s1buildSyntaxTree.sparql1_1.ASTAggregation
@@ -137,7 +137,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         return when (a) {
             is Double -> abs(a) as T
             is Int -> abs(a) as T
-            else -> throw UnsupportedOperationException("${this::class.simpleName} helperPlus")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} helperPlus")
         }
     }
 
@@ -145,7 +145,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         return when (a) {
             is Double -> ceil(a) as T
             is Int -> a
-            else -> throw UnsupportedOperationException("${this::class.simpleName} helperPlus")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} helperPlus")
         }
     }
 
@@ -153,7 +153,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         return when (a) {
             is Double -> floor(a) as T
             is Int -> a
-            else -> throw UnsupportedOperationException("${this::class.simpleName} helperPlus")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} helperPlus")
         }
     }
 
@@ -161,7 +161,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         return when (a) {
             is Double -> a.roundToInt().toDouble() as T
             is Int -> a as T
-            else -> throw UnsupportedOperationException("${this::class.simpleName} round")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} round")
         }
     }
 
@@ -169,7 +169,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         return when (this) {
             is Double -> (this + (b as Double)) as T
             is Int -> (this + (b as Int)) as T
-            else -> throw UnsupportedOperationException("${this::class.simpleName} helperPlus")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} helperPlus")
         }
     }
 
@@ -177,7 +177,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         return when (this) {
             is Double -> (this - (b as Double)) as T
             is Int -> (this - (b as Int)) as T
-            else -> throw UnsupportedOperationException("${this::class.simpleName} helperMinus")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} helperMinus")
         }
     }
 
@@ -185,7 +185,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         return when (this) {
             is Double -> (this * (b as Double)) as T
             is Int -> (this * (b as Int)) as T
-            else -> throw UnsupportedOperationException("${this::class.simpleName} helperMultiplication")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} helperMultiplication")
         }
     }
 
@@ -193,15 +193,15 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         return when (this) {
             is Double -> {
                 if ((b as Double) == 0.0)
-                    throw ArithmeticException("the output of ${this::class.simpleName} divide by zero")
+                    throw ArithmeticException("the output of ${classNameToString(this)} divide by zero")
                 (this / (b as Double)) as T
             }
             is Int -> {
                 if ((b as Int) == 0)
-                    throw ArithmeticException("the output of ${this::class.simpleName} divide by zero")
+                    throw ArithmeticException("the output of ${classNameToString(this)} divide by zero")
                 (this / (b as Int)) as T
             }
-            else -> throw UnsupportedOperationException("${this::class.simpleName} helperDivision")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} helperDivision")
         }
     }
 
@@ -223,7 +223,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                 else
                     return 0
             }
-            else -> throw UnsupportedOperationException("${this::class.simpleName} helperDivision")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} helperDivision")
         }
     }
 
@@ -232,7 +232,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         return when (a) {
             is Double? -> (0.0) as T
             is Int? -> (0) as T
-            else -> throw UnsupportedOperationException("${this::class.simpleName} helperNull")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} helperNull")
         }
     }
 
@@ -241,7 +241,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         return when (b) {
             is Double? -> a.toDouble() as T
             is Int? -> a.toInt() as T
-            else -> throw UnsupportedOperationException("${this::class.simpleName} helperToT")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} helperToT")
         }
     }
 
@@ -250,7 +250,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         return when (b) {
             is Double? -> a.toDouble() as T
             is Int? -> a.toInt() as T
-            else -> throw UnsupportedOperationException("${this::class.simpleName} fromString")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} fromString")
         }
     }
 
@@ -259,7 +259,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
             TmpResultType.RSInteger -> helperToT(expression.evaluateInteger.evaluateHelper(resultSet, resultRow, node))
             TmpResultType.RSDecimal -> helperToT(expression.evaluateDecimal.evaluateHelper(resultSet, resultRow, node))
             TmpResultType.RSDouble -> helperToT(expression.evaluateDouble.evaluateHelper(resultSet, resultRow, node))
-            else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateChildTyped ${node::class.simpleName}")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateChildTyped ${classNameToString(node)}")
         }
     }
 
@@ -270,7 +270,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
             is ASTAddition -> return a + b
             is ASTMultiplication -> return a * b
             is ASTDivision -> return a / b
-            else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelper2 ${node::class.simpleName}")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelper2 ${classNameToString(node)}")
         }
     }
 
@@ -284,7 +284,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
             is ASTLEQ -> return a <= b
             is ASTGT -> return a > b
             is ASTLT -> return a < b
-            else -> throw ArithmeticException("the output of ${node::class.simpleName} is not a boolean")
+            else -> throw ArithmeticException("the output of ${classNameToString(node)} is not a boolean")
         }
     }
 
@@ -312,7 +312,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                 if (last == null)
                     last = helperNull()
                 if (node.distinct)
-                    throw UnsupportedOperationException("${this::class.simpleName} evaluateHelper ${node::class.simpleName} ${node.type} DISTINCT")
+                    throw UnsupportedOperationException("${classNameToString(this)} evaluateHelper ${classNameToString(node)} ${node.type} DISTINCT")
                 if (expression.aggregateMode == TmpAggregateMode.AMCollect) {
                     when (node.type) {
                         Aggregation.AVG -> {
@@ -333,7 +333,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                         Aggregation.SUM -> {
                             expression.aggregateTmp[node.uuid] = last + childValue
                         }
-                        else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelper ${node::class.simpleName} ${node.type}")
+                        else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelper ${classNameToString(node)} ${node.type}")
                     }
                 }
                 val res: Number? = expression.aggregateTmp[node.uuid]
@@ -369,10 +369,10 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                         else
                             return evaluateHelper(resultSet, resultRow, node.children[2])
                     }
-                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelper ${node::class.simpleName} ${node.function}")
+                    else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelper ${classNameToString(node)} ${node.function}")
                 }
             }
-            else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelper ${node::class.simpleName}")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelper ${classNameToString(node)}")
         }
     }
 
@@ -537,7 +537,7 @@ class POPExpression : OPBase {
                     else -> return TmpResultType.RSString
                 }
             }
-            else -> throw UnsupportedOperationException("${this::class.simpleName} getResultType ${node::class.simpleName}")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} getResultType ${classNameToString(node)}")
         }
     }
 
@@ -546,7 +546,7 @@ class POPExpression : OPBase {
             is ASTVar -> {
                 return DateTime(resultSet.getValue(resultRow[resultSet.createVariable(node.name)]))
             }
-            else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperDateTime ${node::class.simpleName}")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperDateTime ${classNameToString(node)}")
         }
     }
 
@@ -564,7 +564,7 @@ class POPExpression : OPBase {
                     is ASTEQ -> return a == b
                     is ASTNEQ -> return a != b
                     is ASTDivision -> throw ArithmeticException("the output of ASTDivision is not a boolean")
-                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName}")
+                    else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperBoolean2 ${classNameToString(node)}")
                 }
             }
             isAUpgradeableToB(commonDatatype(resultSet, resultRow, left, right), TmpResultType.RSDouble) -> return evaluateDouble.evaluateHelperBoolean(resultSet, resultRow, node)
@@ -580,11 +580,11 @@ class POPExpression : OPBase {
                     is ASTGEQ -> return a >= b
                     is ASTLEQ -> return a <= b
                     is ASTNEQ -> return a != b
-                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName}")
+                    else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperBoolean2 ${classNameToString(node)}")
                 }
             }
             node is ASTDivision -> throw ArithmeticException("the output of ASTDivision is not a boolean")
-            else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean2 ${node::class.simpleName} ${typeA} ${typeB}")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperBoolean2 ${classNameToString(node)} ${typeA} ${typeB}")
         }
     }
 
@@ -666,10 +666,10 @@ class POPExpression : OPBase {
                         val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1]))
                         return a.contains(b)
                     }
-                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean ${node::class.simpleName} ${node.function}")
+                    else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperBoolean ${classNameToString(node)} ${node.function}")
                 }
             }
-            else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperBoolean ${node::class.simpleName}")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperBoolean ${classNameToString(node)}")
         }
     }
 
@@ -688,7 +688,7 @@ class POPExpression : OPBase {
         }
         when (node) {
             is ASTAggregation -> {
-                throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperString ${node::class.simpleName} ${node.type} ${node.distinct}")
+                throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperString ${classNameToString(node)} ${node.type} ${node.distinct}")
             }
             is ASTIri -> return "<" + node.iri + ">"
             is ASTLiteral -> return node.delimiter + node.content + node.delimiter
@@ -751,17 +751,17 @@ class POPExpression : OPBase {
 //                    BuiltInFunctions.MD5 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().md5().toHexString() + "\""
 //                    BuiltInFunctions.SHA1 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().sha1().toHexString() + "\""
 //                    BuiltInFunctions.SHA256 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().sha256().toHexString() + "\""
-                    else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperString ${node::class.simpleName} ${node.function}")
+                    else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperString ${classNameToString(node)} ${node.function}")
                 }
             }
-            else -> throw UnsupportedOperationException("${this::class.simpleName} evaluateHelperString ${node::class.simpleName}")
+            else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperString ${classNameToString(node)}")
         }
     }
 
     fun evaluateBoolean(resultSet: ResultSet, resultRow: ResultRow): Boolean {
         println("resultRow:: " + resultRow)
         if (getResultType(resultSet, resultRow, child) != TmpResultType.RSBoolean)
-            throw UnsupportedOperationException("${this::class.simpleName} evaluateBoolean ${child::class.simpleName}")
+            throw UnsupportedOperationException("${classNameToString(this)} evaluateBoolean ${classNameToString(child)}")
         return evaluateHelperBoolean(resultSet, resultRow, child)
     }
 

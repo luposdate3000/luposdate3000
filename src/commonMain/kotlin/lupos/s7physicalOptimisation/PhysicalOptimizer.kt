@@ -1,5 +1,6 @@
 package lupos.s7physicalOptimisation
 
+import lupos.misc.*
 import lupos.s1buildSyntaxTree.sparql1_1.*
 import lupos.s1buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s2buildOperatorGraph.OPBase
@@ -91,7 +92,7 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
             val v = LOPVariable("#" + node.uuid)
             return POPSort(v, node.asc, POPBind(v, optimize(node.by) as POPExpression, optimize(node.child) as POPBase))
         } else
-            throw UnsupportedOperationException("${this::class.simpleName} ${node::class.simpleName}, ${node.by::class.simpleName}")
+            throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)}, ${classNameToString(node.by)}")
     }
 
     override fun visit(node: LOPSubGroup): OPBase {
@@ -132,7 +133,7 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
                     is ASTIri -> return POPFilterExact(LOPVariable(name), "<" + param.child.iri + ">", child)
                     is ASTLanguageTaggedLiteral -> return POPFilterExact(LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter + "@" + param.child.language, child)
                     is ASTTypedLiteral -> return POPFilterExact(LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter + "^^<" + param.child.type_iri + ">", child)
-                    else -> throw UnsupportedOperationException("${this::class.simpleName} ${node::class.simpleName}, ${param.child::class.simpleName}")
+                    else -> throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)}, ${classNameToString(param.child)}")
                 }
             }
         }

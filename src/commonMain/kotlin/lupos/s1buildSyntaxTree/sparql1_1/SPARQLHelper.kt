@@ -92,7 +92,7 @@ private	val global_uuid = ThreadSafeUuid()
     }
 
     open fun nodeToString(): String {
-        return this::class.simpleName ?: "";
+        return classNameToString(this);
     }
 
     protected inline fun propertyToString(indentation2: String, indentation3: String, propertyname: String, property: Array<out ASTNode>): String {

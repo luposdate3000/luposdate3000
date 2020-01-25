@@ -49,7 +49,7 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
             IndexPattern.SO -> mapIterator = store.tripleStoreSO.iterator()
             IndexPattern.PO -> mapIterator = store.tripleStorePO.iterator()
             IndexPattern.SPO -> mapIterator = store.tripleStoreSPO.iterator()
-            else -> throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} ${index}")
+            else -> throw UnsupportedOperationException("UnsupportedOperationException ${classNameToString(this)} ${index}")
         }
         resultSetOld = store.resultSet
         sOld = resultSetOld.createVariable("s")

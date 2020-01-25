@@ -5,7 +5,7 @@ import lupos.misc.*
 
 abstract class OPBase {
 
-    open fun toString(indentation: String): String = "${indentation}${this::class.simpleName}\n"
+    open fun toString(indentation: String): String = "${indentation}${classNameToString(this)}\n"
 
 companion object {
 private         val global_uuid = ThreadSafeUuid()

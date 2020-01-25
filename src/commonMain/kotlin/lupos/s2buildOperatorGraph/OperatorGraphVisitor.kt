@@ -1,5 +1,6 @@
 package lupos.s2buildOperatorGraph
 
+import lupos.misc.*
 import lupos.s2buildOperatorGraph.singleinput.LOPMakeBooleanResult
 import lupos.s2buildOperatorGraph.singleinput.LOPRename
 import lupos.s2buildOperatorGraph.singleinput.LOPSubGroup
@@ -143,7 +144,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTSubSelectQuery, childrenValues: List<OPBase>): OPBase {
         if (node.existsValues()) {
-            throw UnsupportedOperationException("${this::class.simpleName} Values ${node::class.simpleName}")
+            throw UnsupportedOperationException("${classNameToString(this)} Values ${classNameToString(node)}")
         }
         return LOPSubGroup(visit(node as ASTSelectQuery, childrenValues))
     }
@@ -178,7 +179,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                             bind = tmp2
                     }
                     else -> {
-                        throw UnsupportedOperationException("${this::class.simpleName} Select-Parameter ${node::class.simpleName}")
+                        throw UnsupportedOperationException("${classNameToString(this)} Select-Parameter ${classNameToString(node)}")
                     }
                 }
             }
@@ -231,7 +232,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     else
                         tmp = LOPBind(LOPVariable("o"), o.visit(this), tmp)
                 }
-                else -> throw UnsupportedOperationException("${this::class.simpleName} template ${t::class.simpleName}")
+                else -> throw UnsupportedOperationException("${classNameToString(this)} template ${classNameToString(t)}")
             }
             if (result == null)
                 result = tmp
@@ -290,7 +291,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                             child = tmp2
                     }
                     else -> {
-                        throw UnsupportedOperationException("${this::class.simpleName} Group-Parameter ${node::class.simpleName}")
+                        throw UnsupportedOperationException("${classNameToString(this)} Group-Parameter ${classNameToString(node)}")
                     }
                 }
             }
@@ -412,7 +413,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     }
                 }
                 else ->
-                    throw UnsupportedOperationException("${this::class.simpleName} GroupMember ${tmp2::class.simpleName}")
+                    throw UnsupportedOperationException("${classNameToString(this)} GroupMember ${classNameToString(tmp2)}")
             }
         }
         if (members.containsKey(GroupMember.GMLOPMinus)) {
@@ -731,139 +732,139 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTAdd, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTMove, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTCopy, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTGraph, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTDefaultGraph, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTNamedGraph, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTIriGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTNamedIriGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTDefaultGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTNamedGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTAllGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTGrapOperation, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTUpdateGrapOperation, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTClear, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTDrop, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTCreate, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Graph ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTModify, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Update ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Update ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTDeleteData, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Update ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Update ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTDeleteWhere, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Update ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Update ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTInsertData, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Update ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Update ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTModifyWithWhere, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Update ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Update ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTPathAlternatives, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Path ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTPathSequence, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Path ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTPathInverse, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Path ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTPathArbitraryOccurrences, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Path ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTPathOptionalOccurrence, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Path ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTPathArbitraryOccurrencesNotZero, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Path ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTPathNegatedPropertySet, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Path ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Path ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTGroupConcat, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Group ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Group ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Blank Node ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Blank Node ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTDatasetClause, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Query Type ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Query Type ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTService, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${this::class.simpleName} Service ${node::class.simpleName}")
+        throw UnsupportedOperationException("${classNameToString(this)} Service ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTQueryBaseClass, childrenValues: List<OPBase>): OPBase {
