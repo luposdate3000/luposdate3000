@@ -35,19 +35,24 @@ repositories {
 	maven(
 		"http://dl.bintray.com/kotlin/kotlin-eap-1.2"
 	)
+maven (
+            "https://kotlin.bintray.com/kotlinx"
+        )
 }
-
+//https://github.com/JetBrains/kotlin-native/blob/master/GRADLE_PLUGIN.md
 kotlin {
-	linuxX64() {
+	linuxX64("linuxX64") {
 		binaries {
-//-fPIC for debug required
-			sharedLib()
+			    //-fPIC for debug required
+			executable()
 		}
+//		srcDirs += "src/linuxX64Main/kotlin"
 	}
 	sourceSets {
 		commonMain {
-			kotlin.srcDir("src/linuxX64Main/kotlin")
+			kotlin.srcDir("src/nativeMain/kotlin")
 			kotlin.srcDir("src/commonMain/kotlin")
+			kotlin.srcDir("src/commonHeapMain/kotlin")
 			kotlin.srcDir("src/commonBufferMainmemoryMain/kotlin")
 			kotlin.srcDir("src/commonResultDictionaryNoneMain/kotlin")
 			kotlin.srcDir("src/commonTripleStoreHashMapMain/kotlin")
@@ -65,5 +70,6 @@ kotlin {
 			}
 		}
 	}
- println(sourceSets["commonMain"].kotlin.srcDirs)
+	sourceSets["linuxX64Main"].kotlin.srcDir("src/linuxX64Main/kotlin")
+	sourceSets.forEach{println(it)}
 }

@@ -1,5 +1,5 @@
 package lupos.misc
 
-fun Throwable.kotlinStacktrace() {
+actual fun Throwable.kotlinStacktrace() {
     println(this.toString())
 }

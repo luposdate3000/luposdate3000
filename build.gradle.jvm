@@ -84,6 +84,7 @@ compileKotlin {
 }
 sourceSets {
 //    main.kotlin.srcDirs += 'src/commonBufferDiskbasedMain/kotlin'
+    main.kotlin.srcDirs += 'src/commonHeapMain'
     main.kotlin.srcDirs += 'src/commonBufferMainmemoryMain/kotlin'
     main.kotlin.srcDirs += 'src/commonMain/kotlin'
     main.kotlin.srcDirs += 'src/commonMainBak/kotlin'

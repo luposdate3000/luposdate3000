@@ -1,11 +1,11 @@
 package lupos
 
-//import kotlinx.cinterop.*
-//import platform.posix.*
+import kotlinx.cinterop.*
+import platform.posix.*
 
-fun readFileContents(filename: String): String {
+actual fun readFileContents(filename: String): String {
 var result:String=""
-/*    println("filename $filename")
+    println("filename $filename")
 val file = fopen(filename, "r")
     if (file == null) {
         perror("cannot open input file $filename")
@@ -25,6 +25,5 @@ val file = fopen(filename, "r")
     } finally {
         fclose(file)
     }
-*/
 return result
 }
