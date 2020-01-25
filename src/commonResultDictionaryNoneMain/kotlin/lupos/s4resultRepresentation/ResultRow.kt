@@ -1,12 +1,12 @@
 package lupos.s4resultRepresentation
 
-inline class ResultRow(val values: Any) {
+inline class ResultRow(val values: MutableMap<Variable, Value>) {
     operator fun set(name: Variable, value: Value) {
-        (values as MutableMap<Variable, Value>)[name] = value
+        values[name] = value
     }
 
     operator fun get(name: Variable): Value {
-        return (values as MutableMap<Variable, Value>)[name]!!
+        return values[name]!!
     }
 
     override fun toString(): String {
