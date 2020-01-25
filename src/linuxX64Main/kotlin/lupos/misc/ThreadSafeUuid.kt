@@ -2,7 +2,7 @@ package lupos.misc
 
 import kotlin.native.concurrent.AtomicLong
 
-actual class Uuid{
+actual class ThreadSafeUuid{
 	actual constructor(){
 	}
 	private var max_id = AtomicLong(0L);

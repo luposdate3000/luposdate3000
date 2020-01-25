@@ -1,12 +1,13 @@
 package lupos.s1buildSyntaxTree.rdf
 
-import lupos.misc.Uuid
+import lupos.misc.ThreadSafeUuid
+import lupos.misc.ThreadSafeMutableMap
 
 object Dictionary {
-    private var max_id = Uuid();
+    private var max_id = ThreadSafeUuid();
 
-    private val RDFTerm_to_ID = mutableMapOf<String, Long>()
-    private val ID_to_RDFTerm = mutableMapOf<Long, RDFTerm>()
+    private val RDFTerm_to_ID = ThreadSafeMutableMap<String, Long>()
+    private val ID_to_RDFTerm = ThreadSafeMutableMap<Long, RDFTerm>()
 
     private fun addRDFTerm(term: RDFTerm): Long {
         val result = max_id.next()
