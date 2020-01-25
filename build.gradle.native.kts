@@ -46,15 +46,15 @@ kotlin {
 	}
 	sourceSets {
 		commonMain {
-			kotlin.srcDir("src/linuxX64Main")
-			kotlin.srcDir("src/commonMain")
-			kotlin.srcDir("src/commonBufferMainmemoryMain")
-			kotlin.srcDir("src/commonResultDictionaryNoneMain")
-			kotlin.srcDir("src/commonTripleStoreHashMapMain")
+			kotlin.srcDir("src/linuxX64Main/kotlin")
+			kotlin.srcDir("src/commonMain/kotlin")
+			kotlin.srcDir("src/commonBufferMainmemoryMain/kotlin")
+			kotlin.srcDir("src/commonResultDictionaryNoneMain/kotlin")
+			kotlin.srcDir("src/commonTripleStoreHashMapMain/kotlin")
 			dependencies {
 				implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
-				implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
-				implementation("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
+//				implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
+//				implementation("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
 			}
 		}
 		commonTest {
@@ -64,4 +64,5 @@ kotlin {
 			}
 		}
 	}
+ println(sourceSets["commonMain"].kotlin.srcDirs)
 }
