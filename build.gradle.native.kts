@@ -40,6 +40,7 @@ repositories {
 kotlin {
 	linuxX64() {
 		binaries {
+//-fPIC for debug required
 			sharedLib()
 		}
 	}
