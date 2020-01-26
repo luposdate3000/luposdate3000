@@ -2,6 +2,8 @@
 .gradle
 .idea
 build
+buildNative
+buildJvm
 gradle
 tmp
 gradlew
@@ -13,3 +15,7 @@ x
 run
 a
 b
+b2
+x2
+c
+c2

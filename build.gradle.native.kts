@@ -1,8 +1,5 @@
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
-
 buildscript {
-	val kotlin_version  = "1.3.61"
-
 	repositories {
 		mavenLocal()
 		jcenter()
@@ -19,7 +16,7 @@ buildscript {
 		)
 	}
 	dependencies {
-		classpath(kotlin("gradle-plugin", version = "$kotlin_version"))
+		classpath(kotlin("gradle-plugin", version = "1.3.61"))
 		classpath(kotlin("frontend-plugin", version = "0.0.26"))
 		classpath("com.moowork.gradle:gradle-node-plugin:1.2.0")
 	}
@@ -41,6 +38,7 @@ maven (
 }
 //https://github.com/JetBrains/kotlin-native/blob/master/GRADLE_PLUGIN.md
 kotlin {
+	project.buildDir = file("buildNative")
 	linuxX64("linuxX64") {
 		binaries {
 			    //-fPIC for debug required
