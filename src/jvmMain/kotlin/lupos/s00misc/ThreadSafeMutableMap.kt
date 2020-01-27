@@ -1,6 +1,5 @@
-package lupos.misc
-import lupos.s00misc.*
-import lupos.misc.*
+package lupos.s00misc
+import lupos.s00misc.classNameToString
 
 class ThreadSafeMutableMap<k, v>() {
     val map = mutableMapOf<k, v>()

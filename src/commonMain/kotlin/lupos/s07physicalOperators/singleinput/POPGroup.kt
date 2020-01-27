@@ -1,4 +1,5 @@
 package lupos.s07physicalOperators.singleinput
+import lupos.s00misc.kotlinStacktrace
 
 import lupos.s07physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 import lupos.s07physicalOperators.singleinput.POPFilter
@@ -21,7 +22,6 @@ import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
 
 
-import lupos.misc.kotlinStacktrace
 
 
 class POPGroup : POPSingleInputBaseNullableIterator {

@@ -1,7 +1,5 @@
 package lupos.datastructures.radix_tree
-import lupos.s00misc.*
-import lupos.misc.*
-import lupos.s01io.buffer.*
+import lupos.s01io.buffer.Page
 import lupos.s01io.buffer.bufferManager
 import kotlin.math.abs
 import kotlin.math.min

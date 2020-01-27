@@ -1,7 +1,4 @@
 package lupos.s01io.buffer
-import lupos.s00misc.*
-import lupos.misc.*
-import lupos.s01io.buffer.*
 
 data class PageAddress(val fileName: String, val pageNumber: Int)
 

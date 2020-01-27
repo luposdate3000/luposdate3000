@@ -1,4 +1,5 @@
 package lupos.s07physicalOperators.singleinput
+import lupos.s00misc.kotlinStacktrace
 
 import lupos.s07physicalOperators.singleinput.POPSingleInputBase
 import lupos.s07physicalOperators.singleinput.modifiers.POPDistinct
@@ -12,7 +13,6 @@ import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
 
 
-import lupos.misc.kotlinStacktrace
 
 
 class POPBind : POPSingleInputBase {

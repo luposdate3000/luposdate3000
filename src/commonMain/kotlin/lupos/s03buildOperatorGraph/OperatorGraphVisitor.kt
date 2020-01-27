@@ -1,4 +1,5 @@
 package lupos.s03buildOperatorGraph
+import lupos.s00misc.classNameToString
 
 import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPReduced
 import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPPrefix
@@ -116,7 +117,6 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.Visitor
 
-import lupos.misc.classNameToString
 
 
 class OperatorGraphVisitor : Visitor<OPBase> {

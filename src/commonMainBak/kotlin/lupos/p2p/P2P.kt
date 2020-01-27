@@ -1,4 +1,5 @@
 package lupos.p2p
+import lupos.s00misc.kotlinStacktrace
 import lupos.s10outputResult.QueryResultToXML
 import lupos.s09physicalOptimisation.PhysicalOptimizer
 
@@ -19,8 +20,6 @@ import lupos.s00misc.XMLElement
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
-
-import lupos.misc.kotlinStacktrace
 
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.createHttpServer

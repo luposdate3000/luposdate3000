@@ -1,4 +1,5 @@
 package lupos.s07physicalOperators
+import lupos.s00misc.classNameToString
 
 import lupos.s07physicalOperators.POPEmptyRow
 import lupos.s07physicalOperators.POPBaseNullableIterator
@@ -37,7 +38,6 @@ import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
 
-import lupos.misc.classNameToString
 
 import kotlin.math.abs
 import kotlin.math.ceil

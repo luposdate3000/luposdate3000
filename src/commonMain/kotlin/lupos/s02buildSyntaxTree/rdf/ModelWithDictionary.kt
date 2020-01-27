@@ -1,10 +1,10 @@
 package lupos.s02buildSyntaxTree.rdf
+import lupos.s00misc.ThreadSafeUuid
+import lupos.s00misc.ThreadSafeMutableMap
 
 import lupos.s02buildSyntaxTree.rdf.RDFTerm
 
 
-import lupos.misc.ThreadSafeUuid
-import lupos.misc.ThreadSafeMutableMap
 
 object Dictionary {
     private val max_id = ThreadSafeUuid();

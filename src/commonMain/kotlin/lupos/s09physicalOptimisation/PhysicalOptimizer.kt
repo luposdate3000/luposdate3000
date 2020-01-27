@@ -1,4 +1,5 @@
 package lupos.s09physicalOptimisation
+import lupos.s00misc.classNameToString
 import lupos.s08tripleStore.TripleStore
 import lupos.s09physicalOptimisation.OptimizerVisitorPOP
 
@@ -44,7 +45,6 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTypedLiteral
 
-import lupos.misc.classNameToString
 
 class PhysicalOptimizer() : OptimizerVisitorPOP() {
 

@@ -1,4 +1,5 @@
 package lupos
+import lupos.s00misc.kotlinStacktrace
 import lupos.s08tripleStore.TripleStore
 import lupos.s10outputResult.QueryResultToXML
 import lupos.s09physicalOptimisation.PhysicalOptimizer
@@ -24,7 +25,6 @@ import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
 
-import lupos.misc.kotlinStacktrace
 
 
 val errorBoundForDecimalsDigits = 6

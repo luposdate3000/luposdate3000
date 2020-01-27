@@ -1,6 +1,6 @@
 package lupos.s02buildSyntaxTree.rdf
+import lupos.s00misc.ThreadSafeUuid
 
-import lupos.misc.ThreadSafeUuid
 
 abstract open class RDFTerm() {
     abstract fun toN3String(): String;

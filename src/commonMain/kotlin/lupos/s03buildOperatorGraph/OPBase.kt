@@ -1,11 +1,11 @@
 package lupos.s03buildOperatorGraph
+import lupos.s00misc.ThreadSafeUuid
+import lupos.s00misc.classNameToString
 
 import lupos.s03buildOperatorGraph.LOPBase
 
 import lupos.s00misc.XMLElement
 
-import lupos.misc.classNameToString
-import lupos.misc.ThreadSafeUuid
 
 
 abstract class OPBase {
