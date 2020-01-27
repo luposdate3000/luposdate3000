@@ -50,10 +50,10 @@ kotlin {
         commonMain {
             kotlin.srcDir("src/nativeMain/kotlin")
             kotlin.srcDir("src/commonMain/kotlin")
-            kotlin.srcDir("src/commonMemoryHeapMain/kotlin")
-            kotlin.srcDir("src/commonMemoryBufferMainmemoryMain/kotlin")
-            kotlin.srcDir("src/commonS4DictionaryNoneMain/kotlin")
-            kotlin.srcDir("src/commonS6HashMapMain/kotlin")
+            kotlin.srcDir("src/commonS01HeapMain/kotlin")
+            kotlin.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
+            kotlin.srcDir("src/commonS06DictionaryNoneMain/kotlin")
+            kotlin.srcDir("src/commonS08HashMapMain/kotlin")
             dependencies {
                 implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
                 implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")

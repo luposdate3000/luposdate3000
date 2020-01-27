@@ -82,12 +82,12 @@ compileKotlin {
     ]
 }
 sourceSets {
-    main.kotlin.srcDirs += 'src/commonMemoryHeapMain'
-    main.kotlin.srcDirs += 'src/commonMemoryBufferMainmemoryMain/kotlin'
+    main.kotlin.srcDirs += 'src/commonS01HeapMain'
+    main.kotlin.srcDirs += 'src/commonS01BufferMainmemoryMain/kotlin'
     main.kotlin.srcDirs += 'src/commonMain/kotlin'
     main.kotlin.srcDirs += 'src/commonMainBak/kotlin'
-    main.kotlin.srcDirs += 'src/commonS4DictionaryNoneMain/kotlin'
-    main.kotlin.srcDirs += 'src/commonS6HashMapMain/kotlin'
+    main.kotlin.srcDirs += 'src/commonS06DictionaryNoneMain/kotlin'
+    main.kotlin.srcDirs += 'src/commonS08HashMapMain/kotlin'
     main.kotlin.srcDirs += 'src/jvmMain/kotlin'
 }
 //test {
