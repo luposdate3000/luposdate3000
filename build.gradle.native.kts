@@ -49,10 +49,10 @@ kotlin {
 		commonMain {
 			kotlin.srcDir("src/nativeMain/kotlin")
 			kotlin.srcDir("src/commonMain/kotlin")
-			kotlin.srcDir("src/commonHeapMain/kotlin")
-			kotlin.srcDir("src/commonBufferMainmemoryMain/kotlin")
-			kotlin.srcDir("src/commonResultDictionaryNoneMain/kotlin")
-			kotlin.srcDir("src/commonTripleStoreHashMapMain/kotlin")
+			kotlin.srcDir("src/commonMemoryHeapMain/kotlin")
+			kotlin.srcDir("src/commonMemoryBufferMainmemoryMain/kotlin")
+			kotlin.srcDir("src/commonS4DictionaryNoneMain/kotlin")
+			kotlin.srcDir("src/commonS6HashMapMain/kotlin")
 			dependencies {
 				implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
 				implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")

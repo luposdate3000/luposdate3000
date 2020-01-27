@@ -82,20 +82,13 @@ compileKotlin {
     ]
 }
 sourceSets {
-//    main.kotlin.srcDirs += 'src/commonBufferDiskbasedMain/kotlin'
-    main.kotlin.srcDirs += 'src/commonHeapMain'
-    main.kotlin.srcDirs += 'src/commonBufferMainmemoryMain/kotlin'
+    main.kotlin.srcDirs += 'src/commonMemoryHeapMain'
+    main.kotlin.srcDirs += 'src/commonMemoryBufferMainmemoryMain/kotlin'
     main.kotlin.srcDirs += 'src/commonMain/kotlin'
     main.kotlin.srcDirs += 'src/commonMainBak/kotlin'
-    main.kotlin.srcDirs += 'src/commonResultDictionaryNoneMain/kotlin'
-    main.kotlin.srcDirs += 'src/commonTripleStoreHashMapMain/kotlin'
+    main.kotlin.srcDirs += 'src/commonS4DictionaryNoneMain/kotlin'
+    main.kotlin.srcDirs += 'src/commonS6HashMapMain/kotlin'
     main.kotlin.srcDirs += 'src/jvmMain/kotlin'
-//    main.kotlin.srcDirs += 'src/jvmMemoryMappedMain'
-//    main.kotlin.srcDirs += 'src/jvmMemoryMappedUnsafeMain'
-//    main.kotlin.srcDirs += 'src/jvmRandomAccessMain'
-//    main.kotlin.srcDirs += 'src/jvmUnsafeHelperMain'
-//    main.kotlin.srcDirs += 'src/jvmUnsafeMain'
-//    test.kotlin.srcDirs += 'src/commonTest'
 }
 //test {
 //    testLogging {
