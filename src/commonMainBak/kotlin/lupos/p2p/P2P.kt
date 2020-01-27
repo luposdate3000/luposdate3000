@@ -1,6 +1,8 @@
 package lupos.p2p
-import lupos.s1buildSyntaxTree.sparql1_1.SPARQLParser
-import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
+import lupos.s02buildSyntaxTree.turtle.TurtleScanner
+import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
+import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
+import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.rdf.Dictionary
@@ -12,8 +14,6 @@ import lupos.s06resultRepresentation.ResultSet
 
 import lupos.misc.kotlinStacktrace
 import lupos.s8outputResult.QueryResultToXML
-import lupos.s1buildSyntaxTree.turtle.TurtleParserWithDictionary
-import lupos.s1buildSyntaxTree.turtle.TurtleScanner
 
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.createHttpServer

@@ -1,4 +1,4 @@
-package lupos.s2buildOperatorGraph.data
+package lupos.s03buildOperatorGraph.data
 import lupos.s00misc.XMLElement
 
 

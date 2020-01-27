@@ -1,7 +1,4 @@
 package lupos.s02buildSyntaxTree.sparql1_1
-import lupos.s1buildSyntaxTree.sparql1_1.SPARQLParser
-import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s1buildSyntaxTree.sparql1_1.Visitor
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 

@@ -1,6 +1,6 @@
 package lupos.s02buildSyntaxTree
+import lupos.s02buildSyntaxTree.turtle.EOF
 
-import lupos.s1buildSyntaxTree.turtle.EOF
 
 interface TokenIterator {
     fun nextToken(): Token

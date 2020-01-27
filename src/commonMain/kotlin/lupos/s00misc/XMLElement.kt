@@ -1,8 +1,8 @@
 package lupos.s00misc
+import lupos.s02buildSyntaxTree.turtle.TurtleScanner
+import lupos.s02buildSyntaxTree.turtle.TurtleParser
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
-import lupos.s1buildSyntaxTree.turtle.TurtleParser
-import lupos.s1buildSyntaxTree.turtle.TurtleScanner
 import kotlin.math.abs
 
 

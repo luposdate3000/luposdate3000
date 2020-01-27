@@ -1,12 +1,12 @@
 package lupos.s8outputResult
+import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
+import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 
-import lupos.s1buildSyntaxTree.sparql1_1.SPARQLParser
-import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s2buildOperatorGraph.OperatorGraphVisitor
 import lupos.s3logicalOptimisation.LogicalOptimizer
 import lupos.s4resultRepresentation.ResultSetIterator

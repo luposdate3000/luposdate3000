@@ -1,11 +1,4 @@
-package lupos.s1buildSyntaxTree.sparql1_1
-import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
-import lupos.s02buildSyntaxTree.sparql1_1.ASTBinaryOperationFixedName
-import lupos.s02buildSyntaxTree.sparql1_1.ASTLeafNode
-import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
-import lupos.s02buildSyntaxTree.sparql1_1.ASTUnaryOperation
-import lupos.s02buildSyntaxTree.sparql1_1.ASTUnaryOperationFixedName
-import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
+package lupos.s02buildSyntaxTree.sparql1_1
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token

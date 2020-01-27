@@ -1,4 +1,7 @@
 package lupos.s7physicalOptimisation
+import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
+import lupos.s02buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
+import lupos.s02buildSyntaxTree.sparql1_1.ASTTypedLiteral
 
 import lupos.s5physicalOperators.singleinput.POPDistinct
 import lupos.s5physicalOperators.singleinput.POPMakeBooleanResult
@@ -12,10 +15,7 @@ import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPOffset
 import lupos.s2buildOperatorGraph.singleinput.LOPMakeBooleanResult
 import lupos.s2buildOperatorGraph.singleinput.LOPRename
 import lupos.s2buildOperatorGraph.singleinput.LOPSort
-import lupos.s1buildSyntaxTree.sparql1_1.ASTIri
-import lupos.s1buildSyntaxTree.sparql1_1.ASTTypedLiteral
 import lupos.misc.classNameToString
-import lupos.s1buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.OPNothing
 import lupos.s2buildOperatorGraph.singleinput.LOPBind

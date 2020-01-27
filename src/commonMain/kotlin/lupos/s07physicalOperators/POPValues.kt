@@ -5,8 +5,6 @@ import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
 
 
-import lupos.s1buildSyntaxTree.sparql1_1.ASTValue
-import lupos.s1buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s2buildOperatorGraph.data.LOPValues
 import lupos.s2buildOperatorGraph.data.LOPExpression

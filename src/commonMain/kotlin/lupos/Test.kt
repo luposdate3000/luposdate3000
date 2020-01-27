@@ -1,7 +1,8 @@
 package lupos
+import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
+import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.parseSPARQL
-import lupos.s1buildSyntaxTree.sparql1_1.SPARQLParser
-import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
+import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
@@ -18,7 +19,6 @@ import lupos.s8outputResult.QueryResultToXML
 import lupos.s5physicalOperators.POPBase
 import lupos.misc.kotlinStacktrace
 
-import lupos.s1buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s2buildOperatorGraph.OperatorGraphVisitor
 import lupos.s3logicalOptimisation.LogicalOptimizer
 import lupos.s5physicalOperators.POPBaseNullableIterator
@@ -138,7 +138,7 @@ private fun listMembers(data: SevenIndices, start: Long, f: (Long) -> Unit) {
 }
 
 private fun readTurtleData(filename: String, consume_triple: (Long, Long, Long) -> Unit) {
-    val ltit = lupos.s02buildSyntaxTree.LookAheadTokenIterator(lupos.s1buildSyntaxTree.turtle.TurtleScanner(lupos.s02buildSyntaxTree.LexerCharIterator(readFileContents(filename))), 3)
+    val ltit = lupos.s02buildSyntaxTree.LookAheadTokenIterator(lupos.s02buildSyntaxTree.turtle.TurtleScanner(lupos.s02buildSyntaxTree.LexerCharIterator(readFileContents(filename))), 3)
     try {
         TurtleParserWithDictionary(consume_triple, ltit).turtleDoc()
     } catch (e: ParseError) {
