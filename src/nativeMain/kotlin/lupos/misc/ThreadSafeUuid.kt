@@ -1,5 +1,5 @@
 package lupos.misc
 
-expect class ThreadSafeUuid(){
-	fun next(): Long
+expect class ThreadSafeUuid() {
+    fun next(): Long
 }

@@ -1,4 +1,5 @@
 package lupos.s8outputResult
+
 import lupos.misc.XMLElement
 
 import lupos.s4resultRepresentation.Variable

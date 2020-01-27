@@ -1,4 +1,5 @@
 package lupos
+
 import lupos.s8outputResult.QueryResultToXML
 import lupos.s5physicalOperators.POPBase
 import lupos.misc.kotlinStacktrace

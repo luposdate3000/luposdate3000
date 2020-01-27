@@ -1,4 +1,5 @@
 package lupos.s1buildSyntaxTree.sparql1_1
+
 import lupos.misc.ThreadSafeUuid
 
 import lupos.s1buildSyntaxTree.LookAheadTokenIterator

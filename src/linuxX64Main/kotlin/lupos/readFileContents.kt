@@ -2,9 +2,9 @@ package lupos
 
 
 actual fun readFileContents(filename: String): String {
-var result:String=""
+    var result: String = ""
     println("filename $filename")
-val file = fopen(filename, "r")
+    val file = fopen(filename, "r")
     if (file == null) {
         perror("cannot open input file $filename")
         return ""
@@ -14,14 +14,14 @@ val file = fopen(filename, "r")
             val bufferLength = 64 * 1024
             val buffer = allocArray<ByteVar>(bufferLength)
 
-            while(true) {
+            while (true) {
                 val nextLine = fgets(buffer, bufferLength, file)?.toKString()
                 if (nextLine == null || nextLine.isEmpty()) break
-		result+=nextLine
+                result += nextLine
             }
         }
     } finally {
         fclose(file)
     }
-return result
+    return result
 }

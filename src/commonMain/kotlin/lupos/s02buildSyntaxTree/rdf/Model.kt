@@ -16,7 +16,7 @@ class BlankNode(val local_name: String) : RDFResource() {
     override fun toN3String(): String = "_:" + local_name
 
     companion object NewNameCreator { // just for creating internal new names in case of [] in RDF documents...
-	private val counter = ThreadSafeUuid();
+        private val counter = ThreadSafeUuid();
         fun createNewName(): String {
             return "_" + counter.next(); // local names for blank nodes in RDF documents cannot start with "_". Hence we start internally given names with "_"!
         }

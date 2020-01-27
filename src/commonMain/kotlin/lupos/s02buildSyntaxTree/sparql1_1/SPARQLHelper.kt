@@ -1,4 +1,5 @@
 package lupos.s1buildSyntaxTree.sparql1_1
+
 import lupos.misc.classNameToString
 import lupos.misc.ThreadSafeUuid
 
@@ -69,10 +70,10 @@ enum class Aggregation {
 
 open abstract class ASTNode(val children: Array<ASTNode>) {
     companion object {
-private	val global_uuid = ThreadSafeUuid()
+        private val global_uuid = ThreadSafeUuid()
     }
 
-    val uuid:Long = global_uuid.next()
+    val uuid: Long = global_uuid.next()
 
     override fun toString(): String {
         return toString("");

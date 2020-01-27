@@ -1,4 +1,5 @@
 package lupos.s5physicalOperators
+
 import lupos.misc.classNameToString
 
 import lupos.misc.XMLElement
@@ -39,6 +40,7 @@ import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
+
 //import com.soywiz.krypto.md5
 //import com.soywiz.krypto.sha1
 //import com.soywiz.krypto.sha256
@@ -298,10 +300,10 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                     if (expression.aggregateTmp[node.uuid] != null)
                         expression.aggregateTmp[node.uuid] = helperToT(expression.aggregateTmp[node.uuid]!!)
                 }
-                if (node.type == Aggregation.COUNT){
-			require(expression.getResultType(resultSet, resultRow, node)==TmpResultType.RSInteger)
+                if (node.type == Aggregation.COUNT) {
+                    require(expression.getResultType(resultSet, resultRow, node) == TmpResultType.RSInteger)
                     return helperToT(expression.aggregateCount)
-		}
+                }
                 val childValue: T = if (expression.aggregateMode == TmpAggregateMode.AMCollect)
                     evaluateChildTyped(resultSet, resultRow, node.children[0])
                 else
@@ -396,7 +398,7 @@ class POPExpression : OPBase {
     val evaluateDecimal = EvaluateNumber<Double>(this, TmpResultType.RSDecimal, dataTypeDecimal)
     val evaluateDouble = EvaluateNumber<Double>(this, TmpResultType.RSDouble, dataTypeDouble)
 
-    var aggregateCount :Int= 0
+    var aggregateCount: Int = 0
     val aggregateTmpTypeUsed = mutableMapOf<Long, TmpResultType>()//min and max should return the original type and not something casted
     val aggregateTmpType = mutableMapOf<Long, TmpResultType>()
     val aggregateTmp = mutableMapOf<Long, Number>()
@@ -702,8 +704,8 @@ println(tmp2.toDouble().roundToInt())
 println(tmp2.toString())
 println(tmp2.toString().replace(".0",""))
 */
-	return "\"" + (""+evaluateInteger.evaluateHelper(resultSet, resultRow, node)).replace(".0","") + "\"" + dataTypeInteger
-}
+                return "\"" + ("" + evaluateInteger.evaluateHelper(resultSet, resultRow, node)).replace(".0", "") + "\"" + dataTypeInteger
+            }
             TmpResultType.RSUndefined -> return resultSet.getUndefValue()
             TmpResultType.RSDecimal -> {
                 val tmp = evaluateDecimal.evaluateHelper(resultSet, resultRow, node).toString()

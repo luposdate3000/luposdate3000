@@ -1,4 +1,5 @@
 package lupos.s6tripleStore
+
 import lupos.misc.classNameToString
 import lupos.misc.XMLElement
 

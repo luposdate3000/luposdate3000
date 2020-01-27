@@ -1,4 +1,5 @@
 package lupos.s2buildOperatorGraph
+
 import lupos.misc.classNameToString
 
 import lupos.s2buildOperatorGraph.singleinput.LOPMakeBooleanResult
