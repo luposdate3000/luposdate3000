@@ -1,7 +1,7 @@
 package lupos.s5physicalOperators
+import lupos.misc.classNameToString
 
 import lupos.misc.XMLElement
-import lupos.misc.*
 import lupos.s1buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s1buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s1buildSyntaxTree.sparql1_1.ASTAggregation

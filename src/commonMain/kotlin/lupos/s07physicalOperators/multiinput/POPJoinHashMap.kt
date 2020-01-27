@@ -1,6 +1,6 @@
 package lupos.s5physicalOperators.multiinput
+import lupos.misc.XMLElement
 
-import lupos.misc.*
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet

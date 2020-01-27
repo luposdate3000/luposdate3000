@@ -1,6 +1,7 @@
 package lupos.s6tripleStore
+import lupos.misc.classNameToString
+import lupos.misc.XMLElement
 
-import lupos.misc.*
 import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.ResultSetIterator

@@ -1,6 +1,6 @@
 package lupos.s2buildOperatorGraph
+import lupos.misc.classNameToString
 
-import lupos.misc.*
 import lupos.s2buildOperatorGraph.singleinput.LOPMakeBooleanResult
 import lupos.s2buildOperatorGraph.singleinput.LOPRename
 import lupos.s2buildOperatorGraph.singleinput.LOPSubGroup

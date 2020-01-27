@@ -1,8 +1,5 @@
 package lupos.misc
 
-import kotlin.native.concurrent.*
-import kotlinx.cinterop.*
-import platform.posix.*
 
 actual class ThreadSafeMutableMap<k,v>{
 	val mutex =cValue<pthread_mutex_t>();

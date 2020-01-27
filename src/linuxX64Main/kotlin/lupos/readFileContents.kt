@@ -1,7 +1,5 @@
 package lupos
 
-import kotlinx.cinterop.*
-import platform.posix.*
 
 actual fun readFileContents(filename: String): String {
 var result:String=""

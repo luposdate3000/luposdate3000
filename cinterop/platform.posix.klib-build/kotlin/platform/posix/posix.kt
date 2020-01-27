@@ -1,9 +1,8 @@
+package platform.posix
 @file:kotlinx.cinterop.InteropStubs
 @file:Suppress("UNUSED_VARIABLE", "UNUSED_EXPRESSION")
-package platform.posix
 
 import kotlin.native.SymbolName
-import kotlinx.cinterop.*
 
 // NOTE THIS FILE IS AUTO-GENERATED
 

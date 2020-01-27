@@ -2,7 +2,6 @@ package lupos.s8outputResult
 
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
-import lupos.misc.*
 
 object QueryResultToCSV {
     fun toCSV(query: POPBase, separator: String = ","): String {

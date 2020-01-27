@@ -1,7 +1,9 @@
 package lupos
+import lupos.s8outputResult.QueryResultToXML
+import lupos.s5physicalOperators.POPBase
+import lupos.misc.kotlinStacktrace
+import lupos.misc.XMLElement
 
-import kotlin.math.*
-import lupos.misc.*
 import lupos.s1buildSyntaxTree.ParseError
 import lupos.s1buildSyntaxTree.rdf.Dictionary
 import lupos.s1buildSyntaxTree.rdf.ID_Triple
@@ -18,12 +20,9 @@ import lupos.s3logicalOptimisation.LogicalOptimizer
 import lupos.s4resultRepresentation.ResultRow
 import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
-import lupos.s5physicalOperators.*
-import lupos.s5physicalOperators.singleinput.*
 import lupos.s5physicalOperators.POPBaseNullableIterator
 import lupos.s6tripleStore.TripleStore
 import lupos.s7physicalOptimisation.PhysicalOptimizer
-import lupos.s8outputResult.*
 
 val errorBoundForDecimalsDigits = 6
 

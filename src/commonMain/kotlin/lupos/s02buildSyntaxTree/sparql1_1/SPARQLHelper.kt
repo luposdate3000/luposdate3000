@@ -1,9 +1,10 @@
 package lupos.s1buildSyntaxTree.sparql1_1
+import lupos.misc.classNameToString
+import lupos.misc.ThreadSafeUuid
 
 import lupos.s1buildSyntaxTree.LexerCharIterator
 import lupos.s1buildSyntaxTree.LookAheadTokenIterator
 import lupos.s1buildSyntaxTree.ParseError
-import lupos.misc.*
 
 enum class BuiltInFunctions {
     STR,
