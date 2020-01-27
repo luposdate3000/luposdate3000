@@ -1,10 +1,13 @@
-package lupos.s2buildOperatorGraph.singleinput.modifiers
+package lupos.s03buildOperatorGraph.singleinput.modifiers
+
+import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPOffset
+import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPLimit
+import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPDistinct
+import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
+import lupos.s03buildOperatorGraph.OPBase
 
 import lupos.s00misc.XMLElement
 
-
-import lupos.s2buildOperatorGraph.OPBase
-import lupos.s2buildOperatorGraph.singleinput.LOPSingleInputBase
 
 class LOPPrefix(val name: String, val iri: String) : LOPSingleInputBase() {
     constructor(name: String, iri: String, child: OPBase) : this(name, iri) {

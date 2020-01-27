@@ -1,4 +1,9 @@
-package lupos.s6tripleStore
+package lupos.s08tripleStore
+import lupos.s08tripleStore.IndexPattern
+import lupos.s08tripleStore.POPTripleStoreIteratorBase
+
+import lupos.s07physicalOperators.POPBase
+import lupos.s06resultRepresentation.ResultSetIterator
 
 import lupos.s00misc.XMLElement
 import lupos.s06resultRepresentation.ResultRow
@@ -7,8 +12,6 @@ import lupos.s06resultRepresentation.ResultSet
 
 import lupos.misc.classNameToString
 
-import lupos.s4resultRepresentation.ResultSetIterator
-import lupos.s5physicalOperators.POPBase
 
 class TripleStoreIterator : POPTripleStoreIteratorBase {
     private val resultSetNew = ResultSet()

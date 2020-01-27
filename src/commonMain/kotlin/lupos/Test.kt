@@ -1,4 +1,12 @@
 package lupos
+import lupos.s08tripleStore.TripleStore
+import lupos.s10outputResult.QueryResultToXML
+import lupos.s09physicalOptimisation.PhysicalOptimizer
+
+import lupos.s07physicalOperators.POPBaseNullableIterator
+import lupos.s07physicalOperators.POPBase
+import lupos.s05logicalOptimisation.LogicalOptimizer
+import lupos.s03buildOperatorGraph.OperatorGraphVisitor
 
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
@@ -16,15 +24,8 @@ import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
 
-import lupos.s8outputResult.QueryResultToXML
-import lupos.s5physicalOperators.POPBase
 import lupos.misc.kotlinStacktrace
 
-import lupos.s2buildOperatorGraph.OperatorGraphVisitor
-import lupos.s3logicalOptimisation.LogicalOptimizer
-import lupos.s5physicalOperators.POPBaseNullableIterator
-import lupos.s6tripleStore.TripleStore
-import lupos.s7physicalOptimisation.PhysicalOptimizer
 
 val errorBoundForDecimalsDigits = 6
 

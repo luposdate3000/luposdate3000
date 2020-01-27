@@ -1,9 +1,10 @@
-package lupos.s2buildOperatorGraph.singleinput
+package lupos.s03buildOperatorGraph.singleinput
+
+import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
+import lupos.s03buildOperatorGraph.OPBase
+import lupos.s03buildOperatorGraph.data.LOPVariable
 
 import lupos.s00misc.XMLElement
-
-import lupos.s2buildOperatorGraph.data.LOPVariable
-import lupos.s2buildOperatorGraph.OPBase
 
 
 class LOPBind(val name: LOPVariable, val expression: OPBase) : LOPSingleInputBase() {

@@ -1,10 +1,13 @@
-package lupos.s2buildOperatorGraph.data
+package lupos.s03buildOperatorGraph.data
+
+import lupos.s03buildOperatorGraph.LOPBase
+import lupos.s03buildOperatorGraph.data.LOPValues
+import lupos.s03buildOperatorGraph.data.LOPTriple
+import lupos.s03buildOperatorGraph.data.LOPExpression
 
 import lupos.s03buildOperatorGraph.data.LOPConstant
 import lupos.s00misc.XMLElement
 
-
-import lupos.s2buildOperatorGraph.LOPBase
 
 class LOPVariable(var name: String) : LOPBase() {
     override fun getProvidedVariableNames(): List<String> {

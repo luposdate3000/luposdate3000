@@ -1,4 +1,14 @@
-package lupos.s8outputResult
+package lupos.s10outputResult
+import lupos.s08tripleStore.TripleStore
+import lupos.s10outputResult.QueryResultToXML
+import lupos.s10outputResult.QueryResultToCSV
+import lupos.s10outputResult.printResult
+import lupos.s09physicalOptimisation.PhysicalOptimizer
+
+import lupos.s07physicalOperators.POPBase
+import lupos.s06resultRepresentation.ResultSetIterator
+import lupos.s05logicalOptimisation.LogicalOptimizer
+import lupos.s03buildOperatorGraph.OperatorGraphVisitor
 
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
@@ -8,12 +18,6 @@ import lupos.s02buildSyntaxTree.ParseError
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 
-import lupos.s2buildOperatorGraph.OperatorGraphVisitor
-import lupos.s3logicalOptimisation.LogicalOptimizer
-import lupos.s4resultRepresentation.ResultSetIterator
-import lupos.s5physicalOperators.POPBase
-import lupos.s6tripleStore.TripleStore
-import lupos.s7physicalOptimisation.PhysicalOptimizer
 
 var sparql_test_input = arrayOf(arrayOf("a", "b", "c"))
 

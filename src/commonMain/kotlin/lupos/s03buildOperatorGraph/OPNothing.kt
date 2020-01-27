@@ -1,10 +1,11 @@
-package lupos.s2buildOperatorGraph
+package lupos.s03buildOperatorGraph
+
+import lupos.s03buildOperatorGraph.OperatorGraphVisitor
+import lupos.s03buildOperatorGraph.OPBase
+import lupos.s03buildOperatorGraph.LOPBase
 
 import lupos.s00misc.XMLElement
 
-
-import lupos.s2buildOperatorGraph.LOPBase
-import lupos.s2buildOperatorGraph.OPBase
 
 class OPNothing() : OPBase() {
 

@@ -1,13 +1,25 @@
-package lupos.s5physicalOperators.singleinput
+package lupos.s07physicalOperators.singleinput
+
+import lupos.s07physicalOperators.singleinput.POPSort
+import lupos.s07physicalOperators.singleinput.POPSingleInputBaseNullableIterator
+import lupos.s07physicalOperators.singleinput.POPSingleInputBase
+import lupos.s07physicalOperators.singleinput.POPRename
+import lupos.s07physicalOperators.singleinput.POPProjection
+import lupos.s07physicalOperators.singleinput.POPMakeBooleanResult
+import lupos.s07physicalOperators.singleinput.POPGroup
+import lupos.s07physicalOperators.singleinput.POPFilter
+import lupos.s07physicalOperators.singleinput.POPFilterExact
+import lupos.s07physicalOperators.singleinput.POPBindUndefined
+import lupos.s07physicalOperators.singleinput.POPBind
+import lupos.s07physicalOperators.singleinput.modifiers.POPDistinct
+import lupos.s07physicalOperators.POPBase
+import lupos.s03buildOperatorGraph.data.LOPVariable
 
 import lupos.s00misc.XMLElement
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
 
-
-import lupos.s2buildOperatorGraph.data.LOPVariable
-import lupos.s5physicalOperators.POPBase
 
 class POPTemporaryStore : POPBase {
     private val data = mutableListOf<ResultRow>()

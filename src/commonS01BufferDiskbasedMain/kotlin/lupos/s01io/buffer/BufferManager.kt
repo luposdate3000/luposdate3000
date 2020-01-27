@@ -1,4 +1,4 @@
-package lupos.io.buffer
+package lupos.s01io.buffer
 
 import lupos.s01io.buffer.PageHelper
 import lupos.s01io.buffer.ByteArrayPage

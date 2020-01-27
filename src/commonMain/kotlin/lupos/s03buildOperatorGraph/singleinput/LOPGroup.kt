@@ -1,11 +1,13 @@
-package lupos.s2buildOperatorGraph.singleinput
+package lupos.s03buildOperatorGraph.singleinput
+
+import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
+import lupos.s03buildOperatorGraph.singleinput.LOPFilter
+import lupos.s03buildOperatorGraph.singleinput.LOPBind
+import lupos.s03buildOperatorGraph.OPBase
+import lupos.s03buildOperatorGraph.data.LOPVariable
 
 import lupos.s00misc.XMLElement
 
-
-import lupos.s2buildOperatorGraph.OPBase
-import lupos.s2buildOperatorGraph.singleinput.LOPSingleInputBase
-import lupos.s2buildOperatorGraph.data.LOPVariable
 
 class LOPGroup(var by: List<LOPVariable>) : LOPSingleInputBase() {
     var bindings: OPBase? = null

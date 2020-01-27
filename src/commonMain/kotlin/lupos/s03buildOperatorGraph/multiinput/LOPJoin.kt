@@ -1,10 +1,10 @@
-package lupos.s2buildOperatorGraph.multiinput
+package lupos.s03buildOperatorGraph.multiinput
+
+import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
+import lupos.s03buildOperatorGraph.OPBase
 
 import lupos.s00misc.XMLElement
 
-
-import lupos.s2buildOperatorGraph.OPBase
-import lupos.s2buildOperatorGraph.singleinput.LOPSingleInputBase
 
 class LOPJoin(first: OPBase, val second: OPBase, val optional: Boolean) : LOPSingleInputBase(first) {
     override fun getProvidedVariableNames(): List<String> {

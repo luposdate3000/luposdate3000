@@ -1,7 +1,8 @@
-package lupos.s6tripleStore
+package lupos.s08tripleStore
 
-import lupos.s4resultRepresentation.ResultSetIterator
-import lupos.s5physicalOperators.POPBase
+import lupos.s07physicalOperators.POPBase
+import lupos.s06resultRepresentation.ResultSetIterator
+
 
 enum class IndexPattern {
     S, P, O, SP, SO, PO, SPO, SOP, PSO, POS, OSP, OPS

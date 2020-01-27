@@ -1,8 +1,17 @@
-package lupos.s2buildOperatorGraph.singleinput
+package lupos.s03buildOperatorGraph.singleinput
 
-import lupos.s2buildOperatorGraph.LOPBase
-import lupos.s2buildOperatorGraph.OPBase
-import lupos.s2buildOperatorGraph.OPNothing
+import lupos.s03buildOperatorGraph.singleinput.LOPRename
+import lupos.s03buildOperatorGraph.singleinput.LOPProjection
+import lupos.s03buildOperatorGraph.singleinput.LOPOptional
+import lupos.s03buildOperatorGraph.singleinput.LOPNOOP
+import lupos.s03buildOperatorGraph.singleinput.LOPMakeBooleanResult
+import lupos.s03buildOperatorGraph.singleinput.LOPGroup
+import lupos.s03buildOperatorGraph.singleinput.LOPFilter
+import lupos.s03buildOperatorGraph.singleinput.LOPBind
+import lupos.s03buildOperatorGraph.OPNothing
+import lupos.s03buildOperatorGraph.OPBase
+import lupos.s03buildOperatorGraph.LOPBase
+
 
 abstract class LOPSingleInputBase() : LOPBase() {
     var child: OPBase = OPNothing()

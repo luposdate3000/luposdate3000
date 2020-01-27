@@ -1,4 +1,11 @@
 package lupos.p2p
+import lupos.s10outputResult.QueryResultToXML
+import lupos.s09physicalOptimisation.PhysicalOptimizer
+
+import lupos.s07physicalOperators.POPBaseNullableIterator
+import lupos.s07physicalOperators.POPBase
+import lupos.s05logicalOptimisation.LogicalOptimizer
+import lupos.s03buildOperatorGraph.OperatorGraphVisitor
 
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
@@ -14,18 +21,11 @@ import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
 
 import lupos.misc.kotlinStacktrace
-import lupos.s8outputResult.QueryResultToXML
 
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
 import com.soywiz.korio.net.http.HttpServer
-import lupos.s2buildOperatorGraph.OperatorGraphVisitor
-import lupos.s3logicalOptimisation.LogicalOptimizer
-import lupos.s5physicalOperators.POPBase
-import lupos.s5physicalOperators.POPBaseNullableIterator
-import lupos.s6tripleStore.TripleStore
-import lupos.s7physicalOptimisation.PhysicalOptimizer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay

@@ -1,6 +1,7 @@
-package lupos.s5physicalOperators
+package lupos.s07physicalOperators
 
-import lupos.s2buildOperatorGraph.OPBase
-import lupos.s4resultRepresentation.ResultSetIterator
+import lupos.s06resultRepresentation.ResultSetIterator
+import lupos.s03buildOperatorGraph.OPBase
+
 
 abstract class POPBase : OPBase(), ResultSetIterator

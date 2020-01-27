@@ -1,15 +1,17 @@
-package lupos.s5physicalOperators.multiinput
+package lupos.s07physicalOperators.multiinput
+
+import lupos.s07physicalOperators.singleinput.POPTemporaryStore
+import lupos.s07physicalOperators.POPBaseNullableIterator
+import lupos.s07physicalOperators.POPBase
+import lupos.s07physicalOperators.multiinput.POPJoinNestedLoop
+import lupos.s07physicalOperators.multiinput.POPJoinHashMap
+import lupos.s03buildOperatorGraph.data.LOPVariable
 
 import lupos.s00misc.XMLElement
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
 
-
-import lupos.s2buildOperatorGraph.data.LOPVariable
-import lupos.s5physicalOperators.POPBase
-import lupos.s5physicalOperators.singleinput.POPTemporaryStore
-import lupos.s5physicalOperators.POPBaseNullableIterator
 
 class POPUnion : POPBaseNullableIterator {
     val childA: POPBase

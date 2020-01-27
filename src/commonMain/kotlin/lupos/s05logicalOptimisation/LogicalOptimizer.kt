@@ -1,9 +1,10 @@
-package lupos.s3logicalOptimisation
+package lupos.s05logicalOptimisation
 
-import lupos.s2buildOperatorGraph.OPBase
-import lupos.s2buildOperatorGraph.singleinput.LOPNOOP
-import lupos.s2buildOperatorGraph.singleinput.modifiers.LOPPrefix
-import lupos.s3logicalOptimisation.OptimizerVisitorLOP
+import lupos.s05logicalOptimisation.OptimizerVisitorLOP
+import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPPrefix
+import lupos.s03buildOperatorGraph.singleinput.LOPNOOP
+import lupos.s03buildOperatorGraph.OPBase
+
 
 class LogicalOptimizer() : OptimizerVisitorLOP() {
     override fun visit(node: LOPPrefix): OPBase {

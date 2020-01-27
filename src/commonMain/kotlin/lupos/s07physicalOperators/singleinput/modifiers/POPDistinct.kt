@@ -1,4 +1,9 @@
-package lupos.s5physicalOperators.singleinput
+package lupos.s07physicalOperators.singleinput.modifiers
+
+import lupos.s07physicalOperators.singleinput.POPSingleInputBaseNullableIterator
+import lupos.s07physicalOperators.POPBaseNullableIterator
+import lupos.s07physicalOperators.POPBase
+import lupos.s03buildOperatorGraph.data.LOPVariable
 
 import lupos.s00misc.XMLElement
 import lupos.s06resultRepresentation.Value
@@ -6,10 +11,6 @@ import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
 
-
-import lupos.s2buildOperatorGraph.data.LOPVariable
-import lupos.s5physicalOperators.POPBase
-import lupos.s5physicalOperators.POPBaseNullableIterator
 
 class POPDistinct : POPSingleInputBaseNullableIterator {
     private var data: MutableList<ResultRow>? = null

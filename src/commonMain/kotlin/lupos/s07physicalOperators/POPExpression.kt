@@ -1,4 +1,10 @@
-package lupos.s5physicalOperators
+package lupos.s07physicalOperators
+
+import lupos.s07physicalOperators.POPEmptyRow
+import lupos.s07physicalOperators.POPBaseNullableIterator
+import lupos.s07physicalOperators.POPBase
+import lupos.s03buildOperatorGraph.OPBase
+import lupos.s03buildOperatorGraph.data.LOPVariable
 
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
@@ -38,9 +44,6 @@ import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.roundToInt
 
-import lupos.s2buildOperatorGraph.OPBase
-import lupos.s2buildOperatorGraph.data.LOPVariable
-import lupos.s5physicalOperators.POPBase
 
 //import com.soywiz.krypto.md5
 //import com.soywiz.krypto.sha1

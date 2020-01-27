@@ -1,14 +1,15 @@
-package lupos.s7physicalOptimisation
+package lupos.s09physicalOptimisation
+import lupos.s08tripleStore.POPTripleStoreIteratorBase
 
-import lupos.s2buildOperatorGraph.OPBase
-import lupos.s2buildOperatorGraph.data.LOPVariable
-import lupos.s3logicalOptimisation.OptimizerVisitorLOP
-import lupos.s5physicalOperators.POPBase
-import lupos.s5physicalOperators.singleinput.POPBind
-import lupos.s5physicalOperators.singleinput.POPFilterExact
-import lupos.s5physicalOperators.singleinput.POPProjection
-import lupos.s5physicalOperators.singleinput.POPRename
-import lupos.s6tripleStore.POPTripleStoreIteratorBase
+import lupos.s07physicalOperators.singleinput.POPRename
+import lupos.s07physicalOperators.singleinput.POPProjection
+import lupos.s07physicalOperators.singleinput.POPFilterExact
+import lupos.s07physicalOperators.singleinput.POPBind
+import lupos.s07physicalOperators.POPBase
+import lupos.s05logicalOptimisation.OptimizerVisitorLOP
+import lupos.s03buildOperatorGraph.OPBase
+import lupos.s03buildOperatorGraph.data.LOPVariable
+
 
 abstract class OptimizerVisitorPOP() : OptimizerVisitorLOP() {
     open fun visit(node: POPFilterExact): OPBase {
