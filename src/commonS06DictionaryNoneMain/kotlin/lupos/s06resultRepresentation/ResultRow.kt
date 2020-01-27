@@ -1,4 +1,6 @@
-package lupos.s4resultRepresentation
+package lupos.s06resultRepresentation
+import lupos.s06resultRepresentation.Value
+import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
 
 class ResultRow() {

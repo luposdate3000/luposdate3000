@@ -1,4 +1,5 @@
 package lupos.misc
+import lupos.s00misc.ByteHelper
 
 
 actual class ThreadSafeMutableMap<k, v> {

@@ -1,8 +1,8 @@
 package lupos.s5physicalOperators
+import lupos.s06resultRepresentation.ResultRow
 
 import lupos.s2buildOperatorGraph.OPBase
 import lupos.s4resultRepresentation.ResultSetIterator
-import lupos.s4resultRepresentation.ResultRow
 
 
 abstract class POPBaseNullableIterator : POPBase() {

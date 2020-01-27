@@ -1,4 +1,6 @@
-package lupos.misc
+package lupos.s00misc
+import lupos.s00misc.*
+import lupos.misc.*
 
 import kotlin.experimental.and
 

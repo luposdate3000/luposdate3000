@@ -1,12 +1,12 @@
 package lupos.s5physicalOperators.singleinput
+import lupos.s06resultRepresentation.Value
+import lupos.s06resultRepresentation.ResultRow
+import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
 
 import lupos.misc.XMLElement
 
 import lupos.s2buildOperatorGraph.data.LOPVariable
-import lupos.s4resultRepresentation.ResultRow
-import lupos.s4resultRepresentation.Variable
-import lupos.s4resultRepresentation.Value
 import lupos.s5physicalOperators.POPBase
 import lupos.s5physicalOperators.POPBaseNullableIterator
 

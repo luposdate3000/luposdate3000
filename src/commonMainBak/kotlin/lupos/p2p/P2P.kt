@@ -1,4 +1,6 @@
 package lupos.p2p
+import lupos.s06resultRepresentation.ResultRow
+import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
 
 import lupos.misc.kotlinStacktrace
@@ -23,8 +25,6 @@ import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s1buildSyntaxTree.LexerCharIterator
 import lupos.s2buildOperatorGraph.OperatorGraphVisitor
 import lupos.s3logicalOptimisation.LogicalOptimizer
-import lupos.s4resultRepresentation.ResultRow
-import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
 import lupos.s5physicalOperators.POPBaseNullableIterator
 import lupos.s6tripleStore.TripleStore

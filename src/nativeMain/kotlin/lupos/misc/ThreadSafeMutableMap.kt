@@ -1,4 +1,5 @@
 package lupos.misc
+import lupos.s00misc.ByteHelper
 
 expect class ThreadSafeMutableMap<k, v>() {
     operator fun get(key: k): v?

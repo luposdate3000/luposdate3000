@@ -9,9 +9,8 @@ import lupos.io.buffer.serializeCompressedInt
 import lupos.io.buffer.serializedSizeOfCompressedInt
 import lupos.io.buffer.serializedSizeOfInt
 import lupos.io.buffer.serializeInt
-import lupos.misc.bit0
-import lupos.misc.bit1
-import lupos.misc.bit2
+import lupos.misc.*
+import lupos.s00misc.*
 
 interface I_B_Plus_Tree<K : Any, V> {
     operator fun get(key: K): V

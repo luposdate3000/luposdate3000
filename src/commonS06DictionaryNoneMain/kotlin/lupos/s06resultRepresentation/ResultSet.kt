@@ -1,7 +1,7 @@
 package lupos.s06resultRepresentation
-import lupos.s4resultRepresentation.ResultRow
-import lupos.s4resultRepresentation.Value
-import lupos.s4resultRepresentation.Variable
+import lupos.s06resultRepresentation.Value
+import lupos.s06resultRepresentation.ResultRow
+import lupos.s06resultRepresentation.Variable
 
 class ResultSet {
     val variables = mutableSetOf<String>()

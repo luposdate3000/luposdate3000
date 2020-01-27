@@ -1,8 +1,8 @@
 package lupos.s8outputResult
+import lupos.s06resultRepresentation.Variable
 
 import lupos.misc.XMLElement
 
-import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
 
 object QueryResultToXML {
