@@ -43,18 +43,20 @@ class POPFilterExact : POPSingleInputBaseNullableIterator {
     }
 
     override fun nnext(): ResultRow? {
+try{
 Trace.start(this)
         while (true) {
             if (!child.hasNext()){
-Trace.stop(this)
                 return null
 		}
             val nextRow = child.next()
             if (resultSet.getValue(nextRow[filterVariable]) == value){
-Trace.stop(this)
                 return nextRow!!
 	}
         }
+}finally{
+Trace.stop(this)
+}
     }
 
     override fun toXMLElement(): XMLElement {

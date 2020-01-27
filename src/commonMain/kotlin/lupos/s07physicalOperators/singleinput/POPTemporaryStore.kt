@@ -56,6 +56,7 @@ class POPTemporaryStore : POPBase {
     }
 
     override fun next(): ResultRow {
+try{
 Trace.start(this)
         if (iterator == child) {
             val rsOld = child.next()
@@ -64,7 +65,6 @@ Trace.start(this)
                 rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
             }
             data.add(rsNew)
-Trace.stop(this)
             return rsNew
         }
         val rsOld = iterator.next()
@@ -72,8 +72,10 @@ Trace.stop(this)
         for (variable in variables) {
             rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
         }
-        Trace.stop(this)
 return rsNew
+}finally{
+Trace.stop(this)
+}
     }
 
     fun reset() {

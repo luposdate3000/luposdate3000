@@ -55,6 +55,7 @@ class POPBindUndefined : POPSingleInputBase {
     }
 
     override fun next(): ResultRow {
+try{
 Trace.start(this)
         var rsNew = resultSetNew.createResultRow()
         val rsOld = child.next()
@@ -63,8 +64,10 @@ Trace.start(this)
             rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
         }
         rsNew[variableBound] = resultSetNew.createValue(resultSetNew.getUndefValue())
-Trace.stop(this)
         return rsNew
+}finally{
+Trace.stop(this)
+}
     }
 
     override fun toXMLElement(): XMLElement {

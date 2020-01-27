@@ -38,14 +38,16 @@ synchronized(stack){
 	}
 	fun stop(name:String){
 synchronized(stack){
+require(!stack.isEmpty())
 var key=""
 stack.elements.forEach{
 key+=it.first+"-"
 }
+key=key.substring(0,key.length-1)
 		val tmp=stack.pop()
 		require(tmp!=null)
 		require(name==tmp.first)
-		val timediff=tmp.second.elapsedNow().toDouble(DurationUnit.MILLISECONDS)
+		val timediff=tmp.second.elapsedNow().toDouble(DurationUnit.SECONDS)
 		val old=map[key]
 		if(old==null)
 			map[key]=Pair(1L,timediff)
@@ -55,11 +57,13 @@ key+=it.first+"-"
 	}
 	fun print(){
 		synchronized(stack){
+			require(stack.isEmpty())
 			println("stack")
 			println("raw::")
 			for((k,v)in map)
 				println("$k #${v.first} ${v.second} Seconds")
 			val map2=mutableMapOf<String,Pair<Long,Double>>()
+	var xx=0
 			for((k,v)in map){
 				val keys = k.split("-")
 				val u=map2[keys.last()]

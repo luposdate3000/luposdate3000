@@ -59,7 +59,8 @@ class POPBind : POPSingleInputBase {
     }
 
     override fun next(): ResultRow {
-Trace.start(this)
+try{
+	Trace.start(this)
         var rsNew = resultSetNew.createResultRow()
         val rsOld = child.next()
         for (i in variablesOld.indices) {
@@ -73,8 +74,10 @@ Trace.start(this)
             print("silent :: ")
             e.kotlinStacktrace()
         }
-Trace.stop(this)
         return rsNew
+}finally{
+Trace.stop(this)
+}
     }
 
     override fun toXMLElement(): XMLElement {
