@@ -1,4 +1,4 @@
-package lupos.s1buildSyntaxTree.rdf
+package lupos.s02buildSyntaxTree.rdf
 
 import lupos.misc.ThreadSafeUuid
 

@@ -1,7 +1,10 @@
-package lupos.io.buffer
+package lupos.s01io.buffer
+import lupos.io.buffer.Page
+import lupos.s01io.buffer.ByteArrayPage
+import lupos.s00misc.bit0
+import lupos.s00misc.bit1
+import lupos.s00misc.bit2
 
-import lupos.misc.*
-import lupos.s00misc.*
 
 inline fun compareInt(int1: Int, int2: Int) = int1 - int2
 inline fun deserializeInt(page: Page, address: Long) = page.getInt(address)

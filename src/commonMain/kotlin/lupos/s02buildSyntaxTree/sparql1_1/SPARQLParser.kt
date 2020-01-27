@@ -1,11 +1,18 @@
 package lupos.s1buildSyntaxTree.sparql1_1
+import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
+import lupos.s02buildSyntaxTree.sparql1_1.ASTBinaryOperationFixedName
+import lupos.s02buildSyntaxTree.sparql1_1.ASTLeafNode
+import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
+import lupos.s02buildSyntaxTree.sparql1_1.ASTUnaryOperation
+import lupos.s02buildSyntaxTree.sparql1_1.ASTUnaryOperationFixedName
+import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
+import lupos.s02buildSyntaxTree.LookAheadTokenIterator
+import lupos.s02buildSyntaxTree.ParseError
+import lupos.s02buildSyntaxTree.Token
+import lupos.s02buildSyntaxTree.UnexpectedToken
 
 import lupos.misc.ThreadSafeUuid
 
-import lupos.s1buildSyntaxTree.LookAheadTokenIterator
-import lupos.s1buildSyntaxTree.ParseError
-import lupos.s1buildSyntaxTree.Token
-import lupos.s1buildSyntaxTree.UnexpectedToken
 
 
 interface Visitor<T> {

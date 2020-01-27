@@ -1,10 +1,9 @@
 package lupos.s1buildSyntaxTree.turtle
-
-import lupos.s1buildSyntaxTree.LexerCharIterator
-import lupos.s1buildSyntaxTree.ParseError
-import lupos.s1buildSyntaxTree.Token
-import lupos.s1buildSyntaxTree.TokenIterator
-import lupos.s1buildSyntaxTree.UnexpectedEndOfFile
+import lupos.s02buildSyntaxTree.LexerCharIterator
+import lupos.s02buildSyntaxTree.ParseError
+import lupos.s02buildSyntaxTree.Token
+import lupos.s02buildSyntaxTree.TokenIterator
+import lupos.s02buildSyntaxTree.UnexpectedEndOfFile
 
 
 class EOF(index: Int) : Token("EOF", index);

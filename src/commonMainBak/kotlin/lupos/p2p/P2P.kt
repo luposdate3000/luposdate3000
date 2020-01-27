@@ -1,28 +1,24 @@
 package lupos.p2p
+import lupos.s1buildSyntaxTree.sparql1_1.SPARQLParser
+import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
+import lupos.s02buildSyntaxTree.LexerCharIterator
+import lupos.s02buildSyntaxTree.LookAheadTokenIterator
+import lupos.s02buildSyntaxTree.rdf.Dictionary
+import lupos.s02buildSyntaxTree.rdf.ID_Triple
+import lupos.s00misc.XMLElement
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
 
 import lupos.misc.kotlinStacktrace
-import lupos.misc.XMLElement
 import lupos.s8outputResult.QueryResultToXML
 import lupos.s1buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s1buildSyntaxTree.turtle.TurtleScanner
-import lupos.s1buildSyntaxTree.LookAheadTokenIterator
 
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
 import com.soywiz.korio.net.http.HttpServer
-import lupos.s1buildSyntaxTree.ParseError
-import lupos.s1buildSyntaxTree.rdf.Dictionary
-import lupos.s1buildSyntaxTree.rdf.ID_Triple
-import lupos.s1buildSyntaxTree.rdf.IRI
-import lupos.s1buildSyntaxTree.rdf.SimpleLiteral
-import lupos.s1buildSyntaxTree.sparql1_1.parseSPARQL
-import lupos.s1buildSyntaxTree.sparql1_1.SPARQLParser
-import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s1buildSyntaxTree.LexerCharIterator
 import lupos.s2buildOperatorGraph.OperatorGraphVisitor
 import lupos.s3logicalOptimisation.LogicalOptimizer
 import lupos.s5physicalOperators.POPBase

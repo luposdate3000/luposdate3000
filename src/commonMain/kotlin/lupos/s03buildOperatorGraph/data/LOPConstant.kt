@@ -1,6 +1,6 @@
 package lupos.s2buildOperatorGraph.data
+import lupos.s00misc.XMLElement
 
-import lupos.misc.XMLElement
 
 import lupos.s2buildOperatorGraph.LOPBase
 

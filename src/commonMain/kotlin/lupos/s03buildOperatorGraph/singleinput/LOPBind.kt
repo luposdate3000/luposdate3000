@@ -1,8 +1,8 @@
 package lupos.s2buildOperatorGraph.singleinput
+import lupos.s00misc.XMLElement
 
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s2buildOperatorGraph.OPBase
-import lupos.misc.XMLElement
 
 
 class LOPBind(val name: LOPVariable, val expression: OPBase) : LOPSingleInputBase() {

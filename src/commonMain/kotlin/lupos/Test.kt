@@ -1,4 +1,15 @@
 package lupos
+import lupos.s02buildSyntaxTree.sparql1_1.parseSPARQL
+import lupos.s1buildSyntaxTree.sparql1_1.SPARQLParser
+import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
+import lupos.s02buildSyntaxTree.LexerCharIterator
+import lupos.s02buildSyntaxTree.LookAheadTokenIterator
+import lupos.s02buildSyntaxTree.ParseError
+import lupos.s02buildSyntaxTree.rdf.Dictionary
+import lupos.s02buildSyntaxTree.rdf.ID_Triple
+import lupos.s02buildSyntaxTree.rdf.IRI
+import lupos.s02buildSyntaxTree.rdf.SimpleLiteral
+import lupos.s00misc.XMLElement
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
@@ -6,18 +17,7 @@ import lupos.s06resultRepresentation.ResultSet
 import lupos.s8outputResult.QueryResultToXML
 import lupos.s5physicalOperators.POPBase
 import lupos.misc.kotlinStacktrace
-import lupos.misc.XMLElement
 
-import lupos.s1buildSyntaxTree.ParseError
-import lupos.s1buildSyntaxTree.rdf.Dictionary
-import lupos.s1buildSyntaxTree.rdf.ID_Triple
-import lupos.s1buildSyntaxTree.rdf.IRI
-import lupos.s1buildSyntaxTree.rdf.SimpleLiteral
-import lupos.s1buildSyntaxTree.sparql1_1.parseSPARQL
-import lupos.s1buildSyntaxTree.sparql1_1.SPARQLParser
-import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s1buildSyntaxTree.LexerCharIterator
-import lupos.s1buildSyntaxTree.LookAheadTokenIterator
 import lupos.s1buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s2buildOperatorGraph.OperatorGraphVisitor
 import lupos.s3logicalOptimisation.LogicalOptimizer
@@ -121,9 +121,9 @@ private fun listMembers(data: SevenIndices, start: Long, f: (Long) -> Unit) {
     val nil = rdf + "nil"
     val first = rdf + "first"
     val rest = rdf + "rest"
-    val nil_iri = lupos.s1buildSyntaxTree.rdf.Dictionary.IRI(nil)
-    val first_iri = lupos.s1buildSyntaxTree.rdf.Dictionary.IRI(first)
-    val rest_iri = lupos.s1buildSyntaxTree.rdf.Dictionary.IRI(rest)
+    val nil_iri = Dictionary.IRI(nil)
+    val first_iri = Dictionary.IRI(first)
+    val rest_iri = Dictionary.IRI(rest)
 
     fun recursiveListMembers(current: Long) {
         data.sp(current, first_iri).forEach { f(it) }
@@ -138,7 +138,7 @@ private fun listMembers(data: SevenIndices, start: Long, f: (Long) -> Unit) {
 }
 
 private fun readTurtleData(filename: String, consume_triple: (Long, Long, Long) -> Unit) {
-    val ltit = lupos.s1buildSyntaxTree.LookAheadTokenIterator(lupos.s1buildSyntaxTree.turtle.TurtleScanner(lupos.s1buildSyntaxTree.LexerCharIterator(readFileContents(filename))), 3)
+    val ltit = lupos.s02buildSyntaxTree.LookAheadTokenIterator(lupos.s1buildSyntaxTree.turtle.TurtleScanner(lupos.s02buildSyntaxTree.LexerCharIterator(readFileContents(filename))), 3)
     try {
         TurtleParserWithDictionary(consume_triple, ltit).turtleDoc()
     } catch (e: ParseError) {

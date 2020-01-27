@@ -1,4 +1,7 @@
 package lupos.io.buffer
+import lupos.s01io.buffer.PageHelper
+import lupos.s01io.buffer.ByteArrayPage
+import lupos.s01io.buffer.Benchmark
 
 /**
  * This class is used for caching opened files (such that we do not need to close and open the files for each single access)

@@ -4,8 +4,8 @@ import kotlin.math.abs
 import kotlin.math.min
 import lupos.io.buffer.bufferManager
 import lupos.io.buffer.Page
-import lupos.io.buffer.toBytesUTF
-import lupos.io.buffer.toStringUTF
+import lupos.s01io.buffer.toBytesUTF
+import lupos.s01io.buffer.toStringUTF
 
 class NotFoundException() : Exception()
 

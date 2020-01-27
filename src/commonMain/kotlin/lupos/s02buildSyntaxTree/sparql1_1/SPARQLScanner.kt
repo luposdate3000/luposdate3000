@@ -1,10 +1,10 @@
 package lupos.s1buildSyntaxTree.sparql1_1
+import lupos.s02buildSyntaxTree.LexerCharIterator
+import lupos.s02buildSyntaxTree.ParseError
+import lupos.s02buildSyntaxTree.Token
+import lupos.s02buildSyntaxTree.TokenIterator
+import lupos.s02buildSyntaxTree.UnexpectedEndOfFile
 
-import lupos.s1buildSyntaxTree.LexerCharIterator
-import lupos.s1buildSyntaxTree.ParseError
-import lupos.s1buildSyntaxTree.Token
-import lupos.s1buildSyntaxTree.TokenIterator
-import lupos.s1buildSyntaxTree.UnexpectedEndOfFile
 
 class EOF(index: Int) : Token("EOF", index);
 abstract class InBraces(val content: String, index: Int, val leftBrace: String, val rightBrace: String) : Token(leftBrace + content + rightBrace, index) {

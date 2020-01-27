@@ -1,4 +1,5 @@
 package lupos.misc
+import lupos.s00misc.XMLElement
 import lupos.s00misc.ByteHelper
 
 import kotlin.native.concurrent.AtomicLong

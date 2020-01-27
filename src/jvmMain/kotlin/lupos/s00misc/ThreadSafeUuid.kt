@@ -1,6 +1,5 @@
 package lupos.misc
-import lupos.s00misc.*
-import lupos.misc.*
+import lupos.s00misc.XMLElement
 
 class ThreadSafeUuid() {
 

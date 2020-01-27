@@ -1,9 +1,9 @@
 package lupos.s5physicalOperators
+import lupos.s00misc.XMLElement
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
 
-import lupos.misc.XMLElement
 
 import lupos.s1buildSyntaxTree.sparql1_1.ASTValue
 import lupos.s1buildSyntaxTree.sparql1_1.ASTValues

@@ -1,9 +1,9 @@
 package lupos.s1buildSyntaxTree.turtle
+import lupos.s02buildSyntaxTree.LookAheadTokenIterator
+import lupos.s02buildSyntaxTree.ParseError
+import lupos.s02buildSyntaxTree.Token
+import lupos.s02buildSyntaxTree.UnexpectedToken
 
-import lupos.s1buildSyntaxTree.LookAheadTokenIterator
-import lupos.s1buildSyntaxTree.ParseError
-import lupos.s1buildSyntaxTree.Token
-import lupos.s1buildSyntaxTree.UnexpectedToken
 
 
 class TurtleParserWithDictionary(val consume_triple: (Long, Long, Long) -> Unit, val ltit: LookAheadTokenIterator) {
@@ -19,10 +19,10 @@ class TurtleParserWithDictionary(val consume_triple: (Long, Long, Long) -> Unit,
     val nil = rdf + "nil"
     val first = rdf + "first"
     val rest = rdf + "rest"
-    val nil_iri = lupos.s1buildSyntaxTree.rdf.Dictionary.IRI(nil)
-    val first_iri = lupos.s1buildSyntaxTree.rdf.Dictionary.IRI(first)
-    val rest_iri = lupos.s1buildSyntaxTree.rdf.Dictionary.IRI(rest)
-    val type_iri = lupos.s1buildSyntaxTree.rdf.Dictionary.IRI(rdf + "type")
+    val nil_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(nil)
+    val first_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(first)
+    val rest_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(rest)
+    val type_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(rdf + "type")
     fun turtleDoc() {
         var token: Token
         var t1 = ltit.lookahead()
@@ -306,7 +306,7 @@ class TurtleParserWithDictionary(val consume_triple: (Long, Long, Long) -> Unit,
 
     fun blankNodePropertyList(): Long {
         var token: Token
-        val result = lupos.s1buildSyntaxTree.rdf.Dictionary.BlankNode();
+        val result = lupos.s02buildSyntaxTree.rdf.Dictionary.BlankNode();
         token = ltit.nextToken()
         if (token.image != "[") {
             throw UnexpectedToken(token, arrayOf("["), ltit)
@@ -329,7 +329,7 @@ class TurtleParserWithDictionary(val consume_triple: (Long, Long, Long) -> Unit,
         }
         var t13 = ltit.lookahead()
         while (t13 is IRI || t13 is PNAME_LN || t13 is PNAME_NS || t13 is BNODE || t13 is ANON_BNODE || t13.image == "(" || t13.image == "[" || t13 is STRING || t13 is INTEGER || t13 is DECIMAL || t13 is DOUBLE || t13.image == "true" || t13.image == "false") {
-            val next = lupos.s1buildSyntaxTree.rdf.Dictionary.BlankNode()
+            val next = lupos.s02buildSyntaxTree.rdf.Dictionary.BlankNode()
             if (current === nil_iri) {
                 first = next;
             } else {
@@ -359,21 +359,21 @@ class TurtleParserWithDictionary(val consume_triple: (Long, Long, Long) -> Unit,
                 if (token !is INTEGER) {
                     throw UnexpectedToken(token, arrayOf("INTEGER"), ltit)
                 }
-                return lupos.s1buildSyntaxTree.rdf.Dictionary.TypedLiteral(token.image, type = xsd_integer);
+                return lupos.s02buildSyntaxTree.rdf.Dictionary.TypedLiteral(token.image, type = xsd_integer);
             }
             t14 is DECIMAL -> {
                 token = ltit.nextToken()
                 if (token !is DECIMAL) {
                     throw UnexpectedToken(token, arrayOf("DECIMAL"), ltit)
                 }
-                return lupos.s1buildSyntaxTree.rdf.Dictionary.TypedLiteral(token.image, type = xsd_decimal);
+                return lupos.s02buildSyntaxTree.rdf.Dictionary.TypedLiteral(token.image, type = xsd_decimal);
             }
             t14 is DOUBLE -> {
                 token = ltit.nextToken()
                 if (token !is DOUBLE) {
                     throw UnexpectedToken(token, arrayOf("DOUBLE"), ltit)
                 }
-                return lupos.s1buildSyntaxTree.rdf.Dictionary.TypedLiteral(token.image, type = xsd_double);
+                return lupos.s02buildSyntaxTree.rdf.Dictionary.TypedLiteral(token.image, type = xsd_double);
             }
             else -> {
                 throw UnexpectedToken(t14, arrayOf("INTEGER", "DECIMAL", "DOUBLE"), ltit)
@@ -398,7 +398,7 @@ class TurtleParserWithDictionary(val consume_triple: (Long, Long, Long) -> Unit,
                     if (token !is LANGTAG) {
                         throw UnexpectedToken(token, arrayOf("LANGTAG"), ltit)
                     }
-                    return lupos.s1buildSyntaxTree.rdf.Dictionary.LanguageTaggedLiteral(content, delimiter, token.language);
+                    return lupos.s02buildSyntaxTree.rdf.Dictionary.LanguageTaggedLiteral(content, delimiter, token.language);
                 }
                 t15.image == "^^" -> {
                     token = ltit.nextToken()
@@ -406,14 +406,14 @@ class TurtleParserWithDictionary(val consume_triple: (Long, Long, Long) -> Unit,
                         throw UnexpectedToken(token, arrayOf("^^"), ltit)
                     }
                     val type_iri = iri_string()
-                    return lupos.s1buildSyntaxTree.rdf.Dictionary.TypedLiteral(content, delimiter, type_iri);
+                    return lupos.s02buildSyntaxTree.rdf.Dictionary.TypedLiteral(content, delimiter, type_iri);
                 }
                 else -> {
                     throw UnexpectedToken(t15, arrayOf("LANGTAG", "^^"), ltit)
                 }
             }
         }
-        return lupos.s1buildSyntaxTree.rdf.Dictionary.SimpleLiteral(content, delimiter);
+        return lupos.s02buildSyntaxTree.rdf.Dictionary.SimpleLiteral(content, delimiter);
     }
 
     fun BooleanLiteral(): Long {
@@ -427,7 +427,7 @@ class TurtleParserWithDictionary(val consume_triple: (Long, Long, Long) -> Unit,
                 }
                 if ((token as POSSIBLE_KEYWORD).original_image != "true") {
                     throw UnexpectedToken(token, arrayOf("true"), ltit);
-                }; return lupos.s1buildSyntaxTree.rdf.Dictionary.TypedLiteral("true", type = xsd_boolean);
+                }; return lupos.s02buildSyntaxTree.rdf.Dictionary.TypedLiteral("true", type = xsd_boolean);
             }
             t17.image == "false" -> {
                 token = ltit.nextToken()
@@ -436,7 +436,7 @@ class TurtleParserWithDictionary(val consume_triple: (Long, Long, Long) -> Unit,
                 }
                 if ((token as POSSIBLE_KEYWORD).original_image != "false") {
                     throw UnexpectedToken(token, arrayOf("false"), ltit);
-                }; return lupos.s1buildSyntaxTree.rdf.Dictionary.TypedLiteral("false", type = xsd_boolean);
+                }; return lupos.s02buildSyntaxTree.rdf.Dictionary.TypedLiteral("false", type = xsd_boolean);
             }
             else -> {
                 throw UnexpectedToken(t17, arrayOf("true", "false"), ltit)
@@ -468,10 +468,10 @@ class TurtleParserWithDictionary(val consume_triple: (Long, Long, Long) -> Unit,
         if (iri.startsWith('/') || iri.startsWith('#')) {
             val base = prefixes.get("");
             if (base != null) {
-                return lupos.s1buildSyntaxTree.rdf.Dictionary.IRI(base + iri.substring(1));
+                return lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(base + iri.substring(1));
             }
         }
-        return lupos.s1buildSyntaxTree.rdf.Dictionary.IRI(iri);
+        return lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(iri);
     }
 
     fun iri_string(): String {
@@ -539,14 +539,14 @@ class TurtleParserWithDictionary(val consume_triple: (Long, Long, Long) -> Unit,
                 if (token !is BNODE) {
                     throw UnexpectedToken(token, arrayOf("BNODE"), ltit)
                 }
-                return lupos.s1buildSyntaxTree.rdf.Dictionary.BlankNode(token.name);
+                return lupos.s02buildSyntaxTree.rdf.Dictionary.BlankNode(token.name);
             }
             t21 is ANON_BNODE -> {
                 token = ltit.nextToken()
                 if (token !is ANON_BNODE) {
                     throw UnexpectedToken(token, arrayOf("ANON_BNODE"), ltit)
                 }
-                return lupos.s1buildSyntaxTree.rdf.Dictionary.BlankNode();
+                return lupos.s02buildSyntaxTree.rdf.Dictionary.BlankNode();
             }
             else -> {
                 throw UnexpectedToken(t21, arrayOf("BNODE", "ANON_BNODE"), ltit)

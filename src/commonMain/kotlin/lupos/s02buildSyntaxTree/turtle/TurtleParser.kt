@@ -1,12 +1,11 @@
 package lupos.s1buildSyntaxTree.turtle
+import lupos.s02buildSyntaxTree.LookAheadTokenIterator
+import lupos.s02buildSyntaxTree.ParseError
+import lupos.s02buildSyntaxTree.Token
+import lupos.s02buildSyntaxTree.UnexpectedToken
 
-import lupos.s1buildSyntaxTree.LookAheadTokenIterator
-import lupos.s1buildSyntaxTree.ParseError
-import lupos.s1buildSyntaxTree.Token
-import lupos.s1buildSyntaxTree.UnexpectedToken
 
-
-class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> Unit, val ltit: LookAheadTokenIterator) {
+class TurtleParser(val consume_triple: (lupos.s02buildSyntaxTree.rdf.Triple) -> Unit, val ltit: LookAheadTokenIterator) {
     // for storing the prefixes...
     val prefixes = mutableMapOf<String, String>()
     // some constants used for typed literals
@@ -19,10 +18,10 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
     val nil = rdf + "nil"
     val first = rdf + "first"
     val rest = rdf + "rest"
-    val nil_iri = lupos.s1buildSyntaxTree.rdf.IRI(nil)
-    val first_iri = lupos.s1buildSyntaxTree.rdf.IRI(first)
-    val rest_iri = lupos.s1buildSyntaxTree.rdf.IRI(rest)
-    val type_iri = lupos.s1buildSyntaxTree.rdf.IRI(rdf + "type")
+    val nil_iri = lupos.s02buildSyntaxTree.rdf.IRI(nil)
+    val first_iri = lupos.s02buildSyntaxTree.rdf.IRI(first)
+    val rest_iri = lupos.s02buildSyntaxTree.rdf.IRI(rest)
+    val type_iri = lupos.s02buildSyntaxTree.rdf.IRI(rdf + "type")
     fun turtleDoc() {
         var token: Token
         var t1 = ltit.lookahead()
@@ -169,7 +168,7 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
         }
     }
 
-    fun predicateObjectList(s: lupos.s1buildSyntaxTree.rdf.RDFResource) {
+    fun predicateObjectList(s: lupos.s02buildSyntaxTree.rdf.RDFResource) {
         var token: Token
         val p = verb()
         objectList(s, p)
@@ -188,10 +187,10 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
         }
     }
 
-    fun objectList(s: lupos.s1buildSyntaxTree.rdf.RDFResource, p: lupos.s1buildSyntaxTree.rdf.IRI) {
+    fun objectList(s: lupos.s02buildSyntaxTree.rdf.RDFResource, p: lupos.s02buildSyntaxTree.rdf.IRI) {
         var token: Token
         val o = triple_object()
-        val triple = lupos.s1buildSyntaxTree.rdf.Triple(s, p, o);
+        val triple = lupos.s02buildSyntaxTree.rdf.Triple(s, p, o);
         consume_triple(triple);
         var t8 = ltit.lookahead()
         while (t8.image == ",") {
@@ -200,13 +199,13 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
                 throw UnexpectedToken(token, arrayOf(","), ltit)
             }
             val o2 = triple_object()
-            val triple = lupos.s1buildSyntaxTree.rdf.Triple(s, p, o2);
+            val triple = lupos.s02buildSyntaxTree.rdf.Triple(s, p, o2);
             consume_triple(triple);
             t8 = ltit.lookahead()
         }
     }
 
-    fun verb(): lupos.s1buildSyntaxTree.rdf.IRI {
+    fun verb(): lupos.s02buildSyntaxTree.rdf.IRI {
         var token: Token
         val t9 = ltit.lookahead()
         when {
@@ -231,9 +230,9 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
         }
     }
 
-    fun subject(): lupos.s1buildSyntaxTree.rdf.RDFResource {
+    fun subject(): lupos.s02buildSyntaxTree.rdf.RDFResource {
         var token: Token
-        val result: lupos.s1buildSyntaxTree.rdf.RDFResource;
+        val result: lupos.s02buildSyntaxTree.rdf.RDFResource;
         val t10 = ltit.lookahead()
         when {
             t10 is IRI || t10 is PNAME_LN || t10 is PNAME_NS -> {
@@ -252,15 +251,15 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
         return result;
     }
 
-    fun predicate(): lupos.s1buildSyntaxTree.rdf.IRI {
+    fun predicate(): lupos.s02buildSyntaxTree.rdf.IRI {
         var token: Token
         val result = iri()
         return result;
     }
 
-    fun triple_object(): lupos.s1buildSyntaxTree.rdf.RDFTerm {
+    fun triple_object(): lupos.s02buildSyntaxTree.rdf.RDFTerm {
         var token: Token
-        val result: lupos.s1buildSyntaxTree.rdf.RDFTerm;
+        val result: lupos.s02buildSyntaxTree.rdf.RDFTerm;
         val t11 = ltit.lookahead()
         when {
             t11 is IRI || t11 is PNAME_LN || t11 is PNAME_NS -> {
@@ -285,9 +284,9 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
         return result;
     }
 
-    fun literal(): lupos.s1buildSyntaxTree.rdf.Literal {
+    fun literal(): lupos.s02buildSyntaxTree.rdf.Literal {
         var token: Token
-        val result: lupos.s1buildSyntaxTree.rdf.Literal;
+        val result: lupos.s02buildSyntaxTree.rdf.Literal;
         val t12 = ltit.lookahead()
         when {
             t12 is STRING -> {
@@ -306,9 +305,9 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
         return result;
     }
 
-    fun blankNodePropertyList(): lupos.s1buildSyntaxTree.rdf.BlankNode {
+    fun blankNodePropertyList(): lupos.s02buildSyntaxTree.rdf.BlankNode {
         var token: Token
-        val result = lupos.s1buildSyntaxTree.rdf.BlankNode();
+        val result = lupos.s02buildSyntaxTree.rdf.BlankNode();
         token = ltit.nextToken()
         if (token.image != "[") {
             throw UnexpectedToken(token, arrayOf("["), ltit)
@@ -321,26 +320,26 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
         return result;
     }
 
-    fun collection(): lupos.s1buildSyntaxTree.rdf.RDFResource {
+    fun collection(): lupos.s02buildSyntaxTree.rdf.RDFResource {
         var token: Token
-        var first: lupos.s1buildSyntaxTree.rdf.RDFResource = nil_iri;
-        var current: lupos.s1buildSyntaxTree.rdf.RDFResource = nil_iri;
+        var first: lupos.s02buildSyntaxTree.rdf.RDFResource = nil_iri;
+        var current: lupos.s02buildSyntaxTree.rdf.RDFResource = nil_iri;
         token = ltit.nextToken()
         if (token.image != "(") {
             throw UnexpectedToken(token, arrayOf("("), ltit)
         }
         var t13 = ltit.lookahead()
         while (t13 is IRI || t13 is PNAME_LN || t13 is PNAME_NS || t13 is BNODE || t13 is ANON_BNODE || t13.image == "(" || t13.image == "[" || t13 is STRING || t13 is INTEGER || t13 is DECIMAL || t13 is DOUBLE || t13.image == "true" || t13.image == "false") {
-            val next = lupos.s1buildSyntaxTree.rdf.BlankNode()
+            val next = lupos.s02buildSyntaxTree.rdf.BlankNode()
             if (current === nil_iri) {
                 first = next;
             } else {
-                val triple = lupos.s1buildSyntaxTree.rdf.Triple(current, rest_iri, next)
+                val triple = lupos.s02buildSyntaxTree.rdf.Triple(current, rest_iri, next)
                 consume_triple(triple);
             }
             current = next;
             val o = triple_object()
-            val triple = lupos.s1buildSyntaxTree.rdf.Triple(current, first_iri, o)
+            val triple = lupos.s02buildSyntaxTree.rdf.Triple(current, first_iri, o)
             consume_triple(triple);
             t13 = ltit.lookahead()
         }
@@ -349,13 +348,13 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
             throw UnexpectedToken(token, arrayOf(")"), ltit)
         }
         if (current !== nil_iri) {
-            val triple = lupos.s1buildSyntaxTree.rdf.Triple(current, rest_iri, nil_iri)
+            val triple = lupos.s02buildSyntaxTree.rdf.Triple(current, rest_iri, nil_iri)
             consume_triple(triple);
         }
         return first;
     }
 
-    fun NumericLiteral(): lupos.s1buildSyntaxTree.rdf.TypedLiteral {
+    fun NumericLiteral(): lupos.s02buildSyntaxTree.rdf.TypedLiteral {
         var token: Token
         val t14 = ltit.lookahead()
         when {
@@ -364,21 +363,21 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
                 if (token !is INTEGER) {
                     throw UnexpectedToken(token, arrayOf("INTEGER"), ltit)
                 }
-                return lupos.s1buildSyntaxTree.rdf.TypedLiteral(token.image, xsd_integer);
+                return lupos.s02buildSyntaxTree.rdf.TypedLiteral(token.image, xsd_integer);
             }
             t14 is DECIMAL -> {
                 token = ltit.nextToken()
                 if (token !is DECIMAL) {
                     throw UnexpectedToken(token, arrayOf("DECIMAL"), ltit)
                 }
-                return lupos.s1buildSyntaxTree.rdf.TypedLiteral(token.image, xsd_decimal);
+                return lupos.s02buildSyntaxTree.rdf.TypedLiteral(token.image, xsd_decimal);
             }
             t14 is DOUBLE -> {
                 token = ltit.nextToken()
                 if (token !is DOUBLE) {
                     throw UnexpectedToken(token, arrayOf("DOUBLE"), ltit)
                 }
-                return lupos.s1buildSyntaxTree.rdf.TypedLiteral(token.image, xsd_double);
+                return lupos.s02buildSyntaxTree.rdf.TypedLiteral(token.image, xsd_double);
             }
             else -> {
                 throw UnexpectedToken(t14, arrayOf("INTEGER", "DECIMAL", "DOUBLE"), ltit)
@@ -386,7 +385,7 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
         }
     }
 
-    fun RDFLiteral(): lupos.s1buildSyntaxTree.rdf.Literal {
+    fun RDFLiteral(): lupos.s02buildSyntaxTree.rdf.Literal {
         var token: Token
         token = ltit.nextToken()
         if (token !is STRING) {
@@ -403,7 +402,7 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
                     if (token !is LANGTAG) {
                         throw UnexpectedToken(token, arrayOf("LANGTAG"), ltit)
                     }
-                    return lupos.s1buildSyntaxTree.rdf.LanguageTaggedLiteral(content, delimiter, token.language);
+                    return lupos.s02buildSyntaxTree.rdf.LanguageTaggedLiteral(content, delimiter, token.language);
                 }
                 t15.image == "^^" -> {
                     token = ltit.nextToken()
@@ -411,17 +410,17 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
                         throw UnexpectedToken(token, arrayOf("^^"), ltit)
                     }
                     val type_iri = iri()
-                    return lupos.s1buildSyntaxTree.rdf.TypedLiteral(content, delimiter, type_iri.iri);
+                    return lupos.s02buildSyntaxTree.rdf.TypedLiteral(content, delimiter, type_iri.iri);
                 }
                 else -> {
                     throw UnexpectedToken(t15, arrayOf("LANGTAG", "^^"), ltit)
                 }
             }
         }
-        return lupos.s1buildSyntaxTree.rdf.SimpleLiteral(content, delimiter);
+        return lupos.s02buildSyntaxTree.rdf.SimpleLiteral(content, delimiter);
     }
 
-    fun BooleanLiteral(): lupos.s1buildSyntaxTree.rdf.TypedLiteral {
+    fun BooleanLiteral(): lupos.s02buildSyntaxTree.rdf.TypedLiteral {
         var token: Token
         val t17 = ltit.lookahead()
         when {
@@ -432,7 +431,7 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
                 }
                 if ((token as POSSIBLE_KEYWORD).original_image != "true") {
                     throw UnexpectedToken(token, arrayOf("true"), ltit);
-                }; return lupos.s1buildSyntaxTree.rdf.TypedLiteral("true", xsd_boolean);
+                }; return lupos.s02buildSyntaxTree.rdf.TypedLiteral("true", xsd_boolean);
             }
             t17.image == "false" -> {
                 token = ltit.nextToken()
@@ -441,7 +440,7 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
                 }
                 if ((token as POSSIBLE_KEYWORD).original_image != "false") {
                     throw UnexpectedToken(token, arrayOf("false"), ltit);
-                }; return lupos.s1buildSyntaxTree.rdf.TypedLiteral("false", xsd_boolean);
+                }; return lupos.s02buildSyntaxTree.rdf.TypedLiteral("false", xsd_boolean);
             }
             else -> {
                 throw UnexpectedToken(t17, arrayOf("true", "false"), ltit)
@@ -449,7 +448,7 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
         }
     }
 
-    fun iri(): lupos.s1buildSyntaxTree.rdf.IRI {
+    fun iri(): lupos.s02buildSyntaxTree.rdf.IRI {
         var token: Token
         val iri: String;
         val t18 = ltit.lookahead()
@@ -473,10 +472,10 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
         if (iri.startsWith('/') || iri.startsWith('#')) {
             val base = prefixes.get("");
             if (base != null) {
-                return lupos.s1buildSyntaxTree.rdf.IRI(base + iri.substring(1));
+                return lupos.s02buildSyntaxTree.rdf.IRI(base + iri.substring(1));
             }
         }
-        return lupos.s1buildSyntaxTree.rdf.IRI(iri);
+        return lupos.s02buildSyntaxTree.rdf.IRI(iri);
     }
 
     fun PrefixedName(): String {
@@ -505,7 +504,7 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
         }
     }
 
-    fun BlankNode(): lupos.s1buildSyntaxTree.rdf.BlankNode {
+    fun BlankNode(): lupos.s02buildSyntaxTree.rdf.BlankNode {
         var token: Token
         val t20 = ltit.lookahead()
         when {
@@ -514,14 +513,14 @@ class TurtleParser(val consume_triple: (lupos.s1buildSyntaxTree.rdf.Triple) -> U
                 if (token !is BNODE) {
                     throw UnexpectedToken(token, arrayOf("BNODE"), ltit)
                 }
-                return lupos.s1buildSyntaxTree.rdf.BlankNode(token.name);
+                return lupos.s02buildSyntaxTree.rdf.BlankNode(token.name);
             }
             t20 is ANON_BNODE -> {
                 token = ltit.nextToken()
                 if (token !is ANON_BNODE) {
                     throw UnexpectedToken(token, arrayOf("ANON_BNODE"), ltit)
                 }
-                return lupos.s1buildSyntaxTree.rdf.BlankNode();
+                return lupos.s02buildSyntaxTree.rdf.BlankNode();
             }
             else -> {
                 throw UnexpectedToken(t20, arrayOf("BNODE", "ANON_BNODE"), ltit)

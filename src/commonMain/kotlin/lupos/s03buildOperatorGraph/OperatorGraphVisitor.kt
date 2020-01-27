@@ -1,12 +1,5 @@
 package lupos.s2buildOperatorGraph
-
-import lupos.misc.classNameToString
-
-import lupos.s2buildOperatorGraph.singleinput.LOPMakeBooleanResult
-import lupos.s2buildOperatorGraph.singleinput.LOPRename
-import lupos.s2buildOperatorGraph.singleinput.LOPSubGroup
-import lupos.s1buildSyntaxTree.sparql1_1.ASTNot
-
+import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
 import lupos.s1buildSyntaxTree.sparql1_1.ASTAdd
 import lupos.s1buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s1buildSyntaxTree.sparql1_1.ASTAggregation
@@ -62,7 +55,7 @@ import lupos.s1buildSyntaxTree.sparql1_1.ASTNamedGraph
 import lupos.s1buildSyntaxTree.sparql1_1.ASTNamedGraphRef
 import lupos.s1buildSyntaxTree.sparql1_1.ASTNamedIriGraphRef
 import lupos.s1buildSyntaxTree.sparql1_1.ASTNEQ
-import lupos.s1buildSyntaxTree.sparql1_1.ASTNode
+import lupos.s1buildSyntaxTree.sparql1_1.ASTNot
 import lupos.s1buildSyntaxTree.sparql1_1.ASTNotIn
 import lupos.s1buildSyntaxTree.sparql1_1.ASTNumericLiteral
 import lupos.s1buildSyntaxTree.sparql1_1.ASTOptional
@@ -95,6 +88,12 @@ import lupos.s1buildSyntaxTree.sparql1_1.ASTValue
 import lupos.s1buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s1buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s1buildSyntaxTree.sparql1_1.Visitor
+
+import lupos.misc.classNameToString
+
+import lupos.s2buildOperatorGraph.singleinput.LOPMakeBooleanResult
+import lupos.s2buildOperatorGraph.singleinput.LOPRename
+import lupos.s2buildOperatorGraph.singleinput.LOPSubGroup
 import lupos.s2buildOperatorGraph.data.LOPExpression
 import lupos.s2buildOperatorGraph.data.LOPTriple
 import lupos.s2buildOperatorGraph.data.LOPValues

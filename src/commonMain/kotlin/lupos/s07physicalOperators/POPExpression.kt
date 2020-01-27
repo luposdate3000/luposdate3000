@@ -1,25 +1,18 @@
 package lupos.s5physicalOperators
-import lupos.s06resultRepresentation.ResultRow
-import lupos.s06resultRepresentation.Variable
-import lupos.s06resultRepresentation.ResultSet
-
-import lupos.misc.classNameToString
-
-import lupos.misc.XMLElement
-import lupos.s1buildSyntaxTree.sparql1_1.Aggregation
+import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
+import lupos.s02buildSyntaxTree.sparql1_1.ASTBinaryOperationFixedName
+import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
+import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
 import lupos.s1buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s1buildSyntaxTree.sparql1_1.ASTAggregation
 import lupos.s1buildSyntaxTree.sparql1_1.ASTAnd
-import lupos.s1buildSyntaxTree.sparql1_1.ASTBinaryOperationFixedName
 import lupos.s1buildSyntaxTree.sparql1_1.ASTBooleanLiteral
 import lupos.s1buildSyntaxTree.sparql1_1.ASTBuiltInCall
 import lupos.s1buildSyntaxTree.sparql1_1.ASTDecimal
 import lupos.s1buildSyntaxTree.sparql1_1.ASTDivision
 import lupos.s1buildSyntaxTree.sparql1_1.ASTDouble
 import lupos.s1buildSyntaxTree.sparql1_1.ASTEQ
-import lupos.s1buildSyntaxTree.sparql1_1.ASTNot
 import lupos.s1buildSyntaxTree.sparql1_1.ASTGEQ
-import lupos.s1buildSyntaxTree.sparql1_1.ASTNEQ
 import lupos.s1buildSyntaxTree.sparql1_1.ASTGT
 import lupos.s1buildSyntaxTree.sparql1_1.ASTInteger
 import lupos.s1buildSyntaxTree.sparql1_1.ASTIri
@@ -27,11 +20,18 @@ import lupos.s1buildSyntaxTree.sparql1_1.ASTLEQ
 import lupos.s1buildSyntaxTree.sparql1_1.ASTLiteral
 import lupos.s1buildSyntaxTree.sparql1_1.ASTLT
 import lupos.s1buildSyntaxTree.sparql1_1.ASTMultiplication
-import lupos.s1buildSyntaxTree.sparql1_1.ASTNode
+import lupos.s1buildSyntaxTree.sparql1_1.ASTNEQ
+import lupos.s1buildSyntaxTree.sparql1_1.ASTNot
 import lupos.s1buildSyntaxTree.sparql1_1.ASTOr
 import lupos.s1buildSyntaxTree.sparql1_1.ASTUndef
 import lupos.s1buildSyntaxTree.sparql1_1.ASTVar
-import lupos.s1buildSyntaxTree.sparql1_1.BuiltInFunctions
+import lupos.s00misc.XMLElement
+import lupos.s06resultRepresentation.ResultRow
+import lupos.s06resultRepresentation.Variable
+import lupos.s06resultRepresentation.ResultSet
+
+import lupos.misc.classNameToString
+
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor

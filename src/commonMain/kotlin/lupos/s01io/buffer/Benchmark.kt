@@ -1,4 +1,7 @@
-package lupos.io.buffer
+package lupos.s01io.buffer
+import lupos.s01io.buffer.getString
+import lupos.io.buffer.bufferManager
+import lupos.io.buffer.Page
 
 class OnePageBenchmark {
     val page: Page = bufferManager.getPage("tmp/test", 0)

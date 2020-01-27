@@ -1,9 +1,8 @@
 package lupos.s2buildOperatorGraph.data
-
-import lupos.misc.XMLElement
-
-import lupos.s1buildSyntaxTree.sparql1_1.ASTNode
+import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
 import lupos.s1buildSyntaxTree.sparql1_1.ASTVar
+import lupos.s00misc.XMLElement
+
 import lupos.s2buildOperatorGraph.LOPBase
 
 class LOPExpression(val child: ASTNode) : LOPBase() {

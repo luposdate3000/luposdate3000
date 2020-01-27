@@ -1,11 +1,13 @@
-package lupos.s1buildSyntaxTree.sparql1_1
+package lupos.s02buildSyntaxTree.sparql1_1
+import lupos.s1buildSyntaxTree.sparql1_1.SPARQLParser
+import lupos.s1buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
+import lupos.s1buildSyntaxTree.sparql1_1.Visitor
+import lupos.s02buildSyntaxTree.LexerCharIterator
+import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 
 import lupos.misc.classNameToString
 import lupos.misc.ThreadSafeUuid
 
-import lupos.s1buildSyntaxTree.LexerCharIterator
-import lupos.s1buildSyntaxTree.LookAheadTokenIterator
-import lupos.s1buildSyntaxTree.ParseError
 
 enum class BuiltInFunctions {
     STR,
