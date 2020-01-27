@@ -1,4 +1,5 @@
 package lupos.s07physicalOperators.singleinput
+import lupos.s00misc.*
 
 import lupos.s07physicalOperators.singleinput.POPSingleInputBase
 import lupos.s07physicalOperators.singleinput.POPBind
@@ -54,6 +55,7 @@ class POPBindUndefined : POPSingleInputBase {
     }
 
     override fun next(): ResultRow {
+Trace.start(this)
         var rsNew = resultSetNew.createResultRow()
         val rsOld = child.next()
         for (i in variablesOld.indices) {
@@ -61,6 +63,7 @@ class POPBindUndefined : POPSingleInputBase {
             rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
         }
         rsNew[variableBound] = resultSetNew.createValue(resultSetNew.getUndefValue())
+Trace.stop(this)
         return rsNew
     }
 

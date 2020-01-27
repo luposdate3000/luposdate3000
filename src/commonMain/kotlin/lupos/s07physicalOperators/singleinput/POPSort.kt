@@ -1,4 +1,5 @@
 package lupos.s07physicalOperators.singleinput
+import lupos.s00misc.*
 
 import lupos.s07physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 import lupos.s07physicalOperators.singleinput.POPSingleInputBase
@@ -53,6 +54,7 @@ class POPSort : POPSingleInputBaseNullableIterator {
     }
 
     override fun nnext(): ResultRow? {
+Trace.start(this)
         if (data == null) {
             val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
             while (child.hasNext()) {
@@ -85,6 +87,7 @@ class POPSort : POPSingleInputBaseNullableIterator {
             }
             reset()
         }
+Trace.stop(this)
         if (iterator == null || !iterator!!.hasNext())
             return null
         return iterator!!.next()

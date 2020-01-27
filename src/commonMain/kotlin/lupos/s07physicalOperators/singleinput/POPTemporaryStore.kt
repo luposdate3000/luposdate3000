@@ -1,4 +1,5 @@
 package lupos.s07physicalOperators.singleinput
+import lupos.s00misc.*
 
 import lupos.s07physicalOperators.singleinput.POPSort
 import lupos.s07physicalOperators.singleinput.POPSingleInputBaseNullableIterator
@@ -55,6 +56,7 @@ class POPTemporaryStore : POPBase {
     }
 
     override fun next(): ResultRow {
+Trace.start(this)
         if (iterator == child) {
             val rsOld = child.next()
             var rsNew = resultSetNew.createResultRow()
@@ -62,6 +64,7 @@ class POPTemporaryStore : POPBase {
                 rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
             }
             data.add(rsNew)
+Trace.stop(this)
             return rsNew
         }
         val rsOld = iterator.next()
@@ -69,7 +72,8 @@ class POPTemporaryStore : POPBase {
         for (variable in variables) {
             rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
         }
-        return rsNew
+        Trace.stop(this)
+return rsNew
     }
 
     fun reset() {

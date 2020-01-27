@@ -1,4 +1,5 @@
 package lupos.s07physicalOperators.singleinput
+import lupos.s00misc.*
 
 import lupos.s07physicalOperators.singleinput.POPSingleInputBase
 import lupos.s07physicalOperators.singleinput.POPGroup
@@ -44,9 +45,11 @@ class POPMakeBooleanResult : POPSingleInputBase {
     }
 
     override fun next(): ResultRow {
+Trace.start(this)
         var rsNew = resultSetNew.createResultRow()
         rsNew[variableNew] = resultSetNew.createValue("\"" + child.hasNext() + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
         count++
+Trace.stop(this)
         return rsNew
     }
 

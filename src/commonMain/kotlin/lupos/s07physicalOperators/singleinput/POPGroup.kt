@@ -1,5 +1,6 @@
 package lupos.s07physicalOperators.singleinput
 import lupos.s00misc.kotlinStacktrace
+import lupos.s00misc.*
 
 import lupos.s07physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 import lupos.s07physicalOperators.singleinput.POPFilter
@@ -69,6 +70,7 @@ class POPGroup : POPSingleInputBaseNullableIterator {
     }
 
     override fun nnext(): ResultRow? {
+Trace.start(this)
         if (data == null) {
             val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
             val variables = mutableListOf<Pair<Variable, Variable>>()
@@ -113,6 +115,7 @@ class POPGroup : POPSingleInputBaseNullableIterator {
             }
             reset()
         }
+Trace.stop(this)
         if (iterator == null || !iterator!!.hasNext())
             return null
         return iterator!!.next()

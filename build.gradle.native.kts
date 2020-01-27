@@ -43,7 +43,7 @@ kotlin {
     linuxX64("linuxX64") {
         binaries {
             //-fPIC for debug required
-            executable()
+		executable()
         }
     }
     sourceSets {

@@ -1,5 +1,5 @@
 package lupos
-import lupos.s00misc.kotlinStacktrace
+import lupos.s00misc.*
 import lupos.s08tripleStore.TripleStore
 import lupos.s10outputResult.QueryResultToXML
 import lupos.s09physicalOptimisation.PhysicalOptimizer
@@ -45,6 +45,7 @@ fun main(args: Array<String>) {
         val result = readFileContents(resultFile)
         parseSPARQLAndEvaluate(query, inputData, inputDataFile, result, resultFile)
     }
+Trace.print()
 }
 
 class SevenIndices {

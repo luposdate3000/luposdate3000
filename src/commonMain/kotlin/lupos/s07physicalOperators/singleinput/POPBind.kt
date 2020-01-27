@@ -1,6 +1,6 @@
 package lupos.s07physicalOperators.singleinput
 import lupos.s00misc.kotlinStacktrace
-
+import lupos.s00misc.*
 import lupos.s07physicalOperators.singleinput.POPSingleInputBase
 import lupos.s07physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s07physicalOperators.POPExpression
@@ -59,6 +59,7 @@ class POPBind : POPSingleInputBase {
     }
 
     override fun next(): ResultRow {
+Trace.start(this)
         var rsNew = resultSetNew.createResultRow()
         val rsOld = child.next()
         for (i in variablesOld.indices) {
@@ -72,6 +73,7 @@ class POPBind : POPSingleInputBase {
             print("silent :: ")
             e.kotlinStacktrace()
         }
+Trace.stop(this)
         return rsNew
     }
 

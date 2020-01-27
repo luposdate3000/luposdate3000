@@ -1,4 +1,5 @@
 package lupos.s07physicalOperators.singleinput
+import lupos.s00misc.*
 
 import lupos.s07physicalOperators.singleinput.POPSingleInputBase
 import lupos.s07physicalOperators.singleinput.POPMakeBooleanResult
@@ -55,12 +56,14 @@ class POPProjection : POPSingleInputBase {
     }
 
     override fun next(): ResultRow {
+Trace.start(this)
         var rsNew = resultSetNew.createResultRow()
         val rsOld = child.next()
         for (i in variablesNew.indices) {
             // TODO reuse resultSet
             rsNew[variablesNew[i]] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]]))
         }
+Trace.stop(this)
         return rsNew
     }
 

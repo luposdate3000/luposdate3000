@@ -1,4 +1,5 @@
 package lupos.s07physicalOperators.singleinput
+import lupos.s00misc.*
 
 import lupos.s07physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 import lupos.s07physicalOperators.singleinput.POPFilterExact
@@ -39,12 +40,17 @@ class POPFilter : POPSingleInputBaseNullableIterator {
     }
 
     override fun nnext(): ResultRow? {
+Trace.start(this)
         while (true) {
-            if (!child.hasNext())
+            if (!child.hasNext()){
+Trace.stop(this)
                 return null
+}
             val nextRow = child.next()
-            if (filter.evaluateBoolean(resultSet, nextRow))
+            if (filter.evaluateBoolean(resultSet, nextRow)){
+Trace.stop(this)
                 return nextRow!!
+	}
         }
     }
 
