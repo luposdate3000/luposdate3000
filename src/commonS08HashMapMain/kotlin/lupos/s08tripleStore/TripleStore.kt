@@ -1,10 +1,10 @@
 package lupos.s6tripleStore
+import lupos.s06resultRepresentation.ResultSet
 
 import lupos.misc.classNameToString
 import lupos.misc.XMLElement
 
 import lupos.s4resultRepresentation.ResultRow
-import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.ResultSetIterator
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase

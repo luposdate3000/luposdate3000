@@ -1,4 +1,5 @@
 package lupos.s4resultRepresentation
+import lupos.s06resultRepresentation.ResultSet
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

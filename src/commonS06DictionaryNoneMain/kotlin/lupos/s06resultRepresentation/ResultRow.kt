@@ -1,4 +1,5 @@
 package lupos.s4resultRepresentation
+import lupos.s06resultRepresentation.ResultSet
 
 class ResultRow() {
     val values = mutableMapOf<Variable, Value>()

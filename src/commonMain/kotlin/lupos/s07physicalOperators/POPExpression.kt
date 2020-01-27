@@ -1,4 +1,5 @@
 package lupos.s5physicalOperators
+import lupos.s06resultRepresentation.ResultSet
 
 import lupos.misc.classNameToString
 
@@ -37,7 +38,6 @@ import kotlin.math.roundToInt
 import lupos.s2buildOperatorGraph.OPBase
 import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s4resultRepresentation.ResultRow
-import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
 

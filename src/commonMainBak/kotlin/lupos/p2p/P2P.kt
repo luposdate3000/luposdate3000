@@ -1,4 +1,5 @@
 package lupos.p2p
+import lupos.s06resultRepresentation.ResultSet
 
 import lupos.misc.kotlinStacktrace
 import lupos.misc.XMLElement
@@ -23,7 +24,6 @@ import lupos.s1buildSyntaxTree.LexerCharIterator
 import lupos.s2buildOperatorGraph.OperatorGraphVisitor
 import lupos.s3logicalOptimisation.LogicalOptimizer
 import lupos.s4resultRepresentation.ResultRow
-import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
 import lupos.s5physicalOperators.POPBaseNullableIterator

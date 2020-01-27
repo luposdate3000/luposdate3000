@@ -1,6 +1,7 @@
 #!/bin/bash
 
-changed=1
+changed=0
+./tool-fix-asterix-imports.sh && changed=1
 
 while [[ $changed == 1 ]]
 do
@@ -11,6 +12,7 @@ do
 		echo success
 		for f in $(grep -rwl "^package" --include "*.kt" --exclude-dir=".git" --exclude-dir="korio" --exclude-dir="build*")
 		do
+			f4=$(echo $f | sed "s-/[^/]*\$--g")
 		        f2=$(echo $f | sed "s-.*/src/-/-g")
 		        f2=$(echo $f2 | sed "s-.*/main/-/-g")
 		        f2=$(echo $f2 | sed "s-.*/test/-/-g")
@@ -38,13 +40,27 @@ do
 				echo $f
         		        echo ""
 				echo "package $npkg" > tmp
+				echo "import ${npkg}.*" >> tmp
+				echo "import ${opkg}.*" >> tmp
 				grep -v "^package " $f >> tmp
 				mv tmp $f
 				for f3 in $(grep -rl "^import ${oimp}\$")
 				do
-					cat $f3 | sed "s-import ${oimp}-import ${nimp}-g" > tmp
+					grep  "^package " $f3 > tmp
+	                                echo "import ${nimp}" >> tmp
+					grep -v "^package " $f3 | grep -v "^import ${oimp}\$" >> tmp
 					mv tmp $f3
 				done
+				for f3 in $(grep -rl "^package ${opkg}\$")
+				do
+					grep  "^package " $f3 > tmp
+	                                echo "import ${nimp}" >> tmp
+					grep -v "^package " $f3 | grep -v "^import ${oimp}\$" >> tmp
+					mv tmp $f3
+				done
+				./tool-fix-asterix-imports.sh && changed=1
+exit				
+				break
 			fi
 		done
 	fi

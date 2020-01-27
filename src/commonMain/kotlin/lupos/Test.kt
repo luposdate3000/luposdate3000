@@ -1,4 +1,5 @@
 package lupos
+import lupos.s06resultRepresentation.ResultSet
 
 import lupos.s8outputResult.QueryResultToXML
 import lupos.s5physicalOperators.POPBase
@@ -19,7 +20,6 @@ import lupos.s1buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s2buildOperatorGraph.OperatorGraphVisitor
 import lupos.s3logicalOptimisation.LogicalOptimizer
 import lupos.s4resultRepresentation.ResultRow
-import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBaseNullableIterator
 import lupos.s6tripleStore.TripleStore

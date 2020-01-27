@@ -1,4 +1,5 @@
 package lupos.s5physicalOperators
+import lupos.s06resultRepresentation.ResultSet
 
 import lupos.misc.XMLElement
 
@@ -8,7 +9,6 @@ import lupos.s2buildOperatorGraph.data.LOPVariable
 import lupos.s2buildOperatorGraph.data.LOPValues
 import lupos.s2buildOperatorGraph.data.LOPExpression
 import lupos.s4resultRepresentation.ResultRow
-import lupos.s4resultRepresentation.ResultSet
 import lupos.s4resultRepresentation.Variable
 import lupos.s5physicalOperators.POPBase
 import lupos.s5physicalOperators.POPExpression
