@@ -71,26 +71,33 @@ object Trace {
             for ((k, v) in map)
                 println("$k #${v.first} ${v.second} Seconds")
             val map2 = mutableMapOf<String, Pair<Long, Double>>()
-            var xx = 0
             for ((k, v) in map) {
                 val keys = k.split("-")
                 val u = map2[keys.last()]
                 if (u == null)
-                    map2[keys.last()] = Pair(v.first, v.second * 2)
+                    map2[keys.last()] = Pair(v.first, v.second)
                 else
-                    map2[keys.last()] = Pair(u.first + v.first, u.second + v.second * 2)
-                for (i in keys) {
-                    val t = map2[i]
+                    map2[keys.last()] = Pair(u.first + v.first, u.second + v.second)
+		if(keys.size>1){
+			var i=keys[keys.size-2]
+			val t = map2[i]
                     if (t != null)
                         map2[i] = Pair(t.first, t.second - v.second)
-                }
+		}
+//                for (i in keys) {
+//                    val t = map2[i]
+//                    if (t != null)
+//                        map2[i] = Pair(t.first, t.second - v.second)
+//                }
             }
+	var total=0.0
             println("real::")
-            for ((k, v) in map2)
+            for ((k, v) in map2){
+		total+=v.second
                 println("$k #${v.first} ${v.second} Seconds")
+		}
             map.clear()
-            while (stack.pop() != null) {
-            }
+println("total::${total}")
         }
     }
 

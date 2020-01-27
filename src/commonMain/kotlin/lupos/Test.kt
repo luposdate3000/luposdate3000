@@ -30,6 +30,7 @@ import lupos.s06resultRepresentation.ResultSet
 val errorBoundForDecimalsDigits = 6
 
 fun main(args: Array<String>) {
+repeat(120){
     println("Starting tests...")
     val (nr_t, nr_e) = parseManifestFile("resources/sparql11-test-suite/", "manifest-all.ttl")
     println("Number of tests: " + nr_t)
@@ -45,6 +46,7 @@ fun main(args: Array<String>) {
         val result = readFileContents(resultFile)
         parseSPARQLAndEvaluate(query, inputData, inputDataFile, result, resultFile)
     }
+}
     Trace.print()
 }
 
