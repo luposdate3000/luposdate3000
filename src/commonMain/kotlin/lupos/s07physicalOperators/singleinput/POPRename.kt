@@ -1,4 +1,5 @@
 package lupos.s07physicalOperators.singleinput
+
 import lupos.s00misc.*
 
 import lupos.s07physicalOperators.singleinput.POPSingleInputBase
@@ -77,18 +78,18 @@ class POPRename : POPSingleInputBase {
     }
 
     override fun next(): ResultRow {
-try{
-Trace.start(this)
-        var rsNew = resultSetNew.createResultRow()
-        val rsOld = child.next()
-        for (i in variablesNew.indices) {
-            // TODO reuse resultSet
-            rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
+        try {
+            Trace.start(this)
+            var rsNew = resultSetNew.createResultRow()
+            val rsOld = child.next()
+            for (i in variablesNew.indices) {
+                // TODO reuse resultSet
+                rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
+            }
+            return rsNew
+        } finally {
+            Trace.stop(this)
         }
-        return rsNew
-}finally{
-Trace.stop(this)
-}
     }
 
     override fun toXMLElement(): XMLElement {

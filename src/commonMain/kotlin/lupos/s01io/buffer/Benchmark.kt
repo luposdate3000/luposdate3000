@@ -1,4 +1,5 @@
 package lupos.s01io.buffer
+
 import lupos.s01io.buffer.Page
 
 import lupos.s01io.buffer.getString

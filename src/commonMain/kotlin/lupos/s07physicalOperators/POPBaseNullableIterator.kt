@@ -1,5 +1,6 @@
 package lupos.s07physicalOperators
 
+import lupos.s00misc.*
 import lupos.s07physicalOperators.POPBase
 import lupos.s06resultRepresentation.ResultSetIterator
 import lupos.s03buildOperatorGraph.OPBase
@@ -18,9 +19,14 @@ abstract class POPBaseNullableIterator : POPBase() {
     }
 
     override fun next(): ResultRow {
-        require(tmpResult != null)
-        val res = tmpResult!!
-        tmpResult = null
-        return res
+        try {
+            Trace.start(this)
+            require(tmpResult != null)
+            val res = tmpResult!!
+            tmpResult = null
+            return res
+        } finally {
+            Trace.stop(this)
+        }
     }
 }

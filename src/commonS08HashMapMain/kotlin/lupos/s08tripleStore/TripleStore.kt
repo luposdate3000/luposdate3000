@@ -1,4 +1,5 @@
 package lupos.s08tripleStore
+
 import lupos.s00misc.classNameToString
 import lupos.s08tripleStore.IndexPattern
 import lupos.s08tripleStore.POPTripleStoreIteratorBase
@@ -10,7 +11,6 @@ import lupos.s00misc.XMLElement
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
-
 
 
 class TripleStoreIterator : POPTripleStoreIteratorBase {

@@ -1,4 +1,5 @@
 package lupos.s00misc
+
 import lupos.s00misc.*
 
 fun classNameToString(c: Any): String {

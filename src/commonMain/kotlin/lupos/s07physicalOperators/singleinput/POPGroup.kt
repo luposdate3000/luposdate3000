@@ -1,4 +1,5 @@
 package lupos.s07physicalOperators.singleinput
+
 import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.*
 
@@ -21,8 +22,6 @@ import lupos.s06resultRepresentation.Value
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
-
-
 
 
 class POPGroup : POPSingleInputBaseNullableIterator {
@@ -70,58 +69,58 @@ class POPGroup : POPSingleInputBaseNullableIterator {
     }
 
     override fun nnext(): ResultRow? {
-try{
-Trace.start(this)
-        if (data == null) {
-            val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
-            val variables = mutableListOf<Pair<Variable, Variable>>()
-            for (v in by)
-                variables.add(Pair(resultSetNew.createVariable(v.name), resultSetOld.createVariable(v.name)))
-            while (child.hasNext()) {
-                val rsOld = child.next()
-                var key: String = "|"
-                for (variable in variables)
-                    key = key + resultSetOld.getValue(rsOld[variable.second]) + "|"
-                var tmp = tmpMutableMap[key]
-                if (tmp == null) {
-                    tmp = mutableListOf<ResultRow>()
-                    tmpMutableMap[key] = tmp
-                }
-                tmp.add(rsOld)
-            }
-            data = mutableListOf<ResultRow>()
-            if (tmpMutableMap.keys.size == 0) {
-                val rsNew = resultSetNew.createResultRow()
-                for (b in variables)
-                    rsNew[b.first] = resultSetNew.createValue(resultSetNew.getUndefValue())
-                for (b in bindings)
-                    rsNew[b.first] = resultSetNew.createValue(resultSetNew.getUndefValue())
-                data!!.add(rsNew)
-            }
-            for (k in tmpMutableMap.keys) {
-                val rsOld = tmpMutableMap[k]!!.first()
-                val rsNew = resultSetNew.createResultRow()
-                for (variable in variables)
-                    rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
-                for (b in bindings) {
-                    try {
-                        rsNew[b.first] = resultSetNew.createValue(b.second.evaluate(resultSetOld, tmpMutableMap[k]!!))
-                    } catch (e: Throwable) {
-                        rsNew[b.first] = resultSetNew.createValue(resultSetNew.getUndefValue())
-                        print("silent :: ")
-                        e.kotlinStacktrace()
+        try {
+            Trace.start(this)
+            if (data == null) {
+                val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
+                val variables = mutableListOf<Pair<Variable, Variable>>()
+                for (v in by)
+                    variables.add(Pair(resultSetNew.createVariable(v.name), resultSetOld.createVariable(v.name)))
+                while (child.hasNext()) {
+                    val rsOld = child.next()
+                    var key: String = "|"
+                    for (variable in variables)
+                        key = key + resultSetOld.getValue(rsOld[variable.second]) + "|"
+                    var tmp = tmpMutableMap[key]
+                    if (tmp == null) {
+                        tmp = mutableListOf<ResultRow>()
+                        tmpMutableMap[key] = tmp
                     }
+                    tmp.add(rsOld)
                 }
-                data!!.add(rsNew)
+                data = mutableListOf<ResultRow>()
+                if (tmpMutableMap.keys.size == 0) {
+                    val rsNew = resultSetNew.createResultRow()
+                    for (b in variables)
+                        rsNew[b.first] = resultSetNew.createValue(resultSetNew.getUndefValue())
+                    for (b in bindings)
+                        rsNew[b.first] = resultSetNew.createValue(resultSetNew.getUndefValue())
+                    data!!.add(rsNew)
+                }
+                for (k in tmpMutableMap.keys) {
+                    val rsOld = tmpMutableMap[k]!!.first()
+                    val rsNew = resultSetNew.createResultRow()
+                    for (variable in variables)
+                        rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
+                    for (b in bindings) {
+                        try {
+                            rsNew[b.first] = resultSetNew.createValue(b.second.evaluate(resultSetOld, tmpMutableMap[k]!!))
+                        } catch (e: Throwable) {
+                            rsNew[b.first] = resultSetNew.createValue(resultSetNew.getUndefValue())
+                            print("silent :: ")
+                            e.kotlinStacktrace()
+                        }
+                    }
+                    data!!.add(rsNew)
+                }
+                reset()
             }
-            reset()
+            if (iterator == null || !iterator!!.hasNext())
+                return null
+            return iterator!!.next()
+        } finally {
+            Trace.stop(this)
         }
-        if (iterator == null || !iterator!!.hasNext())
-            return null
-        return iterator!!.next()
-}finally{
-Trace.stop(this)
-}
     }
 
     fun reset() {

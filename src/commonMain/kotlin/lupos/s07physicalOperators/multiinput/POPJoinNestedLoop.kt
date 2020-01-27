@@ -1,5 +1,6 @@
 package lupos.s07physicalOperators.multiinput
 
+import lupos.s00misc.*
 import lupos.s07physicalOperators.singleinput.POPTemporaryStore
 import lupos.s07physicalOperators.POPBaseNullableIterator
 import lupos.s07physicalOperators.POPBase
@@ -62,69 +63,74 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
     }
 
     override fun nnext(): ResultRow? {
-        while (true) {
-            var resultRowB: ResultRow?
-            if (!childB.hasNext()) {
-                childB.reset()
-                if (optional && !hadMatchForA && resultRowA != null) {
-                    var rsNew = resultSetNew.createResultRow()
-                    for (p in variablesOldB) {
-                        // TODO reuse resultSet
-                        rsNew[p.second] = resultSetNew.createValue(resultSetNew.getUndefValue())
-                    }
-                    for (p in variablesOldJ) {
-                        // TODO reuse resultSet
-                        rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(resultRowA!![p.first.first]))
-                    }
-                    for (p in variablesOldA) {
-                        // TODO reuse resultSet
-                        rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(resultRowA!![p.first]))
+        try {
+            Trace.start(this)
+            while (true) {
+                var resultRowB: ResultRow?
+                if (!childB.hasNext()) {
+                    childB.reset()
+                    if (optional && !hadMatchForA && resultRowA != null) {
+                        var rsNew = resultSetNew.createResultRow()
+                        for (p in variablesOldB) {
+                            // TODO reuse resultSet
+                            rsNew[p.second] = resultSetNew.createValue(resultSetNew.getUndefValue())
+                        }
+                        for (p in variablesOldJ) {
+                            // TODO reuse resultSet
+                            rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(resultRowA!![p.first.first]))
+                        }
+                        for (p in variablesOldA) {
+                            // TODO reuse resultSet
+                            rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(resultRowA!![p.first]))
+                        }
+                        resultRowA = null
+                        return rsNew
                     }
                     resultRowA = null
-                    return rsNew
+                    if (!childB.hasNext()) {
+                        return null
+                    }
                 }
-                resultRowA = null
-                if (!childB.hasNext()) {
-                    return null
+                if (resultRowA == null) {
+                    if (!childA.hasNext())
+                        return null
+                    else {
+                        resultRowA = childA.next()
+                        hadMatchForA = false
+                    }
                 }
-            }
-            if (resultRowA == null) {
-                if (!childA.hasNext())
-                    return null
-                else {
-                    resultRowA = childA.next()
-                    hadMatchForA = false
+                require(resultRowA != null)
+                resultRowB = childB.next()
+                var joinVariableOk = true
+                var rsNew = resultSetNew.createResultRow()
+                for (p in variablesOldA) {
+                    // TODO reuse resultSet
+                    rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(resultRowA!![p.first]))
                 }
-            }
-            require(resultRowA != null)
-            resultRowB = childB.next()
-            var joinVariableOk = true
-            var rsNew = resultSetNew.createResultRow()
-            for (p in variablesOldA) {
-                // TODO reuse resultSet
-                rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(resultRowA!![p.first]))
-            }
-            for (p in variablesOldB) {
-                // TODO reuse resultSet
-                rsNew[p.second] = resultSetNew.createValue(resultSetOldB.getValue(resultRowB[p.first]))
-            }
-            for (p in variablesOldJ) {
-                // TODO reuse resultSet
-                val a = resultSetOldA.getValue(resultRowA!![p.first.first])
-                val b = resultSetOldB.getValue(resultRowB[p.first.second])
-                if (a != b && a != resultSetOldA.getUndefValue() && b != resultSetOldB.getUndefValue()) {
-                    joinVariableOk = false
-                    break
+                for (p in variablesOldB) {
+                    // TODO reuse resultSet
+                    rsNew[p.second] = resultSetNew.createValue(resultSetOldB.getValue(resultRowB[p.first]))
                 }
-                if (a == resultSetOldA.getUndefValue())
-                    rsNew[p.second] = resultSetNew.createValue(b)
-                else
-                    rsNew[p.second] = resultSetNew.createValue(a)
+                for (p in variablesOldJ) {
+                    // TODO reuse resultSet
+                    val a = resultSetOldA.getValue(resultRowA!![p.first.first])
+                    val b = resultSetOldB.getValue(resultRowB[p.first.second])
+                    if (a != b && a != resultSetOldA.getUndefValue() && b != resultSetOldB.getUndefValue()) {
+                        joinVariableOk = false
+                        break
+                    }
+                    if (a == resultSetOldA.getUndefValue())
+                        rsNew[p.second] = resultSetNew.createValue(b)
+                    else
+                        rsNew[p.second] = resultSetNew.createValue(a)
+                }
+                if (!joinVariableOk)
+                    continue
+                hadMatchForA = true
+                return rsNew
             }
-            if (!joinVariableOk)
-                continue
-            hadMatchForA = true
-            return rsNew
+        } finally {
+            Trace.stop(this)
         }
     }
 

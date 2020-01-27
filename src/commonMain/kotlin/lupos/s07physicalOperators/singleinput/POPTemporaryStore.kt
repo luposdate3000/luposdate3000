@@ -1,4 +1,5 @@
 package lupos.s07physicalOperators.singleinput
+
 import lupos.s00misc.*
 
 import lupos.s07physicalOperators.singleinput.POPSort
@@ -56,26 +57,26 @@ class POPTemporaryStore : POPBase {
     }
 
     override fun next(): ResultRow {
-try{
-Trace.start(this)
-        if (iterator == child) {
-            val rsOld = child.next()
+        try {
+            Trace.start(this)
+            if (iterator == child) {
+                val rsOld = child.next()
+                var rsNew = resultSetNew.createResultRow()
+                for (variable in variables) {
+                    rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
+                }
+                data.add(rsNew)
+                return rsNew
+            }
+            val rsOld = iterator.next()
             var rsNew = resultSetNew.createResultRow()
             for (variable in variables) {
                 rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
             }
-            data.add(rsNew)
             return rsNew
+        } finally {
+            Trace.stop(this)
         }
-        val rsOld = iterator.next()
-        var rsNew = resultSetNew.createResultRow()
-        for (variable in variables) {
-            rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
-        }
-return rsNew
-}finally{
-Trace.stop(this)
-}
     }
 
     fun reset() {

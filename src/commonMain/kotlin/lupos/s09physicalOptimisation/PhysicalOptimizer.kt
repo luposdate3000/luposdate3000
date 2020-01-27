@@ -1,4 +1,5 @@
 package lupos.s09physicalOptimisation
+
 import lupos.s00misc.classNameToString
 import lupos.s08tripleStore.TripleStore
 import lupos.s09physicalOptimisation.OptimizerVisitorPOP

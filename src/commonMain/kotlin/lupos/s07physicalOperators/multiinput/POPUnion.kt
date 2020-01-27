@@ -1,5 +1,6 @@
 package lupos.s07physicalOperators.multiinput
 
+import lupos.s00misc.*
 import lupos.s07physicalOperators.singleinput.POPTemporaryStore
 import lupos.s07physicalOperators.POPBaseNullableIterator
 import lupos.s07physicalOperators.POPBase
@@ -58,31 +59,36 @@ class POPUnion : POPBaseNullableIterator {
     }
 
     override fun nnext(): ResultRow? {
-        if (childA.hasNext()) {
-            val rsOld = childA.next()
-            val rsNew = resultSetNew.createResultRow()
-            for (p in variablesOldAMissing) {
-                rsNew[p] = resultSetNew.createValue(resultSetNew.getUndefValue())
+        try {
+            Trace.start(this)
+            if (childA.hasNext()) {
+                val rsOld = childA.next()
+                val rsNew = resultSetNew.createResultRow()
+                for (p in variablesOldAMissing) {
+                    rsNew[p] = resultSetNew.createValue(resultSetNew.getUndefValue())
+                }
+                for (p in variablesOldA) {
+                    // TODO reuse resultSet
+                    rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(rsOld[p.first]))
+                }
+                return rsNew
             }
-            for (p in variablesOldA) {
-                // TODO reuse resultSet
-                rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(rsOld[p.first]))
+            if (childB.hasNext()) {
+                val rsOld = childB.next()
+                val rsNew = resultSetNew.createResultRow()
+                for (p in variablesOldBMissing) {
+                    rsNew[p] = resultSetNew.createValue(resultSetNew.getUndefValue())
+                }
+                for (p in variablesOldB) {
+                    // TODO reuse resultSet
+                    rsNew[p.second] = resultSetNew.createValue(resultSetOldB.getValue(rsOld[p.first]))
+                }
+                return rsNew
             }
-            return rsNew
+            return null
+        } finally {
+            Trace.stop(this)
         }
-        if (childB.hasNext()) {
-            val rsOld = childB.next()
-            val rsNew = resultSetNew.createResultRow()
-            for (p in variablesOldBMissing) {
-                rsNew[p] = resultSetNew.createValue(resultSetNew.getUndefValue())
-            }
-            for (p in variablesOldB) {
-                // TODO reuse resultSet
-                rsNew[p.second] = resultSetNew.createValue(resultSetOldB.getValue(rsOld[p.first]))
-            }
-            return rsNew
-        }
-        return null
     }
 
     override fun toXMLElement(): XMLElement {

@@ -1,4 +1,5 @@
 package lupos.s10outputResult
+
 import lupos.s08tripleStore.TripleStore
 import lupos.s10outputResult.QueryResultToXML
 import lupos.s10outputResult.QueryResultToCSV

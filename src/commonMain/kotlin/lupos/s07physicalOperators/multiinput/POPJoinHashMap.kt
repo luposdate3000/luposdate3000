@@ -1,5 +1,6 @@
 package lupos.s07physicalOperators.multiinput
 
+import lupos.s00misc.*
 import lupos.s07physicalOperators.singleinput.POPTemporaryStore
 import lupos.s07physicalOperators.POPBaseNullableIterator
 import lupos.s07physicalOperators.POPBase
@@ -115,32 +116,37 @@ class POPJoinHashMap : POPBaseNullableIterator {
     }
 
     override fun nnext(): ResultRow? {
-        while (true) {
-            if (!queue.isEmpty())
-                return queue.removeAt(0)
-            else if (child[0].hasNext())
-                joinHelper(0)
-            else if (child[1].hasNext())
-                joinHelper(1)
-            else if (optional && !hadOptionals) {
-                for ((k, v) in map[0]) {
-                    if (map[1][k] == null) {
-                        for (rowA in v) {
-                            val row = resultSetNew.createResultRow()
-                            for (p in variables[1])
-                                row[p.second] = resultSetNew.createValue(resultSetNew.getUndefValue())
-                            for (p in variables[0])
-                                row[p.second] = resultSetNew.createValue(resultSet[0].getValue(rowA[p.first]))
-                            for (p in variablesJ[0])
-                                row[p.second] = resultSetNew.createValue(resultSet[0].getValue(rowA[p.first]))
-                            queue.add(row)
+        try {
+            Trace.start(this)
+            while (true) {
+                if (!queue.isEmpty())
+                    return queue.removeAt(0)
+                else if (child[0].hasNext())
+                    joinHelper(0)
+                else if (child[1].hasNext())
+                    joinHelper(1)
+                else if (optional && !hadOptionals) {
+                    for ((k, v) in map[0]) {
+                        if (map[1][k] == null) {
+                            for (rowA in v) {
+                                val row = resultSetNew.createResultRow()
+                                for (p in variables[1])
+                                    row[p.second] = resultSetNew.createValue(resultSetNew.getUndefValue())
+                                for (p in variables[0])
+                                    row[p.second] = resultSetNew.createValue(resultSet[0].getValue(rowA[p.first]))
+                                for (p in variablesJ[0])
+                                    row[p.second] = resultSetNew.createValue(resultSet[0].getValue(rowA[p.first]))
+                                queue.add(row)
+                            }
+                            map[1][k] = mutableListOf<ResultRow>()
                         }
-                        map[1][k] = mutableListOf<ResultRow>()
                     }
-                }
-                hadOptionals = true
-            } else
-                return null
+                    hadOptionals = true
+                } else
+                    return null
+            }
+        } finally {
+            Trace.stop(this)
         }
     }
 

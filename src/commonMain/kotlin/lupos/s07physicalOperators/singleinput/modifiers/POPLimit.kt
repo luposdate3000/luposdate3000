@@ -1,5 +1,7 @@
 package lupos.s07physicalOperators.singleinput.modifiers
 
+import lupos.s00misc.*
+
 import lupos.s07physicalOperators.singleinput.POPSingleInputBase
 import lupos.s07physicalOperators.POPBase
 import lupos.s03buildOperatorGraph.data.LOPVariable
@@ -41,14 +43,19 @@ class POPLimit : POPSingleInputBase {
     }
 
     override fun next(): ResultRow {
-        var rsNew = resultSetNew.createResultRow()
-        val rsOld = child.next()
-        for (v in variables) {
-            // TODO reuse resultSet
-            rsNew[v.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[v.second]))
+        try {
+            Trace.start(this)
+            var rsNew = resultSetNew.createResultRow()
+            val rsOld = child.next()
+            for (v in variables) {
+                // TODO reuse resultSet
+                rsNew[v.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[v.second]))
+            }
+            count++
+            return rsNew
+        } finally {
+            Trace.stop(this)
         }
-        count++
-        return rsNew
     }
 
     override fun toXMLElement(): XMLElement {

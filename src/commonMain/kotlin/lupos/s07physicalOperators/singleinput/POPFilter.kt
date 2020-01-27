@@ -1,4 +1,5 @@
 package lupos.s07physicalOperators.singleinput
+
 import lupos.s00misc.*
 
 import lupos.s07physicalOperators.singleinput.POPSingleInputBaseNullableIterator
@@ -40,20 +41,20 @@ class POPFilter : POPSingleInputBaseNullableIterator {
     }
 
     override fun nnext(): ResultRow? {
-try{
-Trace.start(this)
-        while (true) {
-            if (!child.hasNext()){
-                return null
-}
-            val nextRow = child.next()
-            if (filter.evaluateBoolean(resultSet, nextRow)){
-                return nextRow!!
-	}
+        try {
+            Trace.start(this)
+            while (true) {
+                if (!child.hasNext()) {
+                    return null
+                }
+                val nextRow = child.next()
+                if (filter.evaluateBoolean(resultSet, nextRow)) {
+                    return nextRow!!
+                }
+            }
+        } finally {
+            Trace.stop(this)
         }
-}finally{
-Trace.stop(this)
-}
     }
 
     override fun toXMLElement(): XMLElement {

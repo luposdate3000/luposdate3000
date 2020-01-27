@@ -1,5 +1,7 @@
 package lupos.s07physicalOperators.singleinput.modifiers
 
+import lupos.s00misc.*
+
 import lupos.s07physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 import lupos.s07physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s07physicalOperators.POPBase
@@ -38,22 +40,27 @@ class POPOffset : POPSingleInputBaseNullableIterator {
     }
 
     override fun nnext(): ResultRow? {
-        while (count < offset) {
-            if (child.hasNext()) {
-                child.next()
-                count++
-            } else
-                count = offset
+        try {
+            Trace.start(this)
+            while (count < offset) {
+                if (child.hasNext()) {
+                    child.next()
+                    count++
+                } else
+                    count = offset
+            }
+            if (!child.hasNext())
+                return null
+            var rsNew = resultSetNew.createResultRow()
+            val rsOld = child.next()
+            for (v in variables) {
+                // TODO reuse resultSet
+                rsNew[v.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[v.second]))
+            }
+            return rsNew
+        } finally {
+            Trace.stop(this)
         }
-        if (!child.hasNext())
-            return null
-        var rsNew = resultSetNew.createResultRow()
-        val rsOld = child.next()
-        for (v in variables) {
-            // TODO reuse resultSet
-            rsNew[v.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[v.second]))
-        }
-        return rsNew
     }
 
     override fun toXMLElement(): XMLElement {

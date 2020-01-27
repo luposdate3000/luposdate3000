@@ -1,5 +1,6 @@
 package lupos.s07physicalOperators
 
+import lupos.s00misc.*
 import lupos.s07physicalOperators.POPExpression
 import lupos.s07physicalOperators.POPEmptyRow
 import lupos.s07physicalOperators.POPBaseNullableIterator
@@ -49,13 +50,18 @@ class POPValues : POPBase {
     }
 
     override fun next(): ResultRow {
-        val rsOld = iterator.next()
-        var rsNew = resultSet.createResultRow()
-        val it = rsOld.child.children.iterator()
-        for (variable in variables) {
-            rsNew[variable] = resultSet.createValue(POPExpression(it.next()).evaluate(rs, rr))
+        try {
+            Trace.start(this)
+            val rsOld = iterator.next()
+            var rsNew = resultSet.createResultRow()
+            val it = rsOld.child.children.iterator()
+            for (variable in variables) {
+                rsNew[variable] = resultSet.createValue(POPExpression(it.next()).evaluate(rs, rr))
+            }
+            return rsNew
+        } finally {
+            Trace.stop(this)
         }
-        return rsNew
     }
 
     override fun toXMLElement(): XMLElement {

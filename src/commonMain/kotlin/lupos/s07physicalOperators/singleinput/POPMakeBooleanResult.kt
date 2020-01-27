@@ -1,4 +1,5 @@
 package lupos.s07physicalOperators.singleinput
+
 import lupos.s00misc.*
 
 import lupos.s07physicalOperators.singleinput.POPSingleInputBase
@@ -45,15 +46,15 @@ class POPMakeBooleanResult : POPSingleInputBase {
     }
 
     override fun next(): ResultRow {
-try{
-Trace.start(this)
-        var rsNew = resultSetNew.createResultRow()
-        rsNew[variableNew] = resultSetNew.createValue("\"" + child.hasNext() + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
-        count++
-        return rsNew
-}finally{
-Trace.stop(this)
-}
+        try {
+            Trace.start(this)
+            var rsNew = resultSetNew.createResultRow()
+            rsNew[variableNew] = resultSetNew.createValue("\"" + child.hasNext() + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+            count++
+            return rsNew
+        } finally {
+            Trace.stop(this)
+        }
     }
 
     override fun toXMLElement(): XMLElement {

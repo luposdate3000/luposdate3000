@@ -1,4 +1,5 @@
 package lupos
+
 import lupos.s00misc.*
 import lupos.s08tripleStore.TripleStore
 import lupos.s10outputResult.QueryResultToXML
@@ -26,7 +27,6 @@ import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
 
 
-
 val errorBoundForDecimalsDigits = 6
 
 fun main(args: Array<String>) {
@@ -45,7 +45,7 @@ fun main(args: Array<String>) {
         val result = readFileContents(resultFile)
         parseSPARQLAndEvaluate(query, inputData, inputDataFile, result, resultFile)
     }
-Trace.print()
+    Trace.print()
 }
 
 class SevenIndices {

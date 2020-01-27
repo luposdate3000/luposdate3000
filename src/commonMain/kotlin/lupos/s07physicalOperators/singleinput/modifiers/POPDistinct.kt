@@ -1,5 +1,6 @@
 package lupos.s07physicalOperators.singleinput.modifiers
 
+import lupos.s00misc.*
 import lupos.s07physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 import lupos.s07physicalOperators.POPBaseNullableIterator
 import lupos.s07physicalOperators.POPBase
@@ -39,28 +40,33 @@ class POPDistinct : POPSingleInputBaseNullableIterator {
     }
 
     override fun nnext(): ResultRow? {
-        if (data == null) {
-            val tmpMutableMap = mutableMapOf<String, ResultRow>()
-            while (child.hasNext()) {
-                val rsOld = child.next()
-                val rsNew = resultSetNew.createResultRow()
-                var key: String = ""
-                for (variable in variables) {
-                    val tmp = resultSetOld.getValue(rsOld[variable.second])
-                    rsNew[variable.first] = resultSetNew.createValue(tmp)
-                    key += "-" + tmp
+        try {
+            Trace.start(this)
+            if (data == null) {
+                val tmpMutableMap = mutableMapOf<String, ResultRow>()
+                while (child.hasNext()) {
+                    val rsOld = child.next()
+                    val rsNew = resultSetNew.createResultRow()
+                    var key: String = ""
+                    for (variable in variables) {
+                        val tmp = resultSetOld.getValue(rsOld[variable.second])
+                        rsNew[variable.first] = resultSetNew.createValue(tmp)
+                        key += "-" + tmp
+                    }
+                    tmpMutableMap[key] = rsNew
                 }
-                tmpMutableMap[key] = rsNew
+                data = mutableListOf<ResultRow>()
+                for (k in tmpMutableMap.keys) {
+                    data!!.add(tmpMutableMap[k]!!)
+                }
+                iterator = data!!.listIterator()
             }
-            data = mutableListOf<ResultRow>()
-            for (k in tmpMutableMap.keys) {
-                data!!.add(tmpMutableMap[k]!!)
-            }
-            iterator = data!!.listIterator()
+            if (iterator == null || !iterator!!.hasNext())
+                return null
+            return iterator!!.next()
+        } finally {
+            Trace.stop(this)
         }
-        if (iterator == null || !iterator!!.hasNext())
-            return null
-        return iterator!!.next()
     }
 
     override fun toXMLElement(): XMLElement {

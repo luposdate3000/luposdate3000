@@ -1,4 +1,5 @@
 package lupos.s07physicalOperators.singleinput
+
 import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.*
 import lupos.s07physicalOperators.singleinput.POPSingleInputBase
@@ -11,8 +12,6 @@ import lupos.s00misc.XMLElement
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
-
-
 
 
 class POPBind : POPSingleInputBase {
@@ -59,25 +58,25 @@ class POPBind : POPSingleInputBase {
     }
 
     override fun next(): ResultRow {
-try{
-	Trace.start(this)
-        var rsNew = resultSetNew.createResultRow()
-        val rsOld = child.next()
-        for (i in variablesOld.indices) {
-            // TODO reuse resultSet
-            rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
-        }
         try {
-            rsNew[variableBound] = resultSetNew.createValue(expression.evaluate(resultSetOld, rsOld))
-        } catch (e: Throwable) {
-            rsNew[variableBound] = resultSetNew.createValue(resultSetNew.getUndefValue())
-            print("silent :: ")
-            e.kotlinStacktrace()
+            Trace.start(this)
+            var rsNew = resultSetNew.createResultRow()
+            val rsOld = child.next()
+            for (i in variablesOld.indices) {
+                // TODO reuse resultSet
+                rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
+            }
+            try {
+                rsNew[variableBound] = resultSetNew.createValue(expression.evaluate(resultSetOld, rsOld))
+            } catch (e: Throwable) {
+                rsNew[variableBound] = resultSetNew.createValue(resultSetNew.getUndefValue())
+                print("silent :: ")
+                e.kotlinStacktrace()
+            }
+            return rsNew
+        } finally {
+            Trace.stop(this)
         }
-        return rsNew
-}finally{
-Trace.stop(this)
-}
     }
 
     override fun toXMLElement(): XMLElement {

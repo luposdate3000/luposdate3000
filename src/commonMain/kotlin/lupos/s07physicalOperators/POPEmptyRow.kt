@@ -1,5 +1,6 @@
 package lupos.s07physicalOperators
 
+import lupos.s00misc.*
 import lupos.s07physicalOperators.POPBaseNullableIterator
 import lupos.s07physicalOperators.POPBase
 import lupos.s03buildOperatorGraph.data.LOPVariable
@@ -24,8 +25,13 @@ class POPEmptyRow() : POPBase() {
     }
 
     override fun next(): ResultRow {
-        first = false
-        return resultSetNew.createResultRow()
+        try {
+            Trace.start(this)
+            first = false
+            return resultSetNew.createResultRow()
+        } finally {
+            Trace.stop(this)
+        }
     }
 
     override fun getProvidedVariableNames(): List<String> {
