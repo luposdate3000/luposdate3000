@@ -1,4 +1,5 @@
 package lupos.s7physicalOptimisation
+
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTypedLiteral

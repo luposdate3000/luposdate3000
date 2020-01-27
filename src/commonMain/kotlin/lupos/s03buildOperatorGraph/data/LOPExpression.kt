@@ -1,4 +1,5 @@
 package lupos.s2buildOperatorGraph.data
+
 import lupos.s03buildOperatorGraph.data.LOPConstant
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar

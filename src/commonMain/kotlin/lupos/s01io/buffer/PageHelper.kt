@@ -1,4 +1,5 @@
 package lupos.s01io.buffer
+
 import lupos.io.buffer.Page
 import lupos.s01io.buffer.ByteArrayPage
 import lupos.s00misc.bit0

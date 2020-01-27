@@ -1,4 +1,5 @@
 package lupos.s00misc
+
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s02buildSyntaxTree.turtle.TurtleParser
 import lupos.s02buildSyntaxTree.LexerCharIterator

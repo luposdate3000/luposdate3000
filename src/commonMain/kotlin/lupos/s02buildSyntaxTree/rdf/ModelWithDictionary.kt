@@ -1,4 +1,5 @@
 package lupos.s02buildSyntaxTree.rdf
+
 import lupos.s02buildSyntaxTree.rdf.RDFTerm
 
 
@@ -18,7 +19,9 @@ object Dictionary {
         return result
     }
 
-    fun IRI(iri: String): Long = this.RDFTerm_to_ID["<" + iri + ">"] ?: addRDFTerm(lupos.s02buildSyntaxTree.rdf.IRI(iri))
+    fun IRI(iri: String): Long = this.RDFTerm_to_ID["<" + iri + ">"]
+            ?: addRDFTerm(lupos.s02buildSyntaxTree.rdf.IRI(iri))
+
     fun BlankNode(local_name: String): Long = this.RDFTerm_to_ID["_:" + local_name]
             ?: addRDFTerm(lupos.s02buildSyntaxTree.rdf.BlankNode(local_name))
 

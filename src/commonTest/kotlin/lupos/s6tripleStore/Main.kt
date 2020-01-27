@@ -1,4 +1,5 @@
 package lupos.s6tripleStore
+
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 

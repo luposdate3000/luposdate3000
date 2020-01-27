@@ -1,4 +1,5 @@
 package lupos.s5physicalOperators
+
 import lupos.s06resultRepresentation.ResultRow
 
 import lupos.s2buildOperatorGraph.OPBase

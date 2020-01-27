@@ -1,4 +1,5 @@
 package lupos.s02buildSyntaxTree.turtle
+
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s02buildSyntaxTree.turtle.TurtleParser
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator

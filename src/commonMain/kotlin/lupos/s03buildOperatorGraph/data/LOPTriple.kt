@@ -1,4 +1,5 @@
 package lupos.s2buildOperatorGraph.data
+
 import lupos.s03buildOperatorGraph.data.LOPConstant
 import lupos.s00misc.XMLElement
 

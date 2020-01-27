@@ -1,4 +1,5 @@
 package lupos.p2p
+
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
