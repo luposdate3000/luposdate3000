@@ -5,10 +5,7 @@ rm y
 
 benchmarkMinimumTime=1000
 
-(
-        cd heap_jvm
-        gradle build -x test
-)
+./tool-gradle-build-without-tests-jvm.sh
 
 for triples in 100 1000 10000 20000 30000 40000 50000 100000 500000
 do
@@ -25,7 +22,7 @@ cat /opt/sp2b/bin/sp2b.n3 | sed "s/\.$/ ./g" > "$triplesfile"
 
 csvglobal=$p/all.csv
 (
-	cd common/src/main/resources/sp2b
+	cd resources/sp2b
 	l="title,triples"
 	for f in *.sparql
 	do
@@ -44,7 +41,7 @@ curl -X POST --data-urlencode "dbName=sp2b" --data-urlencode "dbType=mem" -H  "C
 curl -X POST -d "@${triplesfile}" -H "Content-Type: text/turtle" localhost:3030/sp2b/data > /dev/null 2>&1
 (
 	l="fuseki-server,${triples}"
-	cd common/src/main/resources/sp2b
+	cd resources/sp2b
 	for f in *.sparql
 	do
 		a=$(($(date +%s%N)/1000000))
@@ -75,12 +72,12 @@ csvfile=$p/luposdate3000-${triples}.csv
 echo "query,repititions,time,query per second" > "$csvfile"
 pkill java
 sleep 3
-java -cp ./heap_jvm/build/libs/heap_jvm.jar lupos/p2p/MainKt 8080 127.0.0.1 &
+./buildJvm/distributions/luposdate3000/bin/luposdate3000-p2p 8080 127.0.0.1 >x 2>&1 &
 sleep 3
 curl -X POST --data-binary "@${triplesfile}" http://localhost:8080/turtle/input --header "Content-Type:text/plain"
 (
 	l="luposdate3000,${triples}"
-	cd common/src/main/resources/sp2b
+	cd resources/sp2b
 	for f in *.sparql
 	do
 		a=$(($(date +%s%N)/1000000))
@@ -104,6 +101,6 @@ curl -X POST --data-binary "@${triplesfile}" http://localhost:8080/turtle/input 
 )
 }
 
-benchmarkJena > /dev/null 2>&1
+#benchmarkJena > /dev/null 2>&1
 benchmarkLuposdate3000 > /dev/null 2>&1
 done

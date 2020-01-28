@@ -64,9 +64,13 @@ println("Trace.stop(\"$name\") vs $tmp")
         }
         var total = 0.0
         println("real::")
-        for ((k, v) in map2) {
+        for ((k, v) in map2)
             total += v.second
-            println("$k #${v.first} ${v.second} Seconds")
+val scale=1000000.0/total
+        for ((k, v) in map2) {
+		val relativeTime=v.second/v.first
+		val sortby=(relativeTime*scale).toInt().toString().padStart(7,'0')
+            println("$sortby $relativeTime #${v.first} ${v.second} Seconds $k")
         }
         map.clear()
         println("total::${total}")
