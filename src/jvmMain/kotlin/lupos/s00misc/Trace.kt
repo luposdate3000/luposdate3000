@@ -78,26 +78,26 @@ object Trace {
                     map2[keys.last()] = Pair(v.first, v.second)
                 else
                     map2[keys.last()] = Pair(u.first + v.first, u.second + v.second)
-		if(keys.size>1){
-			var i=keys[keys.size-2]
-			val t = map2[i]
+                if (keys.size > 1) {
+                    var i = keys[keys.size - 2]
+                    val t = map2[i]
                     if (t != null)
                         map2[i] = Pair(t.first, t.second - v.second)
-		}
+                }
 //                for (i in keys) {
 //                    val t = map2[i]
 //                    if (t != null)
 //                        map2[i] = Pair(t.first, t.second - v.second)
 //                }
             }
-	var total=0.0
+            var total = 0.0
             println("real::")
-            for ((k, v) in map2){
-		total+=v.second
+            for ((k, v) in map2) {
+                total += v.second
                 println("$k #${v.first} ${v.second} Seconds")
-		}
+            }
             map.clear()
-println("total::${total}")
+            println("total::${total}")
         }
     }
 

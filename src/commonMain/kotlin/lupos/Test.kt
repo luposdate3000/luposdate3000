@@ -30,23 +30,23 @@ import lupos.s06resultRepresentation.ResultSet
 val errorBoundForDecimalsDigits = 6
 
 fun main(args: Array<String>) {
-repeat(1){
-    println("Starting tests...")
-    val (nr_t, nr_e) = parseManifestFile("resources/sparql11-test-suite/", "manifest-all.ttl")
-    println("Number of tests: " + nr_t)
-    println("Number of errors: " + nr_e)
-    val sp2bFiles = listOf("q3a", "q9", "q4", "q5b", "q10", "q2", "q6", "q12a", "q3b", "q8", "q1", "q5a", "q11", "q12b", "q12c", "q3c", "q7")
-    val inputDataFile = "resources/sp2b/sp2b.n3"
-    val inputData = readFileContents(inputDataFile)
-    for (f in sp2bFiles) {
-        println("  Test: sp2b/$f")
-        val queryFile = "resources/sp2b/$f.sparql"
-        val query = readFileContents(queryFile)
-        val resultFile = "resources/sp2b/$f.srj"
-        val result = readFileContents(resultFile)
-        parseSPARQLAndEvaluate(query, inputData, inputDataFile, result, resultFile)
+    repeat(1) {
+        println("Starting tests...")
+        val (nr_t, nr_e) = parseManifestFile("resources/sparql11-test-suite/", "manifest-all.ttl")
+        println("Number of tests: " + nr_t)
+        println("Number of errors: " + nr_e)
+        val sp2bFiles = listOf("q3a", "q9", "q4", "q5b", "q10", "q2", "q6", "q12a", "q3b", "q8", "q1", "q5a", "q11", "q12b", "q12c", "q3c", "q7")
+        val inputDataFile = "resources/sp2b/sp2b.n3"
+        val inputData = readFileContents(inputDataFile)
+        for (f in sp2bFiles) {
+            println("  Test: sp2b/$f")
+            val queryFile = "resources/sp2b/$f.sparql"
+            val query = readFileContents(queryFile)
+            val resultFile = "resources/sp2b/$f.srj"
+            val result = readFileContents(resultFile)
+            parseSPARQLAndEvaluate(query, inputData, inputDataFile, result, resultFile)
+        }
     }
-}
     Trace.print()
 }
 

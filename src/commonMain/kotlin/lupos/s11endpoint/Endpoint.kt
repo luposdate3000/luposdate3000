@@ -72,7 +72,8 @@ fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
     val triple = ID_Triple(triple_s, triple_p, triple_o)
     PhysicalOptimizer._store.addData(TripleInsertIterator(triple))
 }
-object Endpoint{
+
+object Endpoint {
     fun process_turtle_input(data: String): XMLElement {
         val lcit = LexerCharIterator(data)
         val tit = TurtleScanner(lcit)
@@ -82,25 +83,25 @@ object Endpoint{
     }
 
     fun process_sparql_query(query: String): XMLElement {
-                println("----------String Query")
-                println(query)
-                println("----------Abstract Syntax Tree")
-                val lcit = LexerCharIterator(query)
-                val tit = TokenIteratorSPARQLParser(lcit)
-                val ltit = LookAheadTokenIterator(tit, 3)
-                val parser = SPARQLParser(ltit)
-                val ast_node = parser.expr()
-                println(ast_node)
-                println("----------Logical Operator Graph")
-                val lop_node = ast_node.visit(OperatorGraphVisitor())
-                println(lop_node)
-                println("----------Logical Operator Graph optimized")
-                val lop_node2 = LogicalOptimizer().optimize(lop_node)
-                println(lop_node2)
-                println("----------Physical Operator Graph")
-                val pop_optimizer = PhysicalOptimizer()
-                val pop_node = pop_optimizer.optimize(lop_node2) as POPBase
-                println(pop_node)
-		return QueryResultToXML.toXML(pop_node).first()
-    }	
+        println("----------String Query")
+        println(query)
+        println("----------Abstract Syntax Tree")
+        val lcit = LexerCharIterator(query)
+        val tit = TokenIteratorSPARQLParser(lcit)
+        val ltit = LookAheadTokenIterator(tit, 3)
+        val parser = SPARQLParser(ltit)
+        val ast_node = parser.expr()
+        println(ast_node)
+        println("----------Logical Operator Graph")
+        val lop_node = ast_node.visit(OperatorGraphVisitor())
+        println(lop_node)
+        println("----------Logical Operator Graph optimized")
+        val lop_node2 = LogicalOptimizer().optimize(lop_node)
+        println(lop_node2)
+        println("----------Physical Operator Graph")
+        val pop_optimizer = PhysicalOptimizer()
+        val pop_node = pop_optimizer.optimize(lop_node2) as POPBase
+        println(pop_node)
+        return QueryResultToXML.toXML(pop_node).first()
+    }
 }
