@@ -1,4 +1,9 @@
-package lupos.p2p
+package lupos.s11endpoint
+
+import kotlin.concurrent.thread
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 import lupos.s00misc.kotlinStacktrace
 import lupos.s10outputResult.QueryResultToXML
@@ -30,56 +35,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 
-class TripleInsertIterator : POPBaseNullableIterator {
-    var result: ResultRow?
-
-    private val resultSet = ResultSet()
-    override fun toXMLElement(): XMLElement {
-        return XMLElement("TripleInsertIterator")
-    }
-
-    fun cleanString(s: String): String {
-        var res = s
-        while (true) {
-            val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
-            if (match == null)
-                return res
-            val replacement = match.value.substring(2, 6).toInt(16).toChar() + ""
-            res = res.replace(match.value, replacement)
-        }
-    }
-
-    constructor(triple: ID_Triple) {
-        result = resultSet.createResultRow()
-        result!![resultSet.createVariable("s")] = resultSet.createValue(cleanString(Dictionary[triple.s]!!.toN3String()))
-        result!![resultSet.createVariable("p")] = resultSet.createValue(cleanString(Dictionary[triple.p]!!.toN3String()))
-        result!![resultSet.createVariable("o")] = resultSet.createValue(cleanString(Dictionary[triple.o]!!.toN3String()))
-    }
-
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
-    override fun getResultSet(): ResultSet {
-        return resultSet
-    }
-
-    override fun nnext(): ResultRow? {
-        var res = result
-        result = null
-        return res
-    }
-
-}
-
-fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
-    val triple = ID_Triple(triple_s, triple_p, triple_o)
-    PhysicalOptimizer._store.addData(TripleInsertIterator(triple))
-}
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 object P2P {
@@ -102,48 +57,6 @@ object P2P {
         if (hostname != null && hostname != "localhost")
             knownClients.add(hostname)
         return XMLElement.XMLHeader
-    }
-
-    suspend fun process_turtle_input(data: String): String {
-        val lcit = LexerCharIterator(data)
-        val tit = TurtleScanner(lcit)
-        val ltit = LookAheadTokenIterator(tit, 3)
-        TurtleParserWithDictionary(::consume_triple, ltit).turtleDoc()
-        return XMLElement("done").toPrettyString()
-    }
-
-    suspend fun process_sparql_query(query: String?): String {
-        var res = ""
-        if (query != null) {
-            res = XMLElement.XMLHeader + "\n"
-            try {
-                println("----------String Query")
-                println(query)
-                println("----------Abstract Syntax Tree")
-                val lcit = LexerCharIterator(query)
-                val tit = TokenIteratorSPARQLParser(lcit)
-                val ltit = LookAheadTokenIterator(tit, 3)
-                val parser = SPARQLParser(ltit)
-                val ast_node = parser.expr()
-                println(ast_node)
-                println("----------Logical Operator Graph")
-                val lop_node = ast_node.visit(OperatorGraphVisitor())
-                println(lop_node)
-                println("----------Logical Operator Graph optimized")
-                val lop_node2 = LogicalOptimizer().optimize(lop_node)
-                println(lop_node2)
-                println("----------Physical Operator Graph")
-                val pop_optimizer = PhysicalOptimizer()
-                val pop_node = pop_optimizer.optimize(lop_node2) as POPBase
-                println(pop_node)
-                res += QueryResultToXML.toXML(pop_node).first().toPrettyString()
-                println("----------Query Result")
-            } catch (e: Throwable) {
-                e.kotlinStacktrace()
-                res = e.toString()
-            }
-        }
-        return res
     }
 
     suspend fun myRequestHandler(request: HttpServer.Request) {
@@ -172,11 +85,11 @@ object P2P {
                 REQUEST_PEERS_JOIN[0] -> response = process_peers_join(params[REQUEST_PEERS_JOIN[1]]?.first())
                 REQUEST_SPARQL_QUERY[0] -> {
                     if (request.method == Http.Method.POST)
-                        response = process_sparql_query(data)
+                        response = Endpoint.process_sparql_query(data).toPrettyString()
                     else
-                        response = process_sparql_query(params["query"]?.first())
+                        response = Endpoint.process_sparql_query(params["query"]!!.first()).toPrettyString()
                 }
-                REQUEST_TURTLE_INPUT[0] -> response = process_turtle_input(data)
+                REQUEST_TURTLE_INPUT[0] -> response = Endpoint.process_turtle_input(data).toPrettyString()
                 else -> throw Exception("unknown request path: \"" + request.path + "\"")
             }
         } catch (e: Throwable) {
@@ -209,3 +122,27 @@ object P2P {
     }
 }
 
+
+fun main(args: Array<String>) = runBlocking {
+    var i = 0
+    var serverPort = 0
+    var serverName = ""
+    var bootStrapServer: String? = null
+    for (a in args) {
+        println("args[$i]=$a")
+        when (i) {
+            0 -> P2P.port = a.toInt()
+            1 -> P2P.hostname = a
+            2 -> bootStrapServer = a
+        }
+        i++
+    }
+    thread(start = true) {
+        launch(Dispatchers.Default) {
+            P2P.start(bootStrapServer)
+        }
+    }
+    while (true) {
+        delay(1000)
+    }
+}

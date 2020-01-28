@@ -1,8 +1,6 @@
 package lupos.s6tripleStore
 
 import lupos.s08tripleStore.TripleStore
-
-import lupos.s08tripleStore.TripleStore
 import lupos.s06resultRepresentation.ResultSetIterator
 
 import lupos.s06resultRepresentation.ResultRow
