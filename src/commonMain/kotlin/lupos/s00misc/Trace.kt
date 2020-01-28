@@ -13,6 +13,7 @@ object Trace {
     }
 
     fun start(name: String) {
+println("Trace.start(\"$name\")")
         stack.push(Pair(name, MonoClock.markNow()))
     }
 
@@ -28,6 +29,7 @@ object Trace {
         }
         key = key.substring(0, key.length - 1)
         val tmp = stack.pop()
+println("Trace.stop(\"$name\") vs $tmp")
         require(tmp != null)
         require(name == tmp.first)
         val timediff = tmp.second.elapsedNow().toDouble(DurationUnit.SECONDS)

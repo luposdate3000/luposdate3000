@@ -70,7 +70,7 @@ class POPGroup : POPSingleInputBaseNullableIterator {
 
     override fun nnext(): ResultRow? {
         try {
-            Trace.start(this)
+            Trace.start("POPGroup.nnext")
             if (data == null) {
                 val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
                 val variables = mutableListOf<Pair<Variable, Variable>>()
@@ -119,7 +119,7 @@ class POPGroup : POPSingleInputBaseNullableIterator {
                 return null
             return iterator!!.next()
         } finally {
-            Trace.stop(this)
+            Trace.stop("POPGroup.nnext")
         }
     }
 

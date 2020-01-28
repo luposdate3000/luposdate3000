@@ -26,11 +26,11 @@ class POPEmptyRow() : POPBase() {
 
     override fun next(): ResultRow {
         try {
-            Trace.start(this)
+            Trace.start("POPEmptyRow.next")
             first = false
             return resultSetNew.createResultRow()
         } finally {
-            Trace.stop(this)
+            Trace.stop("POPEmptyRow.next")
         }
     }
 

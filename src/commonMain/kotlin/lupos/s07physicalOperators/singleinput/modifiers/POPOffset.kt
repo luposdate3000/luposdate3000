@@ -41,7 +41,7 @@ class POPOffset : POPSingleInputBaseNullableIterator {
 
     override fun nnext(): ResultRow? {
         try {
-            Trace.start(this)
+            Trace.start("POPOffset.nnext")
             while (count < offset) {
                 if (child.hasNext()) {
                     child.next()
@@ -59,7 +59,7 @@ class POPOffset : POPSingleInputBaseNullableIterator {
             }
             return rsNew
         } finally {
-            Trace.stop(this)
+            Trace.stop("POPOffset.nnext")
         }
     }
 

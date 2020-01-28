@@ -117,7 +117,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
 
     override fun nnext(): ResultRow? {
         try {
-            Trace.start(this)
+            Trace.start("POPJoinHashMap.nnext")
             while (true) {
                 if (!queue.isEmpty())
                     return queue.removeAt(0)
@@ -146,7 +146,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
                     return null
             }
         } finally {
-            Trace.stop(this)
+            Trace.stop("POPJoinHashMap.nnext")
         }
     }
 

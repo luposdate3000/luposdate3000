@@ -20,13 +20,13 @@ abstract class POPBaseNullableIterator : POPBase() {
 
     override fun next(): ResultRow {
         try {
-            Trace.start(this)
+            Trace.start("POPBaseNullableIterator.next")
             require(tmpResult != null)
             val res = tmpResult!!
             tmpResult = null
             return res
         } finally {
-            Trace.stop(this)
+            Trace.stop("POPBaseNullableIterator.next")
         }
     }
 }

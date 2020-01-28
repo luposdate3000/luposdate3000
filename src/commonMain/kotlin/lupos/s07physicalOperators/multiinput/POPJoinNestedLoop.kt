@@ -64,7 +64,7 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
 
     override fun nnext(): ResultRow? {
         try {
-            Trace.start(this)
+            Trace.start("POPJoinNestedLoop.nnext")
             while (true) {
                 var resultRowB: ResultRow?
                 if (!childB.hasNext()) {
@@ -130,7 +130,7 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
                 return rsNew
             }
         } finally {
-            Trace.stop(this)
+            Trace.stop("POPJoinNestedLoop.nnext")
         }
     }
 

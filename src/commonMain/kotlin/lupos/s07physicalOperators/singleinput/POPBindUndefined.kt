@@ -57,7 +57,7 @@ class POPBindUndefined : POPSingleInputBase {
 
     override fun next(): ResultRow {
         try {
-            Trace.start(this)
+            Trace.start("POPBindUndefined.next")
             var rsNew = resultSetNew.createResultRow()
             val rsOld = child.next()
             for (i in variablesOld.indices) {
@@ -67,7 +67,7 @@ class POPBindUndefined : POPSingleInputBase {
             rsNew[variableBound] = resultSetNew.createValue(resultSetNew.getUndefValue())
             return rsNew
         } finally {
-            Trace.stop(this)
+            Trace.stop("POPBindUndefined.next")
         }
     }
 

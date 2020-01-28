@@ -58,7 +58,7 @@ class POPTemporaryStore : POPBase {
 
     override fun next(): ResultRow {
         try {
-            Trace.start(this)
+            Trace.start("POPTemporaryStore.next")
             if (iterator == child) {
                 val rsOld = child.next()
                 var rsNew = resultSetNew.createResultRow()
@@ -75,7 +75,7 @@ class POPTemporaryStore : POPBase {
             }
             return rsNew
         } finally {
-            Trace.stop(this)
+            Trace.stop("POPTemporaryStore.next")
         }
     }
 

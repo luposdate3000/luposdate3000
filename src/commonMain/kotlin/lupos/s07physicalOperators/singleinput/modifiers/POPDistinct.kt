@@ -41,7 +41,7 @@ class POPDistinct : POPSingleInputBaseNullableIterator {
 
     override fun nnext(): ResultRow? {
         try {
-            Trace.start(this)
+            Trace.start("POPDistinct.nnext")
             if (data == null) {
                 val tmpMutableMap = mutableMapOf<String, ResultRow>()
                 while (child.hasNext()) {
@@ -65,7 +65,7 @@ class POPDistinct : POPSingleInputBaseNullableIterator {
                 return null
             return iterator!!.next()
         } finally {
-            Trace.stop(this)
+            Trace.stop("POPDistinct.nnext")
         }
     }
 

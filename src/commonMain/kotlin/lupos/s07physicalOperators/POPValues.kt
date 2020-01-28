@@ -51,7 +51,7 @@ class POPValues : POPBase {
 
     override fun next(): ResultRow {
         try {
-            Trace.start(this)
+            Trace.start("POPValues.next")
             val rsOld = iterator.next()
             var rsNew = resultSet.createResultRow()
             val it = rsOld.child.children.iterator()
@@ -60,7 +60,7 @@ class POPValues : POPBase {
             }
             return rsNew
         } finally {
-            Trace.stop(this)
+            Trace.stop("POPValues.next")
         }
     }
 

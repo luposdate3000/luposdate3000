@@ -45,7 +45,7 @@ class POPFilterExact : POPSingleInputBaseNullableIterator {
 
     override fun nnext(): ResultRow? {
         try {
-            Trace.start(this)
+            Trace.start("POPFilterExact.nnext")
             while (true) {
                 if (!child.hasNext()) {
                     return null
@@ -56,7 +56,7 @@ class POPFilterExact : POPSingleInputBaseNullableIterator {
                 }
             }
         } finally {
-            Trace.stop(this)
+            Trace.stop("POPFilterExact.nnext")
         }
     }
 

@@ -44,7 +44,7 @@ class POPLimit : POPSingleInputBase {
 
     override fun next(): ResultRow {
         try {
-            Trace.start(this)
+            Trace.start("POPLimit.next")
             var rsNew = resultSetNew.createResultRow()
             val rsOld = child.next()
             for (v in variables) {
@@ -54,7 +54,7 @@ class POPLimit : POPSingleInputBase {
             count++
             return rsNew
         } finally {
-            Trace.stop(this)
+            Trace.stop("POPLimit.next")
         }
     }
 

@@ -1,5 +1,5 @@
 package lupos.s08tripleStore
-
+import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s08tripleStore.IndexPattern
 import lupos.s08tripleStore.POPTripleStoreIteratorBase
@@ -76,6 +76,8 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
     }
 
     override fun next(): ResultRow {
+try {
+            Trace.start("TripleStore.next")
         val value = listIterator!!.next()
         val result = resultSetNew.createResultRow()
         if (index == IndexPattern.SPO || index == IndexPattern.SP || index == IndexPattern.SO || index == IndexPattern.S)
@@ -91,9 +93,14 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
         else
             result[oNew] = resultSetNew.createValue(resultSetOld.getValue(value[oOld]))
         return result
+} finally {
+Trace.stop("TripleStore.next")
+        }
     }
 
     override fun hasNext(): Boolean {
+try {
+            Trace.start("TripleStore.hasNext")
         while (listIterator == null || !listIterator!!.hasNext()) {
             if (mapIterator.hasNext()) {
                 val tmp = mapIterator.next()
@@ -105,6 +112,9 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
         }
         val res = listIterator != null && listIterator!!.hasNext()
         return res
+} finally {
+Trace.stop("TripleStore.hasNext")
+        }
     }
 
     override fun getResultSet(): ResultSet {

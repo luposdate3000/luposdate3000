@@ -60,7 +60,7 @@ class POPUnion : POPBaseNullableIterator {
 
     override fun nnext(): ResultRow? {
         try {
-            Trace.start(this)
+            Trace.start("POPUnion.nnext")
             if (childA.hasNext()) {
                 val rsOld = childA.next()
                 val rsNew = resultSetNew.createResultRow()
@@ -87,7 +87,7 @@ class POPUnion : POPBaseNullableIterator {
             }
             return null
         } finally {
-            Trace.stop(this)
+            Trace.stop("POPUnion.nnext")
         }
     }
 
