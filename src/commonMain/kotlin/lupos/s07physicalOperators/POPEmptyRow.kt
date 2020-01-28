@@ -21,7 +21,12 @@ class POPEmptyRow() : POPBase() {
     }
 
     override fun hasNext(): Boolean {
-        return first
+        try {
+            Trace.start("POPEmptyRow.hasNext")
+            return first
+        } finally {
+            Trace.stop("POPEmptyRow.hasNext")
+        }
     }
 
     override fun next(): ResultRow {

@@ -13,7 +13,7 @@ object Trace {
     }
 
     fun start(name: String) {
-println("Trace.start(\"$name\")")
+        println("Trace.start(\"$name\")")
         stack.push(Pair(name, MonoClock.markNow()))
     }
 
@@ -29,7 +29,7 @@ println("Trace.start(\"$name\")")
         }
         key = key.substring(0, key.length - 1)
         val tmp = stack.pop()
-println("Trace.stop(\"$name\") vs $tmp")
+        println("Trace.stop(\"$name\") vs $tmp")
         require(tmp != null)
         require(name == tmp.first)
         val timediff = tmp.second.elapsedNow().toDouble(DurationUnit.SECONDS)
@@ -41,12 +41,13 @@ println("Trace.stop(\"$name\") vs $tmp")
     }
 
     fun print() {
+        println(toString())
+    }
+
+    override fun toString(): String {
+        var res = ""
+        res += "stack\n"
         require(stack.isEmpty())
-        println("stack")
-        println("raw::")
-        map.forEach { k, v ->
-            println("$k #${v.first} ${v.second} Seconds")
-        }
         val map2 = mutableMapOf<String, Pair<Long, Double>>()
         map.forEach { k, v ->
             val keys = k.split("-")
@@ -60,19 +61,25 @@ println("Trace.stop(\"$name\") vs $tmp")
                 val t = map2[i]
                 if (t != null)
                     map2[i] = Pair(t.first, t.second - v.second)
+                else
+                    map2[i] = Pair(0L, 0.0 - v.second)
             }
         }
         var total = 0.0
-        println("real::")
-        for ((k, v) in map2)
-            total += v.second
-val scale=1000000.0/total
+        var totalrelative = 0.0
+        res += "real::\n"
         for ((k, v) in map2) {
-		val relativeTime=v.second/v.first
-		val sortby=(relativeTime*scale).toInt().toString().padStart(7,'0')
-            println("$sortby $relativeTime #${v.first} ${v.second} Seconds $k")
+            total += v.second
+            totalrelative += v.second / v.first
+        }
+        val scale = 1000000.0 / totalrelative
+        for ((k, v) in map2) {
+            val relativeTime = v.second / v.first
+            val sortby = (relativeTime * scale).toInt().toString().padStart(7, '0')
+            res += "$sortby $relativeTime #${v.first} ${v.second} Seconds $k\n"
         }
         map.clear()
-        println("total::${total}")
+        res += "total::${total}\n"
+        return res
     }
 }

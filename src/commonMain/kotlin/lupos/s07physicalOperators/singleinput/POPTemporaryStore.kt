@@ -53,7 +53,12 @@ class POPTemporaryStore : POPBase {
     }
 
     override fun hasNext(): Boolean {
-        return iterator.hasNext()
+        try {
+            Trace.start("POPTemporaryStore.hasNext")
+            return iterator.hasNext()
+        } finally {
+            Trace.stop("POPTemporaryStore.hasNext")
+        }
     }
 
     override fun next(): ResultRow {

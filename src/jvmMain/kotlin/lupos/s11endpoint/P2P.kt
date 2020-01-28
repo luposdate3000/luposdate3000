@@ -1,5 +1,6 @@
 package lupos.s11endpoint
 
+import lupos.s00misc.*
 import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -38,6 +39,7 @@ import kotlinx.coroutines.delay
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 object P2P {
+    val REQUEST_TRACE_PRINT = arrayOf("/trace/print")
     val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query")
     val REQUEST_TURTLE_INPUT = arrayOf("/turtle/input")
     val REQUEST_PEERS_LIST = arrayOf("/peers/list")
@@ -48,6 +50,10 @@ object P2P {
     var server: HttpServer? = null
     val client = createHttpClient()
     var fullname = hostname + ":" + port
+
+    suspend fun process_print_traces(): String {
+        return Trace.toString()
+    }
 
     suspend fun process_peers_list(): String {
         return XMLElement.XMLHeader + "\n" + XMLElement("servers").addContent(knownClients, "server").toPrettyString()
@@ -81,6 +87,7 @@ object P2P {
             delay(1)
         try {
             when (request.path) {
+                REQUEST_TRACE_PRINT[0] -> response = process_print_traces()
                 REQUEST_PEERS_LIST[0] -> response = process_peers_list()
                 REQUEST_PEERS_JOIN[0] -> response = process_peers_join(params[REQUEST_PEERS_JOIN[1]]?.first())
                 REQUEST_SPARQL_QUERY[0] -> {

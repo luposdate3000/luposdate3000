@@ -46,7 +46,12 @@ class POPValues : POPBase {
     }
 
     override fun hasNext(): Boolean {
-        return iterator.hasNext()
+        try {
+            Trace.start("POPValues.hasNext")
+            return iterator.hasNext()
+        } finally {
+            Trace.stop("POPValues.hasNext")
+        }
     }
 
     override fun next(): ResultRow {

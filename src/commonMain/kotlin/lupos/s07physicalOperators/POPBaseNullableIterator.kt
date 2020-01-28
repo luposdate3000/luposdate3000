@@ -11,11 +11,19 @@ import lupos.s06resultRepresentation.ResultRow
 abstract class POPBaseNullableIterator : POPBase() {
     var tmpResult: ResultRow? = null
     abstract fun nnext(): ResultRow?
+    var tryNext = true
     override fun hasNext(): Boolean {
-        if (tmpResult == null)
-            tmpResult = nnext()
-        return tmpResult != null
-
+        try {
+            Trace.start("POPBaseNullableIterator.hasNext")
+            if (!tryNext)
+                return false
+            tryNext = false
+            if (tmpResult == null)
+                tmpResult = nnext()
+            return tmpResult != null
+        } finally {
+            Trace.stop("POPBaseNullableIterator.hasNext")
+        }
     }
 
     override fun next(): ResultRow {

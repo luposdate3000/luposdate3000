@@ -52,8 +52,13 @@ class POPProjection : POPSingleInputBase {
     }
 
     override fun hasNext(): Boolean {
-        val res = child.hasNext()
-        return res
+        try {
+            Trace.start("POPProjection.hasNext")
+            val res = child.hasNext()
+            return res
+        } finally {
+            Trace.stop("POPProjection.hasNext")
+        }
     }
 
     override fun next(): ResultRow {

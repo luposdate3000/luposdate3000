@@ -51,8 +51,13 @@ class POPBindUndefined : POPSingleInputBase {
     }
 
     override fun hasNext(): Boolean {
-        val res = child.hasNext()
-        return res
+        try {
+            Trace.start("POPBindUndefined.hasNext")
+            val res = child.hasNext()
+            return res
+        } finally {
+            Trace.stop("POPBindUndefined.hasNext")
+        }
     }
 
     override fun next(): ResultRow {

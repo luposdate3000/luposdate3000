@@ -1,4 +1,5 @@
 package lupos.s08tripleStore
+
 import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s08tripleStore.IndexPattern
@@ -76,44 +77,44 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
     }
 
     override fun next(): ResultRow {
-try {
+        try {
             Trace.start("TripleStore.next")
-        val value = listIterator!!.next()
-        val result = resultSetNew.createResultRow()
-        if (index == IndexPattern.SPO || index == IndexPattern.SP || index == IndexPattern.SO || index == IndexPattern.S)
-            result[sNew] = resultSetNew.createValue(resultSetOld.getValue(currentKey!![sOld]))
-        else
-            result[sNew] = resultSetNew.createValue(resultSetOld.getValue(value[sOld]))
-        if (index == IndexPattern.SPO || index == IndexPattern.SP || index == IndexPattern.PO || index == IndexPattern.P)
-            result[pNew] = resultSetNew.createValue(resultSetOld.getValue(currentKey!![pOld]))
-        else
-            result[pNew] = resultSetNew.createValue(resultSetOld.getValue(value[pOld]))
-        if (index == IndexPattern.SPO || index == IndexPattern.SO || index == IndexPattern.PO || index == IndexPattern.O)
-            result[oNew] = resultSetNew.createValue(resultSetOld.getValue(currentKey!![oOld]))
-        else
-            result[oNew] = resultSetNew.createValue(resultSetOld.getValue(value[oOld]))
-        return result
-} finally {
-Trace.stop("TripleStore.next")
+            val value = listIterator!!.next()
+            val result = resultSetNew.createResultRow()
+            if (index == IndexPattern.SPO || index == IndexPattern.SP || index == IndexPattern.SO || index == IndexPattern.S)
+                result[sNew] = resultSetNew.createValue(resultSetOld.getValue(currentKey!![sOld]))
+            else
+                result[sNew] = resultSetNew.createValue(resultSetOld.getValue(value[sOld]))
+            if (index == IndexPattern.SPO || index == IndexPattern.SP || index == IndexPattern.PO || index == IndexPattern.P)
+                result[pNew] = resultSetNew.createValue(resultSetOld.getValue(currentKey!![pOld]))
+            else
+                result[pNew] = resultSetNew.createValue(resultSetOld.getValue(value[pOld]))
+            if (index == IndexPattern.SPO || index == IndexPattern.SO || index == IndexPattern.PO || index == IndexPattern.O)
+                result[oNew] = resultSetNew.createValue(resultSetOld.getValue(currentKey!![oOld]))
+            else
+                result[oNew] = resultSetNew.createValue(resultSetOld.getValue(value[oOld]))
+            return result
+        } finally {
+            Trace.stop("TripleStore.next")
         }
     }
 
     override fun hasNext(): Boolean {
-try {
+        try {
             Trace.start("TripleStore.hasNext")
-        while (listIterator == null || !listIterator!!.hasNext()) {
-            if (mapIterator.hasNext()) {
-                val tmp = mapIterator.next()
-                currentKey = tmp.key
-                listIterator = tmp.value.iterator()
-            } else {
-                break
+            while (listIterator == null || !listIterator!!.hasNext()) {
+                if (mapIterator.hasNext()) {
+                    val tmp = mapIterator.next()
+                    currentKey = tmp.key
+                    listIterator = tmp.value.iterator()
+                } else {
+                    break
+                }
             }
-        }
-        val res = listIterator != null && listIterator!!.hasNext()
-        return res
-} finally {
-Trace.stop("TripleStore.hasNext")
+            val res = listIterator != null && listIterator!!.hasNext()
+            return res
+        } finally {
+            Trace.stop("TripleStore.hasNext")
         }
     }
 

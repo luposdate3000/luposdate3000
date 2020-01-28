@@ -42,7 +42,12 @@ class POPMakeBooleanResult : POPSingleInputBase {
     }
 
     override fun hasNext(): Boolean {
-        return count == 0
+        try {
+            Trace.start("POPMakeBooleanResult.hasNext")
+            return count == 0
+        } finally {
+            Trace.stop("POPMakeBooleanResult.hasNext")
+        }
     }
 
     override fun next(): ResultRow {

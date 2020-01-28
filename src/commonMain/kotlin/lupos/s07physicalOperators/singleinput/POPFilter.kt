@@ -43,15 +43,13 @@ class POPFilter : POPSingleInputBaseNullableIterator {
     override fun nnext(): ResultRow? {
         try {
             Trace.start("POPFilter.nnext")
-            while (true) {
-                if (!child.hasNext()) {
-                    return null
-                }
+            while (child.hasNext()) {
                 val nextRow = child.next()
                 if (filter.evaluateBoolean(resultSet, nextRow)) {
                     return nextRow!!
                 }
             }
+            return null
         } finally {
             Trace.stop("POPFilter.nnext")
         }

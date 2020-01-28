@@ -39,7 +39,12 @@ class POPLimit : POPSingleInputBase {
     }
 
     override fun hasNext(): Boolean {
-        return count < limit && child.hasNext()
+        try {
+            Trace.start("POPLimit.hasNext")
+            return count < limit && child.hasNext()
+        } finally {
+            Trace.stop("POPLimit.hasNext")
+        }
     }
 
     override fun next(): ResultRow {

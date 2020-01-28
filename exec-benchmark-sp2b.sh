@@ -72,7 +72,7 @@ csvfile=$p/luposdate3000-${triples}.csv
 echo "query,repititions,time,query per second" > "$csvfile"
 pkill java
 sleep 3
-./buildJvm/distributions/luposdate3000/bin/luposdate3000-p2p 8080 127.0.0.1 >x 2>&1 &
+./buildJvm/distributions/luposdate3000/bin/luposdate3000-p2p 8080 127.0.0.1 &
 sleep 3
 curl -X POST --data-binary "@${triplesfile}" http://localhost:8080/turtle/input --header "Content-Type:text/plain"
 (
@@ -99,6 +99,7 @@ curl -X POST --data-binary "@${triplesfile}" http://localhost:8080/turtle/input 
 	done
 	echo $l >> "$csvglobal"
 )
+curl -X GET http://localhost:8080/trace/print --header "Content-Type:text/plain"> x-${triples}.log
 }
 
 #benchmarkJena > /dev/null 2>&1

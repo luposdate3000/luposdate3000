@@ -73,8 +73,13 @@ class POPRename : POPSingleInputBase {
     }
 
     override fun hasNext(): Boolean {
-        val res = child.hasNext()
-        return res
+        try {
+            Trace.start("POPRename.hasNext")
+            val res = child.hasNext()
+            return res
+        } finally {
+            Trace.stop("POPRename.hasNext")
+        }
     }
 
     override fun next(): ResultRow {
