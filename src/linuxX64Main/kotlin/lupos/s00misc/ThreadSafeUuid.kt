@@ -1,9 +1,6 @@
 package lupos.s00misc
 
-import lupos.s00misc.*
-import kotlin.native.concurrent.*
-import kotlinx.cinterop.*
-import platform.posix.*
+import kotlin.native.concurrent.AtomicLong
 
 actual class ThreadSafeUuid {
     actual constructor() {

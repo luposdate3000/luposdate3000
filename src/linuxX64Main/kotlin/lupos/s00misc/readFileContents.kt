@@ -1,7 +1,13 @@
 package lupos
 
-import kotlinx.cinterop.*
-import platform.posix.*
+import kotlinx.cinterop.memScoped
+import platform.posix.fopen
+import platform.posix.perror
+import kotlinx.cinterop.allocArray
+import kotlinx.cinterop.ByteVar
+import platform.posix.fgets
+import platform.posix.fclose
+import kotlinx.cinterop.toKString
 
 actual fun readFileContents(filename: String): String {
     var result: String = ""

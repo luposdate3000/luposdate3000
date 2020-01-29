@@ -1,9 +1,12 @@
 package lupos.s00misc
 
-import lupos.s00misc.*
-import kotlin.native.concurrent.*
-import kotlinx.cinterop.*
-import platform.posix.*
+import kotlinx.cinterop.cValue
+import platform.posix.pthread_mutex_t
+import platform.posix.pthread_mutex_init
+import platform.posix.pthread_mutex_lock
+import platform.posix.pthread_mutex_unlock
+import kotlin.native.concurrent.AtomicReference
+import kotlin.native.concurrent.freeze
 
 actual class ThreadSafeMutableList<T> {
     val mutex = cValue<pthread_mutex_t>();

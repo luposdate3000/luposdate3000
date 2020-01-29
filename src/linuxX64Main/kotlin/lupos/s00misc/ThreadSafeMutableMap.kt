@@ -1,9 +1,12 @@
 package lupos.s00misc
 
-import lupos.s00misc.*
-import kotlin.native.concurrent.*
-import kotlinx.cinterop.*
-import platform.posix.*
+import kotlinx.cinterop.cValue
+import platform.posix.pthread_mutex_t
+import platform.posix.pthread_mutex_init
+import platform.posix.pthread_mutex_lock
+import platform.posix.pthread_mutex_unlock
+import kotlin.native.concurrent.AtomicReference
+import kotlin.native.concurrent.freeze
 
 actual class ThreadSafeMutableMap<k, v> {
     val mutex = cValue<pthread_mutex_t>();
@@ -26,7 +29,7 @@ actual class ThreadSafeMutableMap<k, v> {
 
     actual fun forEach(action: (k, v) -> Unit) {
         pthread_mutex_lock(mutex)
-            global_map.value.forEach { it ->
+        global_map.value.forEach { it ->
             //here is some type conversion - inconsistent between native and jvm ...
             action(it.key, it.value)
         }
