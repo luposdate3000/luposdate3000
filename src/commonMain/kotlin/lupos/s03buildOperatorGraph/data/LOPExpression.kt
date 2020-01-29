@@ -1,4 +1,5 @@
 package lupos.s03buildOperatorGraph.data
+
 import lupos.s00misc.XMLElement
 import lupos.s03buildOperatorGraph.parseFromASTNode
 

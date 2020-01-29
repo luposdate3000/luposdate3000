@@ -1,7 +1,5 @@
 package lupos.s00misc
 
-import lupos.s00misc.*
-
 expect class ThreadSafeMutableMap<k, v>() {
     fun clear()
     operator fun set(key: k, value: v)

@@ -12,7 +12,7 @@ class ThreadSafeMutableStack<T>() {
     fun pop(): T? {
         val item = elements.lastOrNull()
         if (!isEmpty()) {
-		val idx=elements.size() - 1
+            val idx = elements.size() - 1
             elements.removeAt(idx)
         }
         return item

@@ -1,7 +1,5 @@
 package lupos.s00misc
 
-import lupos.s00misc.*
-
 expect class ThreadSafeMutableList<T>() {
     fun forEach(action: (T) -> Unit)
     fun size(): Int

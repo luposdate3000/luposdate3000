@@ -1,4 +1,5 @@
 package lupos.s08tripleStore
+
 import lupos.s00misc.Trace
 
 import lupos.s00misc.classNameToString

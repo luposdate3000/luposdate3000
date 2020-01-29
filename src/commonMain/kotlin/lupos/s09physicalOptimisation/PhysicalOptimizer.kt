@@ -142,7 +142,7 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
             }
             is LOPExpression -> {
                 when (param.child) {
-		    is ASTInteger -> return POPFilterExact(LOPVariable(name), "\"" + param.child.value + "\"^^<http://www.w3.org/2001/XMLSchema#integer>", child)
+                    is ASTInteger -> return POPFilterExact(LOPVariable(name), "\"" + param.child.value + "\"^^<http://www.w3.org/2001/XMLSchema#integer>", child)
                     is ASTIri -> return POPFilterExact(LOPVariable(name), "<" + param.child.iri + ">", child)
                     is ASTLanguageTaggedLiteral -> return POPFilterExact(LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter + "@" + param.child.language, child)
                     is ASTTypedLiteral -> return POPFilterExact(LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter + "^^<" + param.child.type_iri + ">", child)

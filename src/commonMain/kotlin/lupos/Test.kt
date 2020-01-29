@@ -1,4 +1,6 @@
 package lupos
+
+import lupos.s00misc.readFileContents
 import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.Trace
 import lupos.s11endpoint.convertToOPBase
