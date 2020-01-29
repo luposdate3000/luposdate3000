@@ -26,7 +26,7 @@ actual class ThreadSafeMutableMap<k, v> {
 
     actual fun forEach(action: (k, v) -> Unit) {
         pthread_mutex_lock(mutex)
-        global_map.value.forEach { it ->
+            global_map.value.forEach { it ->
             //here is some type conversion - inconsistent between native and jvm ...
             action(it.key, it.value)
         }
