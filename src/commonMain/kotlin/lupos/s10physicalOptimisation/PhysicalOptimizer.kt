@@ -43,6 +43,7 @@ import lupos.s03buildOperatorGraph.data.LOPTriple
 import lupos.s03buildOperatorGraph.data.LOPExpression
 
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
+import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTypedLiteral
 
@@ -141,6 +142,7 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
             }
             is LOPExpression -> {
                 when (param.child) {
+		    is ASTInteger -> return POPFilterExact(LOPVariable(name), "\"" + param.child.value + "\"^^<http://www.w3.org/2001/XMLSchema#integer>", child)
                     is ASTIri -> return POPFilterExact(LOPVariable(name), "<" + param.child.iri + ">", child)
                     is ASTLanguageTaggedLiteral -> return POPFilterExact(LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter + "@" + param.child.language, child)
                     is ASTTypedLiteral -> return POPFilterExact(LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter + "^^<" + param.child.type_iri + ">", child)
