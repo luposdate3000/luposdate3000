@@ -137,8 +137,13 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPJoinNestedLoop")
         res.addAttribute("optional", "" + optional)
-        res.addContent(childA.toXMLElement())
-        res.addContent(childB.toXMLElement())
+        res.addContent(XMLElement("childA").addContent(childA.toXMLElement()))
+        res.addContent(XMLElement("childB").addContent(childB.toXMLElement()))
         return res
+    }
+companion object{
+        fun fromXMLElement(xml:XMLElement):POPJoinNestedLoop{
+                return POPJoinNestedLoop(XMLElement.convertToPOPBase(xml["childA"]!!),XMLElement.convertToPOPBase(xml["childB"]!!),xml.attributes["optional"]!!.toBoolean())
+        }
     }
 }

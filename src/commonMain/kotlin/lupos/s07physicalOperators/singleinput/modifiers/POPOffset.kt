@@ -66,7 +66,12 @@ class POPOffset : POPSingleInputBaseNullableIterator {
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPOffset")
         res.addAttribute("offset", "" + offset)
-        res.addContent(child.toXMLElement())
+        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
         return res
+    }
+companion object{
+        fun fromXMLElement(xml:XMLElement):POPOffset{
+                return POPOffset(xml.attributes["offset"]!!.toInt(),XMLElement.convertToPOPBase(xml["child"]!!))
+        }
     }
 }

@@ -64,7 +64,12 @@ class POPMakeBooleanResult : POPSingleInputBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPMakeBooleanResult")
-        res.addContent(child.toXMLElement())
+        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
         return res
+    }
+companion object{
+        fun fromXMLElement(xml:XMLElement):POPMakeBooleanResult{
+                return POPMakeBooleanResult(XMLElement.convertToPOPBase(xml["child"]!!))
+        }
     }
 }

@@ -66,7 +66,12 @@ class POPLimit : POPSingleInputBase {
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPLimit")
         res.addAttribute("limit", "" + limit)
-        res.addContent(child.toXMLElement())
+        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
         return res
+    }
+companion object{
+        fun fromXMLElement(xml:XMLElement):POPLimit{
+                return POPLimit(xml.attributes["limit"]!!.toInt(),XMLElement.convertToPOPBase(xml["child"]!!))
+        }
     }
 }

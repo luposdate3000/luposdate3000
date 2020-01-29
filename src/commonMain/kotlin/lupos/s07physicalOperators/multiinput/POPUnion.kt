@@ -93,8 +93,13 @@ class POPUnion : POPBaseNullableIterator {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPUnion")
-        res.addContent(childA.toXMLElement())
-        res.addContent(childB.toXMLElement())
+        res.addContent(XMLElement("childA").addContent(childA.toXMLElement()))
+        res.addContent(XMLElement("childB").addContent(childB.toXMLElement()))
         return res
+    }
+companion object{
+        fun fromXMLElement(xml:XMLElement):POPUnion{
+                return POPUnion(XMLElement.convertToPOPBase(xml["childA"]!!),XMLElement.convertToPOPBase(xml["childB"]!!))
+        }
     }
 }

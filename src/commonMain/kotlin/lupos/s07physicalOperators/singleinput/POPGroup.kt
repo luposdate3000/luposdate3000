@@ -5,6 +5,7 @@ import lupos.s00misc.*
 
 import lupos.s07physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 import lupos.s07physicalOperators.singleinput.POPFilter
+import lupos.s07physicalOperators.POPEmptyRow
 import lupos.s07physicalOperators.singleinput.POPFilterExact
 import lupos.s07physicalOperators.singleinput.POPBindUndefined
 import lupos.s07physicalOperators.singleinput.POPBind
@@ -129,15 +130,31 @@ class POPGroup : POPSingleInputBaseNullableIterator {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPGroup")
-        val byxml = XMLElement("LocalBy")
+        val byxml = XMLElement("by")
         res.addContent(byxml)
         for (b in by)
-            byxml.addContent(XMLElement("LocalVariable").addAttribute("name", b.name))
-        val xmlbindings = XMLElement("LocalBindings")
+            byxml.addContent(XMLElement("variable").addAttribute("name", b.name))
+        val xmlbindings = XMLElement("bindings")
         res.addContent(xmlbindings)
-        for (b in bindings)
-            xmlbindings.addContent(b.second.toXMLElement())
+        for (b in bindings){
+		xmlbindings.addContent( XMLElement("binding").addAttribute("name",resultSetNew.getVariable(b.first)).addContent(b.second.toXMLElement()))
+	}
         res.addContent(child.toXMLElement())
         return res
+    }
+     companion object{
+        fun fromXMLElement(xml:XMLElement):POPGroup{
+		val by=mutableListOf<LOPVariable>()
+		var bindings:POPBase=POPEmptyRow()
+		xml["by"]!!.childs!!.forEach{
+			by.add(LOPVariable(it.attributes["name"]!!))
+		}
+		xml["bindings"].childs.forEach{
+			bindings=POPBind(LOPVariable(it.attributes["name"]!!),POPExpression.fromXMLElement(it.childs.first()),bindings)
+		}
+		if(bindings is POPEmptyRow)
+		return POPGroup(by,null,XMLElement.convertToPOPBase(xml["child"]!!))
+                return POPGroup(by,bindings as POPBind,XMLElement.convertToPOPBase(xml["child"]!!))
+        }
     }
 }

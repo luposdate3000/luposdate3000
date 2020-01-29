@@ -57,8 +57,13 @@ class POPFilter : POPSingleInputBaseNullableIterator {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPFilter")
-        res.addContent(filter.toXMLElement())
-        res.addContent(child.toXMLElement())
+        res.addContent(XMLElement("filter").addContent(filter.toXMLElement()))
+        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
         return res
+    }
+ companion object{
+        fun fromXMLElement(xml:XMLElement):POPFilter{
+                return POPFilter(POPExpression.fromXMLElement(xml["filter"]),XMLElement.convertToPOPBase(xml["child"]!!))
+        }
     }
 }

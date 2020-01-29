@@ -90,7 +90,12 @@ class POPTemporaryStore : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPTemporaryStore")
-        res.addContent(child.toXMLElement())
+        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
         return res
+    }
+companion object{
+        fun fromXMLElement(xml:XMLElement):POPTemporaryStore{
+                return POPTemporaryStore(XMLElement.convertToPOPBase(xml["child"]!!))
+        }
     }
 }

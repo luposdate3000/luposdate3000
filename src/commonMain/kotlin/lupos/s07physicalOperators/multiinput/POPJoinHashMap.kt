@@ -153,8 +153,13 @@ class POPJoinHashMap : POPBaseNullableIterator {
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPJoinHashMap")
         res.addAttribute("optional", "" + optional)
-        res.addContent(child[0].toXMLElement())
-        res.addContent(child[1].toXMLElement())
+        res.addContent(XMLElement("childA").addContent(child[0].toXMLElement()))
+        res.addContent(XMLElement("childB").addContent(child[1].toXMLElement()))
         return res
+    }
+companion object{
+        fun fromXMLElement(xml:XMLElement):POPJoinHashMap{
+                return POPJoinHashMap(XMLElement.convertToPOPBase(xml["childA"]!!),XMLElement.convertToPOPBase(xml["childB"]!!),xml.attributes["optional"]!!.toBoolean())
+        }
     }
 }

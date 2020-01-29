@@ -51,4 +51,9 @@ class POPEmptyRow() : POPBase() {
         val res = XMLElement("POPEmptyRow")
         return res
     }
+ companion object{
+        fun fromXMLElement(xml:XMLElement):POPEmptyRow{
+                return POPEmptyRow()
+        }
+    }
 }

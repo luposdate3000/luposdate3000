@@ -78,11 +78,20 @@ class POPProjection : POPSingleInputBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPProjection")
-        val vars = XMLElement("LocalVariables")
+        val vars = XMLElement("variables")
         res.addContent(vars)
         for (v in variables)
-            vars.addContent(XMLElement("LocalVariable").addAttribute("name", v.name))
+            vars.addContent(XMLElement("variable").addAttribute("name", v.name))
         res.addContent(child.toXMLElement())
         return res
+    }
+companion object{
+        fun fromXMLElement(xml:XMLElement):POPProjection{
+		val variables=mutableListOf<LOPVariable>()
+		xml["variables"].childs.forEach{
+			variables.add(LOPVariable(it.attributes["name"]!!))
+		}
+                return POPProjection(variables,XMLElement.convertToPOPBase(xml["child"]!!))
+        }
     }
 }

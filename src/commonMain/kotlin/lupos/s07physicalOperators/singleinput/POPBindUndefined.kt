@@ -79,7 +79,12 @@ class POPBindUndefined : POPSingleInputBase {
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPBindUndefined")
         res.addAttribute("name", name.name)
-        res.addContent(child.toXMLElement())
+        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
         return res
+    }
+companion object{
+        fun fromXMLElement(xml:XMLElement):POPBindUndefined{
+                return POPBindUndefined(LOPVariable(xml.attributes["name"]!!),XMLElement.convertToPOPBase(xml["child"]!!))
+        }
     }
 }

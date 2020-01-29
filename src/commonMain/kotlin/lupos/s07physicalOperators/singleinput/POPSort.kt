@@ -108,7 +108,12 @@ class POPSort : POPSingleInputBaseNullableIterator {
             res.addAttribute("order", "ASC")
         else
             res.addAttribute("order", "DESC")
-        res.addContent(child.toXMLElement())
+        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
         return res
+    }
+    companion object{
+	fun fromXMLElement(xml:XMLElement):POPSort{
+		return POPSort(LOPVariable(xml.attributes["by"]!!),xml.attributes["order"]=="ASC",XMLElement.convertToPOPBase(xml["child"]!!))
+	}
     }
 }

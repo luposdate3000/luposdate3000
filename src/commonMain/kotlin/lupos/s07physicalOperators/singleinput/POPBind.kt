@@ -87,8 +87,13 @@ class POPBind : POPSingleInputBase {
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPBind")
         res.addAttribute("name", name.name)
-        res.addContent(XMLElement("LocalValue").addContent(expression.toXMLElement()))
-        res.addContent(child.toXMLElement())
+        res.addContent(XMLElement("expression").addContent(expression.toXMLElement()))
+        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
         return res
+    }
+ companion object{
+        fun fromXMLElement(xml:XMLElement):POPBind{
+                return POPBind(LOPVariable(xml.attributes["name"]!!),POPExpression.fromXMLElement(xml["expression"]),XMLElement.convertToPOPBase(xml["child"]!!))
+        }
     }
 }
