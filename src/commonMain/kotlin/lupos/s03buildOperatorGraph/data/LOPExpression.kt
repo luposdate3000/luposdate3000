@@ -5,7 +5,7 @@ import lupos.s03buildOperatorGraph.LOPBase
 import lupos.s03buildOperatorGraph.data.LOPConstant
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
-import lupos.s00misc.XMLElement
+import lupos.s00misc.*
 
 
 class LOPExpression(val child: ASTNode) : LOPBase() {
@@ -28,8 +28,8 @@ class LOPExpression(val child: ASTNode) : LOPBase() {
     }
 
     override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPExpression")
-        res.addContent(XMLElement("expression").addContent(child.toString()))
+val res = XMLElement("LOPExpression")
+        res.addContent(XMLElement.parseFromASTNode(child))
         return res
     }
 }

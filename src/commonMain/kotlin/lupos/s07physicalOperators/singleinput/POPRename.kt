@@ -101,13 +101,13 @@ class POPRename : POPSingleInputBase {
         val res = XMLElement("POPRename")
         res.addAttribute("nameTo", nameTo.name)
         res.addAttribute("nameFrom", nameFrom.name)
-        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
+        res.addContent(child.toXMLElement())
         return res
     }
 
     companion object {
         fun fromXMLElement(xml: XMLElement): POPRename {
-            return POPRename(LOPVariable(xml.attributes["nameFrom"]!!), LOPVariable(xml.attributes["nameTo"]!!), XMLElement.convertToPOPBase(xml["child"]!!))
+            return POPRename(LOPVariable(xml.attributes["nameFrom"]!!), LOPVariable(xml.attributes["nameTo"]!!), XMLElement.convertToPOPBase(xml.childs.first()!!))
         }
     }
 }

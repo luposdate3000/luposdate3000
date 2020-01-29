@@ -4,6 +4,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.*
 
 fun XMLElement.Companion.parseFromASTNode(node: ASTNode): XMLElement {
     when {
+node is ASTUndef -> return XMLElement("ASTUndef")
         node is ASTVar -> return XMLElement("ASTVar").addAttribute("name", node.name)
         node is ASTAddition -> return XMLElement("ASTAddition").addContent(XMLElement("childA").addContent(parseFromASTNode(node.children[0]))).addContent(XMLElement("childB").addContent(parseFromASTNode(node.children[1])))
         node is ASTAggregation -> {
