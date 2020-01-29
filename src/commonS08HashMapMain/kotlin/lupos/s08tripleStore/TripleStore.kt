@@ -29,7 +29,7 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
     private var currentKey: ResultRow?
     private var index: IndexPattern = IndexPattern.S
     override fun toXMLElement(): XMLElement {
-        return XMLElement("TripleStoreIterator")
+        return XMLElement("TripleStoreIterator").addAttribute("uuid",""+uuid)
     }
 
     constructor(store: TripleStore, index: IndexPattern) {

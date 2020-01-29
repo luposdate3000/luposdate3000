@@ -141,10 +141,4 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
         res.addContent(XMLElement("childB").addContent(childB.toXMLElement()))
         return res
     }
-
-    companion object {
-        fun fromXMLElement(xml: XMLElement): POPJoinNestedLoop {
-            return POPJoinNestedLoop(XMLElement.convertToPOPBase(xml["childA"]!!), XMLElement.convertToPOPBase(xml["childB"]!!), xml.attributes["optional"]!!.toBoolean())
-        }
-    }
 }

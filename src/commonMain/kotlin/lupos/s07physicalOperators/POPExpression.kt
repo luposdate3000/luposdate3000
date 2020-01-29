@@ -1,5 +1,6 @@
 package lupos.s07physicalOperators
 
+import lupos.s03buildOperatorGraph.*
 import lupos.s00misc.*
 
 import lupos.s07physicalOperators.POPEmptyRow

@@ -69,10 +69,4 @@ class POPOffset : POPSingleInputBaseNullableIterator {
         res.addContent(XMLElement("child").addContent(child.toXMLElement()))
         return res
     }
-
-    companion object {
-        fun fromXMLElement(xml: XMLElement): POPOffset {
-            return POPOffset(xml.attributes["offset"]!!.toInt(), XMLElement.convertToPOPBase(xml["child"]!!))
-        }
-    }
 }

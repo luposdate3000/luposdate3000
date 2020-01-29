@@ -67,7 +67,7 @@ class XMLElement(val tag: String) {
 
     operator fun get(key: String): XMLElement? {
         childs.forEach {
-            if (it.tag == "key")
+            if (it.tag == key)
                 return it
         }
         return null

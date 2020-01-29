@@ -91,10 +91,4 @@ class POPBind : POPSingleInputBase {
         res.addContent(XMLElement("child").addContent(child.toXMLElement()))
         return res
     }
-
-    companion object {
-        fun fromXMLElement(xml: XMLElement): POPBind {
-            return POPBind(LOPVariable(xml.attributes["name"]!!), POPExpression.fromXMLElement(xml["expression"]!!), XMLElement.convertToPOPBase(xml["child"]!!)!!)
-        }
-    }
 }

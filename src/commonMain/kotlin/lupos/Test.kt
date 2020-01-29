@@ -1,4 +1,7 @@
+
 package lupos
+
+import lupos.s11endpoint.*
 
 import lupos.s00misc.*
 import lupos.s08tripleStore.TripleStore
@@ -460,9 +463,19 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: String?, inputDataFileNam
             var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)
             println(xmlQueryTarget?.first()?.toPrettyString())
             println(resultData)
-            val res = xmlQueryResult.first().myEquals(xmlQueryTarget?.first())
+            var res = xmlQueryResult.first().myEquals(xmlQueryTarget?.first())
             if (res) {
-                println("----------Success")
+                val xmlPOP = pop_node.toXMLElement()
+                val popNodeRecovered = XMLElement.convertToOPBase(xmlPOP,store) as POPBase
+println(xmlPOP.toPrettyString())
+println(popNodeRecovered.toXMLElement().toPrettyString())
+                val xmlQueryResultRecovered = QueryResultToXML.toXML(popNodeRecovered)
+                if (xmlQueryResultRecovered.first().myEquals(xmlQueryResult.first()))
+                    println("----------Success")
+                else {
+                    println("----------Failed(recoverFromXMLOperatorGraph)")
+                    res = false
+                }
             } else {
                 if (xmlQueryResult.first().myEqualsUnclean(xmlQueryTarget?.first())) {
                     println("----------Success(Unordered)")

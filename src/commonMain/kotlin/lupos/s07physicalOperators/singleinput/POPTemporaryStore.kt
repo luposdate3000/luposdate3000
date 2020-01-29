@@ -93,10 +93,4 @@ class POPTemporaryStore : POPBase {
         res.addContent(XMLElement("child").addContent(child.toXMLElement()))
         return res
     }
-
-    companion object {
-        fun fromXMLElement(xml: XMLElement): POPTemporaryStore {
-            return POPTemporaryStore(XMLElement.convertToPOPBase(xml["child"]!!))
-        }
-    }
 }

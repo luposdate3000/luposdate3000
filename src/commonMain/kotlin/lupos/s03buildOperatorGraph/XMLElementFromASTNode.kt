@@ -1,10 +1,11 @@
-package lupos.s00misc
+package lupos.s03buildOperatorGraph
 
+import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 
 fun XMLElement.Companion.parseFromASTNode(node: ASTNode): XMLElement {
     when {
-node is ASTUndef -> return XMLElement("ASTUndef")
+        node is ASTUndef -> return XMLElement("ASTUndef")
         node is ASTVar -> return XMLElement("ASTVar").addAttribute("name", node.name)
         node is ASTAddition -> return XMLElement("ASTAddition").addContent(XMLElement("childA").addContent(parseFromASTNode(node.children[0]))).addContent(XMLElement("childB").addContent(parseFromASTNode(node.children[1])))
         node is ASTAggregation -> {
@@ -67,5 +68,5 @@ node is ASTUndef -> return XMLElement("ASTUndef")
         node is ASTFilter -> return XMLElement("ASTFilter").addContent(parseFromASTNode(node.children[0]))
         node is ASTLanguageTaggedLiteral -> return XMLElement("ASTLanguageTaggedLiteral").addAttribute("content", node.content).addAttribute("delimiter", node.delimiter).addAttribute("language", node.language)
     }
-    throw Exception("parseFromASTNode for ${classNameToString(node)} undefined")
+    throw Exception("XMLElement.Companion.parseFromASTNode undefined :: ${classNameToString(node)}")
 }

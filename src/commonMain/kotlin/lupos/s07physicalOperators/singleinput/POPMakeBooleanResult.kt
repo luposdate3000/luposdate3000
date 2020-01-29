@@ -67,10 +67,4 @@ class POPMakeBooleanResult : POPSingleInputBase {
         res.addContent(XMLElement("child").addContent(child.toXMLElement()))
         return res
     }
-
-    companion object {
-        fun fromXMLElement(xml: XMLElement): POPMakeBooleanResult {
-            return POPMakeBooleanResult(XMLElement.convertToPOPBase(xml["child"]!!))
-        }
-    }
 }

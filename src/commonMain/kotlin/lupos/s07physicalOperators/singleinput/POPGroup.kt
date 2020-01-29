@@ -139,23 +139,7 @@ class POPGroup : POPSingleInputBaseNullableIterator {
         for (b in bindings) {
             xmlbindings.addContent(XMLElement("binding").addAttribute("name", resultSetNew.getVariable(b.first)).addContent(b.second.toXMLElement()))
         }
-        res.addContent(child.toXMLElement())
+        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
         return res
-    }
-
-    companion object {
-        fun fromXMLElement(xml: XMLElement): POPGroup {
-            val by = mutableListOf<LOPVariable>()
-            var bindings: POPBase = POPEmptyRow()
-            xml["by"]!!.childs!!.forEach {
-                by.add(LOPVariable(it.attributes["name"]!!))
-            }
-            xml["bindings"]!!.childs.forEach {
-                bindings = POPBind(LOPVariable(it.attributes["name"]!!), POPExpression.fromXMLElement(it.childs.first()), bindings)
-            }
-            if (bindings is POPEmptyRow)
-                return POPGroup(by, null, XMLElement.convertToPOPBase(xml["child"]!!))
-            return POPGroup(by, bindings as POPBind, XMLElement.convertToPOPBase(xml["child"]!!))
-        }
     }
 }

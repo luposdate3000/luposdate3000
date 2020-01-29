@@ -1,5 +1,6 @@
 package lupos.s03buildOperatorGraph.data
 
+import lupos.s03buildOperatorGraph.*
 import lupos.s03buildOperatorGraph.LOPBase
 
 import lupos.s03buildOperatorGraph.data.LOPConstant
@@ -28,7 +29,7 @@ class LOPExpression(val child: ASTNode) : LOPBase() {
     }
 
     override fun toXMLElement(): XMLElement {
-val res = XMLElement("LOPExpression")
+        val res = XMLElement("LOPExpression")
         res.addContent(XMLElement.parseFromASTNode(child))
         return res
     }

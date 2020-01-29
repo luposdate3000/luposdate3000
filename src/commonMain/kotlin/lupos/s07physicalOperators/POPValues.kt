@@ -26,6 +26,7 @@ class POPValues : POPBase {
 
     constructor(v: List<String>, d: List<Map<String, String>>) : super() {
         v.forEach {
+		stringVars.add(it)
             variables.add(resultSet.createVariable(it))
         }
         d.forEach {
@@ -46,10 +47,10 @@ class POPValues : POPBase {
         }
         for (v in values.values) {
             val it = v.child.children.iterator()
-            val tmpmap = mutableMapOf<Variable, String>()
-            data.add(tmpmap)
+            val entry = mutableMapOf<Variable, String>()
+            data.add(entry)
             for (v2 in variables) {
-                tmpmap[v2] = resultSet.createValue(POPExpression(it.next()).evaluate(rs, rr))
+                entry[v2] = resultSet.createValue(POPExpression(it.next()).evaluate(rs, rr))
             }
         }
         iterator = data.iterator()
@@ -100,25 +101,7 @@ class POPValues : POPBase {
             xmlvariables.addContent(XMLElement("variable").addAttribute("name", resultSet.getVariable(v)))
         for (d in data)
             for ((k, v) in d)
-                bindings.addContent(XMLElement("binding").addAttribute("name", resultSet.getVariable(k)).addContent(resultSet.getValue(v)))
+                bindings.addContent(XMLElement("binding").addAttribute("name", resultSet.getVariable(k)).addAttribute("content",resultSet.getValue(v)))
         return res
-    }
-
-    companion object {
-        fun fromXMLElement(xml: XMLElement): POPValues {
-            val vars = mutableListOf<String>()
-            val vals = mutableListOf<MutableMap<String, String>>()
-            xml["variables"]!!.childs!!.forEach {
-                vars.add(it.attributes["name"]!!)
-            }
-            xml["bindings"]!!.childs!!.forEach {
-                val exp = mutableMapOf<String, String>()
-                vals.add(exp)
-                it.childs.forEach() {
-                    exp[it.attributes["name"]!!] = it.content
-                }
-            }
-            return POPValues(vars, vals)
-        }
     }
 }
