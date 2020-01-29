@@ -26,7 +26,7 @@ class POPValues : POPBase {
 
     constructor(v: List<String>, d: List<Map<String, String>>) : super() {
         v.forEach {
-		stringVars.add(it)
+            stringVars.add(it)
             variables.add(resultSet.createVariable(it))
         }
         d.forEach {
@@ -99,9 +99,12 @@ class POPValues : POPBase {
         res.addContent(bindings)
         for (v in variables)
             xmlvariables.addContent(XMLElement("variable").addAttribute("name", resultSet.getVariable(v)))
-        for (d in data)
+        for (d in data) {
+            val b = XMLElement("binding")
+            bindings.addContent(b)
             for ((k, v) in d)
-                bindings.addContent(XMLElement("binding").addAttribute("name", resultSet.getVariable(k)).addAttribute("content",resultSet.getValue(v)))
+                b.addContent(XMLElement("value").addAttribute("name", resultSet.getVariable(k)).addAttribute("content", resultSet.getValue(v)))
+        }
         return res
     }
 }

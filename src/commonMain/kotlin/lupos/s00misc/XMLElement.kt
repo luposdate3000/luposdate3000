@@ -2,7 +2,7 @@ package lupos.s00misc
 
 import kotlin.math.abs
 
-class XMLElement(val tag: String) {
+class XMLElement {
     // https://regex101.com
     companion object {
         val XMLHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -64,6 +64,12 @@ class XMLElement(val tag: String) {
     val attributes = mutableMapOf<String, String>()
     var content: String = ""
     val childs = mutableListOf<XMLElement>()
+
+    val tag: String
+
+    constructor(tag: String) {
+        this.tag = decodeText(tag)
+    }
 
     operator fun get(key: String): XMLElement? {
         childs.forEach {
@@ -133,14 +139,14 @@ class XMLElement(val tag: String) {
     }
 
     fun addAttribute(name: String, value: String): XMLElement {
-        attributes[name] = value
+        attributes[decodeText(name)] = decodeText(value)
         return this
     }
 
     fun addContent(content: String): XMLElement {
         if (!childs.isEmpty())
             throw Exception("either content or subchilds must be empty")
-        this.content += content
+        this.content += decodeText(content)
         return this
     }
 
@@ -165,27 +171,35 @@ class XMLElement(val tag: String) {
         return this
     }
 
+    fun encodeText(text: String): String {
+        return text.replace("&", "&amp;").replace(">", "&gt;").replace("<", "&lt;").replace("'", "&apos;").replace("\"", "&quot;")
+    }
+
+    fun decodeText(text: String): String {
+        return text.replace("&quot;", "\"").replace("&apos;", "'").replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&")
+    }
+
     override fun toString(): String {
         val c = content.replace("^\\s*$".toRegex(), "")
-        var res = "<${tag}"
+        var res = "<${encodeText(tag)}"
         for ((k, v) in attributes)
-            res += " ${k}=\"${v}\""
+            res += " ${encodeText(k)}=\"${encodeText(v)}\""
         if (c.isEmpty() && childs.isEmpty()) {
             res += "/>"
         } else {
             res += ">"
             for (c in childs)
                 res += c.toString()
-            res += "${c}</${tag}>"
+            res += "${encodeText(c)}</${encodeText(tag)}>"
         }
         return res
     }
 
     fun toPrettyString(indention: String = ""): String {
         val c = content.replace("^\\s*$".toRegex(), "")
-        var res = "${indention}<${tag}"
+        var res = "${indention}<${encodeText(tag)}"
         for ((k, v) in attributes)
-            res += " ${k}=\"${v}\""
+            res += " ${encodeText(k)}=\"${encodeText(v)}\""
         if (c.isEmpty() && childs.isEmpty()) {
             res += "/>\n"
         } else {
@@ -193,9 +207,9 @@ class XMLElement(val tag: String) {
                 res += ">\n"
                 for (c in childs)
                     res += c.toPrettyString(indention + "\t")
-                res += "${indention}</${tag}>\n"
+                res += "${indention}</${encodeText(tag)}>\n"
             } else {
-                res += ">${c}</${tag}>\n"
+                res += ">${c}</${encodeText(tag)}>\n"
             }
         }
         return res

@@ -1,4 +1,3 @@
-
 package lupos
 
 import lupos.s11endpoint.*
@@ -466,9 +465,9 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: String?, inputDataFileNam
             var res = xmlQueryResult.first().myEquals(xmlQueryTarget?.first())
             if (res) {
                 val xmlPOP = pop_node.toXMLElement()
-                val popNodeRecovered = XMLElement.convertToOPBase(xmlPOP,store) as POPBase
-println(xmlPOP.toPrettyString())
-println(popNodeRecovered.toXMLElement().toPrettyString())
+                val popNodeRecovered = XMLElement.convertToOPBase(xmlPOP, store) as POPBase
+                println(xmlPOP.toPrettyString())
+                println(popNodeRecovered.toXMLElement().toPrettyString())
                 val xmlQueryResultRecovered = QueryResultToXML.toXML(popNodeRecovered)
                 if (xmlQueryResultRecovered.first().myEquals(xmlQueryResult.first()))
                     println("----------Success")
