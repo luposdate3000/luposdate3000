@@ -67,9 +67,10 @@ class POPFilterExact : POPSingleInputBaseNullableIterator {
         res.addContent(XMLElement("child").addContent(child.toXMLElement()))
         return res
     }
-companion object{
-        fun fromXMLElement(xml:XMLElement):POPFilterExact{
-                return POPFilterExact(LOPVariable(xml.attributes["name"]!!),xml.attributes["value"]!!,XMLElement.convertToPOPBase(xml["child"]!!))
+
+    companion object {
+        fun fromXMLElement(xml: XMLElement): POPFilterExact {
+            return POPFilterExact(LOPVariable(xml.attributes["name"]!!), xml.attributes["value"]!!, XMLElement.convertToPOPBase(xml["child"]!!))
         }
     }
 }

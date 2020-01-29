@@ -19,25 +19,24 @@ import lupos.s07physicalOperators.POPBase
 import lupos.s07physicalOperators.multiinput.POPUnion
 import lupos.s07physicalOperators.multiinput.POPJoinHashMap
 
-fun XMLElement.Companion.convertToPOPBase(node:XMLElement):POPBase{
-return	when(node.tag){
-		"POPSort" ->POPSort.fromXMLElement(node)
-		"POPRename" ->POPRename.fromXMLElement(node)
-		"POPProjection" ->POPProjection.fromXMLElement(node)
-		"POPMakeBooleanResult" ->POPMakeBooleanResult.fromXMLElement(node)
-		"POPGroup" ->POPGroup.fromXMLElement(node)
-		"POPFilter" ->POPFilter.fromXMLElement(node)
-		"POPFilterExact" ->POPFilterExact.fromXMLElement(node)
-		"POPBindUndefined" ->POPBindUndefined.fromXMLElement(node)
-		"POPBind" ->POPBind.fromXMLElement(node)
-		"POPOffset" ->POPOffset.fromXMLElement(node)
-		"POPLimit" ->POPLimit.fromXMLElement(node)
-		"POPDistinct" ->POPDistinct.fromXMLElement(node)
-		"POPValues" ->POPValues.fromXMLElement(node)
-		"POPExpression" ->POPExpression.fromXMLElement(node)
-		"POPEmptyRow" ->POPEmptyRow.fromXMLElement(node)
-		"POPUnion" ->POPUnion.fromXMLElement(node)
-		"POPJoinHashMap" ->POPJoinHashMap.fromXMLElement(node)
-		else  -> throw Exception("unknown Physical Operator")
-	}
+fun XMLElement.Companion.convertToPOPBase(node: XMLElement): POPBase {
+    return when (node.tag) {
+        "POPSort" -> POPSort.fromXMLElement(node)
+        "POPRename" -> POPRename.fromXMLElement(node)
+        "POPProjection" -> POPProjection.fromXMLElement(node)
+        "POPMakeBooleanResult" -> POPMakeBooleanResult.fromXMLElement(node)
+        "POPGroup" -> POPGroup.fromXMLElement(node)
+        "POPFilter" -> POPFilter.fromXMLElement(node)
+        "POPFilterExact" -> POPFilterExact.fromXMLElement(node)
+        "POPBindUndefined" -> POPBindUndefined.fromXMLElement(node)
+        "POPBind" -> POPBind.fromXMLElement(node)
+        "POPOffset" -> POPOffset.fromXMLElement(node)
+        "POPLimit" -> POPLimit.fromXMLElement(node)
+        "POPDistinct" -> POPDistinct.fromXMLElement(node)
+        "POPValues" -> POPValues.fromXMLElement(node)
+        "POPEmptyRow" -> POPEmptyRow.fromXMLElement(node)
+        "POPUnion" -> POPUnion.fromXMLElement(node)
+        "POPJoinHashMap" -> POPJoinHashMap.fromXMLElement(node)
+        else -> throw Exception("unknown Physical Operator")
+    }
 }

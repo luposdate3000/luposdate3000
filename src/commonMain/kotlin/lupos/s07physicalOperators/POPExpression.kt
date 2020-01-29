@@ -23,7 +23,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTGEQ
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGT
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
-import lupos.s02buildSyntaxTree.sparql1_1.ASTLEQ
+import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLT
 import lupos.s02buildSyntaxTree.sparql1_1.ASTMultiplication
@@ -838,8 +838,124 @@ println(tmp2.toString().replace(".0",""))
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPExpression")
-        res.addContent(XMLElement("expression").addContent(child.toString()))
+        res.addContent(XMLElement("expression").addContent(astToXml(child)))
         return res
+    }
+
+    companion object {
+        fun astToXml(node: ASTNode): XMLElement {
+            when {
+                node is ASTVar -> return XMLElement("ASTVar").addAttribute("name", node.name)
+                node is ASTAddition -> return XMLElement("ASTAddition").addContent(XMLElement("childA").addContent(astToXml(node.children[0]))).addContent(XMLElement("childB").addContent(astToXml(node.children[1])))
+                node is ASTAggregation -> {
+                    val res = XMLElement("ASTAggregation").addAttribute("type", "" + node.type).addAttribute("distinct", "" + node.distinct)
+                    node.children.forEach() {
+                        res.addContent(astToXml(it))
+                    }
+                    return res
+                }
+                node is ASTAnd -> {
+                    val res = XMLElement("ASTAnd")
+                    node.children.forEach() {
+                        res.addContent(astToXml(it))
+                    }
+                    return res
+                }
+                node is ASTBuiltInCall -> {
+                    val res = XMLElement("ASTBuiltInCall").addAttribute("function", "" + node.function)
+                    node.children.forEach() {
+                        res.addContent(astToXml(it))
+                    }
+                    return res
+                }
+                node is ASTDivision -> return XMLElement("ASTDivision").addContent(XMLElement("childA").addContent(astToXml(node.children[0]))).addContent(XMLElement("childB").addContent(astToXml(node.children[1])))
+                node is ASTEQ -> return XMLElement("ASTEQ").addContent(XMLElement("childA").addContent(astToXml(node.children[0]))).addContent(XMLElement("childB").addContent(astToXml(node.children[1])))
+                node is ASTFunctionCall -> {
+                    val res = XMLElement("ASTFunctionCall").addAttribute("iri", node.iri).addAttribute("distinct", "" + node.distinct)
+                    return res
+                }
+                node is ASTGEQ -> return XMLElement("ASTGEQ").addContent(XMLElement("childA").addContent(astToXml(node.children[0]))).addContent(XMLElement("childB").addContent(astToXml(node.children[1])))
+                node is ASTGT -> return XMLElement("ASTGT").addContent(XMLElement("childA").addContent(astToXml(node.children[0]))).addContent(XMLElement("childB").addContent(astToXml(node.children[1])))
+                node is ASTInteger -> return XMLElement("ASTInteger").addAttribute("value", "" + node.value)
+                node is ASTIn -> return XMLElement("ASTIn").addContent(XMLElement("childA").addContent(astToXml(node.children[0]))).addContent(XMLElement("childB").addContent(astToXml(node.children[1])))
+                node is ASTIri -> return XMLElement("ASTIri").addAttribute("iri", node.iri)
+                node is ASTLEQ -> return XMLElement("ASTLEQ").addContent(XMLElement("childA").addContent(astToXml(node.children[0]))).addContent(XMLElement("childB").addContent(astToXml(node.children[1])))
+                node is ASTLT -> return XMLElement("ASTLT").addContent(XMLElement("childA").addContent(astToXml(node.children[0]))).addContent(XMLElement("childB").addContent(astToXml(node.children[1])))
+                node is ASTMultiplication -> return XMLElement("ASTMultiplication").addContent(XMLElement("childA").addContent(astToXml(node.children[0]))).addContent(XMLElement("childB").addContent(astToXml(node.children[1])))
+                node is ASTNotIn -> return XMLElement("ASTNotIn").addContent(XMLElement("childA").addContent(astToXml(node.children[0]))).addContent(XMLElement("childB").addContent(astToXml(node.children[1])))
+                node is ASTNot -> return XMLElement("ASTNot").addContent(astToXml(node.children[0]))
+                node is ASTOr -> {
+                    val res = XMLElement("ASTOr")
+                    node.children.forEach() {
+                        res.addContent(astToXml(it))
+                    }
+                    return res
+                }
+            }
+            throw Exception("astToXml for ${classNameToString(node)} undefined")
+        }
+
+        fun xmlToAST(node: XMLElement): ASTNode {
+            when (node.tag) {
+                "ASTVar" -> return ASTVar(node.attributes["name"]!!)
+                "ASTAddition" -> return ASTAddition(xmlToAST(node["childA"]!!), xmlToAST(node["childB"]!!))
+                "ASTAggregation"
+                -> {
+                    val childs = mutableListOf<ASTNode>()
+                    node.childs.forEach {
+                        childs.add(xmlToAST(it))
+                    }
+                    return ASTAggregation(Aggregation.valueOf(node.attributes["type"]!!), node.attributes["distinct"]!!.toBoolean(), childs.toTypedArray())
+                }
+                "ASTAnd" -> {
+                    val childs = mutableListOf<ASTNode>()
+                    node.childs.forEach {
+                        childs.add(xmlToAST(it))
+                    }
+                    return ASTAnd(childs.toTypedArray())
+                }
+                "ASTBuiltInCall" -> {
+                    val childs = mutableListOf<ASTNode>()
+                    node.childs.forEach {
+                        childs.add(xmlToAST(it))
+                    }
+                    return ASTBuiltInCall(BuiltInFunctions.valueOf(node.attributes["function"]!!), childs.toTypedArray())
+                }
+
+                "ASTDivision" -> return ASTDivision(xmlToAST(node["childA"]!!), xmlToAST(node["childB"]!!))
+                "ASTEQ" -> return ASTEQ(xmlToAST(node["childA"]!!), xmlToAST(node["childB"]!!))
+                "ASTFunctionCall" -> {
+                    val childs = mutableListOf<ASTNode>()
+                    node.childs.forEach {
+                        childs.add(xmlToAST(it))
+                    }
+                    return ASTFunctionCall(node.attributes["iri"]!!, node.attributes["distinct"]!!.toBoolean(), childs.toTypedArray())
+                }
+                "ASTGEQ" -> return ASTGEQ(xmlToAST(node["childA"]!!), xmlToAST(node["childB"]!!))
+                "ASTGT" -> return ASTGT(xmlToAST(node["childA"]!!), xmlToAST(node["childB"]!!))
+                "ASTInteger" -> return ASTInteger(node.attributes["value"]!!.toInt())
+                "ASTIn" -> return ASTIn(xmlToAST(node["childA"]!!), xmlToAST(node["childB"]!!))
+                "ASTIri" -> return ASTIri(node.attributes["iri"]!!)
+                "ASTLEQ" -> return ASTLEQ(xmlToAST(node["childA"]!!), xmlToAST(node["childB"]!!))
+                "ASTLT" -> return ASTLT(xmlToAST(node["childA"]!!), xmlToAST(node["childB"]!!))
+                "ASTMultiplication" -> ASTMultiplication(xmlToAST(node["childA"]!!), xmlToAST(node["childB"]!!))
+                "ASTNotIn" -> return ASTNotIn(xmlToAST(node["childA"]!!), xmlToAST(node["childB"]!!))
+                "ASTNot" -> return ASTNot(xmlToAST(node.childs.first()!!))
+                "ASTOr" -> {
+                    val childs = mutableListOf<ASTNode>()
+                    node.childs.forEach {
+                        childs.add(xmlToAST(it))
+                    }
+                    return ASTOr(childs.toTypedArray())
+                }
+
+            }
+            throw Exception("xmlToAst for ${node.tag} undefined")
+        }
+
+        fun fromXMLElement(xml: XMLElement): POPExpression {
+            return POPExpression(xmlToAST(xml["expression"]!!))
+        }
     }
 }
 

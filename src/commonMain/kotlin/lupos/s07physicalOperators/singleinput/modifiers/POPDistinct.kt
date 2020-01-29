@@ -74,9 +74,10 @@ class POPDistinct : POPSingleInputBaseNullableIterator {
         res.addContent(XMLElement("child").addContent(child.toXMLElement()))
         return res
     }
-companion object{
-        fun fromXMLElement(xml:XMLElement):POPDistinct{
-                return POPDistinct(XMLElement.convertToPOPBase(xml["child"]!!))
+
+    companion object {
+        fun fromXMLElement(xml: XMLElement): POPDistinct {
+            return POPDistinct(XMLElement.convertToPOPBase(xml["child"]!!))
         }
     }
 }

@@ -65,13 +65,13 @@ class XMLElement(val tag: String) {
     var content: String = ""
     val childs = mutableListOf<XMLElement>()
 
-operator fun get(key:String):XMLElement?{
-childs.forEach{
-	if(it.tag=="key")
-		return it
-}
-	return null
-}
+    operator fun get(key: String): XMLElement? {
+        childs.forEach {
+            if (it.tag == "key")
+                return it
+        }
+        return null
+    }
 
     fun myEquals(other: XMLElement?): Boolean {
         if (other == null)

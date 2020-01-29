@@ -97,9 +97,10 @@ class POPUnion : POPBaseNullableIterator {
         res.addContent(XMLElement("childB").addContent(childB.toXMLElement()))
         return res
     }
-companion object{
-        fun fromXMLElement(xml:XMLElement):POPUnion{
-                return POPUnion(XMLElement.convertToPOPBase(xml["childA"]!!),XMLElement.convertToPOPBase(xml["childB"]!!))
+
+    companion object {
+        fun fromXMLElement(xml: XMLElement): POPUnion {
+            return POPUnion(XMLElement.convertToPOPBase(xml["childA"]!!), XMLElement.convertToPOPBase(xml["childB"]!!))
         }
     }
 }

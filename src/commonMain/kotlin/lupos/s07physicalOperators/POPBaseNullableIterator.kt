@@ -19,8 +19,8 @@ abstract class POPBaseNullableIterator : POPBase() {
                 return false
             if (tmpResult == null)
                 tmpResult = nnext()
-		tryNext= tmpResult != null
-                return tryNext
+            tryNext = tmpResult != null
+            return tryNext
         } finally {
             Trace.stop("POPBaseNullableIterator.hasNext")
         }

@@ -104,9 +104,10 @@ class POPRename : POPSingleInputBase {
         res.addContent(XMLElement("child").addContent(child.toXMLElement()))
         return res
     }
-companion object{
-        fun fromXMLElement(xml:XMLElement):POPRename{
-                return POPRename(LOPVariable(xml.attributes["nameFrom"]!!),LOPVariable(xml.attributes["nameTo"]!!),XMLElement.convertToPOPBase(xml["child"]!!))
+
+    companion object {
+        fun fromXMLElement(xml: XMLElement): POPRename {
+            return POPRename(LOPVariable(xml.attributes["nameFrom"]!!), LOPVariable(xml.attributes["nameTo"]!!), XMLElement.convertToPOPBase(xml["child"]!!))
         }
     }
 }

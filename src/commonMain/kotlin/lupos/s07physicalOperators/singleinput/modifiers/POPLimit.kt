@@ -69,9 +69,10 @@ class POPLimit : POPSingleInputBase {
         res.addContent(XMLElement("child").addContent(child.toXMLElement()))
         return res
     }
-companion object{
-        fun fromXMLElement(xml:XMLElement):POPLimit{
-                return POPLimit(xml.attributes["limit"]!!.toInt(),XMLElement.convertToPOPBase(xml["child"]!!))
+
+    companion object {
+        fun fromXMLElement(xml: XMLElement): POPLimit {
+            return POPLimit(xml.attributes["limit"]!!.toInt(), XMLElement.convertToPOPBase(xml["child"]!!))
         }
     }
 }

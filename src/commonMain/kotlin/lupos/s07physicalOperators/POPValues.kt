@@ -19,37 +19,38 @@ import lupos.s06resultRepresentation.ResultSet
 class POPValues : POPBase {
     private val resultSet = ResultSet()
     private val variables = mutableListOf<Variable>()
-    private var iterator: Iterator<Map<Variable,Value>>
+    private var iterator: Iterator<Map<Variable, Value>>
     private val rs = ResultSet()
     private val stringVars = mutableListOf<String>()
-	private val data=mutableListOf<Map<Variable,Value>>()
+    private val data = mutableListOf<Map<Variable, Value>>()
 
-constructor(v:List<String>,d:List<Map<String,String>>):super(){
-v.forEach{
-	variables.add(resultSet.createVariable(it))
-}
-d.forEach{
-val entry = mutableMapOf<Variable,Value>()
-data.add(entry)
-	for((k,v) in it){
-		entry[resultSet.createVariable(k)]=resultSet.createValue(v)
-	}
-}
-iterator = data.iterator()
-}
+    constructor(v: List<String>, d: List<Map<String, String>>) : super() {
+        v.forEach {
+            variables.add(resultSet.createVariable(it))
+        }
+        d.forEach {
+            val entry = mutableMapOf<Variable, Value>()
+            data.add(entry)
+            for ((k, v) in it) {
+                entry[resultSet.createVariable(k)] = resultSet.createValue(v)
+            }
+        }
+        iterator = data.iterator()
+    }
+
     constructor(values: LOPValues) : super() {
-     val rr = rs.createResultRow()
+        val rr = rs.createResultRow()
         for (name in values.variables) {
             stringVars.add(name.name)
             variables.add(resultSet.createVariable(name.name))
         }
-	for (v in values.values) {
+        for (v in values.values) {
             val it = v.child.children.iterator()
-	val tmpmap=mutableMapOf<Variable,String>()
-		data.add(tmpmap)
-            for (v2 in variables){
-		tmpmap[v2]=resultSet.createValue(POPExpression(it.next()).evaluate(rs, rr))
-		}
+            val tmpmap = mutableMapOf<Variable, String>()
+            data.add(tmpmap)
+            for (v2 in variables) {
+                tmpmap[v2] = resultSet.createValue(POPExpression(it.next()).evaluate(rs, rr))
+            }
         }
         iterator = data.iterator()
     }
@@ -80,7 +81,7 @@ iterator = data.iterator()
             Trace.start("POPValues.next")
             val rsOld = iterator.next()
             var rsNew = resultSet.createResultRow()
-            for ((variable,value) in rsOld) {
+            for ((variable, value) in rsOld) {
                 rsNew[variable] = value
             }
             return rsNew
@@ -97,26 +98,27 @@ iterator = data.iterator()
         res.addContent(bindings)
         for (v in variables)
             xmlvariables.addContent(XMLElement("variable").addAttribute("name", resultSet.getVariable(v)))
-	for (d in data)
-		for((k,v) in d)
-			bindings.addContent(XMLElement("binding").addAttribute("name", resultSet.getVariable(k)).addContent(resultSet.getValue(v)))
+        for (d in data)
+            for ((k, v) in d)
+                bindings.addContent(XMLElement("binding").addAttribute("name", resultSet.getVariable(k)).addContent(resultSet.getValue(v)))
         return res
     }
- companion object{
-        fun fromXMLElement(xml:XMLElement):POPValues{
-		val vars= mutableListOf<String>()
-		val vals= mutableListOf<MutableMap<String,String>>()
-		xml["variables"]!!.childs!!.forEach{
-                        vars.add(it.attributes["name"]!!)
+
+    companion object {
+        fun fromXMLElement(xml: XMLElement): POPValues {
+            val vars = mutableListOf<String>()
+            val vals = mutableListOf<MutableMap<String, String>>()
+            xml["variables"]!!.childs!!.forEach {
+                vars.add(it.attributes["name"]!!)
+            }
+            xml["bindings"]!!.childs!!.forEach {
+                val exp = mutableMapOf<String, String>()
+                vals.add(exp)
+                it.childs.forEach() {
+                    exp[it.attributes["name"]!!] = it.content
                 }
-		xml["bindings"]!!.childs!!.forEach{
-			val exp=mutableMapOf<String,String>()
-			vals.add(exp)
-			it.childs.forEach(){
-				exp[it.attributes["name"]!!]=it.content
-			}
-                }
-                return POPValues(vars,vals)
+            }
+            return POPValues(vars, vals)
         }
     }
 }
