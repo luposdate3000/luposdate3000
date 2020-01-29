@@ -1,6 +1,6 @@
 package lupos.s07physicalOperators.singleinput
+import lupos.s00misc.Trace
 
-import lupos.s00misc.*
 
 import lupos.s07physicalOperators.singleinput.POPSingleInputBase
 import lupos.s07physicalOperators.singleinput.POPMakeBooleanResult

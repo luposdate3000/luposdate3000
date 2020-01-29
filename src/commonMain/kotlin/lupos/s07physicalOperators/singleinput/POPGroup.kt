@@ -1,7 +1,7 @@
 package lupos.s07physicalOperators.singleinput
+import lupos.s00misc.Trace
 
 import lupos.s00misc.kotlinStacktrace
-import lupos.s00misc.*
 
 import lupos.s07physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 import lupos.s07physicalOperators.singleinput.POPFilter

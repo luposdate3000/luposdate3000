@@ -1,6 +1,6 @@
 package lupos.s07physicalOperators
+import lupos.s00misc.Trace
 
-import lupos.s00misc.*
 import lupos.s07physicalOperators.POPBase
 import lupos.s06resultRepresentation.ResultSetIterator
 import lupos.s03buildOperatorGraph.OPBase

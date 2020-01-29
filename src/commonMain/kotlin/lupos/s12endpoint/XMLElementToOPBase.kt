@@ -1,10 +1,14 @@
 package lupos.s11endpoint
+import lupos.s07physicalOperators.multiinput.POPJoinNestedLoop
+import lupos.s07physicalOperators.multiinput.POPUnion
+import lupos.s07physicalOperators.singleinput.POPBind
+import lupos.s07physicalOperators.singleinput.POPTemporaryStore
+import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.OPBase
+import lupos.s03buildOperatorGraph.toASTNode
+import lupos.s08tripleStore.TripleStore
+import lupos.s00misc.XMLElement
 
-import lupos.s02buildSyntaxTree.*
-import lupos.s00misc.*
-import lupos.s08tripleStore.*
-import lupos.s03buildOperatorGraph.*
-import lupos.s03buildOperatorGraph.data.*
 import lupos.s07physicalOperators.singleinput.POPSort
 import lupos.s07physicalOperators.singleinput.POPRename
 import lupos.s07physicalOperators.singleinput.POPProjection
@@ -13,7 +17,6 @@ import lupos.s07physicalOperators.singleinput.POPGroup
 import lupos.s07physicalOperators.singleinput.POPFilter
 import lupos.s07physicalOperators.singleinput.POPFilterExact
 import lupos.s07physicalOperators.singleinput.POPBindUndefined
-import lupos.s07physicalOperators.singleinput.*
 import lupos.s07physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s07physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s07physicalOperators.singleinput.modifiers.POPDistinct
@@ -21,7 +24,6 @@ import lupos.s07physicalOperators.POPValues
 import lupos.s07physicalOperators.POPExpression
 import lupos.s07physicalOperators.POPEmptyRow
 import lupos.s07physicalOperators.POPBase
-import lupos.s07physicalOperators.multiinput.*
 import lupos.s07physicalOperators.multiinput.POPJoinHashMap
 
 fun createLOPVariable(mapping: MutableMap<String, String>, name: String): LOPVariable {

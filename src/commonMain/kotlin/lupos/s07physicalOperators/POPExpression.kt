@@ -1,7 +1,9 @@
 package lupos.s07physicalOperators
+import lupos.s02buildSyntaxTree.sparql1_1.ASTLEQ
+import lupos.s00misc.classNameToString
+import lupos.s03buildOperatorGraph.parseFromASTNode
+import lupos.s03buildOperatorGraph.toASTNode
 
-import lupos.s03buildOperatorGraph.*
-import lupos.s00misc.*
 
 import lupos.s07physicalOperators.POPEmptyRow
 import lupos.s07physicalOperators.POPBaseNullableIterator
@@ -24,7 +26,6 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTGEQ
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGT
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
-import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLT
 import lupos.s02buildSyntaxTree.sparql1_1.ASTMultiplication

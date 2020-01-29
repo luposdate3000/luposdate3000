@@ -1,7 +1,38 @@
 package lupos.s03buildOperatorGraph
+import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
+import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
+import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation
+import lupos.s02buildSyntaxTree.sparql1_1.ASTAnd
+import lupos.s02buildSyntaxTree.sparql1_1.ASTBooleanLiteral
+import lupos.s02buildSyntaxTree.sparql1_1.ASTBuiltInCall
+import lupos.s02buildSyntaxTree.sparql1_1.ASTDecimal
+import lupos.s02buildSyntaxTree.sparql1_1.ASTDivision
+import lupos.s02buildSyntaxTree.sparql1_1.ASTEQ
+import lupos.s02buildSyntaxTree.sparql1_1.ASTFilter
+import lupos.s02buildSyntaxTree.sparql1_1.ASTFunctionCall
+import lupos.s02buildSyntaxTree.sparql1_1.ASTGEQ
+import lupos.s02buildSyntaxTree.sparql1_1.ASTGT
+import lupos.s02buildSyntaxTree.sparql1_1.ASTIn
+import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
+import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
+import lupos.s02buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
+import lupos.s02buildSyntaxTree.sparql1_1.ASTLEQ
+import lupos.s02buildSyntaxTree.sparql1_1.ASTLT
+import lupos.s02buildSyntaxTree.sparql1_1.ASTMultiplication
+import lupos.s02buildSyntaxTree.sparql1_1.ASTNEQ
+import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
+import lupos.s02buildSyntaxTree.sparql1_1.ASTNot
+import lupos.s02buildSyntaxTree.sparql1_1.ASTNotIn
+import lupos.s02buildSyntaxTree.sparql1_1.ASTOr
+import lupos.s02buildSyntaxTree.sparql1_1.ASTSet
+import lupos.s02buildSyntaxTree.sparql1_1.ASTSimpleLiteral
+import lupos.s02buildSyntaxTree.sparql1_1.ASTTriple
+import lupos.s02buildSyntaxTree.sparql1_1.ASTTypedLiteral
+import lupos.s02buildSyntaxTree.sparql1_1.ASTUndef
+import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
+import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
+import lupos.s00misc.XMLElement
 
-import lupos.s00misc.*
-import lupos.s02buildSyntaxTree.sparql1_1.*
 
 fun XMLElement.Companion.toASTNode(node: XMLElement): ASTNode {
     when (node.tag) {

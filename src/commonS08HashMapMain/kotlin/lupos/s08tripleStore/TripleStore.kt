@@ -1,6 +1,6 @@
 package lupos.s08tripleStore
+import lupos.s00misc.Trace
 
-import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s08tripleStore.IndexPattern
 import lupos.s08tripleStore.POPTripleStoreIteratorBase

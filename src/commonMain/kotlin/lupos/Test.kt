@@ -1,8 +1,9 @@
 package lupos
+import lupos.s00misc.kotlinStacktrace
+import lupos.s00misc.Trace
+import lupos.s11endpoint.convertToOPBase
 
-import lupos.s11endpoint.*
 
-import lupos.s00misc.*
 import lupos.s08tripleStore.TripleStore
 import lupos.s10outputResult.QueryResultToXML
 import lupos.s09physicalOptimisation.PhysicalOptimizer

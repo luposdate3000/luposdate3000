@@ -1,6 +1,6 @@
 package lupos.s07physicalOperators
+import lupos.s00misc.Trace
 
-import lupos.s00misc.*
 import lupos.s07physicalOperators.POPExpression
 import lupos.s07physicalOperators.POPEmptyRow
 import lupos.s07physicalOperators.POPBaseNullableIterator
