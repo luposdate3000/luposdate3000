@@ -89,6 +89,7 @@ sourceSets {
     main.kotlin.srcDirs += 'src/commonS06DictionaryNoneMain/kotlin'
     main.kotlin.srcDirs += 'src/commonS08HashMapMain/kotlin'
     main.kotlin.srcDirs += 'src/jvmS11Dummy/kotlin'
+    main.kotlin.srcDirs += 'src/jvmS13Korio/kotlin'
     main.kotlin.srcDirs += 'src/jvmMain/kotlin'
 }
 //test {
