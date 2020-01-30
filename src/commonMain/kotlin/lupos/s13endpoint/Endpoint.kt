@@ -1,5 +1,6 @@
 package lupos.s13endpoint
 
+import lupos.s12keyDistributionOptimizer.*
 import lupos.s00misc.kotlinStacktrace
 import lupos.s10outputResult.QueryResultToXML
 import lupos.s09physicalOptimisation.PhysicalOptimizer
@@ -100,8 +101,11 @@ object Endpoint {
         println(lop_node2)
         println("----------Physical Operator Graph")
         val pop_optimizer = PhysicalOptimizer()
-        val pop_node = pop_optimizer.optimize(lop_node2) as POPBase
+        val pop_node = pop_optimizer.optimize(lop_node2)
         println(pop_node)
-        return QueryResultToXML.toXML(pop_node).first()
+	println("----------Distributed Operator Graph")
+	val pop_distributed_node=KeyDistributionOptimizer().optimize(pop_node) as POPBase
+	println(pop_distributed_node)
+        return QueryResultToXML.toXML(pop_distributed_node).first()
     }
 }

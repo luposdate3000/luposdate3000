@@ -41,7 +41,7 @@ import kotlinx.coroutines.delay
 
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
-object P2P {
+object EndpointImpl {
     val REQUEST_TRACE_PRINT = arrayOf("/trace/print")
     val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query")
     val REQUEST_TURTLE_INPUT = arrayOf("/turtle/input")
@@ -141,15 +141,15 @@ fun main(args: Array<String>) = runBlocking {
     for (a in args) {
         println("args[$i]=$a")
         when (i) {
-            0 -> P2P.port = a.toInt()
-            1 -> P2P.hostname = a
+            0 -> EndpointImpl.port = a.toInt()
+            1 -> EndpointImpl.hostname = a
             2 -> bootStrapServer = a
         }
         i++
     }
     thread(start = true) {
         launch(Dispatchers.Default) {
-            P2P.start(bootStrapServer)
+            EndpointImpl.start(bootStrapServer)
         }
     }
     while (true) {

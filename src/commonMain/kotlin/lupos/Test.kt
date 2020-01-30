@@ -1,4 +1,5 @@
 package lupos
+import lupos.s12keyDistributionOptimizer.*
 import lupos.s00misc.readFileContents
 import lupos.s00misc.readFileContents
 import lupos.s00misc.readFileContents
@@ -457,11 +458,14 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: String?, inputDataFileNam
         println("----------Physical Operator Graph")
         val pop_optimizer = PhysicalOptimizer()
         pop_optimizer.store = store
-        val pop_node = pop_optimizer.optimize(lop_node2) as POPBase
+        val pop_node = pop_optimizer.optimize(lop_node2)
         println(pop_node.toXMLElement().toPrettyString())
+        println("----------Distributed Operator Graph")
+	val pop_distributed_node=KeyDistributionOptimizer().optimize(pop_node) as POPBase
+        println(pop_distributed_node)
         if (resultData != null && resultDataFileName != null) {
             println("----------Query Result")
-            val xmlQueryResult = QueryResultToXML.toXML(pop_node)
+            val xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node)
             println(xmlQueryResult.first().toPrettyString())
             println("----------Target Result")
             var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)
@@ -469,7 +473,7 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: String?, inputDataFileNam
             println(resultData)
             var res = xmlQueryResult.first().myEquals(xmlQueryTarget?.first())
             if (res) {
-                val xmlPOP = pop_node.toXMLElement()
+                val xmlPOP = pop_distributed_node.toXMLElement()
                 val popNodeRecovered = XMLElement.convertToOPBase(xmlPOP, store) as POPBase
                 println(xmlPOP.toPrettyString())
                 println(popNodeRecovered.toXMLElement().toPrettyString())
