@@ -25,6 +25,7 @@ import lupos.s07physicalOperators.singleinput.POPRename
 import lupos.s07physicalOperators.singleinput.POPSort
 import lupos.s07physicalOperators.singleinput.POPTemporaryStore
 import lupos.s08tripleStore.TripleStore
+import lupos.s09physicalOptimisation.PhysicalOptimizer
 import lupos.s13endpoint.Endpoint
 
 
@@ -35,7 +36,7 @@ fun createLOPVariable(mapping: MutableMap<String, String>, name: String): LOPVar
     return LOPVariable(name)
 }
 
-fun XMLElement.Companion.convertToOPBase(node: XMLElement, store: TripleStore, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): OPBase {
+fun XMLElement.Companion.convertToOPBase(node: XMLElement, store: TripleStore = PhysicalOptimizer._store, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): OPBase {
     return when (node.tag) {
         "POPSort" -> {
             val child = convertToOPBase(node["child"]!!.childs.first()!!, store, mapping) as POPBase

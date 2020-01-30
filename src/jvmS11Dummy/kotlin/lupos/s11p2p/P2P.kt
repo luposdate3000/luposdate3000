@@ -4,6 +4,7 @@ import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
 import com.soywiz.korio.net.http.HttpServer
+import com.soywiz.korio.net.URL
 import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
@@ -71,6 +72,12 @@ object P2P {
 
     fun execOnNamedNode(nodeName: String, pop: POPBase): POPBase {
 /*execute "pop" on remote node - if it exist - otherwiese throw an exception*/
-        return POPEmptyRow()
+        var res: POPBase = POPEmptyRow()
+        runBlocking {
+            val response = client.request(Http.Method.GET, "http://${nodeName}${EndpointImpl.REQUEST_OPERATOR_QUERY[0]}?EndpointImpl.REQUEST_OPERATOR_QUERY[1]=" + URL.encodeComponent(pop.toXMLElement().toPrettyString()))
+            val xml = response.readAllString()
+            res = POPImportFromXml(XMLElement.parseFromXml(xml)!!.first())
+        }
+        return res
     }
 }

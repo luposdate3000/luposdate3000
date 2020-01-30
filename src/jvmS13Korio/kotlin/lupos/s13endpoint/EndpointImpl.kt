@@ -40,10 +40,11 @@ object EndpointImpl {
     var port = 8080
     var fullname = hostname + ":" + port
     val REQUEST_TRACE_PRINT = arrayOf("/trace/print")
-    val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query")
+    val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query", "query")
     val REQUEST_TURTLE_INPUT = arrayOf("/turtle/input")
     val REQUEST_PEERS_LIST = arrayOf("/peers/list")
     val REQUEST_PEERS_JOIN = arrayOf("/peers/join", "hostname")
+    val REQUEST_OPERATOR_QUERY = arrayOf("operator/query", "query")
     var server: HttpServer? = null
     val client = createHttpClient()
 
@@ -76,11 +77,17 @@ object EndpointImpl {
                 REQUEST_TRACE_PRINT[0] -> response = process_print_traces()
                 REQUEST_PEERS_LIST[0] -> response = P2P.process_peers_list()
                 REQUEST_PEERS_JOIN[0] -> response = P2P.process_peers_join(params[REQUEST_PEERS_JOIN[1]]?.first())
+                REQUEST_OPERATOR_QUERY[0] -> {
+                    if (request.method == Http.Method.POST)
+                        response = Endpoint.process_operatorgraph_query(data).toPrettyString()
+                    else
+                        response = Endpoint.process_operatorgraph_query(params[REQUEST_OPERATOR_QUERY[1]]!!.first()).toPrettyString()
+                }
                 REQUEST_SPARQL_QUERY[0] -> {
                     if (request.method == Http.Method.POST)
                         response = Endpoint.process_sparql_query(data).toPrettyString()
                     else
-                        response = Endpoint.process_sparql_query(params["query"]!!.first()).toPrettyString()
+                        response = Endpoint.process_sparql_query(params[REQUEST_SPARQL_QUERY[1]]!!.first()).toPrettyString()
                 }
                 REQUEST_TURTLE_INPUT[0] -> response = Endpoint.process_turtle_input(data).toPrettyString()
                 else -> throw Exception("unknown request path: \"" + request.path + "\"")
@@ -100,7 +107,6 @@ object EndpointImpl {
         server = createHttpServer().listen(port, hostname, ::myRequestHandler)
     }
 }
-
 
 fun main(args: Array<String>) = runBlocking {
     var i = 0

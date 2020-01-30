@@ -28,8 +28,8 @@ import lupos.s13endpoint.Endpoint
 
 object P2P {
     fun process_peers_list(): String {
-	/*nice to have, but not required*/
-	return ""
+        /*nice to have, but not required*/
+        return ""
     }
 
     fun process_peers_join(hostname: String?): String {

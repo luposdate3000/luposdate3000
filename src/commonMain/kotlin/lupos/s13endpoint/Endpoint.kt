@@ -1,6 +1,6 @@
 package lupos.s13endpoint
 
-import lupos.s00misc.kotlinStacktrace
+import lupos.s00misc.*
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
@@ -20,6 +20,7 @@ import lupos.s07physicalOperators.POPBaseNullableIterator
 import lupos.s09physicalOptimisation.PhysicalOptimizer
 import lupos.s10outputResult.QueryResultToXML
 import lupos.s12keyDistributionOptimizer.*
+import lupos.s13endpoint.*
 
 
 class TripleInsertIterator : POPBaseNullableIterator {
@@ -106,5 +107,11 @@ object Endpoint {
         val pop_distributed_node = KeyDistributionOptimizer().optimize(pop_node) as POPBase
         println(pop_distributed_node)
         return QueryResultToXML.toXML(pop_distributed_node).first()
+    }
+
+    fun process_operatorgraph_query(query: String): XMLElement {
+        val pop_node = XMLElement.convertToOPBase(XMLElement.parseFromXml(query)!!.first()!!) as POPBase
+        println(pop_node)
+        return QueryResultToXML.toXML(pop_node).first()
     }
 }
