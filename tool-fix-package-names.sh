@@ -59,7 +59,6 @@ do
 					mv tmp $f3
 				done
 				./tool-fix-asterix-imports.sh && changed=1
-exit				
 				break
 			fi
 		done

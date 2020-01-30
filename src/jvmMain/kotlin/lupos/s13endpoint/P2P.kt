@@ -1,4 +1,5 @@
-package lupos.s11endpoint
+package lupos.s13endpoint
+import lupos.s13endpoint.Endpoint
 
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.Trace

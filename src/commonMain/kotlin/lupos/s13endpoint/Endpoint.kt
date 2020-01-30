@@ -1,4 +1,4 @@
-package lupos.s11endpoint
+package lupos.s13endpoint
 
 import lupos.s00misc.kotlinStacktrace
 import lupos.s10outputResult.QueryResultToXML

@@ -1,9 +1,11 @@
 package lupos
+import lupos.s00misc.readFileContents
+import lupos.s00misc.readFileContents
+import lupos.s00misc.readFileContents
 
-import lupos.s00misc.*
 import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.Trace
-import lupos.s11endpoint.convertToOPBase
+import lupos.s13endpoint.convertToOPBase
 
 
 import lupos.s08tripleStore.TripleStore

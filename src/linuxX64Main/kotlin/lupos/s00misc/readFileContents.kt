@@ -1,4 +1,5 @@
-package lupos
+package lupos.s00misc
+import lupos.s00misc.readFileContents
 
 import kotlinx.cinterop.memScoped
 import platform.posix.fopen

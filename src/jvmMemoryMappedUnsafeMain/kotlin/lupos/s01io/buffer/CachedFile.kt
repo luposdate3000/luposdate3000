@@ -1,4 +1,7 @@
-package lupos.io.buffer
+package lupos.s01io.buffer
+import lupos.s01io.buffer.MappedByteBufferPage
+import lupos.s01io.buffer.CachedFile
+import lupos.s01io.buffer.MemoryAccess
 
 import lupos.s01io.buffer.MemoryAccess
 import lupos.s01io.buffer.BufferManager
