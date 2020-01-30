@@ -30,35 +30,25 @@ import lupos.s07physicalOperators.POPBase
 import lupos.s07physicalOperators.POPBaseNullableIterator
 import lupos.s09physicalOptimisation.PhysicalOptimizer
 import lupos.s10outputResult.QueryResultToXML
+import lupos.s11p2p.*
 import lupos.s13endpoint.Endpoint
 
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 object EndpointImpl {
+    var hostname = "localhost"
+    var port = 8080
+    var fullname = hostname + ":" + port
     val REQUEST_TRACE_PRINT = arrayOf("/trace/print")
     val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query")
     val REQUEST_TURTLE_INPUT = arrayOf("/turtle/input")
     val REQUEST_PEERS_LIST = arrayOf("/peers/list")
     val REQUEST_PEERS_JOIN = arrayOf("/peers/join", "hostname")
-    var hostname = "localhost"
-    var port = 8080
-    val knownClients = mutableSetOf<String>()
     var server: HttpServer? = null
     val client = createHttpClient()
-    var fullname = hostname + ":" + port
 
     suspend fun process_print_traces(): String {
         return Trace.toString()
-    }
-
-    suspend fun process_peers_list(): String {
-        return XMLElement.XMLHeader + "\n" + XMLElement("servers").addContent(knownClients, "server").toPrettyString()
-    }
-
-    suspend fun process_peers_join(hostname: String?): String {
-        if (hostname != null && hostname != "localhost")
-            knownClients.add(hostname)
-        return XMLElement.XMLHeader
     }
 
     suspend fun myRequestHandler(request: HttpServer.Request) {
@@ -84,8 +74,8 @@ object EndpointImpl {
         try {
             when (request.path) {
                 REQUEST_TRACE_PRINT[0] -> response = process_print_traces()
-                REQUEST_PEERS_LIST[0] -> response = process_peers_list()
-                REQUEST_PEERS_JOIN[0] -> response = process_peers_join(params[REQUEST_PEERS_JOIN[1]]?.first())
+                REQUEST_PEERS_LIST[0] -> response = P2P.process_peers_list()
+                REQUEST_PEERS_JOIN[0] -> response = P2P.process_peers_join(params[REQUEST_PEERS_JOIN[1]]?.first())
                 REQUEST_SPARQL_QUERY[0] -> {
                     if (request.method == Http.Method.POST)
                         response = Endpoint.process_sparql_query(data).toPrettyString()
@@ -106,21 +96,7 @@ object EndpointImpl {
 
     suspend fun start(bootstrap: String?) {
         fullname = hostname + ":" + port
-        knownClients.add(fullname)
-        if (bootstrap != null && bootstrap != "$hostname:$port") {
-            var response = client.request(Http.Method.GET, "http://${bootstrap}${REQUEST_PEERS_LIST[0]}")
-            var responseString = response.readAllString()
-            XMLElement.parseFromXml(responseString)?.forEach() { root ->
-                if (root.tag == "servers") {
-                    root.childs.forEach() { server ->
-                        if (server.tag == "server") {
-                            knownClients.add(server.content)
-                            client.request(Http.Method.GET, "http://${server.content}${REQUEST_PEERS_JOIN[0]}?${REQUEST_PEERS_JOIN[1]}=${fullname}")
-                        }
-                    }
-                }
-            }
-        }
+        P2P.start(bootstrap)
         server = createHttpServer().listen(port, hostname, ::myRequestHandler)
     }
 }
