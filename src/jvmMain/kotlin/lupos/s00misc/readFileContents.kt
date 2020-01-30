@@ -1,7 +1,5 @@
 package lupos
 
-import lupos.s00misc.readFileContents
-
 import java.io.File
 import java.io.InputStream
 
