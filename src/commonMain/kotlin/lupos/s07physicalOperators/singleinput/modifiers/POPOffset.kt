@@ -18,7 +18,7 @@ class POPOffset : POPSingleInputBaseNullableIterator {
     private val resultSetOld: ResultSet
     private val resultSetNew = ResultSet()
     private val variables = mutableListOf<Pair<Variable, Variable>>()
-    private val offset: Int
+    val offset: Int
     private var count = 0
 
     constructor(offset: Int, child: POPBase) : super(child) {

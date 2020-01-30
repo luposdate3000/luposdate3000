@@ -24,16 +24,14 @@ import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
 
 
-class POPTemporaryStore : POPBase {
+class POPTemporaryStore : POPSingleInputBase {
     private val data = mutableListOf<ResultRow>()
     private val resultSetOld: ResultSet
     private val resultSetNew = ResultSet()
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     private var iterator: Iterator<ResultRow>
-    private val child: POPBase
 
-    constructor(child: POPBase) : super() {
-        this.child = child
+    constructor(child: POPBase) : super(child) {
         iterator = child
         resultSetOld = child.getResultSet()
         for (name in resultSetOld.getVariableNames()) {

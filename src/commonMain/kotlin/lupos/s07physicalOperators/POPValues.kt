@@ -22,8 +22,8 @@ class POPValues : POPBase {
     private val variables = mutableListOf<Variable>()
     private var iterator: Iterator<Map<Variable, Value>>
     private val rs = ResultSet()
-    private val stringVars = mutableListOf<String>()
-    private val data = mutableListOf<Map<Variable, Value>>()
+    val stringVars = mutableListOf<String>()
+    val data = mutableListOf<Map<Variable, Value>>()
 
     constructor(v: List<String>, d: List<Map<String, String>>) : super() {
         v.forEach {

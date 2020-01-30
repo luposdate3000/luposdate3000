@@ -1,4 +1,5 @@
 package lupos
+
 import lupos.s12keyDistributionOptimizer.*
 import lupos.s00misc.readFileContents
 import lupos.s00misc.readFileContents
@@ -461,7 +462,7 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: String?, inputDataFileNam
         val pop_node = pop_optimizer.optimize(lop_node2)
         println(pop_node.toXMLElement().toPrettyString())
         println("----------Distributed Operator Graph")
-	val pop_distributed_node=KeyDistributionOptimizer().optimize(pop_node) as POPBase
+        val pop_distributed_node = KeyDistributionOptimizer().optimize(pop_node) as POPBase
         println(pop_distributed_node)
         if (resultData != null && resultDataFileName != null) {
             println("----------Query Result")

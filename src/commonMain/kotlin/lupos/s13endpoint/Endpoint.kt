@@ -103,9 +103,9 @@ object Endpoint {
         val pop_optimizer = PhysicalOptimizer()
         val pop_node = pop_optimizer.optimize(lop_node2)
         println(pop_node)
-	println("----------Distributed Operator Graph")
-	val pop_distributed_node=KeyDistributionOptimizer().optimize(pop_node) as POPBase
-	println(pop_distributed_node)
+        println("----------Distributed Operator Graph")
+        val pop_distributed_node = KeyDistributionOptimizer().optimize(pop_node) as POPBase
+        println(pop_distributed_node)
         return QueryResultToXML.toXML(pop_distributed_node).first()
     }
 }

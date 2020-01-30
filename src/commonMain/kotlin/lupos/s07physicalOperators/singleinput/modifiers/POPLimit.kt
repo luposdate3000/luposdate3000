@@ -17,7 +17,7 @@ class POPLimit : POPSingleInputBase {
     private val resultSetOld: ResultSet
     private val resultSetNew = ResultSet()
     private val variables = mutableListOf<Pair<Variable, Variable>>()
-    private val limit: Int
+    val limit: Int
     private var count = 0
 
     constructor(limit: Int, child: POPBase) : super(child) {

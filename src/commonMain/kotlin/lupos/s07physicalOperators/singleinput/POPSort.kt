@@ -31,8 +31,8 @@ class POPSort : POPSingleInputBaseNullableIterator {
     private val resultSetNew = ResultSet()
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     private var iterator: Iterator<ResultRow>? = null
-    private var sortBy: Variable
-    private val sortOrder: Boolean
+    var sortBy: Variable
+    val sortOrder: Boolean
 
     constructor(sortBy: LOPVariable, sortOrder: Boolean, child: POPBase) : super(child) {
         this.sortOrder = sortOrder
