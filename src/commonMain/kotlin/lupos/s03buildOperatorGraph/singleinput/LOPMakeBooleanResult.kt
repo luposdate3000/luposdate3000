@@ -1,12 +1,11 @@
 package lupos.s03buildOperatorGraph.singleinput
 
-import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
-import lupos.s03buildOperatorGraph.singleinput.LOPGroup
-import lupos.s03buildOperatorGraph.singleinput.LOPFilter
-import lupos.s03buildOperatorGraph.singleinput.LOPBind
-import lupos.s03buildOperatorGraph.OPBase
-
 import lupos.s00misc.XMLElement
+import lupos.s03buildOperatorGraph.OPBase
+import lupos.s03buildOperatorGraph.singleinput.LOPBind
+import lupos.s03buildOperatorGraph.singleinput.LOPFilter
+import lupos.s03buildOperatorGraph.singleinput.LOPGroup
+import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
 
 
 class LOPMakeBooleanResult() : LOPSingleInputBase() {

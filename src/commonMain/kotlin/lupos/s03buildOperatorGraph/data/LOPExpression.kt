@@ -1,13 +1,11 @@
 package lupos.s03buildOperatorGraph.data
 
 import lupos.s00misc.XMLElement
-import lupos.s03buildOperatorGraph.parseFromASTNode
-
-import lupos.s03buildOperatorGraph.LOPBase
-
-import lupos.s03buildOperatorGraph.data.LOPConstant
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
+import lupos.s03buildOperatorGraph.data.LOPConstant
+import lupos.s03buildOperatorGraph.LOPBase
+import lupos.s03buildOperatorGraph.parseFromASTNode
 
 
 class LOPExpression(val child: ASTNode) : LOPBase() {

@@ -1,11 +1,10 @@
 package lupos.s03buildOperatorGraph.data
 
-import lupos.s03buildOperatorGraph.OPBase
-import lupos.s03buildOperatorGraph.LOPBase
-import lupos.s03buildOperatorGraph.data.LOPExpression
-
-import lupos.s03buildOperatorGraph.data.LOPConstant
 import lupos.s00misc.XMLElement
+import lupos.s03buildOperatorGraph.data.LOPConstant
+import lupos.s03buildOperatorGraph.data.LOPExpression
+import lupos.s03buildOperatorGraph.LOPBase
+import lupos.s03buildOperatorGraph.OPBase
 
 
 class LOPTriple(val s: OPBase, val p: OPBase, val o: OPBase) : LOPBase() {

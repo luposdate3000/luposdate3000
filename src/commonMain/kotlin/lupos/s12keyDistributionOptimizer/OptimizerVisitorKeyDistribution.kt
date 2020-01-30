@@ -1,15 +1,15 @@
 package lupos.s12keyDistributionOptimizer
 
+import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.OPBase
+import lupos.s05logicalOptimisation.OptimizerVisitorLOP
+import lupos.s07physicalOperators.POPBase
+import lupos.s07physicalOperators.singleinput.POPBind
+import lupos.s07physicalOperators.singleinput.POPFilterExact
+import lupos.s07physicalOperators.singleinput.POPProjection
+import lupos.s07physicalOperators.singleinput.POPRename
 import lupos.s08tripleStore.POPTripleStoreIteratorBase
 import lupos.s09physicalOptimisation.*
-import lupos.s07physicalOperators.singleinput.POPRename
-import lupos.s07physicalOperators.singleinput.POPProjection
-import lupos.s07physicalOperators.singleinput.POPFilterExact
-import lupos.s07physicalOperators.singleinput.POPBind
-import lupos.s07physicalOperators.POPBase
-import lupos.s05logicalOptimisation.OptimizerVisitorLOP
-import lupos.s03buildOperatorGraph.OPBase
-import lupos.s03buildOperatorGraph.data.LOPVariable
 
 
 abstract class OptimizerVisitorKeyDistribution() : OptimizerVisitorPOP() {

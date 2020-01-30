@@ -1,17 +1,11 @@
 package lupos.s07physicalOperators
 
-import lupos.s02buildSyntaxTree.sparql1_1.ASTLEQ
+import kotlin.math.abs
+import kotlin.math.ceil
+import kotlin.math.floor
+import kotlin.math.roundToInt
 import lupos.s00misc.classNameToString
-import lupos.s03buildOperatorGraph.parseFromASTNode
-import lupos.s03buildOperatorGraph.toASTNode
-
-
-import lupos.s07physicalOperators.POPEmptyRow
-import lupos.s07physicalOperators.POPBaseNullableIterator
-import lupos.s07physicalOperators.POPBase
-import lupos.s03buildOperatorGraph.OPBase
-import lupos.s03buildOperatorGraph.data.LOPVariable
-
+import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation
@@ -27,6 +21,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTGEQ
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGT
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
+import lupos.s02buildSyntaxTree.sparql1_1.ASTLEQ
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLT
 import lupos.s02buildSyntaxTree.sparql1_1.ASTMultiplication
@@ -37,16 +32,16 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTOr
 import lupos.s02buildSyntaxTree.sparql1_1.ASTUndef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
-import lupos.s00misc.XMLElement
+import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.OPBase
+import lupos.s03buildOperatorGraph.parseFromASTNode
+import lupos.s03buildOperatorGraph.toASTNode
 import lupos.s06resultRepresentation.ResultRow
-import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
-
-
-import kotlin.math.abs
-import kotlin.math.ceil
-import kotlin.math.floor
-import kotlin.math.roundToInt
+import lupos.s06resultRepresentation.Variable
+import lupos.s07physicalOperators.POPBase
+import lupos.s07physicalOperators.POPBaseNullableIterator
+import lupos.s07physicalOperators.POPEmptyRow
 
 
 //import com.soywiz.krypto.md5

@@ -1,11 +1,10 @@
 package lupos.s03buildOperatorGraph.singleinput
 
-import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
-import lupos.s03buildOperatorGraph.singleinput.LOPBind
-import lupos.s03buildOperatorGraph.OPBase
-import lupos.s03buildOperatorGraph.data.LOPExpression
-
 import lupos.s00misc.XMLElement
+import lupos.s03buildOperatorGraph.data.LOPExpression
+import lupos.s03buildOperatorGraph.OPBase
+import lupos.s03buildOperatorGraph.singleinput.LOPBind
+import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
 
 
 class LOPFilter(val filter: LOPExpression) : LOPSingleInputBase() {

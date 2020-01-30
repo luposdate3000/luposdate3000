@@ -2,6 +2,7 @@ package lupos.s00misc
 
 import kotlin.math.abs
 
+
 class XMLElement {
     // https://regex101.com
     companion object {

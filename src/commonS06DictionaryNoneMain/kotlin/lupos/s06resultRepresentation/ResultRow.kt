@@ -1,8 +1,9 @@
 package lupos.s06resultRepresentation
 
+import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Value
 import lupos.s06resultRepresentation.Variable
-import lupos.s06resultRepresentation.ResultSet
+
 
 class ResultRow() {
     val values = mutableMapOf<Variable, Value>()

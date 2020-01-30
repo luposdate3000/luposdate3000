@@ -1,33 +1,6 @@
 package lupos.s03buildOperatorGraph
 
 import lupos.s00misc.classNameToString
-
-import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPReduced
-import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPPrefix
-import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPOffset
-import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPLimit
-import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPDistinct
-import lupos.s03buildOperatorGraph.singleinput.LOPSubGroup
-import lupos.s03buildOperatorGraph.singleinput.LOPSort
-import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
-import lupos.s03buildOperatorGraph.singleinput.LOPRename
-import lupos.s03buildOperatorGraph.singleinput.LOPProjection
-import lupos.s03buildOperatorGraph.singleinput.LOPOptional
-import lupos.s03buildOperatorGraph.singleinput.LOPNOOP
-import lupos.s03buildOperatorGraph.singleinput.LOPMakeBooleanResult
-import lupos.s03buildOperatorGraph.singleinput.LOPGroup
-import lupos.s03buildOperatorGraph.singleinput.LOPFilter
-import lupos.s03buildOperatorGraph.singleinput.LOPBind
-import lupos.s03buildOperatorGraph.OPBase
-import lupos.s03buildOperatorGraph.multiinput.LOPUnion
-import lupos.s03buildOperatorGraph.multiinput.LOPMinus
-import lupos.s03buildOperatorGraph.multiinput.LOPJoin
-import lupos.s03buildOperatorGraph.LOPBase
-import lupos.s03buildOperatorGraph.data.LOPVariable
-import lupos.s03buildOperatorGraph.data.LOPValues
-import lupos.s03buildOperatorGraph.data.LOPTriple
-import lupos.s03buildOperatorGraph.data.LOPExpression
-
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAdd
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation
@@ -117,6 +90,31 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTValue
 import lupos.s02buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.Visitor
+import lupos.s03buildOperatorGraph.data.LOPExpression
+import lupos.s03buildOperatorGraph.data.LOPTriple
+import lupos.s03buildOperatorGraph.data.LOPValues
+import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.LOPBase
+import lupos.s03buildOperatorGraph.multiinput.LOPJoin
+import lupos.s03buildOperatorGraph.multiinput.LOPMinus
+import lupos.s03buildOperatorGraph.multiinput.LOPUnion
+import lupos.s03buildOperatorGraph.OPBase
+import lupos.s03buildOperatorGraph.singleinput.LOPBind
+import lupos.s03buildOperatorGraph.singleinput.LOPFilter
+import lupos.s03buildOperatorGraph.singleinput.LOPGroup
+import lupos.s03buildOperatorGraph.singleinput.LOPMakeBooleanResult
+import lupos.s03buildOperatorGraph.singleinput.LOPNOOP
+import lupos.s03buildOperatorGraph.singleinput.LOPOptional
+import lupos.s03buildOperatorGraph.singleinput.LOPProjection
+import lupos.s03buildOperatorGraph.singleinput.LOPRename
+import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
+import lupos.s03buildOperatorGraph.singleinput.LOPSort
+import lupos.s03buildOperatorGraph.singleinput.LOPSubGroup
+import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPDistinct
+import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPLimit
+import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPOffset
+import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPPrefix
+import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPReduced
 
 
 class OperatorGraphVisitor : Visitor<OPBase> {

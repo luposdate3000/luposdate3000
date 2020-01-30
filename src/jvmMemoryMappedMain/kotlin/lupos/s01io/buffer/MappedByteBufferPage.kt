@@ -1,22 +1,18 @@
 package lupos.s01io.buffer
 
-import lupos.s01io.buffer.CachedFile
-import lupos.s01io.buffer.MemoryAccess
-
-import lupos.s01io.buffer.MemoryAccess
-import lupos.s01io.buffer.BufferManager
-import lupos.s01io.buffer.CacheOfFiles
-import lupos.s01io.buffer.Cache
-import lupos.s01io.buffer.BufferManager
-
-import lupos.s01io.buffer.PageHelper
-import lupos.s01io.buffer.ByteArrayPage
-import lupos.s01io.buffer.Benchmark
-
 import java.io.File
 import java.io.RandomAccessFile
-import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
+import java.nio.MappedByteBuffer
+import lupos.s01io.buffer.Benchmark
+import lupos.s01io.buffer.BufferManager
+import lupos.s01io.buffer.ByteArrayPage
+import lupos.s01io.buffer.Cache
+import lupos.s01io.buffer.CachedFile
+import lupos.s01io.buffer.CacheOfFiles
+import lupos.s01io.buffer.MemoryAccess
+import lupos.s01io.buffer.PageHelper
+
 
 typealias Page = MappedByteBufferPage
 

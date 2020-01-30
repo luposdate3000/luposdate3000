@@ -1,9 +1,9 @@
 package lupos.s05logicalOptimisation
 
-import lupos.s05logicalOptimisation.OptimizerVisitorLOP
-import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPPrefix
-import lupos.s03buildOperatorGraph.singleinput.LOPNOOP
 import lupos.s03buildOperatorGraph.OPBase
+import lupos.s03buildOperatorGraph.singleinput.LOPNOOP
+import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPPrefix
+import lupos.s05logicalOptimisation.OptimizerVisitorLOP
 
 
 class LogicalOptimizer() : OptimizerVisitorLOP() {

@@ -1,11 +1,9 @@
 package lupos.s10outputResult
 
-import lupos.s10outputResult.QueryResultToCSV
-
-import lupos.s07physicalOperators.POPBase
-
 import lupos.s00misc.XMLElement
 import lupos.s06resultRepresentation.Variable
+import lupos.s07physicalOperators.POPBase
+import lupos.s10outputResult.QueryResultToCSV
 
 
 object QueryResultToXML {

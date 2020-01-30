@@ -1,16 +1,13 @@
 package lupos.s07physicalOperators.singleinput.modifiers
 
 import lupos.s00misc.Trace
-
-
-import lupos.s07physicalOperators.singleinput.POPSingleInputBase
-import lupos.s07physicalOperators.POPBase
-import lupos.s03buildOperatorGraph.data.LOPVariable
-
 import lupos.s00misc.XMLElement
+import lupos.s03buildOperatorGraph.data.LOPVariable
 import lupos.s06resultRepresentation.ResultRow
-import lupos.s06resultRepresentation.Variable
 import lupos.s06resultRepresentation.ResultSet
+import lupos.s06resultRepresentation.Variable
+import lupos.s07physicalOperators.POPBase
+import lupos.s07physicalOperators.singleinput.POPSingleInputBase
 
 
 class POPLimit : POPSingleInputBase {

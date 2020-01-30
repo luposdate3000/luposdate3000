@@ -1,12 +1,11 @@
 package lupos.s03buildOperatorGraph.data
 
-import lupos.s03buildOperatorGraph.LOPBase
-import lupos.s03buildOperatorGraph.data.LOPVariable
-import lupos.s03buildOperatorGraph.data.LOPTriple
-import lupos.s03buildOperatorGraph.data.LOPExpression
-
-import lupos.s03buildOperatorGraph.data.LOPConstant
 import lupos.s00misc.XMLElement
+import lupos.s03buildOperatorGraph.data.LOPConstant
+import lupos.s03buildOperatorGraph.data.LOPExpression
+import lupos.s03buildOperatorGraph.data.LOPTriple
+import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.LOPBase
 
 
 class LOPValues(val variables: List<LOPVariable>, val values: List<LOPExpression>) : LOPBase() {

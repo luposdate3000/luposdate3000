@@ -1,7 +1,7 @@
 package lupos.s08tripleStore
 
-import lupos.s07physicalOperators.POPBase
 import lupos.s06resultRepresentation.ResultSetIterator
+import lupos.s07physicalOperators.POPBase
 
 
 enum class IndexPattern {

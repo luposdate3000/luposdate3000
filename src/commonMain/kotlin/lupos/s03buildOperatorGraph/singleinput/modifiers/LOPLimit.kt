@@ -1,10 +1,9 @@
 package lupos.s03buildOperatorGraph.singleinput.modifiers
 
-import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPDistinct
-import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
-import lupos.s03buildOperatorGraph.OPBase
-
 import lupos.s00misc.XMLElement
+import lupos.s03buildOperatorGraph.OPBase
+import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
+import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPDistinct
 
 
 class LOPLimit(val limit: Int) : LOPSingleInputBase() {

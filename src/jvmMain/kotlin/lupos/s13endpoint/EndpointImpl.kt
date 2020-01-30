@@ -1,44 +1,36 @@
 package lupos.s13endpoint
 
-import lupos.s13endpoint.Endpoint
-
-import lupos.s00misc.parseFromXml
-import lupos.s00misc.Trace
-
-import kotlin.concurrent.thread
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-
-import lupos.s00misc.kotlinStacktrace
-import lupos.s10outputResult.QueryResultToXML
-import lupos.s09physicalOptimisation.PhysicalOptimizer
-
-import lupos.s07physicalOperators.POPBaseNullableIterator
-import lupos.s07physicalOperators.POPBase
-import lupos.s05logicalOptimisation.LogicalOptimizer
-import lupos.s03buildOperatorGraph.OperatorGraphVisitor
-
-import lupos.s02buildSyntaxTree.turtle.TurtleScanner
-import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
-import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
-import lupos.s02buildSyntaxTree.LexerCharIterator
-import lupos.s02buildSyntaxTree.LookAheadTokenIterator
-import lupos.s02buildSyntaxTree.rdf.Dictionary
-import lupos.s02buildSyntaxTree.rdf.ID_Triple
-import lupos.s00misc.XMLElement
-import lupos.s06resultRepresentation.ResultRow
-import lupos.s06resultRepresentation.Variable
-import lupos.s06resultRepresentation.ResultSet
-
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
 import com.soywiz.korio.net.http.HttpServer
+import kotlin.concurrent.thread
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
+import lupos.s00misc.kotlinStacktrace
+import lupos.s00misc.parseFromXml
+import lupos.s00misc.Trace
+import lupos.s00misc.XMLElement
+import lupos.s02buildSyntaxTree.LexerCharIterator
+import lupos.s02buildSyntaxTree.LookAheadTokenIterator
+import lupos.s02buildSyntaxTree.rdf.Dictionary
+import lupos.s02buildSyntaxTree.rdf.ID_Triple
+import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
+import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
+import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
+import lupos.s02buildSyntaxTree.turtle.TurtleScanner
+import lupos.s03buildOperatorGraph.OperatorGraphVisitor
+import lupos.s05logicalOptimisation.LogicalOptimizer
+import lupos.s06resultRepresentation.ResultRow
+import lupos.s06resultRepresentation.ResultSet
+import lupos.s06resultRepresentation.Variable
+import lupos.s07physicalOperators.POPBase
+import lupos.s07physicalOperators.POPBaseNullableIterator
+import lupos.s09physicalOptimisation.PhysicalOptimizer
+import lupos.s10outputResult.QueryResultToXML
+import lupos.s13endpoint.Endpoint
 
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
