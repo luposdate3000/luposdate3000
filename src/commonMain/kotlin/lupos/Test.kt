@@ -217,48 +217,104 @@ private fun readFileOrNull(name: String?): String? {
 }
 
 private fun testOneEntry(data: SevenIndices, node: Long, queryIdentifier: String, inputDataIdentifier: String, prefix: String): Boolean {
-    var expectedResult=true
+    var testType: String? = null
+    var comment: String? = null
+    var features = mutableListOf<String>()
+    var description: String? = null
+    var names = mutableListOf<String>()
+    var expectedResult = true
     var queryFile: String? = null
     var inputDataFile: String? = null
     var resultFile: String? = null
     var services = mutableListOf<MutableMap<String, String>>()
+    var inputDataGraph = mutableListOf<MutableMap<String, String>>()
+    var outputDataGraph = mutableListOf<MutableMap<String, String>>()
     var action: Long? = null
     data.s(node).forEach {
         val iri = (Dictionary[it.first] as IRI).iri
         when (iri) {
             "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result" -> {
-                require(resultFile == null)
-		when{
-			Dictionary[it.second] is IRI -> resultFile = prefix + (Dictionary[it.second] as IRI).iri
-			Dictionary[it.second] is BlankNode ->{
-				data.s(it.second).forEach {
-					println("unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result : "+(Dictionary[it.first]as IRI).iri +" # "+ Dictionary[it.second])
-				}
-			}
-			else -> throw Exception("unknown manifest result : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
-		}
+                when {
+                    Dictionary[it.second] is IRI -> {
+                        require(resultFile == null)
+                        resultFile = prefix + (Dictionary[it.second] as IRI).iri
+                    }
+                    Dictionary[it.second] is BlankNode -> {
+                        data.s(it.second).forEach {
+                            val iri = (Dictionary[it.first] as IRI).iri
+                            when (iri) {
+                                "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
+                                    require(resultFile == null)
+                                    resultFile = prefix + (Dictionary[it.second] as IRI).iri
+                                }
+                                "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
+                                    val graph = mutableMapOf<String, String>()
+                                    data.s(it.second).forEach {
+                                        val iri = (Dictionary[it.first] as IRI).iri
+                                        when (iri) {
+                                            "http://www.w3.org/2009/sparql/tests/test-update#graph" -> {
+                                                graph["filename"] = prefix + (Dictionary[it.second] as IRI).iri
+                                            }
+                                            "http://www.w3.org/2000/01/rdf-schema#label" -> {
+                                                graph["name"] = (Dictionary[it.second] as SimpleLiteral).content
+                                            }
+                                            else -> throw Exception("unknown manifest resultGraphDataBlankNode : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                        }
+                                    }
+                                    outputDataGraph.add(graph)
+                                }
+                                "http://www.w3.org/2009/sparql/tests/test-update#result" -> {
+                                    println("unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + (Dictionary[it.second] as IRI).iri)
+                                }
+                                else -> throw Exception("unknown manifest resultBlankNode : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                            }
+                        }
+                    }
+                    else -> throw Exception("unknown manifest result : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                }
             }
             "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action" -> {
                 require(action == null)
                 action = it.second
             }
             "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" -> {
-                println("unknown-manifest::http://www.w3.org/1999/02/22-rdf-syntax-ns#type : " + (Dictionary[it.second] as IRI).iri)
+                require(testType == null)
+                testType = (Dictionary[it.second] as IRI).iri
+                when ((Dictionary[it.second] as IRI).iri) {
+                    "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#CSVResultFormatTest" -> {
+                    }
+                    "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#NegativeUpdateSyntaxTest11" -> expectedResult = false
+                    "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#PositiveSyntaxTest11" -> {
+                    }
+                    "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#PositiveUpdateSyntaxTest11" -> {
+                    }
+                    "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#ProtocolTest" -> {
+                    }
+                    "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest" -> {
+                    }
+                    "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#ServiceDescriptionTest" -> {
+                    }
+                    "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#UpdateEvaluationTest" -> {
+                    }
+                    "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#NegativeSyntaxTest11" -> expectedResult = false
+                    else -> throw Exception("unknown manifest type : " + (Dictionary[it.second] as IRI).iri + " # " + (Dictionary[it.second] as IRI).iri)
+                }
             }
             "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name" -> {
-//                println("unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name " + Dictionary[it.second])
+                names.add((Dictionary[it.second] as SimpleLiteral).content)
             }
             "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#feature" -> {
-                println("unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#feature " + (Dictionary[it.second] as IRI).iri)
+                features.add((Dictionary[it.second] as IRI).iri)
             }
             "http://www.w3.org/2000/01/rdf-schema#comment" -> {
-//                println("unknown-manifest::http://www.w3.org/2000/01/rdf-schema#comment " + Dictionary[it.second])
+                require(comment == null)
+                comment = (Dictionary[it.second] as SimpleLiteral).content
             }
             "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval" -> {
-//                println("unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval " + Dictionary[it.second])
+                println("unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval " + Dictionary[it.second])
             }
             "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy" -> {
-//                println("unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy " + Dictionary[it.second])
+                println("unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy " + Dictionary[it.second])
             }
             "http://www.w3.org/2000/01/rdf-schema#seeAlso" -> {
                 println("unknown-manifest::http://www.w3.org/2000/01/rdf-schema#seeAlso " + (Dictionary[it.second] as IRI).iri)
@@ -266,22 +322,29 @@ private fun testOneEntry(data: SevenIndices, node: Long, queryIdentifier: String
             "http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm" -> {
                 println("unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + (Dictionary[it.second] as IRI).iri)
             }
-		"http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description" ->{
-			println("unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description : "+ (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
-		}
+            "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description" -> {
+                require(description == null)
+                description = (Dictionary[it.second] as SimpleLiteral).content
+            }
             else -> throw Exception("unknown manifest entry : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
         }
     }
-if(action==null){
-println("expectedResult : $expectedResult")
-println("queryFile : $queryFile")
-println("inputDataFile : $inputDataFile")
-println("resultFile : $resultFile")
-println("services : $services")
-println("action : $action")
-println (Exception("null-action"))
-return true
-}
+    if (action == null) {
+        println("names : $names")
+        println("comment : $comment")
+        println("description : $description")
+        println("features : $features")
+        println("inputDataGraph : $inputDataGraph")
+        println("outputDataGraph : $outputDataGraph")
+        println("expectedResult : $expectedResult")
+        println("queryFile : $queryFile")
+        println("inputDataFile : $inputDataFile")
+        println("resultFile : $resultFile")
+        println("services : $services")
+        println("action : $action")
+        println(Exception("null-action"))
+        return true
+    }
     when {
         Dictionary[action!!] is IRI -> queryFile = prefix + (Dictionary[action!!] as IRI).iri
         Dictionary[action!!] is BlankNode -> {
@@ -297,13 +360,16 @@ return true
                         queryFile = prefix + (Dictionary[it.second] as IRI).iri
                     }
                     "http://www.w3.org/ns/sparql-service-description#entailmentRegime" -> {
-//                        println("unknown-manifest::http://www.w3.org/ns/sparql-service-description#entailmentRegime " + Dictionary[it.second])
+                        println("unknown-manifest::http://www.w3.org/ns/sparql-service-description#entailmentRegime " + Dictionary[it.second])
                     }
                     "http://www.w3.org/ns/sparql-service-description#EntailmentProfile" -> {
-//                        println("unknown-manifest::http://www.w3.org/ns/sparql-service-description#EntailmentProfile " + Dictionary[it.second])
+                        println("unknown-manifest::http://www.w3.org/ns/sparql-service-description#EntailmentProfile " + Dictionary[it.second])
                     }
                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#graphData" -> {
-                        println("unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#graphData " + (Dictionary[it.second] as IRI).iri)
+                        val graph = mutableMapOf<String, String>()
+                        graph["name"] = (Dictionary[it.second] as IRI).iri
+                        graph["filename"] = prefix + (Dictionary[it.second] as IRI).iri
+                        inputDataGraph.add(graph)
                     }
                     "http://www.w3.org/2001/sw/DataAccess/tests/test-query#serviceData" -> {
                         val service = mutableMapOf<String, String>()
@@ -322,33 +388,52 @@ return true
                         if (service["filename"] != null)
                             services.add(service)
                     }
-		    "http://www.w3.org/2009/sparql/tests/test-update#request" -> {
-			require(queryFile==null)
-			queryFile=prefix + (Dictionary[it.second]as IRI).iri
-			}
-			"http://www.w3.org/2009/sparql/tests/test-update#data" -> {
-			require(inputDataFile == null)
+                    "http://www.w3.org/2009/sparql/tests/test-update#request" -> {
+                        require(queryFile == null)
+                        queryFile = prefix + (Dictionary[it.second] as IRI).iri
+                    }
+                    "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
+                        require(inputDataFile == null)
                         inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
-			}
-			"http://www.w3.org/2009/sparql/tests/test-update#graphData" ->{
-				println("unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#graphData : " + Dictionary[it.second])
-			}
+                    }
+                    "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
+                        val graph = mutableMapOf<String, String>()
+                        data.s(it.second).forEach {
+                            val iri = (Dictionary[it.first] as IRI).iri
+                            when (iri) {
+                                "http://www.w3.org/2009/sparql/tests/test-update#graph" -> {
+                                    graph["filename"] = prefix + (Dictionary[it.second] as IRI).iri
+                                }
+                                "http://www.w3.org/2000/01/rdf-schema#label" -> {
+                                    graph["name"] = (Dictionary[it.second] as SimpleLiteral).content
+                                }
+                                else -> throw Exception("unknown manifest graphData : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                            }
+                        }
+                        inputDataGraph.add(graph)
+                    }
                     else -> throw Exception("unknown manifest action : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                 }
             }
         }
         else -> throw Exception("unknown manifest actionType : " + Dictionary[action!!])
     }
-println("expectedResult : $expectedResult")
-println("queryFile : $queryFile")
-println("inputDataFile : $inputDataFile")
-println("resultFile : $resultFile")
-println("services : $services")
-println("action : $action")
+    println("names : $names")
+    println("comment : $comment")
+    println("description : $description")
+    println("features : $features")
+    println("inputDataGraph : $inputDataGraph")
+    println("outputDataGraph : $outputDataGraph")
+    println("expectedResult : $expectedResult")
+    println("queryFile : $queryFile")
+    println("inputDataFile : $inputDataFile")
+    println("resultFile : $resultFile")
+    println("services : $services")
+    println("action : $action")
     if (queryFile == null)
         return true
     val success = parseSPARQLAndEvaluate(queryFile!!, inputDataFile, resultFile, services)
-    return success==expectedResult
+    return success == expectedResult
 }
 
 fun parseSPARQLAndEvaluate(queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?): Boolean {
