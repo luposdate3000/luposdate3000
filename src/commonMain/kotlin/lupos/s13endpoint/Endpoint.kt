@@ -88,6 +88,11 @@ object Endpoint {
         return XMLElement("done")
     }
 
+    fun process_xml_input(data: String): XMLElement {
+        OptimizerVisitorPOP._store.addData(POPImportFromXml(XMLElement.parseFromXml(data)!!.first()))
+        return XMLElement("done")
+    }
+
     fun process_sparql_query(query: String): XMLElement {
         println("----------String Query")
         println(query)

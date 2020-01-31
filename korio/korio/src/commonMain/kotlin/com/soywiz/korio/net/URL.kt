@@ -97,7 +97,7 @@ data class URL private constructor(
 					val (authority, path) = nonQuery.split('/', limit = 2).run { first() to getOrNull(1) }
 					val (nonUserInfo, userInfo) = authority.split('@', limit = 2).reversed().run { first() to getOrNull(1) }
 					val (host, portString) = nonUserInfo.split(':', limit = 2).run { first() to getOrNull(1) }
-					val myport=if(portString!=null) portString.toInt() else DEFAULT_PORT
+					val myport=if(portString!=null&&!portString.isEmpty()) portString.toInt() else DEFAULT_PORT
 					URL(
 						opaque = !isHierarchical,
 						scheme = scheme,

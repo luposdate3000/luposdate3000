@@ -22,7 +22,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
-import lupos.s03buildOperatorGraph.OperatorGraphVisitor
+import lupos.s03buildOperatorGraph.*
 import lupos.s05logicalOptimisation.LogicalOptimizer
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
@@ -77,7 +77,15 @@ object P2P {
         }
     }
 
-    fun execOnNamedNode(nodeName: String, pop: POPBase): POPBase {
+    fun execInsertOnNamedNode(nodeName: String, data: XMLElement) {
+/*insert "data" on remote node - if it exist - otherwiese throw an exception*/
+        println(data.toPrettyString())
+        runBlocking {
+            val response = client.request(Http.Method.GET, "http://${resolveNodeName(nodeName)}${EndpointImpl.REQUEST_XML_INPUT[0]}?EndpointImpl.REQUEST_XML_INPUT[1]=" + URL.encodeComponent(data.toPrettyString()))
+        }
+    }
+
+    fun execOnNamedNode(nodeName: String, pop: OPBase): OPBase {
 /*execute "pop" on remote node - if it exist - otherwiese throw an exception*/
         var res: POPBase = POPEmptyRow()
         runBlocking {

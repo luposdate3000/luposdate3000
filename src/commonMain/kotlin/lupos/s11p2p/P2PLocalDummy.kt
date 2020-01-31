@@ -30,11 +30,10 @@ import lupos.s13endpoint.Endpoint
 object P2PLocalDummy {
     val nodeData = mutableMapOf<String, TripleStore>()
 
-    fun insertOnNamedNode(nodeName: String, data: XMLElement) {
+    fun execInsertOnNamedNode(nodeName: String, data: XMLElement) {
         val store = TripleStore()
         store.addData(POPImportFromXml(data))
         nodeData[nodeName] = store
-        println("ZZZ" + nodeName + data.toPrettyString())
     }
 
     fun execOnNamedNode(nodeName: String, pop: OPBase): OPBase {
@@ -42,14 +41,10 @@ object P2PLocalDummy {
         val optimizer = PhysicalOptimizer()
         optimizer.store = nodeData[nodeName]!!
         val res = optimizer.optimize(pop)
-        println("YYY" + nodeName)
-        println(pop)
-        println(res)
         return res
     }
 
     fun execTruncate() {
-        println("AAA")
         nodeData.clear()
     }
 

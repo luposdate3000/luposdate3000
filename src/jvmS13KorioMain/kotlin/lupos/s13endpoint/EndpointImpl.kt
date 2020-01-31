@@ -42,7 +42,8 @@ object EndpointImpl {
     val REQUEST_TRACE_PRINT = arrayOf("/trace/print")
     val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query", "query")
     val REQUEST_TRUNCATE = arrayOf("/import/truncate")
-    val REQUEST_TURTLE_INPUT = arrayOf("/import/turtle")
+    val REQUEST_TURTLE_INPUT = arrayOf("/import/turtle", "data")
+    val REQUEST_XML_INPUT = arrayOf("/import/xml", "data")
     val REQUEST_PEERS_LIST = arrayOf("/peers/list")
     val REQUEST_PEERS_JOIN = arrayOf("/peers/join", "hostname")
     val REQUEST_OPERATOR_QUERY = arrayOf("operator/query", "query")
@@ -91,7 +92,18 @@ object EndpointImpl {
                     else
                         response = Endpoint.process_sparql_query(params[REQUEST_SPARQL_QUERY[1]]!!.first()).toPrettyString()
                 }
-                REQUEST_TURTLE_INPUT[0] -> response = Endpoint.process_turtle_input(data).toPrettyString()
+                REQUEST_XML_INPUT[0] -> {
+                    if (request.method == Http.Method.POST)
+                        response = Endpoint.process_xml_input(data).toPrettyString()
+                    else
+                        response = Endpoint.process_xml_input(params[REQUEST_XML_INPUT[1]]!!.first()).toPrettyString()
+                }
+                REQUEST_TURTLE_INPUT[0] -> {
+                    if (request.method == Http.Method.POST)
+                        response = Endpoint.process_turtle_input(data).toPrettyString()
+                    else
+                        response = Endpoint.process_turtle_input(params[REQUEST_TURTLE_INPUT[1]]!!.first()).toPrettyString()
+                }
                 else -> throw Exception("unknown request path: \"" + request.path + "\"")
             }
         } catch (e: Throwable) {

@@ -398,7 +398,7 @@ fun parseSPARQLAndEvaluate(queryFile: String, inputDataFileName: String?, result
                 val n = s["name"]!!
                 val fn = s["filename"]!!
                 val fc = readFileOrNull(fn)!!
-                P2P.insertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!.first())
+                P2P.execInsertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!.first())
             }
         println("----------String Query")
         println(toParse)
