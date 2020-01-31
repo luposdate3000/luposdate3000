@@ -13,8 +13,8 @@ import lupos.s03buildOperatorGraph.multiinput.LOPJoin
 import lupos.s03buildOperatorGraph.multiinput.LOPUnion
 import lupos.s03buildOperatorGraph.OPBase
 import lupos.s03buildOperatorGraph.OPNothing
+import lupos.s03buildOperatorGraph.singleinput.*
 import lupos.s03buildOperatorGraph.singleinput.LOPBind
-import lupos.s03buildOperatorGraph.singleinput.LOPFilter
 import lupos.s03buildOperatorGraph.singleinput.LOPGroup
 import lupos.s03buildOperatorGraph.singleinput.LOPMakeBooleanResult
 import lupos.s03buildOperatorGraph.singleinput.LOPProjection
@@ -54,15 +54,15 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
 
     var store = _store
     override fun visit(node: LOPProjection): OPBase {
-        return POPProjection(node.variables, optimize(node.child) as POPBase)
+        return POPProjection(node.variables, optimize(node.child))
     }
 
     override fun visit(node: LOPMakeBooleanResult): OPBase {
-        return POPMakeBooleanResult(optimize(node.child) as POPBase)
+        return POPMakeBooleanResult(optimize(node.child))
     }
 
     override fun visit(node: LOPRename): OPBase {
-        return POPRename(node.nameTo, node.nameFrom, optimize(node.child) as POPBase)
+        return POPRename(node.nameTo, node.nameFrom, optimize(node.child))
     }
 
     override fun visit(node: LOPValues): OPBase {
@@ -70,25 +70,25 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
     }
 
     override fun visit(node: LOPLimit): OPBase {
-        return POPLimit(node.limit, optimize(node.child) as POPBase)
+        return POPLimit(node.limit, optimize(node.child))
     }
 
     override fun visit(node: LOPDistinct): OPBase {
-        return POPDistinct(optimize(node.child) as POPBase)
+        return POPDistinct(optimize(node.child))
     }
 
     override fun visit(node: LOPOffset): OPBase {
-        return POPOffset(node.offset, optimize(node.child) as POPBase)
+        return POPOffset(node.offset, optimize(node.child))
     }
 
     override fun visit(node: LOPGroup): OPBase {
         if (node.bindings != null)
-            return POPGroup(node.by, optimize(node.bindings!!) as POPBind, optimize(node.child) as POPBase)
-        return POPGroup(node.by, null, optimize(node.child) as POPBase)
+            return POPGroup(node.by, optimize(node.bindings!!) as POPBind, optimize(node.child))
+        return POPGroup(node.by, null, optimize(node.child))
     }
 
     override fun visit(node: LOPUnion): OPBase {
-        return POPUnion(optimize(node.child) as POPBase, optimize(node.second) as POPBase)
+        return POPUnion(optimize(node.child), optimize(node.second))
     }
 
     override fun visit(node: LOPExpression): OPBase {
@@ -97,25 +97,25 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
 
     override fun visit(node: LOPSort): OPBase {
         if (node.by is LOPVariable)
-            return POPSort(node.by as LOPVariable, node.asc, optimize(node.child) as POPBase)
+            return POPSort(node.by as LOPVariable, node.asc, optimize(node.child))
         else if (node.by is LOPExpression) {
             val v = LOPVariable("#" + node.uuid)
-            return POPSort(v, node.asc, POPBind(v, optimize(node.by) as POPExpression, optimize(node.child) as POPBase))
+            return POPSort(v, node.asc, POPBind(v, optimize(node.by) as POPExpression, optimize(node.child)))
         } else
             throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)}, ${classNameToString(node.by)}")
     }
 
     override fun visit(node: LOPSubGroup): OPBase {
-        return optimize(node.child) as POPBase
+        return optimize(node.child)
     }
 
     override fun visit(node: LOPFilter): OPBase {
-        return POPFilter(optimize(node.filter) as POPExpression, optimize(node.child) as POPBase)
+        return POPFilter(optimize(node.filter) as POPExpression, optimize(node.child))
     }
 
     override fun visit(node: LOPBind): OPBase {
         val variable = optimize(node.name) as LOPVariable
-        val child = optimize(node.child) as POPBase
+        val child = optimize(node.child)
         when (node.expression) {
             is LOPVariable ->
                 if (child.getResultSet().getVariableNames().contains(variable.name))
@@ -128,8 +128,8 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
     }
 
     override fun visit(node: LOPJoin): OPBase {
-//        return POPJoinNestedLoop(optimize(node.child) as POPBase, optimize(node.second) as POPBase, node.optional)
-        return POPJoinHashMap(optimize(node.child) as POPBase, optimize(node.second) as POPBase, node.optional)
+//        return POPJoinNestedLoop(optimize(node.child), optimize(node.second), node.optional)
+        return POPJoinHashMap(optimize(node.child), optimize(node.second), node.optional)
     }
 
     fun optimizeTriple(param: OPBase, name: String, child: POPBase, node: LOPTriple): POPBase {

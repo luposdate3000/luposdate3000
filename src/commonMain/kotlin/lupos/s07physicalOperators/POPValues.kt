@@ -5,6 +5,7 @@ import lupos.s00misc.XMLElement
 import lupos.s03buildOperatorGraph.data.LOPExpression
 import lupos.s03buildOperatorGraph.data.LOPValues
 import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Value

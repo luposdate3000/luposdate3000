@@ -4,9 +4,10 @@ import lupos.s00misc.classNameToString
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
 import lupos.s03buildOperatorGraph.LOPBase
+import lupos.s06resultRepresentation.*
 
 
-abstract class OPBase {
+abstract class OPBase : ResultSetIterator {
 
     open fun toString(indentation: String): String = "${indentation}${classNameToString(this)}\n"
 
@@ -20,4 +21,5 @@ abstract class OPBase {
     abstract fun getRequiredVariableNames(): List<String>
     abstract fun getProvidedVariableNames(): List<String>
     abstract fun toXMLElement(): XMLElement
+
 }

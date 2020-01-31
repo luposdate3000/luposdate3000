@@ -3,6 +3,7 @@ package lupos.s07physicalOperators.singleinput
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
@@ -28,7 +29,7 @@ class POPTemporaryStore : POPSingleInputBase {
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     private var iterator: Iterator<ResultRow>
 
-    constructor(child: POPBase) : super(child) {
+    constructor(child: OPBase) : super(child) {
         iterator = child
         resultSetOld = child.getResultSet()
         for (name in resultSetOld.getVariableNames()) {

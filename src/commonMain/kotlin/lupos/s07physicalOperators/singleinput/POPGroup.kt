@@ -31,10 +31,10 @@ class POPGroup : POPSingleInputBaseNullableIterator {
     var by: List<LOPVariable>
     var bindings = mutableListOf<Pair<Variable, POPExpression>>()
 
-    constructor(by: List<LOPVariable>, bindings: POPBind?, child: POPBase) : super(child) {
+    constructor(by: List<LOPVariable>, bindings: POPBind?, child: OPBase) : super(child) {
         this.by = by
         resultSetOld = child.getResultSet()
-        var tmpBind: POPBase? = bindings
+        var tmpBind: OPBase? = bindings
         while (tmpBind != null && tmpBind is POPBind) {
             this.bindings.add(Pair(resultSetNew.createVariable(tmpBind.name.name), tmpBind.expression))
             resultSetNew.createVariable(tmpBind.name.name)

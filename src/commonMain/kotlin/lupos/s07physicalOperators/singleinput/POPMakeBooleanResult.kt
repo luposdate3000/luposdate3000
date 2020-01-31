@@ -3,6 +3,7 @@ package lupos.s07physicalOperators.singleinput
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
@@ -21,7 +22,7 @@ class POPMakeBooleanResult : POPSingleInputBase {
     private val variableNew: Variable
     private var count = 0
 
-    constructor(child: POPBase) : super(child) {
+    constructor(child: OPBase) : super(child) {
         this.variableNew = resultSetNew.createVariable("?boolean")
     }
 

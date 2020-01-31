@@ -3,6 +3,7 @@ package lupos.s07physicalOperators.multiinput
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
@@ -13,7 +14,7 @@ import lupos.s07physicalOperators.singleinput.POPTemporaryStore
 
 
 class POPJoinNestedLoop : POPBaseNullableIterator {
-    val childA: POPBase
+    val childA: OPBase
     val childB: POPTemporaryStore
     val optional: Boolean
     val joinVariables: Set<String>
@@ -34,7 +35,7 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
         return childA.getRequiredVariableNames() + childB.getRequiredVariableNames()
     }
 
-    constructor(childA: POPBase, childB: POPBase, optional: Boolean) : super() {
+    constructor(childA: OPBase, childB: OPBase, optional: Boolean) : super() {
         this.childA = childA
         this.childB = POPTemporaryStore(childB)
         this.optional = optional

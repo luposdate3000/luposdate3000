@@ -3,6 +3,7 @@ package lupos.s07physicalOperators.singleinput.modifiers
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
@@ -18,7 +19,7 @@ class POPOffset : POPSingleInputBaseNullableIterator {
     val offset: Int
     private var count = 0
 
-    constructor(offset: Int, child: POPBase) : super(child) {
+    constructor(offset: Int, child: OPBase) : super(child) {
         this.offset = offset
         resultSetOld = child.getResultSet()
         for (v in resultSetOld.getVariableNames())

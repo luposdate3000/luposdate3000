@@ -3,6 +3,7 @@ package lupos.s07physicalOperators.multiinput
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
@@ -12,7 +13,7 @@ import lupos.s07physicalOperators.singleinput.POPTemporaryStore
 
 
 class POPJoinHashMap : POPBaseNullableIterator {
-    val child: Array<POPBase>
+    val child: Array<OPBase>
     val optional: Boolean
     val joinVariables: Set<String>
     val map: Array<MutableMap<String, MutableList<ResultRow>>>
@@ -31,7 +32,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
         return child[0].getRequiredVariableNames() + child[1].getRequiredVariableNames()
     }
 
-    constructor(childA: POPBase, childB: POPBase, optional: Boolean) : super() {
+    constructor(childA: OPBase, childB: OPBase, optional: Boolean) : super() {
         map = arrayOf(mutableMapOf<String, MutableList<ResultRow>>(), mutableMapOf<String, MutableList<ResultRow>>())
         child = arrayOf(childA, childB)
         this.optional = optional

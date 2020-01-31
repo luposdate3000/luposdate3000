@@ -33,6 +33,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTUndef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
 import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.LOPBase
 import lupos.s03buildOperatorGraph.OPBase
 import lupos.s03buildOperatorGraph.parseFromASTNode
 import lupos.s03buildOperatorGraph.toASTNode
@@ -387,7 +388,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
 }
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
-class POPExpression : OPBase {
+class POPExpression : LOPBase {
 
     var aggregateMode = TmpAggregateMode.AMCollect
 

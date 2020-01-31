@@ -4,6 +4,7 @@ import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03buildOperatorGraph.data.LOPExpression
 import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
@@ -17,24 +18,36 @@ import lupos.s07physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 import lupos.s11p2p.*
 
 
-class POPService : POPBase {
+class POPServiceIRI : POPBase {
     private val resultSet: ResultSet
-    val child: POPBase
+    val constraint: OPBase?
     val serverName: String
+    val silent: Boolean
+    var first = true
+    val originalConstraint: OPBase
 
-    constructor(serverName: String, child: POPBase) : super() {
+    constructor(serverName: String, silent: Boolean, constraint: OPBase) : super() {
         this.serverName = serverName
-        this.child = P2P.execOnNamedNode(serverName, child)
-//todo ... handle the case if the target node is not part of this p2p network
-        resultSet = this.child.getResultSet()
+        originalConstraint = constraint
+        this.constraint = try {
+            P2P.execOnNamedNode(serverName, constraint)
+        } catch (e: Throwable) {
+            null
+        }
+        this.silent = silent
+        //todo ... handle the case if the target node is not part of this p2p network
+        resultSet = if (this.constraint != null)
+            this.constraint.getResultSet()
+        else
+            ResultSet()
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        return child.getProvidedVariableNames()
+        return originalConstraint.getProvidedVariableNames()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return child.getRequiredVariableNames()
+        return originalConstraint.getRequiredVariableNames()
     }
 
     override fun getResultSet(): ResultSet {
@@ -42,17 +55,29 @@ class POPService : POPBase {
     }
 
     override fun next(): ResultRow {
-        return child.next()
+        try {
+            return constraint!!.next()
+        } catch (e: Throwable) {
+            if (silent)
+                return resultSet.createResultRow()
+            throw e
+        }
     }
 
     override fun hasNext(): Boolean {
-        return child.hasNext()
+        if (first && constraint == null) {
+            first = false
+            return true
+        } else if (constraint == null) {
+            return false
+        } else
+            return constraint.hasNext()
     }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPService")
         res.addAttribute("serverName", serverName)
-        res.addContent(child.toXMLElement())
+        res.addContent(originalConstraint.toXMLElement())
         return res
     }
 }

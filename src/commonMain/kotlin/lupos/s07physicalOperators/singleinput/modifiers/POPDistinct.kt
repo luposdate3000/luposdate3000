@@ -3,6 +3,7 @@ package lupos.s07physicalOperators.singleinput.modifiers
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Value
@@ -19,7 +20,7 @@ class POPDistinct : POPSingleInputBaseNullableIterator {
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     private var iterator: Iterator<ResultRow>? = null
 
-    constructor(child: POPBase) : super(child) {
+    constructor(child: OPBase) : super(child) {
         resultSetOld = child.getResultSet()
         for (name in resultSetOld.getVariableNames()) {
             variables.add(Pair(resultSetNew.createVariable(name), resultSetOld.createVariable(name)))

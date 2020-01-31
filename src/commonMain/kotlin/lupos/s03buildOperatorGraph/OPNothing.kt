@@ -6,7 +6,7 @@ import lupos.s03buildOperatorGraph.OPBase
 import lupos.s03buildOperatorGraph.OperatorGraphVisitor
 
 
-class OPNothing() : OPBase() {
+class OPNothing() : LOPBase() {
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

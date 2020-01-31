@@ -1,5 +1,6 @@
 package lupos.s07physicalOperators.singleinput
 
+import lupos.s03buildOperatorGraph.OPBase
 import lupos.s07physicalOperators.POPBase
 import lupos.s07physicalOperators.POPBaseNullableIterator
 import lupos.s07physicalOperators.singleinput.modifiers.POPDistinct
@@ -14,5 +15,5 @@ import lupos.s07physicalOperators.singleinput.POPRename
 import lupos.s07physicalOperators.singleinput.POPSingleInputBase
 
 
-abstract class POPSingleInputBaseNullableIterator(val child: POPBase) : POPBaseNullableIterator() {
+abstract class POPSingleInputBaseNullableIterator(val child: OPBase) : POPBaseNullableIterator() {
 }

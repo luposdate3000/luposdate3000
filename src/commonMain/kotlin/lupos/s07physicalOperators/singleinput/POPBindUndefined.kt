@@ -2,6 +2,7 @@ package lupos.s07physicalOperators.singleinput
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s03buildOperatorGraph.*
 import lupos.s03buildOperatorGraph.data.LOPVariable
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
@@ -20,7 +21,7 @@ class POPBindUndefined : POPSingleInputBase {
     private val variablesNew: Array<Variable?>
     private val variableBound: Variable
 
-    constructor(name: LOPVariable, child: POPBase) : super(child) {
+    constructor(name: LOPVariable, child: OPBase) : super(child) {
         this.name = name
         resultSetOld = child.getResultSet()
         val variableNames = resultSetOld.getVariableNames()

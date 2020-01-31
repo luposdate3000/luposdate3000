@@ -9,6 +9,7 @@ import lupos.s03buildOperatorGraph.multiinput.LOPMinus
 import lupos.s03buildOperatorGraph.multiinput.LOPUnion
 import lupos.s03buildOperatorGraph.OPBase
 import lupos.s03buildOperatorGraph.OPNothing
+import lupos.s03buildOperatorGraph.singleinput.*
 import lupos.s03buildOperatorGraph.singleinput.LOPBind
 import lupos.s03buildOperatorGraph.singleinput.LOPFilter
 import lupos.s03buildOperatorGraph.singleinput.LOPGroup
@@ -18,7 +19,6 @@ import lupos.s03buildOperatorGraph.singleinput.LOPOptional
 import lupos.s03buildOperatorGraph.singleinput.LOPProjection
 import lupos.s03buildOperatorGraph.singleinput.LOPRename
 import lupos.s03buildOperatorGraph.singleinput.LOPSort
-import lupos.s03buildOperatorGraph.singleinput.LOPSubGroup
 import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPDistinct
 import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPLimit
 import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPOffset
@@ -28,6 +28,14 @@ import lupos.s05logicalOptimisation.LogicalOptimizer
 
 
 abstract class OptimizerVisitorLOP() {
+    open fun visit(node: LOPServiceIRI): OPBase {
+        return LOPServiceIRI(node.name, node.silent, optimize(node.constraint))
+    }
+
+    open fun visit(node: LOPServiceVAR): OPBase {
+        return LOPServiceVAR(node.name, node.silent, optimize(node.constraint), optimize(node.child))
+    }
+
     open fun visit(node: OPBase): OPBase {
         throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} a ${node::class.simpleName}")
     }
@@ -154,6 +162,8 @@ abstract class OptimizerVisitorLOP() {
             is LOPLimit -> return visit(node)
             is LOPOffset -> return visit(node)
             is LOPRename -> return visit(node)
+            is LOPServiceIRI -> return visit(node)
+            is LOPServiceVAR -> return visit(node)
         }
         throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} c ${node::class.simpleName}")
     }

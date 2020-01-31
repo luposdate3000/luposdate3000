@@ -99,9 +99,9 @@ import lupos.s03buildOperatorGraph.multiinput.LOPJoin
 import lupos.s03buildOperatorGraph.multiinput.LOPMinus
 import lupos.s03buildOperatorGraph.multiinput.LOPUnion
 import lupos.s03buildOperatorGraph.OPBase
+import lupos.s03buildOperatorGraph.singleinput.*
 import lupos.s03buildOperatorGraph.singleinput.LOPBind
 import lupos.s03buildOperatorGraph.singleinput.LOPFilter
-import lupos.s03buildOperatorGraph.singleinput.LOPGroup
 import lupos.s03buildOperatorGraph.singleinput.LOPMakeBooleanResult
 import lupos.s03buildOperatorGraph.singleinput.LOPNOOP
 import lupos.s03buildOperatorGraph.singleinput.LOPOptional
@@ -414,6 +414,21 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         members[GroupMember.GMLOPDataSource] = tmp2
                     }
                 }
+                is LOPServiceIRI -> {
+                    if (members.containsKey(GroupMember.GMLOPDataSource)) {
+                        members[GroupMember.GMLOPDataSource] = LOPJoin(members[GroupMember.GMLOPDataSource]!!, tmp2, true)
+                    } else {
+                        members[GroupMember.GMLOPDataSource] = tmp2
+                    }
+                }
+                is LOPServiceVAR -> {
+                    if (members.containsKey(GroupMember.GMLOPDataSource)) {
+                        tmp2.child = members[GroupMember.GMLOPDataSource]!!
+                        members[GroupMember.GMLOPDataSource] = tmp2
+                    } else {
+                        members[GroupMember.GMLOPDataSource] = tmp2
+                    }
+                }
                 else ->
                     throw UnsupportedOperationException("${classNameToString(this)} GroupMember ${classNameToString(tmp2)}")
             }
@@ -714,6 +729,14 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         return LOPSubGroup(parseGroup(node.children))
     }
 
+    override fun visit(node: ASTService, childrenValues: List<OPBase>): OPBase {
+        when {
+            node.iriOrVar is ASTIri -> return LOPServiceIRI(node.iriOrVar.iri, node.silent, parseGroup(node.children))
+            node.iriOrVar is ASTVar -> return LOPServiceVAR(node.iriOrVar.name, node.silent, parseGroup(node.children))
+            else -> throw UnsupportedOperationException("${classNameToString(this)} Service ${classNameToString(node)} ${classNameToString(node.iriOrVar)}")
+        }
+    }
+
     override fun visit(node: ASTValues, childrenValues: List<OPBase>): OPBase {
         if (node.variables.isEmpty()) {
             return LOPNOOP()
@@ -863,10 +886,6 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTDatasetClause, childrenValues: List<OPBase>): OPBase {
         throw UnsupportedOperationException("${classNameToString(this)} Query Type ${classNameToString(node)}")
-    }
-
-    override fun visit(node: ASTService, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Service ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTQueryBaseClass, childrenValues: List<OPBase>): OPBase {

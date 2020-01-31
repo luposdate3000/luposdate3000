@@ -3,6 +3,7 @@ package lupos.s07physicalOperators.multiinput
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
@@ -14,8 +15,8 @@ import lupos.s07physicalOperators.singleinput.POPTemporaryStore
 
 
 class POPUnion : POPBaseNullableIterator {
-    val childA: POPBase
-    val childB: POPBase
+    val childA: OPBase
+    val childB: OPBase
     private val resultSetOldA: ResultSet
     private val variablesOldA = mutableListOf<Pair<Variable, Variable>>()
     private val variablesOldAMissing = mutableListOf<Variable>()
@@ -32,7 +33,7 @@ class POPUnion : POPBaseNullableIterator {
         return childA.getRequiredVariableNames() + childB.getRequiredVariableNames()
     }
 
-    constructor(childA: POPBase, childB: POPBase) : super() {
+    constructor(childA: OPBase, childB: OPBase) : super() {
         this.childA = childA
         this.childB = POPTemporaryStore(childB)
         resultSetOldA = this.childA.getResultSet()

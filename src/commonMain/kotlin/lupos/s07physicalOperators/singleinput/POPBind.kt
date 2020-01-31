@@ -4,6 +4,7 @@ import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
@@ -22,7 +23,7 @@ class POPBind : POPSingleInputBase {
     private val variablesNew: Array<Variable?>
     private val variableBound: Variable
 
-    constructor(name: LOPVariable, expression: POPExpression, child: POPBase) : super(child) {
+    constructor(name: LOPVariable, expression: POPExpression, child: OPBase) : super(child) {
         this.name = name
         this.expression = expression
         resultSetOld = child.getResultSet()

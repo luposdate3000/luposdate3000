@@ -3,6 +3,7 @@ package lupos.s07physicalOperators.singleinput.modifiers
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
@@ -17,7 +18,7 @@ class POPLimit : POPSingleInputBase {
     val limit: Int
     private var count = 0
 
-    constructor(limit: Int, child: POPBase) : super(child) {
+    constructor(limit: Int, child: OPBase) : super(child) {
         this.limit = limit
         resultSetOld = child.getResultSet()
         for (v in resultSetOld.getVariableNames())

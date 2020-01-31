@@ -12,7 +12,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
-import lupos.s03buildOperatorGraph.OperatorGraphVisitor
+import lupos.s03buildOperatorGraph.*
 import lupos.s05logicalOptimisation.LogicalOptimizer
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
@@ -36,17 +36,18 @@ object P2PLocalDummy {
         nodeData[nodeName] = store
     }
 
-    fun execOnNamedNode(nodeName: String, pop: POPBase): POPBase {
+    fun execOnNamedNode(nodeName: String, pop: OPBase): OPBase {
 /*execute "pop" on remote node - if it exist - otherwiese throw an exception*/
         val optimizer = PhysicalOptimizer()
         optimizer.store = nodeData[nodeName]!!
-        return optimizer.optimize(pop) as POPBase
+        return optimizer.optimize(pop)
     }
 
     fun execTruncate() {
         nodeData.clear()
     }
-fun process_peers_list(): String {
+
+    fun process_peers_list(): String {
 /*nice to have, but not required*/
         return ""
     }
@@ -57,5 +58,5 @@ fun process_peers_list(): String {
     }
 
     suspend fun start(bootstrap: String?) {
-}
+    }
 }

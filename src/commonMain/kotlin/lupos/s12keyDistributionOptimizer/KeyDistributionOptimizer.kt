@@ -13,13 +13,13 @@ import lupos.s03buildOperatorGraph.multiinput.LOPJoin
 import lupos.s03buildOperatorGraph.multiinput.LOPUnion
 import lupos.s03buildOperatorGraph.OPBase
 import lupos.s03buildOperatorGraph.OPNothing
+import lupos.s03buildOperatorGraph.singleinput.*
 import lupos.s03buildOperatorGraph.singleinput.LOPBind
 import lupos.s03buildOperatorGraph.singleinput.LOPFilter
 import lupos.s03buildOperatorGraph.singleinput.LOPGroup
 import lupos.s03buildOperatorGraph.singleinput.LOPMakeBooleanResult
 import lupos.s03buildOperatorGraph.singleinput.LOPProjection
 import lupos.s03buildOperatorGraph.singleinput.LOPRename
-import lupos.s03buildOperatorGraph.singleinput.LOPSort
 import lupos.s03buildOperatorGraph.singleinput.LOPSubGroup
 import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPDistinct
 import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPLimit
@@ -44,8 +44,12 @@ import lupos.s07physicalOperators.singleinput.POPRename
 import lupos.s07physicalOperators.singleinput.POPSort
 import lupos.s08tripleStore.TripleStore
 import lupos.s09physicalOptimisation.OptimizerVisitorPOP
+import lupos.s11p2p.*
 
 
 class KeyDistributionOptimizer() : OptimizerVisitorPOP() {
 
+    override fun visit(node: LOPServiceIRI): OPBase {
+        return POPServiceIRI(node.name, node.silent, optimize(node.constraint) as POPBase)
+    }
 }

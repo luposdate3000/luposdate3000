@@ -4,6 +4,7 @@ import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03buildOperatorGraph.data.LOPExpression
 import lupos.s03buildOperatorGraph.data.LOPVariable
+import lupos.s03buildOperatorGraph.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
@@ -21,7 +22,7 @@ class POPFilter : POPSingleInputBaseNullableIterator {
     val filter: POPExpression
     private val resultSet: ResultSet
 
-    constructor(filter: POPExpression, child: POPBase) : super(child) {
+    constructor(filter: POPExpression, child: OPBase) : super(child) {
         this.filter = filter
         resultSet = child.getResultSet()
     }
