@@ -46,7 +46,7 @@ fun main(args: Array<String>) {
             println("  Test: sp2b/$f")
             val queryFile = "resources/sp2b/$f.sparql"
             val resultFile = "resources/sp2b/$f.srj"
-            parseSPARQLAndEvaluate(queryFile, inputDataFile, resultFile, null)
+            parseSPARQLAndEvaluate(true, queryFile, inputDataFile, resultFile, null)
         }
     }
     Trace.print()
@@ -229,7 +229,6 @@ private fun testOneEntry(data: SevenIndices, node: Long, queryIdentifier: String
     var services = mutableListOf<MutableMap<String, String>>()
     var inputDataGraph = mutableListOf<MutableMap<String, String>>()
     var outputDataGraph = mutableListOf<MutableMap<String, String>>()
-    var action: Long? = null
     data.s(node).forEach {
         val iri = (Dictionary[it.first] as IRI).iri
         when (iri) {
@@ -274,8 +273,79 @@ private fun testOneEntry(data: SevenIndices, node: Long, queryIdentifier: String
                 }
             }
             "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action" -> {
-                require(action == null)
-                action = it.second
+                when {
+                    Dictionary[it.second] is IRI -> queryFile = prefix + (Dictionary[it.second] as IRI).iri
+                    Dictionary[it.second] is BlankNode -> {
+                        data.s(it.second).forEach {
+                            val iri = (Dictionary[it.first] as IRI).iri
+                            when (iri) {
+                                "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" -> {
+                                    require(inputDataFile == null)
+                                    inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
+                                }
+                                "http://www.w3.org/2001/sw/DataAccess/tests/test-query#query" -> {
+                                    require(queryFile == null)
+                                    queryFile = prefix + (Dictionary[it.second] as IRI).iri
+                                }
+                                "http://www.w3.org/ns/sparql-service-description#entailmentRegime" -> {
+                                    println("unknown-manifest::http://www.w3.org/ns/sparql-service-description#entailmentRegime " + Dictionary[it.second])
+                                }
+                                "http://www.w3.org/ns/sparql-service-description#EntailmentProfile" -> {
+                                    println("unknown-manifest::http://www.w3.org/ns/sparql-service-description#EntailmentProfile " + Dictionary[it.second])
+                                }
+                                "http://www.w3.org/2001/sw/DataAccess/tests/test-query#graphData" -> {
+                                    val graph = mutableMapOf<String, String>()
+                                    graph["name"] = (Dictionary[it.second] as IRI).iri
+                                    graph["filename"] = prefix + (Dictionary[it.second] as IRI).iri
+                                    inputDataGraph.add(graph)
+                                }
+                                "http://www.w3.org/2001/sw/DataAccess/tests/test-query#serviceData" -> {
+                                    val service = mutableMapOf<String, String>()
+                                    data.s(it.second).forEach {
+                                        val iri = (Dictionary[it.first] as IRI).iri
+                                        when (iri) {
+                                            "http://www.w3.org/2001/sw/DataAccess/tests/test-query#endpoint" -> {
+                                                service["name"] = (Dictionary[it.second] as IRI).iri
+                                            }
+                                            "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" -> {
+                                                service["filename"] = prefix + (Dictionary[it.second] as IRI).iri
+                                            }
+                                            else -> throw Exception("unknown manifest serviceData : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                        }
+                                    }
+                                    if (service["filename"] != null)
+                                        services.add(service)
+                                }
+                                "http://www.w3.org/2009/sparql/tests/test-update#request" -> {
+                                    require(queryFile == null)
+                                    queryFile = prefix + (Dictionary[it.second] as IRI).iri
+                                }
+                                "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
+                                    require(inputDataFile == null)
+                                    inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
+                                }
+                                "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
+                                    val graph = mutableMapOf<String, String>()
+                                    data.s(it.second).forEach {
+                                        val iri = (Dictionary[it.first] as IRI).iri
+                                        when (iri) {
+                                            "http://www.w3.org/2009/sparql/tests/test-update#graph" -> {
+                                                graph["filename"] = prefix + (Dictionary[it.second] as IRI).iri
+                                            }
+                                            "http://www.w3.org/2000/01/rdf-schema#label" -> {
+                                                graph["name"] = (Dictionary[it.second] as SimpleLiteral).content
+                                            }
+                                            else -> throw Exception("unknown manifest graphData : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                                        }
+                                    }
+                                    inputDataGraph.add(graph)
+                                }
+                                else -> throw Exception("unknown manifest action : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+                            }
+                        }
+                    }
+                    else -> throw Exception("unknown manifest actionType : " + Dictionary[it.first])
+                }
             }
             "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" -> {
                 require(testType == null)
@@ -329,95 +399,6 @@ private fun testOneEntry(data: SevenIndices, node: Long, queryIdentifier: String
             else -> throw Exception("unknown manifest entry : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
         }
     }
-    if (action == null) {
-        println("names : $names")
-        println("comment : $comment")
-        println("description : $description")
-        println("features : $features")
-        println("inputDataGraph : $inputDataGraph")
-        println("outputDataGraph : $outputDataGraph")
-        println("expectedResult : $expectedResult")
-        println("queryFile : $queryFile")
-        println("inputDataFile : $inputDataFile")
-        println("resultFile : $resultFile")
-        println("services : $services")
-        println("action : $action")
-        println(Exception("null-action"))
-        return true
-    }
-    when {
-        Dictionary[action!!] is IRI -> queryFile = prefix + (Dictionary[action!!] as IRI).iri
-        Dictionary[action!!] is BlankNode -> {
-            data.s(action!!).forEach {
-                val iri = (Dictionary[it.first] as IRI).iri
-                when (iri) {
-                    "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" -> {
-                        require(inputDataFile == null)
-                        inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
-                    }
-                    "http://www.w3.org/2001/sw/DataAccess/tests/test-query#query" -> {
-                        require(queryFile == null)
-                        queryFile = prefix + (Dictionary[it.second] as IRI).iri
-                    }
-                    "http://www.w3.org/ns/sparql-service-description#entailmentRegime" -> {
-                        println("unknown-manifest::http://www.w3.org/ns/sparql-service-description#entailmentRegime " + Dictionary[it.second])
-                    }
-                    "http://www.w3.org/ns/sparql-service-description#EntailmentProfile" -> {
-                        println("unknown-manifest::http://www.w3.org/ns/sparql-service-description#EntailmentProfile " + Dictionary[it.second])
-                    }
-                    "http://www.w3.org/2001/sw/DataAccess/tests/test-query#graphData" -> {
-                        val graph = mutableMapOf<String, String>()
-                        graph["name"] = (Dictionary[it.second] as IRI).iri
-                        graph["filename"] = prefix + (Dictionary[it.second] as IRI).iri
-                        inputDataGraph.add(graph)
-                    }
-                    "http://www.w3.org/2001/sw/DataAccess/tests/test-query#serviceData" -> {
-                        val service = mutableMapOf<String, String>()
-                        data.s(it.second).forEach {
-                            val iri = (Dictionary[it.first] as IRI).iri
-                            when (iri) {
-                                "http://www.w3.org/2001/sw/DataAccess/tests/test-query#endpoint" -> {
-                                    service["name"] = (Dictionary[it.second] as IRI).iri
-                                }
-                                "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" -> {
-                                    service["filename"] = prefix + (Dictionary[it.second] as IRI).iri
-                                }
-                                else -> throw Exception("unknown manifest serviceData : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
-                            }
-                        }
-                        if (service["filename"] != null)
-                            services.add(service)
-                    }
-                    "http://www.w3.org/2009/sparql/tests/test-update#request" -> {
-                        require(queryFile == null)
-                        queryFile = prefix + (Dictionary[it.second] as IRI).iri
-                    }
-                    "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
-                        require(inputDataFile == null)
-                        inputDataFile = prefix + (Dictionary[it.second] as IRI).iri
-                    }
-                    "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
-                        val graph = mutableMapOf<String, String>()
-                        data.s(it.second).forEach {
-                            val iri = (Dictionary[it.first] as IRI).iri
-                            when (iri) {
-                                "http://www.w3.org/2009/sparql/tests/test-update#graph" -> {
-                                    graph["filename"] = prefix + (Dictionary[it.second] as IRI).iri
-                                }
-                                "http://www.w3.org/2000/01/rdf-schema#label" -> {
-                                    graph["name"] = (Dictionary[it.second] as SimpleLiteral).content
-                                }
-                                else -> throw Exception("unknown manifest graphData : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
-                            }
-                        }
-                        inputDataGraph.add(graph)
-                    }
-                    else -> throw Exception("unknown manifest action : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
-                }
-            }
-        }
-        else -> throw Exception("unknown manifest actionType : " + Dictionary[action!!])
-    }
     println("names : $names")
     println("comment : $comment")
     println("description : $description")
@@ -429,14 +410,19 @@ private fun testOneEntry(data: SevenIndices, node: Long, queryIdentifier: String
     println("inputDataFile : $inputDataFile")
     println("resultFile : $resultFile")
     println("services : $services")
-    println("action : $action")
     if (queryFile == null)
         return true
-    val success = parseSPARQLAndEvaluate(queryFile!!, inputDataFile, resultFile, services)
+    val success = parseSPARQLAndEvaluate(expectedResult, queryFile!!, inputDataFile, resultFile, services)
     return success == expectedResult
 }
 
-fun parseSPARQLAndEvaluate(queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?): Boolean {
+fun parseSPARQLAndEvaluate(//
+        expectedResult: Boolean,//
+        queryFile: String, //
+        inputDataFileName: String?, //
+        resultDataFileName: String?, //
+        services: List<Map<String, String>>?//
+): Boolean {
     val toParse = readFileOrNull(queryFile)!!
     val inputData = readFileOrNull(inputDataFileName)
     val resultData = readFileOrNull(resultDataFileName)
@@ -496,33 +482,51 @@ fun parseSPARQLAndEvaluate(queryFile: String, inputDataFileName: String?, result
                 println(xmlPOP.toPrettyString())
                 println(popNodeRecovered.toXMLElement().toPrettyString())
                 val xmlQueryResultRecovered = QueryResultToXML.toXML(popNodeRecovered)
-                if (xmlQueryResultRecovered.first().myEquals(xmlQueryResult.first()))
-                    println("----------Success")
-                else {
-                    println("----------Failed(recoverFromXMLOperatorGraph)")
+                if (xmlQueryResultRecovered.first().myEquals(xmlQueryResult.first())) {
+                    if (expectedResult)
+                        println("----------Success")
+                    else
+                        println("----------Failed(expectFalse)")
+                } else {
+                    println("----------Failed(RecoverFromXMLOperatorGraph)")
                     res = false
                 }
             } else {
                 if (xmlQueryResult.first().myEqualsUnclean(xmlQueryTarget?.first())) {
-                    println("----------Success(Unordered)")
+                    if (expectedResult)
+                        println("----------Success(Unordered)")
+                    else
+                        println("----------Failed(expectFalse,Unordered)")
                 } else {
-                    println("----------Failed")
+                    if (expectedResult)
+                        println("----------Failed(Incorrect)")
+                    else
+                        println("----------Success(ExpectFalse)")
                 }
             }
             return res
         } else {
-            println("----------Success(NoResult)")
+            if (expectedResult)
+                println("----------Success(Syntax)")
+            else
+                println("----------Failed(ExpectFalse,Syntax)")
             return true
         }
     } catch (e: ParseError) {
         println(e.message)
         println("Error in the following line:")
         println(e.lineNumber)
-        println("----------Failed(ParseError)")
+        if (expectedResult)
+            println("----------Failed(ParseError)")
+        else
+            println("----------Success(ExpectFalse,ParseError)")
         return false
     } catch (e: Throwable) {
         e.kotlinStacktrace()
-        println("----------Failed(Throwable)")
+        if (expectedResult)
+            println("----------Failed(Throwable)")
+        else
+            println("----------Success(ExpectFalse,Throwable)")
         return false
     }
 }
