@@ -10,6 +10,7 @@ import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s02buildSyntaxTree.rdf.ID_Triple
 import lupos.s02buildSyntaxTree.rdf.IRI
+import lupos.s02buildSyntaxTree.rdf.BlankNode
 import lupos.s02buildSyntaxTree.rdf.SimpleLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.parseSPARQL
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
@@ -26,6 +27,7 @@ import lupos.s07physicalOperators.POPBaseNullableIterator
 import lupos.s08tripleStore.TripleStore
 import lupos.s09physicalOptimisation.PhysicalOptimizer
 import lupos.s10outputResult.QueryResultToXML
+import lupos.s11p2p.*
 import lupos.s12keyDistributionOptimizer.*
 import lupos.s13endpoint.convertToOPBase
 
@@ -40,14 +42,11 @@ fun main(args: Array<String>) {
         println("Number of errors: " + nr_e)
         val sp2bFiles = listOf("q3a", "q9", "q4", "q5b", "q10", "q2", "q6", "q12a", "q3b", "q8", "q1", "q5a", "q11", "q12b", "q12c", "q3c", "q7")
         val inputDataFile = "resources/sp2b/sp2b.n3"
-        val inputData = readFileContents(inputDataFile)
         for (f in sp2bFiles) {
             println("  Test: sp2b/$f")
             val queryFile = "resources/sp2b/$f.sparql"
-            val query = readFileContents(queryFile)
             val resultFile = "resources/sp2b/$f.srj"
-            val result = readFileContents(resultFile)
-            parseSPARQLAndEvaluate(query, inputData, inputDataFile, result, resultFile)
+            parseSPARQLAndEvaluate(queryFile, inputDataFile, resultFile,null)
         }
     }
     Trace.print()
@@ -219,7 +218,7 @@ private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> 
                         else -> println(Exception("Unknown Test Type: ${Dictionary[it]?.toN3String()}").toString())
                     }
                 }
-                if (queryEvaluationTest) {
+                if (queryEvaluationTest||syntaxTest) {
                     numberOfTests++
                     if (!testOneEntry(data, it, "http://www.w3.org/2001/sw/DataAccess/tests/test-query#query", "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data", newprefix)) {
                         numberOfErrors++
@@ -231,89 +230,125 @@ private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> 
                         numberOfErrors++
                     }
                 }
-                if (syntaxTest) {
-                    numberOfTests++
-                    if (!syntaxTestOneEntry(data, it, newprefix)) {
-                        numberOfErrors++
-                    }
-                }
             }
         }
     }
     return Pair<Int, Int>(numberOfTests, numberOfErrors)
 }
 
+private fun readFileOrNull(name: String?): String? {
+    if (name == null)
+        return null
+    return readFileContents(name)
+}
+
 private fun testOneEntry(data: SevenIndices, node: Long, queryIdentifier: String, inputDataIdentifier: String, prefix: String): Boolean {
-/*
-:rdf01 rdf:type mf:QueryEvaluationTest ;
-    mf:name    "RDF inference test" ;
-    dawgt:approval dawgt:NotClassified ;
-    mf:action
-         [ qt:query  <rdf01.rq> ;
-           qt:data   <rdf01.ttl> ;
-           sd:entailmentRegime ent:RDF ] ;
-    mf:result  <rdf01.srx> .
-*/
-    val action = data.sp(node, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action"))
-    var resultFileTmp = data.sp(node, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result"))
-    var result = true
-    resultFileTmp.forEach {
-        var resultFile: String = (Dictionary[it] as IRI).iri
-        var targetResult: String = readFileContents(prefix + resultFile)
-        action.forEach {
-            val inputData = data.sp(it, Dictionary.IRI(inputDataIdentifier))
-            val query = data.sp(it, Dictionary.IRI(queryIdentifier))
-            query.forEach {
-                val queryfile: String = (Dictionary[it] as IRI).iri
-                inputData.forEach {
-                    val inputDataFile: String = (Dictionary[it] as IRI).iri
-                    val querycontents: String = readFileContents(prefix + queryfile)
-                    val inputdatacontent: String = readFileContents(prefix + inputDataFile)
-                    result = result && parseSPARQLAndEvaluate(querycontents, inputdatacontent, prefix + inputDataFile, targetResult, prefix + resultFile)
-                }
+    var queryFile: String? = null
+    var inputDataFile: String? = null
+    var resultFile: String? = null
+    var services=mutableListOf<MutableMap<String,String>>()
+    var action: Long? = null
+    data.s(node).forEach {
+        val iri = (Dictionary[it.first] as IRI).iri
+        when (iri) {
+            "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result" -> {
+                require(resultFile == null)
+                resultFile = prefix+(Dictionary[it.second] as IRI).iri
             }
+            "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action" -> {
+                require(action == null)
+                action = it.second
+            }
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" -> {
+                println("http://www.w3.org/1999/02/22-rdf-syntax-ns#type : " + (Dictionary[it.second] as IRI).iri)
+            }
+            "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name" -> {
+                println("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name " + Dictionary[it.second])
+            }
+            "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#feature" -> {
+                println("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#feature " + (Dictionary[it.second] as IRI).iri)
+            }
+            "http://www.w3.org/2000/01/rdf-schema#comment" -> {
+                println("http://www.w3.org/2000/01/rdf-schema#comment " + Dictionary[it.second])
+            }
+            "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval" -> {
+                println("http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval " + Dictionary[it.second])
+            }
+            "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy" -> {
+                println("http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy " + Dictionary[it.second])
+            }
+            "http://www.w3.org/2000/01/rdf-schema#seeAlso" -> {
+                println("http://www.w3.org/2000/01/rdf-schema#seeAlso " + (Dictionary[it.second] as IRI).iri)
+            }
+            "http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm" -> {
+                println("http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + (Dictionary[it.second] as IRI).iri)
+            }
+            else -> throw Exception("unkonown manifest entry : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
         }
     }
-    return result
+    println("action :: "+Dictionary[action!!])
+when{
+Dictionary[action!!] is IRI-> queryFile = prefix+(Dictionary[action!!] as IRI).iri
+Dictionary[action!!] is BlankNode ->{
+    data.s(action!!).forEach {
+        val iri = (Dictionary[it.first] as IRI).iri
+        when (iri) {
+            "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" -> {
+                require(inputDataFile == null)
+                inputDataFile = prefix+(Dictionary[it.second] as IRI).iri
+            }
+            "http://www.w3.org/2001/sw/DataAccess/tests/test-query#query" -> {
+                require(queryFile == null)
+                queryFile = prefix+(Dictionary[it.second] as IRI).iri
+            }
+            "http://www.w3.org/ns/sparql-service-description#entailmentRegime" -> {
+                println("http://www.w3.org/ns/sparql-service-description#entailmentRegime " + Dictionary[it.second])
+            }
+            "http://www.w3.org/ns/sparql-service-description#EntailmentProfile" -> {
+                println("http://www.w3.org/ns/sparql-service-description#EntailmentProfile " + Dictionary[it.second])
+            }
+            "http://www.w3.org/2001/sw/DataAccess/tests/test-query#graphData" -> {
+                println("http://www.w3.org/2001/sw/DataAccess/tests/test-query#graphData " + (Dictionary[it.second] as IRI).iri)
+            }
+            "http://www.w3.org/2001/sw/DataAccess/tests/test-query#serviceData" -> {
+		val service=mutableMapOf<String,String>()
+		data.s(it.second).forEach{
+			val iri = (Dictionary[it.first] as IRI).iri
+		        when (iri) {
+				"http://www.w3.org/2001/sw/DataAccess/tests/test-query#endpoint" -> {
+					service["name"]=(Dictionary[it.second] as IRI).iri
+				}
+				"http://www.w3.org/2001/sw/DataAccess/tests/test-query#data" ->{
+					service["filename"]=prefix+(Dictionary[it.second] as IRI).iri
+				}
+				else -> throw Exception("unkonown manifest serviceData : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+			}
+		}
+			if(service["filename"]!=null)
+			services.add(service)
+            }
+            else -> throw Exception("unkonown manifest action : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
+        }
+    }
+}
+else-> throw Exception("unkonown manifest actionType : " + Dictionary[action!!])
+}
+	if(queryFile==null)
+	return true
+    return parseSPARQLAndEvaluate(queryFile!!, inputDataFile, resultFile, services)
 }
 
 private fun updateTestOneEntry(data: SevenIndices, node: Long, queryIdentifier: String, prefix: String): Boolean {
-/*
-    mf:name "MOVE 1" ;
-    rdfs:comment "Move the default graph to an existing graph" ;
-    dawgt:approval dawgt:Approved ;
-    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-05-22#resolution_2> ;
-    mf:action [ ut:request <move-01.ru> ;
-                ut:data <move-default.ttl> ;
-                ut:graphData [ ut:graph <move-01.ttl> ;
-                               rdfs:label "http://example.org/g1" ]
-              ] ;
-    mf:result [ ut:graphData [ ut:graph <move-default.ttl> ;
-                               rdfs:label "http://example.org/g1" ]
-              ] .
-*/
     val action = data.sp(node, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action"))
     var result = true
     action.forEach {
         val query = data.sp(it, Dictionary.IRI(queryIdentifier))
         query.forEach {
-            val queryfile = (Dictionary[it] as IRI).iri
-            println("    Query: " + queryfile)
-            val querycontents = readFileContents(prefix + queryfile)
+            val queryFile = (Dictionary[it] as IRI).iri
+            println("    Query: " + queryFile)
+            val querycontents = readFileContents(prefix + queryFile)
             result = result && parseSPARQLAndPrintOut(querycontents)
         }
-    }
-    return result
-}
-
-private fun syntaxTestOneEntry(data: SevenIndices, node: Long, prefix: String): Boolean {
-    val action = data.sp(node, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action"))
-    var result = true
-    action.forEach {
-        val queryfile = (Dictionary[it] as IRI).iri
-        println("    Query: " + queryfile)
-        val querycontents = readFileContents(prefix + queryfile)
-        result = result && parseSPARQLAndEvaluate(querycontents, null, null, null, null)
     }
     return result
 }
@@ -343,7 +378,10 @@ fun parseSPARQLAndPrintOut(toParse: String): Boolean {
     }
 }
 
-fun parseSPARQLAndEvaluate(toParse: String, inputData: String?, inputDataFileName: String?, resultData: String?, resultDataFileName: String?): Boolean {
+fun parseSPARQLAndEvaluate(queryFile: String, inputDataFileName: String?, resultDataFileName: String?,services:List<Map<String,String>>?): Boolean {
+	val toParse=readFileOrNull(queryFile)!!
+	val inputData=readFileOrNull(inputDataFileName)
+	val resultData=readFileOrNull(resultDataFileName)
     try {
         val store = TripleStore()
         if (inputData != null && inputDataFileName != null) {
@@ -354,6 +392,14 @@ fun parseSPARQLAndEvaluate(toParse: String, inputData: String?, inputDataFileNam
             store.addData(POPImportFromXml(xmlQueryInput!!.first()))
             println(xmlQueryInput.first().toPrettyString())
         }
+	P2P.execTruncate()
+if(services!=null)
+	for(s in services){
+val n=s["name"]!!
+val fn=s["filename"]!!
+val fc=readFileOrNull(fn)!!
+		P2P.insertOnNamedNode(n,XMLElement.parseFromAny(fc,fn)!!.first())
+	}
         println("----------String Query")
         println(toParse)
         println("----------Abstract Syntax Tree")

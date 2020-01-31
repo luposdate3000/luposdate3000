@@ -33,12 +33,19 @@ import lupos.s09physicalOptimisation.PhysicalOptimizer
 import lupos.s10outputResult.QueryResultToXML
 import lupos.s11p2p.*
 import lupos.s13endpoint.*
-import lupos.s13endpoint.Endpoint
 
 
 object P2P {
+    val nodeNameRemapping = mutableMapOf<String, String>()
     val client = createHttpClient()
     val knownClients = mutableSetOf<String>()
+    fun resolveNodeName(name: String): String {
+        val tmp = nodeNameRemapping[name]
+        if (tmp != null)
+            return tmp
+        return name
+    }
+
     fun process_peers_list(): String {
 /*nice to have, but not required*/
         return XMLElement.XMLHeader + "\n" + XMLElement("servers").addContent(knownClients, "server").toPrettyString()
@@ -74,10 +81,20 @@ object P2P {
 /*execute "pop" on remote node - if it exist - otherwiese throw an exception*/
         var res: POPBase = POPEmptyRow()
         runBlocking {
-            val response = client.request(Http.Method.GET, "http://${nodeName}${EndpointImpl.REQUEST_OPERATOR_QUERY[0]}?EndpointImpl.REQUEST_OPERATOR_QUERY[1]=" + URL.encodeComponent(pop.toXMLElement().toPrettyString()))
+            val response = client.request(Http.Method.GET, "http://${resolveNodeName(nodeName)}${EndpointImpl.REQUEST_OPERATOR_QUERY[0]}?EndpointImpl.REQUEST_OPERATOR_QUERY[1]=" + URL.encodeComponent(pop.toXMLElement().toPrettyString()))
             val xml = response.readAllString()
             res = POPImportFromXml(XMLElement.parseFromXml(xml)!!.first())
         }
         return res
+    }
+
+    fun execTruncate() {
+/*execute truncate on every known node - for TESTING only*/
+        Endpoint.process_truncate()
+        knownClients.forEach {
+            runBlocking {
+                client.request(Http.Method.GET, "http://${it}${EndpointImpl.REQUEST_TRUNCATE[0]}")
+            }
+        }
     }
 }

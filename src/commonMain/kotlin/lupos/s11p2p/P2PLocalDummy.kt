@@ -19,6 +19,7 @@ import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
 import lupos.s07physicalOperators.*
 import lupos.s07physicalOperators.POPBaseNullableIterator
+import lupos.s08tripleStore.TripleStore
 import lupos.s09physicalOptimisation.PhysicalOptimizer
 import lupos.s10outputResult.QueryResultToXML
 import lupos.s11p2p.*
@@ -26,9 +27,27 @@ import lupos.s13endpoint.*
 import lupos.s13endpoint.Endpoint
 
 
-object P2P {
-    fun process_peers_list(): String {
-        /*nice to have, but not required*/
+object P2PLocalDummy {
+    val nodeData = mutableMapOf<String, TripleStore>()
+
+    fun insertOnNamedNode(nodeName: String, data: XMLElement) {
+        val store = TripleStore()
+        store.addData(POPImportFromXml(data))
+        nodeData[nodeName] = store
+    }
+
+    fun execOnNamedNode(nodeName: String, pop: POPBase): POPBase {
+/*execute "pop" on remote node - if it exist - otherwiese throw an exception*/
+        val optimizer = PhysicalOptimizer()
+        optimizer.store = nodeData[nodeName]!!
+        return optimizer.optimize(pop) as POPBase
+    }
+
+    fun execTruncate() {
+        nodeData.clear()
+    }
+fun process_peers_list(): String {
+/*nice to have, but not required*/
         return ""
     }
 
@@ -38,11 +57,5 @@ object P2P {
     }
 
     suspend fun start(bootstrap: String?) {
-/*start the p2p network. DONT block the thread*/
-    }
-
-    fun execOnNamedNode(nodeName: String, pop: POPBase): POPBase {
-/*execute "pop" on remote node - if it exist - otherwiese throw an exception*/
-        return POPEmptyRow()
-    }
+}
 }

@@ -75,6 +75,11 @@ fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
 }
 
 object Endpoint {
+    fun process_truncate(): XMLElement {
+        PhysicalOptimizer._store.truncate()
+        return XMLElement("success")
+    }
+
     fun process_turtle_input(data: String): XMLElement {
         val lcit = LexerCharIterator(data)
         val tit = TurtleScanner(lcit)

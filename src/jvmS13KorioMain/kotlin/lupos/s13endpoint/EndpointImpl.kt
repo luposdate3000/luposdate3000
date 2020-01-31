@@ -41,7 +41,8 @@ object EndpointImpl {
     var fullname = hostname + ":" + port
     val REQUEST_TRACE_PRINT = arrayOf("/trace/print")
     val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query", "query")
-    val REQUEST_TURTLE_INPUT = arrayOf("/turtle/input")
+    val REQUEST_TRUNCATE = arrayOf("/import/truncate")
+    val REQUEST_TURTLE_INPUT = arrayOf("/import/turtle")
     val REQUEST_PEERS_LIST = arrayOf("/peers/list")
     val REQUEST_PEERS_JOIN = arrayOf("/peers/join", "hostname")
     val REQUEST_OPERATOR_QUERY = arrayOf("operator/query", "query")
@@ -77,6 +78,7 @@ object EndpointImpl {
                 REQUEST_TRACE_PRINT[0] -> response = process_print_traces()
                 REQUEST_PEERS_LIST[0] -> response = P2P.process_peers_list()
                 REQUEST_PEERS_JOIN[0] -> response = P2P.process_peers_join(params[REQUEST_PEERS_JOIN[1]]?.first())
+                REQUEST_TRUNCATE[0] -> response = Endpoint.process_truncate().toPrettyString()
                 REQUEST_OPERATOR_QUERY[0] -> {
                     if (request.method == Http.Method.POST)
                         response = Endpoint.process_operatorgraph_query(data).toPrettyString()

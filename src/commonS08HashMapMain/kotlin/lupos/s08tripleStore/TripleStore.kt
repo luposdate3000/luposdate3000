@@ -136,6 +136,16 @@ class TripleStore {
 
     constructor()
 
+    fun truncate() {
+        tripleStoreS.clear()
+        tripleStoreP.clear()
+        tripleStoreO.clear()
+        tripleStoreSP.clear()
+        tripleStoreSO.clear()
+        tripleStorePO.clear()
+        tripleStoreSPO.clear()
+    }
+
     private fun addData(
             key: ResultRow,
             value: ResultRow,
