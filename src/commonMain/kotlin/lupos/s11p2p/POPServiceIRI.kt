@@ -56,10 +56,16 @@ class POPServiceIRI : POPBase {
 
     override fun next(): ResultRow {
         try {
-            return constraint!!.next()
+            val res = constraint!!.next()
+            return res
         } catch (e: Throwable) {
-            if (silent)
-                return resultSet.createResultRow()
+            if (silent) {
+                val res = resultSet.createResultRow()
+                for (n in getProvidedVariableNames()) {
+                    res[resultSet.createVariable(n)] = resultSet.createValue(resultSet.getUndefValue())
+                }
+                return res
+            }
             throw e
         }
     }
@@ -77,8 +83,11 @@ class POPServiceIRI : POPBase {
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPService")
         res.addAttribute("name", serverName)
-        res.addAttribute("silent", ""+silent)
-        res.addContent(originalConstraint.toXMLElement())
+        res.addAttribute("silent", "" + silent)
+        if (constraint != null)
+            res.addContent(constraint.toXMLElement())
+        else
+            res.addContent(originalConstraint.toXMLElement())
         return res
     }
 }

@@ -34,22 +34,22 @@ object P2PLocalDummy {
         val store = TripleStore()
         store.addData(POPImportFromXml(data))
         nodeData[nodeName] = store
-println("ZZZ"+nodeName+data.toPrettyString())
+        println("ZZZ" + nodeName + data.toPrettyString())
     }
 
     fun execOnNamedNode(nodeName: String, pop: OPBase): OPBase {
 /*execute "pop" on remote node - if it exist - otherwiese throw an exception*/
         val optimizer = PhysicalOptimizer()
         optimizer.store = nodeData[nodeName]!!
-        val res= optimizer.optimize(pop)
-println("YYY"+nodeName)
-println(pop)
-println(res)
-return res
+        val res = optimizer.optimize(pop)
+        println("YYY" + nodeName)
+        println(pop)
+        println(res)
+        return res
     }
 
     fun execTruncate() {
-println("AAA")
+        println("AAA")
         nodeData.clear()
     }
 

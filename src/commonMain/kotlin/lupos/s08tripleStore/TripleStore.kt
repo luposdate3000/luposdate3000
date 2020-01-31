@@ -9,11 +9,11 @@ enum class IndexPattern {
 }
 
 abstract class POPTripleStoreIteratorBase() : POPBase() {
-var nameS="#s" + uuid
-var nameP="#p" + uuid
-var nameO="#o" + uuid
-abstract fun setMNameS(n:String)
-abstract fun setMNameP(n:String)
-abstract fun setMNameO(n:String)
+    var nameS = "#s" + uuid
+    var nameP = "#p" + uuid
+    var nameO = "#o" + uuid
+    abstract fun setMNameS(n: String)
+    abstract fun setMNameP(n: String)
+    abstract fun setMNameO(n: String)
 }
 

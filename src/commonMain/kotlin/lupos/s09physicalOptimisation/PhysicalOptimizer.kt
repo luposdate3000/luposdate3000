@@ -154,10 +154,10 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
             variables.add(node.p)
         if (node.o is LOPVariable)
             variables.add(node.o)
-	var result2=if(store==null)
-		_store.getIterator()
-	else
-	store!!.getIterator()
+        var result2 = if (store == null)
+            _store.getIterator()
+        else
+            store!!.getIterator()
         var sname = result2.nameS
         var pname = result2.nameP
         var oname = result2.nameO

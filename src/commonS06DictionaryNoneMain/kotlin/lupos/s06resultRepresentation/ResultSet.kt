@@ -10,6 +10,12 @@ class ResultSet {
 
     constructor()
 
+    fun renameVariable(variableOld: String, variableNew: String): String {
+        variables.remove(variableOld)
+        variables.add(variableNew)
+        return variableNew
+    }
+
     fun createVariable(variable: String): Variable {
         variables.add(variable)
         return variable

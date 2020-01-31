@@ -30,18 +30,20 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
         return XMLElement("TripleStoreIterator").addAttribute("uuid", "" + uuid).addAttribute("nameS", nameS).addAttribute("nameP", nameP).addAttribute("nameO", nameO)
     }
 
-override fun setMNameS(n:String){
-nameS=n
-sNew = resultSetNew.createVariable(nameS)
-}
-override fun setMNameP(n:String){
-nameP=n
-pNew = resultSetNew.createVariable(nameP)
-}
-override fun setMNameO(n:String){
-nameO=n
-oNew = resultSetNew.createVariable(nameO)
-}
+    override fun setMNameS(n: String) {
+        sNew = resultSetNew.renameVariable(nameS, n)
+        nameS = n
+    }
+
+    override fun setMNameP(n: String) {
+        pNew = resultSetNew.renameVariable(nameP, n)
+        nameP = n
+    }
+
+    override fun setMNameO(n: String) {
+        oNew = resultSetNew.renameVariable(nameO, n)
+        nameO = n
+    }
 
     constructor(store: TripleStore, index: IndexPattern) {
         this.store = store
@@ -92,6 +94,9 @@ oNew = resultSetNew.createVariable(nameO)
             Trace.start("TripleStore.next")
             val value = listIterator!!.next()
             val result = resultSetNew.createResultRow()
+            println("sNew :: " + resultSetNew.getVariable(sNew))
+            println("pNew :: " + resultSetNew.getVariable(pNew))
+            println("oNew :: " + resultSetNew.getVariable(oNew))
             if (index == IndexPattern.SPO || index == IndexPattern.SP || index == IndexPattern.SO || index == IndexPattern.S)
                 result[sNew] = resultSetNew.createValue(resultSetOld.getValue(currentKey!![sOld]))
             else
