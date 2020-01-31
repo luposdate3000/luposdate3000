@@ -23,6 +23,7 @@ import lupos.s08tripleStore.TripleStore
 import lupos.s09physicalOptimisation.PhysicalOptimizer
 import lupos.s10outputResult.QueryResultToXML
 import lupos.s11p2p.*
+import lupos.s12keyDistributionOptimizer.*
 import lupos.s13endpoint.*
 import lupos.s13endpoint.Endpoint
 
@@ -38,7 +39,7 @@ object P2PLocalDummy {
 
     fun execOnNamedNode(nodeName: String, pop: OPBase): OPBase {
 /*execute "pop" on remote node - if it exist - otherwiese throw an exception*/
-        val optimizer = PhysicalOptimizer()
+        val optimizer = KeyDistributionOptimizer()
         optimizer.store = nodeData[nodeName]!!
         val res = optimizer.optimize(pop)
         return res

@@ -77,7 +77,19 @@ class POPJoinHashMap : POPBaseNullableIterator {
     }
 
     fun joinHelper(idx: Int) {
-        val rowA = child[idx].next()
+        val rowA = try {
+            child[idx].next()
+        } catch (e: Throwable) {
+            if (idx == 0)
+                throw e
+            val res = resultSet[idx].createResultRow()
+            for (k in variablesJ[idx])
+                res[k.first] = resultSet[idx].getUndefValue()
+            for (p in variables[idx])
+                res[p.first] = resultSet[idx].createValue(resultSet[idx].getUndefValue())
+            res
+        }
+        println("joinNext $idx $rowA")
         var keys = mutableSetOf<String>()
         keys.add("")
         var exactkey = ""
@@ -116,6 +128,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
     }
 
     override fun nnext(): ResultRow? {
+        println("joinNext")
         try {
             Trace.start("POPJoinHashMap.nnext")
             while (true) {

@@ -92,12 +92,9 @@ fun XMLElement.Companion.convertToOPBase(node: XMLElement, store: TripleStore = 
             node["variables"]!!.childs!!.forEach {
                 vars.add(it.attributes["name"]!!)
             }
-            println("XX $node")
             node["bindings"]!!.childs!!.forEach {
-                println("YY $it")
                 val exp = mutableMapOf<String, String>()
                 it.childs!!.forEach {
-                    println("ZZ $it")
                     exp[it.attributes["name"]!!] = it.attributes["content"]!!
                 }
                 vals.add(exp)
@@ -118,9 +115,7 @@ fun XMLElement.Companion.convertToOPBase(node: XMLElement, store: TripleStore = 
             mapping["#o" + olduuid] = "#o${res.uuid}"
             return res
         }
-        "POPServiceIRI" -> {
-            return POPServiceIRI(node.attributes["name"]!!, node.attributes["silent"]!!.toBoolean(), convertToOPBase(node["child"]!!.childs.first()!!, store, mapping))
-        }
+        "POPServiceIRI" -> return POPServiceIRI(node.attributes["name"]!!, node.attributes["silent"]!!.toBoolean(), convertToOPBase(node.childs.first()!!, store, mapping))
         else -> throw Exception("XMLElement.Companion.convertToOPBase unknown :: ${node.tag}")
     }
 }

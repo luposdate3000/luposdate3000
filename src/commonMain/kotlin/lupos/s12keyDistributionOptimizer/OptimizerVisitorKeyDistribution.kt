@@ -10,11 +10,19 @@ import lupos.s07physicalOperators.singleinput.POPProjection
 import lupos.s07physicalOperators.singleinput.POPRename
 import lupos.s08tripleStore.POPTripleStoreIteratorBase
 import lupos.s09physicalOptimisation.*
+import lupos.s11p2p.*
 
 
 abstract class OptimizerVisitorKeyDistribution() : OptimizerVisitorPOP() {
 
+    open fun visit(node: POPServiceIRI): OPBase {
+        return POPServiceIRI(node.serverName, node.silent, optimize(node.originalConstraint))
+    }
+
     override open fun optimize(node: OPBase): OPBase {
+        when (node) {
+            is POPServiceIRI -> return visit(node)
+        }
         return super.optimize(node)
     }
 }

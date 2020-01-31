@@ -94,9 +94,6 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
             Trace.start("TripleStore.next")
             val value = listIterator!!.next()
             val result = resultSetNew.createResultRow()
-            println("sNew :: " + resultSetNew.getVariable(sNew))
-            println("pNew :: " + resultSetNew.getVariable(pNew))
-            println("oNew :: " + resultSetNew.getVariable(oNew))
             if (index == IndexPattern.SPO || index == IndexPattern.SP || index == IndexPattern.SO || index == IndexPattern.S)
                 result[sNew] = resultSetNew.createValue(resultSetOld.getValue(currentKey!![sOld]))
             else

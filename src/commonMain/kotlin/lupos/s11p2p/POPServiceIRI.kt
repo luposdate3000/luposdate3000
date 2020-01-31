@@ -59,11 +59,10 @@ class POPServiceIRI : POPBase {
             val res = constraint!!.next()
             return res
         } catch (e: Throwable) {
-            if (silent) {
+            if (silent || constraint == null) {
                 val res = resultSet.createResultRow()
-                for (n in getProvidedVariableNames()) {
+                for (n in getProvidedVariableNames())
                     res[resultSet.createVariable(n)] = resultSet.createValue(resultSet.getUndefValue())
-                }
                 return res
             }
             throw e
