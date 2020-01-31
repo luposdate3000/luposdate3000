@@ -26,6 +26,7 @@ import lupos.s07physicalOperators.singleinput.POPSort
 import lupos.s07physicalOperators.singleinput.POPTemporaryStore
 import lupos.s08tripleStore.TripleStore
 import lupos.s09physicalOptimisation.*
+import lupos.s11p2p.*
 import lupos.s13endpoint.Endpoint
 
 
@@ -39,24 +40,24 @@ fun createLOPVariable(mapping: MutableMap<String, String>, name: String): LOPVar
 fun XMLElement.Companion.convertToOPBase(node: XMLElement, store: TripleStore = OptimizerVisitorPOP._store, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): OPBase {
     return when (node.tag) {
         "POPSort" -> {
-            val child = convertToOPBase(node["child"]!!.childs.first()!!, store, mapping) as POPBase
+            val child = convertToOPBase(node["child"]!!.childs.first()!!, store, mapping)
             POPSort(createLOPVariable(mapping, node.attributes["by"]!!), node.attributes["order"] == "ASC", child)
         }
         "POPRename" -> {
-            val child = convertToOPBase(node.childs.first()!!, store, mapping) as POPBase
+            val child = convertToOPBase(node.childs.first()!!, store, mapping)
             POPRename(createLOPVariable(mapping, node.attributes["nameTo"]!!), createLOPVariable(mapping, node.attributes["nameFrom"]!!), child)
         }
         "POPProjection" -> {
-            val child = convertToOPBase(node["child"]!!.childs.first()!!, store, mapping) as POPBase
+            val child = convertToOPBase(node["child"]!!.childs.first()!!, store, mapping)
             val variables = mutableListOf<LOPVariable>()
             node["variables"]!!.childs.forEach {
                 variables.add(createLOPVariable(mapping, it.attributes["name"]!!))
             }
             return POPProjection(variables, child)
         }
-        "POPMakeBooleanResult" -> POPMakeBooleanResult(convertToOPBase(node["child"]!!.childs.first()!!, store, mapping) as POPBase)
+        "POPMakeBooleanResult" -> POPMakeBooleanResult(convertToOPBase(node["child"]!!.childs.first()!!, store, mapping))
         "POPGroup" -> {
-            val child = convertToOPBase(node["child"]!!.childs.first()!!, store, mapping) as POPBase
+            val child = convertToOPBase(node["child"]!!.childs.first()!!, store, mapping)
             val by = mutableListOf<LOPVariable>()
             var bindings: POPBase = POPEmptyRow()
             node["by"]!!.childs!!.forEach {
@@ -69,22 +70,22 @@ fun XMLElement.Companion.convertToOPBase(node: XMLElement, store: TripleStore = 
                 return POPGroup(by, null, child)
             return POPGroup(by, bindings as POPBind, child)
         }
-        "POPFilter" -> POPFilter(POPExpression.fromXMLElement(node["filter"]!!.childs.first()), convertToOPBase(node["child"]!!.childs.first()!!, store, mapping) as POPBase)
+        "POPFilter" -> POPFilter(POPExpression.fromXMLElement(node["filter"]!!.childs.first()), convertToOPBase(node["child"]!!.childs.first()!!, store, mapping))
         "POPFilterExact" -> {
-            val child = convertToOPBase(node["child"]!!.childs.first()!!, store, mapping) as POPBase
+            val child = convertToOPBase(node["child"]!!.childs.first()!!, store, mapping)
             POPFilterExact(createLOPVariable(mapping, node.attributes["name"]!!), node.attributes["value"]!!, child)
         }
         "POPBindUndefined" -> {
-            val child = convertToOPBase(node["child"]!!.childs.first()!!, store, mapping) as POPBase
+            val child = convertToOPBase(node["child"]!!.childs.first()!!, store, mapping)
             POPBindUndefined(createLOPVariable(mapping, node.attributes["name"]!!), child)
         }
         "POPBind" -> {
-            val child = convertToOPBase(node["child"]!!.childs.first()!!, store, mapping) as POPBase
+            val child = convertToOPBase(node["child"]!!.childs.first()!!, store, mapping)
             POPBind(createLOPVariable(mapping, node.attributes["name"]!!), convertToOPBase(node["expression"]!!.childs.first()!!, store, mapping) as POPExpression, child)
         }
-        "POPOffset" -> POPOffset(node.attributes["offset"]!!.toInt(), convertToOPBase(node["child"]!!.childs.first(), store, mapping) as POPBase)
-        "POPLimit" -> POPLimit(node.attributes["limit"]!!.toInt(), convertToOPBase(node["child"]!!.childs.first()!!, store, mapping) as POPBase)
-        "POPDistinct" -> POPDistinct(convertToOPBase(node["child"]!!.childs.first()!!, store, mapping) as POPBase)
+        "POPOffset" -> POPOffset(node.attributes["offset"]!!.toInt(), convertToOPBase(node["child"]!!.childs.first(), store, mapping))
+        "POPLimit" -> POPLimit(node.attributes["limit"]!!.toInt(), convertToOPBase(node["child"]!!.childs.first()!!, store, mapping))
+        "POPDistinct" -> POPDistinct(convertToOPBase(node["child"]!!.childs.first()!!, store, mapping))
         "POPValues" -> {
             val vars = mutableListOf<String>()
             val vals = mutableListOf<MutableMap<String, String>>()
@@ -104,10 +105,10 @@ fun XMLElement.Companion.convertToOPBase(node: XMLElement, store: TripleStore = 
             return POPValues(vars, vals)
         }
         "POPEmptyRow" -> POPEmptyRow()
-        "POPUnion" -> POPUnion(convertToOPBase(node["childA"]!!.childs.first()!!, store, mapping) as POPBase, convertToOPBase(node["childB"]!!.childs.first()!!, store, mapping) as POPBase)
-        "POPJoinNestedLoop" -> POPJoinNestedLoop(convertToOPBase(node["childA"]!!.childs.first()!!, store, mapping) as POPBase, convertToOPBase(node["childB"]!!.childs.first()!!, store, mapping) as POPBase, node.attributes["optional"]!!.toBoolean())
-        "POPJoinHashMap" -> POPJoinHashMap(convertToOPBase(node["childA"]!!.childs.first()!!, store, mapping) as POPBase, convertToOPBase(node["childB"]!!.childs.first()!!, store, mapping) as POPBase, node.attributes["optional"]!!.toBoolean())
-        "POPTemporaryStore" -> POPTemporaryStore(convertToOPBase(node["child"]!!.childs.first()!!, store, mapping) as POPBase)
+        "POPUnion" -> POPUnion(convertToOPBase(node["childA"]!!.childs.first()!!, store, mapping), convertToOPBase(node["childB"]!!.childs.first()!!, store, mapping))
+        "POPJoinNestedLoop" -> POPJoinNestedLoop(convertToOPBase(node["childA"]!!.childs.first()!!, store, mapping), convertToOPBase(node["childB"]!!.childs.first()!!, store, mapping), node.attributes["optional"]!!.toBoolean())
+        "POPJoinHashMap" -> POPJoinHashMap(convertToOPBase(node["childA"]!!.childs.first()!!, store, mapping), convertToOPBase(node["childB"]!!.childs.first()!!, store, mapping), node.attributes["optional"]!!.toBoolean())
+        "POPTemporaryStore" -> POPTemporaryStore(convertToOPBase(node["child"]!!.childs.first()!!, store, mapping))
         "POPExpression" -> POPExpression(XMLElement.toASTNode(node.childs.first()!!))
         "TripleStoreIterator" -> {
             val res = store.getIterator()
@@ -116,6 +117,9 @@ fun XMLElement.Companion.convertToOPBase(node: XMLElement, store: TripleStore = 
             mapping["#p" + olduuid] = "#p${res.uuid}"
             mapping["#o" + olduuid] = "#o${res.uuid}"
             return res
+        }
+        "POPServiceIRI" -> {
+            return POPServiceIRI(node.attributes["name"]!!, node.attributes["silent"]!!.toBoolean(), convertToOPBase(node["child"]!!.childs.first()!!, store, mapping))
         }
         else -> throw Exception("XMLElement.Companion.convertToOPBase unknown :: ${node.tag}")
     }

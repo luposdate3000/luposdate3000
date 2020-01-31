@@ -81,7 +81,7 @@ class POPServiceIRI : POPBase {
     }
 
     override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPService")
+        val res = XMLElement("POPServiceIRI")
         res.addAttribute("name", serverName)
         res.addAttribute("silent", "" + silent)
         if (constraint != null)
