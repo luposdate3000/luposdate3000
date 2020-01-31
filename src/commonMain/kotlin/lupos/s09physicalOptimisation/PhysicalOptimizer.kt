@@ -48,11 +48,6 @@ import lupos.s09physicalOptimisation.OptimizerVisitorPOP
 
 class PhysicalOptimizer() : OptimizerVisitorPOP() {
 
-    companion object {
-        val _store: TripleStore = TripleStore()
-    }
-
-    var store = _store
     override fun visit(node: LOPProjection): OPBase {
         return POPProjection(node.variables, optimize(node.child))
     }
@@ -159,10 +154,13 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
             variables.add(node.p)
         if (node.o is LOPVariable)
             variables.add(node.o)
-        var result2 = store.getIterator()
-        var sname = result2.getNameForS()
-        var pname = result2.getNameForP()
-        var oname = result2.getNameForO()
+	var result2=if(store==null)
+		_store.getIterator()
+	else
+	store!!.getIterator()
+        var sname = result2.nameS
+        var pname = result2.nameP
+        var oname = result2.nameO
         var result: POPBase = result2
         result = optimizeTriple(node.s, sname, result, node)
         result = optimizeTriple(node.p, pname, result, node)

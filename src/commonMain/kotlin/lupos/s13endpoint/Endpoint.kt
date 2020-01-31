@@ -15,9 +15,9 @@ import lupos.s05logicalOptimisation.LogicalOptimizer
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
-import lupos.s07physicalOperators.POPBase
+import lupos.s07physicalOperators.*
 import lupos.s07physicalOperators.POPBaseNullableIterator
-import lupos.s09physicalOptimisation.PhysicalOptimizer
+import lupos.s09physicalOptimisation.*
 import lupos.s10outputResult.QueryResultToXML
 import lupos.s12keyDistributionOptimizer.*
 import lupos.s13endpoint.*
@@ -71,12 +71,12 @@ class TripleInsertIterator : POPBaseNullableIterator {
 
 fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
     val triple = ID_Triple(triple_s, triple_p, triple_o)
-    PhysicalOptimizer._store.addData(TripleInsertIterator(triple))
+    OptimizerVisitorPOP._store.addData(TripleInsertIterator(triple))
 }
 
 object Endpoint {
     fun process_truncate(): XMLElement {
-        PhysicalOptimizer._store.truncate()
+        OptimizerVisitorPOP._store.truncate()
         return XMLElement("success")
     }
 

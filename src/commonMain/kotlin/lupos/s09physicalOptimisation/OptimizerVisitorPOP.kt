@@ -11,10 +11,16 @@ import lupos.s07physicalOperators.singleinput.modifiers.*
 import lupos.s07physicalOperators.singleinput.POPBind
 import lupos.s07physicalOperators.singleinput.POPFilterExact
 import lupos.s07physicalOperators.singleinput.POPProjection
-import lupos.s08tripleStore.POPTripleStoreIteratorBase
+import lupos.s08tripleStore.*
 
 
 abstract class OptimizerVisitorPOP() : OptimizerVisitorLOP() {
+	companion object {
+        val _store: TripleStore = TripleStore()
+    }
+
+    var store:TripleStore?=null
+
     open fun visit(node: POPFilterExact): OPBase {
         return POPFilterExact(optimize(node.variable) as LOPVariable, node.value, optimize(node.child) as POPBase)
     }
@@ -28,7 +34,13 @@ abstract class OptimizerVisitorPOP() : OptimizerVisitorLOP() {
     }
 
     open fun visit(node: POPTripleStoreIteratorBase): OPBase {
-        return node
+if(store==null)
+return node
+        val res=store!!.getIterator()
+res.setMNameS(node.nameS)
+res.setMNameP(node.nameP)
+res.setMNameO(node.nameO)
+	return res
     }
 
     open fun visit(node: POPBind): OPBase {

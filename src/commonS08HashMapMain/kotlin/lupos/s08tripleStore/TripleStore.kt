@@ -17,9 +17,9 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
     private val resultSetOld: ResultSet
     private var mapIterator: MutableIterator<MutableMap.MutableEntry<ResultRow, MutableList<ResultRow>>>
     private var listIterator: Iterator<ResultRow>?
-    private val sNew = resultSetNew.createVariable(getNameForS())
-    private val pNew = resultSetNew.createVariable(getNameForP())
-    private val oNew = resultSetNew.createVariable(getNameForO())
+    private var sNew = resultSetNew.createVariable(nameS)
+    private var pNew = resultSetNew.createVariable(nameP)
+    private var oNew = resultSetNew.createVariable(nameO)
     private val sOld: Variable
     private val pOld: Variable
     private val oOld: Variable
@@ -27,8 +27,21 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
     private var currentKey: ResultRow?
     private var index: IndexPattern = IndexPattern.S
     override fun toXMLElement(): XMLElement {
-        return XMLElement("TripleStoreIterator").addAttribute("uuid", "" + uuid)
+        return XMLElement("TripleStoreIterator").addAttribute("uuid", "" + uuid).addAttribute("nameS", nameS).addAttribute("nameP", nameP).addAttribute("nameO", nameO)
     }
+
+override fun setMNameS(n:String){
+nameS=n
+sNew = resultSetNew.createVariable(nameS)
+}
+override fun setMNameP(n:String){
+nameP=n
+pNew = resultSetNew.createVariable(nameP)
+}
+override fun setMNameO(n:String){
+nameO=n
+oNew = resultSetNew.createVariable(nameO)
+}
 
     constructor(store: TripleStore, index: IndexPattern) {
         this.store = store
@@ -67,7 +80,7 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
     constructor(store: TripleStore) : this(store, IndexPattern.S)
 
     override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>(getNameForS(), getNameForP(), getNameForO())
+        return mutableListOf<String>(nameS, nameP, nameO)
     }
 
     override fun getRequiredVariableNames(): List<String> {
