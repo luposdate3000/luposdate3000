@@ -41,11 +41,11 @@ class POPBind : POPSingleInputBase {
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>(name.name)
+        return mutableListOf<String>(name.name) + child.getProvidedVariableNames()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return expression.getRequiredVariableNames()
+        return expression.getRequiredVariableNames() + child.getRequiredVariableNames()
     }
 
     override fun getResultSet(): ResultSet {

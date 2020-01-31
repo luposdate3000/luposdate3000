@@ -37,8 +37,12 @@ class POPJoinHashMap : POPBaseNullableIterator {
         child = arrayOf(childA, childB)
         this.optional = optional
         resultSet = arrayOf(childA.getResultSet(), childB.getResultSet())
-        var variablesA = resultSet[0].getVariableNames()
-        var variablesB = resultSet[1].getVariableNames()
+        var variablesA: Set<String> = mutableSetOf<String>()
+        var variablesB: Set<String> = mutableSetOf<String>()
+        for (s in childA.getProvidedVariableNames())
+            (variablesA as MutableSet).add(s)
+        for (s in childB.getProvidedVariableNames())
+            (variablesB as MutableSet).add(s)
         joinVariables = variablesA.intersect(variablesB)
         variablesA = variablesA.subtract(joinVariables)
         variablesB = variablesB.subtract(joinVariables)
@@ -72,58 +76,55 @@ class POPJoinHashMap : POPBaseNullableIterator {
                 if (v != resultSet[1 - idx].getUndefValue())
                     row[p.second] = resultSetNew.createValue(v)
             }
+            println("joinToQueue $rowA $rowB $row")
             queue.add(row)
         }
     }
 
     fun joinHelper(idx: Int) {
-        val rowA = try {
-            child[idx].next()
-        } catch (e: Throwable) {
-            if (idx == 0)
-                throw e
-            val res = resultSet[idx].createResultRow()
-            for (k in variablesJ[idx])
-                res[k.first] = resultSet[idx].getUndefValue()
-            for (p in variables[idx])
-                res[p.first] = resultSet[idx].createValue(resultSet[idx].getUndefValue())
-            res
-        }
-        println("joinNext $idx $rowA")
-        var keys = mutableSetOf<String>()
-        keys.add("")
-        var exactkey = ""
-        for (k in variablesJ[idx]) {
-            val v = resultSet[idx].getValue(rowA[k.first])
-            val kk = if (v == resultSet[idx].getUndefValue())
-                "-"
-            else
-                v + "-"
-            exactkey += kk
-            val newkeys = mutableSetOf<String>()
-            for (x in keys) {
-                if (kk == "-") {
-                    newkeys.add(x + "-")
-                    for ((a, b) in map[1 - idx])
-                        if (a.startsWith(x)) {
-                            newkeys.add(a.substring(0, a.indexOf("-", x.length + 1) + 1))
-                        }
-                } else {
-                    newkeys.add(x + kk)
-                    newkeys.add(x + "-")
+        try {
+            val rowA = child[idx].next()
+            println("joinNext $idx $rowA")
+            var keys = mutableSetOf<String>()
+            keys.add("")
+            var exactkey = ""
+            for (k in variablesJ[idx]) {
+                val v = resultSet[idx].getValue(rowA[k.first])
+                val kk = if (v == resultSet[idx].getUndefValue())
+                    "-"
+                else
+                    v + "-"
+                exactkey += kk
+                val newkeys = mutableSetOf<String>()
+                for (x in keys) {
+                    if (kk == "-") {
+                        newkeys.add(x + "-")
+                        for ((a, b) in map[1 - idx])
+                            if (a.startsWith(x)) {
+                                newkeys.add(a.substring(0, a.indexOf("-", x.length + 1) + 1))
+                            }
+                    } else {
+                        newkeys.add(x + kk)
+                        newkeys.add(x + "-")
+                    }
                 }
+                keys = newkeys
             }
-            keys = newkeys
-        }
-        var t = map[idx][exactkey]
-        if (t == null)
-            t = mutableListOf<ResultRow>()
-        t.add(rowA)
-        map[idx][exactkey] = t
-        for (key in keys) {
-            val rowsB = map[1 - idx][key]
-            if (rowsB != null)
-                joinHelper(rowA, rowsB, idx)
+            var t = map[idx][exactkey]
+            if (t == null)
+                t = mutableListOf<ResultRow>()
+            t.add(rowA)
+            map[idx][exactkey] = t
+            for (key in keys) {
+                if (map[idx][key] == null)
+                    map[idx][key] = mutableListOf<ResultRow>()
+                val rowsB = map[1 - idx][key]
+                if (rowsB != null)
+                    joinHelper(rowA, rowsB, idx)
+            }
+        } catch (e: Throwable) {
+            if (idx == 0 || !optional)
+                throw e
         }
     }
 
@@ -149,6 +150,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
                                     row[p.second] = resultSetNew.createValue(resultSet[0].getValue(rowA[p.first]))
                                 for (p in variablesJ[0])
                                     row[p.second] = resultSetNew.createValue(resultSet[0].getValue(rowA[p.first]))
+                                println("joinAddOptional $row")
                                 queue.add(row)
                             }
                             map[1][k] = mutableListOf<ResultRow>()
