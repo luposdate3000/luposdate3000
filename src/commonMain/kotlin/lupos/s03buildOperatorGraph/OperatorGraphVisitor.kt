@@ -682,6 +682,11 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         return LOPBind(node.variable.visit(this) as LOPVariable, node.expression.visit(this))
     }
 
+    override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
+	require(childrenValues.isEmpty())	
+	return LOPVariable(node.name)
+    }
+
     override fun visit(node: ASTBuiltInCall, childrenValues: List<OPBase>): OPBase {
         return LOPExpression(node)
     }
@@ -878,10 +883,6 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTGroupConcat, childrenValues: List<OPBase>): OPBase {
         throw UnsupportedOperationException("${classNameToString(this)} Group ${classNameToString(node)}")
-    }
-
-    override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Blank Node ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTDatasetClause, childrenValues: List<OPBase>): OPBase {
