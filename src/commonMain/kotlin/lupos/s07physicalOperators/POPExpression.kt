@@ -737,6 +737,7 @@ println(tmp2.toString().replace(".0",""))
             is ASTBuiltInCall -> {
                 when (node.function) {
 		    BuiltInFunctions.BNODE->{
+			require (node.children.size==0)
 			return "_:POPExpression"+localbnode.next()
 		}
                     BuiltInFunctions.IF -> {
