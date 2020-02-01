@@ -162,8 +162,8 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         if (distinct) {
             result.getLatestChild().setChild(LOPDistinct())
         }
-            val projection = LOPProjection()
-            result.getLatestChild().setChild(projection)
+        val projection = LOPProjection()
+        result.getLatestChild().setChild(projection)
         if (select.size > 0) {
             for (sel in select) {
                 when (sel) {
@@ -186,14 +186,14 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 }
             }
         }
-val childNode=visitQueryBase(node, bind, bindIsAggregate, reduced)
-	        result.getLatestChild().setChild(childNode)
-if(select.size==0){
-for(s in childNode.getProvidedVariableNames()){
-if(!s.startsWith("#"))
-projection.variables.add(LOPVariable(s))
-}
-}
+        val childNode = visitQueryBase(node, bind, bindIsAggregate, reduced)
+        result.getLatestChild().setChild(childNode)
+        if (select.size == 0) {
+            for (s in childNode.getProvidedVariableNames()) {
+                if (!s.startsWith("#"))
+                    projection.variables.add(LOPVariable(s))
+            }
+        }
         return LOPSubGroup(result)
     }
 
@@ -603,7 +603,7 @@ projection.variables.add(LOPVariable(s))
 
     override fun visit(node: ASTTriple, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 3)
-        return LOPTriple(childrenValues[0], childrenValues[1], childrenValues[2],"")//TODO graph name
+        return LOPTriple(childrenValues[0], childrenValues[1], childrenValues[2], "")//TODO graph name
     }
 
     override fun visit(node: ASTOptional, childrenValues: List<OPBase>): OPBase {
@@ -690,8 +690,8 @@ projection.variables.add(LOPVariable(s))
     }
 
     override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
-	require(childrenValues.isEmpty())	
-	return LOPVariable("#"+node.name)
+        require(childrenValues.isEmpty())
+        return LOPVariable("#" + node.name)
     }
 
     override fun visit(node: ASTBuiltInCall, childrenValues: List<OPBase>): OPBase {
@@ -780,8 +780,34 @@ projection.variables.add(LOPVariable(s))
         throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
+    fun setGraphNameForAllTriples(node: OPBase, name: ASTNode): OPBase {
+        if (!(name is ASTIri))
+            throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 1 ${classNameToString(node)} ${classNameToString(name)}")
+        when {
+            node is OPNothing ->
+                return node
+            node is LOPTriple -> {
+                return LOPTriple(node.s, node.p, node.o, (name as ASTIri).iri)
+            }
+            node is LOPFilter -> {
+                node.child = setGraphNameForAllTriples(node.child, name)
+            }
+            else -> throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 2 ${classNameToString(node)} ${classNameToString(node)}")
+        }
+        return node
+    }
+
     override fun visit(node: ASTGraph, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+//val iriOrVar: ASTNode, constraint: Array<ASTNode>
+        var res: OPBase = OPNothing()
+        for (c in childrenValues) {
+            val tmp = setGraphNameForAllTriples(c, node.iriOrVar)
+            if (res is OPNothing)
+                res = tmp
+            else
+                res = LOPJoin(res, tmp, false)
+        }
+        return res
     }
 
     override fun visit(node: ASTDefaultGraph, childrenValues: List<OPBase>): OPBase {

@@ -4,8 +4,8 @@ import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.roundToInt
-import lupos.s00misc.classNameToString
 import lupos.s00misc.*
+import lupos.s00misc.classNameToString
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation
@@ -43,6 +43,7 @@ import lupos.s06resultRepresentation.Variable
 import lupos.s07physicalOperators.POPBase
 import lupos.s07physicalOperators.POPBaseNullableIterator
 import lupos.s07physicalOperators.POPEmptyRow
+
 
 val localbnode = ThreadSafeUuid()
 
@@ -316,14 +317,14 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                 else
                     helperNull()
                 if (node.type == Aggregation.SAMPLE) {
-			if(expression.aggregateTmp[node.uuid]==null&&expression.aggregateMode == TmpAggregateMode.AMCollect){
-			    expression.aggregateTmpTypeUsed[node.uuid]=expression.getResultType(resultSet, resultRow, node.children[0])
-                	    expression.aggregateTmp[node.uuid] = childValue
-			}
-val res: Number? = expression.aggregateTmp[node.uuid]
-                if (res == null)
-                    return helperNull()
-                return helperToT(res)
+                    if (expression.aggregateTmp[node.uuid] == null && expression.aggregateMode == TmpAggregateMode.AMCollect) {
+                        expression.aggregateTmpTypeUsed[node.uuid] = expression.getResultType(resultSet, resultRow, node.children[0])
+                        expression.aggregateTmp[node.uuid] = childValue
+                    }
+                    val res: Number? = expression.aggregateTmp[node.uuid]
+                    if (res == null)
+                        return helperNull()
+                    return helperToT(res)
                 }
                 var last: T? = expression.aggregateTmp[node.uuid] as T?
                 if (last == null)
@@ -719,7 +720,7 @@ println(tmp2.toString().replace(".0",""))
             }
             TmpResultType.RSUndefined -> return resultSet.getUndefValue()
             TmpResultType.RSDecimal -> {
-                val tmp = ""+evaluateDecimal.evaluateHelper(resultSet, resultRow, node)
+                val tmp = "" + evaluateDecimal.evaluateHelper(resultSet, resultRow, node)
                 if (tmp.contains(".") || tmp.contains("e") || tmp.contains("E"))
                     return "\"" + tmp + "\"" + dataTypeDecimal
                 return "\"" + tmp + ".0\"" + dataTypeDecimal
@@ -736,13 +737,13 @@ println(tmp2.toString().replace(".0",""))
             is ASTAddition -> throw ArithmeticException("ASTAddition can not be applied to String-Datatype")
             is ASTBuiltInCall -> {
                 when (node.function) {
-		    BuiltInFunctions.BNODE->{
-			if(node.children.size>0){
-				require(node.children.size==1)
-				return "_:POPExpressionC"+evaluateHelperString(resultSet, resultRow, node.children[0])
-			}else
-				return "_:POPExpression"+localbnode.next()
-		}
+                    BuiltInFunctions.BNODE -> {
+                        if (node.children.size > 0) {
+                            require(node.children.size == 1)
+                            return "_:POPExpressionC" + evaluateHelperString(resultSet, resultRow, node.children[0])
+                        } else
+                            return "_:POPExpression" + localbnode.next()
+                    }
                     BuiltInFunctions.IF -> {
                         if (aggregateTmp[node.uuid] == 1)
                             return evaluateHelperString(resultSet, resultRow, node.children[1])
@@ -809,16 +810,16 @@ println(tmp2.toString().replace(".0",""))
         println("resultRow:: " + resultRow)
         if (getResultType(resultSet, resultRow, child) != TmpResultType.RSBoolean)
             throw UnsupportedOperationException("${classNameToString(this)} evaluateBoolean ${classNameToString(child)}")
-        val res=evaluateHelperBoolean(resultSet, resultRow, child)
-println("POPExpressionB :: $res")
-return res
+        val res = evaluateHelperBoolean(resultSet, resultRow, child)
+        println("POPExpressionB :: $res")
+        return res
     }
 
     fun evaluate(resultSet: ResultSet, resultRow: ResultRow): String {
         println("resultRow:: " + resultRow)
-        val res= evaluateHelperString(resultSet, resultRow, child)
-println("POPExpressionS :: $res")
-return res
+        val res = evaluateHelperString(resultSet, resultRow, child)
+        println("POPExpressionS :: $res")
+        return res
     }
 
     fun evaluate(resultSet: ResultSet, resultRows: List<ResultRow>): String {
@@ -833,9 +834,9 @@ return res
             evaluate(resultSet, resultRow)
         }
         aggregateMode = TmpAggregateMode.AMResult
-        val res= evaluate(resultSet, resultSet.createResultRow())
-println("POPExpressionM :: $res")
-return res
+        val res = evaluate(resultSet, resultSet.createResultRow())
+        println("POPExpressionM :: $res")
+        return res
     }
 
     fun getAllVariablesInChildren(node: ASTNode): List<String> {

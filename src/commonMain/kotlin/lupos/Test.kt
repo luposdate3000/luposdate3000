@@ -46,7 +46,7 @@ fun main(args: Array<String>) {
             println("  Test: sp2b/$f")
             val queryFile = "resources/sp2b/$f.sparql"
             val resultFile = "resources/sp2b/$f.srj"
-            parseSPARQLAndEvaluate(true, queryFile, inputDataFile, resultFile, null,mutableListOf<MutableMap<String, String>>(),mutableListOf<MutableMap<String, String>>())
+            parseSPARQLAndEvaluate(true, queryFile, inputDataFile, resultFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
         }
     }
     Trace.print()
@@ -412,7 +412,7 @@ private fun testOneEntry(data: SevenIndices, node: Long, queryIdentifier: String
     println("services : $services")
     if (queryFile == null)
         return true
-    val success = parseSPARQLAndEvaluate(expectedResult, queryFile!!, inputDataFile, resultFile, services,inputDataGraph,outputDataGraph)
+    val success = parseSPARQLAndEvaluate(expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
     return success == expectedResult
 }
 
@@ -422,8 +422,8 @@ fun parseSPARQLAndEvaluate(//
         inputDataFileName: String?, //
         resultDataFileName: String?, //
         services: List<Map<String, String>>?,//
-	inputDataGraph:MutableList<MutableMap<String, String>>,//
-	outputDataGraph:MutableList<MutableMap<String, String>>//
+        inputDataGraph: MutableList<MutableMap<String, String>>,//
+        outputDataGraph: MutableList<MutableMap<String, String>>//
 ): Boolean {
     val toParse = readFileOrNull(queryFile)!!
     val inputData = readFileOrNull(inputDataFileName)
@@ -439,9 +439,9 @@ fun parseSPARQLAndEvaluate(//
             store.getDefaultGraph().addData(POPImportFromXml(xmlQueryInput!!.first()))
             println(xmlQueryInput.first().toPrettyString())
         }
-	inputDataGraph.forEach{
+        inputDataGraph.forEach {
             println("InputData Graph[${it["name"]}] Original")
-		val inputData = readFileOrNull(it["filename"])
+            val inputData = readFileOrNull(it["filename"])
             println(inputData)
             println("----------Input Data Graph[${it["name"]}]")
             var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
@@ -487,7 +487,18 @@ fun parseSPARQLAndEvaluate(//
             println(xmlQueryTarget?.first()?.toPrettyString())
             println(resultData)
             var res = xmlQueryResult.first().myEquals(xmlQueryTarget?.first())
-//TODO verify outputDataGraph
+            outputDataGraph.forEach {
+                println("OutputData Graph[${it["name"]}] Original")
+                val outputData = readFileOrNull(it["filename"])
+                println(outputData)
+                println("----------Verify Output Data Graph[${it["name"]}]")
+                var xmlGraphTarget = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
+                var xmlGraphActual = QueryResultToXML.toXML(store.getNamedGraph(it["name"]!!).getIterator())
+                if (!xmlQueryResult.first().myEqualsUnclean(xmlQueryTarget?.first())) {
+                    println("----------Failed(PersistentStore Graph)")
+                    res = false
+                }
+            }
             if (res) {
                 val xmlPOP = pop_distributed_node.toXMLElement()
                 val popNodeRecovered = XMLElement.convertToOPBase(xmlPOP, store) as POPBase

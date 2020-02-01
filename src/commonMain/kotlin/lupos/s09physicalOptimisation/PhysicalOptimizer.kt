@@ -155,9 +155,9 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
         if (node.o is LOPVariable)
             variables.add(node.o)
         var result2 = if (store == null)
-		globalStore.getNamedGraph(node.graph).getIterator()
+            globalStore.getNamedGraph(node.graph).getIterator()
         else
-		store!!.getNamedGraph(node.graph).getIterator()
+            store!!.getNamedGraph(node.graph).getIterator()
         var sname = result2.nameS
         var pname = result2.nameP
         var oname = result2.nameO

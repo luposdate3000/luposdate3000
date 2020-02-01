@@ -32,11 +32,11 @@ object P2PLocalDummy {
     val nodeData = mutableMapOf<String, PersistentStore>()
 
     fun execInsertOnNamedNode(nodeName: String, data: XMLElement) {
-	var pstore=nodeData[nodeName]
-	if(pstore==null){
-		pstore=PersistentStore()
-		nodeData[nodeName]=pstore
-	}
+        var pstore = nodeData[nodeName]
+        if (pstore == null) {
+            pstore = PersistentStore()
+            nodeData[nodeName] = pstore
+        }
         val store = pstore.getDefaultGraph()
         store.addData(POPImportFromXml(data))
     }
