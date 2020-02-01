@@ -201,7 +201,7 @@ private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> 
                     }
                 }
                 numberOfTests++
-                if (!testOneEntry(data, it, "http://www.w3.org/2001/sw/DataAccess/tests/test-query#query", "http://www.w3.org/2001/sw/DataAccess/tests/test-query#data", newprefix)) {
+                if (!testOneEntry(data, it, newprefix)) {
                     numberOfErrors++
                 }
             }
@@ -216,7 +216,7 @@ private fun readFileOrNull(name: String?): String? {
     return readFileContents(name)
 }
 
-private fun testOneEntry(data: SevenIndices, node: Long, queryIdentifier: String, inputDataIdentifier: String, prefix: String): Boolean {
+private fun testOneEntry(data: SevenIndices, node: Long, prefix: String): Boolean {
     var testType: String? = null
     var comment: String? = null
     var features = mutableListOf<String>()
@@ -243,8 +243,10 @@ private fun testOneEntry(data: SevenIndices, node: Long, queryIdentifier: String
                             val iri = (Dictionary[it.first] as IRI).iri
                             when (iri) {
                                 "http://www.w3.org/2009/sparql/tests/test-update#data" -> {
-                                    require(resultFile == null)
-                                    resultFile = prefix + (Dictionary[it.second] as IRI).iri
+                                    val graph = mutableMapOf<String, String>()
+                                    graph["name"] = ""
+                                    graph["filename"] = prefix + (Dictionary[it.second] as IRI).iri
+                                    outputDataGraph.add(graph)
                                 }
                                 "http://www.w3.org/2009/sparql/tests/test-update#graphData" -> {
                                     val graph = mutableMapOf<String, String>()
@@ -478,27 +480,32 @@ fun parseSPARQLAndEvaluate(//
         println("----------Distributed Operator Graph")
         val pop_distributed_node = KeyDistributionOptimizer().optimize(pop_node) as POPBase
         println(pop_distributed_node)
+        var res = true
+        println("----------Query Result")
+        val xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node)
+        println(xmlQueryResult.first().toPrettyString())
+
+        outputDataGraph.forEach {
+            println("OutputData Graph[${it["name"]}] Original")
+            val outputData = readFileOrNull(it["filename"])
+            println(outputData)
+            println("----------Verify Output Data Graph[${it["name"]}]")
+            var xmlGraphTarget = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
+            var xmlGraphActual = QueryResultToXML.toXML(store.getNamedGraph(it["name"]!!).getIterator())
+            println(xmlGraphTarget!!.first().toPrettyString())
+            println(xmlGraphActual!!.first().toPrettyString())
+            if (!xmlGraphTarget!!.first().myEqualsUnclean(xmlGraphActual?.first())) {
+                println("----------Failed(PersistentStore Graph)")
+                res = false
+                return res
+            }
+        }
         if (resultData != null && resultDataFileName != null) {
-            println("----------Query Result")
-            val xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node)
-            println(xmlQueryResult.first().toPrettyString())
             println("----------Target Result")
             var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)
             println(xmlQueryTarget?.first()?.toPrettyString())
             println(resultData)
-            var res = xmlQueryResult.first().myEquals(xmlQueryTarget?.first())
-            outputDataGraph.forEach {
-                println("OutputData Graph[${it["name"]}] Original")
-                val outputData = readFileOrNull(it["filename"])
-                println(outputData)
-                println("----------Verify Output Data Graph[${it["name"]}]")
-                var xmlGraphTarget = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
-                var xmlGraphActual = QueryResultToXML.toXML(store.getNamedGraph(it["name"]!!).getIterator())
-                if (!xmlQueryResult.first().myEqualsUnclean(xmlQueryTarget?.first())) {
-                    println("----------Failed(PersistentStore Graph)")
-                    res = false
-                }
-            }
+            res = xmlQueryResult.first().myEquals(xmlQueryTarget?.first())
             if (res) {
                 val xmlPOP = pop_distributed_node.toXMLElement()
                 val popNodeRecovered = XMLElement.convertToOPBase(xmlPOP, store) as POPBase

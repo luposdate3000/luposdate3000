@@ -90,9 +90,9 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTValue
 import lupos.s02buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.Visitor
+import lupos.s03buildOperatorGraph.data.*
 import lupos.s03buildOperatorGraph.data.LOPExpression
 import lupos.s03buildOperatorGraph.data.LOPTriple
-import lupos.s03buildOperatorGraph.data.LOPValues
 import lupos.s03buildOperatorGraph.data.LOPVariable
 import lupos.s03buildOperatorGraph.LOPBase
 import lupos.s03buildOperatorGraph.multiinput.LOPJoin
@@ -879,7 +879,26 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTInsertData, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Update ${classNameToString(node)}")
+        val res = LOPInsertData()
+        for (c in node.children) {
+            when {
+                c is ASTTriple -> {
+                    res.data.add(LOPTriple(c.children[0].visit(this), c.children[1].visit(this), c.children[2].visit(this), ""))
+                }
+                c is ASTGraph -> {
+                    for (c2 in c.children) {
+                        when {
+                            c2 is ASTTriple -> {
+                                res.data.add(LOPTriple(c2.children[0].visit(this), c2.children[1].visit(this), c2.children[2].visit(this), (c.iriOrVar as ASTIri).iri))
+                            }
+                            else -> throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)} ${classNameToString(c2)}")
+                        }
+                    }
+                }
+                else -> throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)} ${classNameToString(c)}")
+            }
+        }
+        return res
     }
 
     override fun visit(node: ASTModifyWithWhere, childrenValues: List<OPBase>): OPBase {

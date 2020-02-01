@@ -3,10 +3,11 @@ package lupos.s08tripleStore
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s03buildOperatorGraph.data.*
+import lupos.s06resultRepresentation.*
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.ResultSetIterator
-import lupos.s06resultRepresentation.Variable
 import lupos.s07physicalOperators.POPBase
 import lupos.s08tripleStore.IndexPattern
 import lupos.s08tripleStore.POPTripleStoreIteratorBase
@@ -168,6 +169,7 @@ class TripleStore {
         tripleStoreSPO.clear()
     }
 
+
     private fun addData(
             key: ResultRow,
             value: ResultRow,
@@ -181,6 +183,78 @@ class TripleStore {
         list.add(value)
     }
 
+    private fun addData(vals: Value, valp: Value, valo: Value) {
+        run {
+            val rrk = resultSet.createResultRow()
+            val rrv = resultSet.createResultRow()
+            rrk[s] = vals
+            rrv[p] = valp
+            rrv[o] = valo
+            addData(rrk, rrv, tripleStoreS)
+        }
+
+        run {
+            val rrk = resultSet.createResultRow()
+            val rrv = resultSet.createResultRow()
+            rrv[s] = vals
+            rrk[p] = valp
+            rrv[o] = valo
+            addData(rrk, rrv, tripleStoreP)
+        }
+
+        run {
+            val rrk = resultSet.createResultRow()
+            val rrv = resultSet.createResultRow()
+            rrv[s] = vals
+            rrv[p] = valp
+            rrk[o] = valo
+            addData(rrk, rrv, tripleStoreO)
+        }
+
+        run {
+            val rrk = resultSet.createResultRow()
+            val rrv = resultSet.createResultRow()
+            rrk[s] = vals
+            rrk[p] = valp
+            rrv[o] = valo
+            addData(rrk, rrv, tripleStoreSP)
+        }
+
+        run {
+            val rrk = resultSet.createResultRow()
+            val rrv = resultSet.createResultRow()
+            rrk[s] = vals
+            rrv[p] = valp
+            rrk[o] = valo
+            addData(rrk, rrv, tripleStoreSO)
+        }
+
+        run {
+            val rrk = resultSet.createResultRow()
+            val rrv = resultSet.createResultRow()
+            rrv[s] = vals
+            rrk[p] = valp
+            rrk[o] = valo
+            addData(rrk, rrv, tripleStorePO)
+        }
+
+        run {
+            val rrk = resultSet.createResultRow()
+            val rrv = resultSet.createResultRow()
+            rrk[s] = vals
+            rrk[p] = valp
+            rrk[o] = valo
+            addData(rrk, rrv, tripleStoreSPO)
+        }
+    }
+
+    fun addData(t: LOPTriple) {
+        val vals = resultSet.createValue(t.s.toString())
+        val valp = resultSet.createValue(t.p.toString())
+        val valo = resultSet.createValue(t.o.toString())
+        addData(vals, valp, valo)
+    }
+
     fun addData(iterator: ResultSetIterator) {
         val rsOld = iterator.getResultSet()
         val sOld = rsOld.createVariable("s")
@@ -191,69 +265,7 @@ class TripleStore {
             val vals = resultSet.createValue(rsOld.getValue(data[sOld]))
             val valp = resultSet.createValue(rsOld.getValue(data[pOld]))
             val valo = resultSet.createValue(rsOld.getValue(data[oOld]))
-
-            run {
-                val rrk = resultSet.createResultRow()
-                val rrv = resultSet.createResultRow()
-                rrk[s] = vals
-                rrv[p] = valp
-                rrv[o] = valo
-                addData(rrk, rrv, tripleStoreS)
-            }
-
-            run {
-                val rrk = resultSet.createResultRow()
-                val rrv = resultSet.createResultRow()
-                rrv[s] = vals
-                rrk[p] = valp
-                rrv[o] = valo
-                addData(rrk, rrv, tripleStoreP)
-            }
-
-            run {
-                val rrk = resultSet.createResultRow()
-                val rrv = resultSet.createResultRow()
-                rrv[s] = vals
-                rrv[p] = valp
-                rrk[o] = valo
-                addData(rrk, rrv, tripleStoreO)
-            }
-
-            run {
-                val rrk = resultSet.createResultRow()
-                val rrv = resultSet.createResultRow()
-                rrk[s] = vals
-                rrk[p] = valp
-                rrv[o] = valo
-                addData(rrk, rrv, tripleStoreSP)
-            }
-
-            run {
-                val rrk = resultSet.createResultRow()
-                val rrv = resultSet.createResultRow()
-                rrk[s] = vals
-                rrv[p] = valp
-                rrk[o] = valo
-                addData(rrk, rrv, tripleStoreSO)
-            }
-
-            run {
-                val rrk = resultSet.createResultRow()
-                val rrv = resultSet.createResultRow()
-                rrv[s] = vals
-                rrk[p] = valp
-                rrk[o] = valo
-                addData(rrk, rrv, tripleStorePO)
-            }
-
-            run {
-                val rrk = resultSet.createResultRow()
-                val rrv = resultSet.createResultRow()
-                rrk[s] = vals
-                rrk[p] = valp
-                rrk[o] = valo
-                addData(rrk, rrv, tripleStoreSPO)
-            }
+            addData(vals, valp, valo)
         }
     }
 

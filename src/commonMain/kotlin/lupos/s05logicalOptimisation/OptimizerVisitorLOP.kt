@@ -1,8 +1,8 @@
 package lupos.s05logicalOptimisation
 
+import lupos.s03buildOperatorGraph.data.*
 import lupos.s03buildOperatorGraph.data.LOPExpression
 import lupos.s03buildOperatorGraph.data.LOPTriple
-import lupos.s03buildOperatorGraph.data.LOPValues
 import lupos.s03buildOperatorGraph.data.LOPVariable
 import lupos.s03buildOperatorGraph.multiinput.LOPJoin
 import lupos.s03buildOperatorGraph.multiinput.LOPMinus
@@ -138,6 +138,10 @@ abstract class OptimizerVisitorLOP() {
         return LOPVariable(node.name)
     }
 
+    open fun visit(node: LOPInsertData): OPBase {
+        return node
+    }
+
     open fun optimize(node: OPBase): OPBase {
         when (node) {
             is LOPExpression -> return visit(node)
@@ -164,6 +168,7 @@ abstract class OptimizerVisitorLOP() {
             is LOPRename -> return visit(node)
             is LOPServiceIRI -> return visit(node)
             is LOPServiceVAR -> return visit(node)
+            is LOPInsertData -> return visit(node)
         }
         throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} c ${node::class.simpleName}")
     }
