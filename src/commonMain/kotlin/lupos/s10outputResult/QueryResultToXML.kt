@@ -22,7 +22,7 @@ object QueryResultToXML {
             val value = resultSet.getValue(resultRow[resultSet.createVariable("?boolean")])
             val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
             require(value.endsWith("\"^^<" + datatype + ">"))
-            nodeSparql.addContent(XMLElement("boolean").addAttribute("datatype", datatype).addContent(value.substring(1, value.length - ("\"^^<" + datatype + ">").length)))
+            nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<" + datatype + ">").length)))
         } else {
             val nodeResults = XMLElement("results")
             nodeSparql.addContent(nodeResults)

@@ -96,7 +96,7 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
                         val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
                         res.clear()
                         res.add(nodeSparql)
-                        val node = XMLElement("boolean").addContent(token2.value).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#boolean")
+                        val node = XMLElement("boolean").addContent(token2.value)
                         nodeSparql.addContent(nodeHead)
                         nodeSparql.addContent(node)
                         return res

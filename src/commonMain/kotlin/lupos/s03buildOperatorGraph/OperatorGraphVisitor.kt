@@ -162,9 +162,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         if (distinct) {
             result.getLatestChild().setChild(LOPDistinct())
         }
-        if (select.size > 0) {
             val projection = LOPProjection()
             result.getLatestChild().setChild(projection)
+        if (select.size > 0) {
             for (sel in select) {
                 when (sel) {
                     is ASTVar -> {
@@ -186,7 +186,14 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 }
             }
         }
-        result.getLatestChild().setChild(visitQueryBase(node, bind, bindIsAggregate, reduced))
+val childNode=visitQueryBase(node, bind, bindIsAggregate, reduced)
+	        result.getLatestChild().setChild(childNode)
+if(select.size==0){
+for(s in childNode.getProvidedVariableNames()){
+if(!s.startsWith("#"))
+projection.variables.add(LOPVariable(s))
+}
+}
         return LOPSubGroup(result)
     }
 
@@ -684,7 +691,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
 	require(childrenValues.isEmpty())	
-	return LOPVariable(node.name)
+	return LOPVariable("#"+node.name)
     }
 
     override fun visit(node: ASTBuiltInCall, childrenValues: List<OPBase>): OPBase {
