@@ -5,7 +5,7 @@ import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.roundToInt
 import lupos.s00misc.classNameToString
-import lupos.s00misc.XMLElement
+import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation
@@ -44,6 +44,7 @@ import lupos.s07physicalOperators.POPBase
 import lupos.s07physicalOperators.POPBaseNullableIterator
 import lupos.s07physicalOperators.POPEmptyRow
 
+val localbnode = ThreadSafeUuid()
 
 //import com.soywiz.krypto.md5
 //import com.soywiz.krypto.sha1
@@ -735,6 +736,9 @@ println(tmp2.toString().replace(".0",""))
             is ASTAddition -> throw ArithmeticException("ASTAddition can not be applied to String-Datatype")
             is ASTBuiltInCall -> {
                 when (node.function) {
+		    BuiltInFunctions.BNODE->{
+			return "_:POPExpression"+localbnode.next()
+		}
                     BuiltInFunctions.IF -> {
                         if (aggregateTmp[node.uuid] == 1)
                             return evaluateHelperString(resultSet, resultRow, node.children[1])
