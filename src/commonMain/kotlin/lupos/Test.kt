@@ -485,6 +485,7 @@ fun parseSPARQLAndEvaluate(//
         val xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node)
         println(xmlQueryResult.first().toPrettyString())
 
+var verifiedOutput=false
         outputDataGraph.forEach {
             println("OutputData Graph[${it["name"]}] Original")
             val outputData = readFileOrNull(it["filename"])
@@ -503,6 +504,7 @@ tmp.setMNameO("o")
                 res = false
                 return res
             }
+verifiedOutput=true
         }
         if (resultData != null && resultDataFileName != null) {
             println("----------Target Result")
@@ -540,11 +542,18 @@ tmp.setMNameO("o")
             }
             return res
         } else {
+if(verifiedOutput){
+            if (expectedResult)
+                println("----------Success(Graph)")
+            else
+                println("----------Failed(ExpectFalse,Graph)")
+}else{
             if (expectedResult)
                 println("----------Success(Syntax)")
             else
                 println("----------Failed(ExpectFalse,Syntax)")
-            return true
+}
+            return expectedResult
         }
     } catch (e: ParseError) {
         println(e.message)
