@@ -42,7 +42,7 @@ import lupos.s07physicalOperators.singleinput.POPMakeBooleanResult
 import lupos.s07physicalOperators.singleinput.POPProjection
 import lupos.s07physicalOperators.singleinput.POPRename
 import lupos.s07physicalOperators.singleinput.POPSort
-import lupos.s08tripleStore.TripleStore
+import lupos.s08tripleStore.*
 import lupos.s09physicalOptimisation.OptimizerVisitorPOP
 
 
@@ -155,9 +155,9 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
         if (node.o is LOPVariable)
             variables.add(node.o)
         var result2 = if (store == null)
-            _store.getIterator()
+		globalStore.getNamedGraph(node.graph).getIterator()
         else
-            store!!.getIterator()
+		store!!.getNamedGraph(node.graph).getIterator()
         var sname = result2.nameS
         var pname = result2.nameP
         var oname = result2.nameO

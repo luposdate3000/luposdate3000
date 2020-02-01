@@ -24,7 +24,7 @@ import lupos.s07physicalOperators.singleinput.POPProjection
 import lupos.s07physicalOperators.singleinput.POPRename
 import lupos.s07physicalOperators.singleinput.POPSort
 import lupos.s07physicalOperators.singleinput.POPTemporaryStore
-import lupos.s08tripleStore.TripleStore
+import lupos.s08tripleStore.*
 import lupos.s09physicalOptimisation.*
 import lupos.s11p2p.*
 import lupos.s13endpoint.Endpoint
@@ -37,7 +37,7 @@ fun createLOPVariable(mapping: MutableMap<String, String>, name: String): LOPVar
     return LOPVariable(name)
 }
 
-fun XMLElement.Companion.convertToOPBase(node: XMLElement, store: TripleStore = OptimizerVisitorPOP._store, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): OPBase {
+fun XMLElement.Companion.convertToOPBase(node: XMLElement, store: PersistentStore = globalStore, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): OPBase {
     return when (node.tag) {
         "POPSort" -> {
             val child = convertToOPBase(node["child"]!!.childs.first()!!, store, mapping)
@@ -108,7 +108,7 @@ fun XMLElement.Companion.convertToOPBase(node: XMLElement, store: TripleStore = 
         "POPTemporaryStore" -> POPTemporaryStore(convertToOPBase(node["child"]!!.childs.first()!!, store, mapping))
         "POPExpression" -> POPExpression(XMLElement.toASTNode(node.childs.first()!!))
         "TripleStoreIterator" -> {
-            val res = store.getIterator()
+            val res = store.getNamedGraph(node.attributes["name"]!!).getIterator()
             val olduuid = node.attributes["uuid"]
             mapping["#s" + olduuid] = "#s${res.uuid}"
             mapping["#p" + olduuid] = "#p${res.uuid}"

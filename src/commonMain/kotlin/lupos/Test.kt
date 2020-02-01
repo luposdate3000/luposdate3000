@@ -24,7 +24,7 @@ import lupos.s06resultRepresentation.Variable
 import lupos.s07physicalOperators.*
 import lupos.s07physicalOperators.POPBase
 import lupos.s07physicalOperators.POPBaseNullableIterator
-import lupos.s08tripleStore.TripleStore
+import lupos.s08tripleStore.*
 import lupos.s09physicalOptimisation.PhysicalOptimizer
 import lupos.s10outputResult.QueryResultToXML
 import lupos.s11p2p.*
@@ -427,13 +427,13 @@ fun parseSPARQLAndEvaluate(//
     val inputData = readFileOrNull(inputDataFileName)
     val resultData = readFileOrNull(resultDataFileName)
     try {
-        val store = TripleStore()
+        val store = PersistentStore()
         if (inputData != null && inputDataFileName != null) {
             println("InputData Original")
             println(inputData)
             println("----------Input Data")
             var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
-            store.addData(POPImportFromXml(xmlQueryInput!!.first()))
+            store.getDefaultGraph().addData(POPImportFromXml(xmlQueryInput!!.first()))
             println(xmlQueryInput.first().toPrettyString())
         }
         P2P.execTruncate()

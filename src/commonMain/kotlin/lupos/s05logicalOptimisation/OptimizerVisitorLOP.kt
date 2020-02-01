@@ -123,7 +123,7 @@ abstract class OptimizerVisitorLOP() {
     }
 
     open fun visit(node: LOPTriple): OPBase {
-        return LOPTriple(optimize(node.s), optimize(node.p), optimize(node.o))
+        return LOPTriple(optimize(node.s), optimize(node.p), optimize(node.o),node.graph)
     }
 
     open fun visit(node: LOPValues): OPBase {

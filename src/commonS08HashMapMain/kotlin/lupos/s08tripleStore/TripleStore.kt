@@ -26,8 +26,11 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
     private val store: TripleStore
     private var currentKey: ResultRow?
     private var index: IndexPattern = IndexPattern.S
+override fun getGraphName():String{
+return store.name
+}
     override fun toXMLElement(): XMLElement {
-        return XMLElement("TripleStoreIterator").addAttribute("uuid", "" + uuid).addAttribute("nameS", nameS).addAttribute("nameP", nameP).addAttribute("nameO", nameO)
+        return XMLElement("TripleStoreIterator").addAttribute("uuid", "" + uuid).addAttribute("nameS", nameS).addAttribute("nameP", nameP).addAttribute("nameO", nameO).addAttribute("name",getGraphName())
     }
 
     override fun setMNameS(n: String) {
@@ -148,8 +151,10 @@ class TripleStore {
     val tripleStoreSO = mutableMapOf<ResultRow, MutableList<ResultRow>>()
     val tripleStorePO = mutableMapOf<ResultRow, MutableList<ResultRow>>()
     val tripleStoreSPO = mutableMapOf<ResultRow, MutableList<ResultRow>>()
-
-    constructor()
+val name:String
+    constructor(name:String){
+	this.name=name
+	}
 
     fun truncate() {
         tripleStoreS.clear()

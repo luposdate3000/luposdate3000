@@ -15,11 +15,7 @@ import lupos.s08tripleStore.*
 
 
 abstract class OptimizerVisitorPOP() : OptimizerVisitorLOP() {
-    companion object {
-        val _store: TripleStore = TripleStore()
-    }
-
-    var store: TripleStore? = null
+    var store: PersistentStore? = null
 
     open fun visit(node: POPFilterExact): OPBase {
         return POPFilterExact(optimize(node.variable) as LOPVariable, node.value, optimize(node.child))
@@ -36,7 +32,7 @@ abstract class OptimizerVisitorPOP() : OptimizerVisitorLOP() {
     open fun visit(node: POPTripleStoreIteratorBase): OPBase {
         if (store == null)
             return node
-        val res = store!!.getIterator()
+        val res = store!!.getNamedGraph(node.getGraphName()).getIterator()
         res.setMNameS(node.nameS)
         res.setMNameP(node.nameP)
         res.setMNameO(node.nameO)

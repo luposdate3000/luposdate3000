@@ -7,7 +7,7 @@ import lupos.s03buildOperatorGraph.LOPBase
 import lupos.s03buildOperatorGraph.OPBase
 
 
-class LOPTriple(val s: OPBase, val p: OPBase, val o: OPBase) : LOPBase() {
+class LOPTriple(val s: OPBase, val p: OPBase, val o: OPBase,val graph:String) : LOPBase() {
     override fun getProvidedVariableNames(): List<String> {
         return s.getProvidedVariableNames() + p.getProvidedVariableNames() + o.getProvidedVariableNames()
     }
