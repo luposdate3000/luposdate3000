@@ -12,7 +12,7 @@ import lupos.s07physicalOperators.POPBaseNullableIterator
 import lupos.s08tripleStore.*
 
 
-class POPInsertData(val data: List<LOPTriple>) : POPBase() {
+class POPInsertData(val data: List<List<String>>,val pstore:PersistentStore) : POPBase() {
     private val resultSetNew = ResultSet()
 
     private var first = true
@@ -35,7 +35,8 @@ class POPInsertData(val data: List<LOPTriple>) : POPBase() {
             Trace.start("POPEmptyRow.next")
             first = false
             for (t in data) {
-                val store = globalStore.getNamedGraph(t.graph)
+println("POPInsertData :: $t")
+                val store = pstore.getNamedGraph(t[3])
                 store.addData(t)
             }
             return resultSetNew.createResultRow()
@@ -54,6 +55,9 @@ class POPInsertData(val data: List<LOPTriple>) : POPBase() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPInsertData")
+	for(t in data){
+res.addContent(XMLElement("RawTriple").addAttribute("s",t[0]).addAttribute("p",t[1]).addAttribute("o",t[2]).addAttribute("graph",t[3]))
+	}
         return res
     }
 }

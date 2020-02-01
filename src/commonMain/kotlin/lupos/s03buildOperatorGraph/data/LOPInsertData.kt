@@ -8,7 +8,7 @@ import lupos.s03buildOperatorGraph.OPBase
 
 
 class LOPInsertData() : LOPBase() {
-    val data = mutableListOf<LOPTriple>()
+    val data = mutableListOf<List<String>>()
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()
     }
@@ -18,6 +18,10 @@ class LOPInsertData() : LOPBase() {
     }
 
     override fun toXMLElement(): XMLElement {
-        return XMLElement("LOPInsertData")
+        val res= XMLElement("LOPInsertData")
+for(t in data){
+res.addContent(XMLElement("RawTriple").addAttribute("s",t[0]).addAttribute("p",t[1]).addAttribute("o",t[2]).addAttribute("graph",t[3]))
+        }
+return res
     }
 }

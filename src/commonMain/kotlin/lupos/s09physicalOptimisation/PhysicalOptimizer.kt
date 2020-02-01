@@ -49,7 +49,10 @@ import lupos.s09physicalOptimisation.OptimizerVisitorPOP
 class PhysicalOptimizer() : OptimizerVisitorPOP() {
 
     override fun visit(node: LOPInsertData): OPBase {
-        return POPInsertData(node.data)
+	val s=store
+	if(s==null)
+	return POPInsertData(node.data,globalStore)
+        return POPInsertData(node.data,s)
     }
 
     override fun visit(node: LOPProjection): OPBase {
