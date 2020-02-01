@@ -737,8 +737,11 @@ println(tmp2.toString().replace(".0",""))
             is ASTBuiltInCall -> {
                 when (node.function) {
 		    BuiltInFunctions.BNODE->{
-			require (node.children.size==0)
-			return "_:POPExpression"+localbnode.next()
+			if(node.children.size>0){
+				require(node.children.size==1)
+				return "_:POPExpressionC"+evaluateHelperString(resultSet, resultRow, node.children[0])
+			}else
+				return "_:POPExpression"+localbnode.next()
 		}
                     BuiltInFunctions.IF -> {
                         if (aggregateTmp[node.uuid] == 1)
