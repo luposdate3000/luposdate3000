@@ -22,7 +22,9 @@ abstract class POPTripleStoreIteratorBase() : POPBase() {
 
 val globalStore = PersistentStore()
 
-class PersistentStore() {
+class PersistentStore {
+    val defaultGraphName = ""
+
     companion object {
         private val global_transactionID = ThreadSafeUuid()
     }
@@ -32,17 +34,61 @@ class PersistentStore() {
     }
 
     val stores = mutableMapOf<String, TripleStore>()
-    fun getNamedGraph(name: String): TripleStore {
+
+    fun getGraphNames(): List<String> {
+        val res = mutableListOf<String>()
+        for (t in stores.keys)
+            if (t != defaultGraphName)
+                res.add(t)
+        return res
+    }
+
+    constructor() {
+        if (stores[defaultGraphName] == null) {
+            stores[defaultGraphName] = TripleStore(defaultGraphName)
+        }
+    }
+
+    fun createGraph(name: String): TripleStore {
         val tmp = stores[name]
         if (tmp != null)
-            return tmp
+            throw Exception("PersistentStore.createGraph :: graph[$name] already exist")
         val tmp2 = TripleStore(name)
         stores[name] = tmp2
         return tmp2
     }
 
+    fun dropGraph(name: String) {
+        require(name != defaultGraphName)
+        if (stores[name] == null)
+            throw Exception("PersistentStore.dropGraph :: graph[$name] did not exist")
+        stores.remove(name)
+    }
+
+    fun dropGraphAll() {
+        stores.clear()
+        createGraph(defaultGraphName)
+    }
+
+    fun clearGraph(name: String) {
+        getNamedGraph(name).truncate()
+    }
+
+    fun clearGraphAll() {
+        for ((k, v) in stores) {
+            v.truncate()
+        }
+    }
+
+    fun getNamedGraph(name: String, create: Boolean = false): TripleStore {
+        val tmp = stores[name]
+        if (tmp != null || !create)
+            return tmp!!
+        return createGraph(name)
+    }
+
     fun getDefaultGraph(): TripleStore {
-        return getNamedGraph("")
+        return getNamedGraph(defaultGraphName)
     }
 
     fun commit(transactionID: Long) {

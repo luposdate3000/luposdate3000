@@ -17,11 +17,18 @@ import lupos.s08tripleStore.*
 abstract class OptimizerVisitorPOP(transactionID: Long) : OptimizerVisitorLOP(transactionID) {
     var store: PersistentStore? = null
 
+
+    open fun visit(node: POPGraphOperation): OPBase {
+        require(node.transactionID == transactionID)
+        return node
+    }
+
     open fun visit(node: POPModify): OPBase {
         return POPModify(transactionID, node.iri, node.insert, node.delete, node.pstore, optimize(node.child))
     }
 
     open fun visit(node: POPInsertData): OPBase {
+        require(node.transactionID == transactionID)
         return node
     }
 
@@ -136,6 +143,7 @@ abstract class OptimizerVisitorPOP(transactionID: Long) : OptimizerVisitorLOP(tr
             is POPValues -> return visit(node)
             is POPInsertData -> return visit(node)
             is POPModify -> return visit(node)
+            is POPGraphOperation -> return visit(node)
         }
         return super.optimize(node)
     }

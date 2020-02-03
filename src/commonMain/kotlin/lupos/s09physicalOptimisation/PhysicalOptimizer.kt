@@ -47,6 +47,16 @@ import lupos.s09physicalOptimisation.OptimizerVisitorPOP
 
 
 class PhysicalOptimizer(transactionID: Long) : OptimizerVisitorPOP(transactionID) {
+
+
+    override fun visit(node: LOPGraphOperation): OPBase {
+        val s = store
+        if (s == null)
+            return POPGraphOperation(transactionID, node.silent, node.graphref!!, node.action, globalStore)
+        else
+            return POPGraphOperation(transactionID, node.silent, node.graphref!!, node.action, s)
+    }
+
     override fun visit(node: LOPModify): OPBase {
         val s = store
         if (s == null)

@@ -450,7 +450,7 @@ fun parseSPARQLAndEvaluate(//
             println("----------Input Data Graph[${it["name"]}]")
             var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
             val transactionID = store.nextTransactionID()
-            store.getNamedGraph(it["name"]!!).addData(transactionID, POPImportFromXml(xmlQueryInput!!.first()))
+            store.getNamedGraph(it["name"]!!, true).addData(transactionID, POPImportFromXml(xmlQueryInput!!.first()))
             store.commit(transactionID)
             println(xmlQueryInput.first().toPrettyString())
         }
@@ -562,19 +562,19 @@ fun parseSPARQLAndEvaluate(//
             return expectedResult
         }
     } catch (e: ParseError) {
-        if (expectedResult){
-        println(e.message)
-        println("Error in the following line:")
-        println(e.lineNumber)
+        if (expectedResult) {
+            println(e.message)
+            println("Error in the following line:")
+            println(e.lineNumber)
             println("----------Failed(ParseError)")
-}        else
+        } else
             println("----------Success(ExpectFalse,ParseError)")
         return false
     } catch (e: Throwable) {
-        if (expectedResult){
+        if (expectedResult) {
             println("----------Failed(Throwable)")
-        e.kotlinStacktrace()
-}	        else
+            e.kotlinStacktrace()
+        } else
             println("----------Success(ExpectFalse,Throwable)")
         return false
     }

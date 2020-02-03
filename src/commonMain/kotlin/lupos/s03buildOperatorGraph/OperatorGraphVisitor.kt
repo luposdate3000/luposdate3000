@@ -851,18 +851,33 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTClear, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
-    }
-
-    override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+        require(childrenValues.isEmpty())
+        val res = LOPGraphOperation()
+        res.action = GraphOperationType.CLEAR
+        res.silent = node.silent
+        res.graphref = node.graphref
+        return res
     }
 
     override fun visit(node: ASTDrop, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+        require(childrenValues.isEmpty())
+        val res = LOPGraphOperation()
+        res.action = GraphOperationType.DROP
+        res.silent = node.silent
+        res.graphref = node.graphref
+        return res
     }
 
     override fun visit(node: ASTCreate, childrenValues: List<OPBase>): OPBase {
+        require(childrenValues.isEmpty())
+        val res = LOPGraphOperation()
+        res.action = GraphOperationType.CREATE
+        res.silent = node.silent
+        res.graphref = node.graphref
+        return res
+    }
+
+    override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {
         throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 

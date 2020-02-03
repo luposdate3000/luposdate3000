@@ -29,6 +29,10 @@ import lupos.s05logicalOptimisation.LogicalOptimizer
 
 
 abstract class OptimizerVisitorLOP(val transactionID: Long) {
+    open fun visit(node: LOPGraphOperation): OPBase {
+        return node
+    }
+
     open fun visit(node: LOPModify): OPBase {
         val tmp = LOPModify(optimize(node.child))
         tmp.insert.addAll(node.insert)
@@ -179,6 +183,7 @@ abstract class OptimizerVisitorLOP(val transactionID: Long) {
             is LOPServiceVAR -> return visit(node)
             is LOPInsertData -> return visit(node)
             is LOPModify -> return visit(node)
+            is LOPGraphOperation -> return visit(node)
         }
         throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} c ${node::class.simpleName}")
     }
