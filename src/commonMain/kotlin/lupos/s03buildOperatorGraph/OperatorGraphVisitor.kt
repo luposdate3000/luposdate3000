@@ -533,6 +533,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     values = LOPJoin(values, q, false)
                 }
             } else {
+		require(query is LOPNOOP)
                 query = q
             }
         }
