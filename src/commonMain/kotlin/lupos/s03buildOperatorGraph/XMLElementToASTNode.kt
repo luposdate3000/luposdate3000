@@ -1,10 +1,10 @@
 package lupos.s03buildOperatorGraph
 
 import lupos.s00misc.XMLElement
+import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation
-import lupos.s02buildSyntaxTree.sparql1_1.ASTAnd
 import lupos.s02buildSyntaxTree.sparql1_1.ASTBooleanLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTBuiltInCall
 import lupos.s02buildSyntaxTree.sparql1_1.ASTDecimal
@@ -103,6 +103,14 @@ fun XMLElement.Companion.toASTNode(node: XMLElement): ASTNode {
         "ASTTypedLiteral" -> return ASTTypedLiteral(node.attributes["content"]!!, node.attributes["delimiter"]!!, node.attributes["type_iri"]!!)
         "ASTFilter" -> return ASTFilter(toASTNode(node.childs.first()!!))
         "ASTLanguageTaggedLiteral" -> return ASTLanguageTaggedLiteral(node.attributes["content"]!!, node.attributes["delimiter"]!!, node.attributes["language"]!!)
+        "ASTGraph" -> {
+            val constraint = mutableListOf<ASTNode>()
+            val iriOrVar = XMLElement.toASTNode(node["iriOrVar"]!!.childs.first())
+            for (c in node["constraints"]!!.childs)
+                constraint.add(XMLElement.toASTNode(c))
+            val res = ASTGraph(iriOrVar, constraint.toTypedArray())
+            return res
+        }
     }
     throw Exception("XMLElement.Companion.toASTNode undefined :: ${node.tag}")
 }

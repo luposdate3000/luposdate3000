@@ -878,28 +878,28 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         throw UnsupportedOperationException("${classNameToString(this)} Update ${classNameToString(node)}")
     }
 
-fun simpleAstToStringValue(node:ASTNode):String{
-when(node){
-is ASTIri-> return "<"+node.iri+">"
-is ASTInteger-> return ""+node.value+"^^<http://www.w3.org/2001/XMLSchema#integer>"
-is ASTSimpleLiteral-> return node.content
-is ASTBlankNode-> return "_:"+node.name
-else->throw UnsupportedOperationException("${classNameToString(this)} simpleAstToStringValue ${classNameToString(node)}")
-}
-}
+    fun simpleAstToStringValue(node: ASTNode): String {
+        when (node) {
+            is ASTIri -> return "<" + node.iri + ">"
+            is ASTInteger -> return "" + node.value + "^^<http://www.w3.org/2001/XMLSchema#integer>"
+            is ASTSimpleLiteral -> return node.content
+            is ASTBlankNode -> return "_:" + node.name
+            else -> throw UnsupportedOperationException("${classNameToString(this)} simpleAstToStringValue ${classNameToString(node)}")
+        }
+    }
 
     override fun visit(node: ASTInsertData, childrenValues: List<OPBase>): OPBase {
         val res = LOPInsertData()
         for (c in node.children) {
             when {
                 c is ASTTriple -> {
-                    res.data.add(mutableListOf(simpleAstToStringValue(c.children[0]),simpleAstToStringValue(c.children[1]),simpleAstToStringValue(c.children[2]),""))
+                    res.data.add(mutableListOf(simpleAstToStringValue(c.children[0]), simpleAstToStringValue(c.children[1]), simpleAstToStringValue(c.children[2]), ""))
                 }
                 c is ASTGraph -> {
                     for (c2 in c.children) {
                         when {
                             c2 is ASTTriple -> {
-				res.data.add(mutableListOf(simpleAstToStringValue(c2.children[0]),simpleAstToStringValue(c2.children[1]),simpleAstToStringValue(c2.children[2]),(c.iriOrVar as ASTIri).iri))
+                                res.data.add(mutableListOf(simpleAstToStringValue(c2.children[0]), simpleAstToStringValue(c2.children[1]), simpleAstToStringValue(c2.children[2]), (c.iriOrVar as ASTIri).iri))
                             }
                             else -> throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)} ${classNameToString(c2)}")
                         }
@@ -912,7 +912,15 @@ else->throw UnsupportedOperationException("${classNameToString(this)} simpleAstT
     }
 
     override fun visit(node: ASTModifyWithWhere, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Update ${classNameToString(node)}")
+        require(node.iri == null)
+        require(node.delete.isEmpty())
+        require(node.using.isEmpty())
+        val res = LOPModify(parseGroup(node.children))
+        for (e in node.insert)
+            res.insert.add(e)
+        for (e in node.delete)
+            res.delete.add(e)
+        return res
     }
 
     override fun visit(node: ASTPathAlternatives, childrenValues: List<OPBase>): OPBase {

@@ -17,6 +17,10 @@ import lupos.s08tripleStore.*
 abstract class OptimizerVisitorPOP() : OptimizerVisitorLOP() {
     var store: PersistentStore? = null
 
+    open fun visit(node: POPModify): OPBase {
+        return POPModify(node.iri, node.insert, node.delete, node.pstore, optimize(node.child))
+    }
+
     open fun visit(node: POPInsertData): OPBase {
         return node
     }
@@ -131,6 +135,7 @@ abstract class OptimizerVisitorPOP() : OptimizerVisitorLOP() {
             is POPTemporaryStore -> return visit(node)
             is POPValues -> return visit(node)
             is POPInsertData -> return visit(node)
+            is POPModify -> return visit(node)
         }
         return super.optimize(node)
     }

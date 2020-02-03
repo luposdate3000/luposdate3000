@@ -18,10 +18,10 @@ class LOPInsertData() : LOPBase() {
     }
 
     override fun toXMLElement(): XMLElement {
-        val res= XMLElement("LOPInsertData")
-for(t in data){
-res.addContent(XMLElement("RawTriple").addAttribute("s",t[0]).addAttribute("p",t[1]).addAttribute("o",t[2]).addAttribute("graph",t[3]))
+        val res = XMLElement("LOPInsertData")
+        for (t in data) {
+            res.addContent(XMLElement("RawTriple").addAttribute("s", t[0]).addAttribute("p", t[1]).addAttribute("o", t[2]).addAttribute("graph", t[3]))
         }
-return res
+        return res
     }
 }

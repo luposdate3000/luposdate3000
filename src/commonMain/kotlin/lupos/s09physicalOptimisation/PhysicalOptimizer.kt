@@ -30,6 +30,7 @@ import lupos.s07physicalOperators.multiinput.POPUnion
 import lupos.s07physicalOperators.POPEmptyRow
 import lupos.s07physicalOperators.POPExpression
 import lupos.s07physicalOperators.POPValues
+import lupos.s07physicalOperators.singleinput.*
 import lupos.s07physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s07physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s07physicalOperators.singleinput.modifiers.POPOffset
@@ -39,7 +40,6 @@ import lupos.s07physicalOperators.singleinput.POPFilter
 import lupos.s07physicalOperators.singleinput.POPFilterExact
 import lupos.s07physicalOperators.singleinput.POPGroup
 import lupos.s07physicalOperators.singleinput.POPMakeBooleanResult
-import lupos.s07physicalOperators.singleinput.POPProjection
 import lupos.s07physicalOperators.singleinput.POPRename
 import lupos.s07physicalOperators.singleinput.POPSort
 import lupos.s08tripleStore.*
@@ -47,12 +47,18 @@ import lupos.s09physicalOptimisation.OptimizerVisitorPOP
 
 
 class PhysicalOptimizer() : OptimizerVisitorPOP() {
+    override fun visit(node: LOPModify): OPBase {
+        val s = store
+        if (s == null)
+            return POPModify(node.iri, node.insert, node.delete, globalStore, optimize(node.child))
+        return POPModify(node.iri, node.insert, node.delete, s, optimize(node.child))
+    }
 
     override fun visit(node: LOPInsertData): OPBase {
-	val s=store
-	if(s==null)
-	return POPInsertData(node.data,globalStore)
-        return POPInsertData(node.data,s)
+        val s = store
+        if (s == null)
+            return POPInsertData(node.data, globalStore)
+        return POPInsertData(node.data, s)
     }
 
     override fun visit(node: LOPProjection): OPBase {

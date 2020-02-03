@@ -2,6 +2,7 @@ package lupos.s03buildOperatorGraph
 
 import lupos.s00misc.classNameToString
 import lupos.s00misc.XMLElement
+import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAnd
@@ -31,7 +32,6 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTSimpleLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTriple
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTypedLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTUndef
-import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 
 
 fun XMLElement.Companion.parseFromASTNode(node: ASTNode): XMLElement {
@@ -98,6 +98,16 @@ fun XMLElement.Companion.parseFromASTNode(node: ASTNode): XMLElement {
         node is ASTTypedLiteral -> return XMLElement("ASTTypedLiteral").addAttribute("content", node.content).addAttribute("delimiter", node.delimiter).addAttribute("type_iri", node.type_iri)
         node is ASTFilter -> return XMLElement("ASTFilter").addContent(parseFromASTNode(node.children[0]))
         node is ASTLanguageTaggedLiteral -> return XMLElement("ASTLanguageTaggedLiteral").addAttribute("content", node.content).addAttribute("delimiter", node.delimiter).addAttribute("language", node.language)
+        node is ASTGraph -> {
+            val res = XMLElement("ASTGraph")
+            res.addContent(XMLElement("iriOrVar").addContent(XMLElement.parseFromASTNode(node.iriOrVar)))
+            val tmp = XMLElement("constraints")
+            res.addContent(tmp)
+            for (c in node.children) {
+                tmp.addContent(XMLElement.parseFromASTNode(c))
+            }
+            return res
+        }
     }
     throw Exception("XMLElement.Companion.parseFromASTNode undefined :: ${classNameToString(node)}")
 }

@@ -485,17 +485,17 @@ fun parseSPARQLAndEvaluate(//
         val xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node)
         println(xmlQueryResult.first().toPrettyString())
 
-var verifiedOutput=false
+        var verifiedOutput = false
         outputDataGraph.forEach {
             println("OutputData Graph[${it["name"]}] Original")
             val outputData = readFileOrNull(it["filename"])
             println(outputData)
             println("----------Verify Output Data Graph[${it["name"]}]")
             var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)
-val tmp=store.getNamedGraph(it["name"]!!).getIterator()
-tmp.setMNameS("s")
-tmp.setMNameP("p")
-tmp.setMNameO("o")
+            val tmp = store.getNamedGraph(it["name"]!!).getIterator()
+            tmp.setMNameS("s")
+            tmp.setMNameP("p")
+            tmp.setMNameO("o")
             var xmlGraphActual = QueryResultToXML.toXML(tmp)
             println(xmlGraphTarget!!.first().toPrettyString())
             println(xmlGraphActual!!.first().toPrettyString())
@@ -504,7 +504,7 @@ tmp.setMNameO("o")
                 res = false
                 return res
             }
-verifiedOutput=true
+            verifiedOutput = true
         }
         if (resultData != null && resultDataFileName != null) {
             println("----------Target Result")
@@ -542,17 +542,17 @@ verifiedOutput=true
             }
             return res
         } else {
-if(verifiedOutput){
-            if (expectedResult)
-                println("----------Success(Graph)")
-            else
-                println("----------Failed(ExpectFalse,Graph)")
-}else{
-            if (expectedResult)
-                println("----------Success(Syntax)")
-            else
-                println("----------Failed(ExpectFalse,Syntax)")
-}
+            if (verifiedOutput) {
+                if (expectedResult)
+                    println("----------Success(Graph)")
+                else
+                    println("----------Failed(ExpectFalse,Graph)")
+            } else {
+                if (expectedResult)
+                    println("----------Success(Syntax)")
+                else
+                    println("----------Failed(ExpectFalse,Syntax)")
+            }
             return expectedResult
         }
     } catch (e: ParseError) {
