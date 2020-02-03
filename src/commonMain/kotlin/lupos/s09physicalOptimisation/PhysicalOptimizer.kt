@@ -2,7 +2,7 @@ package lupos.s09physicalOptimisation
 
 import lupos.s00misc.classNameToString
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
-import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
+import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTypedLiteral
 import lupos.s03buildOperatorGraph.data.*
@@ -152,6 +152,7 @@ class PhysicalOptimizer() : OptimizerVisitorPOP() {
                     is ASTIri -> return POPFilterExact(LOPVariable(name), "<" + param.child.iri + ">", child)
                     is ASTLanguageTaggedLiteral -> return POPFilterExact(LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter + "@" + param.child.language, child)
                     is ASTTypedLiteral -> return POPFilterExact(LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter + "^^<" + param.child.type_iri + ">", child)
+		is ASTSimpleLiteral-> return POPFilterExact(LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter, child)
                     else -> throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)}, ${classNameToString(param.child)}")
                 }
             }
