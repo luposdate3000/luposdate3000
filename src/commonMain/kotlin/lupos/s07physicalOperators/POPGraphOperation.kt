@@ -69,6 +69,10 @@ class POPGraphOperation(val transactionID: Long, val silent: Boolean, val graphr
                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref)}")
             }
             return resultSetNew.createResultRow()
+	}catch(e:Throwable){
+		if(!silent)
+			throw e
+return resultSetNew.createResultRow()
         } finally {
             Trace.stop("POPGraphOperation.next")
         }
