@@ -913,7 +913,6 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTModifyWithWhere, childrenValues: List<OPBase>): OPBase {
         require(node.iri == null)
-        require(node.delete.isEmpty())
         require(node.using.isEmpty())
         val res = LOPModify(parseGroup(node.children))
         for (e in node.insert)

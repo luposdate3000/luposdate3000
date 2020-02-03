@@ -17,7 +17,7 @@ import lupos.s08tripleStore.POPTripleStoreIteratorBase
 class TripleStoreIterator : POPTripleStoreIteratorBase {
     private val resultSetNew = ResultSet()
     private val resultSetOld: ResultSet
-    private var mapIterator: MutableIterator<MutableMap.MutableEntry<ResultRow, MutableList<ResultRow>>>
+    private var mapIterator: MutableIterator<MutableMap.MutableEntry<ResultRow, MutableSet<ResultRow>>>
     private var listIterator: Iterator<ResultRow>?
     private var sNew = resultSetNew.createVariable(nameS)
     private var pNew = resultSetNew.createVariable(nameP)
@@ -147,13 +147,13 @@ class TripleStore {
     val s = resultSet.createVariable("s")
     val p = resultSet.createVariable("p")
     val o = resultSet.createVariable("o")
-    val tripleStoreS = mutableMapOf<ResultRow, MutableList<ResultRow>>()
-    val tripleStoreP = mutableMapOf<ResultRow, MutableList<ResultRow>>()
-    val tripleStoreO = mutableMapOf<ResultRow, MutableList<ResultRow>>()
-    val tripleStoreSP = mutableMapOf<ResultRow, MutableList<ResultRow>>()
-    val tripleStoreSO = mutableMapOf<ResultRow, MutableList<ResultRow>>()
-    val tripleStorePO = mutableMapOf<ResultRow, MutableList<ResultRow>>()
-    val tripleStoreSPO = mutableMapOf<ResultRow, MutableList<ResultRow>>()
+    val tripleStoreS = mutableMapOf<ResultRow, MutableSet<ResultRow>>()
+    val tripleStoreP = mutableMapOf<ResultRow, MutableSet<ResultRow>>()
+    val tripleStoreO = mutableMapOf<ResultRow, MutableSet<ResultRow>>()
+    val tripleStoreSP = mutableMapOf<ResultRow, MutableSet<ResultRow>>()
+    val tripleStoreSO = mutableMapOf<ResultRow, MutableSet<ResultRow>>()
+    val tripleStorePO = mutableMapOf<ResultRow, MutableSet<ResultRow>>()
+    val tripleStoreSPO = mutableMapOf<ResultRow, MutableSet<ResultRow>>()
     val name: String
 
     constructor(name: String) {
@@ -174,24 +174,37 @@ class TripleStore {
     private fun addData(
             key: ResultRow,
             value: ResultRow,
-            store: MutableMap<ResultRow, MutableList<ResultRow>>
+            store: MutableMap<ResultRow, MutableSet<ResultRow>>
     ) {
         var list = store[key]
         if (list == null) {
-            list = mutableListOf<ResultRow>()
+            list = mutableSetOf<ResultRow>()
             store[key] = list
         }
         list.add(value)
     }
 
-    private fun addData(vals: Value, valp: Value, valo: Value) {
+    private fun deleteData(
+            key: ResultRow,
+            value: ResultRow,
+            store: MutableMap<ResultRow, MutableSet<ResultRow>>
+    ) {
+        var list = store[key]
+        if (list == null) {
+            list = mutableSetOf<ResultRow>()
+            store[key] = list
+        }
+        list.remove(value)
+    }
+
+    private fun modifyData(vals: Value, valp: Value, valo: Value,action:(ResultRow,ResultRow,MutableMap<ResultRow, MutableSet<ResultRow>>)->Unit) {
         run {
             val rrk = resultSet.createResultRow()
             val rrv = resultSet.createResultRow()
             rrk[s] = vals
             rrv[p] = valp
             rrv[o] = valo
-            addData(rrk, rrv, tripleStoreS)
+            action(rrk, rrv, tripleStoreS)
         }
 
         run {
@@ -200,7 +213,7 @@ class TripleStore {
             rrv[s] = vals
             rrk[p] = valp
             rrv[o] = valo
-            addData(rrk, rrv, tripleStoreP)
+            action(rrk, rrv, tripleStoreP)
         }
 
         run {
@@ -209,7 +222,7 @@ class TripleStore {
             rrv[s] = vals
             rrv[p] = valp
             rrk[o] = valo
-            addData(rrk, rrv, tripleStoreO)
+            action(rrk, rrv, tripleStoreO)
         }
 
         run {
@@ -218,7 +231,7 @@ class TripleStore {
             rrk[s] = vals
             rrk[p] = valp
             rrv[o] = valo
-            addData(rrk, rrv, tripleStoreSP)
+            action(rrk, rrv, tripleStoreSP)
         }
 
         run {
@@ -227,7 +240,7 @@ class TripleStore {
             rrk[s] = vals
             rrv[p] = valp
             rrk[o] = valo
-            addData(rrk, rrv, tripleStoreSO)
+            action(rrk, rrv, tripleStoreSO)
         }
 
         run {
@@ -236,7 +249,7 @@ class TripleStore {
             rrv[s] = vals
             rrk[p] = valp
             rrk[o] = valo
-            addData(rrk, rrv, tripleStorePO)
+            action(rrk, rrv, tripleStorePO)
         }
 
         run {
@@ -245,7 +258,7 @@ class TripleStore {
             rrk[s] = vals
             rrk[p] = valp
             rrk[o] = valo
-            addData(rrk, rrv, tripleStoreSPO)
+            action(rrk, rrv, tripleStoreSPO)
         }
     }
 
@@ -253,7 +266,13 @@ class TripleStore {
         val vals = resultSet.createValue(t[0])
         val valp = resultSet.createValue(t[1])
         val valo = resultSet.createValue(t[2])
-        addData(vals, valp, valo)
+        modifyData(vals, valp, valo,::addData)
+    }
+    fun deleteData(t: List<String>) {
+        val vals = resultSet.createValue(t[0])
+        val valp = resultSet.createValue(t[1])
+        val valo = resultSet.createValue(t[2])
+        modifyData(vals, valp, valo,::deleteData)
     }
 
     fun addData(iterator: ResultSetIterator) {
@@ -266,7 +285,7 @@ class TripleStore {
             val vals = resultSet.createValue(rsOld.getValue(data[sOld]))
             val valp = resultSet.createValue(rsOld.getValue(data[pOld]))
             val valo = resultSet.createValue(rsOld.getValue(data[oOld]))
-            addData(vals, valp, valo)
+            modifyData(vals, valp, valo,::addData)
         }
     }
 

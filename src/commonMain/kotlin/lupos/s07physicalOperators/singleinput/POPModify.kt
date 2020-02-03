@@ -45,21 +45,48 @@ class POPModify(val iri: String?, val insert: List<ASTNode>, val delete: List<AS
                         val data = listOf<String>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
                         store.addData(data)
                     }
-			is ASTGraph->{
-				val store=if(i.iriOrVar is ASTIri){
-					pstore.getNamedGraph(i.iriOrVar.iri)
-				}else{
-					pstore.getNamedGraph(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)])
-				}
-				for(c in i.children){
-				 when (c) {
-                    is ASTTriple -> {
-                        val data = listOf<String>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
-                        store.addData(data)
-                    } else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
+                    is ASTGraph -> {
+                        val store = if (i.iriOrVar is ASTIri) {
+                            pstore.getNamedGraph(i.iriOrVar.iri)
+                        } else {
+                            pstore.getNamedGraph(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)])
+                        }
+                        for (c in i.children) {
+                            when (c) {
+                                is ASTTriple -> {
+                                    val data = listOf<String>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
+                                    store.addData(data)
+                                }
+                                else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
+                            }
+                        }
+                    }
+                    else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
                 }
-				}
-			}
+            }
+            for (i in delete) {
+                when (i) {
+                    is ASTTriple -> {
+                        val store = pstore.getDefaultGraph()
+                        val data = listOf<String>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
+                        store.deleteData(data)
+                    }
+                    is ASTGraph -> {
+                        val store = if (i.iriOrVar is ASTIri) {
+                            pstore.getNamedGraph(i.iriOrVar.iri)
+                        } else {
+                            pstore.getNamedGraph(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)])
+                        }
+                        for (c in i.children) {
+                            when (c) {
+                                is ASTTriple -> {
+                                    val data = listOf<String>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
+                                    store.deleteData(data)
+                                }
+                                else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
+                            }
+                        }
+                    }
                     else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
                 }
             }
