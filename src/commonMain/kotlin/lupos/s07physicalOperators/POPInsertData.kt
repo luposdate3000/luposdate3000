@@ -12,7 +12,7 @@ import lupos.s07physicalOperators.POPBaseNullableIterator
 import lupos.s08tripleStore.*
 
 
-class POPInsertData(val data: List<List<String>>, val pstore: PersistentStore) : POPBase() {
+class POPInsertData(val transactionID:Long,val data: List<List<String>>, val pstore: PersistentStore) : POPBase() {
     private val resultSetNew = ResultSet()
 
     private var first = true
@@ -36,7 +36,7 @@ class POPInsertData(val data: List<List<String>>, val pstore: PersistentStore) :
             first = false
             for (t in data) {
                 val store = pstore.getNamedGraph(t[3])
-                store.addData(t)
+                store.addData(transactionID,t)
             }
             return resultSetNew.createResultRow()
         } finally {

@@ -72,7 +72,9 @@ class TripleInsertIterator : POPBaseNullableIterator {
 
 fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
     val triple = ID_Triple(triple_s, triple_p, triple_o)
-    globalStore.getDefaultGraph().addData(TripleInsertIterator(triple))
+val transactionID=globalStore.nextTransactionID()
+    globalStore.getDefaultGraph().addData(transactionID,TripleInsertIterator(triple))
+globalStore.commit(transactionID)
 }
 
 object Endpoint {
@@ -90,11 +92,14 @@ object Endpoint {
     }
 
     fun process_xml_input(data: String): XMLElement {
-        globalStore.getDefaultGraph().addData(POPImportFromXml(XMLElement.parseFromXml(data)!!.first()))
+val transactionID=globalStore.nextTransactionID()
+        globalStore.getDefaultGraph().addData(transactionID,POPImportFromXml(XMLElement.parseFromXml(data)!!.first()))
+globalStore.commit(transactionID)
         return XMLElement("done")
     }
 
     fun process_sparql_query(query: String): XMLElement {
+val transactionID=globalStore.nextTransactionID()
         println("----------String Query")
         println(query)
         println("----------Abstract Syntax Tree")
@@ -108,21 +113,25 @@ object Endpoint {
         val lop_node = ast_node.visit(OperatorGraphVisitor())
         println(lop_node)
         println("----------Logical Operator Graph optimized")
-        val lop_node2 = LogicalOptimizer().optimize(lop_node)
+        val lop_node2 = LogicalOptimizer(transactionID).optimize(lop_node)
         println(lop_node2)
         println("----------Physical Operator Graph")
-        val pop_optimizer = PhysicalOptimizer()
+        val pop_optimizer = PhysicalOptimizer(transactionID)
         val pop_node = pop_optimizer.optimize(lop_node2)
         println(pop_node)
         println("----------Distributed Operator Graph")
-        val pop_distributed_node = KeyDistributionOptimizer().optimize(pop_node) as POPBase
+        val pop_distributed_node = KeyDistributionOptimizer(transactionID).optimize(pop_node) as POPBase
         println(pop_distributed_node)
+globalStore.commit(transactionID)
         return QueryResultToXML.toXML(pop_distributed_node).first()
     }
 
     fun process_operatorgraph_query(query: String): XMLElement {
-        val pop_node = XMLElement.convertToOPBase(XMLElement.parseFromXml(query)!!.first()!!) as POPBase
+val transactionID=globalStore.nextTransactionID()
+        val pop_node = XMLElement.convertToOPBase(transactionID,XMLElement.parseFromXml(query)!!.first()!!) as POPBase
         println(pop_node)
-        return QueryResultToXML.toXML(pop_node).first()
+        val res = QueryResultToXML.toXML(pop_node).first()
+globalStore.commit(transactionID)
+return res
     }
 }

@@ -14,11 +14,11 @@ import lupos.s07physicalOperators.singleinput.POPProjection
 import lupos.s08tripleStore.*
 
 
-abstract class OptimizerVisitorPOP() : OptimizerVisitorLOP() {
+abstract class OptimizerVisitorPOP(transactionID:Long) : OptimizerVisitorLOP(transactionID) {
     var store: PersistentStore? = null
 
     open fun visit(node: POPModify): OPBase {
-        return POPModify(node.iri, node.insert, node.delete, node.pstore, optimize(node.child))
+        return POPModify(transactionID,node.iri, node.insert, node.delete, node.pstore, optimize(node.child))
     }
 
     open fun visit(node: POPInsertData): OPBase {

@@ -1,5 +1,5 @@
 package lupos.s05logicalOptimisation
-
+import lupos.s00misc.*
 import lupos.s03buildOperatorGraph.data.*
 import lupos.s03buildOperatorGraph.data.LOPExpression
 import lupos.s03buildOperatorGraph.data.LOPTriple
@@ -27,7 +27,7 @@ import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPReduced
 import lupos.s05logicalOptimisation.LogicalOptimizer
 
 
-abstract class OptimizerVisitorLOP() {
+abstract class OptimizerVisitorLOP(val transactionID:Long) {
     open fun visit(node: LOPModify): OPBase {
         val tmp = LOPModify(optimize(node.child))
         tmp.insert.addAll(node.insert)

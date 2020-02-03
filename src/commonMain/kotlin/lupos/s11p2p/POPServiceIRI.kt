@@ -19,6 +19,7 @@ import lupos.s11p2p.*
 
 
 class POPServiceIRI : POPBase {
+	val transactionID:Long
     private val resultSet: ResultSet
     val constraint: OPBase?
     val serverName: String
@@ -26,11 +27,12 @@ class POPServiceIRI : POPBase {
     var first = true
     val originalConstraint: OPBase
 
-    constructor(serverName: String, silent: Boolean, constraint: OPBase) : super() {
+    constructor(transactionID:Long,serverName: String, silent: Boolean, constraint: OPBase) : super() {
+this.transactionID=transactionID
         this.serverName = serverName
         originalConstraint = constraint
         this.constraint = try {
-            P2P.execOnNamedNode(serverName, constraint)
+            P2P.execOnNamedNode(transactionID,serverName, constraint)
         } catch (e: Throwable) {
             null
         }

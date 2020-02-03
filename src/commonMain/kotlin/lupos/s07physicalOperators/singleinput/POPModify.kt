@@ -13,7 +13,7 @@ import lupos.s07physicalOperators.POPBaseNullableIterator
 import lupos.s08tripleStore.*
 
 
-class POPModify(val iri: String?, val insert: List<ASTNode>, val delete: List<ASTNode>, val pstore: PersistentStore, child: OPBase) : POPSingleInputBase(child) {
+class POPModify(val transactionID:Long,val iri: String?, val insert: List<ASTNode>, val delete: List<ASTNode>, val pstore: PersistentStore, child: OPBase) : POPSingleInputBase(child) {
     private val resultSetNew = ResultSet()
     private val resultSetOld = child.getResultSet()
 
@@ -43,7 +43,7 @@ class POPModify(val iri: String?, val insert: List<ASTNode>, val delete: List<AS
                     is ASTTriple -> {
                         val store = pstore.getDefaultGraph()
                         val data = listOf<String>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
-                        store.addData(data)
+                        store.addData(transactionID,data)
                     }
                     is ASTGraph -> {
                         val store = if (i.iriOrVar is ASTIri) {
@@ -55,7 +55,7 @@ class POPModify(val iri: String?, val insert: List<ASTNode>, val delete: List<AS
                             when (c) {
                                 is ASTTriple -> {
                                     val data = listOf<String>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
-                                    store.addData(data)
+                                    store.addData(transactionID,data)
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
                             }
@@ -69,7 +69,7 @@ class POPModify(val iri: String?, val insert: List<ASTNode>, val delete: List<AS
                     is ASTTriple -> {
                         val store = pstore.getDefaultGraph()
                         val data = listOf<String>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
-                        store.deleteData(data)
+                        store.deleteData(transactionID,data)
                     }
                     is ASTGraph -> {
                         val store = if (i.iriOrVar is ASTIri) {
@@ -81,7 +81,7 @@ class POPModify(val iri: String?, val insert: List<ASTNode>, val delete: List<AS
                             when (c) {
                                 is ASTTriple -> {
                                     val data = listOf<String>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
-                                    store.deleteData(data)
+                                    store.deleteData(transactionID,data)
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
                             }

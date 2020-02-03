@@ -6,7 +6,7 @@ import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPPrefix
 import lupos.s05logicalOptimisation.OptimizerVisitorLOP
 
 
-class LogicalOptimizer() : OptimizerVisitorLOP() {
+class LogicalOptimizer(transactionID:Long) : OptimizerVisitorLOP(transactionID) {
     override fun visit(node: LOPPrefix): OPBase {
         return optimize(node.child)
     }

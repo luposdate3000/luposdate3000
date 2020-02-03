@@ -438,7 +438,9 @@ fun parseSPARQLAndEvaluate(//
             println(inputData)
             println("----------Input Data Graph[]")
             var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
-            store.getDefaultGraph().addData(POPImportFromXml(xmlQueryInput!!.first()))
+val transactionID=store.nextTransactionID()
+            store.getDefaultGraph().addData(transactionID,POPImportFromXml(xmlQueryInput!!.first()))
+ store.commit(transactionID)
             println(xmlQueryInput.first().toPrettyString())
         }
         inputDataGraph.forEach {
@@ -447,7 +449,9 @@ fun parseSPARQLAndEvaluate(//
             println(inputData)
             println("----------Input Data Graph[${it["name"]}]")
             var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
-            store.getNamedGraph(it["name"]!!).addData(POPImportFromXml(xmlQueryInput!!.first()))
+val transactionID=store.nextTransactionID()
+            store.getNamedGraph(it["name"]!!).addData(transactionID,POPImportFromXml(xmlQueryInput!!.first()))
+store.commit(transactionID)
             println(xmlQueryInput.first().toPrettyString())
         }
         if (services != null)
@@ -457,6 +461,8 @@ fun parseSPARQLAndEvaluate(//
                 val fc = readFileOrNull(fn)!!
                 P2P.execInsertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!.first())
             }
+val transactionID=store.nextTransactionID()
+        var res = true
         println("----------String Query")
         println(toParse)
         println("----------Abstract Syntax Tree")
@@ -470,21 +476,20 @@ fun parseSPARQLAndEvaluate(//
         val lop_node = ast_node.visit(OperatorGraphVisitor())
         println(lop_node.toXMLElement().toPrettyString())
         println("----------Logical Operator Graph optimized")
-        val lop_node2 = LogicalOptimizer().optimize(lop_node)
+        val lop_node2 = LogicalOptimizer(transactionID).optimize(lop_node)
         println(lop_node2.toXMLElement().toPrettyString())
         println("----------Physical Operator Graph")
-        val pop_optimizer = PhysicalOptimizer()
+        val pop_optimizer = PhysicalOptimizer(transactionID)
         pop_optimizer.store = store
         val pop_node = pop_optimizer.optimize(lop_node2)
         println(pop_node.toXMLElement().toPrettyString())
         println("----------Distributed Operator Graph")
-        val pop_distributed_node = KeyDistributionOptimizer().optimize(pop_node) as POPBase
+        val pop_distributed_node = KeyDistributionOptimizer(transactionID).optimize(pop_node) as POPBase
         println(pop_distributed_node)
-        var res = true
         println("----------Query Result")
         val xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node)
         println(xmlQueryResult.first().toPrettyString())
-
+store.commit(transactionID)
         var verifiedOutput = false
         outputDataGraph.forEach {
             println("OutputData Graph[${it["name"]}] Original")
@@ -501,8 +506,7 @@ fun parseSPARQLAndEvaluate(//
             println(xmlGraphActual!!.first().toPrettyString())
             if (!xmlGraphTarget!!.first().myEqualsUnclean(xmlGraphActual?.first())) {
                 println("----------Failed(PersistentStore Graph)")
-                res = false
-                return res
+                return false
             }
             verifiedOutput = true
         }
@@ -514,10 +518,12 @@ fun parseSPARQLAndEvaluate(//
             res = xmlQueryResult.first().myEquals(xmlQueryTarget?.first())
             if (res) {
                 val xmlPOP = pop_distributed_node.toXMLElement()
-                val popNodeRecovered = XMLElement.convertToOPBase(xmlPOP, store) as POPBase
+val transactionID2=store.nextTransactionID()
+                val popNodeRecovered = XMLElement.convertToOPBase(transactionID2,xmlPOP, store) as POPBase
                 println(xmlPOP.toPrettyString())
                 println(popNodeRecovered.toXMLElement().toPrettyString())
                 val xmlQueryResultRecovered = QueryResultToXML.toXML(popNodeRecovered)
+store.commit(transactionID2)
                 if (xmlQueryResultRecovered.first().myEquals(xmlQueryResult.first())) {
                     if (expectedResult)
                         println("----------Success")

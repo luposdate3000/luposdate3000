@@ -46,19 +46,19 @@ import lupos.s08tripleStore.*
 import lupos.s09physicalOptimisation.OptimizerVisitorPOP
 
 
-class PhysicalOptimizer() : OptimizerVisitorPOP() {
+class PhysicalOptimizer(transactionID:Long) : OptimizerVisitorPOP(transactionID) {
     override fun visit(node: LOPModify): OPBase {
         val s = store
         if (s == null)
-            return POPModify(node.iri, node.insert, node.delete, globalStore, optimize(node.child))
-        return POPModify(node.iri, node.insert, node.delete, s, optimize(node.child))
+            return POPModify(transactionID,node.iri, node.insert, node.delete, globalStore, optimize(node.child))
+        return POPModify(transactionID,node.iri, node.insert, node.delete, s, optimize(node.child))
     }
 
     override fun visit(node: LOPInsertData): OPBase {
         val s = store
         if (s == null)
-            return POPInsertData(node.data, globalStore)
-        return POPInsertData(node.data, s)
+            return POPInsertData(transactionID,node.data, globalStore)
+        return POPInsertData(transactionID,node.data, s)
     }
 
     override fun visit(node: LOPProjection): OPBase {
