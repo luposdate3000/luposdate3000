@@ -562,19 +562,19 @@ fun parseSPARQLAndEvaluate(//
             return expectedResult
         }
     } catch (e: ParseError) {
+        if (expectedResult){
         println(e.message)
         println("Error in the following line:")
         println(e.lineNumber)
-        if (expectedResult)
             println("----------Failed(ParseError)")
-        else
+}        else
             println("----------Success(ExpectFalse,ParseError)")
         return false
     } catch (e: Throwable) {
-        e.kotlinStacktrace()
-        if (expectedResult)
+        if (expectedResult){
             println("----------Failed(Throwable)")
-        else
+        e.kotlinStacktrace()
+}	        else
             println("----------Success(ExpectFalse,Throwable)")
         return false
     }
