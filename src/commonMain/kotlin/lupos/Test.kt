@@ -486,10 +486,13 @@ fun parseSPARQLAndEvaluate(//
         println("----------Distributed Operator Graph")
         val pop_distributed_node = KeyDistributionOptimizer(transactionID).optimize(pop_node) as POPBase
         println(pop_distributed_node)
+var xmlQueryResult:XMLElement?=null
+if(!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)){
         println("----------Query Result")
-        val xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node)
-        println(xmlQueryResult.first().toPrettyString())
+        xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node)!!.first()
+        println(xmlQueryResult.toPrettyString())
         store.commit(transactionID)
+}
         var verifiedOutput = false
         outputDataGraph.forEach {
             println("OutputData Graph[${it["name"]}] Original")
@@ -515,7 +518,7 @@ fun parseSPARQLAndEvaluate(//
             var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)
             println(xmlQueryTarget?.first()?.toPrettyString())
             println(resultData)
-            res = xmlQueryResult.first().myEquals(xmlQueryTarget?.first())
+            res = xmlQueryResult!!.myEquals(xmlQueryTarget?.first())
             if (res) {
                 val xmlPOP = pop_distributed_node.toXMLElement()
                 val transactionID2 = store.nextTransactionID()
@@ -524,7 +527,7 @@ fun parseSPARQLAndEvaluate(//
                 println(popNodeRecovered.toXMLElement().toPrettyString())
                 val xmlQueryResultRecovered = QueryResultToXML.toXML(popNodeRecovered)
                 store.commit(transactionID2)
-                if (xmlQueryResultRecovered.first().myEquals(xmlQueryResult.first())) {
+                if (xmlQueryResultRecovered.first().myEquals(xmlQueryResult)) {
                     if (expectedResult)
                         println("----------Success")
                     else
@@ -534,7 +537,7 @@ fun parseSPARQLAndEvaluate(//
                     res = false
                 }
             } else {
-                if (xmlQueryResult.first().myEqualsUnclean(xmlQueryTarget?.first())) {
+                if (xmlQueryResult!!.myEqualsUnclean(xmlQueryTarget?.first())) {
                     if (expectedResult)
                         println("----------Success(Unordered)")
                     else
