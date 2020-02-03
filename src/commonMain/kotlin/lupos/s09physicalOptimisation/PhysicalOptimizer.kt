@@ -1,8 +1,8 @@
 package lupos.s09physicalOptimisation
 
 import lupos.s00misc.classNameToString
-import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
 import lupos.s02buildSyntaxTree.sparql1_1.*
+import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTypedLiteral
 import lupos.s03buildOperatorGraph.data.*
@@ -46,19 +46,19 @@ import lupos.s08tripleStore.*
 import lupos.s09physicalOptimisation.OptimizerVisitorPOP
 
 
-class PhysicalOptimizer(transactionID:Long) : OptimizerVisitorPOP(transactionID) {
+class PhysicalOptimizer(transactionID: Long) : OptimizerVisitorPOP(transactionID) {
     override fun visit(node: LOPModify): OPBase {
         val s = store
         if (s == null)
-            return POPModify(transactionID,node.iri, node.insert, node.delete, globalStore, optimize(node.child))
-        return POPModify(transactionID,node.iri, node.insert, node.delete, s, optimize(node.child))
+            return POPModify(transactionID, node.iri, node.insert, node.delete, globalStore, optimize(node.child))
+        return POPModify(transactionID, node.iri, node.insert, node.delete, s, optimize(node.child))
     }
 
     override fun visit(node: LOPInsertData): OPBase {
         val s = store
         if (s == null)
-            return POPInsertData(transactionID,node.data, globalStore)
-        return POPInsertData(transactionID,node.data, s)
+            return POPInsertData(transactionID, node.data, globalStore)
+        return POPInsertData(transactionID, node.data, s)
     }
 
     override fun visit(node: LOPProjection): OPBase {
@@ -152,7 +152,7 @@ class PhysicalOptimizer(transactionID:Long) : OptimizerVisitorPOP(transactionID)
                     is ASTIri -> return POPFilterExact(LOPVariable(name), "<" + param.child.iri + ">", child)
                     is ASTLanguageTaggedLiteral -> return POPFilterExact(LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter + "@" + param.child.language, child)
                     is ASTTypedLiteral -> return POPFilterExact(LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter + "^^<" + param.child.type_iri + ">", child)
-		is ASTSimpleLiteral-> return POPFilterExact(LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter, child)
+                    is ASTSimpleLiteral -> return POPFilterExact(LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter, child)
                     else -> throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)}, ${classNameToString(param.child)}")
                 }
             }

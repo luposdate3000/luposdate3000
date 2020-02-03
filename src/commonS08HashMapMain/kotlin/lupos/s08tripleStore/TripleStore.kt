@@ -142,8 +142,8 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
     }
 }
 
-enum class ModifyType{
-	INSERT,DELETE
+enum class ModifyType {
+    INSERT, DELETE
 }
 
 class TripleStore {
@@ -160,17 +160,17 @@ class TripleStore {
     val tripleStoreSPO = mutableMapOf<ResultRow, MutableSet<ResultRow>>()
     val name: String
 
-val pendingModifications=mutableMapOf<Long,MutableSet<Pair<ModifyType,List<Value>>>>()
+    val pendingModifications = mutableMapOf<Long, MutableSet<Pair<ModifyType, List<Value>>>>()
 
-    private fun modifyData(transactionID:Long,vals: Value, valp: Value, valo: Value,action:ModifyType) {
-println("modifyData $transactionID")
-	var tmp=pendingModifications[transactionID]
-	if(tmp==null){
-		tmp=mutableSetOf<Pair<ModifyType,List<Value>>>()
-		pendingModifications[transactionID]=tmp
-	}
-	tmp.add(Pair(action,listOf(vals,valp,valo)))
-}
+    private fun modifyData(transactionID: Long, vals: Value, valp: Value, valo: Value, action: ModifyType) {
+        println("modifyData $transactionID")
+        var tmp = pendingModifications[transactionID]
+        if (tmp == null) {
+            tmp = mutableSetOf<Pair<ModifyType, List<Value>>>()
+            pendingModifications[transactionID] = tmp
+        }
+        tmp.add(Pair(action, listOf(vals, valp, valo)))
+    }
 
     constructor(name: String) {
         this.name = name
@@ -213,28 +213,29 @@ println("modifyData $transactionID")
         list.remove(value)
     }
 
-fun abort(transactionID:Long){
-println("abort $transactionID")
-pendingModifications.remove(transactionID)
-}
-fun commit2(transactionID:Long){
-println("commit $transactionID")
-println(pendingModifications)
-	val tmp=pendingModifications[transactionID]
-println(tmp)
-	if(tmp==null)
-		return
-	for(m in tmp){
-println(m)
-		if(m.first==ModifyType.INSERT)
-			commitModifyData(m.second[0],m.second[1],m.second[2],::addData)
-		else if(m.first==ModifyType.DELETE)
-			commitModifyData(m.second[0],m.second[1],m.second[2],::deleteData)
-	}
-pendingModifications.remove(transactionID)
-}
+    fun abort(transactionID: Long) {
+        println("abort $transactionID")
+        pendingModifications.remove(transactionID)
+    }
 
-    private fun commitModifyData(vals: Value, valp: Value, valo: Value,action:(ResultRow,ResultRow,MutableMap<ResultRow, MutableSet<ResultRow>>)->Unit) {
+    fun commit2(transactionID: Long) {
+        println("commit $transactionID")
+        println(pendingModifications)
+        val tmp = pendingModifications[transactionID]
+        println(tmp)
+        if (tmp == null)
+            return
+        for (m in tmp) {
+            println(m)
+            if (m.first == ModifyType.INSERT)
+                commitModifyData(m.second[0], m.second[1], m.second[2], ::addData)
+            else if (m.first == ModifyType.DELETE)
+                commitModifyData(m.second[0], m.second[1], m.second[2], ::deleteData)
+        }
+        pendingModifications.remove(transactionID)
+    }
+
+    private fun commitModifyData(vals: Value, valp: Value, valo: Value, action: (ResultRow, ResultRow, MutableMap<ResultRow, MutableSet<ResultRow>>) -> Unit) {
         run {
             val rrk = resultSet.createResultRow()
             val rrv = resultSet.createResultRow()
@@ -299,23 +300,24 @@ pendingModifications.remove(transactionID)
         }
     }
 
-    fun addData(transactionID:Long,t: List<String>) {
-println("addData1 $transactionID")
+    fun addData(transactionID: Long, t: List<String>) {
+        println("addData1 $transactionID")
         val vals = resultSet.createValue(t[0])
         val valp = resultSet.createValue(t[1])
         val valo = resultSet.createValue(t[2])
-        modifyData(transactionID,vals, valp, valo,ModifyType.INSERT)
-    }
-    fun deleteData(transactionID:Long,t: List<String>) {
-println("deleteData $transactionID")
-        val vals = resultSet.createValue(t[0])
-        val valp = resultSet.createValue(t[1])
-        val valo = resultSet.createValue(t[2])
-        modifyData(transactionID,vals, valp, valo,ModifyType.DELETE)
+        modifyData(transactionID, vals, valp, valo, ModifyType.INSERT)
     }
 
-    fun addData(transactionID:Long,iterator: ResultSetIterator) {
-println("addData2 $transactionID")
+    fun deleteData(transactionID: Long, t: List<String>) {
+        println("deleteData $transactionID")
+        val vals = resultSet.createValue(t[0])
+        val valp = resultSet.createValue(t[1])
+        val valo = resultSet.createValue(t[2])
+        modifyData(transactionID, vals, valp, valo, ModifyType.DELETE)
+    }
+
+    fun addData(transactionID: Long, iterator: ResultSetIterator) {
+        println("addData2 $transactionID")
         val rsOld = iterator.getResultSet()
         val sOld = rsOld.createVariable("s")
         val pOld = rsOld.createVariable("p")
@@ -325,7 +327,7 @@ println("addData2 $transactionID")
             val vals = resultSet.createValue(rsOld.getValue(data[sOld]))
             val valp = resultSet.createValue(rsOld.getValue(data[pOld]))
             val valo = resultSet.createValue(rsOld.getValue(data[oOld]))
-            modifyData(transactionID,vals, valp, valo,ModifyType.INSERT)
+            modifyData(transactionID, vals, valp, valo, ModifyType.INSERT)
         }
     }
 

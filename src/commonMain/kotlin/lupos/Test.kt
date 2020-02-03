@@ -438,9 +438,9 @@ fun parseSPARQLAndEvaluate(//
             println(inputData)
             println("----------Input Data Graph[]")
             var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
-val transactionID=store.nextTransactionID()
-            store.getDefaultGraph().addData(transactionID,POPImportFromXml(xmlQueryInput!!.first()))
- store.commit(transactionID)
+            val transactionID = store.nextTransactionID()
+            store.getDefaultGraph().addData(transactionID, POPImportFromXml(xmlQueryInput!!.first()))
+            store.commit(transactionID)
             println(xmlQueryInput.first().toPrettyString())
         }
         inputDataGraph.forEach {
@@ -449,9 +449,9 @@ val transactionID=store.nextTransactionID()
             println(inputData)
             println("----------Input Data Graph[${it["name"]}]")
             var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
-val transactionID=store.nextTransactionID()
-            store.getNamedGraph(it["name"]!!).addData(transactionID,POPImportFromXml(xmlQueryInput!!.first()))
-store.commit(transactionID)
+            val transactionID = store.nextTransactionID()
+            store.getNamedGraph(it["name"]!!).addData(transactionID, POPImportFromXml(xmlQueryInput!!.first()))
+            store.commit(transactionID)
             println(xmlQueryInput.first().toPrettyString())
         }
         if (services != null)
@@ -461,7 +461,7 @@ store.commit(transactionID)
                 val fc = readFileOrNull(fn)!!
                 P2P.execInsertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!.first())
             }
-val transactionID=store.nextTransactionID()
+        val transactionID = store.nextTransactionID()
         var res = true
         println("----------String Query")
         println(toParse)
@@ -489,7 +489,7 @@ val transactionID=store.nextTransactionID()
         println("----------Query Result")
         val xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node)
         println(xmlQueryResult.first().toPrettyString())
-store.commit(transactionID)
+        store.commit(transactionID)
         var verifiedOutput = false
         outputDataGraph.forEach {
             println("OutputData Graph[${it["name"]}] Original")
@@ -518,12 +518,12 @@ store.commit(transactionID)
             res = xmlQueryResult.first().myEquals(xmlQueryTarget?.first())
             if (res) {
                 val xmlPOP = pop_distributed_node.toXMLElement()
-val transactionID2=store.nextTransactionID()
-                val popNodeRecovered = XMLElement.convertToOPBase(transactionID2,xmlPOP, store) as POPBase
+                val transactionID2 = store.nextTransactionID()
+                val popNodeRecovered = XMLElement.convertToOPBase(transactionID2, xmlPOP, store) as POPBase
                 println(xmlPOP.toPrettyString())
                 println(popNodeRecovered.toXMLElement().toPrettyString())
                 val xmlQueryResultRecovered = QueryResultToXML.toXML(popNodeRecovered)
-store.commit(transactionID2)
+                store.commit(transactionID2)
                 if (xmlQueryResultRecovered.first().myEquals(xmlQueryResult.first())) {
                     if (expectedResult)
                         println("----------Success")

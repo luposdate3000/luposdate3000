@@ -1,4 +1,5 @@
 package lupos.s08tripleStore
+
 import lupos.s00misc.*
 import lupos.s06resultRepresentation.ResultSetIterator
 import lupos.s07physicalOperators.POPBase
@@ -26,9 +27,9 @@ class PersistentStore() {
         private val global_transactionID = ThreadSafeUuid()
     }
 
-fun nextTransactionID():Long{
-return global_transactionID.next()
-}
+    fun nextTransactionID(): Long {
+        return global_transactionID.next()
+    }
 
     val stores = mutableMapOf<String, TripleStore>()
     fun getNamedGraph(name: String): TripleStore {
@@ -43,10 +44,11 @@ return global_transactionID.next()
     fun getDefaultGraph(): TripleStore {
         return getNamedGraph("")
     }
-fun commit(transactionID:Long){
-for((k,v) in stores){
-	v.commit2(transactionID)
-	}
-}
+
+    fun commit(transactionID: Long) {
+        for ((k, v) in stores) {
+            v.commit2(transactionID)
+        }
+    }
 }
 

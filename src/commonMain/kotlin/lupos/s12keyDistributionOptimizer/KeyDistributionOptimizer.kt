@@ -47,9 +47,9 @@ import lupos.s09physicalOptimisation.OptimizerVisitorPOP
 import lupos.s11p2p.*
 
 
-class KeyDistributionOptimizer(transactionID:Long) : OptimizerVisitorKeyDistribution(transactionID) {
+class KeyDistributionOptimizer(transactionID: Long) : OptimizerVisitorKeyDistribution(transactionID) {
 
     override fun visit(node: LOPServiceIRI): OPBase {
-        return POPServiceIRI(transactionID,node.name, node.silent, optimize(node.constraint) as POPBase)
+        return POPServiceIRI(transactionID, node.name, node.silent, optimize(node.constraint) as POPBase)
     }
 }

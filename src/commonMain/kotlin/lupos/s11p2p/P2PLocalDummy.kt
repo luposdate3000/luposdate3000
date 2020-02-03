@@ -38,12 +38,12 @@ object P2PLocalDummy {
             nodeData[nodeName] = pstore
         }
         val store = pstore.getDefaultGraph()
-val transactionID=pstore.nextTransactionID()
-        store.addData(transactionID,POPImportFromXml(data))
- pstore.commit(transactionID)
+        val transactionID = pstore.nextTransactionID()
+        store.addData(transactionID, POPImportFromXml(data))
+        pstore.commit(transactionID)
     }
 
-    fun execOnNamedNode(transactionID:Long,nodeName: String, pop: OPBase): OPBase {
+    fun execOnNamedNode(transactionID: Long, nodeName: String, pop: OPBase): OPBase {
 /*execute "pop" on remote node - if it exist - otherwiese throw an exception*/
         val optimizer = KeyDistributionOptimizer(transactionID)
         optimizer.store = nodeData[nodeName]!!
