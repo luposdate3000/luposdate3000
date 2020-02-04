@@ -486,13 +486,13 @@ fun parseSPARQLAndEvaluate(//
         println("----------Distributed Operator Graph")
         val pop_distributed_node = KeyDistributionOptimizer(transactionID).optimize(pop_node) as POPBase
         println(pop_distributed_node)
-var xmlQueryResult:XMLElement?=null
-if(!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)){
-        println("----------Query Result")
-        xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node)!!.first()
-        println(xmlQueryResult.toPrettyString())
-        store.commit(transactionID)
-}
+        var xmlQueryResult: XMLElement? = null
+        if (!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)) {
+            println("----------Query Result")
+            xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node)!!.first()
+            println(xmlQueryResult.toPrettyString())
+            store.commit(transactionID)
+        }
         var verifiedOutput = false
         outputDataGraph.forEach {
             println("OutputData Graph[${it["name"]}] Original")

@@ -7,6 +7,7 @@ import lupos.s03buildOperatorGraph.data.LOPExpression
 import lupos.s03buildOperatorGraph.LOPBase
 import lupos.s03buildOperatorGraph.OPBase
 
+
 enum class GraphOperationType {
     CREATE, CLEAR, DROP
 }
