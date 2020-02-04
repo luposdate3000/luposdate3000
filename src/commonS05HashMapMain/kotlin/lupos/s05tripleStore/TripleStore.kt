@@ -315,6 +315,61 @@ class TripleStore {
         modifyData(transactionID, vals, valp, valo, ModifyType.DELETE)
     }
 
+    fun addDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
+        println("addData1 $transactionID")
+        require(t[0].second == true)
+        require(t[1].second == true)
+        require(t[2].second == true)
+        val vals = resultSet.createValue(t[0].first)
+        val valp = resultSet.createValue(t[1].first)
+        val valo = resultSet.createValue(t[2].first)
+        modifyData(transactionID, vals, valp, valo, ModifyType.INSERT)
+    }
+
+    fun deleteDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
+        println("deleteData $transactionID")
+        val vals = resultSet.createValue(t[0].first)
+        val valp = resultSet.createValue(t[1].first)
+        val valo = resultSet.createValue(t[2].first)
+        var tmp = 0
+        val row = resultSet.createResultRow()
+        if (t[0].second) {
+            tmp++
+            row[s] = vals
+        }
+        if (t[1].second) {
+            tmp++
+            row[p] = vals
+        }
+        if (t[2].second) {
+            tmp++
+            row[o] = vals
+        }
+        when (tmp) {
+            3 -> modifyData(transactionID, vals, valp, valo, ModifyType.DELETE)
+            2 -> {
+                val iterator = if (!t[2].second) {
+                    tripleStoreSP[row]?.iterator()
+                } else if (!t[1].second) {
+                    tripleStoreSO[row]?.iterator()
+                } else {
+                    tripleStorePO[row]?.iterator()
+                }
+println("iterator $iterator $row")
+if(iterator!=null){
+                while (iterator.hasNext()) {
+                    val r = iterator.next()
+println("iteratorrrr $r")
+                    modifyData(transactionID, r[s], r[p], r[o], ModifyType.DELETE)
+                }
+            }
+}
+            else -> {
+                throw Exception("deleteDataVar $tmp")
+            }
+        }
+    }
+
     fun addData(transactionID: Long, iterator: ResultSetIterator) {
         println("addData2 $transactionID")
         val rsOld = iterator.getResultSet()

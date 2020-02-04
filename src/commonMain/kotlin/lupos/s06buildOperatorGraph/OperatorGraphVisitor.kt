@@ -94,11 +94,11 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.GraphOperationType
 import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.noinput.LOPGraphOperation
 import lupos.s04logicalOperators.noinput.LOPModifyData
-import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
@@ -805,46 +805,6 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         return res
     }
 
-    override fun visit(node: ASTDefaultGraph, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
-    }
-
-    override fun visit(node: ASTNamedGraph, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
-    }
-
-    override fun visit(node: ASTGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
-    }
-
-    override fun visit(node: ASTIriGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
-    }
-
-    override fun visit(node: ASTNamedIriGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
-    }
-
-    override fun visit(node: ASTDefaultGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
-    }
-
-    override fun visit(node: ASTNamedGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
-    }
-
-    override fun visit(node: ASTAllGraphRef, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
-    }
-
-    override fun visit(node: ASTGrapOperation, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
-    }
-
-    override fun visit(node: ASTUpdateGrapOperation, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
-    }
-
     override fun visit(node: ASTAdd, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
         val res = LOPGraphOperation()
@@ -902,71 +862,54 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         return res
     }
 
-    override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
-    }
-
-    override fun visit(node: ASTModify, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Update ${classNameToString(node)}")
-    }
-
-    override fun visit(node: ASTDeleteData, childrenValues: List<OPBase>): OPBase {
-        val res = LOPModifyData(ModifyDataType.DELETE)
-        for (c in node.children) {
-            when {
-                c is ASTTriple -> {
-                    res.data.add(mutableListOf(simpleAstToStringValue(c.children[0]), simpleAstToStringValue(c.children[1]), simpleAstToStringValue(c.children[2]), ""))
-                }
-                c is ASTGraph -> {
-                    for (c2 in c.children) {
-                        when {
-                            c2 is ASTTriple -> {
-                                res.data.add(mutableListOf(simpleAstToStringValue(c2.children[0]), simpleAstToStringValue(c2.children[1]), simpleAstToStringValue(c2.children[2]), (c.iriOrVar as ASTIri).iri))
-                            }
-                            else -> throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)} ${classNameToString(c2)}")
-                        }
-                    }
-                }
-                else -> throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)} ${classNameToString(c)}")
-            }
-        }
-        return res
-    }
-
-    override fun visit(node: ASTDeleteWhere, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Update ${classNameToString(node)}")
-    }
-
-    fun simpleAstToStringValue(node: ASTNode): String {
+    fun simpleAstToStringValue(node: ASTNode): Pair<String, Boolean> {
         when (node) {
-            is ASTIri -> return "<" + node.iri + ">"
-            is ASTInteger -> return "" + node.value + "^^<http://www.w3.org/2001/XMLSchema#integer>"
-            is ASTSimpleLiteral -> return node.content
-            is ASTBlankNode -> return "_:" + node.name
+            is ASTIri -> return Pair("<" + node.iri + ">", true)
+            is ASTInteger -> return Pair("" + node.value + "^^<http://www.w3.org/2001/XMLSchema#integer>", true)
+            is ASTDecimal -> return Pair("" + node.image + "^^<http://www.w3.org/2001/XMLSchema#decimal>", true)
+            is ASTSimpleLiteral -> return Pair(node.content, true)
+            is ASTBlankNode -> return Pair("_:" + node.name, true)
+            is ASTVar -> return Pair(node.name, false)
             else -> throw UnsupportedOperationException("${classNameToString(this)} simpleAstToStringValue ${classNameToString(node)}")
         }
     }
 
-    override fun visit(node: ASTInsertData, childrenValues: List<OPBase>): OPBase {
-        val res = LOPModifyData(ModifyDataType.INSERT)
-        for (c in node.children) {
+    fun modifyDataHelper(children: Array<ASTNode>, modify: LOPModifyData) {
+        for (c in children) {
             when {
                 c is ASTTriple -> {
-                    res.data.add(mutableListOf(simpleAstToStringValue(c.children[0]), simpleAstToStringValue(c.children[1]), simpleAstToStringValue(c.children[2]), ""))
+                    modify.data.add(mutableListOf(simpleAstToStringValue(c.children[0]), simpleAstToStringValue(c.children[1]), simpleAstToStringValue(c.children[2]), Pair("", true)))
                 }
                 c is ASTGraph -> {
                     for (c2 in c.children) {
                         when {
                             c2 is ASTTriple -> {
-                                res.data.add(mutableListOf(simpleAstToStringValue(c2.children[0]), simpleAstToStringValue(c2.children[1]), simpleAstToStringValue(c2.children[2]), (c.iriOrVar as ASTIri).iri))
+                                modify.data.add(mutableListOf(simpleAstToStringValue(c2.children[0]), simpleAstToStringValue(c2.children[1]), simpleAstToStringValue(c2.children[2]), Pair((c.iriOrVar as ASTIri).iri, true)))
                             }
-                            else -> throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)} ${classNameToString(c2)}")
+                            else -> throw UnsupportedOperationException("${classNameToString(this)} modifyDataHelper ${classNameToString(c2)}")
                         }
                     }
                 }
-                else -> throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)} ${classNameToString(c)}")
+                else -> throw UnsupportedOperationException("${classNameToString(this)} modifyDataHelper ${classNameToString(c)}")
             }
         }
+    }
+
+    override fun visit(node: ASTDeleteData, childrenValues: List<OPBase>): OPBase {
+        val res = LOPModifyData(ModifyDataType.DELETE)
+        modifyDataHelper(node.children, res)
+        return res
+    }
+
+    override fun visit(node: ASTDeleteWhere, childrenValues: List<OPBase>): OPBase {
+        val res = LOPModifyData(ModifyDataType.DELETE_WHERE)
+        modifyDataHelper(node.children, res)
+        return res
+    }
+
+    override fun visit(node: ASTInsertData, childrenValues: List<OPBase>): OPBase {
+        val res = LOPModifyData(ModifyDataType.INSERT)
+        modifyDataHelper(node.children, res)
         return res
     }
 
@@ -991,6 +934,54 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         for (e in node.delete)
             res.delete.add(e)
         return res
+    }
+
+    override fun visit(node: ASTLoad, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+    }
+
+    override fun visit(node: ASTModify, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("${classNameToString(this)} Update ${classNameToString(node)}")
+    }
+
+    override fun visit(node: ASTDefaultGraph, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+    }
+
+    override fun visit(node: ASTNamedGraph, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+    }
+
+    override fun visit(node: ASTGraphRef, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+    }
+
+    override fun visit(node: ASTIriGraphRef, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+    }
+
+    override fun visit(node: ASTNamedIriGraphRef, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+    }
+
+    override fun visit(node: ASTDefaultGraphRef, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+    }
+
+    override fun visit(node: ASTNamedGraphRef, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+    }
+
+    override fun visit(node: ASTAllGraphRef, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+    }
+
+    override fun visit(node: ASTGrapOperation, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
+    }
+
+    override fun visit(node: ASTUpdateGrapOperation, childrenValues: List<OPBase>): OPBase {
+        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
     override fun visit(node: ASTPathAlternatives, childrenValues: List<OPBase>): OPBase {

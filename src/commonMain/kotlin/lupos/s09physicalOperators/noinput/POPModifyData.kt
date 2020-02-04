@@ -16,7 +16,7 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
-class POPModifyData(val transactionID: Long,val type:ModifyDataType, val data: List<List<String>>, val pstore: PersistentStore) : POPBase() {
+class POPModifyData(val transactionID: Long, val type: ModifyDataType, val data: List<List<Pair<String, Boolean>>>, val pstore: PersistentStore) : POPBase() {
     private val resultSetNew = ResultSet()
 
     private var first = true
@@ -39,11 +39,11 @@ class POPModifyData(val transactionID: Long,val type:ModifyDataType, val data: L
             Trace.start("POPInsertData.next")
             first = false
             for (t in data) {
-                val store = pstore.getNamedGraph(t[3])
-		if(type==ModifyDataType.INSERT)
-                store.addData(transactionID, t)
-		else
-                store.deleteData(transactionID, t)
+                val store = pstore.getNamedGraph(t[3].first)
+                if (type == ModifyDataType.INSERT)
+                    store.addDataVar(transactionID, t)
+                else
+                    store.deleteDataVar(transactionID, t)
             }
             return resultSetNew.createResultRow()
         } finally {
@@ -62,7 +62,14 @@ class POPModifyData(val transactionID: Long,val type:ModifyDataType, val data: L
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPInsertData")
         for (t in data) {
-            res.addContent(XMLElement("RawTriple").addAttribute("s", t[0]).addAttribute("p", t[1]).addAttribute("o", t[2]).addAttribute("graph", t[3]))
+            res.addContent(XMLElement("RawTriple")
+                    .addAttribute("sv", t[0].first)
+                    .addAttribute("pv", t[1].first)
+                    .addAttribute("ov", t[2].first)
+                    .addAttribute("sconst", "" + t[0].second)
+                    .addAttribute("pconst", "" + t[1].second)
+                    .addAttribute("oconst", "" + t[2].second)
+                    .addAttribute("graph", t[3].first))
         }
         return res
     }
