@@ -58,6 +58,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
                 implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
+		implementation("com.soywiz.korlibs.klock:klock:1.7.0")
 //				implementation("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
             }
         }

@@ -63,6 +63,18 @@ class DateTime {
     val timezoneHours: Int
     val timezoneMinutes: Int
 
+constructor(){
+val time = com.soywiz.klock.DateTime.now()
+year=time.yearInt
+month=time.month1
+day=time.dayOfMonth
+hours=time.hours
+minutes=time.minutes
+seconds=time.seconds
+timezoneHours=0
+timezoneMinutes=0
+}
+
     constructor(str: String) {
         println("DateTime from $str")
         if (str.length >= 10) {
@@ -550,6 +562,7 @@ class POPExpression : LOPBase {
                     BuiltInFunctions.MINUTES -> return TmpResultType.RSInteger
                     BuiltInFunctions.SECONDS -> return TmpResultType.RSInteger
                     BuiltInFunctions.STRLEN -> return TmpResultType.RSInteger
+                    BuiltInFunctions.NOW -> return TmpResultType.RSDateTime
                     else -> return TmpResultType.RSString
                 }
             }
@@ -562,6 +575,12 @@ class POPExpression : LOPBase {
             is ASTVar -> {
                 return DateTime(resultSet.getValue(resultRow[resultSet.createVariable(node.name)]))
             }
+is ASTBuiltInCall -> {
+                when (node.function) {
+		BuiltInFunctions.NOW -> {return DateTime()}
+		else-> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperDateTime ${classNameToString(node)} ${node.function}")
+	}
+}
             else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperDateTime ${classNameToString(node)}")
         }
     }
@@ -618,6 +637,20 @@ class POPExpression : LOPBase {
         when {
             !literal.endsWith("\"") && !literal.endsWith(">") -> return literal.substring(literal.lastIndexOf("@") + 1, literal.length)
             else -> return ""
+        }
+    }
+    fun extractDatatypeFromLiteral(literal: String): String {
+        println("extractDatatypeFromLiteral ${literal} ${literal.endsWith(dataTypeString)} ${!literal.endsWith(">")}")
+        when {
+            literal.contains("^^<") && literal.endsWith(">") -> {
+val res= literal.substring(literal.lastIndexOf("^^<") + 2, literal.length)
+println("datatype::"+res)
+return res
+}
+            else -> {
+println("datatype::")
+return ""
+}
         }
     }
 
@@ -692,6 +725,7 @@ class POPExpression : LOPBase {
     fun evaluateHelperString(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): String {
         when (getResultType(resultSet, resultRow, node)) {
             TmpResultType.RSBoolean -> return "\"" + evaluateHelperBoolean(resultSet, resultRow, node) + "\"" + dataTypeBoolean
+	TmpResultType.RSDateTime -> return "\"" +evaluateHelperDateTime(resultSet, resultRow, node) + "\"" + dataTypeDateTime
             TmpResultType.RSInteger -> {
 /*
 ATTENTION !!! here is only ONE correct solution ... if compiled as native
@@ -794,6 +828,7 @@ println(tmp2.toString().replace(".0",""))
                             return "\"" + aas + bbs + "\""
                         return "\"" + aas + bbs + "\"@" + aa
                     }
+		    BuiltInFunctions.DATATYPE->return extractDatatypeFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
                     BuiltInFunctions.LANG -> return "\"" + extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])) + "\""
                     BuiltInFunctions.STR -> return evaluateHelperString(resultSet, resultRow, node.children[0])
                     BuiltInFunctions.MD5 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().md5().toHexString() + "\""
