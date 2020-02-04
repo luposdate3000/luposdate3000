@@ -34,8 +34,8 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTUndef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
 import lupos.s04logicalOperators.LOPBase
+import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.OPNothing
 
 
 

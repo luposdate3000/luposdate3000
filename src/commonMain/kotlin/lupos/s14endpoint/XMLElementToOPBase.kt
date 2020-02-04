@@ -1,6 +1,6 @@
 package lupos.s14endpoint
 import lupos.s00misc.XMLElement
-import lupos.s04logicalOperators.data.LOPVariable
+import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.toASTNode
 import lupos.s05tripleStore.globalStore
@@ -8,10 +8,10 @@ import lupos.s05tripleStore.PersistentStore
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPJoinNestedLoop
 import lupos.s09physicalOperators.multiinput.POPUnion
+import lupos.s09physicalOperators.noinput.POPEmptyRow
+import lupos.s09physicalOperators.noinput.POPExpression
+import lupos.s09physicalOperators.noinput.POPValues
 import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.POPEmptyRow
-import lupos.s09physicalOperators.POPExpression
-import lupos.s09physicalOperators.POPValues
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset

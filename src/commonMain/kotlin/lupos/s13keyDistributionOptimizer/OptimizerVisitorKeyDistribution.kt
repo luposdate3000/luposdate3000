@@ -1,5 +1,5 @@
 package lupos.s13keyDistributionOptimizer
-import lupos.s04logicalOperators.data.LOPVariable
+import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s08logicalOptimisation.OptimizerVisitorLOP
 import lupos.s09physicalOperators.POPBase

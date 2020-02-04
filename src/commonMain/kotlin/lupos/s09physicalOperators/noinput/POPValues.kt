@@ -1,21 +1,21 @@
-package lupos.s09physicalOperators
+package lupos.s09physicalOperators.noinput
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
-import lupos.s04logicalOperators.data.LOPExpression
-import lupos.s04logicalOperators.data.LOPValues
-import lupos.s04logicalOperators.data.LOPVariable
+import lupos.s04logicalOperators.noinput.LOPExpression
+import lupos.s04logicalOperators.noinput.LOPValues
+import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Value
 import lupos.s06resultRepresentation.Variable
+import lupos.s09physicalOperators.noinput.POPEmptyRow
+import lupos.s09physicalOperators.noinput.POPExpression
+import lupos.s09physicalOperators.noinput.POPGraphOperation
+import lupos.s09physicalOperators.noinput.POPImportFromXml
+import lupos.s09physicalOperators.noinput.POPInsertData
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
-import lupos.s09physicalOperators.POPEmptyRow
-import lupos.s09physicalOperators.POPExpression
-import lupos.s09physicalOperators.POPGraphOperation
-import lupos.s09physicalOperators.POPImportFromXml
-import lupos.s09physicalOperators.POPInsertData
 
 
 

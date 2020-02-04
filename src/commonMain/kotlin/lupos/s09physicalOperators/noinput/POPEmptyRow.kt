@@ -1,21 +1,17 @@
-package lupos.s09physicalOperators
+package lupos.s09physicalOperators.noinput
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
-import lupos.s05tripleStore.PersistentStore
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
-import lupos.s09physicalOperators.POPEmptyRow
-import lupos.s09physicalOperators.POPExpression
-import lupos.s09physicalOperators.POPGraphOperation
-import lupos.s09physicalOperators.POPImportFromXml
 
 
 
-class POPInsertData(val transactionID: Long, val data: List<List<String>>, val pstore: PersistentStore) : POPBase() {
+class POPEmptyRow() : POPBase() {
     private val resultSetNew = ResultSet()
 
     private var first = true
@@ -26,24 +22,20 @@ class POPInsertData(val transactionID: Long, val data: List<List<String>>, val p
 
     override fun hasNext(): Boolean {
         try {
-            Trace.start("POPInsertData.hasNext")
+            Trace.start("POPEmptyRow.hasNext")
             return first
         } finally {
-            Trace.stop("POPInsertData.hasNext")
+            Trace.stop("POPEmptyRow.hasNext")
         }
     }
 
     override fun next(): ResultRow {
         try {
-            Trace.start("POPInsertData.next")
+            Trace.start("POPEmptyRow.next")
             first = false
-            for (t in data) {
-                val store = pstore.getNamedGraph(t[3])
-                store.addData(transactionID, t)
-            }
             return resultSetNew.createResultRow()
         } finally {
-            Trace.stop("POPInsertData.next")
+            Trace.stop("POPEmptyRow.next")
         }
     }
 
@@ -56,10 +48,7 @@ class POPInsertData(val transactionID: Long, val data: List<List<String>>, val p
     }
 
     override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPInsertData")
-        for (t in data) {
-            res.addContent(XMLElement("RawTriple").addAttribute("s", t[0]).addAttribute("p", t[1]).addAttribute("o", t[2]).addAttribute("graph", t[3]))
-        }
+        val res = XMLElement("POPEmptyRow")
         return res
     }
 }

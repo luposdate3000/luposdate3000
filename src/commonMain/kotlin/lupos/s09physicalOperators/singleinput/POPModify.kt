@@ -12,8 +12,8 @@ import lupos.s05tripleStore.PersistentStore
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
+import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBaseNullableIterator
-import lupos.s09physicalOperators.POPExpression
 import lupos.s09physicalOperators.singleinput.POPBind
 import lupos.s09physicalOperators.singleinput.POPBindUndefined
 import lupos.s09physicalOperators.singleinput.POPFilter

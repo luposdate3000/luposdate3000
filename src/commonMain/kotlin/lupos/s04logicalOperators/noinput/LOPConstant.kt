@@ -1,4 +1,4 @@
-package lupos.s04logicalOperators.data
+package lupos.s04logicalOperators.noinput
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.LOPBase
 
