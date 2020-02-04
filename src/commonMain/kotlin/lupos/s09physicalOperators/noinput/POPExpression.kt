@@ -1,5 +1,8 @@
 package lupos.s09physicalOperators.noinput
 
+import com.soywiz.krypto.md5
+import com.soywiz.krypto.sha1
+import com.soywiz.krypto.sha256
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -47,10 +50,6 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 val localbnode = ThreadSafeUuid()
-
-//import com.soywiz.krypto.md5
-//import com.soywiz.krypto.sha1
-//import com.soywiz.krypto.sha256
 
 class ArithmeticException() : Exception()
 
@@ -797,9 +796,9 @@ println(tmp2.toString().replace(".0",""))
                     }
                     BuiltInFunctions.LANG -> return "\"" + extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])) + "\""
                     BuiltInFunctions.STR -> return evaluateHelperString(resultSet, resultRow, node.children[0])
-//                    BuiltInFunctions.MD5 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().md5().toHexString() + "\""
-//                    BuiltInFunctions.SHA1 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().sha1().toHexString() + "\""
-//                    BuiltInFunctions.SHA256 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().sha256().toHexString() + "\""
+                    BuiltInFunctions.MD5 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().md5().toHexString() + "\""
+                    BuiltInFunctions.SHA1 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().sha1().toHexString() + "\""
+                    BuiltInFunctions.SHA256 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().sha256().toHexString() + "\""
                     else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperString ${classNameToString(node)} ${node.function}")
                 }
             }
