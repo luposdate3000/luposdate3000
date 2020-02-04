@@ -1,11 +1,11 @@
 package lupos.s07physicalOperators
-
 import lupos.s00misc.XMLElement
-import lupos.s03buildOperatorGraph.OPBase
+import lupos.s04logicalOperators.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
 import lupos.s07physicalOperators.POPBaseNullableIterator
+
 
 
 class POPImportFromXml : POPBaseNullableIterator {

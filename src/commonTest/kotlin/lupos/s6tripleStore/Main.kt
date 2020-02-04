@@ -1,12 +1,12 @@
 package lupos.s6tripleStore
-
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import kotlin.test.Test
+import lupos.s03resultRepresentation.ResultSetIterator
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
-import lupos.s06resultRepresentation.ResultSetIterator
 import lupos.s08tripleStore.TripleStore
+
 
 
 class ResultSetIteratorTestImpl : ResultSetIterator {

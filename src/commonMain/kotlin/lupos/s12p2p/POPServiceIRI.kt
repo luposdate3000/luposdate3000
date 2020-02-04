@@ -1,19 +1,19 @@
 package lupos.s11p2p
-import lupos.s07physicalOperators.POPBase
-
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
-import lupos.s03buildOperatorGraph.data.LOPExpression
-import lupos.s03buildOperatorGraph.data.LOPVariable
-import lupos.s03buildOperatorGraph.OPBase
+import lupos.s04logicalOperators.data.LOPExpression
+import lupos.s04logicalOperators.data.LOPVariable
+import lupos.s04logicalOperators.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
+import lupos.s07physicalOperators.POPBase
 import lupos.s07physicalOperators.POPExpression
 import lupos.s07physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s07physicalOperators.singleinput.POPBindUndefined
 import lupos.s07physicalOperators.singleinput.POPFilterExact
 import lupos.s07physicalOperators.singleinput.POPSingleInputBaseNullableIterator
+
 
 
 class POPServiceIRI : POPBase {

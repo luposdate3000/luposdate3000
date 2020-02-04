@@ -1,5 +1,4 @@
 package lupos.s00misc
-
 import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.memScoped
@@ -9,6 +8,7 @@ import platform.posix.fclose
 import platform.posix.fgets
 import platform.posix.fopen
 import platform.posix.perror
+
 
 
 actual fun readFileContents(filename: String): String {

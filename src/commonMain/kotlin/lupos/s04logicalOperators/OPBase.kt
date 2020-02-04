@@ -1,10 +1,10 @@
-package lupos.s03buildOperatorGraph
-import lupos.s06resultRepresentation.ResultSetIterator
-
+package lupos.s04logicalOperators
 import lupos.s00misc.classNameToString
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
-import lupos.s03buildOperatorGraph.LOPBase
+import lupos.s03resultRepresentation.ResultSetIterator
+import lupos.s04logicalOperators.LOPBase
+
 
 
 abstract class OPBase : ResultSetIterator {

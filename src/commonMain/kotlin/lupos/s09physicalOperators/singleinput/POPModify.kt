@@ -1,20 +1,20 @@
 package lupos.s07physicalOperators.singleinput
-import lupos.s08tripleStore.PersistentStore
-import lupos.s07physicalOperators.POPExpression
+import lupos.s00misc.classNameToString
+import lupos.s00misc.Trace
+import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGraph
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTriple
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
-import lupos.s00misc.classNameToString
-import lupos.s00misc.Trace
-
-import lupos.s00misc.XMLElement
-import lupos.s03buildOperatorGraph.OPBase
+import lupos.s04logicalOperators.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
 import lupos.s07physicalOperators.POPBaseNullableIterator
+import lupos.s07physicalOperators.POPExpression
+import lupos.s08tripleStore.PersistentStore
+
 
 
 class POPModify(val transactionID: Long, val iri: String?, val insert: List<ASTNode>, val delete: List<ASTNode>, val pstore: PersistentStore, child: OPBase) : POPSingleInputBase(child) {

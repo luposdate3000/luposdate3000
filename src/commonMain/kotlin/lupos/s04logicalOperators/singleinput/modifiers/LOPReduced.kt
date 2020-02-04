@@ -1,12 +1,12 @@
-package lupos.s03buildOperatorGraph.singleinput.modifiers
-
+package lupos.s04logicalOperators.singleinput.modifiers
 import lupos.s00misc.XMLElement
-import lupos.s03buildOperatorGraph.OPBase
-import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
-import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPDistinct
-import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPLimit
-import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPOffset
-import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPPrefix
+import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.singleinput.LOPSingleInputBase
+import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
+import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
+import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
+import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
+
 
 
 class LOPReduced() : LOPSingleInputBase() {

@@ -1,14 +1,14 @@
 package lupos.s07physicalOperators
-import lupos.s08tripleStore.PersistentStore
-
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
-import lupos.s03buildOperatorGraph.OPBase
+import lupos.s04logicalOperators.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
 import lupos.s07physicalOperators.POPBase
 import lupos.s07physicalOperators.POPBaseNullableIterator
+import lupos.s08tripleStore.PersistentStore
+
 
 
 class POPInsertData(val transactionID: Long, val data: List<List<String>>, val pstore: PersistentStore) : POPBase() {

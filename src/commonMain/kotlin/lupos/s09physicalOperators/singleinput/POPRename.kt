@@ -1,9 +1,8 @@
 package lupos.s07physicalOperators.singleinput
-
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
-import lupos.s03buildOperatorGraph.data.LOPVariable
-import lupos.s03buildOperatorGraph.OPBase
+import lupos.s04logicalOperators.data.LOPVariable
+import lupos.s04logicalOperators.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
@@ -17,6 +16,7 @@ import lupos.s07physicalOperators.singleinput.POPGroup
 import lupos.s07physicalOperators.singleinput.POPMakeBooleanResult
 import lupos.s07physicalOperators.singleinput.POPProjection
 import lupos.s07physicalOperators.singleinput.POPSingleInputBase
+
 
 
 class POPRename : POPSingleInputBase {

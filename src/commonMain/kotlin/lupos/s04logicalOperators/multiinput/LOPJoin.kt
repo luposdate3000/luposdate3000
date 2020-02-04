@@ -1,8 +1,8 @@
-package lupos.s03buildOperatorGraph.multiinput
-
+package lupos.s04logicalOperators.multiinput
 import lupos.s00misc.XMLElement
-import lupos.s03buildOperatorGraph.OPBase
-import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
+import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.singleinput.LOPSingleInputBase
+
 
 
 class LOPJoin(first: OPBase, val second: OPBase, val optional: Boolean) : LOPSingleInputBase(first) {

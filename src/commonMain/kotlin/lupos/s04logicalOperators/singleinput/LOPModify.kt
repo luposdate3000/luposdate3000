@@ -1,15 +1,16 @@
-package lupos.s03buildOperatorGraph.singleinput
-import lupos.s03buildOperatorGraph.OPBase
-import lupos.s03buildOperatorGraph.parseFromASTNode
-import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
+package lupos.s04logicalOperators.singleinput
+import lupos.s03buildOperatorGraph.*
+import lupos.s04logicalOperators.*
 import lupos.s00misc.XMLElement
+import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
+import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.singleinput.LOPBind
+import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.singleinput.LOPGroup
+import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
+import lupos.s04logicalOperators.singleinput.LOPNOOP
+import lupos.s04logicalOperators.singleinput.LOPSingleInputBase
 
-import lupos.s03buildOperatorGraph.singleinput.LOPBind
-import lupos.s03buildOperatorGraph.singleinput.LOPFilter
-import lupos.s03buildOperatorGraph.singleinput.LOPGroup
-import lupos.s03buildOperatorGraph.singleinput.LOPMakeBooleanResult
-import lupos.s03buildOperatorGraph.singleinput.LOPNOOP
-import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
 
 
 class LOPModify() : LOPSingleInputBase() {

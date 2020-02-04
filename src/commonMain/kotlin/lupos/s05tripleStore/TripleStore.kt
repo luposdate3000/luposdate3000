@@ -1,8 +1,8 @@
 package lupos.s08tripleStore
 import lupos.s00misc.ThreadSafeUuid
-
-import lupos.s06resultRepresentation.ResultSetIterator
+import lupos.s03resultRepresentation.ResultSetIterator
 import lupos.s07physicalOperators.POPBase
+
 
 
 enum class IndexPattern {

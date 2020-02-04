@@ -1,9 +1,9 @@
-package lupos.s03buildOperatorGraph.multiinput
-
+package lupos.s04logicalOperators.multiinput
 import lupos.s00misc.XMLElement
-import lupos.s03buildOperatorGraph.multiinput.LOPJoin
-import lupos.s03buildOperatorGraph.OPBase
-import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
+import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.singleinput.LOPSingleInputBase
+
 
 
 class LOPMinus(first: OPBase, var second: OPBase) : LOPSingleInputBase(first) {

@@ -1,6 +1,5 @@
 package lupos.s07physicalOperators.singleinput
-
-import lupos.s03buildOperatorGraph.OPBase
+import lupos.s04logicalOperators.OPBase
 import lupos.s07physicalOperators.POPBase
 import lupos.s07physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s07physicalOperators.singleinput.POPBind
@@ -11,6 +10,7 @@ import lupos.s07physicalOperators.singleinput.POPGroup
 import lupos.s07physicalOperators.singleinput.POPMakeBooleanResult
 import lupos.s07physicalOperators.singleinput.POPProjection
 import lupos.s07physicalOperators.singleinput.POPRename
+
 
 
 abstract class POPSingleInputBase(val child: OPBase) : POPBase() {

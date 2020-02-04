@@ -1,11 +1,5 @@
 package lupos.s13endpoint
-import lupos.s12keyDistributionOptimizer.KeyDistributionOptimizer
-import lupos.s09physicalOptimisation.PhysicalOptimizer
-import lupos.s08tripleStore.globalStore
-import lupos.s07physicalOperators.POPBase
-import lupos.s07physicalOperators.POPImportFromXml
 import lupos.s00misc.parseFromXml
-
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
@@ -20,8 +14,14 @@ import lupos.s05logicalOptimisation.LogicalOptimizer
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
+import lupos.s07physicalOperators.POPBase
 import lupos.s07physicalOperators.POPBaseNullableIterator
+import lupos.s07physicalOperators.POPImportFromXml
+import lupos.s08tripleStore.globalStore
+import lupos.s09physicalOptimisation.PhysicalOptimizer
 import lupos.s10outputResult.QueryResultToXML
+import lupos.s12keyDistributionOptimizer.KeyDistributionOptimizer
+
 
 
 class TripleInsertIterator : POPBaseNullableIterator {

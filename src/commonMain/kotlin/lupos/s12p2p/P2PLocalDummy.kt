@@ -1,9 +1,4 @@
 package lupos.s11p2p
-import lupos.s12keyDistributionOptimizer.KeyDistributionOptimizer
-import lupos.s08tripleStore.PersistentStore
-import lupos.s07physicalOperators.POPImportFromXml
-import lupos.s03buildOperatorGraph.OPBase
-
 import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.Trace
@@ -16,14 +11,19 @@ import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
+import lupos.s04logicalOperators.OPBase
 import lupos.s05logicalOptimisation.LogicalOptimizer
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
 import lupos.s07physicalOperators.POPBaseNullableIterator
+import lupos.s07physicalOperators.POPImportFromXml
+import lupos.s08tripleStore.PersistentStore
 import lupos.s09physicalOptimisation.PhysicalOptimizer
 import lupos.s10outputResult.QueryResultToXML
+import lupos.s12keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s13endpoint.Endpoint
+
 
 
 object P2PLocalDummy {

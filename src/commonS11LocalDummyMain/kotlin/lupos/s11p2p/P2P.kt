@@ -1,5 +1,4 @@
 package lupos.s11p2p
-
 import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.Trace
@@ -22,6 +21,7 @@ import lupos.s08tripleStore.TripleStore
 import lupos.s09physicalOptimisation.PhysicalOptimizer
 import lupos.s10outputResult.QueryResultToXML
 import lupos.s13endpoint.Endpoint
+
 
 
 typealias P2P = P2PLocalDummy

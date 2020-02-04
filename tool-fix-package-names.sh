@@ -58,6 +58,7 @@ do
 					grep -v "^package " $f3 | grep -v "^import ${oimp}\$" >> tmp
 					mv tmp $f3
 				done
+				./tool-format-sort-imports.sh
 				./tool-fix-asterix-imports.sh && changed=1
 				break
 			fi

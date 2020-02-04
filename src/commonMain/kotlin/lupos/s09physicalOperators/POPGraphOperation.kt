@@ -1,21 +1,21 @@
 package lupos.s07physicalOperators
-import lupos.s08tripleStore.PersistentStore
-import lupos.s03buildOperatorGraph.data.GraphOperationType
+import lupos.s00misc.classNameToString
+import lupos.s00misc.Trace
+import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAllGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTDefaultGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIriGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNamedGraphRef
-import lupos.s00misc.classNameToString
-import lupos.s00misc.Trace
-
-import lupos.s00misc.XMLElement
-import lupos.s03buildOperatorGraph.OPBase
+import lupos.s04logicalOperators.data.GraphOperationType
+import lupos.s04logicalOperators.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
 import lupos.s07physicalOperators.POPBase
 import lupos.s07physicalOperators.POPBaseNullableIterator
+import lupos.s08tripleStore.PersistentStore
+
 
 
 class POPGraphOperation(val transactionID: Long, val silent: Boolean, val graphref: ASTGraphRef, val action: GraphOperationType, val pstore: PersistentStore) : POPBase() {

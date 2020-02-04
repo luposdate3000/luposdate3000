@@ -1,9 +1,9 @@
 package lupos.s01io.buffer
-
 import lupos.s00misc.bit0
 import lupos.s00misc.bit1
 import lupos.s00misc.bit2
 import lupos.s01io.buffer.ByteArrayPage
+
 
 
 inline fun compareInt(int1: Int, int2: Int) = int1 - int2

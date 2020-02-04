@@ -1,7 +1,7 @@
 package lupos.s01io.buffer
-
 import lupos.s01io.buffer.getString
 import lupos.s01io.buffer.Page
+
 
 
 class OnePageBenchmark {

@@ -1,7 +1,7 @@
 package lupos.s00misc
-
 import lupos.s00misc.classNameToString
 import lupos.s00misc.ThreadSafeMutableMap
+
 
 
 class ThreadSafeUuid() {

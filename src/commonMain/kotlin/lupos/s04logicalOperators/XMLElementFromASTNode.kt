@@ -1,7 +1,4 @@
-package lupos.s03buildOperatorGraph
-import lupos.s02buildSyntaxTree.sparql1_1.ASTGraph
-import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
-
+package lupos.s04logicalOperators
 import lupos.s00misc.classNameToString
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
@@ -15,6 +12,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTEQ
 import lupos.s02buildSyntaxTree.sparql1_1.ASTFilter
 import lupos.s02buildSyntaxTree.sparql1_1.ASTFunctionCall
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGEQ
+import lupos.s02buildSyntaxTree.sparql1_1.ASTGraph
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGT
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIn
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
@@ -33,6 +31,13 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTSimpleLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTriple
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTypedLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTUndef
+import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
+import lupos.s03buildOperatorGraph.*
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.LOPBase
+import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.OPNothing
+
 
 
 fun XMLElement.Companion.parseFromASTNode(node: ASTNode): XMLElement {

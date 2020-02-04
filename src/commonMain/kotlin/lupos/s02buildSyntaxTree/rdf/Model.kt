@@ -1,6 +1,6 @@
 package lupos.s02buildSyntaxTree.rdf
-
 import lupos.s00misc.ThreadSafeUuid
+
 
 
 abstract open class RDFTerm() {

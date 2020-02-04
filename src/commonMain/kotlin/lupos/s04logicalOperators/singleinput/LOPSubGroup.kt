@@ -1,19 +1,22 @@
-package lupos.s03buildOperatorGraph.singleinput
-
+package lupos.s04logicalOperators.singleinput
 import lupos.s00misc.XMLElement
-import lupos.s03buildOperatorGraph.LOPBase
-import lupos.s03buildOperatorGraph.OPBase
-import lupos.s03buildOperatorGraph.OPNothing
-import lupos.s03buildOperatorGraph.singleinput.LOPBind
-import lupos.s03buildOperatorGraph.singleinput.LOPFilter
-import lupos.s03buildOperatorGraph.singleinput.LOPGroup
-import lupos.s03buildOperatorGraph.singleinput.LOPMakeBooleanResult
-import lupos.s03buildOperatorGraph.singleinput.LOPNOOP
-import lupos.s03buildOperatorGraph.singleinput.LOPOptional
-import lupos.s03buildOperatorGraph.singleinput.LOPProjection
-import lupos.s03buildOperatorGraph.singleinput.LOPRename
-import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
-import lupos.s03buildOperatorGraph.singleinput.LOPSort
+import lupos.s04logicalOperators.LOPBase
+import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.OPNothing
+import lupos.s04logicalOperators.singleinput.LOPBind
+import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.singleinput.LOPGroup
+import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
+import lupos.s04logicalOperators.singleinput.LOPModify
+import lupos.s04logicalOperators.singleinput.LOPNOOP
+import lupos.s04logicalOperators.singleinput.LOPOptional
+import lupos.s04logicalOperators.singleinput.LOPProjection
+import lupos.s04logicalOperators.singleinput.LOPRename
+import lupos.s04logicalOperators.singleinput.LOPServiceIRI
+import lupos.s04logicalOperators.singleinput.LOPServiceVAR
+import lupos.s04logicalOperators.singleinput.LOPSingleInputBase
+import lupos.s04logicalOperators.singleinput.LOPSort
+
 
 
 class LOPSubGroup() : LOPSingleInputBase() {

@@ -1,12 +1,8 @@
 package lupos.s13endpoint
-import lupos.s11p2p.POPServiceIRI
-import lupos.s08tripleStore.globalStore
-import lupos.s08tripleStore.PersistentStore
-
 import lupos.s00misc.XMLElement
-import lupos.s03buildOperatorGraph.data.LOPVariable
-import lupos.s03buildOperatorGraph.OPBase
 import lupos.s03buildOperatorGraph.toASTNode
+import lupos.s04logicalOperators.data.LOPVariable
+import lupos.s04logicalOperators.OPBase
 import lupos.s07physicalOperators.multiinput.POPJoinHashMap
 import lupos.s07physicalOperators.multiinput.POPJoinNestedLoop
 import lupos.s07physicalOperators.multiinput.POPUnion
@@ -27,7 +23,11 @@ import lupos.s07physicalOperators.singleinput.POPProjection
 import lupos.s07physicalOperators.singleinput.POPRename
 import lupos.s07physicalOperators.singleinput.POPSort
 import lupos.s07physicalOperators.singleinput.POPTemporaryStore
+import lupos.s08tripleStore.globalStore
+import lupos.s08tripleStore.PersistentStore
+import lupos.s11p2p.POPServiceIRI
 import lupos.s13endpoint.Endpoint
+
 
 
 fun createLOPVariable(mapping: MutableMap<String, String>, name: String): LOPVariable {

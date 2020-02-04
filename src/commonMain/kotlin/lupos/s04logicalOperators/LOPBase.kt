@@ -1,9 +1,9 @@
-package lupos.s03buildOperatorGraph
+package lupos.s04logicalOperators
+import lupos.s00misc.classNameToString
+import lupos.s04logicalOperators.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 
-import lupos.s00misc.classNameToString
-import lupos.s03buildOperatorGraph.OPBase
 
 
 abstract class LOPBase : OPBase() {

@@ -1,11 +1,11 @@
-package lupos.s03buildOperatorGraph.data
-import lupos.s02buildSyntaxTree.sparql1_1.ASTGraphRef
-
+package lupos.s04logicalOperators.data
 import lupos.s00misc.XMLElement
-import lupos.s03buildOperatorGraph.data.LOPConstant
-import lupos.s03buildOperatorGraph.data.LOPExpression
-import lupos.s03buildOperatorGraph.LOPBase
-import lupos.s03buildOperatorGraph.OPBase
+import lupos.s02buildSyntaxTree.sparql1_1.ASTGraphRef
+import lupos.s04logicalOperators.data.LOPConstant
+import lupos.s04logicalOperators.data.LOPExpression
+import lupos.s04logicalOperators.LOPBase
+import lupos.s04logicalOperators.OPBase
+
 
 
 enum class GraphOperationType {

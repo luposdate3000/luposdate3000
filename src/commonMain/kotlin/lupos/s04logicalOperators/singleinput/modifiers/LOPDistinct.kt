@@ -1,8 +1,8 @@
-package lupos.s03buildOperatorGraph.singleinput.modifiers
-
+package lupos.s04logicalOperators.singleinput.modifiers
 import lupos.s00misc.XMLElement
-import lupos.s03buildOperatorGraph.OPBase
-import lupos.s03buildOperatorGraph.singleinput.LOPSingleInputBase
+import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.singleinput.LOPSingleInputBase
+
 
 
 class LOPDistinct() : LOPSingleInputBase() {
