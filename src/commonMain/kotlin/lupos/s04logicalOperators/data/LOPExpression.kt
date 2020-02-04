@@ -1,11 +1,10 @@
 package lupos.s04logicalOperators.data
-import lupos.s03buildOperatorGraph.*
-import lupos.s04logicalOperators.*
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s04logicalOperators.data.LOPConstant
 import lupos.s04logicalOperators.LOPBase
+import lupos.s04logicalOperators.parseFromASTNode
 
 
 

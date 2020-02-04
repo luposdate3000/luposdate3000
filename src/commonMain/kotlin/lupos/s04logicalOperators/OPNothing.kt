@@ -1,8 +1,8 @@
 package lupos.s04logicalOperators
 import lupos.s00misc.XMLElement
-import lupos.s03buildOperatorGraph.OperatorGraphVisitor
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
+import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 
 
 

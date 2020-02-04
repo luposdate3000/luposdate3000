@@ -1,4 +1,5 @@
-package lupos.s07physicalOperators.singleinput
+package lupos.s09physicalOperators.singleinput
+import lupos.s07physicalOperators.singleinput.POPSingleInputBase
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -8,12 +9,19 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTriple
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s04logicalOperators.OPBase
+import lupos.s05tripleStore.PersistentStore
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
-import lupos.s07physicalOperators.POPBaseNullableIterator
-import lupos.s07physicalOperators.POPExpression
-import lupos.s08tripleStore.PersistentStore
+import lupos.s09physicalOperators.POPBaseNullableIterator
+import lupos.s09physicalOperators.POPExpression
+import lupos.s09physicalOperators.singleinput.*
+import lupos.s09physicalOperators.singleinput.POPBind
+import lupos.s09physicalOperators.singleinput.POPBindUndefined
+import lupos.s09physicalOperators.singleinput.POPFilter
+import lupos.s09physicalOperators.singleinput.POPFilterExact
+import lupos.s09physicalOperators.singleinput.POPGroup
+import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
 
 
 

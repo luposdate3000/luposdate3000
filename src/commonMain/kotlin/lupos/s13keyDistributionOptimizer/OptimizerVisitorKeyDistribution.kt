@@ -1,13 +1,12 @@
 package lupos.s12keyDistributionOptimizer
 import lupos.s04logicalOperators.data.LOPVariable
 import lupos.s04logicalOperators.OPBase
-import lupos.s05logicalOptimisation.OptimizerVisitorLOP
-import lupos.s07physicalOperators.POPBase
-import lupos.s07physicalOperators.singleinput.POPBind
-import lupos.s07physicalOperators.singleinput.POPFilterExact
 import lupos.s07physicalOperators.singleinput.POPProjection
 import lupos.s07physicalOperators.singleinput.POPRename
-import lupos.s08tripleStore.POPTripleStoreIteratorBase
+import lupos.s08logicalOptimisation.OptimizerVisitorLOP
+import lupos.s09physicalOperators.POPBase
+import lupos.s09physicalOperators.singleinput.POPBind
+import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOptimisation.OptimizerVisitorPOP
 import lupos.s11p2p.POPServiceIRI
 

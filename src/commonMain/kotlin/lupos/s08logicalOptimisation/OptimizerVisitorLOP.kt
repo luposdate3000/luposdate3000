@@ -1,4 +1,4 @@
-package lupos.s05logicalOptimisation
+package lupos.s08logicalOptimisation
 import lupos.s04logicalOperators.data.LOPExpression
 import lupos.s04logicalOperators.data.LOPGraphOperation
 import lupos.s04logicalOperators.data.LOPInsertData
@@ -28,7 +28,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
-import lupos.s05logicalOptimisation.LogicalOptimizer
+import lupos.s08logicalOptimisation.LogicalOptimizer
 
 
 

@@ -1,10 +1,14 @@
-package lupos.s07physicalOperators
+package lupos.s09physicalOperators
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
-import lupos.s07physicalOperators.POPBaseNullableIterator
+import lupos.s09physicalOperators.POPBase
+import lupos.s09physicalOperators.POPBaseNullableIterator
+import lupos.s09physicalOperators.POPEmptyRow
+import lupos.s09physicalOperators.POPExpression
+import lupos.s09physicalOperators.POPGraphOperation
 
 
 

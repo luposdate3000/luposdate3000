@@ -1,4 +1,4 @@
-package lupos.s07physicalOperators.multiinput
+package lupos.s09physicalOperators.multiinput
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.data.LOPVariable
@@ -6,11 +6,11 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
-import lupos.s07physicalOperators.multiinput.POPJoinHashMap
-import lupos.s07physicalOperators.multiinput.POPJoinNestedLoop
-import lupos.s07physicalOperators.POPBase
-import lupos.s07physicalOperators.POPBaseNullableIterator
 import lupos.s07physicalOperators.singleinput.POPTemporaryStore
+import lupos.s09physicalOperators.multiinput.POPJoinHashMap
+import lupos.s09physicalOperators.multiinput.POPJoinNestedLoop
+import lupos.s09physicalOperators.POPBase
+import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 

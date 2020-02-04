@@ -1,9 +1,8 @@
 package lupos.s04logicalOperators.singleinput
-import lupos.s03buildOperatorGraph.*
-import lupos.s04logicalOperators.*
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.parseFromASTNode
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPGroup
