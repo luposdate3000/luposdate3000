@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 enum class ModifyDataType {
-    INSERT, DELETE, DELETE_WHERE
+    INSERT, DELETE
 }
 
 class LOPModifyData(val type: ModifyDataType) : LOPBase() {

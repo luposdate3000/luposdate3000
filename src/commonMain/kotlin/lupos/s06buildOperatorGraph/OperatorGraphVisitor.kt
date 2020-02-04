@@ -902,7 +902,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTDeleteWhere, childrenValues: List<OPBase>): OPBase {
-        val res = LOPModifyData(ModifyDataType.DELETE_WHERE)
+        val res = LOPModifyData(ModifyDataType.DELETE)
         modifyDataHelper(node.children, res)
         return res
     }

@@ -498,7 +498,7 @@ fun parseSPARQLAndEvaluate(//
             println("OutputData Graph[${it["name"]}] Original")
             val outputData = readFileOrNull(it["filename"])
             println(outputData)
-            println("----------Verify Output Data Graph[${it["name"]}]")
+            println("----------Verify Output Data Graph[${it["name"]}] ... target,actual")
             var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)
             val tmp = store.getNamedGraph(it["name"]!!).getIterator()
             tmp.setMNameS("s")

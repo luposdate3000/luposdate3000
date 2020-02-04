@@ -339,31 +339,45 @@ class TripleStore {
         }
         if (t[1].second) {
             tmp++
-            row[p] = vals
+            row[p] = valp
         }
         if (t[2].second) {
             tmp++
-            row[o] = vals
+            row[o] = valo
         }
+        println("deleteDataVar \"$name\" $tmp $vals $valp $valo")
         when (tmp) {
             3 -> modifyData(transactionID, vals, valp, valo, ModifyType.DELETE)
             2 -> {
-                val iterator = if (!t[2].second) {
-                    tripleStoreSP[row]?.iterator()
+                if (!t[2].second) {
+                    println("a:: $tripleStoreSP")
+                    val iterator = tripleStoreSP[row]?.iterator()
+                    if (iterator != null) {
+                        while (iterator.hasNext()) {
+                            val r = iterator.next()
+                            modifyData(transactionID, row[s], row[p], r[o], ModifyType.DELETE)
+                        }
+                    }
                 } else if (!t[1].second) {
-                    tripleStoreSO[row]?.iterator()
+                    println("b:: $tripleStoreSP")
+                    val iterator = tripleStoreSO[row]?.iterator()
+                    if (iterator != null) {
+                        while (iterator.hasNext()) {
+                            val r = iterator.next()
+                            modifyData(transactionID, row[s], r[p], row[o], ModifyType.DELETE)
+                        }
+                    }
                 } else {
-                    tripleStorePO[row]?.iterator()
-                }
-println("iterator $iterator $row")
-if(iterator!=null){
-                while (iterator.hasNext()) {
-                    val r = iterator.next()
-println("iteratorrrr $r")
-                    modifyData(transactionID, r[s], r[p], r[o], ModifyType.DELETE)
+                    println("c:: $tripleStoreSP")
+                    val iterator = tripleStorePO[row]?.iterator()
+                    if (iterator != null) {
+                        while (iterator.hasNext()) {
+                            val r = iterator.next()
+                            modifyData(transactionID, r[s], row[p], row[o], ModifyType.DELETE)
+                        }
+                    }
                 }
             }
-}
             else -> {
                 throw Exception("deleteDataVar $tmp")
             }
