@@ -5,7 +5,7 @@ import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.noinput.LOPGraphOperation
-import lupos.s04logicalOperators.noinput.LOPInsertData
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.LOPVariable
@@ -155,7 +155,7 @@ abstract class OptimizerVisitorLOP(val transactionID: Long) {
         return LOPVariable(node.name)
     }
 
-    open fun visit(node: LOPInsertData): OPBase {
+    open fun visit(node: LOPModifyData): OPBase {
         return node
     }
 
@@ -185,7 +185,7 @@ abstract class OptimizerVisitorLOP(val transactionID: Long) {
             is LOPRename -> return visit(node)
             is LOPServiceIRI -> return visit(node)
             is LOPServiceVAR -> return visit(node)
-            is LOPInsertData -> return visit(node)
+            is LOPModifyData -> return visit(node)
             is LOPModify -> return visit(node)
             is LOPGraphOperation -> return visit(node)
         }

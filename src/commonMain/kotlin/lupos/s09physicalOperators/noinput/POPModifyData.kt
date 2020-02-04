@@ -5,7 +5,8 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s05tripleStore.PersistentStore
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPExpression
@@ -15,7 +16,7 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
-class POPInsertData(val transactionID: Long, val data: List<List<String>>, val pstore: PersistentStore) : POPBase() {
+class POPModifyData(val transactionID: Long,val type:ModifyDataType, val data: List<List<String>>, val pstore: PersistentStore) : POPBase() {
     private val resultSetNew = ResultSet()
 
     private var first = true
@@ -39,7 +40,10 @@ class POPInsertData(val transactionID: Long, val data: List<List<String>>, val p
             first = false
             for (t in data) {
                 val store = pstore.getNamedGraph(t[3])
+		if(type==ModifyDataType.INSERT)
                 store.addData(transactionID, t)
+		else
+                store.deleteData(transactionID, t)
             }
             return resultSetNew.createResultRow()
         } finally {

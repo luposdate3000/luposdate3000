@@ -97,8 +97,8 @@ import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.GraphOperationType
 import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.noinput.LOPGraphOperation
-import lupos.s04logicalOperators.noinput.LOPInsertData
-import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s04logicalOperators.noinput.LOPModifyData
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
@@ -911,7 +911,26 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTDeleteData, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Update ${classNameToString(node)}")
+        val res = LOPModifyData(ModifyDataType.DELETE)
+        for (c in node.children) {
+            when {
+                c is ASTTriple -> {
+                    res.data.add(mutableListOf(simpleAstToStringValue(c.children[0]), simpleAstToStringValue(c.children[1]), simpleAstToStringValue(c.children[2]), ""))
+                }
+                c is ASTGraph -> {
+                    for (c2 in c.children) {
+                        when {
+                            c2 is ASTTriple -> {
+                                res.data.add(mutableListOf(simpleAstToStringValue(c2.children[0]), simpleAstToStringValue(c2.children[1]), simpleAstToStringValue(c2.children[2]), (c.iriOrVar as ASTIri).iri))
+                            }
+                            else -> throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)} ${classNameToString(c2)}")
+                        }
+                    }
+                }
+                else -> throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)} ${classNameToString(c)}")
+            }
+        }
+        return res
     }
 
     override fun visit(node: ASTDeleteWhere, childrenValues: List<OPBase>): OPBase {
@@ -929,7 +948,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTInsertData, childrenValues: List<OPBase>): OPBase {
-        val res = LOPInsertData()
+        val res = LOPModifyData(ModifyDataType.INSERT)
         for (c in node.children) {
             when {
                 c is ASTTriple -> {

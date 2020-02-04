@@ -5,7 +5,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.LOPConstant
 import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.noinput.LOPGraphOperation
-import lupos.s04logicalOperators.noinput.LOPInsertData
+import lupos.s04logicalOperators.noinput.LOPModifyData
 import lupos.s04logicalOperators.OPBase
 
 

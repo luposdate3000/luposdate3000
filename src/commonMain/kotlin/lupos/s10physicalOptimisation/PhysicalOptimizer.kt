@@ -10,17 +10,15 @@ import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.noinput.LOPGraphOperation
-import lupos.s04logicalOperators.noinput.LOPInsertData
-import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
-import lupos.s04logicalOperators.singleinput.LOPGroup
+import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
-import lupos.s04logicalOperators.singleinput.LOPModify
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPRename
 import lupos.s04logicalOperators.singleinput.LOPSort
@@ -34,7 +32,7 @@ import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.noinput.POPGraphOperation
-import lupos.s09physicalOperators.noinput.POPInsertData
+import lupos.s09physicalOperators.noinput.POPModifyData
 import lupos.s09physicalOperators.noinput.POPValues
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
@@ -71,11 +69,11 @@ class PhysicalOptimizer(transactionID: Long) : OptimizerVisitorPOP(transactionID
         return POPModify(transactionID, node.iri, node.insert, node.delete, s, optimize(node.child))
     }
 
-    override fun visit(node: LOPInsertData): OPBase {
+    override fun visit(node: LOPModifyData): OPBase {
         val s = store
         if (s == null)
-            return POPInsertData(transactionID, node.data, globalStore)
-        return POPInsertData(transactionID, node.data, s)
+            return POPModifyData(transactionID,node.type, node.data, globalStore)
+        return POPModifyData(transactionID, node.type,node.data, s)
     }
 
     override fun visit(node: LOPProjection): OPBase {

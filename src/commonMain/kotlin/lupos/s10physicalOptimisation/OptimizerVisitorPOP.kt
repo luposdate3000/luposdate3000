@@ -10,7 +10,7 @@ import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.noinput.POPGraphOperation
-import lupos.s09physicalOperators.noinput.POPInsertData
+import lupos.s09physicalOperators.noinput.POPModifyData
 import lupos.s09physicalOperators.noinput.POPValues
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
@@ -42,7 +42,7 @@ abstract class OptimizerVisitorPOP(transactionID: Long) : OptimizerVisitorLOP(tr
         return POPModify(transactionID, node.iri, node.insert, node.delete, node.pstore, optimize(node.child))
     }
 
-    open fun visit(node: POPInsertData): OPBase {
+    open fun visit(node: POPModifyData): OPBase {
         require(node.transactionID == transactionID)
         return node
     }
@@ -156,7 +156,7 @@ abstract class OptimizerVisitorPOP(transactionID: Long) : OptimizerVisitorLOP(tr
             is POPOffset -> return visit(node)
             is POPTemporaryStore -> return visit(node)
             is POPValues -> return visit(node)
-            is POPInsertData -> return visit(node)
+            is POPModifyData -> return visit(node)
             is POPModify -> return visit(node)
             is POPGraphOperation -> return visit(node)
         }
