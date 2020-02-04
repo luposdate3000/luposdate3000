@@ -334,6 +334,14 @@ class TripleStore {
         return TripleStoreIterator(this)
     }
 
+    fun getIterator(s: String, p: String, o: String): POPTripleStoreIteratorBase {
+        val res = TripleStoreIterator(this)
+        res.setMNameS(s)
+        res.setMNameP(p)
+        res.setMNameO(o)
+        return res
+    }
+
     fun getIterator(index: IndexPattern): POPTripleStoreIteratorBase {
         return TripleStoreIterator(this, index)
     }

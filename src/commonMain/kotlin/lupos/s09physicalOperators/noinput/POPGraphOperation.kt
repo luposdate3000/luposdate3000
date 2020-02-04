@@ -58,7 +58,7 @@ class POPGraphOperation(val transactionID: Long, val silent: Boolean, val graphr
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
                                     pstore.getNamedGraph(graphref2.iri).truncate()
-                                    pstore.getNamedGraph(graphref2.iri).addData(transactionID, pstore.getDefaultGraph().getIterator())
+                                    pstore.getNamedGraph(graphref2.iri).addData(transactionID, pstore.getDefaultGraph().getIterator("s", "p", "o"))
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                             }
@@ -67,7 +67,7 @@ class POPGraphOperation(val transactionID: Long, val silent: Boolean, val graphr
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
                                     pstore.getNamedGraph(graphref2.iri).truncate()
-                                    pstore.getNamedGraph(graphref2.iri).addData(transactionID, pstore.getDefaultGraph().getIterator())
+                                    pstore.getNamedGraph(graphref2.iri).addData(transactionID, pstore.getDefaultGraph().getIterator("s", "p", "o"))
                                     pstore.getDefaultGraph().truncate()
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
@@ -76,7 +76,7 @@ class POPGraphOperation(val transactionID: Long, val silent: Boolean, val graphr
                         GraphOperationType.ADD -> {
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
-                                    pstore.getNamedGraph(graphref2.iri).addData(transactionID, pstore.getDefaultGraph().getIterator())
+                                    pstore.getNamedGraph(graphref2.iri).addData(transactionID, pstore.getDefaultGraph().getIterator("s", "p", "o"))
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                             }
@@ -93,11 +93,11 @@ class POPGraphOperation(val transactionID: Long, val silent: Boolean, val graphr
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
                                     pstore.getNamedGraph(graphref2.iri).truncate()
-                                    pstore.getNamedGraph(graphref2.iri).addData(transactionID, pstore.getNamedGraph(graphref1.iri).getIterator())
+                                    pstore.getNamedGraph(graphref2.iri).addData(transactionID, pstore.getNamedGraph(graphref1.iri).getIterator("s", "p", "o"))
                                 }
                                 is ASTDefaultGraphRef -> {
                                     pstore.getDefaultGraph().truncate()
-                                    pstore.getDefaultGraph().addData(transactionID, pstore.getNamedGraph(graphref1.iri).getIterator())
+                                    pstore.getDefaultGraph().addData(transactionID, pstore.getNamedGraph(graphref1.iri).getIterator("s", "p", "o"))
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                             }
@@ -106,12 +106,12 @@ class POPGraphOperation(val transactionID: Long, val silent: Boolean, val graphr
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
                                     pstore.getNamedGraph(graphref2.iri).truncate()
-                                    pstore.getNamedGraph(graphref2.iri).addData(transactionID, pstore.getNamedGraph(graphref1.iri).getIterator())
+                                    pstore.getNamedGraph(graphref2.iri).addData(transactionID, pstore.getNamedGraph(graphref1.iri).getIterator("s", "p", "o"))
                                     pstore.dropGraph(graphref1.iri)
                                 }
                                 is ASTDefaultGraphRef -> {
                                     pstore.getDefaultGraph().truncate()
-                                    pstore.getDefaultGraph().addData(transactionID, pstore.getNamedGraph(graphref1.iri).getIterator())
+                                    pstore.getDefaultGraph().addData(transactionID, pstore.getNamedGraph(graphref1.iri).getIterator("s", "p", "o"))
                                     pstore.dropGraph(graphref1.iri)
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
@@ -120,10 +120,10 @@ class POPGraphOperation(val transactionID: Long, val silent: Boolean, val graphr
                         GraphOperationType.ADD -> {
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
-                                    pstore.getNamedGraph(graphref2.iri).addData(transactionID, pstore.getNamedGraph(graphref1.iri).getIterator())
+                                    pstore.getNamedGraph(graphref2.iri).addData(transactionID, pstore.getNamedGraph(graphref1.iri).getIterator("s", "p", "o"))
                                 }
                                 is ASTDefaultGraphRef -> {
-                                    pstore.getDefaultGraph().addData(transactionID, pstore.getNamedGraph(graphref1.iri).getIterator())
+                                    pstore.getDefaultGraph().addData(transactionID, pstore.getNamedGraph(graphref1.iri).getIterator("s", "p", "o"))
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                             }
