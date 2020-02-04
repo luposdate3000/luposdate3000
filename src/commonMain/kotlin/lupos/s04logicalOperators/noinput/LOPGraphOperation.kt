@@ -9,12 +9,13 @@ import lupos.s04logicalOperators.OPBase
 
 
 enum class GraphOperationType {
-    CREATE, CLEAR, DROP
+    CREATE, CLEAR, DROP, ADD, COPY, MOVE
 }
 
 class LOPGraphOperation() : LOPBase() {
     var silent = false
-    var graphref: ASTGraphRef? = null
+    var graphref1: ASTGraphRef? = null
+    var graphref2: ASTGraphRef? = null
     var action = GraphOperationType.CREATE
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

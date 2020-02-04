@@ -776,18 +776,6 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         return LOPExpression(node)
     }
 
-    override fun visit(node: ASTAdd, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
-    }
-
-    override fun visit(node: ASTMove, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
-    }
-
-    override fun visit(node: ASTCopy, childrenValues: List<OPBase>): OPBase {
-        throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
-    }
-
     fun setGraphNameForAllTriples(node: OPBase, name: ASTNode): OPBase {
         val iri = when (name) {
             is ASTIri -> name.iri
@@ -857,12 +845,42 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         throw UnsupportedOperationException("${classNameToString(this)} Graph ${classNameToString(node)}")
     }
 
+    override fun visit(node: ASTAdd, childrenValues: List<OPBase>): OPBase {
+        require(childrenValues.isEmpty())
+        val res = LOPGraphOperation()
+        res.action = GraphOperationType.ADD
+        res.silent = node.silent
+        res.graphref1 = node.fromGraph
+        res.graphref2 = node.toGraph
+        return res
+    }
+
+    override fun visit(node: ASTMove, childrenValues: List<OPBase>): OPBase {
+        require(childrenValues.isEmpty())
+        val res = LOPGraphOperation()
+        res.action = GraphOperationType.MOVE
+        res.silent = node.silent
+        res.graphref1 = node.fromGraph
+        res.graphref2 = node.toGraph
+        return res
+    }
+
+    override fun visit(node: ASTCopy, childrenValues: List<OPBase>): OPBase {
+        require(childrenValues.isEmpty())
+        val res = LOPGraphOperation()
+        res.action = GraphOperationType.COPY
+        res.silent = node.silent
+        res.graphref1 = node.fromGraph
+        res.graphref2 = node.toGraph
+        return res
+    }
+
     override fun visit(node: ASTClear, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
         val res = LOPGraphOperation()
         res.action = GraphOperationType.CLEAR
         res.silent = node.silent
-        res.graphref = node.graphref
+        res.graphref1 = node.graphref
         return res
     }
 
@@ -871,7 +889,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         val res = LOPGraphOperation()
         res.action = GraphOperationType.DROP
         res.silent = node.silent
-        res.graphref = node.graphref
+        res.graphref1 = node.graphref
         return res
     }
 
@@ -880,7 +898,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         val res = LOPGraphOperation()
         res.action = GraphOperationType.CREATE
         res.silent = node.silent
-        res.graphref = node.graphref
+        res.graphref1 = node.graphref
         return res
     }
 

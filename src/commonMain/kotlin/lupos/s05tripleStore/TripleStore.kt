@@ -35,6 +35,11 @@ class PersistentStore {
 
     val stores = mutableMapOf<String, TripleStore>()
 
+    fun forEach(action: (String, TripleStore) -> Unit) {
+        for ((k, v) in stores)
+            action(k, v)
+    }
+
     fun getGraphNames(): List<String> {
         val res = mutableListOf<String>()
         for (t in stores.keys)
