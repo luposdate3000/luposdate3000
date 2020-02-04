@@ -1,4 +1,8 @@
 package lupos
+import lupos.s12keyDistributionOptimizer.KeyDistributionOptimizer
+import lupos.s11p2p.P2P
+import lupos.s08tripleStore.PersistentStore
+import lupos.s07physicalOperators.POPImportFromXml
 
 import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.readFileContents
@@ -21,14 +25,10 @@ import lupos.s05logicalOptimisation.LogicalOptimizer
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
-import lupos.s07physicalOperators.*
 import lupos.s07physicalOperators.POPBase
 import lupos.s07physicalOperators.POPBaseNullableIterator
-import lupos.s08tripleStore.*
 import lupos.s09physicalOptimisation.PhysicalOptimizer
 import lupos.s10outputResult.QueryResultToXML
-import lupos.s11p2p.*
-import lupos.s12keyDistributionOptimizer.*
 import lupos.s13endpoint.convertToOPBase
 
 

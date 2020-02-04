@@ -1,17 +1,32 @@
 package lupos.s09physicalOptimisation
+import lupos.s08tripleStore.PersistentStore
+import lupos.s08tripleStore.POPTripleStoreIteratorBase
+import lupos.s07physicalOperators.singleinput.modifiers.POPDistinct
+import lupos.s07physicalOperators.singleinput.modifiers.POPLimit
+import lupos.s07physicalOperators.singleinput.modifiers.POPOffset
+import lupos.s07physicalOperators.singleinput.POPBindUndefined
+import lupos.s07physicalOperators.singleinput.POPFilter
+import lupos.s07physicalOperators.singleinput.POPGroup
+import lupos.s07physicalOperators.singleinput.POPMakeBooleanResult
+import lupos.s07physicalOperators.singleinput.POPModify
+import lupos.s07physicalOperators.singleinput.POPRename
+import lupos.s07physicalOperators.singleinput.POPSort
+import lupos.s07physicalOperators.singleinput.POPTemporaryStore
+import lupos.s07physicalOperators.multiinput.POPJoinHashMap
+import lupos.s07physicalOperators.multiinput.POPUnion
+import lupos.s07physicalOperators.POPEmptyRow
+import lupos.s07physicalOperators.POPExpression
+import lupos.s07physicalOperators.POPGraphOperation
+import lupos.s07physicalOperators.POPInsertData
+import lupos.s07physicalOperators.POPValues
 
 import lupos.s03buildOperatorGraph.data.LOPVariable
 import lupos.s03buildOperatorGraph.OPBase
 import lupos.s05logicalOptimisation.OptimizerVisitorLOP
-import lupos.s07physicalOperators.*
-import lupos.s07physicalOperators.multiinput.*
 import lupos.s07physicalOperators.POPBase
-import lupos.s07physicalOperators.singleinput.*
-import lupos.s07physicalOperators.singleinput.modifiers.*
 import lupos.s07physicalOperators.singleinput.POPBind
 import lupos.s07physicalOperators.singleinput.POPFilterExact
 import lupos.s07physicalOperators.singleinput.POPProjection
-import lupos.s08tripleStore.*
 
 
 abstract class OptimizerVisitorPOP(transactionID: Long) : OptimizerVisitorLOP(transactionID) {

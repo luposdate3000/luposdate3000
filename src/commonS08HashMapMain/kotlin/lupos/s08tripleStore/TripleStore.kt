@@ -1,11 +1,10 @@
 package lupos.s08tripleStore
+import lupos.s06resultRepresentation.Value
+import lupos.s06resultRepresentation.Variable
 
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
-import lupos.s02buildSyntaxTree.sparql1_1.*
-import lupos.s03buildOperatorGraph.data.*
-import lupos.s06resultRepresentation.*
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.ResultSetIterator

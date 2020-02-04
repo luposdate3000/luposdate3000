@@ -1,8 +1,9 @@
 package lupos.s03buildOperatorGraph.singleinput
+import lupos.s03buildOperatorGraph.OPBase
+import lupos.s03buildOperatorGraph.parseFromASTNode
+import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
+import lupos.s00misc.XMLElement
 
-import lupos.s00misc.*
-import lupos.s02buildSyntaxTree.sparql1_1.*
-import lupos.s03buildOperatorGraph.*
 import lupos.s03buildOperatorGraph.singleinput.LOPBind
 import lupos.s03buildOperatorGraph.singleinput.LOPFilter
 import lupos.s03buildOperatorGraph.singleinput.LOPGroup

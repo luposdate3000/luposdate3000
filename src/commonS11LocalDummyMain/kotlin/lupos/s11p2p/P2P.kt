@@ -17,13 +17,10 @@ import lupos.s05logicalOptimisation.LogicalOptimizer
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
-import lupos.s07physicalOperators.*
 import lupos.s07physicalOperators.POPBaseNullableIterator
 import lupos.s08tripleStore.TripleStore
 import lupos.s09physicalOptimisation.PhysicalOptimizer
 import lupos.s10outputResult.QueryResultToXML
-import lupos.s11p2p.*
-import lupos.s13endpoint.*
 import lupos.s13endpoint.Endpoint
 
 

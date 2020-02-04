@@ -1,4 +1,6 @@
 package lupos.s12keyDistributionOptimizer
+import lupos.s11p2p.POPServiceIRI
+import lupos.s03buildOperatorGraph.singleinput.LOPServiceIRI
 
 import lupos.s00misc.classNameToString
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
@@ -13,7 +15,6 @@ import lupos.s03buildOperatorGraph.multiinput.LOPJoin
 import lupos.s03buildOperatorGraph.multiinput.LOPUnion
 import lupos.s03buildOperatorGraph.OPBase
 import lupos.s03buildOperatorGraph.OPNothing
-import lupos.s03buildOperatorGraph.singleinput.*
 import lupos.s03buildOperatorGraph.singleinput.LOPBind
 import lupos.s03buildOperatorGraph.singleinput.LOPFilter
 import lupos.s03buildOperatorGraph.singleinput.LOPGroup
@@ -44,7 +45,6 @@ import lupos.s07physicalOperators.singleinput.POPRename
 import lupos.s07physicalOperators.singleinput.POPSort
 import lupos.s08tripleStore.TripleStore
 import lupos.s09physicalOptimisation.OptimizerVisitorPOP
-import lupos.s11p2p.*
 
 
 class KeyDistributionOptimizer(transactionID: Long) : OptimizerVisitorKeyDistribution(transactionID) {

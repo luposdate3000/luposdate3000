@@ -1,4 +1,6 @@
 package lupos.s12keyDistributionOptimizer
+import lupos.s11p2p.POPServiceIRI
+import lupos.s09physicalOptimisation.OptimizerVisitorPOP
 
 import lupos.s03buildOperatorGraph.data.LOPVariable
 import lupos.s03buildOperatorGraph.OPBase
@@ -9,8 +11,6 @@ import lupos.s07physicalOperators.singleinput.POPFilterExact
 import lupos.s07physicalOperators.singleinput.POPProjection
 import lupos.s07physicalOperators.singleinput.POPRename
 import lupos.s08tripleStore.POPTripleStoreIteratorBase
-import lupos.s09physicalOptimisation.*
-import lupos.s11p2p.*
 
 
 abstract class OptimizerVisitorKeyDistribution(transactionID: Long) : OptimizerVisitorPOP(transactionID) {

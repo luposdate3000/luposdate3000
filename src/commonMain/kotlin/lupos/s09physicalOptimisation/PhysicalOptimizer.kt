@@ -1,11 +1,22 @@
 package lupos.s09physicalOptimisation
+import lupos.s08tripleStore.globalStore
+import lupos.s07physicalOperators.singleinput.POPModify
+import lupos.s07physicalOperators.singleinput.POPProjection
+import lupos.s07physicalOperators.POPBase
+import lupos.s07physicalOperators.POPGraphOperation
+import lupos.s07physicalOperators.POPInsertData
+import lupos.s03buildOperatorGraph.singleinput.LOPFilter
+import lupos.s03buildOperatorGraph.singleinput.LOPModify
+import lupos.s03buildOperatorGraph.data.LOPGraphOperation
+import lupos.s03buildOperatorGraph.data.LOPInsertData
+import lupos.s03buildOperatorGraph.data.LOPValues
+import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
+import lupos.s02buildSyntaxTree.sparql1_1.ASTSimpleLiteral
 
 import lupos.s00misc.classNameToString
-import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTypedLiteral
-import lupos.s03buildOperatorGraph.data.*
 import lupos.s03buildOperatorGraph.data.LOPExpression
 import lupos.s03buildOperatorGraph.data.LOPTriple
 import lupos.s03buildOperatorGraph.data.LOPVariable
@@ -13,7 +24,6 @@ import lupos.s03buildOperatorGraph.multiinput.LOPJoin
 import lupos.s03buildOperatorGraph.multiinput.LOPUnion
 import lupos.s03buildOperatorGraph.OPBase
 import lupos.s03buildOperatorGraph.OPNothing
-import lupos.s03buildOperatorGraph.singleinput.*
 import lupos.s03buildOperatorGraph.singleinput.LOPBind
 import lupos.s03buildOperatorGraph.singleinput.LOPGroup
 import lupos.s03buildOperatorGraph.singleinput.LOPMakeBooleanResult
@@ -24,13 +34,11 @@ import lupos.s03buildOperatorGraph.singleinput.LOPSubGroup
 import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPDistinct
 import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPLimit
 import lupos.s03buildOperatorGraph.singleinput.modifiers.LOPOffset
-import lupos.s07physicalOperators.*
 import lupos.s07physicalOperators.multiinput.POPJoinHashMap
 import lupos.s07physicalOperators.multiinput.POPUnion
 import lupos.s07physicalOperators.POPEmptyRow
 import lupos.s07physicalOperators.POPExpression
 import lupos.s07physicalOperators.POPValues
-import lupos.s07physicalOperators.singleinput.*
 import lupos.s07physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s07physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s07physicalOperators.singleinput.modifiers.POPOffset
@@ -42,7 +50,6 @@ import lupos.s07physicalOperators.singleinput.POPGroup
 import lupos.s07physicalOperators.singleinput.POPMakeBooleanResult
 import lupos.s07physicalOperators.singleinput.POPRename
 import lupos.s07physicalOperators.singleinput.POPSort
-import lupos.s08tripleStore.*
 import lupos.s09physicalOptimisation.OptimizerVisitorPOP
 
 

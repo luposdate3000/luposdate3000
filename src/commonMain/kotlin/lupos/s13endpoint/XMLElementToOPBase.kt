@@ -1,4 +1,7 @@
 package lupos.s13endpoint
+import lupos.s11p2p.POPServiceIRI
+import lupos.s08tripleStore.globalStore
+import lupos.s08tripleStore.PersistentStore
 
 import lupos.s00misc.XMLElement
 import lupos.s03buildOperatorGraph.data.LOPVariable
@@ -24,9 +27,6 @@ import lupos.s07physicalOperators.singleinput.POPProjection
 import lupos.s07physicalOperators.singleinput.POPRename
 import lupos.s07physicalOperators.singleinput.POPSort
 import lupos.s07physicalOperators.singleinput.POPTemporaryStore
-import lupos.s08tripleStore.*
-import lupos.s09physicalOptimisation.*
-import lupos.s11p2p.*
 import lupos.s13endpoint.Endpoint
 
 

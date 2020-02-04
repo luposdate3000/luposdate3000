@@ -1,4 +1,5 @@
 package lupos.s11p2p
+import lupos.s07physicalOperators.POPBase
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -8,14 +9,11 @@ import lupos.s03buildOperatorGraph.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
-import lupos.s07physicalOperators.*
 import lupos.s07physicalOperators.POPExpression
-import lupos.s07physicalOperators.singleinput.*
 import lupos.s07physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s07physicalOperators.singleinput.POPBindUndefined
 import lupos.s07physicalOperators.singleinput.POPFilterExact
 import lupos.s07physicalOperators.singleinput.POPSingleInputBaseNullableIterator
-import lupos.s11p2p.*
 
 
 class POPServiceIRI : POPBase {

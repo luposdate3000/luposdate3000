@@ -1,4 +1,12 @@
 package lupos.s03buildOperatorGraph
+import lupos.s03buildOperatorGraph.singleinput.LOPGroup
+import lupos.s03buildOperatorGraph.singleinput.LOPModify
+import lupos.s03buildOperatorGraph.singleinput.LOPServiceIRI
+import lupos.s03buildOperatorGraph.singleinput.LOPServiceVAR
+import lupos.s03buildOperatorGraph.data.GraphOperationType
+import lupos.s03buildOperatorGraph.data.LOPGraphOperation
+import lupos.s03buildOperatorGraph.data.LOPInsertData
+import lupos.s03buildOperatorGraph.data.LOPValues
 
 import lupos.s00misc.classNameToString
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAdd
@@ -90,7 +98,6 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTValue
 import lupos.s02buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.Visitor
-import lupos.s03buildOperatorGraph.data.*
 import lupos.s03buildOperatorGraph.data.LOPExpression
 import lupos.s03buildOperatorGraph.data.LOPTriple
 import lupos.s03buildOperatorGraph.data.LOPVariable
@@ -99,7 +106,6 @@ import lupos.s03buildOperatorGraph.multiinput.LOPJoin
 import lupos.s03buildOperatorGraph.multiinput.LOPMinus
 import lupos.s03buildOperatorGraph.multiinput.LOPUnion
 import lupos.s03buildOperatorGraph.OPBase
-import lupos.s03buildOperatorGraph.singleinput.*
 import lupos.s03buildOperatorGraph.singleinput.LOPBind
 import lupos.s03buildOperatorGraph.singleinput.LOPFilter
 import lupos.s03buildOperatorGraph.singleinput.LOPMakeBooleanResult

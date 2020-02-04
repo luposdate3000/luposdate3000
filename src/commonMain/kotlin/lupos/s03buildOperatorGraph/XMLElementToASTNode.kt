@@ -1,7 +1,8 @@
 package lupos.s03buildOperatorGraph
+import lupos.s02buildSyntaxTree.sparql1_1.ASTAnd
+import lupos.s02buildSyntaxTree.sparql1_1.ASTGraph
 
 import lupos.s00misc.XMLElement
-import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation
