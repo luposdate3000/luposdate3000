@@ -32,14 +32,14 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTOr
 import lupos.s02buildSyntaxTree.sparql1_1.ASTUndef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
+import lupos.s03resultRepresentation.ResultRow
+import lupos.s03resultRepresentation.ResultSet
+import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.parseFromASTNode
 import lupos.s04logicalOperators.toASTNode
-import lupos.s06resultRepresentation.ResultRow
-import lupos.s06resultRepresentation.ResultSet
-import lupos.s06resultRepresentation.Variable
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator

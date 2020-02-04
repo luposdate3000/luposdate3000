@@ -1,5 +1,5 @@
 package lupos.s11outputResult
-import lupos.s06resultRepresentation.Variable
+import lupos.s03resultRepresentation.Variable
 import lupos.s09physicalOperators.POPBase
 
 

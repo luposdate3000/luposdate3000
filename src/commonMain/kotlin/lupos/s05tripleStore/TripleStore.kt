@@ -1,7 +1,7 @@
 package lupos.s05tripleStore
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s03resultRepresentation.ResultSetIterator
-import lupos.s08tripleStore.TripleStore
+import lupos.s05tripleStore.TripleStore
 import lupos.s09physicalOperators.POPBase
 
 

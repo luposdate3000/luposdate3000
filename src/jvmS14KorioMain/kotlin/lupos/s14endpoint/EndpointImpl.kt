@@ -1,4 +1,4 @@
-package lupos.s13endpoint
+package lupos.s14endpoint
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
@@ -20,16 +20,16 @@ import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
+import lupos.s03resultRepresentation.ResultRow
+import lupos.s03resultRepresentation.ResultSet
+import lupos.s03resultRepresentation.Variable
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
-import lupos.s06resultRepresentation.ResultRow
-import lupos.s06resultRepresentation.ResultSet
-import lupos.s06resultRepresentation.Variable
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
-import lupos.s11p2p.P2P
+import lupos.s12p2p.P2P
 import lupos.s14endpoint.Endpoint
 
 

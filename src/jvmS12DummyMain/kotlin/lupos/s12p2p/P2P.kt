@@ -1,4 +1,4 @@
-package lupos.s11p2p
+package lupos.s12p2p
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
@@ -21,13 +21,14 @@ import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
-import lupos.s06resultRepresentation.ResultRow
-import lupos.s06resultRepresentation.ResultSet
-import lupos.s06resultRepresentation.Variable
+import lupos.s03resultRepresentation.ResultRow
+import lupos.s03resultRepresentation.ResultSet
+import lupos.s03resultRepresentation.Variable
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.POPBaseNullableIterator
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
+import lupos.s12p2p.P2P
 import lupos.s12p2p.P2PLocalDummy
 import lupos.s12p2p.POPServiceIRI
 
