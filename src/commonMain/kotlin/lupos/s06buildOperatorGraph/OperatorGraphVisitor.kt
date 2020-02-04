@@ -789,18 +789,17 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     fun setGraphNameForAllTriples(node: OPBase, name: ASTNode): OPBase {
-        if (!(name is ASTIri))
-            throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 1 ${classNameToString(node)} ${classNameToString(name)}")
-        when {
-            node is OPNothing ->
-                return node
-            node is LOPTriple -> {
-                return LOPTriple(node.s, node.p, node.o, (name as ASTIri).iri)
-            }
-            node is LOPFilter -> {
-                node.child = setGraphNameForAllTriples(node.child, name)
-            }
-            else -> throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 2 ${classNameToString(node)} ${classNameToString(node)}")
+        val iri = when (name) {
+            is ASTIri -> name.iri
+            is ASTIriGraphRef -> name.iri
+            else -> throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 1 ${classNameToString(node)} ${classNameToString(name)}")
+        }
+        when (node) {
+            is OPNothing -> return node
+            is LOPTriple -> return LOPTriple(node.s, node.p, node.o, iri)
+            is LOPFilter -> node.child = setGraphNameForAllTriples(node.child, name)
+            is LOPJoin -> return LOPJoin(setGraphNameForAllTriples(node.child, name), setGraphNameForAllTriples(node.second, name), node.optional)
+            else -> throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 2 ${classNameToString(node)}")
         }
         return node
     }
@@ -936,8 +935,20 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTModifyWithWhere, childrenValues: List<OPBase>): OPBase {
         require(node.iri == null)
-        require(node.using.isEmpty())
-        val res = LOPModify(parseGroup(node.children))
+        val child: OPBase = if (node.using.isEmpty()) {
+            parseGroup(node.children)
+        } else {
+            var tmp: OPBase? = null
+            for (c in node.using) {
+                val tmp2 = setGraphNameForAllTriples(parseGroup(node.children), c)
+                if (tmp == null)
+                    tmp = tmp2
+                else
+                    tmp = LOPUnion(tmp, tmp2)
+            }
+            tmp!!
+        }
+        val res = LOPModify(child)
         for (e in node.insert)
             res.insert.add(e)
         for (e in node.delete)
