@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -17,7 +18,6 @@ import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
-
 
 
 class POPGraphOperation(val transactionID: Long, val silent: Boolean, val graphref: ASTGraphRef, val action: GraphOperationType, val pstore: PersistentStore) : POPBase() {

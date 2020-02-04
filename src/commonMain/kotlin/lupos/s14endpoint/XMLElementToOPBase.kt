@@ -1,4 +1,5 @@
 package lupos.s14endpoint
+
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
@@ -27,7 +28,6 @@ import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 import lupos.s12p2p.POPServiceIRI
 import lupos.s14endpoint.Endpoint
-
 
 
 fun createLOPVariable(mapping: MutableMap<String, String>, name: String): LOPVariable {

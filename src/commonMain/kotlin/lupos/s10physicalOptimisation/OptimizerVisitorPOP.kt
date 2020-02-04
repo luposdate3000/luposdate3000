@@ -1,4 +1,5 @@
 package lupos.s10physicalOptimisation
+
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s05tripleStore.PersistentStore
@@ -26,7 +27,6 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s09physicalOperators.singleinput.POPTemporaryStore
-
 
 
 abstract class OptimizerVisitorPOP(transactionID: Long) : OptimizerVisitorLOP(transactionID) {

@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput
+
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.LOPVariable
@@ -14,7 +15,6 @@ import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPRename
 import lupos.s04logicalOperators.singleinput.LOPServiceIRI
 import lupos.s04logicalOperators.singleinput.LOPSingleInputBase
-
 
 
 class LOPServiceVAR(val name: String, val silent: Boolean, var constraint: OPBase) : LOPSingleInputBase() {

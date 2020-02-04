@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -43,7 +44,6 @@ import lupos.s04logicalOperators.toASTNode
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
-
 
 
 val localbnode = ThreadSafeUuid()

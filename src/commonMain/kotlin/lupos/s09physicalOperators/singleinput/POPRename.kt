@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -17,7 +18,6 @@ import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
 import lupos.s09physicalOperators.singleinput.POPModify
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPSingleInputBase
-
 
 
 class POPRename : POPSingleInputBase {

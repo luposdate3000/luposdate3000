@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput
+
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
@@ -13,7 +14,6 @@ import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPRename
 import lupos.s04logicalOperators.singleinput.LOPServiceIRI
 import lupos.s04logicalOperators.singleinput.LOPServiceVAR
-
 
 
 abstract class LOPSingleInputBase() : LOPBase() {

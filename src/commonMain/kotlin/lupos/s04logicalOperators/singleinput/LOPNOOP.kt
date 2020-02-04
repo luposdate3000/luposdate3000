@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput
+
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPBind
@@ -7,7 +8,6 @@ import lupos.s04logicalOperators.singleinput.LOPGroup
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
 import lupos.s04logicalOperators.singleinput.LOPModify
 import lupos.s04logicalOperators.singleinput.LOPSingleInputBase
-
 
 
 class LOPNOOP() : LOPSingleInputBase() {

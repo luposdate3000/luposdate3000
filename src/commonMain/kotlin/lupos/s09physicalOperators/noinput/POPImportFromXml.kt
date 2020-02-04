@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
@@ -9,7 +10,6 @@ import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.noinput.POPGraphOperation
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
-
 
 
 class POPImportFromXml : POPBaseNullableIterator {

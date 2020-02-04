@@ -1,4 +1,5 @@
 package lupos.s08logicalOptimisation
+
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
@@ -29,7 +30,6 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s08logicalOptimisation.LogicalOptimizer
-
 
 
 abstract class OptimizerVisitorLOP(val transactionID: Long) {

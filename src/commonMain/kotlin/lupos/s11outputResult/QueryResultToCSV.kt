@@ -1,7 +1,7 @@
 package lupos.s11outputResult
+
 import lupos.s03resultRepresentation.Variable
 import lupos.s09physicalOperators.POPBase
-
 
 
 object QueryResultToCSV {

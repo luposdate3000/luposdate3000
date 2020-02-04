@@ -1,4 +1,5 @@
 package lupos.s10physicalOptimisation
+
 import lupos.s00misc.classNameToString
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
@@ -50,7 +51,6 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s10physicalOptimisation.OptimizerVisitorPOP
-
 
 
 class PhysicalOptimizer(transactionID: Long) : OptimizerVisitorPOP(transactionID) {

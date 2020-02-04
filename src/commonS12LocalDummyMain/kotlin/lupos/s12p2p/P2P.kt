@@ -1,4 +1,5 @@
 package lupos.s12p2p
+
 import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.Trace
@@ -22,7 +23,6 @@ import lupos.s11outputResult.QueryResultToXML
 import lupos.s12p2p.P2PLocalDummy
 import lupos.s12p2p.POPServiceIRI
 import lupos.s14endpoint.Endpoint
-
 
 
 typealias P2P = P2PLocalDummy

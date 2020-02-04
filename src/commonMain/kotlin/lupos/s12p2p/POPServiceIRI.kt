@@ -1,4 +1,5 @@
 package lupos.s12p2p
+
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -15,7 +16,6 @@ import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 import lupos.s12p2p.P2P
 import lupos.s12p2p.P2PLocalDummy
-
 
 
 class POPServiceIRI : POPBase {

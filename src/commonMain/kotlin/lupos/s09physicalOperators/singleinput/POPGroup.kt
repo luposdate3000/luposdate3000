@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+
 import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -20,7 +21,6 @@ import lupos.s09physicalOperators.singleinput.POPBindUndefined
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOperators.singleinput.POPSingleInputBaseNullableIterator
-
 
 
 class POPGroup : POPSingleInputBaseNullableIterator {

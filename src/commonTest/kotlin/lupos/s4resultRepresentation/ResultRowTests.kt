@@ -1,4 +1,5 @@
 package lupos.s4resultRepresentation
+
 import kotlin.test.assertEquals
 import kotlin.test.Test
 import lupos.s03resultRepresentation.ResultRow
@@ -6,7 +7,6 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetIterator
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
-
 
 
 class ResultRowTests {

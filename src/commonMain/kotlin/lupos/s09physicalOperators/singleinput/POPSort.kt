@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -21,7 +22,6 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSingleInputBase
 import lupos.s09physicalOperators.singleinput.POPSingleInputBaseNullableIterator
-
 
 
 class POPSort : POPSingleInputBaseNullableIterator {

@@ -1,4 +1,5 @@
 package lupos.s12p2p
+
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
@@ -31,7 +32,6 @@ import lupos.s11outputResult.QueryResultToXML
 import lupos.s12p2p.P2P
 import lupos.s12p2p.P2PLocalDummy
 import lupos.s12p2p.POPServiceIRI
-
 
 
 object P2P {

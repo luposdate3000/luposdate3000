@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators
+
 import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSetIterator
@@ -10,7 +11,6 @@ import lupos.s09physicalOperators.noinput.POPImportFromXml
 import lupos.s09physicalOperators.noinput.POPInsertData
 import lupos.s09physicalOperators.noinput.POPValues
 import lupos.s09physicalOperators.POPBase
-
 
 
 abstract class POPBaseNullableIterator : POPBase() {

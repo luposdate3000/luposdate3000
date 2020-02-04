@@ -1,6 +1,6 @@
 package lupos.s00misc
-import kotlin.math.abs
 
+import kotlin.math.abs
 
 
 class XMLElement {

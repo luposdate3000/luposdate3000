@@ -1,8 +1,8 @@
 package lupos.s04logicalOperators.singleinput.modifiers
+
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPSingleInputBase
-
 
 
 class LOPDistinct() : LOPSingleInputBase() {

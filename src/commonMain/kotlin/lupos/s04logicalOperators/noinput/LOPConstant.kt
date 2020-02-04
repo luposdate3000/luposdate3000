@@ -1,7 +1,7 @@
 package lupos.s04logicalOperators.noinput
+
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.LOPBase
-
 
 
 class LOPConstant(var value: String) : LOPBase() {

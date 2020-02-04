@@ -1,4 +1,5 @@
 package lupos.s13keyDistributionOptimizer
+
 import lupos.s00misc.classNameToString
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
@@ -44,7 +45,6 @@ import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s10physicalOptimisation.OptimizerVisitorPOP
 import lupos.s12p2p.POPServiceIRI
 import lupos.s13keyDistributionOptimizer.OptimizerVisitorKeyDistribution
-
 
 
 class KeyDistributionOptimizer(transactionID: Long) : OptimizerVisitorKeyDistribution(transactionID) {

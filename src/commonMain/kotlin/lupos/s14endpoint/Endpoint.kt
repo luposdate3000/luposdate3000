@@ -1,4 +1,5 @@
 package lupos.s14endpoint
+
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
@@ -21,7 +22,6 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
-
 
 
 class TripleInsertIterator : POPBaseNullableIterator {
