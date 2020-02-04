@@ -1,12 +1,8 @@
-package lupos.s09physicalOptimisation
+package lupos.s10physicalOptimisation
 import lupos.s04logicalOperators.data.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s05tripleStore.PersistentStore
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
-import lupos.s07physicalOperators.singleinput.POPProjection
-import lupos.s07physicalOperators.singleinput.POPRename
-import lupos.s07physicalOperators.singleinput.POPSort
-import lupos.s07physicalOperators.singleinput.POPTemporaryStore
 import lupos.s08logicalOptimisation.OptimizerVisitorLOP
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPUnion
@@ -26,6 +22,10 @@ import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
 import lupos.s09physicalOperators.singleinput.POPModify
+import lupos.s09physicalOperators.singleinput.POPProjection
+import lupos.s09physicalOperators.singleinput.POPRename
+import lupos.s09physicalOperators.singleinput.POPSort
+import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 
 
 

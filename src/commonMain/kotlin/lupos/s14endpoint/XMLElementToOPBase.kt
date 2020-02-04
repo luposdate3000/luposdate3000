@@ -1,14 +1,10 @@
-package lupos.s13endpoint
+package lupos.s14endpoint
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.data.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.toASTNode
 import lupos.s05tripleStore.globalStore
 import lupos.s05tripleStore.PersistentStore
-import lupos.s07physicalOperators.singleinput.POPProjection
-import lupos.s07physicalOperators.singleinput.POPRename
-import lupos.s07physicalOperators.singleinput.POPSort
-import lupos.s07physicalOperators.singleinput.POPTemporaryStore
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPJoinNestedLoop
 import lupos.s09physicalOperators.multiinput.POPUnion
@@ -25,8 +21,12 @@ import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
-import lupos.s11p2p.POPServiceIRI
-import lupos.s13endpoint.Endpoint
+import lupos.s09physicalOperators.singleinput.POPProjection
+import lupos.s09physicalOperators.singleinput.POPRename
+import lupos.s09physicalOperators.singleinput.POPSort
+import lupos.s09physicalOperators.singleinput.POPTemporaryStore
+import lupos.s12p2p.POPServiceIRI
+import lupos.s14endpoint.Endpoint
 
 
 

@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s07physicalOperators.singleinput.POPSingleInputBase
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -15,13 +14,13 @@ import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
 import lupos.s09physicalOperators.POPBaseNullableIterator
 import lupos.s09physicalOperators.POPExpression
-import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.POPBind
 import lupos.s09physicalOperators.singleinput.POPBindUndefined
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
+import lupos.s09physicalOperators.singleinput.POPSingleInputBase
 
 
 

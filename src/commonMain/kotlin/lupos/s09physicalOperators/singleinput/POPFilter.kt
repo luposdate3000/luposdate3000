@@ -7,13 +7,13 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
-import lupos.s07physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPExpression
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s09physicalOperators.singleinput.POPBind
 import lupos.s09physicalOperators.singleinput.POPBindUndefined
 import lupos.s09physicalOperators.singleinput.POPFilterExact
+import lupos.s09physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 
 
 

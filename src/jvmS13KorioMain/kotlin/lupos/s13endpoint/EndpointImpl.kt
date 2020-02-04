@@ -27,10 +27,10 @@ import lupos.s06resultRepresentation.Variable
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
-import lupos.s09physicalOptimisation.PhysicalOptimizer
-import lupos.s10outputResult.QueryResultToXML
+import lupos.s10physicalOptimisation.PhysicalOptimizer
+import lupos.s11outputResult.QueryResultToXML
 import lupos.s11p2p.P2P
-import lupos.s13endpoint.Endpoint
+import lupos.s14endpoint.Endpoint
 
 
 

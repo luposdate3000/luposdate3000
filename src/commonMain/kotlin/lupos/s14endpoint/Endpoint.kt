@@ -1,4 +1,4 @@
-package lupos.s13endpoint
+package lupos.s14endpoint
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
@@ -18,9 +18,9 @@ import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
 import lupos.s09physicalOperators.POPImportFromXml
-import lupos.s09physicalOptimisation.PhysicalOptimizer
-import lupos.s10outputResult.QueryResultToXML
-import lupos.s12keyDistributionOptimizer.KeyDistributionOptimizer
+import lupos.s10physicalOptimisation.PhysicalOptimizer
+import lupos.s11outputResult.QueryResultToXML
+import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 
 
 

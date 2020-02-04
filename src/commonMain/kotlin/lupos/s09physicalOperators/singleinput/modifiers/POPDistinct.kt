@@ -7,9 +7,9 @@ import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Value
 import lupos.s06resultRepresentation.Variable
-import lupos.s07physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
+import lupos.s09physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 
 
 

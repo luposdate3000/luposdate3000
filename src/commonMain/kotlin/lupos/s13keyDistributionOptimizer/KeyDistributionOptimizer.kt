@@ -1,4 +1,4 @@
-package lupos.s12keyDistributionOptimizer
+package lupos.s13keyDistributionOptimizer
 import lupos.s00misc.classNameToString
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
@@ -23,9 +23,6 @@ import lupos.s04logicalOperators.singleinput.LOPSubGroup
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
-import lupos.s07physicalOperators.singleinput.POPProjection
-import lupos.s07physicalOperators.singleinput.POPRename
-import lupos.s07physicalOperators.singleinput.POPSort
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.POPBase
@@ -41,8 +38,12 @@ import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
-import lupos.s09physicalOptimisation.OptimizerVisitorPOP
-import lupos.s11p2p.POPServiceIRI
+import lupos.s09physicalOperators.singleinput.POPProjection
+import lupos.s09physicalOperators.singleinput.POPRename
+import lupos.s09physicalOperators.singleinput.POPSort
+import lupos.s10physicalOptimisation.OptimizerVisitorPOP
+import lupos.s12p2p.POPServiceIRI
+import lupos.s13keyDistributionOptimizer.OptimizerVisitorKeyDistribution
 
 
 

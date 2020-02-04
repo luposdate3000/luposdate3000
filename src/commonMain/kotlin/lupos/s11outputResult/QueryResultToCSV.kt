@@ -1,4 +1,4 @@
-package lupos.s10outputResult
+package lupos.s11outputResult
 import lupos.s06resultRepresentation.Variable
 import lupos.s09physicalOperators.POPBase
 

@@ -7,10 +7,10 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s06resultRepresentation.ResultRow
 import lupos.s06resultRepresentation.ResultSet
 import lupos.s06resultRepresentation.Variable
-import lupos.s07physicalOperators.singleinput.POPSingleInputBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPExpression
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
+import lupos.s09physicalOperators.singleinput.POPSingleInputBase
 
 
 
