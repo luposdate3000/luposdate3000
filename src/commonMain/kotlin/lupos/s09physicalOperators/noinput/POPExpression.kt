@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.noinput
 
+import com.benasher44.uuid.*
 import com.soywiz.krypto.md5
 import com.soywiz.krypto.sha1
 import com.soywiz.krypto.sha256
@@ -696,7 +697,7 @@ return ""
                     }
                     BuiltInFunctions.LANGMATCHES -> {
                         val a = extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
-                        val b = extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1]))
+                        val b = evaluateHelperString(resultSet, resultRow, node.children[1])
                         return a == b
                     }
                     BuiltInFunctions.STRENDS -> {
@@ -715,6 +716,14 @@ return ""
                         val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1]))
                         return a.contains(b)
                     }
+		BuiltInFunctions.isLITERAL->{
+val tmp=evaluateHelperString(resultSet, resultRow, node.children[0])
+return tmp.startsWith("\"") && tmp.endsWith("\"")
+}
+		BuiltInFunctions.isIRI->{
+			val tmp=evaluateHelperString(resultSet, resultRow, node.children[0])
+			return tmp.startsWith("<") && tmp.endsWith(">")
+		}
                     else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperBoolean ${classNameToString(node)} ${node.function}")
                 }
             }
@@ -828,6 +837,33 @@ println(tmp2.toString().replace(".0",""))
                             return "\"" + aas + bbs + "\""
                         return "\"" + aas + bbs + "\"@" + aa
                     }
+BuiltInFunctions.URI->{
+//TODO evaluate base prefix and prepend to result
+val res=evaluateHelperString(resultSet, resultRow, node.children[0])
+return "<"+extractStringFromLiteral(res)+">"
+}
+BuiltInFunctions.IRI->{
+//TODO evaluate base prefix and prepend to result
+val res=evaluateHelperString(resultSet, resultRow, node.children[0])
+return "<"+extractStringFromLiteral(res)+">"
+}
+
+BuiltInFunctions.STRDT->{
+val value=evaluateHelperString(resultSet, resultRow, node.children[0])
+val type=evaluateHelperString(resultSet, resultRow, node.children[1])
+val res= "\""+value+"\"^^<"+type+">"
+println("BuiltInFunctions.STRDT :: $res")
+return res
+}
+BuiltInFunctions.STRLANG->{
+val value=evaluateHelperString(resultSet, resultRow, node.children[0])
+val lang=evaluateHelperString(resultSet, resultRow, node.children[1])
+val res= "\""+value+"\"@"+lang
+println("BuiltInFunctions.STRLANG :: $res")
+return res
+}
+			BuiltInFunctions.UUID->return "<urn:uuid:"+uuid4()+">"
+		BuiltInFunctions.STRUUID->			return ""+uuid4()
 		    BuiltInFunctions.DATATYPE->return extractDatatypeFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
                     BuiltInFunctions.LANG -> return "\"" + extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])) + "\""
                     BuiltInFunctions.STR -> return evaluateHelperString(resultSet, resultRow, node.children[0])
