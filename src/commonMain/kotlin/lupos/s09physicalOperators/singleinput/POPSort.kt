@@ -6,10 +6,14 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
+import lupos.s09physicalOperators.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
+import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s09physicalOperators.singleinput.POPBind
 import lupos.s09physicalOperators.singleinput.POPBindUndefined
@@ -19,12 +23,10 @@ import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
 import lupos.s09physicalOperators.singleinput.POPModify
 import lupos.s09physicalOperators.singleinput.POPProjection
-import lupos.s09physicalOperators.singleinput.POPRename
-import lupos.s09physicalOperators.singleinput.POPSingleInputBase
-import lupos.s09physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 
 
-class POPSort : POPSingleInputBaseNullableIterator {
+class POPSort : POPBaseNullableIterator {
+    override val children: Array<OPBase> = arrayOf(OPNothing())
     private var data: MutableList<ResultRow>? = null
     private val resultSetOld: ResultSet
     private val resultSetNew = ResultSet()
@@ -33,9 +35,10 @@ class POPSort : POPSingleInputBaseNullableIterator {
     var sortBy: Variable
     val sortOrder: Boolean
 
-    constructor(sortBy: LOPVariable, sortOrder: Boolean, child: OPBase) : super(child) {
+    constructor(sortBy: LOPVariable, sortOrder: Boolean, child: OPBase) : super() {
+        children[0] = child
         this.sortOrder = sortOrder
-        resultSetOld = child.getResultSet()
+        resultSetOld = children[0].getResultSet()
         for (name in resultSetOld.getVariableNames()) {
             variables.add(Pair(resultSetNew.createVariable(name), resultSetOld.createVariable(name)))
         }
@@ -43,11 +46,11 @@ class POPSort : POPSingleInputBaseNullableIterator {
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        return child.getProvidedVariableNames()
+        return children[0].getProvidedVariableNames()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return child.getRequiredVariableNames()
+        return children[0].getRequiredVariableNames()
     }
 
     override fun getResultSet(): ResultSet {
@@ -59,8 +62,8 @@ class POPSort : POPSingleInputBaseNullableIterator {
             Trace.start("POPSort.nnext")
             if (data == null) {
                 val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
-                while (child.hasNext()) {
-                    val rsOld = child.next()
+                while (children[0].hasNext()) {
+                    val rsOld = children[0].next()
                     val rsNew = resultSetNew.createResultRow()
                     var key: String = ""
                     for (variable in variables) {
@@ -108,7 +111,7 @@ class POPSort : POPSingleInputBaseNullableIterator {
             res.addAttribute("order", "ASC")
         else
             res.addAttribute("order", "DESC")
-        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
+        res.addContent(childrenToXML())
         return res
     }
 }

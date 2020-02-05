@@ -7,7 +7,7 @@ import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 
 
 class OPNothing() : LOPBase() {
-
+    override val children: Array<OPBase> = arrayOf()
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()
     }

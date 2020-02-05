@@ -13,6 +13,7 @@ import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
 import lupos.s05tripleStore.globalStore
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
@@ -25,6 +26,7 @@ import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 
 
 class TripleInsertIterator : POPBaseNullableIterator {
+    override val children: Array<OPBase> = arrayOf()
     var result: ResultRow?
 
     private val resultSet = ResultSet()

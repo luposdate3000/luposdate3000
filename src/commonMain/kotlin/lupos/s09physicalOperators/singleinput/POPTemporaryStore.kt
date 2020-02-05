@@ -5,9 +5,13 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
+import lupos.s09physicalOperators.*
 import lupos.s09physicalOperators.POPBase
+import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s09physicalOperators.singleinput.POPBind
 import lupos.s09physicalOperators.singleinput.POPBindUndefined
@@ -18,32 +22,31 @@ import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
 import lupos.s09physicalOperators.singleinput.POPModify
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
-import lupos.s09physicalOperators.singleinput.POPSingleInputBase
-import lupos.s09physicalOperators.singleinput.POPSingleInputBaseNullableIterator
-import lupos.s09physicalOperators.singleinput.POPSort
 
 
-class POPTemporaryStore : POPSingleInputBase {
+class POPTemporaryStore : POPBase {
+    override val children: Array<OPBase> = arrayOf(OPNothing())
     private val data = mutableListOf<ResultRow>()
     private val resultSetOld: ResultSet
     private val resultSetNew = ResultSet()
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     private var iterator: Iterator<ResultRow>
 
-    constructor(child: OPBase) : super(child) {
+    constructor(child: OPBase) : super() {
+        children[0] = child
         iterator = child
-        resultSetOld = child.getResultSet()
+        resultSetOld = children[0].getResultSet()
         for (name in resultSetOld.getVariableNames()) {
             variables.add(Pair(resultSetNew.createVariable(name), resultSetOld.createVariable(name)))
         }
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        return child.getProvidedVariableNames()
+        return children[0].getProvidedVariableNames()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return child.getRequiredVariableNames()
+        return children[0].getRequiredVariableNames()
     }
 
     override fun getResultSet(): ResultSet {
@@ -62,8 +65,8 @@ class POPTemporaryStore : POPSingleInputBase {
     override fun next(): ResultRow {
         try {
             Trace.start("POPTemporaryStore.next")
-            if (iterator == child) {
-                val rsOld = child.next()
+            if (iterator == children[0]) {
+                val rsOld = children[0].next()
                 var rsNew = resultSetNew.createResultRow()
                 for (variable in variables) {
                     rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
@@ -88,7 +91,7 @@ class POPTemporaryStore : POPSingleInputBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPTemporaryStore")
-        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
+        res.addContent(childrenToXML())
         return res
     }
 }

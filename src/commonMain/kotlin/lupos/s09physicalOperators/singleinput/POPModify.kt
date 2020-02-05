@@ -11,8 +11,11 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s05tripleStore.PersistentStore
+import lupos.s09physicalOperators.*
 import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBaseNullableIterator
 import lupos.s09physicalOperators.singleinput.POPBind
@@ -21,12 +24,12 @@ import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
-import lupos.s09physicalOperators.singleinput.POPSingleInputBase
 
 
-class POPModify(val transactionID: Long, val iri: String?, val insert: List<ASTNode>, val delete: List<ASTNode>, val pstore: PersistentStore, child: OPBase) : POPSingleInputBase(child) {
+class POPModify(val transactionID: Long, val iri: String?, val insert: List<ASTNode>, val delete: List<ASTNode>, val pstore: PersistentStore, child: OPBase) : POPBase() {
+    override val children: Array<OPBase> = arrayOf(child)
     private val resultSetNew = ResultSet()
-    private val resultSetOld = child.getResultSet()
+    private val resultSetOld = children[0].getResultSet()
 
     override fun getResultSet(): ResultSet {
         return resultSetNew
@@ -35,7 +38,7 @@ class POPModify(val transactionID: Long, val iri: String?, val insert: List<ASTN
     override fun hasNext(): Boolean {
         try {
             Trace.start("POPModify.hasNext")
-            return child.hasNext()
+            return children[0].hasNext()
         } finally {
             Trace.stop("POPModify.hasNext")
         }
@@ -48,7 +51,7 @@ class POPModify(val transactionID: Long, val iri: String?, val insert: List<ASTN
     override fun next(): ResultRow {
         try {
             Trace.start("POPModify.next")
-            val row = child.next()
+            val row = children[0].next()
             for (i in insert) {
                 when (i) {
                     is ASTTriple -> {

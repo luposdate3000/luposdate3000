@@ -7,6 +7,8 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
@@ -20,10 +22,10 @@ import lupos.s09physicalOperators.singleinput.POPBind
 import lupos.s09physicalOperators.singleinput.POPBindUndefined
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPFilterExact
-import lupos.s09physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 
 
-class POPGroup : POPSingleInputBaseNullableIterator {
+class POPGroup : POPBaseNullableIterator {
+    override val children: Array<OPBase> = arrayOf(OPNothing())
     private var data: MutableList<ResultRow>? = null
     private val resultSetOld: ResultSet
     private val resultSetNew = ResultSet()
@@ -31,14 +33,15 @@ class POPGroup : POPSingleInputBaseNullableIterator {
     var by: List<LOPVariable>
     var bindings = mutableListOf<Pair<Variable, POPExpression>>()
 
-    constructor(by: List<LOPVariable>, bindings: POPBind?, child: OPBase) : super(child) {
+    constructor(by: List<LOPVariable>, bindings: POPBind?, child: OPBase) : super() {
+        children[0] = child
         this.by = by
-        resultSetOld = child.getResultSet()
+        resultSetOld = children[0].getResultSet()
         var tmpBind: OPBase? = bindings
         while (tmpBind != null && tmpBind is POPBind) {
             this.bindings.add(Pair(resultSetNew.createVariable(tmpBind.name.name), tmpBind.expression))
             resultSetNew.createVariable(tmpBind.name.name)
-            tmpBind = tmpBind.child
+            tmpBind = tmpBind.children[0]
         }
         this.bindings = this.bindings.asReversed()
         for (v in by)
@@ -75,8 +78,8 @@ class POPGroup : POPSingleInputBaseNullableIterator {
                 val variables = mutableListOf<Pair<Variable, Variable>>()
                 for (v in by)
                     variables.add(Pair(resultSetNew.createVariable(v.name), resultSetOld.createVariable(v.name)))
-                while (child.hasNext()) {
-                    val rsOld = child.next()
+                while (children[0].hasNext()) {
+                    val rsOld = children[0].next()
                     var key: String = "|"
                     for (variable in variables)
                         key = key + resultSetOld.getValue(rsOld[variable.second]) + "|"
@@ -137,7 +140,7 @@ class POPGroup : POPSingleInputBaseNullableIterator {
         for (b in bindings) {
             xmlbindings.addContent(XMLElement("binding").addAttribute("name", resultSetNew.getVariable(b.first)).addContent(b.second.toXMLElement()))
         }
-        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
+        res.addContent(childrenToXML())
         return res
     }
 }

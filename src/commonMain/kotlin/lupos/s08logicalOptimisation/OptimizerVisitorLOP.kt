@@ -38,7 +38,7 @@ abstract class OptimizerVisitorLOP(val transactionID: Long) {
     }
 
     open fun visit(node: LOPModify): OPBase {
-        val tmp = LOPModify(optimize(node.child))
+        val tmp = LOPModify(optimize(node.children[0]))
         tmp.insert.addAll(node.insert)
         tmp.iri = node.iri
         tmp.delete.addAll(node.delete)
@@ -46,11 +46,11 @@ abstract class OptimizerVisitorLOP(val transactionID: Long) {
     }
 
     open fun visit(node: LOPServiceIRI): OPBase {
-        return LOPServiceIRI(node.name, node.silent, optimize(node.constraint))
+        return LOPServiceIRI(node.name, node.silent, optimize(node.children[0]))
     }
 
     open fun visit(node: LOPServiceVAR): OPBase {
-        return LOPServiceVAR(node.name, node.silent, optimize(node.constraint), optimize(node.child))
+        return LOPServiceVAR(node.name, node.silent, optimize(node.children[1]), optimize(node.children[0]))
     }
 
     open fun visit(node: OPBase): OPBase {
@@ -62,77 +62,77 @@ abstract class OptimizerVisitorLOP(val transactionID: Long) {
     }
 
     open fun visit(node: LOPNOOP): OPBase {
-        return LOPNOOP(optimize(node.child))
+        return LOPNOOP(optimize(node.children[0]))
     }
 
     open fun visit(node: LOPBind): OPBase {
-        return LOPBind(optimize(node.name) as LOPVariable, optimize(node.expression), optimize(node.child))
+        return LOPBind(optimize(node.name) as LOPVariable, optimize(node.expression), optimize(node.children[0]))
     }
 
     open fun visit(node: LOPFilter): OPBase {
-        return LOPFilter(optimize(node.filter) as LOPExpression, optimize(node.child))
+        return LOPFilter(optimize(node.filter) as LOPExpression, optimize(node.children[0]))
     }
 
     open fun visit(node: LOPGroup): OPBase {
         if (node.bindings != null)
-            return LOPGroup(node.by, optimize(node.bindings!!), optimize(node.child))
-        return LOPGroup(node.by, null, optimize(node.child))
+            return LOPGroup(node.by, optimize(node.bindings!!), optimize(node.children[0]))
+        return LOPGroup(node.by, null, optimize(node.children[0]))
     }
 
     open fun visit(node: LOPMakeBooleanResult): OPBase {
-        return LOPMakeBooleanResult(optimize(node.child))
+        return LOPMakeBooleanResult(optimize(node.children[0]))
     }
 
     open fun visit(node: LOPOptional): OPBase {
-        return LOPOptional(optimize(node.child))
+        return LOPOptional(optimize(node.children[0]))
     }
 
     open fun visit(node: LOPSubGroup): OPBase {
-        return LOPSubGroup(optimize(node.child))
+        return LOPSubGroup(optimize(node.children[0]))
     }
 
     open fun visit(node: LOPProjection): OPBase {
-        return LOPProjection(node.variables, optimize(node.child))
+        return LOPProjection(node.variables, optimize(node.children[0]))
     }
 
     open fun visit(node: LOPRename): OPBase {
-        return LOPRename(optimize(node.nameTo) as LOPVariable, optimize(node.nameFrom) as LOPVariable, optimize(node.child))
+        return LOPRename(optimize(node.nameTo) as LOPVariable, optimize(node.nameFrom) as LOPVariable, optimize(node.children[0]))
     }
 
     open fun visit(node: LOPSort): OPBase {
-        return LOPSort(node.asc, optimize(node.by), optimize(node.child))
+        return LOPSort(node.asc, optimize(node.by), optimize(node.children[0]))
     }
 
     open fun visit(node: LOPDistinct): OPBase {
-        return LOPDistinct(optimize(node.child))
+        return LOPDistinct(optimize(node.children[0]))
     }
 
     open fun visit(node: LOPLimit): OPBase {
-        return LOPLimit(node.limit, optimize(node.child))
+        return LOPLimit(node.limit, optimize(node.children[0]))
     }
 
     open fun visit(node: LOPOffset): OPBase {
-        return LOPOffset(node.offset, optimize(node.child))
+        return LOPOffset(node.offset, optimize(node.children[0]))
     }
 
     open fun visit(node: LOPPrefix): OPBase {
-        return LOPPrefix(node.name, node.iri, optimize(node.child))
+        return LOPPrefix(node.name, node.iri, optimize(node.children[0]))
     }
 
     open fun visit(node: LOPReduced): OPBase {
-        return LOPReduced(optimize(node.child))
+        return LOPReduced(optimize(node.children[0]))
     }
 
     open fun visit(node: LOPJoin): OPBase {
-        return LOPJoin(optimize(node.child), optimize(node.second), node.optional)
+        return LOPJoin(optimize(node.children[0]), optimize(node.children[1]), node.optional)
     }
 
     open fun visit(node: LOPMinus): OPBase {
-        return LOPMinus(optimize(node.child), optimize(node.second))
+        return LOPMinus(optimize(node.children[0]), optimize(node.children[1]))
     }
 
     open fun visit(node: LOPUnion): OPBase {
-        return LOPUnion(optimize(node.child), optimize(node.second))
+        return LOPUnion(optimize(node.children[0]), optimize(node.children[1]))
     }
 
     open fun visit(node: LOPExpression): OPBase {

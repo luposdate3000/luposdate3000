@@ -1,6 +1,8 @@
 package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.XMLElement
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPBind
@@ -11,17 +13,18 @@ import lupos.s04logicalOperators.singleinput.LOPModify
 import lupos.s04logicalOperators.singleinput.LOPNOOP
 import lupos.s04logicalOperators.singleinput.LOPOptional
 import lupos.s04logicalOperators.singleinput.LOPProjection
-import lupos.s04logicalOperators.singleinput.LOPSingleInputBase
 
 
-class LOPRename(val nameTo: LOPVariable, val nameFrom: LOPVariable) : LOPSingleInputBase() {
+class LOPRename(val nameTo: LOPVariable, val nameFrom: LOPVariable) : LOPBase() {
+    override val children: Array<OPBase> = arrayOf(OPNothing())
+
     constructor(nameTo: LOPVariable, nameFrom: LOPVariable, child: OPBase) : this(nameTo, nameFrom) {
-        this.child = child
+        this.children[0] = child
     }
 
     override fun getProvidedVariableNames(): List<String> {
         val res = mutableListOf<String>()
-        val variables = child.getProvidedVariableNames()
+        val variables = children[0].getProvidedVariableNames()
         for (v in variables) {
             if (v == nameFrom.name)
                 res.add(nameTo.name)
@@ -33,7 +36,7 @@ class LOPRename(val nameTo: LOPVariable, val nameFrom: LOPVariable) : LOPSingleI
 
     override fun getRequiredVariableNames(): List<String> {
         val res = mutableListOf<String>()
-        val variables = child.getProvidedVariableNames()
+        val variables = children[0].getProvidedVariableNames()
         for (v in variables) {
             res.add(v)
         }
@@ -45,7 +48,7 @@ class LOPRename(val nameTo: LOPVariable, val nameFrom: LOPVariable) : LOPSingleI
         val res = XMLElement("LOPRename")
         res.addAttribute("nameTo", nameTo.name)
         res.addAttribute("nameFrom", nameFrom.name)
-        res.addContent(child.toXMLElement())
+        res.addContent(childrenToXML())
         return res
     }
 }

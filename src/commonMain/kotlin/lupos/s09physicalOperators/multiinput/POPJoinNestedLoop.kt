@@ -5,6 +5,8 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
@@ -14,8 +16,9 @@ import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 
 
 class POPJoinNestedLoop : POPBaseNullableIterator {
-    val childA: OPBase
-    val childB: POPTemporaryStore
+    override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
+    //    val children[0]: OPBase
+//    val children[1]: POPTemporaryStore
     val optional: Boolean
     val joinVariables: Set<String>
     private val resultSetOldA: ResultSet
@@ -28,19 +31,19 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
     private var hadMatchForA = false
 
     override fun getProvidedVariableNames(): List<String> {
-        return childA.getProvidedVariableNames() + childB.getProvidedVariableNames()
+        return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return childA.getRequiredVariableNames() + childB.getRequiredVariableNames()
+        return children[0].getRequiredVariableNames() + children[1].getRequiredVariableNames()
     }
 
     constructor(childA: OPBase, childB: OPBase, optional: Boolean) : super() {
-        this.childA = childA
-        this.childB = POPTemporaryStore(childB)
+        this.children[0] = childA
+        this.children[1] = POPTemporaryStore(childB)
         this.optional = optional
-        resultSetOldA = this.childA.getResultSet()
-        resultSetOldB = this.childB.getResultSet()
+        resultSetOldA = this.children[0].getResultSet()
+        resultSetOldB = this.children[1].getResultSet()
         var variablesA = resultSetOldA.getVariableNames()
         var variablesB = resultSetOldB.getVariableNames()
         joinVariables = variablesA.intersect(variablesB)
@@ -67,8 +70,8 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
             Trace.start("POPJoinNestedLoop.nnext")
             while (true) {
                 var resultRowB: ResultRow?
-                if (!childB.hasNext()) {
-                    childB.reset()
+                if (!children[1].hasNext()) {
+                    (children[1] as POPTemporaryStore).reset()
                     if (optional && !hadMatchForA && resultRowA != null) {
                         var rsNew = resultSetNew.createResultRow()
                         for (p in variablesOldB) {
@@ -87,20 +90,20 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
                         return rsNew
                     }
                     resultRowA = null
-                    if (!childB.hasNext()) {
+                    if (!children[1].hasNext()) {
                         return null
                     }
                 }
                 if (resultRowA == null) {
-                    if (!childA.hasNext())
+                    if (!children[0].hasNext())
                         return null
                     else {
-                        resultRowA = childA.next()
+                        resultRowA = children[0].next()
                         hadMatchForA = false
                     }
                 }
                 require(resultRowA != null)
-                resultRowB = childB.next()
+                resultRowB = children[1].next()
                 var joinVariableOk = true
                 var rsNew = resultSetNew.createResultRow()
                 for (p in variablesOldA) {
@@ -137,8 +140,7 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPJoinNestedLoop")
         res.addAttribute("optional", "" + optional)
-        res.addContent(XMLElement("childA").addContent(childA.toXMLElement()))
-        res.addContent(XMLElement("childB").addContent(childB.toXMLElement()))
+        res.addContent(childrenToXML())
         return res
     }
 }

@@ -5,8 +5,11 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
+import lupos.s09physicalOperators.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s09physicalOperators.singleinput.POPBind
@@ -14,15 +17,16 @@ import lupos.s09physicalOperators.singleinput.POPBindUndefined
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOperators.singleinput.POPGroup
-import lupos.s09physicalOperators.singleinput.POPSingleInputBase
 
 
-class POPMakeBooleanResult : POPSingleInputBase {
+class POPMakeBooleanResult : POPBase {
+    override val children: Array<OPBase> = arrayOf(OPNothing())
     private val resultSetNew = ResultSet()
     private val variableNew: Variable
     private var count = 0
 
-    constructor(child: OPBase) : super(child) {
+    constructor(child: OPBase) : super() {
+        children[0] = child
         this.variableNew = resultSetNew.createVariable("?boolean")
     }
 
@@ -37,7 +41,7 @@ class POPMakeBooleanResult : POPSingleInputBase {
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return child.getRequiredVariableNames()
+        return children[0].getRequiredVariableNames()
     }
 
     override fun hasNext(): Boolean {
@@ -53,7 +57,7 @@ class POPMakeBooleanResult : POPSingleInputBase {
         try {
             Trace.start("POPMakeBooleanResult.next")
             var rsNew = resultSetNew.createResultRow()
-            rsNew[variableNew] = resultSetNew.createValue("\"" + child.hasNext() + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+            rsNew[variableNew] = resultSetNew.createValue("\"" + children[0].hasNext() + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
             count++
             return rsNew
         } finally {
@@ -63,7 +67,7 @@ class POPMakeBooleanResult : POPSingleInputBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPMakeBooleanResult")
-        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
+        res.addContent(childrenToXML())
         return res
     }
 }

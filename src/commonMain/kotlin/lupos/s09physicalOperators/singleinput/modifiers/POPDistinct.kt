@@ -6,33 +6,34 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.noinput.LOPVariable
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
-import lupos.s09physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 
 
-class POPDistinct : POPSingleInputBaseNullableIterator {
+class POPDistinct : POPBaseNullableIterator {
+    override val children: Array<OPBase> = arrayOf(OPNothing())
     private var data: MutableList<ResultRow>? = null
     private val resultSetOld: ResultSet
     private val resultSetNew = ResultSet()
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     private var iterator: Iterator<ResultRow>? = null
 
-    constructor(child: OPBase) : super(child) {
-        resultSetOld = child.getResultSet()
+    constructor(child: OPBase) : super() {
+        children[0] = child
+        resultSetOld = children[0].getResultSet()
         for (name in resultSetOld.getVariableNames()) {
             variables.add(Pair(resultSetNew.createVariable(name), resultSetOld.createVariable(name)))
         }
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        return child.getProvidedVariableNames()
+        return children[0].getProvidedVariableNames()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return child.getRequiredVariableNames()
+        return children[0].getRequiredVariableNames()
     }
 
     override fun getResultSet(): ResultSet {
@@ -44,8 +45,8 @@ class POPDistinct : POPSingleInputBaseNullableIterator {
             Trace.start("POPDistinct.nnext")
             if (data == null) {
                 val tmpMutableMap = mutableMapOf<String, ResultRow>()
-                while (child.hasNext()) {
-                    val rsOld = child.next()
+                while (children[0].hasNext()) {
+                    val rsOld = children[0].next()
                     val rsNew = resultSetNew.createResultRow()
                     var key: String = ""
                     for (variable in variables) {
@@ -71,7 +72,7 @@ class POPDistinct : POPSingleInputBaseNullableIterator {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPDistinct")
-        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
+        res.addContent(childrenToXML())
         return res
     }
 }

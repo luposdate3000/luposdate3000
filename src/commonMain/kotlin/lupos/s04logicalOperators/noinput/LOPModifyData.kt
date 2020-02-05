@@ -1,7 +1,9 @@
 package lupos.s04logicalOperators.noinput
 
 import lupos.s00misc.XMLElement
+import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.LOPBase
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPConstant
 import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.noinput.LOPGraphOperation
@@ -13,6 +15,7 @@ enum class ModifyDataType {
 }
 
 class LOPModifyData(val type: ModifyDataType) : LOPBase() {
+    override val children: Array<OPBase> = arrayOf()
     val data = mutableListOf<List<Pair<String, Boolean>>>()
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

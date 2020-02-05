@@ -1,14 +1,16 @@
 package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.XMLElement
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
-import lupos.s04logicalOperators.singleinput.LOPSingleInputBase
 
 
-class LOPGroup(var by: List<LOPVariable>) : LOPSingleInputBase() {
+class LOPGroup(var by: List<LOPVariable>) : LOPBase() {
+    override val children: Array<OPBase> = arrayOf(OPNothing())
     var bindings: OPBase? = null
 
     override fun getProvidedVariableNames(): List<String> {
@@ -22,18 +24,18 @@ class LOPGroup(var by: List<LOPVariable>) : LOPSingleInputBase() {
 
     override fun getRequiredVariableNames(): List<String> {
         if (bindings != null)
-            return child.getRequiredVariableNames() + bindings!!.getRequiredVariableNames()
+            return children[0].getRequiredVariableNames() + bindings!!.getRequiredVariableNames()
         else
-            return child.getRequiredVariableNames()
+            return children[0].getRequiredVariableNames()
     }
 
     constructor(by: List<LOPVariable>, child: OPBase) : this(by) {
-        this.child = child
+        children[0] = child
     }
 
     constructor(by: List<LOPVariable>, bindings: OPBase?, child: OPBase) : this(by) {
         this.bindings = bindings
-        this.child = child
+        children[0] = child
     }
 
     override fun toXMLElement(): XMLElement {
@@ -46,7 +48,7 @@ class LOPGroup(var by: List<LOPVariable>) : LOPSingleInputBase() {
         res.addContent(xmlbindings)
         if (bindings != null)
             xmlbindings.addContent(bindings!!.toXMLElement())
-        res.addContent(child.toXMLElement())
+        res.addContent(childrenToXML())
         return res
     }
 }

@@ -5,6 +5,8 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
@@ -12,6 +14,7 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPEmptyRow() : POPBase() {
+    override val children: Array<OPBase> = arrayOf()
     private val resultSetNew = ResultSet()
 
     private var first = true

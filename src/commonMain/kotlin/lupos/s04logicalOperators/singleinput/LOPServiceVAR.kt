@@ -1,7 +1,9 @@
 package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.XMLElement
+import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.LOPBase
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPBind
@@ -14,28 +16,29 @@ import lupos.s04logicalOperators.singleinput.LOPOptional
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPRename
 import lupos.s04logicalOperators.singleinput.LOPServiceIRI
-import lupos.s04logicalOperators.singleinput.LOPSingleInputBase
 
 
-class LOPServiceVAR(val name: String, val silent: Boolean, var constraint: OPBase) : LOPSingleInputBase() {
+class LOPServiceVAR(val name: String, val silent: Boolean, constraint: OPBase) : LOPBase() {
+    override val children: Array<OPBase> = arrayOf(OPNothing(), constraint)
+
     constructor(name: String, silent: Boolean, constraint: OPBase, child: OPBase) : this(name, silent, constraint) {
-        this.child = child
+        this.children[0] = child
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        return constraint.getProvidedVariableNames() + child.getProvidedVariableNames()
+        return children[1].getProvidedVariableNames() + children[0].getProvidedVariableNames()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return constraint.getRequiredVariableNames() + child.getRequiredVariableNames()
+        return children[1].getRequiredVariableNames() + children[0].getRequiredVariableNames()
     }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPService")
         res.addAttribute("name", name)
         res.addAttribute("silent", "" + silent)
-        res.addContent(XMLElement("constraint").addContent(constraint.toXMLElement()))
-        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
+        res.addContent(XMLElement("constraint").addContent(children[1].toXMLElement()))
+        res.addContent(childrenToXML())
         return res
     }
 }

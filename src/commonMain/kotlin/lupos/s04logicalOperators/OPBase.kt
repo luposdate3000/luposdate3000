@@ -5,10 +5,13 @@ import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetIterator
 import lupos.s04logicalOperators.LOPBase
+import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.noinput.OPNothing
 
 
 abstract class OPBase : ResultSetIterator {
+
+    abstract val children: Array<OPBase>
 
     open fun toString(indentation: String): String = "${indentation}${classNameToString(this)}\n"
 
@@ -22,5 +25,24 @@ abstract class OPBase : ResultSetIterator {
     abstract fun getRequiredVariableNames(): List<String>
     abstract fun getProvidedVariableNames(): List<String>
     abstract fun toXMLElement(): XMLElement
+    fun childrenToXML(): XMLElement {
+        val res = XMLElement("children")
+        for (c in children)
+            res.addContent(c.toXMLElement())
+        return res
+    }
 
+    fun setChild(child: OPBase): OPBase {
+        println("setChild ${classNameToString(this)} ${classNameToString(child)} ${classNameToString(children[0])}")
+        require(children.size > 0)
+        this.children[0] = child
+        return child
+    }
+
+    fun getLatestChild(): OPBase {
+        if (children.size > 0 && children[0].children.size > 0)
+            return children[0].getLatestChild()
+	println("getLatestChild ${classNameToString(this)} ${children.size} ${classNameToString(this.children[0])} ${children[0].children.size}")
+        return this
+    }
 }

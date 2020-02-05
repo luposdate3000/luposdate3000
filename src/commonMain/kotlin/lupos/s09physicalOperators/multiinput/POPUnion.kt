@@ -5,6 +5,8 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
@@ -15,8 +17,7 @@ import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 
 
 class POPUnion : POPBaseNullableIterator {
-    val childA: OPBase
-    val childB: OPBase
+    override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     private val resultSetOldA: ResultSet
     private val variablesOldA = mutableListOf<Pair<Variable, Variable>>()
     private val variablesOldAMissing = mutableListOf<Variable>()
@@ -26,18 +27,18 @@ class POPUnion : POPBaseNullableIterator {
     private val resultSetNew = ResultSet()
 
     override fun getProvidedVariableNames(): List<String> {
-        return childA.getProvidedVariableNames() + childB.getProvidedVariableNames()
+        return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return childA.getRequiredVariableNames() + childB.getRequiredVariableNames()
+        return children[0].getRequiredVariableNames() + children[1].getRequiredVariableNames()
     }
 
     constructor(childA: OPBase, childB: OPBase) : super() {
-        this.childA = childA
-        this.childB = POPTemporaryStore(childB)
-        resultSetOldA = this.childA.getResultSet()
-        resultSetOldB = this.childB.getResultSet()
+        this.children[0] = childA
+        this.children[1] = childB
+        resultSetOldA = this.children[0].getResultSet()
+        resultSetOldB = this.children[1].getResultSet()
         var variablesA = resultSetOldA.getVariableNames()
         var variablesB = resultSetOldB.getVariableNames()
 
@@ -61,8 +62,8 @@ class POPUnion : POPBaseNullableIterator {
     override fun nnext(): ResultRow? {
         try {
             Trace.start("POPUnion.nnext")
-            if (childA.hasNext()) {
-                val rsOld = childA.next()
+            if (children[0].hasNext()) {
+                val rsOld = children[0].next()
                 val rsNew = resultSetNew.createResultRow()
                 for (p in variablesOldAMissing) {
                     rsNew[p] = resultSetNew.createValue(resultSetNew.getUndefValue())
@@ -73,8 +74,8 @@ class POPUnion : POPBaseNullableIterator {
                 }
                 return rsNew
             }
-            if (childB.hasNext()) {
-                val rsOld = childB.next()
+            if (children[1].hasNext()) {
+                val rsOld = children[1].next()
                 val rsNew = resultSetNew.createResultRow()
                 for (p in variablesOldBMissing) {
                     rsNew[p] = resultSetNew.createValue(resultSetNew.getUndefValue())
@@ -93,8 +94,7 @@ class POPUnion : POPBaseNullableIterator {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPUnion")
-        res.addContent(XMLElement("childA").addContent(childA.toXMLElement()))
-        res.addContent(XMLElement("childB").addContent(childB.toXMLElement()))
+        res.addContent(childrenToXML())
         return res
     }
 }

@@ -8,12 +8,14 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetIterator
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
 import lupos.s05tripleStore.IndexPattern
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
 import lupos.s09physicalOperators.POPBase
 
 
 class TripleStoreIterator : POPTripleStoreIteratorBase {
+    override val children: Array<OPBase> = arrayOf()
     private val resultSetNew = ResultSet()
     private val resultSetOld: ResultSet
     private var mapIterator: MutableIterator<MutableMap.MutableEntry<ResultRow, MutableSet<ResultRow>>>

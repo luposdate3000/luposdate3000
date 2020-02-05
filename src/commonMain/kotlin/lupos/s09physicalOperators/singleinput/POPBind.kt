@@ -6,15 +6,17 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
-import lupos.s09physicalOperators.singleinput.POPSingleInputBase
 
 
-class POPBind : POPSingleInputBase {
+class POPBind : POPBase {
+    override val children: Array<OPBase> = arrayOf(OPNothing())
     val name: LOPVariable
     val expression: POPExpression
     private val resultSetOld: ResultSet
@@ -23,10 +25,11 @@ class POPBind : POPSingleInputBase {
     private val variablesNew: Array<Variable?>
     private val variableBound: Variable
 
-    constructor(name: LOPVariable, expression: POPExpression, child: OPBase) : super(child) {
+    constructor(name: LOPVariable, expression: POPExpression, child: OPBase) : super() {
+        children[0] = child
         this.name = name
         this.expression = expression
-        resultSetOld = child.getResultSet()
+        resultSetOld = children[0].getResultSet()
         val variableNames = resultSetOld.getVariableNames()
         variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
         variablesNew = Array<Variable?>(variableNames.size + 1, init = fun(_: Int) = (null as Variable?))
@@ -41,11 +44,11 @@ class POPBind : POPSingleInputBase {
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>(name.name) + child.getProvidedVariableNames()
+        return mutableListOf<String>(name.name) + children[0].getProvidedVariableNames()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return expression.getRequiredVariableNames() + child.getRequiredVariableNames()
+        return expression.getRequiredVariableNames() + children[0].getRequiredVariableNames()
     }
 
     override fun getResultSet(): ResultSet {
@@ -55,7 +58,7 @@ class POPBind : POPSingleInputBase {
     override fun hasNext(): Boolean {
         try {
             Trace.start("POPBind.hasNext")
-            val res = child.hasNext()
+            val res = children[0].hasNext()
             return res
         } finally {
             Trace.stop("POPBind.hasNext")
@@ -66,7 +69,7 @@ class POPBind : POPSingleInputBase {
         try {
             Trace.start("POPBind.next")
             var rsNew = resultSetNew.createResultRow()
-            val rsOld = child.next()
+            val rsOld = children[0].next()
             for (i in variablesOld.indices) {
                 // TODO reuse resultSet
                 rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
@@ -88,7 +91,7 @@ class POPBind : POPSingleInputBase {
         val res = XMLElement("POPBind")
         res.addAttribute("name", name.name)
         res.addContent(XMLElement("expression").addContent(expression.toXMLElement()))
-        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
+        res.addContent(childrenToXML())
         return res
     }
 }

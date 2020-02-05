@@ -114,7 +114,6 @@ import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPRename
 import lupos.s04logicalOperators.singleinput.LOPServiceIRI
 import lupos.s04logicalOperators.singleinput.LOPServiceVAR
-import lupos.s04logicalOperators.singleinput.LOPSingleInputBase
 import lupos.s04logicalOperators.singleinput.LOPSort
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
@@ -362,18 +361,18 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         for (n in nodes) {
             var tmp2 = n.visit(this)
             while (tmp2 is LOPNOOP) {
-                tmp2 = tmp2.child
+                tmp2 = tmp2.children[0]
             }
             when (tmp2) {
                 is LOPMinus -> {
                     if (members.containsKey(GroupMember.GMLOPMinus))
-                        (members[GroupMember.GMLOPMinus] as LOPSingleInputBase).getLatestChild().setChild(tmp2)
+                        (members[GroupMember.GMLOPMinus])!!.getLatestChild().setChild(tmp2)
                     else
                         members[GroupMember.GMLOPMinus] = tmp2
                 }
                 is LOPFilter -> {
                     if (members.containsKey(GroupMember.GMLOPFilter))
-                        (members[GroupMember.GMLOPFilter] as LOPSingleInputBase).getLatestChild().setChild(tmp2)
+                        (members[GroupMember.GMLOPFilter])!!.getLatestChild().setChild(tmp2)
                     else
                         members[GroupMember.GMLOPFilter] = tmp2
                 }
@@ -409,9 +408,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 }
                 is LOPOptional -> {
                     if (members.containsKey(GroupMember.GMLOPOptional)) {
-                        members[GroupMember.GMLOPOptional] = LOPJoin(members[GroupMember.GMLOPOptional]!!, tmp2.child, true)
+                        members[GroupMember.GMLOPOptional] = LOPJoin(members[GroupMember.GMLOPOptional]!!, tmp2.children[0], true)
                     } else {
-                        members[GroupMember.GMLOPOptional] = tmp2.child
+                        members[GroupMember.GMLOPOptional] = tmp2.children[0]
                     }
                 }
                 is LOPJoin -> {
@@ -437,7 +436,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                 }
                 is LOPServiceVAR -> {
                     if (members.containsKey(GroupMember.GMLOPDataSource)) {
-                        tmp2.child = members[GroupMember.GMLOPDataSource]!!
+                        tmp2.children[0] = members[GroupMember.GMLOPDataSource]!!
                         members[GroupMember.GMLOPDataSource] = tmp2
                     } else {
                         members[GroupMember.GMLOPDataSource] = tmp2
@@ -454,7 +453,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             if (result == null)
                 result = members[GroupMember.GMLOPFilter]
             else
-                (result as LOPSingleInputBase).getLatestChild().setChild(members[GroupMember.GMLOPFilter]!!)
+                (result).getLatestChild().setChild(members[GroupMember.GMLOPFilter]!!)
         }
         var firstJoin: OPBase? = null
         if (members.containsKey(GroupMember.GMLOPDataSource)) {
@@ -484,7 +483,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             if (result == null)
                 result = firstJoin
             else
-                (result as LOPSingleInputBase).getLatestChild().setChild(firstJoin)
+                (result).getLatestChild().setChild(firstJoin)
         }
         return result!!
     }
@@ -492,7 +491,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     fun insertLOPBind(a: OPBase, b: LOPBind): OPBase {
         if (a is LOPJoin) {
             val requiredVariables = b.expression.getRequiredVariableNames()
-            val providedLeft = a.child.getProvidedVariableNames()
+            val providedLeft = a.children[0].getProvidedVariableNames()
             var leftOk = true
             for (v in requiredVariables) {
                 if (!providedLeft.contains(v)) {
@@ -500,7 +499,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     break
                 }
             }
-            val providedRight = a.second.getProvidedVariableNames()
+            val providedRight = a.children[1].getProvidedVariableNames()
             var rightOk = true
             for (v in requiredVariables) {
                 if (!providedRight.contains(v)) {
@@ -510,9 +509,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             }
             if (leftOk != rightOk) {
                 if (leftOk)
-                    a.child = insertLOPBind(a.child, b)
+                    a.children[0] = insertLOPBind(a.children[0], b)
                 else
-                    return LOPJoin(a.child, insertLOPBind(a.second, b), a.optional)
+                    return LOPJoin(a.children[0], insertLOPBind(a.children[1], b), a.optional)
                 return a
             }
         }
@@ -563,7 +562,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         var realQuery = query
         while (realQuery is LOPProjection) {
             latestProjection = realQuery
-            realQuery = realQuery.child
+            realQuery = realQuery.children[0]
         }
         (latestProjection as LOPProjection).setChild(LOPJoin(values, realQuery, false))
         return query
@@ -785,8 +784,8 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         when (node) {
             is OPNothing -> return node
             is LOPTriple -> return LOPTriple(node.s, node.p, node.o, iri)
-            is LOPFilter -> node.child = setGraphNameForAllTriples(node.child, name)
-            is LOPJoin -> return LOPJoin(setGraphNameForAllTriples(node.child, name), setGraphNameForAllTriples(node.second, name), node.optional)
+            is LOPFilter -> node.children[0] = setGraphNameForAllTriples(node.children[0], name)
+            is LOPJoin -> return LOPJoin(setGraphNameForAllTriples(node.children[0], name), setGraphNameForAllTriples(node.children[1], name), node.optional)
             else -> throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 2 ${classNameToString(node)}")
         }
         return node

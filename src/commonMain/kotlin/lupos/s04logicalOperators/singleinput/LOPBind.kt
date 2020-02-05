@@ -1,29 +1,32 @@
 package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.XMLElement
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.singleinput.LOPSingleInputBase
 
 
-class LOPBind(val name: LOPVariable, val expression: OPBase) : LOPSingleInputBase() {
+class LOPBind(val name: LOPVariable, val expression: OPBase) : LOPBase() {
+    override val children: Array<OPBase> = arrayOf(OPNothing())
+
     constructor(name: LOPVariable, expression: OPBase, child: OPBase) : this(name, expression) {
-        this.child = child
+        children[0] = child
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>(name.name) + child.getRequiredVariableNames()
+        return mutableListOf<String>(name.name) + children[0].getRequiredVariableNames()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return expression.getRequiredVariableNames() + child.getRequiredVariableNames()
+        return expression.getRequiredVariableNames() + children[0].getRequiredVariableNames()
     }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPBind")
         res.addAttribute("name", name.name)
         res.addContent(XMLElement("LocalValue").addContent(expression.toXMLElement()))
-        res.addContent(child.toXMLElement())
+        res.addContent(childrenToXML())
         return res
     }
 }

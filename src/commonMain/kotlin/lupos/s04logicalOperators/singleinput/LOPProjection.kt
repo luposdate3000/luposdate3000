@@ -1,6 +1,8 @@
 package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.XMLElement
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPBind
@@ -10,12 +12,13 @@ import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
 import lupos.s04logicalOperators.singleinput.LOPModify
 import lupos.s04logicalOperators.singleinput.LOPNOOP
 import lupos.s04logicalOperators.singleinput.LOPOptional
-import lupos.s04logicalOperators.singleinput.LOPSingleInputBase
 
 
-class LOPProjection(val variables: MutableList<LOPVariable> = mutableListOf()) : LOPSingleInputBase() {
+class LOPProjection(val variables: MutableList<LOPVariable> = mutableListOf()) : LOPBase() {
+    override val children: Array<OPBase> = arrayOf(OPNothing())
+
     constructor(variables: MutableList<LOPVariable> = mutableListOf(), child: OPBase) : this(variables) {
-        this.child = child
+        this.children[0] = child
     }
 
     override fun getProvidedVariableNames(): List<String> {
@@ -38,7 +41,7 @@ class LOPProjection(val variables: MutableList<LOPVariable> = mutableListOf()) :
         res.addContent(vars)
         for (v in variables)
             vars.addContent(XMLElement("LocalVariable").addAttribute("name", v.name))
-        res.addContent(child.toXMLElement())
+        res.addContent(childrenToXML())
         return res
     }
 }

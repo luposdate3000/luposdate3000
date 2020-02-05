@@ -4,6 +4,8 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPExpression
@@ -13,6 +15,7 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPImportFromXml : POPBaseNullableIterator {
+    override val children: Array<OPBase> = arrayOf()
     private val resultSet = ResultSet()
     val data: XMLElement
     var iterator: Iterator<XMLElement>? = null

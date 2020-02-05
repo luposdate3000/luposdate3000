@@ -5,8 +5,11 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
+import lupos.s09physicalOperators.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s09physicalOperators.singleinput.POPBind
@@ -16,19 +19,20 @@ import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
 import lupos.s09physicalOperators.singleinput.POPModify
-import lupos.s09physicalOperators.singleinput.POPSingleInputBase
 
 
-class POPProjection : POPSingleInputBase {
+class POPProjection : POPBase {
+    override val children: Array<OPBase> = arrayOf(OPNothing())
     val variables: MutableList<LOPVariable>
     private val resultSetOld: ResultSet
     private val resultSetNew = ResultSet()
     private val variablesOld: Array<Variable>
     private val variablesNew: Array<Variable>
 
-    constructor(variables: MutableList<LOPVariable>, child: OPBase) : super(child) {
+    constructor(variables: MutableList<LOPVariable>, child: OPBase) : super() {
+        this.children[0] = child
         this.variables = variables
-        resultSetOld = child.getResultSet()
+        resultSetOld = children[0].getResultSet()
         this.variablesOld = Array<Variable>(variables.size, init = fun(it: Int) = resultSetOld.createVariable(variables[it].name))
         this.variablesNew = Array<Variable>(variables.size, init = fun(it: Int) = resultSetNew.createVariable(variables[it].name))
     }
@@ -54,7 +58,7 @@ class POPProjection : POPSingleInputBase {
     override fun hasNext(): Boolean {
         try {
             Trace.start("POPProjection.hasNext")
-            val res = child.hasNext()
+            val res = children[0].hasNext()
             return res
         } finally {
             Trace.stop("POPProjection.hasNext")
@@ -65,7 +69,7 @@ class POPProjection : POPSingleInputBase {
         try {
             Trace.start("POPProjection.next")
             var rsNew = resultSetNew.createResultRow()
-            val rsOld = child.next()
+            val rsOld = children[0].next()
             for (i in variablesNew.indices) {
                 // TODO reuse resultSet
                 rsNew[variablesNew[i]] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]]))
@@ -82,7 +86,7 @@ class POPProjection : POPSingleInputBase {
         res.addContent(vars)
         for (v in variables)
             vars.addContent(XMLElement("variable").addAttribute("name", v.name))
-        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
+        res.addContent(childrenToXML())
         return res
     }
 }

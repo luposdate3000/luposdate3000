@@ -5,15 +5,15 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.noinput.LOPVariable
-import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
 import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 
 
 class POPJoinHashMap : POPBaseNullableIterator {
-    val child: Array<OPBase>
+    override val children: Array<OPBase>
     val optional: Boolean
     val joinVariables: Set<String>
     val map: Array<MutableMap<String, MutableList<ResultRow>>>
@@ -25,16 +25,16 @@ class POPJoinHashMap : POPBaseNullableIterator {
     private val resultSetNew = ResultSet()
 
     override fun getProvidedVariableNames(): List<String> {
-        return child[0].getProvidedVariableNames() + child[1].getProvidedVariableNames()
+        return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return child[0].getRequiredVariableNames() + child[1].getRequiredVariableNames()
+        return children[0].getRequiredVariableNames() + children[1].getRequiredVariableNames()
     }
 
     constructor(childA: OPBase, childB: OPBase, optional: Boolean) : super() {
         map = arrayOf(mutableMapOf<String, MutableList<ResultRow>>(), mutableMapOf<String, MutableList<ResultRow>>())
-        child = arrayOf(childA, childB)
+        children = arrayOf(childA, childB)
         this.optional = optional
         resultSet = arrayOf(childA.getResultSet(), childB.getResultSet())
         var variablesA: Set<String> = mutableSetOf<String>()
@@ -83,7 +83,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
 
     fun joinHelper(idx: Int) {
         try {
-            val rowA = child[idx].next()
+            val rowA = children[idx].next()
             println("joinNext $idx $rowA")
             var keys = mutableSetOf<String>()
             keys.add("")
@@ -135,9 +135,9 @@ class POPJoinHashMap : POPBaseNullableIterator {
             while (true) {
                 if (!queue.isEmpty())
                     return queue.removeAt(0)
-                else if (child[0].hasNext())
+                else if (children[0].hasNext())
                     joinHelper(0)
-                else if (child[1].hasNext())
+                else if (children[1].hasNext())
                     joinHelper(1)
                 else if (optional && !hadOptionals) {
                     for ((k, v) in map[0]) {
@@ -168,8 +168,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPJoinHashMap")
         res.addAttribute("optional", "" + optional)
-        res.addContent(XMLElement("childA").addContent(child[0].toXMLElement()))
-        res.addContent(XMLElement("childB").addContent(child[1].toXMLElement()))
+        res.addContent(childrenToXML())
         return res
     }
 }

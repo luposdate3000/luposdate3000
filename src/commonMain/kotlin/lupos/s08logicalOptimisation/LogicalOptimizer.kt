@@ -8,11 +8,11 @@ import lupos.s08logicalOptimisation.OptimizerVisitorLOP
 
 class LogicalOptimizer(transactionID: Long) : OptimizerVisitorLOP(transactionID) {
     override fun visit(node: LOPPrefix): OPBase {
-        return optimize(node.child)
+        return optimize(node.children[0])
     }
 
     override fun visit(node: LOPNOOP): OPBase {
-        return optimize(node.child)
+        return optimize(node.children[0])
     }
 
 }

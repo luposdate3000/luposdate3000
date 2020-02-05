@@ -50,6 +50,6 @@ import lupos.s13keyDistributionOptimizer.OptimizerVisitorKeyDistribution
 class KeyDistributionOptimizer(transactionID: Long) : OptimizerVisitorKeyDistribution(transactionID) {
 
     override fun visit(node: LOPServiceIRI): OPBase {
-        return POPServiceIRI(transactionID, node.name, node.silent, optimize(node.constraint) as POPBase)
+        return POPServiceIRI(transactionID, node.name, node.silent, optimize(node.children[0]) as POPBase)
     }
 }

@@ -5,23 +5,25 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.noinput.LOPVariable
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
+import lupos.s09physicalOperators.*
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
-import lupos.s09physicalOperators.singleinput.POPSingleInputBase
 
 
-class POPLimit : POPSingleInputBase {
+class POPLimit : POPBase {
+    override val children: Array<OPBase> = arrayOf(OPNothing())
     private val resultSetOld: ResultSet
     private val resultSetNew = ResultSet()
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     val limit: Int
     private var count = 0
 
-    constructor(limit: Int, child: OPBase) : super(child) {
+    constructor(limit: Int, child: OPBase) : super() {
         this.limit = limit
-        resultSetOld = child.getResultSet()
+        children[0] = child
+        resultSetOld = children[0].getResultSet()
         for (v in resultSetOld.getVariableNames())
             variables.add(Pair(resultSetNew.createVariable(v), resultSetOld.createVariable(v)))
     }
@@ -31,17 +33,17 @@ class POPLimit : POPSingleInputBase {
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        return child.getProvidedVariableNames()
+        return children[0].getProvidedVariableNames()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return child.getRequiredVariableNames()
+        return children[0].getRequiredVariableNames()
     }
 
     override fun hasNext(): Boolean {
         try {
             Trace.start("POPLimit.hasNext")
-            return count < limit && child.hasNext()
+            return count < limit && children[0].hasNext()
         } finally {
             Trace.stop("POPLimit.hasNext")
         }
@@ -51,7 +53,7 @@ class POPLimit : POPSingleInputBase {
         try {
             Trace.start("POPLimit.next")
             var rsNew = resultSetNew.createResultRow()
-            val rsOld = child.next()
+            val rsOld = children[0].next()
             for (v in variables) {
                 // TODO reuse resultSet
                 rsNew[v.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[v.second]))
@@ -66,7 +68,7 @@ class POPLimit : POPSingleInputBase {
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPLimit")
         res.addAttribute("limit", "" + limit)
-        res.addContent(XMLElement("child").addContent(child.toXMLElement()))
+        res.addContent(childrenToXML())
         return res
     }
 }

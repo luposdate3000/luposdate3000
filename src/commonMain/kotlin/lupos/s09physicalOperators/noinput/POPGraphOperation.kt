@@ -11,6 +11,8 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTNamedGraphRef
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.GraphOperationType
 import lupos.s04logicalOperators.OPBase
 import lupos.s05tripleStore.PersistentStore
@@ -21,6 +23,7 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPGraphOperation(val transactionID: Long, val silent: Boolean, val graphref1: ASTGraphRef, val graphref2: ASTGraphRef?, val action: GraphOperationType, val pstore: PersistentStore) : POPBase() {
+    override val children: Array<OPBase> = arrayOf()
     private val resultSetNew = ResultSet()
 
     private var first = true
@@ -61,8 +64,8 @@ class POPGraphOperation(val transactionID: Long, val silent: Boolean, val graphr
                         GraphOperationType.COPY -> {
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
-                                    pstore.getNamedGraph(i2s(graphref2),true).truncate()
-                                    pstore.getNamedGraph(i2s(graphref2),true).addData(transactionID, pstore.getDefaultGraph().getIterator("s", "p", "o"))
+                                    pstore.getNamedGraph(i2s(graphref2), true).truncate()
+                                    pstore.getNamedGraph(i2s(graphref2), true).addData(transactionID, pstore.getDefaultGraph().getIterator("s", "p", "o"))
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                             }
@@ -70,8 +73,8 @@ class POPGraphOperation(val transactionID: Long, val silent: Boolean, val graphr
                         GraphOperationType.MOVE -> {
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
-                                    pstore.getNamedGraph(i2s(graphref2),true).truncate()
-                                    pstore.getNamedGraph(i2s(graphref2),true).addData(transactionID, pstore.getDefaultGraph().getIterator("s", "p", "o"))
+                                    pstore.getNamedGraph(i2s(graphref2), true).truncate()
+                                    pstore.getNamedGraph(i2s(graphref2), true).addData(transactionID, pstore.getDefaultGraph().getIterator("s", "p", "o"))
                                     pstore.getDefaultGraph().truncate()
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
@@ -80,7 +83,7 @@ class POPGraphOperation(val transactionID: Long, val silent: Boolean, val graphr
                         GraphOperationType.ADD -> {
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
-                                    pstore.getNamedGraph(i2s(graphref2),true).addData(transactionID, pstore.getDefaultGraph().getIterator("s", "p", "o"))
+                                    pstore.getNamedGraph(i2s(graphref2), true).addData(transactionID, pstore.getDefaultGraph().getIterator("s", "p", "o"))
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                             }
@@ -91,14 +94,14 @@ class POPGraphOperation(val transactionID: Long, val silent: Boolean, val graphr
                 is ASTIriGraphRef -> {
                     when (action) {
                         GraphOperationType.CREATE -> pstore.createGraph(i2s(graphref1))
-                        GraphOperationType.CLEAR -> pstore.getNamedGraph(i2s(graphref1),true).truncate()
+                        GraphOperationType.CLEAR -> pstore.getNamedGraph(i2s(graphref1), true).truncate()
                         GraphOperationType.DROP -> pstore.dropGraph(i2s(graphref1))
                         GraphOperationType.COPY -> {
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
                                     if (i2s(graphref2) != i2s(graphref1)) {
-                                        pstore.getNamedGraph(i2s(graphref2),true).truncate()
-                                        pstore.getNamedGraph(i2s(graphref2),true).addData(transactionID, pstore.getNamedGraph(i2s(graphref1)).getIterator("s", "p", "o"))
+                                        pstore.getNamedGraph(i2s(graphref2), true).truncate()
+                                        pstore.getNamedGraph(i2s(graphref2), true).addData(transactionID, pstore.getNamedGraph(i2s(graphref1)).getIterator("s", "p", "o"))
                                     }
                                 }
                                 is ASTDefaultGraphRef -> {
@@ -112,8 +115,8 @@ class POPGraphOperation(val transactionID: Long, val silent: Boolean, val graphr
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
                                     if (i2s(graphref2) != i2s(graphref1)) {
-                                        pstore.getNamedGraph(i2s(graphref2),true).truncate()
-                                        pstore.getNamedGraph(i2s(graphref2),true).addData(transactionID, pstore.getNamedGraph(i2s(graphref1)).getIterator("s", "p", "o"))
+                                        pstore.getNamedGraph(i2s(graphref2), true).truncate()
+                                        pstore.getNamedGraph(i2s(graphref2), true).addData(transactionID, pstore.getNamedGraph(i2s(graphref1)).getIterator("s", "p", "o"))
                                         pstore.dropGraph(i2s(graphref1))
                                     }
                                 }
@@ -129,7 +132,7 @@ class POPGraphOperation(val transactionID: Long, val silent: Boolean, val graphr
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
                                     if (i2s(graphref2) != i2s(graphref1))
-                                        pstore.getNamedGraph(i2s(graphref2),true).addData(transactionID, pstore.getNamedGraph(i2s(graphref1)).getIterator("s", "p", "o"))
+                                        pstore.getNamedGraph(i2s(graphref2), true).addData(transactionID, pstore.getNamedGraph(i2s(graphref1)).getIterator("s", "p", "o"))
                                 }
                                 is ASTDefaultGraphRef -> {
                                     pstore.getDefaultGraph().addData(transactionID, pstore.getNamedGraph(i2s(graphref1)).getIterator("s", "p", "o"))
@@ -144,7 +147,7 @@ class POPGraphOperation(val transactionID: Long, val silent: Boolean, val graphr
                     pstore.getGraphNames().forEach { name ->
                         when (action) {
                             GraphOperationType.CREATE -> pstore.createGraph(name)
-                            GraphOperationType.CLEAR -> pstore.getNamedGraph(name,true).truncate()
+                            GraphOperationType.CLEAR -> pstore.getNamedGraph(name, true).truncate()
                             GraphOperationType.DROP -> pstore.dropGraph(name)
                             GraphOperationType.COPY -> {
                                 when (graphref2) {

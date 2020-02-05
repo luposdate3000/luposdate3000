@@ -40,7 +40,9 @@ import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.LOPBase
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.parseFromASTNode
@@ -64,17 +66,17 @@ class DateTime {
     val timezoneHours: Int
     val timezoneMinutes: Int
 
-constructor(){
-val time = com.soywiz.klock.DateTime.now()
-year=time.yearInt
-month=time.month1
-day=time.dayOfMonth
-hours=time.hours
-minutes=time.minutes
-seconds=time.seconds
-timezoneHours=0
-timezoneMinutes=0
-}
+    constructor() {
+        val time = com.soywiz.klock.DateTime.now()
+        year = time.yearInt
+        month = time.month1
+        day = time.dayOfMonth
+        hours = time.hours
+        minutes = time.minutes
+        seconds = time.seconds
+        timezoneHours = 0
+        timezoneMinutes = 0
+    }
 
     constructor(str: String) {
         println("DateTime from $str")
@@ -410,7 +412,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class POPExpression : LOPBase {
-
+    override val children: Array<OPBase> = arrayOf()
     var aggregateMode = TmpAggregateMode.AMCollect
 
     private val dataTypeInteger = "^^<http://www.w3.org/2001/XMLSchema#integer>"
@@ -576,12 +578,14 @@ class POPExpression : LOPBase {
             is ASTVar -> {
                 return DateTime(resultSet.getValue(resultRow[resultSet.createVariable(node.name)]))
             }
-is ASTBuiltInCall -> {
+            is ASTBuiltInCall -> {
                 when (node.function) {
-		BuiltInFunctions.NOW -> {return DateTime()}
-		else-> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperDateTime ${classNameToString(node)} ${node.function}")
-	}
-}
+                    BuiltInFunctions.NOW -> {
+                        return DateTime()
+                    }
+                    else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperDateTime ${classNameToString(node)} ${node.function}")
+                }
+            }
             else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperDateTime ${classNameToString(node)}")
         }
     }
@@ -640,18 +644,19 @@ is ASTBuiltInCall -> {
             else -> return ""
         }
     }
+
     fun extractDatatypeFromLiteral(literal: String): String {
         println("extractDatatypeFromLiteral ${literal} ${literal.endsWith(dataTypeString)} ${!literal.endsWith(">")}")
         when {
             literal.contains("^^<") && literal.endsWith(">") -> {
-val res= literal.substring(literal.lastIndexOf("^^<") + 2, literal.length)
-println("datatype::"+res)
-return res
-}
+                val res = literal.substring(literal.lastIndexOf("^^<") + 2, literal.length)
+                println("datatype::" + res)
+                return res
+            }
             else -> {
-println("datatype::")
-return ""
-}
+                println("datatype::")
+                return ""
+            }
         }
     }
 
@@ -716,14 +721,14 @@ return ""
                         val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1]))
                         return a.contains(b)
                     }
-		BuiltInFunctions.isLITERAL->{
-val tmp=evaluateHelperString(resultSet, resultRow, node.children[0])
-return tmp.startsWith("\"") && tmp.endsWith("\"")
-}
-		BuiltInFunctions.isIRI->{
-			val tmp=evaluateHelperString(resultSet, resultRow, node.children[0])
-			return tmp.startsWith("<") && tmp.endsWith(">")
-		}
+                    BuiltInFunctions.isLITERAL -> {
+                        val tmp = evaluateHelperString(resultSet, resultRow, node.children[0])
+                        return tmp.startsWith("\"") && tmp.endsWith("\"")
+                    }
+                    BuiltInFunctions.isIRI -> {
+                        val tmp = evaluateHelperString(resultSet, resultRow, node.children[0])
+                        return tmp.startsWith("<") && tmp.endsWith(">")
+                    }
                     else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperBoolean ${classNameToString(node)} ${node.function}")
                 }
             }
@@ -734,7 +739,7 @@ return tmp.startsWith("\"") && tmp.endsWith("\"")
     fun evaluateHelperString(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): String {
         when (getResultType(resultSet, resultRow, node)) {
             TmpResultType.RSBoolean -> return "\"" + evaluateHelperBoolean(resultSet, resultRow, node) + "\"" + dataTypeBoolean
-	TmpResultType.RSDateTime -> return "\"" +evaluateHelperDateTime(resultSet, resultRow, node) + "\"" + dataTypeDateTime
+            TmpResultType.RSDateTime -> return "\"" + evaluateHelperDateTime(resultSet, resultRow, node) + "\"" + dataTypeDateTime
             TmpResultType.RSInteger -> {
 /*
 ATTENTION !!! here is only ONE correct solution ... if compiled as native
@@ -837,34 +842,34 @@ println(tmp2.toString().replace(".0",""))
                             return "\"" + aas + bbs + "\""
                         return "\"" + aas + bbs + "\"@" + aa
                     }
-BuiltInFunctions.URI->{
+                    BuiltInFunctions.URI -> {
 //TODO evaluate base prefix and prepend to result
-val res=evaluateHelperString(resultSet, resultRow, node.children[0])
-return "<"+extractStringFromLiteral(res)+">"
-}
-BuiltInFunctions.IRI->{
+                        val res = evaluateHelperString(resultSet, resultRow, node.children[0])
+                        return "<" + extractStringFromLiteral(res) + ">"
+                    }
+                    BuiltInFunctions.IRI -> {
 //TODO evaluate base prefix and prepend to result
-val res=evaluateHelperString(resultSet, resultRow, node.children[0])
-return "<"+extractStringFromLiteral(res)+">"
-}
+                        val res = evaluateHelperString(resultSet, resultRow, node.children[0])
+                        return "<" + extractStringFromLiteral(res) + ">"
+                    }
 
-BuiltInFunctions.STRDT->{
-val value=evaluateHelperString(resultSet, resultRow, node.children[0])
-val type=evaluateHelperString(resultSet, resultRow, node.children[1])
-val res= "\""+value+"\"^^<"+type+">"
-println("BuiltInFunctions.STRDT :: $res")
-return res
-}
-BuiltInFunctions.STRLANG->{
-val value=evaluateHelperString(resultSet, resultRow, node.children[0])
-val lang=evaluateHelperString(resultSet, resultRow, node.children[1])
-val res= "\""+value+"\"@"+lang
-println("BuiltInFunctions.STRLANG :: $res")
-return res
-}
-			BuiltInFunctions.UUID->return "<urn:uuid:"+uuid4()+">"
-		BuiltInFunctions.STRUUID->			return ""+uuid4()
-		    BuiltInFunctions.DATATYPE->return extractDatatypeFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
+                    BuiltInFunctions.STRDT -> {
+                        val value = evaluateHelperString(resultSet, resultRow, node.children[0])
+                        val type = evaluateHelperString(resultSet, resultRow, node.children[1])
+                        val res = "\"" + value + "\"^^<" + type + ">"
+                        println("BuiltInFunctions.STRDT :: $res")
+                        return res
+                    }
+                    BuiltInFunctions.STRLANG -> {
+                        val value = evaluateHelperString(resultSet, resultRow, node.children[0])
+                        val lang = evaluateHelperString(resultSet, resultRow, node.children[1])
+                        val res = "\"" + value + "\"@" + lang
+                        println("BuiltInFunctions.STRLANG :: $res")
+                        return res
+                    }
+                    BuiltInFunctions.UUID -> return "<urn:uuid:" + uuid4() + ">"
+                    BuiltInFunctions.STRUUID -> return "" + uuid4()
+                    BuiltInFunctions.DATATYPE -> return extractDatatypeFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
                     BuiltInFunctions.LANG -> return "\"" + extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])) + "\""
                     BuiltInFunctions.STR -> return evaluateHelperString(resultSet, resultRow, node.children[0])
                     BuiltInFunctions.MD5 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().md5().toHexString() + "\""

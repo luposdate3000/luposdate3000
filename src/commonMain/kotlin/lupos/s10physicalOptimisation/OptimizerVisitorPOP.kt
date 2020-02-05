@@ -39,7 +39,7 @@ abstract class OptimizerVisitorPOP(transactionID: Long) : OptimizerVisitorLOP(tr
     }
 
     open fun visit(node: POPModify): OPBase {
-        return POPModify(transactionID, node.iri, node.insert, node.delete, node.pstore, optimize(node.child))
+        return POPModify(transactionID, node.iri, node.insert, node.delete, node.pstore, optimize(node.children[0]))
     }
 
     open fun visit(node: POPModifyData): OPBase {
@@ -48,15 +48,15 @@ abstract class OptimizerVisitorPOP(transactionID: Long) : OptimizerVisitorLOP(tr
     }
 
     open fun visit(node: POPFilterExact): OPBase {
-        return POPFilterExact(optimize(node.variable) as LOPVariable, node.value, optimize(node.child))
+        return POPFilterExact(optimize(node.variable) as LOPVariable, node.value, optimize(node.children[0]))
     }
 
     open fun visit(node: POPProjection): OPBase {
-        return POPProjection(node.variables, optimize(node.child))
+        return POPProjection(node.variables, optimize(node.children[0]))
     }
 
     open fun visit(node: POPRename): OPBase {
-        return POPRename(optimize(node.nameTo) as LOPVariable, optimize(node.nameFrom) as LOPVariable, optimize(node.child))
+        return POPRename(optimize(node.nameTo) as LOPVariable, optimize(node.nameFrom) as LOPVariable, optimize(node.children[0]))
     }
 
     open fun visit(node: POPTripleStoreIteratorBase): OPBase {
@@ -70,15 +70,15 @@ abstract class OptimizerVisitorPOP(transactionID: Long) : OptimizerVisitorLOP(tr
     }
 
     open fun visit(node: POPBind): OPBase {
-        return POPBind(node.name, optimize(node.expression) as POPExpression, optimize(node.child))
+        return POPBind(node.name, optimize(node.expression) as POPExpression, optimize(node.children[0]))
     }
 
     open fun visit(node: POPBindUndefined): OPBase {
-        return POPBindUndefined(node.name, optimize(node.child))
+        return POPBindUndefined(node.name, optimize(node.children[0]))
     }
 
     open fun visit(node: POPDistinct): OPBase {
-        return POPDistinct(optimize(node.child))
+        return POPDistinct(optimize(node.children[0]))
     }
 
     open fun visit(node: POPEmptyRow): OPBase {
@@ -86,7 +86,7 @@ abstract class OptimizerVisitorPOP(transactionID: Long) : OptimizerVisitorLOP(tr
     }
 
     open fun visit(node: POPFilter): OPBase {
-        return POPFilter(node.filter, optimize(node.child))
+        return POPFilter(node.filter, optimize(node.children[0]))
     }
 
     open fun visit(node: POPGroup): OPBase {
@@ -95,28 +95,28 @@ abstract class OptimizerVisitorPOP(transactionID: Long) : OptimizerVisitorLOP(tr
             bindings = POPBind(LOPVariable(node.getResultSet().getVariable(v)), e, bindings)
         }
         if (bindings is POPEmptyRow)
-            return POPGroup(node.by, null, optimize(node.child))
-        return POPGroup(node.by, optimize(bindings) as POPBind, optimize(node.child))
+            return POPGroup(node.by, null, optimize(node.children[0]))
+        return POPGroup(node.by, optimize(bindings) as POPBind, optimize(node.children[0]))
     }
 
     open fun visit(node: POPJoinHashMap): OPBase {
-        return POPJoinHashMap(optimize(node.child[0]), optimize(node.child[1]), node.optional)
+        return POPJoinHashMap(optimize(node.children[0]), optimize(node.children[1]), node.optional)
     }
 
     open fun visit(node: POPLimit): OPBase {
-        return POPLimit(node.limit, optimize(node.child))
+        return POPLimit(node.limit, optimize(node.children[0]))
     }
 
     open fun visit(node: POPMakeBooleanResult): OPBase {
-        return POPMakeBooleanResult(optimize(node.child))
+        return POPMakeBooleanResult(optimize(node.children[0]))
     }
 
     open fun visit(node: POPSort): OPBase {
-        return POPSort(LOPVariable(node.getResultSet().getVariable(node.sortBy)), node.sortOrder, optimize(node.child))
+        return POPSort(LOPVariable(node.getResultSet().getVariable(node.sortBy)), node.sortOrder, optimize(node.children[0]))
     }
 
     open fun visit(node: POPUnion): OPBase {
-        return POPUnion(optimize(node.childA), optimize(node.childB))
+        return POPUnion(optimize(node.children[0]), optimize(node.children[0]))
     }
 
     open fun visit(node: POPExpression): OPBase {
@@ -124,11 +124,11 @@ abstract class OptimizerVisitorPOP(transactionID: Long) : OptimizerVisitorLOP(tr
     }
 
     open fun visit(node: POPOffset): OPBase {
-        return POPOffset(node.offset, optimize(node.child))
+        return POPOffset(node.offset, optimize(node.children[0]))
     }
 
     open fun visit(node: POPTemporaryStore): OPBase {
-        return POPTemporaryStore(optimize(node.child))
+        return POPTemporaryStore(optimize(node.children[0]))
     }
 
     open fun visit(node: POPValues): OPBase {

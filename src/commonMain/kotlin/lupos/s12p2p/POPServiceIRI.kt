@@ -10,15 +10,16 @@ import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBase
+import lupos.s09physicalOperators.POPBaseNullableIterator
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 import lupos.s09physicalOperators.singleinput.POPBindUndefined
 import lupos.s09physicalOperators.singleinput.POPFilterExact
-import lupos.s09physicalOperators.singleinput.POPSingleInputBaseNullableIterator
 import lupos.s12p2p.P2P
 import lupos.s12p2p.P2PLocalDummy
 
 
 class POPServiceIRI : POPBase {
+    override val children: Array<OPBase> = arrayOf()
     val transactionID: Long
     private val resultSet: ResultSet
     val constraint: OPBase?

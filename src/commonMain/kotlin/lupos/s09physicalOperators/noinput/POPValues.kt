@@ -6,6 +6,8 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.LOPVariable
@@ -20,6 +22,7 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPValues : POPBase {
+    override val children: Array<OPBase> = arrayOf()
     private val resultSet = ResultSet()
     private val variables = mutableListOf<Variable>()
     private var iterator: Iterator<Map<Variable, Value>>
