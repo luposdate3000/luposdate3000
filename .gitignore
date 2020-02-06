@@ -2,8 +2,8 @@
 .gradle
 .idea
 build
-buildNative
-buildJvm
+buildNative*
+buildJvm*
 gradle
 tmp
 gradlew
@@ -19,3 +19,4 @@ b2
 x2
 c
 c2
+*.generated
