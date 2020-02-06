@@ -52,7 +52,7 @@ class POPServiceIRI : POPBase {
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return originalConstraint.getRequiredVariableNames()
+        return originalConstraint.getProvidedVariableNames()
     }
 
     override fun getResultSet(): ResultSet {

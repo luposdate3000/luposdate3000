@@ -2,7 +2,7 @@
 
 for chooseS00Trace in "commonS00TraceOn" "commonS00TraceOff"
 do
-for chooseS03 in "commonS03DictionaryNoneMain" "commonS03DictionaryQueryLocalLongMain"
+for chooseS03 in "commonS03DictionaryNoneMain" "commonS03DictionaryQueryLocalLongMain" "commonS03DictionaryQueryLocalLongArrayMain"
 do
 for chooseS05 in "commonS05HashMapMain"
 do

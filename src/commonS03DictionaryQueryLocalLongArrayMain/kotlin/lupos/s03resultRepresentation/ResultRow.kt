@@ -6,14 +6,19 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 
 
-class ResultRow() : Comparable<ResultRow> {
-    val values = mutableMapOf<Variable, Value>()
+class ResultRow : Comparable<ResultRow> {
+    val values: Array<Value>
+
+    constructor(columns: Int, undefValue: Value) {
+        values = Array<Value>(columns, { undefValue })
+    }
+
     operator fun set(name: Variable, value: Value) {
-        values[name] = value
+        values[name.toInt()] = value
     }
 
     operator fun get(name: Variable): Value {
-        return values[name]!!
+        return values[name.toInt()]!!
     }
 
     override fun toString(): String {
@@ -27,7 +32,7 @@ class ResultRow() : Comparable<ResultRow> {
             res = s
             return res
         }
-        for (k in values.keys) {
+        for (k in values.indices) {
             if (other.values[k] == null) {
                 res = 1
                 return res
@@ -48,7 +53,10 @@ class ResultRow() : Comparable<ResultRow> {
     }
 
     override fun hashCode(): Int {
-        return values.hashCode()
+        var res = values.size.hashCode()
+        for (v in values)
+            res += v.hashCode()
+        return res
     }
 
 }
