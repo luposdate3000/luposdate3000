@@ -15,14 +15,20 @@ buildDir=buildJvm$buildname
 
 function execJvm
 {
-	./$buildDir/distributions/luposdate3000/bin/luposdate3000 > x-$buildName 2>&1
+	./$buildDir/distributions/luposdate3000/bin/luposdate3000 > log/x-$buildName 2>&1
 }
 
-{ { time execJvm ; } > c-$buildName 2>&1 ;} &
+{ { time execJvm ; } > log/c-$buildName 2>&1 ;} &
 wait
+(
+cd log
 cat x-$buildName | grep -e Exception -e Success -e Failed -e "Token unrecognized" -e "java.lang" -e "lupos.s1buildSyntaxTree.UnexpectedToken" -e "Error in the following line" | sort | uniq -c | sed "s/kotlin.//g" | sed "s/java.lang.//g" >>c-$buildName
 grep -e "Test: " -e Failed -e Success x-$buildName | grep -B1 -e Failed -e Success >> c-$buildName
 echo "diff a c-$buildName"
 diff a c-$buildName
+)
 
+done
+done
+done
 done

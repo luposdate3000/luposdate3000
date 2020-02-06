@@ -10,13 +10,7 @@ gradlew
 gradlew.bat
 */build
 */out
-x
 *.swp
 run
-a
-b
-b2
-x2
-c
-c2
 *.generated
+log

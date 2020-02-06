@@ -1,4 +1,5 @@
 #!/bin/bash
+mkdir log
 gradle --build-file="build.gradle.jvm" build -x test &
 gradle linkReleaseExecutableLinuxX64 &
 wait
