@@ -54,9 +54,6 @@ abstract class OPBase : ResultSetIterator {
             c.syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
         val res = (additionalProvided + getProvidedVariableNames()).containsAll(getRequiredVariableNames())
         if (!res) {
-            println("provide: ${getProvidedVariableNames() + additionalProvided}")
-            println("require: ${getRequiredVariableNames()}")
-            println(toXMLElement().toPrettyString())
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
             } else {
@@ -66,7 +63,6 @@ abstract class OPBase : ResultSetIterator {
     }
 
     fun setChild(child: OPBase): OPBase {
-        println("setChild ${classNameToString(this)} ${classNameToString(child)} ${classNameToString(children[0])}")
         require(children.size > 0)
         this.children[0] = child
         return child
@@ -75,7 +71,6 @@ abstract class OPBase : ResultSetIterator {
     fun getLatestChild(): OPBase {
         if (children.size > 0 && children[0].children.size > 0)
             return children[0].getLatestChild()
-        println("getLatestChild ${classNameToString(this)} ${children.size} ${classNameToString(this.children[0])} ${children[0].children.size}")
         return this
     }
 }

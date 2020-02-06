@@ -63,7 +63,6 @@ class POPGroup : POPBaseNullableIterator {
     }
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
-        println(additionalProvided)
         require(additionalProvided.isEmpty())
         val localProvide = additionalProvided + children[0].getProvidedVariableNames()
         val localRequire = mutableListOf<String>()
@@ -75,9 +74,6 @@ class POPGroup : POPBaseNullableIterator {
             c.syntaxVerifyAllVariableExists(localProvide, autocorrect)
         val res = localProvide.containsAll(localRequire)
         if (!res) {
-            println("provide: ${getProvidedVariableNames() + additionalProvided}")
-            println("require: ${getRequiredVariableNames()}")
-            println(toXMLElement().toPrettyString())
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
             } else {

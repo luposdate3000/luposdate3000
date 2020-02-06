@@ -13,7 +13,6 @@ import platform.posix.perror
 
 actual fun readFileContents(filename: String): String {
     var result: String = ""
-    println("filename $filename")
     val file = fopen(filename, "r")
     if (file == null) {
         perror("cannot open input file $filename")

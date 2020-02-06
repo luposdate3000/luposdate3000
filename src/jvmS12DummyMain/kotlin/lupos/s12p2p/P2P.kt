@@ -78,7 +78,6 @@ object P2P {
 
     fun execInsertOnNamedNode(nodeName: String, data: XMLElement) {
 /*insert "data" on remote node - if it exist - otherwiese throw an exception*/
-        println(data.toPrettyString())
         runBlocking {
             val response = client.request(Http.Method.GET, "http://${resolveNodeName(nodeName)}${EndpointImpl.REQUEST_XML_INPUT[0]}?EndpointImpl.REQUEST_XML_INPUT[1]=" + URL.encodeComponent(data.toPrettyString()))
         }

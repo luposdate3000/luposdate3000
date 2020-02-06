@@ -67,9 +67,7 @@ class POPUnion : POPBaseNullableIterator {
     override fun nnext(): ResultRow? {
         try {
             Trace.start("POPUnion.nnext")
-            println("POPUnion a ${children[0].toXMLElement()}")
             if (children[0].hasNext()) {
-                println("POPUnion b")
                 val rsOld = children[0].next()
                 val rsNew = resultSetNew.createResultRow()
                 for (p in variablesOldAMissing) {
@@ -81,9 +79,7 @@ class POPUnion : POPBaseNullableIterator {
                 }
                 return rsNew
             }
-            println("POPUnion c ${children[1].toXMLElement()}")
             if (children[1].hasNext()) {
-                println("POPUnion d")
                 val rsOld = children[1].next()
                 val rsNew = resultSetNew.createResultRow()
                 for (p in variablesOldBMissing) {
@@ -94,7 +90,6 @@ class POPUnion : POPBaseNullableIterator {
                 }
                 return rsNew
             }
-            println("POPUnion e")
             return null
         } finally {
             Trace.stop("POPUnion.nnext")

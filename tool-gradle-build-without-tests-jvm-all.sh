@@ -119,12 +119,8 @@ sourceSets {
 //    }
 //}
 EOF
-DIFF=$(diff tmp $buildFile)
-if [ "$DIFF" != "" ]
-then
 	echo "buildfile-diff"
 	mv tmp $buildFile
-fi
 (
 (
 	gradle --build-file="$buildFile" build -x test

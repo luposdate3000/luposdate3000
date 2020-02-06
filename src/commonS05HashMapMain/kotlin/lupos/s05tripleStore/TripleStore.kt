@@ -170,7 +170,6 @@ class TripleStore {
     val pendingModifications = mutableMapOf<Long, MutableSet<Pair<ModifyType, List<Value>>>>()
 
     private fun modifyData(transactionID: Long, vals: Value, valp: Value, valo: Value, action: ModifyType) {
-        println("modifyData $transactionID")
         var tmp = pendingModifications[transactionID]
         if (tmp == null) {
             tmp = mutableSetOf<Pair<ModifyType, List<Value>>>()
@@ -221,19 +220,14 @@ class TripleStore {
     }
 
     fun abort(transactionID: Long) {
-        println("abort $transactionID")
         pendingModifications.remove(transactionID)
     }
 
     fun commit2(transactionID: Long) {
-        println("commit $transactionID")
-        println(pendingModifications)
         val tmp = pendingModifications[transactionID]
-        println(tmp)
         if (tmp == null)
             return
         for (m in tmp) {
-            println(m)
             if (m.first == ModifyType.INSERT)
                 commitModifyData(m.second[0], m.second[1], m.second[2], ::addData)
             else if (m.first == ModifyType.DELETE)
@@ -308,7 +302,6 @@ class TripleStore {
     }
 
     fun addData(transactionID: Long, t: List<String?>) {
-        println("addData1 $transactionID")
         val vals = resultSet.createValue(t[0])
         val valp = resultSet.createValue(t[1])
         val valo = resultSet.createValue(t[2])
@@ -316,7 +309,6 @@ class TripleStore {
     }
 
     fun deleteData(transactionID: Long, t: List<String?>) {
-        println("deleteData $transactionID")
         val vals = resultSet.createValue(t[0])
         val valp = resultSet.createValue(t[1])
         val valo = resultSet.createValue(t[2])
@@ -324,7 +316,6 @@ class TripleStore {
     }
 
     fun addDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
-        println("addData1 $transactionID")
         require(t[0].second == true)
         require(t[1].second == true)
         require(t[2].second == true)
@@ -335,7 +326,6 @@ class TripleStore {
     }
 
     fun deleteDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
-        println("deleteData $transactionID")
         val vals = resultSet.createValue(t[0].first)
         val valp = resultSet.createValue(t[1].first)
         val valo = resultSet.createValue(t[2].first)
@@ -353,12 +343,10 @@ class TripleStore {
             tmp++
             row[o] = valo
         }
-        println("deleteDataVar \"$name\" $tmp $vals $valp $valo")
         when (tmp) {
             3 -> modifyData(transactionID, vals, valp, valo, ModifyType.DELETE)
             2 -> {
                 if (!t[2].second) {
-                    println("a:: $tripleStoreSP")
                     val iterator = tripleStoreSP[row]?.iterator()
                     if (iterator != null) {
                         while (iterator.hasNext()) {
@@ -367,7 +355,6 @@ class TripleStore {
                         }
                     }
                 } else if (!t[1].second) {
-                    println("b:: $tripleStoreSP")
                     val iterator = tripleStoreSO[row]?.iterator()
                     if (iterator != null) {
                         while (iterator.hasNext()) {
@@ -376,7 +363,6 @@ class TripleStore {
                         }
                     }
                 } else {
-                    println("c:: $tripleStoreSP")
                     val iterator = tripleStorePO[row]?.iterator()
                     if (iterator != null) {
                         while (iterator.hasNext()) {
@@ -393,7 +379,6 @@ class TripleStore {
     }
 
     fun addData(transactionID: Long, iterator: ResultSetIterator) {
-        println("addData2 $transactionID")
         val rsOld = iterator.getResultSet()
         val sOld = rsOld.createVariable("s")
         val pOld = rsOld.createVariable("p")

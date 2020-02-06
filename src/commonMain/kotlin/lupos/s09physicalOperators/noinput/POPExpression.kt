@@ -80,13 +80,9 @@ class DateTime {
     }
 
     constructor(str: String) {
-        println("DateTime from $str")
         if (str.length >= 10) {
-            println("#" + str.substring(1, 5) + "#")
             year = str.substring(1, 5).toInt()
-            println("#" + str.substring(6, 8) + "#")
             month = str.substring(6, 8).toInt()
-            println("#" + str.substring(9, 11) + "#")
             day = str.substring(9, 11).toInt()
         } else {
             year = 0
@@ -94,11 +90,8 @@ class DateTime {
             day = 0
         }
         if (str.length >= 19) {
-            println("#" + str.substring(12, 14) + "#")
             hours = str.substring(12, 14).toInt()
-            println("#" + str.substring(15, 17) + "#")
             minutes = str.substring(15, 17).toInt()
-            println("#" + str.substring(18, 20) + "#")
             seconds = str.substring(18, 20).toInt()
         } else {
             hours = 0
@@ -106,13 +99,9 @@ class DateTime {
             seconds = 0
         }
         if (str.length >= 25 && str[20] == '-') {
-            println("#" + str[21] + "#")
-            println("#" + str.substring(21, 23) + "#")
             timezoneHours = str.substring(21, 23).toInt()
-            println("#" + str.substring(24, 26) + "#")
             timezoneMinutes = str.substring(24, 26).toInt()
         } else if (str.length >= 20 && str[20] == 'Z') {
-            println("#" + str[20] + "#")
             timezoneHours = 0
             timezoneMinutes = 0
         } else {
@@ -530,7 +519,6 @@ class POPExpression : LOPBase {
                     tmp.endsWith(dataTypeDateTime) -> return TmpResultType.RSDateTime
                     tmp.startsWith("<http") -> return TmpResultType.RSString
                     else -> {
-                        println("guess result type to be TmpResultType.RSString (${tmp})")
                         return TmpResultType.RSString
                     }
                 }
@@ -638,7 +626,6 @@ class POPExpression : LOPBase {
     }
 
     fun extractStringFromLiteral(literal: String): String {
-        println("extractStringFromLiteral ${literal} ${literal.endsWith(dataTypeString)} ${!literal.endsWith(">")}")
         when {
             literal.endsWith(dataTypeString) -> return literal.substring(1, literal.length - 1 - dataTypeString.length)
             !literal.endsWith("\"") && !literal.endsWith(">") -> return literal.substring(1, literal.lastIndexOf("@") - 1)
@@ -649,7 +636,6 @@ class POPExpression : LOPBase {
     fun extractLanguageFromLiteral(literal: String?): String? {
         if (literal == null)
             return null
-        println("extractLanguageFromLiteral ${literal} ${literal.endsWith(dataTypeString)} ${!literal.endsWith(">")}")
         when {
             !literal.endsWith("\"") && !literal.endsWith(">") -> return literal.substring(literal.lastIndexOf("@") + 1, literal.length)
             else -> return null
@@ -659,15 +645,12 @@ class POPExpression : LOPBase {
     fun extractDatatypeFromLiteral(literal: String?): String? {
         if (literal == null)
             return null
-        println("extractDatatypeFromLiteral ${literal} ${literal.endsWith(dataTypeString)} ${!literal.endsWith(">")}")
         when {
             literal.contains("^^<") && literal.endsWith(">") -> {
                 val res = literal.substring(literal.lastIndexOf("^^<") + 2, literal.length)
-                println("datatype::" + res)
                 return res
             }
             else -> {
-                println("datatype::")
                 return null
             }
         }
@@ -721,7 +704,6 @@ class POPExpression : LOPBase {
                     BuiltInFunctions.STRENDS -> {
                         val a = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!)
                         val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1])!!)
-                        println("STRENDS $a $b")
                         return a.endsWith(b)
                     }
                     BuiltInFunctions.STRSTARTS -> {
@@ -821,7 +803,6 @@ println(tmp2.toString().replace(".0",""))
                     BuiltInFunctions.TIMEZONE -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).getTimeZone()
                     BuiltInFunctions.LCASE -> {
                         var tmp = evaluateHelperString(resultSet, resultRow, node.children[0])!!
-                        println("LCASE $tmp")
                         if (tmp.endsWith("\""))
                             return tmp.toLowerCase()
                         if (tmp.endsWith(dataTypeString)) {
@@ -832,7 +813,6 @@ println(tmp2.toString().replace(".0",""))
                     }
                     BuiltInFunctions.UCASE -> {
                         var tmp = evaluateHelperString(resultSet, resultRow, node.children[0])!!
-                        println("UCASE $tmp")
                         if (tmp.endsWith("\""))
                             return tmp.toUpperCase()
                         if (tmp.endsWith(dataTypeString)) {
@@ -875,14 +855,12 @@ println(tmp2.toString().replace(".0",""))
                         val value = evaluateHelperString(resultSet, resultRow, node.children[0])!!
                         val type = evaluateHelperString(resultSet, resultRow, node.children[1])!!
                         val res = "\"" + value + "\"^^<" + type + ">"
-                        println("BuiltInFunctions.STRDT :: $res")
                         return res
                     }
                     BuiltInFunctions.STRLANG -> {
                         val value = evaluateHelperString(resultSet, resultRow, node.children[0])!!
                         val lang = evaluateHelperString(resultSet, resultRow, node.children[1])!!
                         val res = "\"" + value + "\"@" + lang
-                        println("BuiltInFunctions.STRLANG :: $res")
                         return res
                     }
                     BuiltInFunctions.UUID -> return "<urn:uuid:" + uuid4() + ">"
@@ -901,23 +879,18 @@ println(tmp2.toString().replace(".0",""))
     }
 
     fun evaluateBoolean(resultSet: ResultSet, resultRow: ResultRow): Boolean {
-        println("resultRow:: " + resultRow)
         if (getResultType(resultSet, resultRow, child) != TmpResultType.RSBoolean)
             throw UnsupportedOperationException("${classNameToString(this)} evaluateBoolean ${classNameToString(child)}")
         val res = evaluateHelperBoolean(resultSet, resultRow, child)
-        println("POPExpressionB :: $res")
         return res
     }
 
     fun evaluate(resultSet: ResultSet, resultRow: ResultRow): String? {
-        println("resultRow:: " + resultRow)
         val res = evaluateHelperString(resultSet, resultRow, child)
-        println("POPExpressionS :: $res")
         return res
     }
 
     fun evaluate(resultSet: ResultSet, resultRows: List<ResultRow>): String? {
-        println("resultRow:: " + resultRows)
         aggregateMode = TmpAggregateMode.AMCollect
         aggregateCount = resultRows.count()
         aggregateTmp.clear()
@@ -929,7 +902,6 @@ println(tmp2.toString().replace(".0",""))
         }
         aggregateMode = TmpAggregateMode.AMResult
         val res = evaluate(resultSet, resultSet.createResultRow())
-        println("POPExpressionM :: $res")
         return res
     }
 

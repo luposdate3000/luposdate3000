@@ -6,7 +6,7 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 
 
-class ResultSet(dictionary: ResultSetDictionary) {
+class ResultSet(val dictionary: ResultSetDictionary) {
     val variables = mutableSetOf<String>()
 
     fun renameVariable(variableOld: String, variableNew: String): String {

@@ -8,7 +8,6 @@ class XMLElement {
     companion object {
         val XMLHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
         fun parseFromAny(data: String, filename: String): List<XMLElement>? {
-            println(filename)
             when {
                 filename.endsWith(".srx") -> return XMLElement.parseFromXml(data)
                 filename.endsWith(".tsv") -> return XMLElement.parseFromTsv(data)

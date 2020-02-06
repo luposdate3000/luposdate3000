@@ -15,7 +15,6 @@ class ResultSet(val dictionary: ResultSetDictionary) {
         variablesSTL.remove(variableOld)
         variablesSTL[variableNew] = l
         variablesLTS[l.toInt()] = variableNew
-        println("renameVariable $l $variableOld $variableNew")
         return l
     }
 
@@ -26,7 +25,6 @@ class ResultSet(val dictionary: ResultSetDictionary) {
         val l = 0L + variablesLTS.size
         variablesSTL[variable] = l
         variablesLTS.add(variable)
-        println("createVariable $l $variable")
         return l
     }
 

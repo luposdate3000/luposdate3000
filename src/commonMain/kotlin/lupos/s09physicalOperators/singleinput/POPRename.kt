@@ -39,9 +39,6 @@ class POPRename : POPBase {
             c.syntaxVerifyAllVariableExists(localProvide, autocorrect)
         val res = localProvide.containsAll(localRequire)
         if (!res) {
-            println("provide: ${getProvidedVariableNames() + additionalProvided}")
-            println("require: ${getRequiredVariableNames()}")
-            println(toXMLElement().toPrettyString())
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
             } else {

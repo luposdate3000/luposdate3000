@@ -81,7 +81,6 @@ class POPJoinHashMap : POPBaseNullableIterator {
                 if (!resultSet[1 - idx].isUndefValue(rowB, p.first))
                     row[p.second] = rowB[p.first]
             }
-            println("joinToQueue $rowA $rowB $row")
             queue.add(row)
         }
     }
@@ -89,7 +88,6 @@ class POPJoinHashMap : POPBaseNullableIterator {
     fun joinHelper(idx: Int) {
         try {
             val rowA = children[idx].next()
-            println("joinNext $idx $rowA")
             var keys = mutableSetOf<String>()
             keys.add("")
             var exactkey = ""
@@ -134,7 +132,6 @@ class POPJoinHashMap : POPBaseNullableIterator {
     }
 
     override fun nnext(): ResultRow? {
-        println("joinNext")
         try {
             Trace.start("POPJoinHashMap.nnext")
             while (true) {
@@ -155,7 +152,6 @@ class POPJoinHashMap : POPBaseNullableIterator {
                                     row[p.second] = rowA[p.first]
                                 for (p in variablesJ[0])
                                     row[p.second] = rowA[p.first]
-                                println("joinAddOptional $row")
                                 queue.add(row)
                             }
                             map[1][k] = mutableListOf<ResultRow>()
