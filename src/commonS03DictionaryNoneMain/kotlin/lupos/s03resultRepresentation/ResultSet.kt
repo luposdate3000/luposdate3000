@@ -29,8 +29,6 @@ class ResultSet(dictionary: ResultSetDictionary) {
     }
 
     fun createValue(value: String?): Value {
-        if (value == null)
-            return ""
         return value
     }
 
@@ -38,15 +36,15 @@ class ResultSet(dictionary: ResultSetDictionary) {
         return ResultRow()
     }
 
-    fun getValue(value: Value): String {
+    fun getValue(value: Value): String? {
         return value
     }
 
     fun isUndefValue(r: ResultRow, v: Variable): Boolean {
-        return r[v] == ""
+        return r[v] == null
     }
 
     fun setUndefValue(r: ResultRow, v: Variable) {
-        r[v] = ""
+        r[v] = null
     }
 }

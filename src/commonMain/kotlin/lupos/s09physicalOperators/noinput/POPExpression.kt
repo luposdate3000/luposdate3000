@@ -374,7 +374,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                 return helperToT(res)
             }
             is ASTVar -> {
-                val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
+                val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])!!
                 val tmp2 = tmp.substring(1, tmp.length - 1 - dataType.length)
                 return fromString(tmp2)
             }
@@ -520,6 +520,8 @@ class POPExpression : LOPBase {
                 if (!resultSet.getVariableNames().contains(node.name))
                     return TmpResultType.RSUndefined
                 val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
+		if(tmp==null)
+			return TmpResultType.RSUndefined
                 when {
                     tmp.endsWith(dataTypeInteger) -> return TmpResultType.RSInteger
                     tmp.endsWith(dataTypeDecimal) -> return TmpResultType.RSDecimal
@@ -581,7 +583,7 @@ class POPExpression : LOPBase {
     fun evaluateHelperDateTime(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): DateTime {
         when (node) {
             is ASTVar -> {
-                return DateTime(resultSet.getValue(resultRow[resultSet.createVariable(node.name)]))
+                return DateTime(resultSet.getValue(resultRow[resultSet.createVariable(node.name)])!!)
             }
             is ASTBuiltInCall -> {
                 when (node.function) {
@@ -616,8 +618,10 @@ class POPExpression : LOPBase {
             isAUpgradeableToB(commonDatatype(resultSet, resultRow, left, right), TmpResultType.RSDecimal) -> return evaluateDecimal.evaluateHelperBoolean(resultSet, resultRow, node)
             isAUpgradeableToB(commonDatatype(resultSet, resultRow, left, right), TmpResultType.RSInteger) -> return evaluateInteger.evaluateHelperBoolean(resultSet, resultRow, node)
             typeA == TmpResultType.RSString && typeB == TmpResultType.RSString -> {
-                val a = evaluateHelperString(resultSet, resultRow, left)!!
-                val b = evaluateHelperString(resultSet, resultRow, right)!!
+                val a = evaluateHelperString(resultSet, resultRow, left)
+                val b = evaluateHelperString(resultSet, resultRow, right)
+		if(a==null || b==null)
+			return false
                 when (node) {
                     is ASTEQ -> return a == b
                     is ASTLT -> return a < b
@@ -642,15 +646,19 @@ class POPExpression : LOPBase {
         }
     }
 
-    fun extractLanguageFromLiteral(literal: String): String {
+    fun extractLanguageFromLiteral(literal: String?): String? {
+if(literal==null)
+return null
         println("extractLanguageFromLiteral ${literal} ${literal.endsWith(dataTypeString)} ${!literal.endsWith(">")}")
         when {
             !literal.endsWith("\"") && !literal.endsWith(">") -> return literal.substring(literal.lastIndexOf("@") + 1, literal.length)
-            else -> return ""
+            else -> return null
         }
     }
 
-    fun extractDatatypeFromLiteral(literal: String): String {
+    fun extractDatatypeFromLiteral(literal: String?): String? {
+if(literal==null)
+return null
         println("extractDatatypeFromLiteral ${literal} ${literal.endsWith(dataTypeString)} ${!literal.endsWith(">")}")
         when {
             literal.contains("^^<") && literal.endsWith(">") -> {
@@ -660,7 +668,7 @@ class POPExpression : LOPBase {
             }
             else -> {
                 println("datatype::")
-                return ""
+                return null
             }
         }
     }
@@ -677,7 +685,7 @@ class POPExpression : LOPBase {
                 return res
             }
             is ASTVar -> {
-                val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
+                val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])!!
                 val tmp2 = tmp.substring(1, tmp.length - 1 - dataTypeBoolean.length)
                 return tmp2.toBoolean()
             }
@@ -706,8 +714,8 @@ class POPExpression : LOPBase {
                         return typeA == TmpResultType.RSInteger || typeA == TmpResultType.RSDecimal
                     }
                     BuiltInFunctions.LANGMATCHES -> {
-                        val a = extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!)
-                        val b = evaluateHelperString(resultSet, resultRow, node.children[1])!!
+                        val a = extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
+                        val b = evaluateHelperString(resultSet, resultRow, node.children[1])
                         return a == b
                     }
                     BuiltInFunctions.STRENDS -> {
@@ -792,7 +800,7 @@ println(tmp2.toString().replace(".0",""))
             }
             is ASTIri -> return "<" + node.iri + ">"
             is ASTLiteral -> return node.delimiter + node.content + node.delimiter
-            is ASTVar -> return resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
+            is ASTVar -> return resultSet.getValue(resultRow[resultSet.createVariable(node.name)])!!
             is ASTAddition -> throw ArithmeticException("ASTAddition can not be applied to String-Datatype")
             is ASTBuiltInCall -> {
                 when (node.function) {
@@ -848,7 +856,7 @@ println(tmp2.toString().replace(".0",""))
                             return "\"" + aas + bbs + "\""
                         val aa = extractLanguageFromLiteral(a)
                         val bb = extractLanguageFromLiteral(b)
-                        if (aa != bb || aa == "")
+                        if (aa != bb || aa==null || aa == "")
                             return "\"" + aas + bbs + "\""
                         return "\"" + aas + bbs + "\"@" + aa
                     }
@@ -879,8 +887,8 @@ println(tmp2.toString().replace(".0",""))
                     }
                     BuiltInFunctions.UUID -> return "<urn:uuid:" + uuid4() + ">"
                     BuiltInFunctions.STRUUID -> return "" + uuid4()
-                    BuiltInFunctions.DATATYPE -> return extractDatatypeFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!)
-                    BuiltInFunctions.LANG -> return "\"" + extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!) + "\""
+                    BuiltInFunctions.DATATYPE -> return extractDatatypeFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
+                    BuiltInFunctions.LANG -> return "\"" + extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])) + "\""
                     BuiltInFunctions.STR -> return evaluateHelperString(resultSet, resultRow, node.children[0])!!
                     BuiltInFunctions.MD5 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!).encodeToByteArray().md5().toHexString() + "\""
                     BuiltInFunctions.SHA1 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!).encodeToByteArray().sha1().toHexString() + "\""

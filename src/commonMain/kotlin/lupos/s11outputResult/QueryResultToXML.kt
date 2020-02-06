@@ -19,7 +19,7 @@ object QueryResultToXML {
         if (variableNames.size == 1 && variableNames[0] == "?boolean") {
             require(query.hasNext())
             val resultRow = query.next()
-            val value = resultSet.getValue(resultRow[resultSet.createVariable("?boolean")])
+            val value = resultSet.getValue(resultRow[resultSet.createVariable("?boolean")])!!
             val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
             require(value.endsWith("\"^^<" + datatype + ">"))
             nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<" + datatype + ">").length)))
@@ -35,9 +35,10 @@ object QueryResultToXML {
                 nodeResults.addContent(nodeResult)
                 val resultRow = query.next()
                 for (variable in variables) {
-                    val nodeBinding = XMLElement("binding").addAttribute("name", variable.first)
-                    val value = resultSet.getValue(resultRow[variable.second])
                     if (!resultSet.isUndefValue(resultRow, variable.second)) {
+                        val value = resultSet.getValue(resultRow[variable.second])!!
+		if(value.length>1){
+                        val nodeBinding = XMLElement("binding").addAttribute("name", variable.first)
                         if (value.startsWith("\"") && !value.endsWith("\"")) {
                             println("value:" + value)
                             val idx = value.lastIndexOf("\"^^<")
@@ -61,10 +62,12 @@ object QueryResultToXML {
                             nodeBinding.addContent(XMLElement("uri").addContent(value.substring(1, value.length - 1)))
                         else if (value.startsWith("_:"))
                             nodeBinding.addContent(XMLElement("bnode").addContent(value.substring(2, value.length)))
-                        else
+                        else{
                             nodeBinding.addContent(XMLElement("literal").addContent(value.substring(1, value.length - 1)))
+			}
                         nodeResult.addContent(nodeBinding)
                     }
+}
                 }
             }
         }

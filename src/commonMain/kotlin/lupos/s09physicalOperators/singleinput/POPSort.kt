@@ -71,10 +71,14 @@ class POPSort : POPBaseNullableIterator {
                     val rsNew = resultSetNew.createResultRow()
                     var key: String = ""
                     for (variable in variables) {
+                        rsNew[variable.first] = rsOld[variable.second]
+                        if (variable.first == sortBy){
                         val tmp = resultSetOld.getValue(rsOld[variable.second])
-                        rsNew[variable.first] = resultSetNew.createValue(tmp)
-                        if (variable.first == sortBy)
+				if(tmp==null)
+				key=""
+else
                             key = tmp
+			}
                     }
                     var tmp = tmpMutableMap[key]
                     if (tmp == null) {

@@ -13,7 +13,7 @@ class ResultRow() : Comparable<ResultRow> {
     }
 
     operator fun get(name: Variable): Value {
-        return values[name]!!
+        return values[name]
     }
 
     override fun toString(): String {

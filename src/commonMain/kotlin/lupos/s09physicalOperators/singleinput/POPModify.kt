@@ -63,7 +63,7 @@ class POPModify(override val dictionary: ResultSetDictionary, val transactionID:
                         val store = if (i.iriOrVar is ASTIri) {
                             pstore.getNamedGraph(i.iriOrVar.iri)
                         } else {
-                            pstore.getNamedGraph(resultSetOld.getValue(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)]))
+                            pstore.getNamedGraph(resultSetOld.getValue(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)])!!)
                         }
                         for (c in i.children) {
                             when (c) {
@@ -89,7 +89,7 @@ class POPModify(override val dictionary: ResultSetDictionary, val transactionID:
                         val store = if (i.iriOrVar is ASTIri) {
                             pstore.getNamedGraph(i.iriOrVar.iri)
                         } else {
-                            pstore.getNamedGraph(resultSetOld.getValue(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)]))
+                            pstore.getNamedGraph(resultSetOld.getValue(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)])!!)
                         }
                         for (c in i.children) {
                             when (c) {

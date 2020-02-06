@@ -116,8 +116,11 @@ class POPValues : POPBase {
         for (d in data) {
             val b = XMLElement("binding")
             bindings.addContent(b)
-            for ((k, v) in d)
-                b.addContent(XMLElement("value").addAttribute("name", resultSet.getVariable(k)).addAttribute("content", resultSet.getValue(v)))
+            for ((k, v) in d){
+		val value=resultSet.getValue(v)
+if(value!=null)
+                b.addContent(XMLElement("value").addAttribute("name", resultSet.getVariable(k)).addAttribute("content",value))
+		}
         }
         return res
     }

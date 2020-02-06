@@ -1,5 +1,7 @@
 #!/bin/bash
 mkdir log
+for chooseS00Trace in "commonS00TraceOn" "commonS00TraceOff"
+do
 for chooseS03 in "commonS03DictionaryNoneMain" "commonS03DictionaryQueryLocalLongMain"
 do
 for chooseS05 in "commonS05HashMapMain"
@@ -9,11 +11,11 @@ do
 for chooseS14 in "jvmS14KorioMain"
 do
 
-buildName="${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}"
+buildName="${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}"
 buildFile="build.gradle-${buildName}.jvm.generated"
 buildDir="buildJvm${buildName}"
 
-cat >$buildFile <<EOF
+cat >tmp <<EOF
 project.buildDir="$buildDir"
 buildscript {
 
@@ -105,6 +107,7 @@ sourceSets {
     main.kotlin.srcDirs += 'src/commonMainBak/kotlin'
     main.kotlin.srcDirs += 'src/commonS01HeapMain'
     main.kotlin.srcDirs += 'src/commonS01BufferMainmemoryMain/kotlin'
+    main.kotlin.srcDirs += 'src/$chooseS00Trace/kotlin'
     main.kotlin.srcDirs += 'src/$chooseS03/kotlin'
     main.kotlin.srcDirs += 'src/$chooseS05/kotlin'
     main.kotlin.srcDirs += 'src/$chooseS12/kotlin'
@@ -116,6 +119,12 @@ sourceSets {
 //    }
 //}
 EOF
+DIFF=$(diff tmp $buildFile)
+if [ "$DIFF" != "" ]
+then
+	echo "buildfile-diff"
+	mv tmp $buildFile
+fi
 (
 (
 	gradle --build-file="$buildFile" build -x test
@@ -124,11 +133,12 @@ EOF
 	cat ./luposdate3000/bin/luposdate3000 | sed "s/lupos.TestKt/lupos.s14endpoint.P2PKt/g"> ./luposdate3000/bin/luposdate3000-p2p
 	chmod +x ./luposdate3000/bin/luposdate3000-p2p
 ) > log/compile-$buildName.log 2>&1
-)&
+)
+done
 done
 done
 done
 done
 wait
-
+cat log/compile* | grep -v "ted performance impact of inlining" | grep -v "Name shadowed:"| grep -v "otlin/lupos/datastructures"| grep -v "kotlin/lupos/s02buildSyntaxTree/"| grep -v "kotlin/lupos/s01io/buffer/"| sort | uniq
 grep -rni -e Success -e Fail log/compile*log
