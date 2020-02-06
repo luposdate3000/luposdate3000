@@ -394,7 +394,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                     BuiltInFunctions.HOURS -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).hours)
                     BuiltInFunctions.MINUTES -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).minutes)
                     BuiltInFunctions.SECONDS -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).seconds)
-                    BuiltInFunctions.STRLEN -> return helperToT(expression.extractStringFromLiteral(expression.evaluateHelperString(resultSet, resultRow, node.children[0])).length)
+                    BuiltInFunctions.STRLEN -> return helperToT(expression.extractStringFromLiteral(expression.evaluateHelperString(resultSet, resultRow, node.children[0])!!).length)
                     BuiltInFunctions.IF -> {
                         if (expression.aggregateTmp[node.uuid] == 1)
                             return evaluateHelper(resultSet, resultRow, node.children[1])
@@ -614,8 +614,8 @@ this.dictionary=dictionary
             isAUpgradeableToB(commonDatatype(resultSet, resultRow, left, right), TmpResultType.RSDecimal) -> return evaluateDecimal.evaluateHelperBoolean(resultSet, resultRow, node)
             isAUpgradeableToB(commonDatatype(resultSet, resultRow, left, right), TmpResultType.RSInteger) -> return evaluateInteger.evaluateHelperBoolean(resultSet, resultRow, node)
             typeA == TmpResultType.RSString && typeB == TmpResultType.RSString -> {
-                val a = evaluateHelperString(resultSet, resultRow, left)
-                val b = evaluateHelperString(resultSet, resultRow, right)
+                val a = evaluateHelperString(resultSet, resultRow, left)!!
+                val b = evaluateHelperString(resultSet, resultRow, right)!!
                 when (node) {
                     is ASTEQ -> return a == b
                     is ASTLT -> return a < b
@@ -691,7 +691,7 @@ this.dictionary=dictionary
                 when (node.function) {
                     BuiltInFunctions.BOUND -> {
                         val name = (node.children[0] as ASTVar).name
-                        return resultSet.getVariableNames().contains(name) && resultSet.getUndefValue() != resultSet.getValue(resultRow[resultSet.createVariable(name)])
+                        return resultSet.getVariableNames().contains(name) && (! resultSet.isUndefValue(resultRow,resultSet.createVariable(name)))
                     }
                     BuiltInFunctions.IF -> {
                         if (aggregateTmp[node.uuid] == 1)
@@ -704,32 +704,32 @@ this.dictionary=dictionary
                         return typeA == TmpResultType.RSInteger || typeA == TmpResultType.RSDecimal
                     }
                     BuiltInFunctions.LANGMATCHES -> {
-                        val a = extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
-                        val b = evaluateHelperString(resultSet, resultRow, node.children[1])
+                        val a = extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!)
+                        val b = evaluateHelperString(resultSet, resultRow, node.children[1])!!
                         return a == b
                     }
                     BuiltInFunctions.STRENDS -> {
-                        val a = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
-                        val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1]))
+                        val a = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!)
+                        val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1])!!)
                         println("STRENDS $a $b")
                         return a.endsWith(b)
                     }
                     BuiltInFunctions.STRSTARTS -> {
-                        val a = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
-                        val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1]))
+                        val a = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!)
+                        val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1])!!)
                         return a.startsWith(b)
                     }
                     BuiltInFunctions.CONTAINS -> {
-                        val a = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
-                        val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1]))
+                        val a = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!)
+                        val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1])!!)
                         return a.contains(b)
                     }
                     BuiltInFunctions.isLITERAL -> {
-                        val tmp = evaluateHelperString(resultSet, resultRow, node.children[0])
+                        val tmp = evaluateHelperString(resultSet, resultRow, node.children[0])!!
                         return tmp.startsWith("\"") && tmp.endsWith("\"")
                     }
                     BuiltInFunctions.isIRI -> {
-                        val tmp = evaluateHelperString(resultSet, resultRow, node.children[0])
+                        val tmp = evaluateHelperString(resultSet, resultRow, node.children[0])!!
                         return tmp.startsWith("<") && tmp.endsWith(">")
                     }
                     else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperBoolean ${classNameToString(node)} ${node.function}")
@@ -739,7 +739,7 @@ this.dictionary=dictionary
         }
     }
 
-    fun evaluateHelperString(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): String {
+    fun evaluateHelperString(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): String? {
         when (getResultType(resultSet, resultRow, node)) {
             TmpResultType.RSBoolean -> return "\"" + evaluateHelperBoolean(resultSet, resultRow, node) + "\"" + dataTypeBoolean
             TmpResultType.RSDateTime -> return "\"" + evaluateHelperDateTime(resultSet, resultRow, node) + "\"" + dataTypeDateTime
@@ -769,7 +769,7 @@ println(tmp2.toString().replace(".0",""))
 */
                 return "\"" + ("" + evaluateInteger.evaluateHelper(resultSet, resultRow, node)).replace(".0", "") + "\"" + dataTypeInteger
             }
-            TmpResultType.RSUndefined -> return resultSet.getUndefValue()
+            TmpResultType.RSUndefined -> return null
             TmpResultType.RSDecimal -> {
                 val tmp = "" + evaluateDecimal.evaluateHelper(resultSet, resultRow, node)
                 if (tmp.contains(".") || tmp.contains("e") || tmp.contains("E"))
@@ -805,7 +805,7 @@ println(tmp2.toString().replace(".0",""))
                     BuiltInFunctions.TZ -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).getTZ()
                     BuiltInFunctions.TIMEZONE -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).getTimeZone()
                     BuiltInFunctions.LCASE -> {
-                        var tmp = evaluateHelperString(resultSet, resultRow, node.children[0])
+                        var tmp = evaluateHelperString(resultSet, resultRow, node.children[0])!!
                         println("LCASE $tmp")
                         if (tmp.endsWith("\""))
                             return tmp.toLowerCase()
@@ -816,7 +816,7 @@ println(tmp2.toString().replace(".0",""))
                         return tmp.substring(0, idx).toLowerCase() + tmp.substring(idx, tmp.length)
                     }
                     BuiltInFunctions.UCASE -> {
-                        var tmp = evaluateHelperString(resultSet, resultRow, node.children[0])
+                        var tmp = evaluateHelperString(resultSet, resultRow, node.children[0])!!
                         println("UCASE $tmp")
                         if (tmp.endsWith("\""))
                             return tmp.toUpperCase()
@@ -827,16 +827,16 @@ println(tmp2.toString().replace(".0",""))
                         return tmp.substring(0, idx).toUpperCase() + tmp.substring(idx, tmp.length)
                     }
                     BuiltInFunctions.CONCAT -> {
-                        val a = evaluateHelperString(resultSet, resultRow, node.children[0])
-                        val b = evaluateHelperString(resultSet, resultRow, node.children[1])
+                        val a = evaluateHelperString(resultSet, resultRow, node.children[0])!!
+                        val b = evaluateHelperString(resultSet, resultRow, node.children[1])!!
                         val aas = extractStringFromLiteral(a)
                         val bbs = extractStringFromLiteral(b)
                         if (a.endsWith(dataTypeString) && b.endsWith(dataTypeString))
                             return "\"" + aas + bbs + "\"" + dataTypeString
                         if (a.endsWith(">") && !a.endsWith(dataTypeString))
-                            return resultSet.getUndefValue()
+                            return null
                         if (b.endsWith(">") && !b.endsWith(dataTypeString))
-                            return resultSet.getUndefValue()
+                            return null
                         if (a.endsWith(">") || b.endsWith(">"))
                             return "\"" + aas + bbs + "\""
                         val aa = extractLanguageFromLiteral(a)
@@ -847,37 +847,37 @@ println(tmp2.toString().replace(".0",""))
                     }
                     BuiltInFunctions.URI -> {
 //TODO evaluate base prefix and prepend to result
-                        val res = evaluateHelperString(resultSet, resultRow, node.children[0])
+                        val res = evaluateHelperString(resultSet, resultRow, node.children[0])!!
                         return "<" + extractStringFromLiteral(res) + ">"
                     }
                     BuiltInFunctions.IRI -> {
 //TODO evaluate base prefix and prepend to result
-                        val res = evaluateHelperString(resultSet, resultRow, node.children[0])
+                        val res = evaluateHelperString(resultSet, resultRow, node.children[0])!!
                         return "<" + extractStringFromLiteral(res) + ">"
                     }
 
                     BuiltInFunctions.STRDT -> {
-                        val value = evaluateHelperString(resultSet, resultRow, node.children[0])
-                        val type = evaluateHelperString(resultSet, resultRow, node.children[1])
+                        val value = evaluateHelperString(resultSet, resultRow, node.children[0])!!
+                        val type = evaluateHelperString(resultSet, resultRow, node.children[1])!!
                         val res = "\"" + value + "\"^^<" + type + ">"
                         println("BuiltInFunctions.STRDT :: $res")
                         return res
                     }
                     BuiltInFunctions.STRLANG -> {
-                        val value = evaluateHelperString(resultSet, resultRow, node.children[0])
-                        val lang = evaluateHelperString(resultSet, resultRow, node.children[1])
+                        val value = evaluateHelperString(resultSet, resultRow, node.children[0])!!
+                        val lang = evaluateHelperString(resultSet, resultRow, node.children[1])!!
                         val res = "\"" + value + "\"@" + lang
                         println("BuiltInFunctions.STRLANG :: $res")
                         return res
                     }
                     BuiltInFunctions.UUID -> return "<urn:uuid:" + uuid4() + ">"
                     BuiltInFunctions.STRUUID -> return "" + uuid4()
-                    BuiltInFunctions.DATATYPE -> return extractDatatypeFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
-                    BuiltInFunctions.LANG -> return "\"" + extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])) + "\""
-                    BuiltInFunctions.STR -> return evaluateHelperString(resultSet, resultRow, node.children[0])
-                    BuiltInFunctions.MD5 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().md5().toHexString() + "\""
-                    BuiltInFunctions.SHA1 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().sha1().toHexString() + "\""
-                    BuiltInFunctions.SHA256 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])).encodeToByteArray().sha256().toHexString() + "\""
+                    BuiltInFunctions.DATATYPE -> return extractDatatypeFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!)
+                    BuiltInFunctions.LANG -> return "\"" + extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!) + "\""
+                    BuiltInFunctions.STR -> return evaluateHelperString(resultSet, resultRow, node.children[0])!!
+                    BuiltInFunctions.MD5 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!).encodeToByteArray().md5().toHexString() + "\""
+                    BuiltInFunctions.SHA1 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!).encodeToByteArray().sha1().toHexString() + "\""
+                    BuiltInFunctions.SHA256 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!).encodeToByteArray().sha256().toHexString() + "\""
                     else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperString ${classNameToString(node)} ${node.function}")
                 }
             }
@@ -894,14 +894,14 @@ println(tmp2.toString().replace(".0",""))
         return res
     }
 
-    fun evaluate(resultSet: ResultSet, resultRow: ResultRow): String {
+    fun evaluate(resultSet: ResultSet, resultRow: ResultRow): String? {
         println("resultRow:: " + resultRow)
         val res = evaluateHelperString(resultSet, resultRow, child)
         println("POPExpressionS :: $res")
         return res
     }
 
-    fun evaluate(resultSet: ResultSet, resultRows: List<ResultRow>): String {
+    fun evaluate(resultSet: ResultSet, resultRows: List<ResultRow>): String? {
         println("resultRow:: " + resultRows)
         aggregateMode = TmpAggregateMode.AMCollect
         aggregateCount = resultRows.count()

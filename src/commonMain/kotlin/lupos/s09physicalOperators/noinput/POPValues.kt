@@ -3,7 +3,7 @@ import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultRow
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
@@ -25,15 +25,17 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 class POPValues : POPBase {
 override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
-    private val resultSet = ResultSet()
+    private val resultSet : ResultSet
     private val variables = mutableListOf<Variable>()
     private var iterator: Iterator<Map<Variable, Value>>
-    private val rs = ResultSet()
+    private val rs : ResultSet
     val stringVars = mutableListOf<String>()
     val data = mutableListOf<Map<Variable, Value>>()
 
     constructor(dictionary:ResultSetDictionary,v: List<String>, d: List<Map<String, String>>) : super() {
 this.dictionary=dictionary
+ resultSet = ResultSet(dictionary)
+rs = ResultSet(dictionary)
         v.forEach {
             stringVars.add(it)
             variables.add(resultSet.createVariable(it))
@@ -50,6 +52,8 @@ this.dictionary=dictionary
 
     constructor(dictionary:ResultSetDictionary,values: LOPValues) : super() {
 this.dictionary=dictionary
+resultSet = ResultSet(dictionary)
+rs = ResultSet(dictionary)
         val rr = rs.createResultRow()
         for (name in values.variables) {
             stringVars.add(name.name)
@@ -57,10 +61,11 @@ this.dictionary=dictionary
         }
         for (v in values.values) {
             val it = v.child.children.iterator()
-            val entry = mutableMapOf<Variable, String>()
+            val entry = mutableMapOf<Variable, Value>()
             data.add(entry)
             for (v2 in variables) {
-                entry[v2] = resultSet.createValue(POPExpression(dictionary,it.next()).evaluate(rs, rr))
+		val value=POPExpression(dictionary,it.next()).evaluate(rs, rr)
+                entry[v2] = resultSet.createValue(value)
             }
         }
         iterator = data.iterator()

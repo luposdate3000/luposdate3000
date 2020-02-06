@@ -21,13 +21,14 @@ override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     val name: LOPVariable
     private val resultSetOld: ResultSet
-    private val resultSetNew = ResultSet()
+    private val resultSetNew : ResultSet
     private val variablesOld: Array<Variable?>
     private val variablesNew: Array<Variable?>
     private val variableBound: Variable
 
     constructor(dictionary:ResultSetDictionary,name: LOPVariable, child: OPBase) : super() {
 this.dictionary=dictionary
+resultSetNew = ResultSet(dictionary)
          children[0] = child
         this.name = name
         resultSetOld = children[0].getResultSet()
@@ -75,7 +76,7 @@ this.dictionary=dictionary
                 // TODO reuse resultSet
                 rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
             }
-            rsNew[variableBound] = resultSetNew.createValue(resultSetNew.getUndefValue())
+	resultSetNew.setUndefValue(rsNew,variableBound)
             return rsNew
         } finally {
             Trace.stop("POPBindUndefined.next")

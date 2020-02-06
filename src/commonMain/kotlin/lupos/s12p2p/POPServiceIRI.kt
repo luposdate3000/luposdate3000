@@ -43,7 +43,7 @@ this.dictionary=dictionary
         resultSet = if (this.constraint != null)
             this.constraint.getResultSet()
         else
-            ResultSet()
+            ResultSet(dictionary)
     }
 
     override fun getProvidedVariableNames(): List<String> {
@@ -66,7 +66,7 @@ this.dictionary=dictionary
             if (silent || constraint == null) {
                 val res = resultSet.createResultRow()
                 for (n in getProvidedVariableNames())
-                    res[resultSet.createVariable(n)] = resultSet.createValue(resultSet.getUndefValue())
+			resultSet.setUndefValue(res,resultSet.createVariable(n))
                 return res
             }
             throw e

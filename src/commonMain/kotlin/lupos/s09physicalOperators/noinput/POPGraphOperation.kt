@@ -25,7 +25,7 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 class POPGraphOperation(override val dictionary:ResultSetDictionary,val transactionID: Long, val silent: Boolean, val graphref1: ASTGraphRef, val graphref2: ASTGraphRef?, val action: GraphOperationType, val pstore: PersistentStore) : POPBase() {
     override val children: Array<OPBase> = arrayOf()
-    private val resultSetNew = ResultSet()
+    private val resultSetNew = ResultSet(dictionary)
 
     private var first = true
 

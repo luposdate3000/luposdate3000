@@ -6,4 +6,4 @@ import lupos.s03resultRepresentation.ResultSetIterator
 import lupos.s03resultRepresentation.Value
 
 
-typealias Variable = String
+typealias Variable = Long

@@ -2,7 +2,7 @@ package lupos.s05tripleStore
 
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Trace
-import lupos.s00misc.XMLElement
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetIterator
@@ -17,13 +17,13 @@ import lupos.s09physicalOperators.POPBase
 class TripleStoreIterator : POPTripleStoreIteratorBase {
 override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
-    private val resultSetNew = ResultSet()
+    private val resultSetNew : ResultSet
     private val resultSetOld: ResultSet
     private var mapIterator: MutableIterator<MutableMap.MutableEntry<ResultRow, MutableSet<ResultRow>>>
     private var listIterator: Iterator<ResultRow>?
-    private var sNew = resultSetNew.createVariable(nameS)
-    private var pNew = resultSetNew.createVariable(nameP)
-    private var oNew = resultSetNew.createVariable(nameO)
+    private var sNew :Variable
+    private var pNew :Variable
+    private var oNew :Variable
     private val sOld: Variable
     private val pOld: Variable
     private val oOld: Variable
@@ -55,6 +55,10 @@ override val dictionary:ResultSetDictionary
 
     constructor(dictionary:ResultSetDictionary,store: TripleStore, index: IndexPattern) {
 this.dictionary=dictionary
+resultSetNew = ResultSet(dictionary)
+ sNew = resultSetNew.createVariable(nameS)
+ pNew = resultSetNew.createVariable(nameP)
+ oNew = resultSetNew.createVariable(nameO)
         this.store = store
         when (index) {
             IndexPattern.S -> this.index = index
@@ -150,7 +154,7 @@ enum class ModifyType {
 }
 
 class TripleStore {
-    val resultSet = ResultSet()
+    val resultSet = ResultSet(ResultSetDictionary())
     val s = resultSet.createVariable("s")
     val p = resultSet.createVariable("p")
     val o = resultSet.createVariable("o")
@@ -303,15 +307,15 @@ class TripleStore {
         }
     }
 
-    fun addData(transactionID: Long, t: List<String>) {
+    fun addData(transactionID: Long, t: List<String?>) {
         println("addData1 $transactionID")
-        val vals = resultSet.createValue(t[0])
+	val vals = resultSet.createValue(t[0])
         val valp = resultSet.createValue(t[1])
         val valo = resultSet.createValue(t[2])
         modifyData(transactionID, vals, valp, valo, ModifyType.INSERT)
     }
 
-    fun deleteData(transactionID: Long, t: List<String>) {
+    fun deleteData(transactionID: Long, t: List<String?>) {
         println("deleteData $transactionID")
         val vals = resultSet.createValue(t[0])
         val valp = resultSet.createValue(t[1])

@@ -22,13 +22,14 @@ override val dictionary:ResultSetDictionary
     val name: LOPVariable
     val expression: POPExpression
     private val resultSetOld: ResultSet
-    private val resultSetNew = ResultSet()
+    private val resultSetNew : ResultSet
     private val variablesOld: Array<Variable?>
     private val variablesNew: Array<Variable?>
     private val variableBound: Variable
 
     constructor(dictionary:ResultSetDictionary,name: LOPVariable, expression: POPExpression, child: OPBase) : super() {
 this.dictionary=dictionary
+ resultSetNew = ResultSet(dictionary)
          children[0] = child
         this.name = name
         this.expression = expression
@@ -78,9 +79,13 @@ this.dictionary=dictionary
                 rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
             }
             try {
-                rsNew[variableBound] = resultSetNew.createValue(expression.evaluate(resultSetOld, rsOld))
+val value=expression.evaluate(resultSetOld, rsOld)
+if(value==null)
+resultSetNew.setUndefValue(rsNew,variableBound)
+else
+                rsNew[variableBound] = resultSetNew.createValue(value)
             } catch (e: Throwable) {
-                rsNew[variableBound] = resultSetNew.createValue(resultSetNew.getUndefValue())
+ resultSetNew.setUndefValue(rsNew,variableBound)
                 print("silent :: ")
                 e.kotlinStacktrace()
             }

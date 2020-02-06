@@ -19,7 +19,7 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 class POPModifyData(override val dictionary:ResultSetDictionary,val transactionID: Long, val type: ModifyDataType, val data: List<List<Pair<String, Boolean>>>, val pstore: PersistentStore) : POPBase() {
     override val children: Array<OPBase> = arrayOf()
-    private val resultSetNew = ResultSet()
+    private val resultSetNew = ResultSet(dictionary)
 
     private var first = true
 

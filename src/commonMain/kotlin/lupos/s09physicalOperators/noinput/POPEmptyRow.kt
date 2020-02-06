@@ -16,7 +16,7 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 class POPEmptyRow(override val dictionary:ResultSetDictionary) : POPBase() {
     override val children: Array<OPBase> = arrayOf()
-    private val resultSetNew = ResultSet()
+    private val resultSetNew = ResultSet(dictionary)
 
     private var first = true
 

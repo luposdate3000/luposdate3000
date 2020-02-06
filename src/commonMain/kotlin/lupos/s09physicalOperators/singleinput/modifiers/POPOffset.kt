@@ -18,13 +18,14 @@ class POPOffset : POPBaseNullableIterator {
 override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private val resultSetOld: ResultSet
-    private val resultSetNew = ResultSet()
+    private val resultSetNew : ResultSet
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     val offset: Int
     private var count = 0
 
     constructor(dictionary:ResultSetDictionary,offset: Int, child: OPBase) : super() {
 this.dictionary=dictionary
+resultSetNew = ResultSet(dictionary)
          children[0] = child
         this.offset = offset
         resultSetOld = children[0].getResultSet()

@@ -30,7 +30,8 @@ override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     var result: ResultRow?
 
-    private val resultSet = ResultSet()
+    private val resultSet : ResultSet
+
     override fun toXMLElement(): XMLElement {
         return XMLElement("TripleInsertIterator")
     }
@@ -48,6 +49,7 @@ override val dictionary:ResultSetDictionary
 
     constructor(dictionary:ResultSetDictionary,triple: ID_Triple) {
 this.dictionary=dictionary
+resultSet = ResultSet(dictionary)
         result = resultSet.createResultRow()
         result!![resultSet.createVariable("s")] = resultSet.createValue(cleanString(Dictionary[triple.s]!!.toN3String()))
         result!![resultSet.createVariable("p")] = resultSet.createValue(cleanString(Dictionary[triple.p]!!.toN3String()))

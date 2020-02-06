@@ -30,13 +30,14 @@ override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private var data: MutableList<ResultRow>? = null
     private val resultSetOld: ResultSet
-    private val resultSetNew = ResultSet()
+    private val resultSetNew : ResultSet
     private var iterator: Iterator<ResultRow>? = null
     var by: List<LOPVariable>
     var bindings = mutableListOf<Pair<Variable, POPExpression>>()
 
     constructor(dictionary:ResultSetDictionary,by: List<LOPVariable>, bindings: POPBind?, child: OPBase) : super() {
 this.dictionary=dictionary
+resultSetNew = ResultSet(dictionary)
          children[0] = child
         this.by = by
         resultSetOld = children[0].getResultSet()
@@ -114,9 +115,9 @@ override fun getRequiredVariableNames(): List<String> {
                 if (tmpMutableMap.keys.size == 0) {
                     val rsNew = resultSetNew.createResultRow()
                     for (b in variables)
-                        rsNew[b.first] = resultSetNew.createValue(resultSetNew.getUndefValue())
+ resultSetNew.setUndefValue(rsNew,b.first)
                     for (b in bindings)
-                        rsNew[b.first] = resultSetNew.createValue(resultSetNew.getUndefValue())
+ resultSetNew.setUndefValue(rsNew,b.first)
                     data!!.add(rsNew)
                 }
                 for (k in tmpMutableMap.keys) {
@@ -126,9 +127,13 @@ override fun getRequiredVariableNames(): List<String> {
                         rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
                     for (b in bindings) {
                         try {
-                            rsNew[b.first] = resultSetNew.createValue(b.second.evaluate(resultSetOld, tmpMutableMap[k]!!))
+val value=b.second.evaluate(resultSetOld, tmpMutableMap[k]!!)
+if(value==null)
+resultSetNew.setUndefValue(rsNew,b.first)
+else
+                            rsNew[b.first] = resultSetNew.createValue(value)
                         } catch (e: Throwable) {
-                            rsNew[b.first] = resultSetNew.createValue(resultSetNew.getUndefValue())
+ resultSetNew.setUndefValue(rsNew,b.first)
                             print("silent :: ")
                             e.kotlinStacktrace()
                         }

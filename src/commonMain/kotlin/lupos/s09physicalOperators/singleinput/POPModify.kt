@@ -29,7 +29,7 @@ import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
 
 class POPModify(override val dictionary:ResultSetDictionary,val transactionID: Long, val iri: String?, val insert: List<ASTNode>, val delete: List<ASTNode>, val pstore: PersistentStore, child: OPBase) : POPBase() {
     override val children: Array<OPBase> = arrayOf(child)
-    private val resultSetNew = ResultSet()
+    private val resultSetNew = ResultSet(dictionary)
     private val resultSetOld = children[0].getResultSet()
     override fun getResultSet(): ResultSet {
         return resultSetNew
@@ -44,7 +44,7 @@ class POPModify(override val dictionary:ResultSetDictionary,val transactionID: L
         }
     }
 
-    fun evaluateRow(node: ASTNode, row: ResultRow): String {
+    fun evaluateRow(node: ASTNode, row: ResultRow): String? {
         return POPExpression(dictionary,node).evaluate(resultSetOld, row)
     }
 
@@ -56,19 +56,19 @@ class POPModify(override val dictionary:ResultSetDictionary,val transactionID: L
                 when (i) {
                     is ASTTriple -> {
                         val store = pstore.getDefaultGraph()
-                        val data = listOf<String>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
+                        val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
                         store.addData(transactionID, data)
                     }
                     is ASTGraph -> {
                         val store = if (i.iriOrVar is ASTIri) {
                             pstore.getNamedGraph(i.iriOrVar.iri)
                         } else {
-                            pstore.getNamedGraph(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)])
+                            pstore.getNamedGraph(resultSetOld.getValue(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)]))
                         }
                         for (c in i.children) {
                             when (c) {
                                 is ASTTriple -> {
-                                    val data = listOf<String>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
+                                    val data = listOf<String?>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
                                     store.addData(transactionID, data)
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
@@ -82,19 +82,19 @@ class POPModify(override val dictionary:ResultSetDictionary,val transactionID: L
                 when (i) {
                     is ASTTriple -> {
                         val store = pstore.getDefaultGraph()
-                        val data = listOf<String>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
+                        val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
                         store.deleteData(transactionID, data)
                     }
                     is ASTGraph -> {
                         val store = if (i.iriOrVar is ASTIri) {
                             pstore.getNamedGraph(i.iriOrVar.iri)
                         } else {
-                            pstore.getNamedGraph(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)])
+                            pstore.getNamedGraph(resultSetOld.getValue(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)]))
                         }
                         for (c in i.children) {
                             when (c) {
                                 is ASTTriple -> {
-                                    val data = listOf<String>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
+                                    val data = listOf<String?>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
                                     store.deleteData(transactionID, data)
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")

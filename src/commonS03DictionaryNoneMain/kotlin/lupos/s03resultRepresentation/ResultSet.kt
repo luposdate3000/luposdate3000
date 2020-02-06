@@ -6,10 +6,8 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 
 
-class ResultSet {
+class ResultSet(dictionary:ResultSetDictionary) {
     val variables = mutableSetOf<String>()
-
-    constructor()
 
     fun renameVariable(variableOld: String, variableNew: String): String {
         variables.remove(variableOld)
@@ -30,7 +28,9 @@ class ResultSet {
         return variables
     }
 
-    fun createValue(value: String): Value {
+    fun createValue(value: String?): Value {
+	if(value==null)
+		return ""
         return value
     }
 
@@ -38,12 +38,14 @@ class ResultSet {
         return ResultRow()
     }
 
-    fun releaseResultRow(row: ResultRow) {
-    }
-
     fun getValue(value: Value): String {
         return value
     }
 
-    fun getUndefValue(): String = ""
+fun isUndefValue(r:ResultRow,v:Variable):Boolean{
+	return r[v]==""
+}
+fun setUndefValue(r:ResultRow,v:Variable){
+	r[v]=""
+}
 }

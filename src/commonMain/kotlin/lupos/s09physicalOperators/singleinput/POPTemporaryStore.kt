@@ -30,12 +30,13 @@ override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private val data = mutableListOf<ResultRow>()
     private val resultSetOld: ResultSet
-    private val resultSetNew = ResultSet()
+    private val resultSetNew : ResultSet
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     private var iterator: Iterator<ResultRow>
 
     constructor(dictionary:ResultSetDictionary,child: OPBase) : super() {
 this.dictionary=dictionary
+resultSetNew = ResultSet(dictionary)
          children[0] = child
         iterator = child
         resultSetOld = children[0].getResultSet()

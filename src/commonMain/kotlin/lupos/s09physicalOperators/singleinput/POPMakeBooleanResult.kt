@@ -23,12 +23,13 @@ import lupos.s09physicalOperators.singleinput.POPGroup
 class POPMakeBooleanResult : POPBase {
 override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
-    private val resultSetNew = ResultSet()
+    private val resultSetNew : ResultSet
     private val variableNew: Variable
     private var count = 0
 
     constructor(dictionary:ResultSetDictionary,child: OPBase) : super() {
 this.dictionary=dictionary
+resultSetNew = ResultSet(dictionary)
          children[0] = child
         this.variableNew = resultSetNew.createVariable("?boolean")
     }

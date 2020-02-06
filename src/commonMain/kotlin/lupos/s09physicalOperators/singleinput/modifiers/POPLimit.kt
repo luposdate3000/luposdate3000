@@ -17,13 +17,14 @@ class POPLimit : POPBase {
 override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private val resultSetOld: ResultSet
-    private val resultSetNew = ResultSet()
+    private val resultSetNew : ResultSet
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     val limit: Int
     private var count = 0
 
     constructor(dictionary:ResultSetDictionary,limit: Int, child: OPBase) : super() {
 this.dictionary=dictionary
+resultSetNew = ResultSet(dictionary)
          this.limit = limit
         children[0] = child
         resultSetOld = children[0].getResultSet()

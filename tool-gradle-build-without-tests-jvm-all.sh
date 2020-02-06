@@ -117,14 +117,18 @@ sourceSets {
 //}
 EOF
 (
+(
 	gradle --build-file="$buildFile" build -x test
         cd $buildDir/distributions
         tar -xf luposdate3000.tar
 	cat ./luposdate3000/bin/luposdate3000 | sed "s/lupos.TestKt/lupos.s14endpoint.P2PKt/g"> ./luposdate3000/bin/luposdate3000-p2p
 	chmod +x ./luposdate3000/bin/luposdate3000-p2p
+) > log/compile-$buildName.log 2>&1
 )&
 done
 done
 done
 done
 wait
+
+grep -rni -e Success -e Fail log/compile*log

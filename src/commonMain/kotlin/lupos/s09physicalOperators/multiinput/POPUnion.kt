@@ -24,7 +24,7 @@ class POPUnion : POPBaseNullableIterator {
     private val resultSetOldB: ResultSet
     private val variablesOldB = mutableListOf<Pair<Variable, Variable>>()
     private val variablesOldBMissing = mutableListOf<Variable>()
-    private val resultSetNew = ResultSet()
+    private val resultSetNew : ResultSet
 override val dictionary:ResultSetDictionary
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
@@ -36,6 +36,7 @@ return children[0].getProvidedVariableNames() + children[1].getProvidedVariableN
 
     constructor(dictionary:ResultSetDictionary,childA: OPBase, childB: OPBase) : super() {
 this.dictionary=dictionary
+resultSetNew = ResultSet(dictionary)
         this.children[0] = childA
         this.children[1] = childB
         resultSetOldA = this.children[0].getResultSet()
@@ -69,7 +70,7 @@ println("POPUnion b")
                 val rsOld = children[0].next()
                 val rsNew = resultSetNew.createResultRow()
                 for (p in variablesOldAMissing) {
-                    rsNew[p] = resultSetNew.createValue(resultSetNew.getUndefValue())
+		resultSetNew.setUndefValue(rsNew,p)
                 }
                 for (p in variablesOldA) {
                     // TODO reuse resultSet
@@ -83,7 +84,7 @@ println("POPUnion d")
                 val rsOld = children[1].next()
                 val rsNew = resultSetNew.createResultRow()
                 for (p in variablesOldBMissing) {
-                    rsNew[p] = resultSetNew.createValue(resultSetNew.getUndefValue())
+resultSetNew.setUndefValue(rsNew,p)
                 }
                 for (p in variablesOldB) {
                     // TODO reuse resultSet

@@ -29,7 +29,7 @@ override val dictionary:ResultSetDictionary
     var nameTo: LOPVariable
     var nameFrom: LOPVariable
     private val resultSetOld: ResultSet
-    private val resultSetNew = ResultSet()
+    private val resultSetNew : ResultSet
     private val variablesOld: Array<Variable?>
     private val variablesNew: Array<Variable?>
 override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>,autocorrect:Boolean) {
@@ -52,6 +52,7 @@ override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>,auto
 
     constructor(dictionary:ResultSetDictionary,nameTo: LOPVariable, nameFrom: LOPVariable, child: OPBase) : super() {
 this.dictionary=dictionary
+resultSetNew = ResultSet(dictionary)
          children[0] = child
         this.nameTo = nameTo
         this.nameFrom = nameFrom

@@ -24,7 +24,7 @@ object QueryResultToCSV {
             i = 0
             for (variable in variables) {
                 val value = resultSet.getValue(resultRow[variable.second])
-                if (value != resultSet.getUndefValue())
+                if (! resultSet.isUndefValue(resultRow,variable.second))
                     res += value
                 if (i > 0)
                     res += separator

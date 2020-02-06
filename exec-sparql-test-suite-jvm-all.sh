@@ -1,4 +1,4 @@
-./tool-gradle-build-without-tests-jvm.sh
+./tool-gradle-build-without-tests-jvm-all.sh
 
 for chooseS03 in "commonS03DictionaryNoneMain" "commonS03DictionaryQueryLocalLongMain"
 do

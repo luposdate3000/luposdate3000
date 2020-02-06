@@ -1,49 +1,56 @@
 package lupos.s03resultRepresentation
 
-import lupos.s03resultRepresentation.ResultRow
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSetIterator
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 
 
-class ResultSet {
-    val variables = mutableSetOf<String>()
+class ResultSet(val dictionary:ResultSetDictionary) {
+    val variablesSTL = mutableMapOf<String,Long>()
+    val variablesLTS = mutableListOf<String>()
 
-    constructor()
-
-    fun renameVariable(variableOld: String, variableNew: String): String {
-        variables.remove(variableOld)
-        variables.add(variableNew)
-        return variableNew
+    fun renameVariable(variableOld: String, variableNew: String): Long {
+	val l=variablesSTL[variableOld]!!
+        variablesSTL.remove(variableOld)
+        variablesSTL[variableNew]=l
+	variablesLTS[l.toInt()]=variableNew
+        return l
     }
 
     fun createVariable(variable: String): Variable {
-        variables.add(variable)
-        return variable
+	val l=0L+variablesLTS.size
+        variablesSTL[variable]=l
+	variablesLTS.add(variable)
+        return l
     }
 
     fun getVariable(variable: Variable): String {
-        return variable
+        return variablesLTS[variable.toInt()]
     }
 
     fun getVariableNames(): Set<String> {
-        return variables
+        return variablesLTS.toSet()
     }
 
-    fun createValue(value: String): Value {
-        return value
+    fun createValue(value: String?): Value {
+	if(value==null)
+		return dictionary.undefValue
+        return dictionary.createValue(value)
     }
 
     fun createResultRow(): ResultRow {
         return ResultRow()
     }
 
-    fun releaseResultRow(row: ResultRow) {
-    }
-
     fun getValue(value: Value): String {
-        return value
+        return dictionary.getValue(value)
     }
 
-    fun getUndefValue(): String = ""
+fun isUndefValue(r:ResultRow,v:Variable):Boolean{
+        return r[v]==dictionary.undefValue
+}
+fun setUndefValue(r:ResultRow,v:Variable){
+        r[v]=dictionary.undefValue
+}
 }

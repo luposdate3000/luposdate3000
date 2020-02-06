@@ -22,7 +22,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
     private val resultSet: Array<ResultSet>
     private val variables: Array<MutableList<Pair<Variable, Variable>>>
     private val variablesJ: Array<MutableList<Pair<Variable, Variable>>>
-    private val resultSetNew = ResultSet()
+    private val resultSetNew :ResultSet
 override val dictionary:ResultSetDictionary
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
@@ -34,6 +34,7 @@ return getProvidedVariableNames()
 
     constructor(dictionary:ResultSetDictionary,childA: OPBase, childB: OPBase, optional: Boolean) : super() {
 this.dictionary=dictionary
+ resultSetNew = ResultSet(dictionary)
         map = arrayOf(mutableMapOf<String, MutableList<ResultRow>>(), mutableMapOf<String, MutableList<ResultRow>>())
         children = arrayOf(childA, childB)
         this.optional = optional
@@ -73,9 +74,8 @@ this.dictionary=dictionary
             for (p in variablesJ[idx])
                 row[p.second] = resultSetNew.createValue(resultSet[idx].getValue(rowA[p.first]))
             for (p in variablesJ[1 - idx]) {
-                val v = resultSet[1 - idx].getValue(rowB[p.first])
-                if (v != resultSet[1 - idx].getUndefValue())
-                    row[p.second] = resultSetNew.createValue(v)
+		if(!resultSet[1 - idx].isUndefValue(rowB,p.first))
+			 row[p.second] = resultSetNew.createValue(resultSet[1 - idx].getValue(rowB[p.first]))
             }
             println("joinToQueue $rowA $rowB $row")
             queue.add(row)
@@ -91,7 +91,7 @@ this.dictionary=dictionary
             var exactkey = ""
             for (k in variablesJ[idx]) {
                 val v = resultSet[idx].getValue(rowA[k.first])
-                val kk = if (v == resultSet[idx].getUndefValue())
+                val kk = if (resultSet[idx].isUndefValue(rowA,k.first))
                     "-"
                 else
                     v + "-"
@@ -146,7 +146,7 @@ this.dictionary=dictionary
                             for (rowA in v) {
                                 val row = resultSetNew.createResultRow()
                                 for (p in variables[1])
-                                    row[p.second] = resultSetNew.createValue(resultSetNew.getUndefValue())
+					resultSetNew.setUndefValue(row,p.second)
                                 for (p in variables[0])
                                     row[p.second] = resultSetNew.createValue(resultSet[0].getValue(rowA[p.first]))
                                 for (p in variablesJ[0])
