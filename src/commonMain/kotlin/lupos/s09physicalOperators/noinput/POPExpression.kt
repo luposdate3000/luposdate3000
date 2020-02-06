@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s03resultRepresentation.*
 
 import com.benasher44.uuid.*
 import com.soywiz.krypto.md5
@@ -412,6 +413,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class POPExpression : LOPBase {
+val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     var aggregateMode = TmpAggregateMode.AMCollect
 
@@ -432,8 +434,9 @@ class POPExpression : LOPBase {
     private val aggregateTmpString = mutableMapOf<Long, String>()
     var child: ASTNode
 
-    constructor(child: ASTNode) {
-        this.child = child
+    constructor(dictionary:ResultSetDictionary,child: ASTNode) {
+this.dictionary=dictionary
+         this.child = child
     }
 
     fun isAUpgradeableToB(a: TmpResultType, b: TmpResultType): Boolean {
@@ -939,8 +942,8 @@ println(tmp2.toString().replace(".0",""))
     }
 
     companion object {
-        fun fromXMLElement(xml: XMLElement): POPExpression {
-            return POPExpression(XMLElement.toASTNode(xml.childs.first()!!))
+        fun fromXMLElement( dictionary:ResultSetDictionary,xml: XMLElement): POPExpression {
+            return POPExpression(dictionary,XMLElement.toASTNode(xml.childs.first()!!))
         }
     }
 }

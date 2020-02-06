@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.Trace
@@ -16,6 +17,7 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 
 
 class POPBind : POPBase {
+override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     val name: LOPVariable
     val expression: POPExpression
@@ -25,8 +27,9 @@ class POPBind : POPBase {
     private val variablesNew: Array<Variable?>
     private val variableBound: Variable
 
-    constructor(name: LOPVariable, expression: POPExpression, child: OPBase) : super() {
-        children[0] = child
+    constructor(dictionary:ResultSetDictionary,name: LOPVariable, expression: POPExpression, child: OPBase) : super() {
+this.dictionary=dictionary
+         children[0] = child
         this.name = name
         this.expression = expression
         resultSetOld = children[0].getResultSet()

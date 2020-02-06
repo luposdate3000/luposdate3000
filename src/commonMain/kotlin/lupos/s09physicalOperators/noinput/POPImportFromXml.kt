@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -15,6 +16,7 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPImportFromXml : POPBaseNullableIterator {
+override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     private val resultSet = ResultSet()
     val data: XMLElement
@@ -24,8 +26,9 @@ class POPImportFromXml : POPBaseNullableIterator {
         return XMLElement("POPImportFromXML").addContent(data)
     }
 
-    constructor(data: XMLElement) {
-        this.data = data
+    constructor(dictionary:ResultSetDictionary,data: XMLElement) {
+this.dictionary=dictionary
+         this.data = data
         if (data.tag != "sparql")
             throw Exception("can only parse sparql xml into an iterator")
         for (r in data.childs) {

@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput.modifiers
+import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -14,6 +15,7 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 
 
 class POPOffset : POPBaseNullableIterator {
+override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private val resultSetOld: ResultSet
     private val resultSetNew = ResultSet()
@@ -21,8 +23,9 @@ class POPOffset : POPBaseNullableIterator {
     val offset: Int
     private var count = 0
 
-    constructor(offset: Int, child: OPBase) : super() {
-        children[0] = child
+    constructor(dictionary:ResultSetDictionary,offset: Int, child: OPBase) : super() {
+this.dictionary=dictionary
+         children[0] = child
         this.offset = offset
         resultSetOld = children[0].getResultSet()
         for (v in resultSetOld.getVariableNames())

@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Trace
@@ -26,11 +27,10 @@ import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
 
 
-class POPModify(val transactionID: Long, val iri: String?, val insert: List<ASTNode>, val delete: List<ASTNode>, val pstore: PersistentStore, child: OPBase) : POPBase() {
+class POPModify(override val dictionary:ResultSetDictionary,val transactionID: Long, val iri: String?, val insert: List<ASTNode>, val delete: List<ASTNode>, val pstore: PersistentStore, child: OPBase) : POPBase() {
     override val children: Array<OPBase> = arrayOf(child)
     private val resultSetNew = ResultSet()
     private val resultSetOld = children[0].getResultSet()
-
     override fun getResultSet(): ResultSet {
         return resultSetNew
     }
@@ -45,7 +45,7 @@ class POPModify(val transactionID: Long, val iri: String?, val insert: List<ASTN
     }
 
     fun evaluateRow(node: ASTNode, row: ResultRow): String {
-        return POPExpression(node).evaluate(resultSetOld, row)
+        return POPExpression(dictionary,node).evaluate(resultSetOld, row)
     }
 
     override fun next(): ResultRow {

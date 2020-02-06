@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -22,6 +23,7 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPValues : POPBase {
+override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     private val resultSet = ResultSet()
     private val variables = mutableListOf<Variable>()
@@ -30,7 +32,8 @@ class POPValues : POPBase {
     val stringVars = mutableListOf<String>()
     val data = mutableListOf<Map<Variable, Value>>()
 
-    constructor(v: List<String>, d: List<Map<String, String>>) : super() {
+    constructor(dictionary:ResultSetDictionary,v: List<String>, d: List<Map<String, String>>) : super() {
+this.dictionary=dictionary
         v.forEach {
             stringVars.add(it)
             variables.add(resultSet.createVariable(it))
@@ -45,7 +48,8 @@ class POPValues : POPBase {
         iterator = data.iterator()
     }
 
-    constructor(values: LOPValues) : super() {
+    constructor(dictionary:ResultSetDictionary,values: LOPValues) : super() {
+this.dictionary=dictionary
         val rr = rs.createResultRow()
         for (name in values.variables) {
             stringVars.add(name.name)
@@ -56,7 +60,7 @@ class POPValues : POPBase {
             val entry = mutableMapOf<Variable, String>()
             data.add(entry)
             for (v2 in variables) {
-                entry[v2] = resultSet.createValue(POPExpression(it.next()).evaluate(rs, rr))
+                entry[v2] = resultSet.createValue(POPExpression(dictionary,it.next()).evaluate(rs, rr))
             }
         }
         iterator = data.iterator()

@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.multiinput
-
+import lupos.s03resultRepresentation.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -25,7 +25,7 @@ class POPUnion : POPBaseNullableIterator {
     private val variablesOldB = mutableListOf<Pair<Variable, Variable>>()
     private val variablesOldBMissing = mutableListOf<Variable>()
     private val resultSetNew = ResultSet()
-
+override val dictionary:ResultSetDictionary
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }
@@ -34,7 +34,8 @@ class POPUnion : POPBaseNullableIterator {
 return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }
 
-    constructor(childA: OPBase, childB: OPBase) : super() {
+    constructor(dictionary:ResultSetDictionary,childA: OPBase, childB: OPBase) : super() {
+this.dictionary=dictionary
         this.children[0] = childA
         this.children[1] = childB
         resultSetOldA = this.children[0].getResultSet()

@@ -10,7 +10,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
-import lupos.s03resultRepresentation.ResultRow
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.*
@@ -26,6 +26,7 @@ import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 
 
 class TripleInsertIterator : POPBaseNullableIterator {
+override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     var result: ResultRow?
 
@@ -45,7 +46,8 @@ class TripleInsertIterator : POPBaseNullableIterator {
         }
     }
 
-    constructor(triple: ID_Triple) {
+    constructor(dictionary:ResultSetDictionary,triple: ID_Triple) {
+this.dictionary=dictionary
         result = resultSet.createResultRow()
         result!![resultSet.createVariable("s")] = resultSet.createValue(cleanString(Dictionary[triple.s]!!.toN3String()))
         result!![resultSet.createVariable("p")] = resultSet.createValue(cleanString(Dictionary[triple.p]!!.toN3String()))
@@ -75,7 +77,8 @@ class TripleInsertIterator : POPBaseNullableIterator {
 fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
     val triple = ID_Triple(triple_s, triple_p, triple_o)
     val transactionID = globalStore.nextTransactionID()
-    globalStore.getDefaultGraph().addData(transactionID, TripleInsertIterator(triple))
+val dictionary=ResultSetDictionary()
+    globalStore.getDefaultGraph().addData(transactionID, TripleInsertIterator(dictionary,triple))
     globalStore.commit(transactionID)
 }
 
@@ -95,13 +98,15 @@ object Endpoint {
 
     fun process_xml_input(data: String): XMLElement {
         val transactionID = globalStore.nextTransactionID()
-        globalStore.getDefaultGraph().addData(transactionID, POPImportFromXml(XMLElement.parseFromXml(data)!!.first()))
+val dictionary=ResultSetDictionary()
+        globalStore.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary,XMLElement.parseFromXml(data)!!.first()))
         globalStore.commit(transactionID)
         return XMLElement("done")
     }
 
     fun process_sparql_query(query: String): XMLElement {
         val transactionID = globalStore.nextTransactionID()
+	val dictionary=ResultSetDictionary()
         println("----------String Query")
         println(query)
         println("----------Abstract Syntax Tree")
@@ -115,14 +120,14 @@ object Endpoint {
         val lop_node = ast_node.visit(OperatorGraphVisitor())
         println(lop_node)
         println("----------Logical Operator Graph optimized")
-        val lop_node2 = LogicalOptimizer(transactionID).optimizeCall(lop_node)
+        val lop_node2 = LogicalOptimizer(transactionID,dictionary).optimizeCall(lop_node)
         println(lop_node2)
         println("----------Physical Operator Graph")
-        val pop_optimizer = PhysicalOptimizer(transactionID)
+        val pop_optimizer = PhysicalOptimizer(transactionID,dictionary)
         val pop_node = pop_optimizer.optimizeCall(lop_node2)
         println(pop_node)
         println("----------Distributed Operator Graph")
-        val pop_distributed_node = KeyDistributionOptimizer(transactionID).optimizeCall(pop_node) as POPBase
+        val pop_distributed_node = KeyDistributionOptimizer(transactionID,dictionary).optimizeCall(pop_node) as POPBase
         println(pop_distributed_node)
         globalStore.commit(transactionID)
         return QueryResultToXML.toXML(pop_distributed_node).first()
@@ -130,7 +135,8 @@ object Endpoint {
 
     fun process_operatorgraph_query(query: String): XMLElement {
         val transactionID = globalStore.nextTransactionID()
-        val pop_node = XMLElement.convertToOPBase(transactionID, XMLElement.parseFromXml(query)!!.first()!!) as POPBase
+val dictionary=ResultSetDictionary()
+        val pop_node = XMLElement.convertToOPBase(dictionary,transactionID, XMLElement.parseFromXml(query)!!.first()!!) as POPBase
         println(pop_node)
         val res = QueryResultToXML.toXML(pop_node).first()
         globalStore.commit(transactionID)

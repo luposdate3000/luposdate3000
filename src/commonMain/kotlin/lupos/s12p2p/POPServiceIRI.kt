@@ -1,5 +1,5 @@
 package lupos.s12p2p
-
+import lupos.s03resultRepresentation.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -27,8 +27,9 @@ class POPServiceIRI : POPBase {
     val silent: Boolean
     var first = true
     val originalConstraint: OPBase
-
-    constructor(transactionID: Long, serverName: String, silent: Boolean, constraint: OPBase) : super() {
+override val dictionary:ResultSetDictionary
+    constructor(dictionary:ResultSetDictionary,transactionID: Long, serverName: String, silent: Boolean, constraint: OPBase) : super() {
+this.dictionary=dictionary
         this.transactionID = transactionID
         this.serverName = serverName
         originalConstraint = constraint

@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput.modifiers
+import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -13,6 +14,7 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPDistinct : POPBaseNullableIterator {
+override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private var data: MutableList<ResultRow>? = null
     private val resultSetOld: ResultSet
@@ -20,8 +22,9 @@ class POPDistinct : POPBaseNullableIterator {
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     private var iterator: Iterator<ResultRow>? = null
 
-    constructor(child: OPBase) : super() {
-        children[0] = child
+    constructor(dictionary:ResultSetDictionary,child: OPBase) : super() {
+this.dictionary=dictionary
+         children[0] = child
         resultSetOld = children[0].getResultSet()
         for (name in resultSetOld.getVariableNames()) {
             variables.add(Pair(resultSetNew.createVariable(name), resultSetOld.createVariable(name)))

@@ -1,5 +1,6 @@
 package lupos.s08logicalOptimisation
 
+import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
@@ -32,7 +33,8 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s08logicalOptimisation.LogicalOptimizer
 
 
-abstract class OptimizerVisitorLOP(val transactionID: Long) {
+abstract class OptimizerVisitorLOP(val transactionID: Long,val dictionary:ResultSetDictionary) {
+
     open fun visit(node: LOPGraphOperation): OPBase {
         return node
     }

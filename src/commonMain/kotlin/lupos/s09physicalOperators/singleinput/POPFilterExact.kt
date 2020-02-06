@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -19,14 +20,16 @@ import lupos.s09physicalOperators.singleinput.POPBindUndefined
 
 
 class POPFilterExact : POPBaseNullableIterator {
+override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     val variable: LOPVariable
     val value: String
     private val resultSet: ResultSet
     private val filterVariable: Variable
 
-    constructor(variable: LOPVariable, value: String, child: OPBase) : super() {
-        children[0] = child
+    constructor(dictionary:ResultSetDictionary,variable: LOPVariable, value: String, child: OPBase) : super() {
+this.dictionary=dictionary
+         children[0] = child
         this.variable = variable
         this.value = value
         resultSet = children[0].getResultSet()

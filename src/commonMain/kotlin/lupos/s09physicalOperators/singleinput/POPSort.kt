@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -26,6 +27,7 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 
 
 class POPSort : POPBaseNullableIterator {
+override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private var data: MutableList<ResultRow>? = null
     private val resultSetOld: ResultSet
@@ -35,7 +37,8 @@ class POPSort : POPBaseNullableIterator {
     var sortBy: Variable
     val sortOrder: Boolean
 
-    constructor(sortBy: LOPVariable, sortOrder: Boolean, child: OPBase) : super() {
+    constructor(dictionary:ResultSetDictionary,sortBy: LOPVariable, sortOrder: Boolean, child: OPBase) : super() {
+this.dictionary=dictionary
         children[0] = child
         this.sortOrder = sortOrder
         resultSetOld = children[0].getResultSet()

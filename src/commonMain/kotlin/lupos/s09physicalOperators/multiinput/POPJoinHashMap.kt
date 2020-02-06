@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.multiinput
-
+import lupos.s03resultRepresentation.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -23,7 +23,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
     private val variables: Array<MutableList<Pair<Variable, Variable>>>
     private val variablesJ: Array<MutableList<Pair<Variable, Variable>>>
     private val resultSetNew = ResultSet()
-
+override val dictionary:ResultSetDictionary
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }
@@ -32,7 +32,8 @@ class POPJoinHashMap : POPBaseNullableIterator {
 return getProvidedVariableNames()
     }
 
-    constructor(childA: OPBase, childB: OPBase, optional: Boolean) : super() {
+    constructor(dictionary:ResultSetDictionary,childA: OPBase, childB: OPBase, optional: Boolean) : super() {
+this.dictionary=dictionary
         map = arrayOf(mutableMapOf<String, MutableList<ResultRow>>(), mutableMapOf<String, MutableList<ResultRow>>())
         children = arrayOf(childA, childB)
         this.optional = optional

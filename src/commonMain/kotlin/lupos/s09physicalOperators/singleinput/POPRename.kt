@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -23,6 +24,7 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 
 
 class POPRename : POPBase {
+override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     var nameTo: LOPVariable
     var nameFrom: LOPVariable
@@ -48,8 +50,9 @@ override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>,auto
         }
     }
 
-    constructor(nameTo: LOPVariable, nameFrom: LOPVariable, child: OPBase) : super() {
-        children[0] = child
+    constructor(dictionary:ResultSetDictionary,nameTo: LOPVariable, nameFrom: LOPVariable, child: OPBase) : super() {
+this.dictionary=dictionary
+         children[0] = child
         this.nameTo = nameTo
         this.nameFrom = nameFrom
         resultSetOld = children[0].getResultSet()

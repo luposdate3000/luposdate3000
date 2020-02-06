@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -25,6 +26,7 @@ import lupos.s09physicalOperators.singleinput.POPRename
 
 
 class POPTemporaryStore : POPBase {
+override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private val data = mutableListOf<ResultRow>()
     private val resultSetOld: ResultSet
@@ -32,8 +34,9 @@ class POPTemporaryStore : POPBase {
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     private var iterator: Iterator<ResultRow>
 
-    constructor(child: OPBase) : super() {
-        children[0] = child
+    constructor(dictionary:ResultSetDictionary,child: OPBase) : super() {
+this.dictionary=dictionary
+         children[0] = child
         iterator = child
         resultSetOld = children[0].getResultSet()
         for (name in resultSetOld.getVariableNames()) {

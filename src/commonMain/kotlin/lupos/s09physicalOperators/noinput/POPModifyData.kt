@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -16,7 +17,7 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
-class POPModifyData(val transactionID: Long, val type: ModifyDataType, val data: List<List<Pair<String, Boolean>>>, val pstore: PersistentStore) : POPBase() {
+class POPModifyData(override val dictionary:ResultSetDictionary,val transactionID: Long, val type: ModifyDataType, val data: List<List<Pair<String, Boolean>>>, val pstore: PersistentStore) : POPBase() {
     override val children: Array<OPBase> = arrayOf()
     private val resultSetNew = ResultSet()
 

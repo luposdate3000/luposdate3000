@@ -6,7 +6,7 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetIterator
-import lupos.s03resultRepresentation.Value
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.*
 import lupos.s05tripleStore.IndexPattern
@@ -15,6 +15,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class TripleStoreIterator : POPTripleStoreIteratorBase {
+override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     private val resultSetNew = ResultSet()
     private val resultSetOld: ResultSet
@@ -52,7 +53,8 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
         nameO = n
     }
 
-    constructor(store: TripleStore, index: IndexPattern) {
+    constructor(dictionary:ResultSetDictionary,store: TripleStore, index: IndexPattern) {
+this.dictionary=dictionary
         this.store = store
         when (index) {
             IndexPattern.S -> this.index = index
@@ -86,7 +88,7 @@ class TripleStoreIterator : POPTripleStoreIteratorBase {
         currentKey = null
     }
 
-    constructor(store: TripleStore) : this(store, IndexPattern.S)
+    constructor(dictionary:ResultSetDictionary,store: TripleStore) : this(dictionary,store, IndexPattern.S)
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>(nameS, nameP, nameO)
@@ -401,19 +403,19 @@ class TripleStore {
         }
     }
 
-    fun getIterator(): POPTripleStoreIteratorBase {
-        return TripleStoreIterator(this)
+    fun getIterator(dictionary:ResultSetDictionary): POPTripleStoreIteratorBase {
+        return TripleStoreIterator(dictionary,this)
     }
 
-    fun getIterator(s: String, p: String, o: String): POPTripleStoreIteratorBase {
-        val res = TripleStoreIterator(this)
+    fun getIterator(dictionary:ResultSetDictionary,s: String, p: String, o: String): POPTripleStoreIteratorBase {
+        val res = TripleStoreIterator(dictionary,this)
         res.setMNameS(s)
         res.setMNameP(p)
         res.setMNameO(o)
         return res
     }
 
-    fun getIterator(index: IndexPattern): POPTripleStoreIteratorBase {
-        return TripleStoreIterator(this, index)
+    fun getIterator(dictionary:ResultSetDictionary,index: IndexPattern): POPTripleStoreIteratorBase {      
+  return TripleStoreIterator(dictionary,this, index)
     }
 }

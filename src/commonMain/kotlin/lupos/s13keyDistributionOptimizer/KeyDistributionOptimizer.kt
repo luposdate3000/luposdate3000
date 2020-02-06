@@ -1,5 +1,5 @@
 package lupos.s13keyDistributionOptimizer
-
+import lupos.s03resultRepresentation.*
 import lupos.s00misc.classNameToString
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
@@ -47,9 +47,9 @@ import lupos.s12p2p.POPServiceIRI
 import lupos.s13keyDistributionOptimizer.OptimizerVisitorKeyDistribution
 
 
-class KeyDistributionOptimizer(transactionID: Long) : OptimizerVisitorKeyDistribution(transactionID) {
+class KeyDistributionOptimizer(transactionID: Long,dictionary:ResultSetDictionary) : OptimizerVisitorKeyDistribution(transactionID,dictionary) {
 
     override fun visit(node: LOPServiceIRI): OPBase {
-        return POPServiceIRI(transactionID, node.name, node.silent, optimize(node.children[0]) as POPBase)
+        return POPServiceIRI(dictionary,transactionID, node.name, node.silent, optimize(node.children[0]) as POPBase)
     }
 }

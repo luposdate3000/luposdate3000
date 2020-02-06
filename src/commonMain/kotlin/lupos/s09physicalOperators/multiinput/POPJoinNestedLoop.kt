@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.multiinput
-
+import lupos.s03resultRepresentation.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -29,7 +29,7 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
     private val resultSetNew = ResultSet()
     private var resultRowA: ResultRow? = null
     private var hadMatchForA = false
-
+override val dictionary:ResultSetDictionary
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }
@@ -38,9 +38,10 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
 return getProvidedVariableNames()
     }
 
-    constructor(childA: OPBase, childB: OPBase, optional: Boolean) : super() {
-        this.children[0] = childA
-        this.children[1] = POPTemporaryStore(childB)
+    constructor(dictionary:ResultSetDictionary,childA: OPBase, childB: OPBase, optional: Boolean) : super() {
+this.dictionary=dictionary
+         this.children[0] = childA
+        this.children[1] = POPTemporaryStore(dictionary,childB)
         this.optional = optional
         resultSetOldA = this.children[0].getResultSet()
         resultSetOldB = this.children[1].getResultSet()

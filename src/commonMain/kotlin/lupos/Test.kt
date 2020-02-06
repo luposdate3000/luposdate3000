@@ -16,7 +16,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.parseSPARQL
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
-import lupos.s03resultRepresentation.ResultRow
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s05tripleStore.PersistentStore
@@ -440,7 +440,8 @@ fun parseSPARQLAndEvaluate(//
             println("----------Input Data Graph[]")
             var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
             val transactionID = store.nextTransactionID()
-            store.getDefaultGraph().addData(transactionID, POPImportFromXml(xmlQueryInput!!.first()))
+    val dictionary = ResultSetDictionary()
+            store.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary,xmlQueryInput!!.first()))
             store.commit(transactionID)
             println(xmlQueryInput.first().toPrettyString())
         }
@@ -451,7 +452,8 @@ fun parseSPARQLAndEvaluate(//
             println("----------Input Data Graph[${it["name"]}]")
             var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
             val transactionID = store.nextTransactionID()
-            store.getNamedGraph(it["name"]!!, true).addData(transactionID, POPImportFromXml(xmlQueryInput!!.first()))
+    val dictionary = ResultSetDictionary()
+            store.getNamedGraph(it["name"]!!, true).addData(transactionID, POPImportFromXml(dictionary,xmlQueryInput!!.first()))
             store.commit(transactionID)
             println(xmlQueryInput.first().toPrettyString())
         }
@@ -463,6 +465,7 @@ fun parseSPARQLAndEvaluate(//
                 P2P.execInsertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!.first())
             }
         val transactionID = store.nextTransactionID()
+    val dictionary = ResultSetDictionary()
         var res = true
         println("----------String Query")
         println(toParse)
@@ -477,15 +480,15 @@ fun parseSPARQLAndEvaluate(//
         val lop_node = ast_node.visit(OperatorGraphVisitor())
         println(lop_node.toXMLElement().toPrettyString())
         println("----------Logical Operator Graph optimized")
-        val lop_node2 = LogicalOptimizer(transactionID).optimizeCall(lop_node)
+        val lop_node2 = LogicalOptimizer(transactionID,dictionary).optimizeCall(lop_node)
         println(lop_node2.toXMLElement().toPrettyString())
         println("----------Physical Operator Graph")
-        val pop_optimizer = PhysicalOptimizer(transactionID)
+        val pop_optimizer = PhysicalOptimizer(transactionID,dictionary)
         pop_optimizer.store = store
         val pop_node = pop_optimizer.optimizeCall(lop_node2)
         println(pop_node.toXMLElement().toPrettyString())
         println("----------Distributed Operator Graph")
-        val pop_distributed_node = KeyDistributionOptimizer(transactionID).optimizeCall(pop_node) as POPBase
+        val pop_distributed_node = KeyDistributionOptimizer(transactionID,dictionary).optimizeCall(pop_node) as POPBase
         println(pop_distributed_node)
         var xmlQueryResult: XMLElement? = null
         if (!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)) {
@@ -501,7 +504,7 @@ fun parseSPARQLAndEvaluate(//
             println(outputData)
             println("----------Verify Output Data Graph[${it["name"]}] ... target,actual")
             var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)
-            val tmp = store.getNamedGraph(it["name"]!!).getIterator()
+            val tmp = store.getNamedGraph(it["name"]!!).getIterator(dictionary)
             tmp.setMNameS("s")
             tmp.setMNameP("p")
             tmp.setMNameO("o")
@@ -523,7 +526,7 @@ fun parseSPARQLAndEvaluate(//
             if (res) {
                 val xmlPOP = pop_distributed_node.toXMLElement()
                 val transactionID2 = store.nextTransactionID()
-                val popNodeRecovered = XMLElement.convertToOPBase(transactionID2, xmlPOP, store) as POPBase
+                val popNodeRecovered = XMLElement.convertToOPBase(dictionary,transactionID2, xmlPOP, store) as POPBase
                 println(xmlPOP.toPrettyString())
                 println(popNodeRecovered.toXMLElement().toPrettyString())
                 val xmlQueryResultRecovered = QueryResultToXML.toXML(popNodeRecovered)

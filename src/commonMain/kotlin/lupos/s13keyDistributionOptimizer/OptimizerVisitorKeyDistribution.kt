@@ -1,5 +1,5 @@
 package lupos.s13keyDistributionOptimizer
-
+import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s08logicalOptimisation.OptimizerVisitorLOP
@@ -13,10 +13,10 @@ import lupos.s12p2p.POPServiceIRI
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 
 
-abstract class OptimizerVisitorKeyDistribution(transactionID: Long) : OptimizerVisitorPOP(transactionID) {
+abstract class OptimizerVisitorKeyDistribution(transactionID: Long,dictionary:ResultSetDictionary) : OptimizerVisitorPOP(transactionID,dictionary) {
 
     open fun visit(node: POPServiceIRI): OPBase {
-        return POPServiceIRI(transactionID, node.serverName, node.silent, optimize(node.originalConstraint))
+        return POPServiceIRI(dictionary,transactionID, node.serverName, node.silent, optimize(node.originalConstraint))
     }
 
     override open fun optimize(node: OPBase): OPBase {
