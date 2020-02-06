@@ -42,6 +42,8 @@ class POPUnion : POPBaseNullableIterator {
         this.children[1] = childB
         resultSetOldA = this.children[0].getResultSet()
         resultSetOldB = this.children[1].getResultSet()
+        require(resultSetOldA.dictionary == dictionary || (!(this.children[0] is POPBase)))
+        require(resultSetOldB.dictionary == dictionary || (!(this.children[1] is POPBase)))
         var variablesA = resultSetOldA.getVariableNames()
         var variablesB = resultSetOldB.getVariableNames()
 
@@ -75,7 +77,7 @@ class POPUnion : POPBaseNullableIterator {
                 }
                 for (p in variablesOldA) {
                     // TODO reuse resultSet
-                    rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(rsOld[p.first]))
+                    rsNew[p.second] = rsOld[p.first]
                 }
                 return rsNew
             }
@@ -88,8 +90,7 @@ class POPUnion : POPBaseNullableIterator {
                     resultSetNew.setUndefValue(rsNew, p)
                 }
                 for (p in variablesOldB) {
-                    // TODO reuse resultSet
-                    rsNew[p.second] = resultSetNew.createValue(resultSetOldB.getValue(rsOld[p.first]))
+                    rsNew[p.second] = rsOld[p.first]
                 }
                 return rsNew
             }

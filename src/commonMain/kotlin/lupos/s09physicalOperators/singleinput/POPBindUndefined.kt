@@ -32,6 +32,7 @@ class POPBindUndefined : POPBase {
         children[0] = child
         this.name = name
         resultSetOld = children[0].getResultSet()
+        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
         val variableNames = resultSetOld.getVariableNames()
         variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
         variablesNew = Array<Variable?>(variableNames.size + 1, init = fun(_: Int) = (null as Variable?))
@@ -74,7 +75,7 @@ class POPBindUndefined : POPBase {
             val rsOld = children[0].next()
             for (i in variablesOld.indices) {
                 // TODO reuse resultSet
-                rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
+                rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
             }
             resultSetNew.setUndefValue(rsNew, variableBound)
             return rsNew

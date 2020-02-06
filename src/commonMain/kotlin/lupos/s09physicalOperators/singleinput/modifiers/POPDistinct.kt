@@ -27,6 +27,7 @@ class POPDistinct : POPBaseNullableIterator {
         resultSetNew = ResultSet(dictionary)
         children[0] = child
         resultSetOld = children[0].getResultSet()
+        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
         for (name in resultSetOld.getVariableNames()) {
             variables.add(Pair(resultSetNew.createVariable(name), resultSetOld.createVariable(name)))
         }

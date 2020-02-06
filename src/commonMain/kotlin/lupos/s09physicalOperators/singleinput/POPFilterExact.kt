@@ -33,6 +33,7 @@ class POPFilterExact : POPBaseNullableIterator {
         this.variable = variable
         this.value = value
         resultSet = children[0].getResultSet()
+        require(resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         filterVariable = resultSet.createVariable(variable.name)
     }
 

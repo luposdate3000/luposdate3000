@@ -40,6 +40,7 @@ class POPTemporaryStore : POPBase {
         children[0] = child
         iterator = child
         resultSetOld = children[0].getResultSet()
+        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
         for (name in resultSetOld.getVariableNames()) {
             variables.add(Pair(resultSetNew.createVariable(name), resultSetOld.createVariable(name)))
         }
@@ -73,7 +74,7 @@ class POPTemporaryStore : POPBase {
                 val rsOld = children[0].next()
                 var rsNew = resultSetNew.createResultRow()
                 for (variable in variables) {
-                    rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
+                    rsNew[variable.first] = rsOld[variable.second]
                 }
                 data.add(rsNew)
                 return rsNew
@@ -81,7 +82,7 @@ class POPTemporaryStore : POPBase {
             val rsOld = iterator.next()
             var rsNew = resultSetNew.createResultRow()
             for (variable in variables) {
-                rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
+                rsNew[variable.first] = rsOld[variable.second]
             }
             return rsNew
         } finally {

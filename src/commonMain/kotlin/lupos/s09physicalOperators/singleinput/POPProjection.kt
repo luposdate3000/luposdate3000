@@ -37,6 +37,7 @@ class POPProjection : POPBase {
         this.children[0] = child
         this.variables = variables
         resultSetOld = children[0].getResultSet()
+        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
         this.variablesOld = Array<Variable>(variables.size, init = fun(it: Int) = resultSetOld.createVariable(variables[it].name))
         this.variablesNew = Array<Variable>(variables.size, init = fun(it: Int) = resultSetNew.createVariable(variables[it].name))
     }
@@ -76,7 +77,7 @@ class POPProjection : POPBase {
             val rsOld = children[0].next()
             for (i in variablesNew.indices) {
                 // TODO reuse resultSet
-                rsNew[variablesNew[i]] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]]))
+                rsNew[variablesNew[i]] = rsOld[variablesOld[i]]
             }
             return rsNew
         } finally {

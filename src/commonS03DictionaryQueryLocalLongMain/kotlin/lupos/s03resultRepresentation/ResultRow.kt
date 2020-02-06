@@ -9,7 +9,7 @@ import lupos.s03resultRepresentation.Variable
 class ResultRow() : Comparable<ResultRow> {
     val values = mutableMapOf<Variable, Value>()
     operator fun set(name: Variable, value: Value) {
-println("row set : $name")
+        println("row set : $name")
 /*try{
 throw Exception ("e")
 }catch (e:Throwable){
@@ -19,7 +19,7 @@ e.printStackTrace()
     }
 
     operator fun get(name: Variable): Value {
-println("row get : $name $values")
+        println("row get : $name $values")
         return values[name]!!
     }
 

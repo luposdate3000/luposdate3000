@@ -15,18 +15,18 @@ class ResultSet(val dictionary: ResultSetDictionary) {
         variablesSTL.remove(variableOld)
         variablesSTL[variableNew] = l
         variablesLTS[l.toInt()] = variableNew
-println("renameVariable $l $variableOld $variableNew")
+        println("renameVariable $l $variableOld $variableNew")
         return l
     }
 
     fun createVariable(variable: String): Variable {
-val o = variablesSTL[variable]
-if(o!=null)
-	return o
+        val o = variablesSTL[variable]
+        if (o != null)
+            return o
         val l = 0L + variablesLTS.size
         variablesSTL[variable] = l
         variablesLTS.add(variable)
-println("createVariable $l $variable")
+        println("createVariable $l $variable")
         return l
     }
 

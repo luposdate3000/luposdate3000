@@ -40,6 +40,9 @@ class POPJoinHashMap : POPBaseNullableIterator {
         children = arrayOf(childA, childB)
         this.optional = optional
         resultSet = arrayOf(childA.getResultSet(), childB.getResultSet())
+        require(resultSet[0].dictionary == dictionary || (!(this.children[0] is POPBase)))
+        require(resultSet[1].dictionary == dictionary || (!(this.children[1] is POPBase)))
+
         var variablesA: Set<String> = mutableSetOf<String>()
         var variablesB: Set<String> = mutableSetOf<String>()
         for (s in childA.getProvidedVariableNames())
@@ -69,14 +72,14 @@ class POPJoinHashMap : POPBaseNullableIterator {
         for (rowB in rowsB) {
             val row = resultSetNew.createResultRow()
             for (p in variables[idx])
-                row[p.second] = resultSetNew.createValue(resultSet[idx].getValue(rowA[p.first]))
+                row[p.second] = rowA[p.first]
             for (p in variables[1 - idx])
-                row[p.second] = resultSetNew.createValue(resultSet[1 - idx].getValue(rowB[p.first]))
+                row[p.second] = rowB[p.first]
             for (p in variablesJ[idx])
-                row[p.second] = resultSetNew.createValue(resultSet[idx].getValue(rowA[p.first]))
+                row[p.second] = rowA[p.first]
             for (p in variablesJ[1 - idx]) {
                 if (!resultSet[1 - idx].isUndefValue(rowB, p.first))
-                    row[p.second] = resultSetNew.createValue(resultSet[1 - idx].getValue(rowB[p.first]))
+                    row[p.second] = rowB[p.first]
             }
             println("joinToQueue $rowA $rowB $row")
             queue.add(row)
@@ -149,9 +152,9 @@ class POPJoinHashMap : POPBaseNullableIterator {
                                 for (p in variables[1])
                                     resultSetNew.setUndefValue(row, p.second)
                                 for (p in variables[0])
-                                    row[p.second] = resultSetNew.createValue(resultSet[0].getValue(rowA[p.first]))
+                                    row[p.second] = rowA[p.first]
                                 for (p in variablesJ[0])
-                                    row[p.second] = resultSetNew.createValue(resultSet[0].getValue(rowA[p.first]))
+                                    row[p.second] = rowA[p.first]
                                 println("joinAddOptional $row")
                                 queue.add(row)
                             }

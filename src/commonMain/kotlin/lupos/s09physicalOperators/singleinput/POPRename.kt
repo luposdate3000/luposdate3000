@@ -57,6 +57,7 @@ class POPRename : POPBase {
         this.nameTo = nameTo
         this.nameFrom = nameFrom
         resultSetOld = children[0].getResultSet()
+        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
         val variableNames = resultSetOld.getVariableNames()
         variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
         variablesNew = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
@@ -108,7 +109,7 @@ class POPRename : POPBase {
             val rsOld = children[0].next()
             for (i in variablesNew.indices) {
                 // TODO reuse resultSet
-                rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
+                rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
             }
             return rsNew
         } finally {

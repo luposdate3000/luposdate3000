@@ -43,6 +43,7 @@ class POPSort : POPBaseNullableIterator {
         children[0] = child
         this.sortOrder = sortOrder
         resultSetOld = children[0].getResultSet()
+        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
         for (name in resultSetOld.getVariableNames()) {
             variables.add(Pair(resultSetNew.createVariable(name), resultSetOld.createVariable(name)))
         }
@@ -72,13 +73,13 @@ class POPSort : POPBaseNullableIterator {
                     var key: String = ""
                     for (variable in variables) {
                         rsNew[variable.first] = rsOld[variable.second]
-                        if (variable.first == sortBy){
-                        val tmp = resultSetOld.getValue(rsOld[variable.second])
-				if(tmp==null)
-				key=""
-else
-                            key = tmp
-			}
+                        if (variable.first == sortBy) {
+                            val tmp = resultSetOld.getValue(rsOld[variable.second])
+                            if (tmp == null)
+                                key = ""
+                            else
+                                key = tmp
+                        }
                     }
                     var tmp = tmpMutableMap[key]
                     if (tmp == null) {

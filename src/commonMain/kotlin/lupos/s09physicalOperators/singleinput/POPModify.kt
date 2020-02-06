@@ -27,12 +27,31 @@ import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
 
 
-class POPModify(override val dictionary: ResultSetDictionary, val transactionID: Long, val iri: String?, val insert: List<ASTNode>, val delete: List<ASTNode>, val pstore: PersistentStore, child: OPBase) : POPBase() {
-    override val children: Array<OPBase> = arrayOf(child)
-    private val resultSetNew = ResultSet(dictionary)
-    private val resultSetOld = children[0].getResultSet()
+class POPModify : POPBase {
+    override val dictionary: ResultSetDictionary
+    val transactionID: Long
+    val iri: String?
+    val insert: List<ASTNode>
+    val delete: List<ASTNode>
+    val pstore: PersistentStore
+    override val children: Array<OPBase> = arrayOf(OPNothing())
+    private val resultSetNew: ResultSet
+    private val resultSetOld: ResultSet
     override fun getResultSet(): ResultSet {
         return resultSetNew
+    }
+
+    constructor(dictionary: ResultSetDictionary, transactionID: Long, iri: String?, insert: List<ASTNode>, delete: List<ASTNode>, pstore: PersistentStore, child: OPBase) : super() {
+        this.dictionary = dictionary
+        this.transactionID = transactionID
+        this.iri = iri
+        this.insert = insert
+        this.delete = delete
+        this.pstore = pstore
+        children[0] = child
+        resultSetNew = ResultSet(dictionary)
+        resultSetOld = children[0].getResultSet()
+        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
     }
 
     override fun hasNext(): Boolean {

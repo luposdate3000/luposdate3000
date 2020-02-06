@@ -520,8 +520,8 @@ class POPExpression : LOPBase {
                 if (!resultSet.getVariableNames().contains(node.name))
                     return TmpResultType.RSUndefined
                 val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
-		if(tmp==null)
-			return TmpResultType.RSUndefined
+                if (tmp == null)
+                    return TmpResultType.RSUndefined
                 when {
                     tmp.endsWith(dataTypeInteger) -> return TmpResultType.RSInteger
                     tmp.endsWith(dataTypeDecimal) -> return TmpResultType.RSDecimal
@@ -620,8 +620,8 @@ class POPExpression : LOPBase {
             typeA == TmpResultType.RSString && typeB == TmpResultType.RSString -> {
                 val a = evaluateHelperString(resultSet, resultRow, left)
                 val b = evaluateHelperString(resultSet, resultRow, right)
-		if(a==null || b==null)
-			return false
+                if (a == null || b == null)
+                    return false
                 when (node) {
                     is ASTEQ -> return a == b
                     is ASTLT -> return a < b
@@ -647,8 +647,8 @@ class POPExpression : LOPBase {
     }
 
     fun extractLanguageFromLiteral(literal: String?): String? {
-if(literal==null)
-return null
+        if (literal == null)
+            return null
         println("extractLanguageFromLiteral ${literal} ${literal.endsWith(dataTypeString)} ${!literal.endsWith(">")}")
         when {
             !literal.endsWith("\"") && !literal.endsWith(">") -> return literal.substring(literal.lastIndexOf("@") + 1, literal.length)
@@ -657,8 +657,8 @@ return null
     }
 
     fun extractDatatypeFromLiteral(literal: String?): String? {
-if(literal==null)
-return null
+        if (literal == null)
+            return null
         println("extractDatatypeFromLiteral ${literal} ${literal.endsWith(dataTypeString)} ${!literal.endsWith(">")}")
         when {
             literal.contains("^^<") && literal.endsWith(">") -> {
@@ -856,7 +856,7 @@ println(tmp2.toString().replace(".0",""))
                             return "\"" + aas + bbs + "\""
                         val aa = extractLanguageFromLiteral(a)
                         val bb = extractLanguageFromLiteral(b)
-                        if (aa != bb || aa==null || aa == "")
+                        if (aa != bb || aa == null || aa == "")
                             return "\"" + aas + bbs + "\""
                         return "\"" + aas + bbs + "\"@" + aa
                     }

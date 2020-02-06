@@ -34,6 +34,7 @@ class POPBind : POPBase {
         this.name = name
         this.expression = expression
         resultSetOld = children[0].getResultSet()
+        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
         val variableNames = resultSetOld.getVariableNames()
         variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
         variablesNew = Array<Variable?>(variableNames.size + 1, init = fun(_: Int) = (null as Variable?))
@@ -76,7 +77,7 @@ class POPBind : POPBase {
             val rsOld = children[0].next()
             for (i in variablesOld.indices) {
                 // TODO reuse resultSet
-                rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
+                rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
             }
             try {
                 val value = expression.evaluate(resultSetOld, rsOld)

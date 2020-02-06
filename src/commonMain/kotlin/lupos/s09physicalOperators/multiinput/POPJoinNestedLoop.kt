@@ -47,6 +47,8 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
         this.optional = optional
         resultSetOldA = this.children[0].getResultSet()
         resultSetOldB = this.children[1].getResultSet()
+        require(resultSetOldA.dictionary == dictionary || (!(this.children[0] is POPBase)))
+        require(resultSetOldB.dictionary == dictionary || (!(this.children[0] is POPBase)))
         var variablesA = resultSetOldA.getVariableNames()
         var variablesB = resultSetOldB.getVariableNames()
         joinVariables = variablesA.intersect(variablesB)
@@ -83,11 +85,11 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
                         }
                         for (p in variablesOldJ) {
                             // TODO reuse resultSet
-                            rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(resultRowA!![p.first.first]))
+                            rsNew[p.second] = resultRowA!![p.first.first]
                         }
                         for (p in variablesOldA) {
                             // TODO reuse resultSet
-                            rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(resultRowA!![p.first]))
+                            rsNew[p.second] = resultRowA!![p.first]
                         }
                         resultRowA = null
                         return rsNew
@@ -111,11 +113,11 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
                 var rsNew = resultSetNew.createResultRow()
                 for (p in variablesOldA) {
                     // TODO reuse resultSet
-                    rsNew[p.second] = resultSetNew.createValue(resultSetOldA.getValue(resultRowA!![p.first]))
+                    rsNew[p.second] = resultRowA!![p.first]
                 }
                 for (p in variablesOldB) {
                     // TODO reuse resultSet
-                    rsNew[p.second] = resultSetNew.createValue(resultSetOldB.getValue(resultRowB[p.first]))
+                    rsNew[p.second] = resultRowB[p.first]
                 }
                 for (p in variablesOldJ) {
                     // TODO reuse resultSet

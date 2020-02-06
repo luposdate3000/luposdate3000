@@ -29,6 +29,7 @@ class POPOffset : POPBaseNullableIterator {
         children[0] = child
         this.offset = offset
         resultSetOld = children[0].getResultSet()
+        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
         for (v in resultSetOld.getVariableNames())
             variables.add(Pair(resultSetNew.createVariable(v), resultSetOld.createVariable(v)))
     }
@@ -61,7 +62,7 @@ class POPOffset : POPBaseNullableIterator {
             val rsOld = children[0].next()
             for (v in variables) {
                 // TODO reuse resultSet
-                rsNew[v.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[v.second]))
+                rsNew[v.first] = rsOld[v.second]
             }
             return rsNew
         } finally {

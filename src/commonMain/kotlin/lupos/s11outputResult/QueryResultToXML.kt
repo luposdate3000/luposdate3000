@@ -37,37 +37,37 @@ object QueryResultToXML {
                 for (variable in variables) {
                     if (!resultSet.isUndefValue(resultRow, variable.second)) {
                         val value = resultSet.getValue(resultRow[variable.second])!!
-		if(value.length>1){
-                        val nodeBinding = XMLElement("binding").addAttribute("name", variable.first)
-                        if (value.startsWith("\"") && !value.endsWith("\"")) {
-                            println("value:" + value)
-                            val idx = value.lastIndexOf("\"^^<")
-                            println("idx:" + idx)
-                            if (idx >= 0) {
-                                val data = value.substring(1, idx)
-                                val type = value.substring(idx + 4, value.length - 1)
-                                nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("datatype", type))
-                            } else {
-                                val idx2 = value.lastIndexOf("\"@")
-                                println("idx2:" + idx2)
-                                if (idx2 >= 0) {
-                                    val data = value.substring(1, idx2)
-                                    val lang = value.substring(idx2 + 2, value.length)
-                                    nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("xml:lang", lang))
+                        if (value.length > 1) {
+                            val nodeBinding = XMLElement("binding").addAttribute("name", variable.first)
+                            if (value.startsWith("\"") && !value.endsWith("\"")) {
+                                println("value:" + value)
+                                val idx = value.lastIndexOf("\"^^<")
+                                println("idx:" + idx)
+                                if (idx >= 0) {
+                                    val data = value.substring(1, idx)
+                                    val type = value.substring(idx + 4, value.length - 1)
+                                    nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("datatype", type))
                                 } else {
-                                    nodeBinding.addContent(XMLElement("literal").addContent(value))
+                                    val idx2 = value.lastIndexOf("\"@")
+                                    println("idx2:" + idx2)
+                                    if (idx2 >= 0) {
+                                        val data = value.substring(1, idx2)
+                                        val lang = value.substring(idx2 + 2, value.length)
+                                        nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("xml:lang", lang))
+                                    } else {
+                                        nodeBinding.addContent(XMLElement("literal").addContent(value))
+                                    }
                                 }
+                            } else if (value.startsWith("<") && value.endsWith(">"))
+                                nodeBinding.addContent(XMLElement("uri").addContent(value.substring(1, value.length - 1)))
+                            else if (value.startsWith("_:"))
+                                nodeBinding.addContent(XMLElement("bnode").addContent(value.substring(2, value.length)))
+                            else {
+                                nodeBinding.addContent(XMLElement("literal").addContent(value.substring(1, value.length - 1)))
                             }
-                        } else if (value.startsWith("<") && value.endsWith(">"))
-                            nodeBinding.addContent(XMLElement("uri").addContent(value.substring(1, value.length - 1)))
-                        else if (value.startsWith("_:"))
-                            nodeBinding.addContent(XMLElement("bnode").addContent(value.substring(2, value.length)))
-                        else{
-                            nodeBinding.addContent(XMLElement("literal").addContent(value.substring(1, value.length - 1)))
-			}
-                        nodeResult.addContent(nodeBinding)
+                            nodeResult.addContent(nodeBinding)
+                        }
                     }
-}
                 }
             }
         }

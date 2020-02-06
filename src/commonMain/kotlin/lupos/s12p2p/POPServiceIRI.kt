@@ -23,6 +23,7 @@ class POPServiceIRI : POPBase {
     override val children: Array<OPBase> = arrayOf()
     val transactionID: Long
     private val resultSet: ResultSet
+    private val resultSetOld: ResultSet?
     val constraint: OPBase?
     val serverName: String
     val silent: Boolean
@@ -41,11 +42,9 @@ class POPServiceIRI : POPBase {
             null
         }
         this.silent = silent
+        resultSetOld = this.constraint?.getResultSet()
         //todo ... handle the case if the target node is not part of this p2p network
-        resultSet = if (this.constraint != null)
-            this.constraint.getResultSet()
-        else
-            ResultSet(dictionary)
+        resultSet = ResultSet(dictionary)
     }
 
     override fun getProvidedVariableNames(): List<String> {
@@ -62,7 +61,11 @@ class POPServiceIRI : POPBase {
 
     override fun next(): ResultRow {
         try {
-            val res = constraint!!.next()
+            val value = constraint!!.next()
+            val res = resultSet.createResultRow()
+            for (n in getProvidedVariableNames()) {
+                res[resultSet.createVariable(n)] = resultSet.createValue(resultSetOld!!.getValue(value[resultSetOld!!.createVariable(n)]))
+            }
             return res
         } catch (e: Throwable) {
             if (silent || constraint == null) {

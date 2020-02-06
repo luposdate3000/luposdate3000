@@ -41,6 +41,7 @@ class POPGroup : POPBaseNullableIterator {
         children[0] = child
         this.by = by
         resultSetOld = children[0].getResultSet()
+        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
         var tmpBind: OPBase? = bindings
         while (tmpBind != null && tmpBind is POPBind) {
             this.bindings.add(Pair(resultSetNew.createVariable(tmpBind.name.name), tmpBind.expression))
@@ -126,7 +127,7 @@ class POPGroup : POPBaseNullableIterator {
                     val rsOld = tmpMutableMap[k]!!.first()
                     val rsNew = resultSetNew.createResultRow()
                     for (variable in variables)
-                        rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
+                        rsNew[variable.first] = rsOld[variable.second]
                     for (b in bindings) {
                         try {
                             val value = b.second.evaluate(resultSetOld, tmpMutableMap[k]!!)
