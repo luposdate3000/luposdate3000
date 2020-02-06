@@ -29,7 +29,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return children[0].getRequiredVariableNames() + children[1].getRequiredVariableNames()
+return getProvidedVariableNames()
     }
 
     constructor(childA: OPBase, childB: OPBase, optional: Boolean) : super() {

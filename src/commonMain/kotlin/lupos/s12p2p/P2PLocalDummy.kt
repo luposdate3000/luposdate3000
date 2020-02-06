@@ -45,7 +45,7 @@ object P2PLocalDummy {
 /*execute "pop" on remote node - if it exist - otherwiese throw an exception*/
         val optimizer = KeyDistributionOptimizer(transactionID)
         optimizer.store = nodeData[nodeName]!!
-        val res = optimizer.optimize(pop)
+        val res = optimizer.optimizeCall(pop)
         return res
     }
 

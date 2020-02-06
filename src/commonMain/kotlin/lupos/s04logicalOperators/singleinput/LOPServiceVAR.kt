@@ -30,7 +30,7 @@ class LOPServiceVAR(val name: String, val silent: Boolean, constraint: OPBase) :
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return children[1].getRequiredVariableNames() + children[0].getRequiredVariableNames()
+        return getProvidedVariableNames()
     }
 
     override fun toXMLElement(): XMLElement {

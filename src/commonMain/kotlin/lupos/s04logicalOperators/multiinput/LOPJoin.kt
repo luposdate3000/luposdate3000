@@ -13,7 +13,7 @@ class LOPJoin(first: OPBase, second: OPBase, val optional: Boolean) : LOPBase() 
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return children[0].getRequiredVariableNames() + children[1].getRequiredVariableNames()
+return getProvidedVariableNames()
     }
 
     override fun toXMLElement(): XMLElement {

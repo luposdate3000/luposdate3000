@@ -48,7 +48,7 @@ class POPBind : POPBase {
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return expression.getRequiredVariableNames() + children[0].getRequiredVariableNames()
+        return expression.getRequiredVariableNames()
     }
 
     override fun getResultSet(): ResultSet {

@@ -53,17 +53,34 @@ class POPGroup : POPBaseNullableIterator {
         for (v in by)
             tmp.add(v.name)
         for (v in bindings)
-            tmp.addAll(v.second.getProvidedVariableNames())
+            tmp.add(resultSetNew.getVariable(v.first))
         return tmp
     }
-
-    override fun getRequiredVariableNames(): List<String> {
-        val tmp = mutableListOf<String>()
+ override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>,autocorrect:Boolean) {
+println(additionalProvided)
+require(additionalProvided.isEmpty())
+        val localProvide=additionalProvided + children[0].getProvidedVariableNames()
+        val localRequire=mutableListOf<String>()
         for (v in by)
-            tmp.add(v.name)
-        for (v in bindings)
-            tmp.addAll(v.second.getRequiredVariableNames())
-        return tmp
+            localRequire.add(v.name)
+        for (b in bindings)
+            localRequire+= b.second.getRequiredVariableNames()
+        for (c in children)
+            c.syntaxVerifyAllVariableExists(localProvide,autocorrect)
+        val res = localProvide.containsAll(localRequire)
+        if (!res) {
+            println("provide: ${getProvidedVariableNames() + additionalProvided}")
+            println("require: ${getRequiredVariableNames()}")
+            println(toXMLElement().toPrettyString())
+ if(autocorrect){
+                syntaxVerifyAllVariableExistsAutocorrect()
+                }else{
+                    throw Exception("undefined Variable")
+                }
+        }
+    }
+override fun getRequiredVariableNames(): List<String> {
+        return mutableListOf<String>()
     }
 
     override fun getResultSet(): ResultSet {

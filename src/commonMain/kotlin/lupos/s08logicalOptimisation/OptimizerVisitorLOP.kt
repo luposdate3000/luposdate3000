@@ -159,7 +159,7 @@ abstract class OptimizerVisitorLOP(val transactionID: Long) {
         return node
     }
 
-    open fun optimize(node: OPBase): OPBase {
+    protected open fun optimize(node: OPBase): OPBase {
         when (node) {
             is LOPExpression -> return visit(node)
             is LOPVariable -> return visit(node)
@@ -190,5 +190,12 @@ abstract class OptimizerVisitorLOP(val transactionID: Long) {
             is LOPGraphOperation -> return visit(node)
         }
         throw UnsupportedOperationException("UnsupportedOperationException ${this::class.simpleName} c ${node::class.simpleName}")
+    }
+
+    fun optimizeCall(node: OPBase): OPBase {
+        node.syntaxVerifyAllVariableExists(listOf<String>(),true)
+        val res = optimize(node)
+        res.syntaxVerifyAllVariableExists(listOf<String>(),false)
+        return res
     }
 }

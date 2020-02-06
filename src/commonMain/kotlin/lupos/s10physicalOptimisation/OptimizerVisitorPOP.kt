@@ -116,7 +116,7 @@ abstract class OptimizerVisitorPOP(transactionID: Long) : OptimizerVisitorLOP(tr
     }
 
     open fun visit(node: POPUnion): OPBase {
-        return POPUnion(optimize(node.children[0]), optimize(node.children[0]))
+        return POPUnion(optimize(node.children[0]), optimize(node.children[1]))
     }
 
     open fun visit(node: POPExpression): OPBase {

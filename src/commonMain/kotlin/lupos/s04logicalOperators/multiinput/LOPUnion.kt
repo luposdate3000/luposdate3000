@@ -15,7 +15,7 @@ class LOPUnion(first: OPBase, second: OPBase) : LOPBase() {
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return children[0].getRequiredVariableNames() + children[1].getRequiredVariableNames()
+	return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }
 
     override fun toXMLElement(): XMLElement {

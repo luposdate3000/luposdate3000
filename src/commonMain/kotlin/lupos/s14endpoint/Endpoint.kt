@@ -115,14 +115,14 @@ object Endpoint {
         val lop_node = ast_node.visit(OperatorGraphVisitor())
         println(lop_node)
         println("----------Logical Operator Graph optimized")
-        val lop_node2 = LogicalOptimizer(transactionID).optimize(lop_node)
+        val lop_node2 = LogicalOptimizer(transactionID).optimizeCall(lop_node)
         println(lop_node2)
         println("----------Physical Operator Graph")
         val pop_optimizer = PhysicalOptimizer(transactionID)
-        val pop_node = pop_optimizer.optimize(lop_node2)
+        val pop_node = pop_optimizer.optimizeCall(lop_node2)
         println(pop_node)
         println("----------Distributed Operator Graph")
-        val pop_distributed_node = KeyDistributionOptimizer(transactionID).optimize(pop_node) as POPBase
+        val pop_distributed_node = KeyDistributionOptimizer(transactionID).optimizeCall(pop_node) as POPBase
         println(pop_distributed_node)
         globalStore.commit(transactionID)
         return QueryResultToXML.toXML(pop_distributed_node).first()

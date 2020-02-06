@@ -22,11 +22,31 @@ class LOPGroup(var by: List<LOPVariable>) : LOPBase() {
         return tmp
     }
 
-    override fun getRequiredVariableNames(): List<String> {
+    override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>,autocorrect:Boolean) {
+require(additionalProvided.isEmpty())
+	val localProvide=additionalProvided + children[0].getProvidedVariableNames()
+	val localRequire=mutableListOf<String>()
+        for (v in by)
+            localRequire.add(v.name)
         if (bindings != null)
-            return children[0].getRequiredVariableNames() + bindings!!.getRequiredVariableNames()
-        else
-            return children[0].getRequiredVariableNames()
+            localRequire+= bindings!!.getRequiredVariableNames()
+        for (c in children)
+            c.syntaxVerifyAllVariableExists(localProvide,autocorrect)
+        val res = localProvide.containsAll(localRequire)
+        if (!res) {
+            println("provide: ${getProvidedVariableNames() + additionalProvided}")
+            println("require: ${getRequiredVariableNames()}")
+            println(toXMLElement().toPrettyString())
+ if(autocorrect){
+                syntaxVerifyAllVariableExistsAutocorrect()
+                }else{
+                    throw Exception("undefined Variable")
+                }
+        }
+    }
+
+    override fun getRequiredVariableNames(): List<String> {
+        return mutableListOf<String>()
     }
 
     constructor(by: List<LOPVariable>, child: OPBase) : this(by) {

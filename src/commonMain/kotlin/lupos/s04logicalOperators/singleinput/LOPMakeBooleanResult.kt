@@ -21,7 +21,7 @@ class LOPMakeBooleanResult() : LOPBase() {
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return children[0].getRequiredVariableNames()
+        return listOf<String>()
     }
 
     override fun toXMLElement(): XMLElement {

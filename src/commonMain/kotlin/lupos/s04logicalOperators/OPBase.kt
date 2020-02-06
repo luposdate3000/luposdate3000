@@ -6,8 +6,9 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetIterator
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.multiinput.*
-import lupos.s04logicalOperators.noinput.OPNothing
-
+import lupos.s04logicalOperators.noinput.*
+import lupos.s04logicalOperators.singleinput.*
+import lupos.s02buildSyntaxTree.sparql1_1.*
 
 abstract class OPBase : ResultSetIterator {
 
@@ -32,6 +33,37 @@ abstract class OPBase : ResultSetIterator {
         return res
     }
 
+fun syntaxVerifyAllVariableExistsAutocorrect(){
+	for(req in getRequiredVariableNames()){
+		var found=false
+		for(prov in getProvidedVariableNames()){
+			if(prov==req){
+				found=true
+				break
+			}
+		}
+		if(!found){
+			children[0]=LOPBind(LOPVariable(req),LOPExpression(ASTUndef()),children[0])
+		}
+	}
+}
+
+    open fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf<String>(),autocorrect:Boolean=false) {
+        for (c in children)
+            c.syntaxVerifyAllVariableExists(additionalProvided,autocorrect)
+        val res = (additionalProvided + getProvidedVariableNames()).containsAll(getRequiredVariableNames())
+        if (!res) {
+            println("provide: ${getProvidedVariableNames() + additionalProvided}")
+            println("require: ${getRequiredVariableNames()}")
+            println(toXMLElement().toPrettyString())
+	    if(autocorrect){
+		syntaxVerifyAllVariableExistsAutocorrect()
+		}else{
+        	    throw Exception("undefined Variable")
+		}
+        }
+    }
+
     fun setChild(child: OPBase): OPBase {
         println("setChild ${classNameToString(this)} ${classNameToString(child)} ${classNameToString(children[0])}")
         require(children.size > 0)
@@ -42,7 +74,7 @@ abstract class OPBase : ResultSetIterator {
     fun getLatestChild(): OPBase {
         if (children.size > 0 && children[0].children.size > 0)
             return children[0].getLatestChild()
-	println("getLatestChild ${classNameToString(this)} ${children.size} ${classNameToString(this.children[0])} ${children[0].children.size}")
+        println("getLatestChild ${classNameToString(this)} ${children.size} ${classNameToString(this.children[0])} ${children[0].children.size}")
         return this
     }
 }

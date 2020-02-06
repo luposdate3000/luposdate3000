@@ -31,7 +31,7 @@ class LOPSort(val asc: Boolean, var by: OPBase) : LOPBase() {
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return children[0].getRequiredVariableNames()
+        return getProvidedVariableNames()
     }
 
     override fun toXMLElement(): XMLElement {

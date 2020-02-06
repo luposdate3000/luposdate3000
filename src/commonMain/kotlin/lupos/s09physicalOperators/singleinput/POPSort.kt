@@ -50,7 +50,7 @@ class POPSort : POPBaseNullableIterator {
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return children[0].getRequiredVariableNames()
+        return getProvidedVariableNames()
     }
 
     override fun getResultSet(): ResultSet {

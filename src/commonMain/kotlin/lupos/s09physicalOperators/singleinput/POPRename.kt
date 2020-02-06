@@ -30,6 +30,23 @@ class POPRename : POPBase {
     private val resultSetNew = ResultSet()
     private val variablesOld: Array<Variable?>
     private val variablesNew: Array<Variable?>
+override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>,autocorrect:Boolean) {
+        val localProvide=children[0].getProvidedVariableNames()
+        val localRequire=listOf<String>(nameFrom.name)
+        for (c in children)
+            c.syntaxVerifyAllVariableExists(localProvide,autocorrect)
+        val res = localProvide.containsAll(localRequire)
+        if (!res) {
+            println("provide: ${getProvidedVariableNames() + additionalProvided}")
+            println("require: ${getRequiredVariableNames()}")
+            println(toXMLElement().toPrettyString())
+	if(autocorrect){
+                syntaxVerifyAllVariableExistsAutocorrect()
+                }else{
+                    throw Exception("undefined Variable")
+                }
+        }
+    }
 
     constructor(nameTo: LOPVariable, nameFrom: LOPVariable, child: OPBase) : super() {
         children[0] = child
@@ -63,13 +80,7 @@ class POPRename : POPBase {
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        val res = mutableListOf<String>()
-        val variables = children[0].getProvidedVariableNames()
-        for (v in variables) {
-            res.add(v)
-        }
-        res.add(nameFrom.name)
-        return res
+        return listOf<String>(nameFrom.name)
     }
 
     override fun getResultSet(): ResultSet {

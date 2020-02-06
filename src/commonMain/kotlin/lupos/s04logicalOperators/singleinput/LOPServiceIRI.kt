@@ -25,7 +25,7 @@ class LOPServiceIRI(val name: String, val silent: Boolean, child: OPBase) : LOPB
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return children[0].getRequiredVariableNames()
+        return getProvidedVariableNames()
     }
 
     override fun toXMLElement(): XMLElement {

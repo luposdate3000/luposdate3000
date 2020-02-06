@@ -35,7 +35,7 @@ class POPFilter : POPBaseNullableIterator {
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return children[0].getRequiredVariableNames() + filter.getRequiredVariableNames()
+        return filter.getRequiredVariableNames()
     }
 
     override fun getResultSet(): ResultSet {

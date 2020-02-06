@@ -15,7 +15,7 @@ class LOPBind(val name: LOPVariable, val expression: OPBase) : LOPBase() {
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>(name.name) + children[0].getRequiredVariableNames()
+        return mutableListOf<String>(name.name) + children[0].getProvidedVariableNames()
     }
 
     override fun getRequiredVariableNames(): List<String> {

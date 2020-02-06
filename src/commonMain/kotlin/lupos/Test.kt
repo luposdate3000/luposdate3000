@@ -401,6 +401,7 @@ private fun testOneEntry(data: SevenIndices, node: Long, prefix: String): Boolea
             else -> throw Exception("unknown manifest entry : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
         }
     }
+    println("testType : $testType")
     println("names : $names")
     println("comment : $comment")
     println("description : $description")
@@ -476,15 +477,15 @@ fun parseSPARQLAndEvaluate(//
         val lop_node = ast_node.visit(OperatorGraphVisitor())
         println(lop_node.toXMLElement().toPrettyString())
         println("----------Logical Operator Graph optimized")
-        val lop_node2 = LogicalOptimizer(transactionID).optimize(lop_node)
+        val lop_node2 = LogicalOptimizer(transactionID).optimizeCall(lop_node)
         println(lop_node2.toXMLElement().toPrettyString())
         println("----------Physical Operator Graph")
         val pop_optimizer = PhysicalOptimizer(transactionID)
         pop_optimizer.store = store
-        val pop_node = pop_optimizer.optimize(lop_node2)
+        val pop_node = pop_optimizer.optimizeCall(lop_node2)
         println(pop_node.toXMLElement().toPrettyString())
         println("----------Distributed Operator Graph")
-        val pop_distributed_node = KeyDistributionOptimizer(transactionID).optimize(pop_node) as POPBase
+        val pop_distributed_node = KeyDistributionOptimizer(transactionID).optimizeCall(pop_node) as POPBase
         println(pop_distributed_node)
         var xmlQueryResult: XMLElement? = null
         if (!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)) {
