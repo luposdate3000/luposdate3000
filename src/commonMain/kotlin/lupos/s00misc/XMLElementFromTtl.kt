@@ -18,7 +18,7 @@ fun XMLElement.Companion.parseFromTtl(ttl: String): List<XMLElement>? {
     nodeHead.addContent(XMLElement("variable").addAttribute("name", "p"))
     nodeHead.addContent(XMLElement("variable").addAttribute("name", "o"))
     val ltit = LookAheadTokenIterator(TurtleScanner(LexerCharIterator(ttl)), 3)
-    val parser = TurtleParser({ triple ->
+    TurtleParser({ triple ->
         val nodeResult = XMLElement("result")
         nodeResults.addContent(nodeResult)
         parseBindingFromString(nodeResult, triple.s.toN3String(), "s")

@@ -1,8 +1,8 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
@@ -14,7 +14,7 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
-class POPEmptyRow(override val dictionary:ResultSetDictionary) : POPBase() {
+class POPEmptyRow(override val dictionary: ResultSetDictionary) : POPBase() {
     override val children: Array<OPBase> = arrayOf()
     private val resultSetNew = ResultSet(dictionary)
 

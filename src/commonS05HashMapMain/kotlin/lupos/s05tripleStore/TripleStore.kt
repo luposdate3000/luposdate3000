@@ -1,12 +1,12 @@
 package lupos.s05tripleStore
 
+import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Trace
-import lupos.s00misc.*
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetIterator
-import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.*
 import lupos.s05tripleStore.IndexPattern
@@ -15,15 +15,15 @@ import lupos.s09physicalOperators.POPBase
 
 
 class TripleStoreIterator : POPTripleStoreIteratorBase {
-override val dictionary:ResultSetDictionary
+    override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
-    private val resultSetNew : ResultSet
+    private val resultSetNew: ResultSet
     private val resultSetOld: ResultSet
     private var mapIterator: MutableIterator<MutableMap.MutableEntry<ResultRow, MutableSet<ResultRow>>>
     private var listIterator: Iterator<ResultRow>?
-    private var sNew :Variable
-    private var pNew :Variable
-    private var oNew :Variable
+    private var sNew: Variable
+    private var pNew: Variable
+    private var oNew: Variable
     private val sOld: Variable
     private val pOld: Variable
     private val oOld: Variable
@@ -53,12 +53,12 @@ override val dictionary:ResultSetDictionary
         nameO = n
     }
 
-    constructor(dictionary:ResultSetDictionary,store: TripleStore, index: IndexPattern) {
-this.dictionary=dictionary
-resultSetNew = ResultSet(dictionary)
- sNew = resultSetNew.createVariable(nameS)
- pNew = resultSetNew.createVariable(nameP)
- oNew = resultSetNew.createVariable(nameO)
+    constructor(dictionary: ResultSetDictionary, store: TripleStore, index: IndexPattern) {
+        this.dictionary = dictionary
+        resultSetNew = ResultSet(dictionary)
+        sNew = resultSetNew.createVariable(nameS)
+        pNew = resultSetNew.createVariable(nameP)
+        oNew = resultSetNew.createVariable(nameO)
         this.store = store
         when (index) {
             IndexPattern.S -> this.index = index
@@ -92,7 +92,7 @@ resultSetNew = ResultSet(dictionary)
         currentKey = null
     }
 
-    constructor(dictionary:ResultSetDictionary,store: TripleStore) : this(dictionary,store, IndexPattern.S)
+    constructor(dictionary: ResultSetDictionary, store: TripleStore) : this(dictionary, store, IndexPattern.S)
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>(nameS, nameP, nameO)
@@ -309,7 +309,7 @@ class TripleStore {
 
     fun addData(transactionID: Long, t: List<String?>) {
         println("addData1 $transactionID")
-	val vals = resultSet.createValue(t[0])
+        val vals = resultSet.createValue(t[0])
         val valp = resultSet.createValue(t[1])
         val valo = resultSet.createValue(t[2])
         modifyData(transactionID, vals, valp, valo, ModifyType.INSERT)
@@ -407,19 +407,19 @@ class TripleStore {
         }
     }
 
-    fun getIterator(dictionary:ResultSetDictionary): POPTripleStoreIteratorBase {
-        return TripleStoreIterator(dictionary,this)
+    fun getIterator(dictionary: ResultSetDictionary): POPTripleStoreIteratorBase {
+        return TripleStoreIterator(dictionary, this)
     }
 
-    fun getIterator(dictionary:ResultSetDictionary,s: String, p: String, o: String): POPTripleStoreIteratorBase {
-        val res = TripleStoreIterator(dictionary,this)
+    fun getIterator(dictionary: ResultSetDictionary, s: String, p: String, o: String): POPTripleStoreIteratorBase {
+        val res = TripleStoreIterator(dictionary, this)
         res.setMNameS(s)
         res.setMNameP(p)
         res.setMNameO(o)
         return res
     }
 
-    fun getIterator(dictionary:ResultSetDictionary,index: IndexPattern): POPTripleStoreIteratorBase {      
-  return TripleStoreIterator(dictionary,this, index)
+    fun getIterator(dictionary: ResultSetDictionary, index: IndexPattern): POPTripleStoreIteratorBase {
+        return TripleStoreIterator(dictionary, this, index)
     }
 }

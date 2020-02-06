@@ -1,7 +1,8 @@
 package lupos.s12p2p
-import lupos.s03resultRepresentation.*
+
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
@@ -27,9 +28,10 @@ class POPServiceIRI : POPBase {
     val silent: Boolean
     var first = true
     val originalConstraint: OPBase
-override val dictionary:ResultSetDictionary
-    constructor(dictionary:ResultSetDictionary,transactionID: Long, serverName: String, silent: Boolean, constraint: OPBase) : super() {
-this.dictionary=dictionary
+    override val dictionary: ResultSetDictionary
+
+    constructor(dictionary: ResultSetDictionary, transactionID: Long, serverName: String, silent: Boolean, constraint: OPBase) : super() {
+        this.dictionary = dictionary
         this.transactionID = transactionID
         this.serverName = serverName
         originalConstraint = constraint
@@ -66,7 +68,7 @@ this.dictionary=dictionary
             if (silent || constraint == null) {
                 val res = resultSet.createResultRow()
                 for (n in getProvidedVariableNames())
-			resultSet.setUndefValue(res,resultSet.createVariable(n))
+                    resultSet.setUndefValue(res, resultSet.createVariable(n))
                 return res
             }
             throw e

@@ -440,8 +440,8 @@ fun parseSPARQLAndEvaluate(//
             println("----------Input Data Graph[]")
             var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
             val transactionID = store.nextTransactionID()
-    val dictionary = ResultSetDictionary()
-            store.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary,xmlQueryInput!!.first()))
+            val dictionary = ResultSetDictionary()
+            store.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
             store.commit(transactionID)
             println(xmlQueryInput.first().toPrettyString())
         }
@@ -452,8 +452,8 @@ fun parseSPARQLAndEvaluate(//
             println("----------Input Data Graph[${it["name"]}]")
             var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
             val transactionID = store.nextTransactionID()
-    val dictionary = ResultSetDictionary()
-            store.getNamedGraph(it["name"]!!, true).addData(transactionID, POPImportFromXml(dictionary,xmlQueryInput!!.first()))
+            val dictionary = ResultSetDictionary()
+            store.getNamedGraph(it["name"]!!, true).addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
             store.commit(transactionID)
             println(xmlQueryInput.first().toPrettyString())
         }
@@ -465,8 +465,8 @@ fun parseSPARQLAndEvaluate(//
                 P2P.execInsertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!.first())
             }
         val transactionID = store.nextTransactionID()
-    val dictionary = ResultSetDictionary()
-        var res = true
+        val dictionary = ResultSetDictionary()
+        var res: Boolean
         println("----------String Query")
         println(toParse)
         println("----------Abstract Syntax Tree")
@@ -480,20 +480,20 @@ fun parseSPARQLAndEvaluate(//
         val lop_node = ast_node.visit(OperatorGraphVisitor())
         println(lop_node.toXMLElement().toPrettyString())
         println("----------Logical Operator Graph optimized")
-        val lop_node2 = LogicalOptimizer(transactionID,dictionary).optimizeCall(lop_node)
+        val lop_node2 = LogicalOptimizer(transactionID, dictionary).optimizeCall(lop_node)
         println(lop_node2.toXMLElement().toPrettyString())
         println("----------Physical Operator Graph")
-        val pop_optimizer = PhysicalOptimizer(transactionID,dictionary)
+        val pop_optimizer = PhysicalOptimizer(transactionID, dictionary)
         pop_optimizer.store = store
         val pop_node = pop_optimizer.optimizeCall(lop_node2)
         println(pop_node.toXMLElement().toPrettyString())
         println("----------Distributed Operator Graph")
-        val pop_distributed_node = KeyDistributionOptimizer(transactionID,dictionary).optimizeCall(pop_node) as POPBase
+        val pop_distributed_node = KeyDistributionOptimizer(transactionID, dictionary).optimizeCall(pop_node) as POPBase
         println(pop_distributed_node)
         var xmlQueryResult: XMLElement? = null
         if (!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)) {
             println("----------Query Result")
-            xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node)!!.first()
+            xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node).first()
             println(xmlQueryResult.toPrettyString())
             store.commit(transactionID)
         }
@@ -510,8 +510,8 @@ fun parseSPARQLAndEvaluate(//
             tmp.setMNameO("o")
             var xmlGraphActual = QueryResultToXML.toXML(tmp)
             println(xmlGraphTarget!!.first().toPrettyString())
-            println(xmlGraphActual!!.first().toPrettyString())
-            if (!xmlGraphTarget!!.first().myEqualsUnclean(xmlGraphActual?.first())) {
+            println(xmlGraphActual.first().toPrettyString())
+            if (!xmlGraphTarget.first().myEqualsUnclean(xmlGraphActual.first())) {
                 println("----------Failed(PersistentStore Graph)")
                 return false
             }
@@ -526,7 +526,7 @@ fun parseSPARQLAndEvaluate(//
             if (res) {
                 val xmlPOP = pop_distributed_node.toXMLElement()
                 val transactionID2 = store.nextTransactionID()
-                val popNodeRecovered = XMLElement.convertToOPBase(dictionary,transactionID2, xmlPOP, store) as POPBase
+                val popNodeRecovered = XMLElement.convertToOPBase(dictionary, transactionID2, xmlPOP, store) as POPBase
                 println(xmlPOP.toPrettyString())
                 println(popNodeRecovered.toXMLElement().toPrettyString())
                 val xmlQueryResultRecovered = QueryResultToXML.toXML(popNodeRecovered)
@@ -541,7 +541,7 @@ fun parseSPARQLAndEvaluate(//
                     res = false
                 }
             } else {
-                if (xmlQueryResult!!.myEqualsUnclean(xmlQueryTarget?.first())) {
+                if (xmlQueryResult.myEqualsUnclean(xmlQueryTarget?.first())) {
                     if (expectedResult)
                         println("----------Success(Unordered)")
                     else

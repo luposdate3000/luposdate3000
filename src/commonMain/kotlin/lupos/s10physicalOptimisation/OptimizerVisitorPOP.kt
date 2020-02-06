@@ -1,4 +1,5 @@
 package lupos.s10physicalOptimisation
+
 import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
@@ -29,7 +30,7 @@ import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 
 
-abstract class OptimizerVisitorPOP(transactionID: Long,dictionary:ResultSetDictionary) : OptimizerVisitorLOP(transactionID,dictionary) {
+abstract class OptimizerVisitorPOP(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerVisitorLOP(transactionID, dictionary) {
     var store: PersistentStore? = null
 
 
@@ -39,7 +40,7 @@ abstract class OptimizerVisitorPOP(transactionID: Long,dictionary:ResultSetDicti
     }
 
     open fun visit(node: POPModify): OPBase {
-        return POPModify(dictionary,transactionID, node.iri, node.insert, node.delete, node.pstore, optimize(node.children[0]))
+        return POPModify(dictionary, transactionID, node.iri, node.insert, node.delete, node.pstore, optimize(node.children[0]))
     }
 
     open fun visit(node: POPModifyData): OPBase {
@@ -48,15 +49,15 @@ abstract class OptimizerVisitorPOP(transactionID: Long,dictionary:ResultSetDicti
     }
 
     open fun visit(node: POPFilterExact): OPBase {
-        return POPFilterExact(dictionary,optimize(node.variable) as LOPVariable, node.value, optimize(node.children[0]))
+        return POPFilterExact(dictionary, optimize(node.variable) as LOPVariable, node.value, optimize(node.children[0]))
     }
 
     open fun visit(node: POPProjection): OPBase {
-        return POPProjection(dictionary,node.variables, optimize(node.children[0]))
+        return POPProjection(dictionary, node.variables, optimize(node.children[0]))
     }
 
     open fun visit(node: POPRename): OPBase {
-        return POPRename(dictionary,optimize(node.nameTo) as LOPVariable, optimize(node.nameFrom) as LOPVariable, optimize(node.children[0]))
+        return POPRename(dictionary, optimize(node.nameTo) as LOPVariable, optimize(node.nameFrom) as LOPVariable, optimize(node.children[0]))
     }
 
     open fun visit(node: POPTripleStoreIteratorBase): OPBase {
@@ -70,15 +71,15 @@ abstract class OptimizerVisitorPOP(transactionID: Long,dictionary:ResultSetDicti
     }
 
     open fun visit(node: POPBind): OPBase {
-        return POPBind(dictionary,node.name, optimize(node.expression) as POPExpression, optimize(node.children[0]))
+        return POPBind(dictionary, node.name, optimize(node.expression) as POPExpression, optimize(node.children[0]))
     }
 
     open fun visit(node: POPBindUndefined): OPBase {
-        return POPBindUndefined(dictionary,node.name, optimize(node.children[0]))
+        return POPBindUndefined(dictionary, node.name, optimize(node.children[0]))
     }
 
     open fun visit(node: POPDistinct): OPBase {
-        return POPDistinct(dictionary,optimize(node.children[0]))
+        return POPDistinct(dictionary, optimize(node.children[0]))
     }
 
     open fun visit(node: POPEmptyRow): OPBase {
@@ -86,49 +87,49 @@ abstract class OptimizerVisitorPOP(transactionID: Long,dictionary:ResultSetDicti
     }
 
     open fun visit(node: POPFilter): OPBase {
-        return POPFilter(dictionary,node.filter, optimize(node.children[0]))
+        return POPFilter(dictionary, node.filter, optimize(node.children[0]))
     }
 
     open fun visit(node: POPGroup): OPBase {
         var bindings: POPBase = POPEmptyRow(dictionary)
         for ((v, e) in node.bindings) {
-            bindings = POPBind(dictionary,LOPVariable(node.getResultSet().getVariable(v)), e, bindings)
+            bindings = POPBind(dictionary, LOPVariable(node.getResultSet().getVariable(v)), e, bindings)
         }
         if (bindings is POPEmptyRow)
-            return POPGroup(dictionary,node.by, null, optimize(node.children[0]))
-        return POPGroup(dictionary,node.by, optimize(bindings) as POPBind, optimize(node.children[0]))
+            return POPGroup(dictionary, node.by, null, optimize(node.children[0]))
+        return POPGroup(dictionary, node.by, optimize(bindings) as POPBind, optimize(node.children[0]))
     }
 
     open fun visit(node: POPJoinHashMap): OPBase {
-        return POPJoinHashMap(dictionary,optimize(node.children[0]), optimize(node.children[1]), node.optional)
+        return POPJoinHashMap(dictionary, optimize(node.children[0]), optimize(node.children[1]), node.optional)
     }
 
     open fun visit(node: POPLimit): OPBase {
-        return POPLimit(dictionary,node.limit, optimize(node.children[0]))
+        return POPLimit(dictionary, node.limit, optimize(node.children[0]))
     }
 
     open fun visit(node: POPMakeBooleanResult): OPBase {
-        return POPMakeBooleanResult(dictionary,optimize(node.children[0]))
+        return POPMakeBooleanResult(dictionary, optimize(node.children[0]))
     }
 
     open fun visit(node: POPSort): OPBase {
-        return POPSort(dictionary,LOPVariable(node.getResultSet().getVariable(node.sortBy)), node.sortOrder, optimize(node.children[0]))
+        return POPSort(dictionary, LOPVariable(node.getResultSet().getVariable(node.sortBy)), node.sortOrder, optimize(node.children[0]))
     }
 
     open fun visit(node: POPUnion): OPBase {
-        return POPUnion(dictionary,optimize(node.children[0]), optimize(node.children[1]))
+        return POPUnion(dictionary, optimize(node.children[0]), optimize(node.children[1]))
     }
 
     open fun visit(node: POPExpression): OPBase {
-        return POPExpression(dictionary,node.child)
+        return POPExpression(dictionary, node.child)
     }
 
     open fun visit(node: POPOffset): OPBase {
-        return POPOffset(dictionary,node.offset, optimize(node.children[0]))
+        return POPOffset(dictionary, node.offset, optimize(node.children[0]))
     }
 
     open fun visit(node: POPTemporaryStore): OPBase {
-        return POPTemporaryStore(dictionary,optimize(node.children[0]))
+        return POPTemporaryStore(dictionary, optimize(node.children[0]))
     }
 
     open fun visit(node: POPValues): OPBase {

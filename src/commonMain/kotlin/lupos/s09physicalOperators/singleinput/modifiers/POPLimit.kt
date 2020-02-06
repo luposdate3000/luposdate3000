@@ -1,8 +1,8 @@
 package lupos.s09physicalOperators.singleinput.modifiers
-import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
@@ -14,18 +14,18 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 
 
 class POPLimit : POPBase {
-override val dictionary:ResultSetDictionary
+    override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private val resultSetOld: ResultSet
-    private val resultSetNew : ResultSet
+    private val resultSetNew: ResultSet
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     val limit: Int
     private var count = 0
 
-    constructor(dictionary:ResultSetDictionary,limit: Int, child: OPBase) : super() {
-this.dictionary=dictionary
-resultSetNew = ResultSet(dictionary)
-         this.limit = limit
+    constructor(dictionary: ResultSetDictionary, limit: Int, child: OPBase) : super() {
+        this.dictionary = dictionary
+        resultSetNew = ResultSet(dictionary)
+        this.limit = limit
         children[0] = child
         resultSetOld = children[0].getResultSet()
         for (v in resultSetOld.getVariableNames())

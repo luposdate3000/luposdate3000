@@ -1,8 +1,8 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
@@ -21,16 +21,16 @@ import lupos.s09physicalOperators.singleinput.POPGroup
 
 
 class POPMakeBooleanResult : POPBase {
-override val dictionary:ResultSetDictionary
+    override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
-    private val resultSetNew : ResultSet
+    private val resultSetNew: ResultSet
     private val variableNew: Variable
     private var count = 0
 
-    constructor(dictionary:ResultSetDictionary,child: OPBase) : super() {
-this.dictionary=dictionary
-resultSetNew = ResultSet(dictionary)
-         children[0] = child
+    constructor(dictionary: ResultSetDictionary, child: OPBase) : super() {
+        this.dictionary = dictionary
+        resultSetNew = ResultSet(dictionary)
+        children[0] = child
         this.variableNew = resultSetNew.createVariable("?boolean")
     }
 

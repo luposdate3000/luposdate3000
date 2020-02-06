@@ -1,6 +1,7 @@
 package lupos.s14endpoint
-import lupos.s03resultRepresentation.*
+
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.toASTNode
@@ -37,76 +38,76 @@ fun createLOPVariable(mapping: MutableMap<String, String>, name: String): LOPVar
     return LOPVariable(name)
 }
 
-fun XMLElement.Companion.convertToOPBase(dictionary:ResultSetDictionary,transactionID: Long, node: XMLElement, store: PersistentStore = globalStore, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): OPBase {
+fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transactionID: Long, node: XMLElement, store: PersistentStore = globalStore, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): OPBase {
     return when (node.tag) {
         "POPSort" -> {
-            val child = convertToOPBase(dictionary,transactionID, node["children"]!!.childs[0]!!, store, mapping)
-            POPSort(dictionary,createLOPVariable(mapping, node.attributes["by"]!!), node.attributes["order"] == "ASC", child)
+            val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], store, mapping)
+            POPSort(dictionary, createLOPVariable(mapping, node.attributes["by"]!!), node.attributes["order"] == "ASC", child)
         }
         "POPRename" -> {
-            val child = convertToOPBase(dictionary,transactionID, node["children"]!!.childs[0]!!, store, mapping)
-            POPRename(dictionary,createLOPVariable(mapping, node.attributes["nameTo"]!!), createLOPVariable(mapping, node.attributes["nameFrom"]!!), child)
+            val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], store, mapping)
+            POPRename(dictionary, createLOPVariable(mapping, node.attributes["nameTo"]!!), createLOPVariable(mapping, node.attributes["nameFrom"]!!), child)
         }
         "POPProjection" -> {
-            val child = convertToOPBase(dictionary,transactionID, node["children"]!!.childs[0]!!, store, mapping)
+            val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], store, mapping)
             val variables = mutableListOf<LOPVariable>()
             node["variables"]!!.childs.forEach {
                 variables.add(createLOPVariable(mapping, it.attributes["name"]!!))
             }
-            return POPProjection(dictionary,variables, child)
+            return POPProjection(dictionary, variables, child)
         }
-        "POPMakeBooleanResult" -> POPMakeBooleanResult(dictionary,convertToOPBase(dictionary,transactionID, node["children"]!!.childs[0]!!, store, mapping))
+        "POPMakeBooleanResult" -> POPMakeBooleanResult(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], store, mapping))
         "POPGroup" -> {
-            val child = convertToOPBase(dictionary,transactionID, node["children"]!!.childs[0]!!, store, mapping)
+            val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], store, mapping)
             val by = mutableListOf<LOPVariable>()
             var bindings: POPBase = POPEmptyRow(dictionary)
-            node["by"]!!.childs!!.forEach {
+            node["by"]!!.childs.forEach {
                 by.add(createLOPVariable(mapping, it.attributes["name"]!!))
             }
             node["bindings"]!!.childs.forEach {
-                bindings = POPBind(dictionary,createLOPVariable(mapping, it.attributes["name"]!!), POPExpression.fromXMLElement(dictionary,it.childs[0]), bindings)
+                bindings = POPBind(dictionary, createLOPVariable(mapping, it.attributes["name"]!!), POPExpression.fromXMLElement(dictionary, it.childs[0]), bindings)
             }
             if (bindings is POPEmptyRow)
-                return POPGroup(dictionary,by, null, child)
-            return POPGroup(dictionary,by, bindings as POPBind, child)
+                return POPGroup(dictionary, by, null, child)
+            return POPGroup(dictionary, by, bindings as POPBind, child)
         }
-        "POPFilter" -> POPFilter(dictionary,POPExpression.fromXMLElement(dictionary,node["filter"]!!.childs[0]), convertToOPBase(dictionary,transactionID, node["children"]!!.childs[0]!!, store, mapping))
+        "POPFilter" -> POPFilter(dictionary, POPExpression.fromXMLElement(dictionary, node["filter"]!!.childs[0]), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], store, mapping))
         "POPFilterExact" -> {
-            val child = convertToOPBase(dictionary,transactionID, node["children"]!!.childs[0]!!, store, mapping)
-            POPFilterExact(dictionary,createLOPVariable(mapping, node.attributes["name"]!!), node.attributes["value"]!!, child)
+            val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], store, mapping)
+            POPFilterExact(dictionary, createLOPVariable(mapping, node.attributes["name"]!!), node.attributes["value"]!!, child)
         }
         "POPBindUndefined" -> {
-            val child = convertToOPBase(dictionary,transactionID, node["children"]!!.childs[0]!!, store, mapping)
-            POPBindUndefined(dictionary,createLOPVariable(mapping, node.attributes["name"]!!), child)
+            val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], store, mapping)
+            POPBindUndefined(dictionary, createLOPVariable(mapping, node.attributes["name"]!!), child)
         }
         "POPBind" -> {
-            val child = convertToOPBase(dictionary,transactionID, node["children"]!!.childs[0]!!, store, mapping)
-            POPBind(dictionary,createLOPVariable(mapping, node.attributes["name"]!!), convertToOPBase(dictionary,transactionID, node["expression"]!!.childs[0]!!, store, mapping) as POPExpression, child)
+            val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], store, mapping)
+            POPBind(dictionary, createLOPVariable(mapping, node.attributes["name"]!!), convertToOPBase(dictionary, transactionID, node["expression"]!!.childs[0], store, mapping) as POPExpression, child)
         }
-        "POPOffset" -> POPOffset(dictionary,node.attributes["offset"]!!.toInt(), convertToOPBase(dictionary,transactionID, node["children"]!!.childs[0], store, mapping))
-        "POPLimit" -> POPLimit(dictionary,node.attributes["limit"]!!.toInt(), convertToOPBase(dictionary,transactionID, node["children"]!!.childs[0]!!, store, mapping))
-        "POPDistinct" -> POPDistinct(dictionary,convertToOPBase(dictionary,transactionID, node["children"]!!.childs[0]!!, store, mapping))
+        "POPOffset" -> POPOffset(dictionary, node.attributes["offset"]!!.toInt(), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], store, mapping))
+        "POPLimit" -> POPLimit(dictionary, node.attributes["limit"]!!.toInt(), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], store, mapping))
+        "POPDistinct" -> POPDistinct(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], store, mapping))
         "POPValues" -> {
             val vars = mutableListOf<String>()
             val vals = mutableListOf<MutableMap<String, String>>()
-            node["variables"]!!.childs!!.forEach {
+            node["variables"]!!.childs.forEach {
                 vars.add(it.attributes["name"]!!)
             }
-            node["bindings"]!!.childs!!.forEach {
+            node["bindings"]!!.childs.forEach {
                 val exp = mutableMapOf<String, String>()
-                it.childs!!.forEach {
+                it.childs.forEach {
                     exp[it.attributes["name"]!!] = it.attributes["content"]!!
                 }
                 vals.add(exp)
             }
-            return POPValues(dictionary,vars, vals)
+            return POPValues(dictionary, vars, vals)
         }
         "POPEmptyRow" -> POPEmptyRow(dictionary)
-        "POPUnion" -> POPUnion(dictionary,convertToOPBase(dictionary,transactionID, node["children"]!!.childs[0]!!, store, mapping), convertToOPBase(dictionary,transactionID, node["children"]!!.childs[1]!!, store, mapping))
-        "POPJoinNestedLoop" -> POPJoinNestedLoop(dictionary,convertToOPBase(dictionary,transactionID, node["children"]!!.childs[0]!!, store, mapping), convertToOPBase(dictionary,transactionID, node["children"]!!.childs[1]!!, store, mapping), node.attributes["optional"]!!.toBoolean())
-        "POPJoinHashMap" -> POPJoinHashMap(dictionary,convertToOPBase(dictionary,transactionID, node["children"]!!.childs[0]!!, store, mapping), convertToOPBase(dictionary,transactionID, node["children"]!!.childs[1]!!, store, mapping), node.attributes["optional"]!!.toBoolean())
-        "POPTemporaryStore" -> POPTemporaryStore(dictionary,convertToOPBase(dictionary,transactionID, node["children"]!!.childs[0]!!, store, mapping))
-        "POPExpression" -> POPExpression(dictionary,XMLElement.toASTNode(node.childs[0]!!))
+        "POPUnion" -> POPUnion(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], store, mapping), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], store, mapping))
+        "POPJoinNestedLoop" -> POPJoinNestedLoop(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], store, mapping), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], store, mapping), node.attributes["optional"]!!.toBoolean())
+        "POPJoinHashMap" -> POPJoinHashMap(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], store, mapping), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], store, mapping), node.attributes["optional"]!!.toBoolean())
+        "POPTemporaryStore" -> POPTemporaryStore(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], store, mapping))
+        "POPExpression" -> POPExpression(dictionary, XMLElement.toASTNode(node.childs[0]))
         "TripleStoreIterator" -> {
             val res = store.getNamedGraph(node.attributes["name"]!!).getIterator(dictionary)
             val olduuid = node.attributes["uuid"]
@@ -115,7 +116,7 @@ fun XMLElement.Companion.convertToOPBase(dictionary:ResultSetDictionary,transact
             mapping["#o" + olduuid] = "#o${res.uuid}"
             return res
         }
-        "POPServiceIRI" -> return POPServiceIRI(dictionary,transactionID, node.attributes["name"]!!, node.attributes["silent"]!!.toBoolean(), convertToOPBase(dictionary,transactionID, node["children"]!!.childs[0]!!, store, mapping))
+        "POPServiceIRI" -> return POPServiceIRI(dictionary, transactionID, node.attributes["name"]!!, node.attributes["silent"]!!.toBoolean(), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], store, mapping))
         else -> throw Exception("XMLElement.Companion.convertToOPBase unknown :: ${node.tag}")
     }
 }

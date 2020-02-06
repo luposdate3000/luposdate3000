@@ -6,22 +6,22 @@ import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 
 
-class ResultSet(val dictionary:ResultSetDictionary) {
-    val variablesSTL = mutableMapOf<String,Long>()
+class ResultSet(val dictionary: ResultSetDictionary) {
+    val variablesSTL = mutableMapOf<String, Long>()
     val variablesLTS = mutableListOf<String>()
 
     fun renameVariable(variableOld: String, variableNew: String): Long {
-	val l=variablesSTL[variableOld]!!
+        val l = variablesSTL[variableOld]!!
         variablesSTL.remove(variableOld)
-        variablesSTL[variableNew]=l
-	variablesLTS[l.toInt()]=variableNew
+        variablesSTL[variableNew] = l
+        variablesLTS[l.toInt()] = variableNew
         return l
     }
 
     fun createVariable(variable: String): Variable {
-	val l=0L+variablesLTS.size
-        variablesSTL[variable]=l
-	variablesLTS.add(variable)
+        val l = 0L + variablesLTS.size
+        variablesSTL[variable] = l
+        variablesLTS.add(variable)
         return l
     }
 
@@ -34,8 +34,8 @@ class ResultSet(val dictionary:ResultSetDictionary) {
     }
 
     fun createValue(value: String?): Value {
-	if(value==null)
-		return dictionary.undefValue
+        if (value == null)
+            return dictionary.undefValue
         return dictionary.createValue(value)
     }
 
@@ -47,10 +47,11 @@ class ResultSet(val dictionary:ResultSetDictionary) {
         return dictionary.getValue(value)
     }
 
-fun isUndefValue(r:ResultRow,v:Variable):Boolean{
-        return r[v]==dictionary.undefValue
-}
-fun setUndefValue(r:ResultRow,v:Variable){
-        r[v]=dictionary.undefValue
-}
+    fun isUndefValue(r: ResultRow, v: Variable): Boolean {
+        return r[v] == dictionary.undefValue
+    }
+
+    fun setUndefValue(r: ResultRow, v: Variable) {
+        r[v] = dictionary.undefValue
+    }
 }

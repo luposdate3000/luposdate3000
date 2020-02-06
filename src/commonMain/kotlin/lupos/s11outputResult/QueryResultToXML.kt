@@ -37,7 +37,7 @@ object QueryResultToXML {
                 for (variable in variables) {
                     val nodeBinding = XMLElement("binding").addAttribute("name", variable.first)
                     val value = resultSet.getValue(resultRow[variable.second])
-                    if (! resultSet.isUndefValue(resultRow,variable.second)) {
+                    if (!resultSet.isUndefValue(resultRow, variable.second)) {
                         if (value.startsWith("\"") && !value.endsWith("\"")) {
                             println("value:" + value)
                             val idx = value.lastIndexOf("\"^^<")

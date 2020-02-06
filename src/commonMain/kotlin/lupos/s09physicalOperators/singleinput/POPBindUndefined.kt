@@ -1,8 +1,8 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
@@ -17,19 +17,19 @@ import lupos.s09physicalOperators.singleinput.POPBind
 
 
 class POPBindUndefined : POPBase {
-override val dictionary:ResultSetDictionary
+    override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     val name: LOPVariable
     private val resultSetOld: ResultSet
-    private val resultSetNew : ResultSet
+    private val resultSetNew: ResultSet
     private val variablesOld: Array<Variable?>
     private val variablesNew: Array<Variable?>
     private val variableBound: Variable
 
-    constructor(dictionary:ResultSetDictionary,name: LOPVariable, child: OPBase) : super() {
-this.dictionary=dictionary
-resultSetNew = ResultSet(dictionary)
-         children[0] = child
+    constructor(dictionary: ResultSetDictionary, name: LOPVariable, child: OPBase) : super() {
+        this.dictionary = dictionary
+        resultSetNew = ResultSet(dictionary)
+        children[0] = child
         this.name = name
         resultSetOld = children[0].getResultSet()
         val variableNames = resultSetOld.getVariableNames()
@@ -76,7 +76,7 @@ resultSetNew = ResultSet(dictionary)
                 // TODO reuse resultSet
                 rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
             }
-	resultSetNew.setUndefValue(rsNew,variableBound)
+            resultSetNew.setUndefValue(rsNew, variableBound)
             return rsNew
         } finally {
             Trace.stop("POPBindUndefined.next")

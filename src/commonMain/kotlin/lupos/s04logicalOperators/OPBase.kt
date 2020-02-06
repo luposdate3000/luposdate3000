@@ -3,12 +3,13 @@ package lupos.s04logicalOperators
 import lupos.s00misc.classNameToString
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
+import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.ResultSetIterator
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.singleinput.*
-import lupos.s02buildSyntaxTree.sparql1_1.*
+
 
 abstract class OPBase : ResultSetIterator {
 
@@ -33,34 +34,34 @@ abstract class OPBase : ResultSetIterator {
         return res
     }
 
-fun syntaxVerifyAllVariableExistsAutocorrect(){
-	for(req in getRequiredVariableNames()){
-		var found=false
-		for(prov in getProvidedVariableNames()){
-			if(prov==req){
-				found=true
-				break
-			}
-		}
-		if(!found){
-			children[0]=LOPBind(LOPVariable(req),LOPExpression(ASTUndef()),children[0])
-		}
-	}
-}
+    fun syntaxVerifyAllVariableExistsAutocorrect() {
+        for (req in getRequiredVariableNames()) {
+            var found = false
+            for (prov in getProvidedVariableNames()) {
+                if (prov == req) {
+                    found = true
+                    break
+                }
+            }
+            if (!found) {
+                children[0] = LOPBind(LOPVariable(req), LOPExpression(ASTUndef()), children[0])
+            }
+        }
+    }
 
-    open fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf<String>(),autocorrect:Boolean=false) {
+    open fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf<String>(), autocorrect: Boolean = false) {
         for (c in children)
-            c.syntaxVerifyAllVariableExists(additionalProvided,autocorrect)
+            c.syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
         val res = (additionalProvided + getProvidedVariableNames()).containsAll(getRequiredVariableNames())
         if (!res) {
             println("provide: ${getProvidedVariableNames() + additionalProvided}")
             println("require: ${getRequiredVariableNames()}")
             println(toXMLElement().toPrettyString())
-	    if(autocorrect){
-		syntaxVerifyAllVariableExistsAutocorrect()
-		}else{
-        	    throw Exception("undefined Variable")
-		}
+            if (autocorrect) {
+                syntaxVerifyAllVariableExistsAutocorrect()
+            } else {
+                throw Exception("undefined Variable")
+            }
         }
     }
 

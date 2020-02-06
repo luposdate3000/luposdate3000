@@ -1,7 +1,8 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s03resultRepresentation.*
+
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
@@ -26,23 +27,23 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
     private val resultSetOldB: ResultSet
     private val variablesOldB = mutableListOf<Pair<Variable, Variable>>()//not joined
     private val variablesOldJ = mutableListOf<Pair<Pair<Variable, Variable>, Variable>>()//joined
-    private val resultSetNew : ResultSet
+    private val resultSetNew: ResultSet
     private var resultRowA: ResultRow? = null
     private var hadMatchForA = false
-override val dictionary:ResultSetDictionary
+    override val dictionary: ResultSetDictionary
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-return getProvidedVariableNames()
+        return getProvidedVariableNames()
     }
 
-    constructor(dictionary:ResultSetDictionary,childA: OPBase, childB: OPBase, optional: Boolean) : super() {
-this.dictionary=dictionary
-resultSetNew = ResultSet(dictionary)
-         this.children[0] = childA
-        this.children[1] = POPTemporaryStore(dictionary,childB)
+    constructor(dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase, optional: Boolean) : super() {
+        this.dictionary = dictionary
+        resultSetNew = ResultSet(dictionary)
+        this.children[0] = childA
+        this.children[1] = POPTemporaryStore(dictionary, childB)
         this.optional = optional
         resultSetOldA = this.children[0].getResultSet()
         resultSetOldB = this.children[1].getResultSet()
@@ -78,7 +79,7 @@ resultSetNew = ResultSet(dictionary)
                         var rsNew = resultSetNew.createResultRow()
                         for (p in variablesOldB) {
                             // TODO reuse resultSet
-			resultSetNew.setUndefValue(rsNew,p.second)
+                            resultSetNew.setUndefValue(rsNew, p.second)
                         }
                         for (p in variablesOldJ) {
                             // TODO reuse resultSet
@@ -120,11 +121,11 @@ resultSetNew = ResultSet(dictionary)
                     // TODO reuse resultSet
                     val a = resultSetOldA.getValue(resultRowA!![p.first.first])
                     val b = resultSetOldB.getValue(resultRowB[p.first.second])
-                    if (a != b && (! resultSetOldA.isUndefValue(resultRowA!!,p.first.first))&&(! resultSetOldB.isUndefValue(resultRowB,p.first.second))){
+                    if (a != b && (!resultSetOldA.isUndefValue(resultRowA!!, p.first.first)) && (!resultSetOldB.isUndefValue(resultRowB, p.first.second))) {
                         joinVariableOk = false
                         break
                     }
-			if(resultSetOldA.isUndefValue(resultRowA!!,p.first.first))
+                    if (resultSetOldA.isUndefValue(resultRowA!!, p.first.first))
                         rsNew[p.second] = resultSetNew.createValue(b)
                     else
                         rsNew[p.second] = resultSetNew.createValue(a)

@@ -12,9 +12,9 @@ import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s05tripleStore.PersistentStore
 import lupos.s08logicalOptimisation.LogicalOptimizer
@@ -37,14 +37,14 @@ object P2PLocalDummy {
         }
         val store = pstore.getDefaultGraph()
         val transactionID = pstore.nextTransactionID()
-	val dictionary=ResultSetDictionary()
-        store.addData(transactionID, POPImportFromXml(dictionary,data))
+        val dictionary = ResultSetDictionary()
+        store.addData(transactionID, POPImportFromXml(dictionary, data))
         pstore.commit(transactionID)
     }
 
     fun execOnNamedNode(transactionID: Long, nodeName: String, pop: OPBase): OPBase {
 /*execute "pop" on remote node - if it exist - otherwiese throw an exception*/
-        val optimizer = KeyDistributionOptimizer(transactionID,ResultSetDictionary())
+        val optimizer = KeyDistributionOptimizer(transactionID, ResultSetDictionary())
         optimizer.store = nodeData[nodeName]!!
         val res = optimizer.optimizeCall(pop)
         return res

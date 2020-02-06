@@ -33,7 +33,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s08logicalOptimisation.LogicalOptimizer
 
 
-abstract class OptimizerVisitorLOP(val transactionID: Long,val dictionary:ResultSetDictionary) {
+abstract class OptimizerVisitorLOP(val transactionID: Long, val dictionary: ResultSetDictionary) {
 
     open fun visit(node: LOPGraphOperation): OPBase {
         return node
@@ -195,9 +195,9 @@ abstract class OptimizerVisitorLOP(val transactionID: Long,val dictionary:Result
     }
 
     fun optimizeCall(node: OPBase): OPBase {
-        node.syntaxVerifyAllVariableExists(listOf<String>(),true)
+        node.syntaxVerifyAllVariableExists(listOf<String>(), true)
         val res = optimize(node)
-        res.syntaxVerifyAllVariableExists(listOf<String>(),false)
+        res.syntaxVerifyAllVariableExists(listOf<String>(), false)
         return res
     }
 }

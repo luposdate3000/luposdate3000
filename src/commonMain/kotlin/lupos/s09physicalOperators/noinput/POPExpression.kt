@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s03resultRepresentation.*
 
 import com.benasher44.uuid.*
 import com.soywiz.krypto.md5
@@ -38,6 +37,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTOr
 import lupos.s02buildSyntaxTree.sparql1_1.ASTUndef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
@@ -413,7 +413,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class POPExpression : LOPBase {
-val dictionary:ResultSetDictionary
+    val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     var aggregateMode = TmpAggregateMode.AMCollect
 
@@ -434,9 +434,9 @@ val dictionary:ResultSetDictionary
     private val aggregateTmpString = mutableMapOf<Long, String>()
     var child: ASTNode
 
-    constructor(dictionary:ResultSetDictionary,child: ASTNode) {
-this.dictionary=dictionary
-         this.child = child
+    constructor(dictionary: ResultSetDictionary, child: ASTNode) {
+        this.dictionary = dictionary
+        this.child = child
     }
 
     fun isAUpgradeableToB(a: TmpResultType, b: TmpResultType): Boolean {
@@ -446,15 +446,17 @@ this.dictionary=dictionary
             TmpResultType.RSInteger -> {
                 when (b) {
                     TmpResultType.RSDecimal, TmpResultType.RSDouble -> return true
+                    else -> return false
                 }
             }
             TmpResultType.RSDecimal -> {
                 when (b) {
                     TmpResultType.RSDouble -> return true
+                    else -> return false
                 }
             }
+            else -> return false
         }
-        return false
     }
 
     private fun commonDatatype(aType: TmpResultType, bType: TmpResultType): TmpResultType {
@@ -691,7 +693,7 @@ this.dictionary=dictionary
                 when (node.function) {
                     BuiltInFunctions.BOUND -> {
                         val name = (node.children[0] as ASTVar).name
-                        return resultSet.getVariableNames().contains(name) && (! resultSet.isUndefValue(resultRow,resultSet.createVariable(name)))
+                        return resultSet.getVariableNames().contains(name) && (!resultSet.isUndefValue(resultRow, resultSet.createVariable(name)))
                     }
                     BuiltInFunctions.IF -> {
                         if (aggregateTmp[node.uuid] == 1)
@@ -740,7 +742,8 @@ this.dictionary=dictionary
     }
 
     fun evaluateHelperString(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): String? {
-        when (getResultType(resultSet, resultRow, node)) {
+        val type = getResultType(resultSet, resultRow, node)
+        when (type) {
             TmpResultType.RSBoolean -> return "\"" + evaluateHelperBoolean(resultSet, resultRow, node) + "\"" + dataTypeBoolean
             TmpResultType.RSDateTime -> return "\"" + evaluateHelperDateTime(resultSet, resultRow, node) + "\"" + dataTypeDateTime
             TmpResultType.RSInteger -> {
@@ -777,6 +780,11 @@ println(tmp2.toString().replace(".0",""))
                 return "\"" + tmp + ".0\"" + dataTypeDecimal
             }
             TmpResultType.RSDouble -> return "\"" + evaluateDouble.evaluateHelper(resultSet, resultRow, node) + "\"" + dataTypeDouble
+            TmpResultType.RSString -> {/*continue afterwards*/
+            }
+            else -> {
+                throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperString ${classNameToString(node)} unknown result Type ${type}")
+            }
         }
         when (node) {
             is ASTAggregation -> {
@@ -801,7 +809,6 @@ println(tmp2.toString().replace(".0",""))
                         else
                             return evaluateHelperString(resultSet, resultRow, node.children[2])
                     }
-                    BuiltInFunctions.IRI -> return evaluateHelperString(resultSet, resultRow, node.children[0])
                     BuiltInFunctions.TZ -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).getTZ()
                     BuiltInFunctions.TIMEZONE -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).getTimeZone()
                     BuiltInFunctions.LCASE -> {
@@ -942,8 +949,8 @@ println(tmp2.toString().replace(".0",""))
     }
 
     companion object {
-        fun fromXMLElement( dictionary:ResultSetDictionary,xml: XMLElement): POPExpression {
-            return POPExpression(dictionary,XMLElement.toASTNode(xml.childs.first()!!))
+        fun fromXMLElement(dictionary: ResultSetDictionary, xml: XMLElement): POPExpression {
+            return POPExpression(dictionary, XMLElement.toASTNode(xml.childs.first()))
         }
     }
 }

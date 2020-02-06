@@ -68,7 +68,7 @@ object Trace {
         var total = 0.0
         var totalrelative = 0.0
         res += "real::\n"
-        for ((k, v) in map2) {
+        for (v in map2.values) {
             total += v.second
             totalrelative += v.second / v.first
         }

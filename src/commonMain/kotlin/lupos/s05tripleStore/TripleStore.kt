@@ -80,7 +80,7 @@ class PersistentStore {
     }
 
     fun clearGraphAll() {
-        for ((k, v) in stores) {
+        for (v in stores.values) {
             v.truncate()
         }
     }
@@ -97,7 +97,7 @@ class PersistentStore {
     }
 
     fun commit(transactionID: Long) {
-        for ((k, v) in stores) {
+        for (v in stores.values) {
             v.commit2(transactionID)
         }
     }

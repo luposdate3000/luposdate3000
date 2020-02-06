@@ -21,21 +21,22 @@ class LOPRename(val nameTo: LOPVariable, val nameFrom: LOPVariable) : LOPBase() 
     constructor(nameTo: LOPVariable, nameFrom: LOPVariable, child: OPBase) : this(nameTo, nameFrom) {
         this.children[0] = child
     }
-override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>,autocorrect:Boolean) {
-        val localProvide=children[0].getProvidedVariableNames()
-        val localRequire=listOf<String>(nameFrom.name)
+
+    override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
+        val localProvide = children[0].getProvidedVariableNames()
+        val localRequire = listOf<String>(nameFrom.name)
         for (c in children)
-            c.syntaxVerifyAllVariableExists(localProvide,autocorrect)
+            c.syntaxVerifyAllVariableExists(localProvide, autocorrect)
         val res = localProvide.containsAll(localRequire)
         if (!res) {
             println("provide: ${getProvidedVariableNames() + additionalProvided}")
             println("require: ${getRequiredVariableNames()}")
             println(toXMLElement().toPrettyString())
- if(autocorrect){
+            if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
-                }else{
-                    throw Exception("undefined Variable")
-                }
+            } else {
+                throw Exception("undefined Variable")
+            }
         }
     }
 
@@ -52,7 +53,7 @@ override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>,auto
     }
 
     override fun getRequiredVariableNames(): List<String> {
-return listOf<String>(nameFrom.name)
+        return listOf<String>(nameFrom.name)
     }
 
     override fun toXMLElement(): XMLElement {

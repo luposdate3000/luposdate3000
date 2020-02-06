@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators
+
 import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPEmptyRow
@@ -10,5 +11,5 @@ import lupos.s09physicalOperators.noinput.POPValues
 
 
 abstract class POPBase : OPBase() {
-	abstract val dictionary:ResultSetDictionary
+    abstract val dictionary: ResultSetDictionary
 }

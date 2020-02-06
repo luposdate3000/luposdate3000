@@ -1,9 +1,9 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
@@ -17,20 +17,20 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 
 
 class POPBind : POPBase {
-override val dictionary:ResultSetDictionary
+    override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     val name: LOPVariable
     val expression: POPExpression
     private val resultSetOld: ResultSet
-    private val resultSetNew : ResultSet
+    private val resultSetNew: ResultSet
     private val variablesOld: Array<Variable?>
     private val variablesNew: Array<Variable?>
     private val variableBound: Variable
 
-    constructor(dictionary:ResultSetDictionary,name: LOPVariable, expression: POPExpression, child: OPBase) : super() {
-this.dictionary=dictionary
- resultSetNew = ResultSet(dictionary)
-         children[0] = child
+    constructor(dictionary: ResultSetDictionary, name: LOPVariable, expression: POPExpression, child: OPBase) : super() {
+        this.dictionary = dictionary
+        resultSetNew = ResultSet(dictionary)
+        children[0] = child
         this.name = name
         this.expression = expression
         resultSetOld = children[0].getResultSet()
@@ -79,13 +79,13 @@ this.dictionary=dictionary
                 rsNew[variablesNew[i]!!] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variablesOld[i]!!]))
             }
             try {
-val value=expression.evaluate(resultSetOld, rsOld)
-if(value==null)
-resultSetNew.setUndefValue(rsNew,variableBound)
-else
-                rsNew[variableBound] = resultSetNew.createValue(value)
+                val value = expression.evaluate(resultSetOld, rsOld)
+                if (value == null)
+                    resultSetNew.setUndefValue(rsNew, variableBound)
+                else
+                    rsNew[variableBound] = resultSetNew.createValue(value)
             } catch (e: Throwable) {
- resultSetNew.setUndefValue(rsNew,variableBound)
+                resultSetNew.setUndefValue(rsNew, variableBound)
                 print("silent :: ")
                 e.kotlinStacktrace()
             }

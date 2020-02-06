@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -23,19 +22,19 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPValues : POPBase {
-override val dictionary:ResultSetDictionary
+    override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
-    private val resultSet : ResultSet
+    private val resultSet: ResultSet
     private val variables = mutableListOf<Variable>()
     private var iterator: Iterator<Map<Variable, Value>>
-    private val rs : ResultSet
+    private val rs: ResultSet
     val stringVars = mutableListOf<String>()
     val data = mutableListOf<Map<Variable, Value>>()
 
-    constructor(dictionary:ResultSetDictionary,v: List<String>, d: List<Map<String, String>>) : super() {
-this.dictionary=dictionary
- resultSet = ResultSet(dictionary)
-rs = ResultSet(dictionary)
+    constructor(dictionary: ResultSetDictionary, v: List<String>, d: List<Map<String, String>>) : super() {
+        this.dictionary = dictionary
+        resultSet = ResultSet(dictionary)
+        rs = ResultSet(dictionary)
         v.forEach {
             stringVars.add(it)
             variables.add(resultSet.createVariable(it))
@@ -50,10 +49,10 @@ rs = ResultSet(dictionary)
         iterator = data.iterator()
     }
 
-    constructor(dictionary:ResultSetDictionary,values: LOPValues) : super() {
-this.dictionary=dictionary
-resultSet = ResultSet(dictionary)
-rs = ResultSet(dictionary)
+    constructor(dictionary: ResultSetDictionary, values: LOPValues) : super() {
+        this.dictionary = dictionary
+        resultSet = ResultSet(dictionary)
+        rs = ResultSet(dictionary)
         val rr = rs.createResultRow()
         for (name in values.variables) {
             stringVars.add(name.name)
@@ -64,7 +63,7 @@ rs = ResultSet(dictionary)
             val entry = mutableMapOf<Variable, Value>()
             data.add(entry)
             for (v2 in variables) {
-		val value=POPExpression(dictionary,it.next()).evaluate(rs, rr)
+                val value = POPExpression(dictionary, it.next()).evaluate(rs, rr)
                 entry[v2] = resultSet.createValue(value)
             }
         }

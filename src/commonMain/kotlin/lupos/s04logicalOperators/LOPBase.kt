@@ -8,8 +8,8 @@ import lupos.s04logicalOperators.OPBase
 
 
 abstract class LOPBase : OPBase() {
-override    fun getResultSet(): ResultSet {
-	return ResultSet(ResultSetDictionary())
+    override fun getResultSet(): ResultSet {
+        return ResultSet(ResultSetDictionary())
     }
 
     override fun next(): ResultRow {

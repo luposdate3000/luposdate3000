@@ -1,7 +1,8 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s03resultRepresentation.*
+
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
@@ -24,19 +25,19 @@ class POPUnion : POPBaseNullableIterator {
     private val resultSetOldB: ResultSet
     private val variablesOldB = mutableListOf<Pair<Variable, Variable>>()
     private val variablesOldBMissing = mutableListOf<Variable>()
-    private val resultSetNew : ResultSet
-override val dictionary:ResultSetDictionary
+    private val resultSetNew: ResultSet
+    override val dictionary: ResultSetDictionary
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
+        return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }
 
-    constructor(dictionary:ResultSetDictionary,childA: OPBase, childB: OPBase) : super() {
-this.dictionary=dictionary
-resultSetNew = ResultSet(dictionary)
+    constructor(dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase) : super() {
+        this.dictionary = dictionary
+        resultSetNew = ResultSet(dictionary)
         this.children[0] = childA
         this.children[1] = childB
         resultSetOldA = this.children[0].getResultSet()
@@ -64,13 +65,13 @@ resultSetNew = ResultSet(dictionary)
     override fun nnext(): ResultRow? {
         try {
             Trace.start("POPUnion.nnext")
-println("POPUnion a ${children[0].toXMLElement()}")
+            println("POPUnion a ${children[0].toXMLElement()}")
             if (children[0].hasNext()) {
-println("POPUnion b")
+                println("POPUnion b")
                 val rsOld = children[0].next()
                 val rsNew = resultSetNew.createResultRow()
                 for (p in variablesOldAMissing) {
-		resultSetNew.setUndefValue(rsNew,p)
+                    resultSetNew.setUndefValue(rsNew, p)
                 }
                 for (p in variablesOldA) {
                     // TODO reuse resultSet
@@ -78,13 +79,13 @@ println("POPUnion b")
                 }
                 return rsNew
             }
-println("POPUnion c ${children[1].toXMLElement()}")
+            println("POPUnion c ${children[1].toXMLElement()}")
             if (children[1].hasNext()) {
-println("POPUnion d")
+                println("POPUnion d")
                 val rsOld = children[1].next()
                 val rsNew = resultSetNew.createResultRow()
                 for (p in variablesOldBMissing) {
-resultSetNew.setUndefValue(rsNew,p)
+                    resultSetNew.setUndefValue(rsNew, p)
                 }
                 for (p in variablesOldB) {
                     // TODO reuse resultSet
@@ -92,7 +93,7 @@ resultSetNew.setUndefValue(rsNew,p)
                 }
                 return rsNew
             }
-println("POPUnion e")
+            println("POPUnion e")
             return null
         } finally {
             Trace.stop("POPUnion.nnext")

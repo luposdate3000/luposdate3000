@@ -1,8 +1,8 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
@@ -20,16 +20,16 @@ import lupos.s09physicalOperators.singleinput.POPBindUndefined
 
 
 class POPFilterExact : POPBaseNullableIterator {
-override val dictionary:ResultSetDictionary
+    override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     val variable: LOPVariable
     val value: String
     private val resultSet: ResultSet
     private val filterVariable: Variable
 
-    constructor(dictionary:ResultSetDictionary,variable: LOPVariable, value: String, child: OPBase) : super() {
-this.dictionary=dictionary
-         children[0] = child
+    constructor(dictionary: ResultSetDictionary, variable: LOPVariable, value: String, child: OPBase) : super() {
+        this.dictionary = dictionary
+        children[0] = child
         this.variable = variable
         this.value = value
         resultSet = children[0].getResultSet()
@@ -57,7 +57,7 @@ this.dictionary=dictionary
                 }
                 val nextRow = children[0].next()
                 if (resultSet.getValue(nextRow[filterVariable]) == value) {
-                    return nextRow!!
+                    return nextRow
                 }
             }
         } finally {

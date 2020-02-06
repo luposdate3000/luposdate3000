@@ -1,9 +1,9 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Value
@@ -26,19 +26,19 @@ import lupos.s09physicalOperators.singleinput.POPFilterExact
 
 
 class POPGroup : POPBaseNullableIterator {
-override val dictionary:ResultSetDictionary
+    override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private var data: MutableList<ResultRow>? = null
     private val resultSetOld: ResultSet
-    private val resultSetNew : ResultSet
+    private val resultSetNew: ResultSet
     private var iterator: Iterator<ResultRow>? = null
     var by: List<LOPVariable>
     var bindings = mutableListOf<Pair<Variable, POPExpression>>()
 
-    constructor(dictionary:ResultSetDictionary,by: List<LOPVariable>, bindings: POPBind?, child: OPBase) : super() {
-this.dictionary=dictionary
-resultSetNew = ResultSet(dictionary)
-         children[0] = child
+    constructor(dictionary: ResultSetDictionary, by: List<LOPVariable>, bindings: POPBind?, child: OPBase) : super() {
+        this.dictionary = dictionary
+        resultSetNew = ResultSet(dictionary)
+        children[0] = child
         this.by = by
         resultSetOld = children[0].getResultSet()
         var tmpBind: OPBase? = bindings
@@ -60,30 +60,32 @@ resultSetNew = ResultSet(dictionary)
             tmp.add(resultSetNew.getVariable(v.first))
         return tmp
     }
- override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>,autocorrect:Boolean) {
-println(additionalProvided)
-require(additionalProvided.isEmpty())
-        val localProvide=additionalProvided + children[0].getProvidedVariableNames()
-        val localRequire=mutableListOf<String>()
+
+    override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
+        println(additionalProvided)
+        require(additionalProvided.isEmpty())
+        val localProvide = additionalProvided + children[0].getProvidedVariableNames()
+        val localRequire = mutableListOf<String>()
         for (v in by)
             localRequire.add(v.name)
         for (b in bindings)
-            localRequire+= b.second.getRequiredVariableNames()
+            localRequire += b.second.getRequiredVariableNames()
         for (c in children)
-            c.syntaxVerifyAllVariableExists(localProvide,autocorrect)
+            c.syntaxVerifyAllVariableExists(localProvide, autocorrect)
         val res = localProvide.containsAll(localRequire)
         if (!res) {
             println("provide: ${getProvidedVariableNames() + additionalProvided}")
             println("require: ${getRequiredVariableNames()}")
             println(toXMLElement().toPrettyString())
- if(autocorrect){
+            if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
-                }else{
-                    throw Exception("undefined Variable")
-                }
+            } else {
+                throw Exception("undefined Variable")
+            }
         }
     }
-override fun getRequiredVariableNames(): List<String> {
+
+    override fun getRequiredVariableNames(): List<String> {
         return mutableListOf<String>()
     }
 
@@ -115,9 +117,9 @@ override fun getRequiredVariableNames(): List<String> {
                 if (tmpMutableMap.keys.size == 0) {
                     val rsNew = resultSetNew.createResultRow()
                     for (b in variables)
- resultSetNew.setUndefValue(rsNew,b.first)
+                        resultSetNew.setUndefValue(rsNew, b.first)
                     for (b in bindings)
- resultSetNew.setUndefValue(rsNew,b.first)
+                        resultSetNew.setUndefValue(rsNew, b.first)
                     data!!.add(rsNew)
                 }
                 for (k in tmpMutableMap.keys) {
@@ -127,13 +129,13 @@ override fun getRequiredVariableNames(): List<String> {
                         rsNew[variable.first] = resultSetNew.createValue(resultSetOld.getValue(rsOld[variable.second]))
                     for (b in bindings) {
                         try {
-val value=b.second.evaluate(resultSetOld, tmpMutableMap[k]!!)
-if(value==null)
-resultSetNew.setUndefValue(rsNew,b.first)
-else
-                            rsNew[b.first] = resultSetNew.createValue(value)
+                            val value = b.second.evaluate(resultSetOld, tmpMutableMap[k]!!)
+                            if (value == null)
+                                resultSetNew.setUndefValue(rsNew, b.first)
+                            else
+                                rsNew[b.first] = resultSetNew.createValue(value)
                         } catch (e: Throwable) {
- resultSetNew.setUndefValue(rsNew,b.first)
+                            resultSetNew.setUndefValue(rsNew, b.first)
                             print("silent :: ")
                             e.kotlinStacktrace()
                         }
