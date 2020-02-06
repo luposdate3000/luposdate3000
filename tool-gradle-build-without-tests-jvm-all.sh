@@ -1,4 +1,4 @@
-for chooseS03 in "commonS03DictionaryNoneMain"
+for chooseS03 in "commonS03DictionaryNoneMain" "commonS03DictionaryQueryLocalLongMain"
 do
 for chooseS05 in "commonS05HashMapMain"
 do
