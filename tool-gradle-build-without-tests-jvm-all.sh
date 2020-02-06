@@ -7,12 +7,11 @@ do
 for chooseS14 in "jvmS14KorioMain"
 do
 
-buildName=$chooseS03-$chooseS05-$chooseS12-$chooseS14
-buildFile=build.gradle-$buildname.jvm.generated
-buildDir=buildJvm$buildname
+buildName="${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}"
+buildFile="build.gradle-${buildName}.jvm.generated"
+buildDir="buildJvm${buildName}"
 
-cat >>$buildFile <<EOF
-
+cat >$buildFile <<EOF
 project.buildDir="$buildDir"
 buildscript {
 
@@ -35,7 +34,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:\$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.26"
         classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
     }
@@ -62,22 +61,22 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
     }
 }
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:\$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-common:\$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:\$kotlin_version"
 
 implementation "com.benasher44:uuid:0.0.7"
     implementation "com.soywiz.korlibs.krypto:krypto:1.9.1"
     implementation "com.soywiz.korlibs.klock:klock:1.7.0"
     implementation "com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT"
 
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:\$kotlin_version"
 
-    testImplementation "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-common:\$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-annotations-common:\$kotlin_version"
 
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:\$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test:\$kotlin_version"
 }
 
 jar {
@@ -103,7 +102,7 @@ sourceSets {
     main.kotlin.srcDirs += 'src/commonMain/kotlin'
     main.kotlin.srcDirs += 'src/commonMainBak/kotlin'
     main.kotlin.srcDirs += 'src/commonS01HeapMain'
-    main.kotlin.srcDirs += 'src/ufferMainmemoryMain/kotlin'
+    main.kotlin.srcDirs += 'src/commonS01BufferMainmemoryMain/kotlin'
     main.kotlin.srcDirs += 'src/$chooseS03/kotlin'
     main.kotlin.srcDirs += 'src/$chooseS05/kotlin'
     main.kotlin.srcDirs += 'src/$chooseS12/kotlin'
@@ -114,7 +113,6 @@ sourceSets {
 //        events "failed", "skipped", "passed"
 //    }
 //}
-
 EOF
 (
 	gradle --build-file="$buildFile" build -x test
