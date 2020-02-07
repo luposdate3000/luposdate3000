@@ -31,7 +31,7 @@ import lupos.s12p2p.POPServiceIRI
 import lupos.s14endpoint.Endpoint
 
 
-fun createLOPVariable(mapping: MutableMap<String, String>, name: String): LOPVariable {
+inline fun createLOPVariable(mapping: MutableMap<String, String>, name: String): LOPVariable {
     val n = mapping[name]
     if (n != null)
         return LOPVariable(n)

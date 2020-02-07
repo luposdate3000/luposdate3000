@@ -5,7 +5,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 object QueryResultToCSV {
-    fun toCSV(query: POPBase, separator: String = ","): String {
+inline    fun toCSV(query: POPBase, separator: String = ","): String {
         var res = ""
         val resultSet = query.getResultSet()
         val variableNames = resultSet.getVariableNames().toTypedArray()

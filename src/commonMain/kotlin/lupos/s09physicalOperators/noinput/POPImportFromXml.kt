@@ -58,7 +58,7 @@ class POPImportFromXml : POPBaseNullableIterator {
         return resultSet
     }
 
-    fun cleanString(s: String): String {
+    inline fun cleanString(s: String): String {
         var res = s
         while (true) {
             val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)

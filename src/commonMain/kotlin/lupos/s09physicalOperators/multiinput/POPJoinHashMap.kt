@@ -20,10 +20,10 @@ class POPJoinHashMap : POPBaseNullableIterator {
     val map: Array<MutableMap<String, MutableList<ResultRow>>>
     val queue = mutableListOf<ResultRow>()
     var hadOptionals = false
-    private val resultSet: Array<ResultSet>
-    private val variables: Array<MutableList<Pair<Variable, Variable>>>
-    private val variablesJ: Array<MutableList<Pair<Variable, Variable>>>
-    private val resultSetNew: ResultSet
+     val resultSet: Array<ResultSet>
+     val variables: Array<MutableList<Pair<Variable, Variable>>>
+     val variablesJ: Array<MutableList<Pair<Variable, Variable>>>
+     val resultSetNew: ResultSet
     override val dictionary: ResultSetDictionary
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
@@ -85,7 +85,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
         }
     }
 
-    fun joinHelper(idx: Int) {
+    inline fun joinHelper(idx: Int) {
         try {
             val rowA = children[idx].next()
             var keys = mutableSetOf<String>()

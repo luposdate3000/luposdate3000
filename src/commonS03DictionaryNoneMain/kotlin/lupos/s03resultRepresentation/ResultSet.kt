@@ -9,42 +9,42 @@ import lupos.s03resultRepresentation.Variable
 class ResultSet(val dictionary: ResultSetDictionary) {
     val variables = mutableSetOf<String>()
 
-    fun renameVariable(variableOld: String, variableNew: String): String {
+    inline fun renameVariable(variableOld: String, variableNew: String): String {
         variables.remove(variableOld)
         variables.add(variableNew)
         return variableNew
     }
 
-    fun createVariable(variable: String): Variable {
+    inline fun createVariable(variable: String): Variable {
         variables.add(variable)
         return variable
     }
 
-    fun getVariable(variable: Variable): String {
+    inline fun getVariable(variable: Variable): String {
         return variable
     }
 
-    fun getVariableNames(): Set<String> {
+    inline fun getVariableNames(): Set<String> {
         return variables
     }
 
-    fun createValue(value: String?): Value {
+    inline fun createValue(value: String?): Value {
         return value
     }
 
-    fun createResultRow(): ResultRow {
+    inline fun createResultRow(): ResultRow {
         return ResultRow()
     }
 
-    fun getValue(value: Value): String? {
+    inline fun getValue(value: Value): String? {
         return value
     }
 
-    fun isUndefValue(r: ResultRow, v: Variable): Boolean {
+    inline fun isUndefValue(r: ResultRow, v: Variable): Boolean {
         return r[v] == null
     }
 
-    fun setUndefValue(r: ResultRow, v: Variable) {
+    inline fun setUndefValue(r: ResultRow, v: Variable) {
         r[v] = null
     }
 }

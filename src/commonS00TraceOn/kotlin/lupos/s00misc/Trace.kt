@@ -10,19 +10,19 @@ object Trace {
     val map = ThreadSafeMutableMap<String, Pair<Long, Double>>()
     val stack = ThreadSafeMutableStack<Pair<String, ClockMark>>()
 
-    fun start(obj: Any) {
+    inline fun start(obj: Any) {
         start(classNameToString(obj))
     }
 
-    fun start(name: String) {
+    inline fun start(name: String) {
         stack.push(Pair(name, MonoClock.markNow()))
     }
 
-    fun stop(obj: Any) {
+    inline fun stop(obj: Any) {
         stop(classNameToString(obj))
     }
 
-    fun stop(name: String) {
+    inline fun stop(name: String) {
         require(!stack.isEmpty())
         var key = ""
         stack.elements.forEach {
@@ -40,7 +40,7 @@ object Trace {
             map[key] = Pair(old.first + 1L, old.second + timediff)
     }
 
-    fun print() {
+    inline fun print() {
         println(toString())
     }
 

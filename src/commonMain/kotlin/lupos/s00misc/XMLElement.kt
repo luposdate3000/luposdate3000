@@ -7,7 +7,7 @@ class XMLElement {
     // https://regex101.com
     companion object {
         val XMLHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-        fun parseFromAny(data: String, filename: String): List<XMLElement>? {
+inline        fun parseFromAny(data: String, filename: String): List<XMLElement>? {
             when {
                 filename.endsWith(".srx") -> return XMLElement.parseFromXml(data)
                 filename.endsWith(".tsv") -> return XMLElement.parseFromTsv(data)
@@ -71,7 +71,7 @@ class XMLElement {
         this.tag = decodeText(tag)
     }
 
-    operator fun get(key: String): XMLElement? {
+inline     operator fun get(key: String): XMLElement? {
         childs.forEach {
             if (it.tag == key)
                 return it
@@ -138,44 +138,44 @@ class XMLElement {
         return true
     }
 
-    fun addAttribute(name: String, value: String): XMLElement {
+    inline fun addAttribute(name: String, value: String): XMLElement {
         attributes[decodeText(name)] = decodeText(value)
         return this
     }
 
-    fun addContent(content: String): XMLElement {
+    inline fun addContent(content: String): XMLElement {
         if (!childs.isEmpty())
             throw Exception("either content or subchilds must be empty")
         this.content += decodeText(content)
         return this
     }
 
-    fun addContent(childs: Collection<XMLElement>): XMLElement {
+    inline fun addContent(childs: Collection<XMLElement>): XMLElement {
         if (!content.isEmpty())
             throw Exception("either content or subchilds must be empty")
         this.childs.addAll(childs)
         return this
     }
 
-    fun addContent(child: XMLElement): XMLElement {
+    inline fun addContent(child: XMLElement): XMLElement {
         if (!content.isEmpty())
             throw Exception("either content or subchilds must be empty")
         childs.add(child)
         return this
     }
 
-    fun addContent(childs: Collection<String>, childTag: String): XMLElement {
+    inline fun addContent(childs: Collection<String>, childTag: String): XMLElement {
         for (c in childs) {
             addContent(XMLElement(childTag).addContent(c).toString())
         }
         return this
     }
 
-    fun encodeText(text: String): String {
+    inline fun encodeText(text: String): String {
         return text.replace("&", "&amp;").replace(">", "&gt;").replace("<", "&lt;").replace("'", "&apos;").replace("\"", "&quot;")
     }
 
-    fun decodeText(text: String): String {
+    inline fun decodeText(text: String): String {
         return text.replace("&quot;", "\"").replace("&apos;", "'").replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&")
     }
 

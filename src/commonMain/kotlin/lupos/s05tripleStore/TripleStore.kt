@@ -29,18 +29,18 @@ class PersistentStore {
         private val global_transactionID = ThreadSafeUuid()
     }
 
-    fun nextTransactionID(): Long {
+     fun nextTransactionID(): Long {
         return global_transactionID.next()
     }
 
     val stores = mutableMapOf<String, TripleStore>()
 
-    fun forEach(action: (String, TripleStore) -> Unit) {
+    inline fun forEach(action: (String, TripleStore) -> Unit) {
         for ((k, v) in stores)
             action(k, v)
     }
 
-    fun getGraphNames(): List<String> {
+    inline fun getGraphNames(): List<String> {
         val res = mutableListOf<String>()
         for (t in stores.keys)
             if (t != defaultGraphName)
@@ -54,7 +54,7 @@ class PersistentStore {
         }
     }
 
-    fun createGraph(name: String): TripleStore {
+    inline fun createGraph(name: String): TripleStore {
         val tmp = stores[name]
         if (tmp != null)
             throw Exception("PersistentStore.createGraph :: graph[$name] already exist")
@@ -63,40 +63,40 @@ class PersistentStore {
         return tmp2
     }
 
-    fun dropGraph(name: String) {
+    inline fun dropGraph(name: String) {
         require(name != defaultGraphName)
         if (stores[name] == null)
             throw Exception("PersistentStore.dropGraph :: graph[$name] did not exist")
         stores.remove(name)
     }
 
-    fun dropGraphAll() {
+    inline fun dropGraphAll() {
         stores.clear()
         createGraph(defaultGraphName)
     }
 
-    fun clearGraph(name: String) {
+    inline fun clearGraph(name: String) {
         getNamedGraph(name).truncate()
     }
 
-    fun clearGraphAll() {
+    inline fun clearGraphAll() {
         for (v in stores.values) {
             v.truncate()
         }
     }
 
-    fun getNamedGraph(name: String, create: Boolean = false): TripleStore {
+    inline fun getNamedGraph(name: String, create: Boolean = false): TripleStore {
         val tmp = stores[name]
         if (tmp != null || !create)
             return tmp!!
         return createGraph(name)
     }
 
-    fun getDefaultGraph(): TripleStore {
+    inline fun getDefaultGraph(): TripleStore {
         return getNamedGraph(defaultGraphName)
     }
 
-    fun commit(transactionID: Long) {
+    inline fun commit(transactionID: Long) {
         for (v in stores.values) {
             v.commit2(transactionID)
         }

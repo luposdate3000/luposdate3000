@@ -5,7 +5,6 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPExpression
@@ -24,6 +23,7 @@ class POPFilterExact : POPBaseNullableIterator {
     override val children: Array<OPBase> = arrayOf(OPNothing())
     val variable: LOPVariable
     val value: String
+    val valueR:Value
     private val resultSet: ResultSet
     private val filterVariable: Variable
 
@@ -33,6 +33,7 @@ class POPFilterExact : POPBaseNullableIterator {
         this.variable = variable
         this.value = value
         resultSet = children[0].getResultSet()
+	valueR=resultSet.createValue(value)
         require(resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         filterVariable = resultSet.createVariable(variable.name)
     }
@@ -53,13 +54,11 @@ class POPFilterExact : POPBaseNullableIterator {
         try {
             Trace.start("POPFilterExact.nnext")
             while (true) {
-                if (!children[0].hasNext()) {
+                if (!children[0].hasNext())
                     return null
-                }
                 val nextRow = children[0].next()
-                if (resultSet.getValue(nextRow[filterVariable]) == value) {
+                if (nextRow[filterVariable] == valueR)
                     return nextRow
-                }
             }
         } finally {
             Trace.stop("POPFilterExact.nnext")

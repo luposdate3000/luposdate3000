@@ -29,7 +29,7 @@ import lupos.s14endpoint.Endpoint
 object P2PLocalDummy {
     val nodeData = mutableMapOf<String, PersistentStore>()
 
-    fun execInsertOnNamedNode(nodeName: String, data: XMLElement) {
+inline    fun execInsertOnNamedNode(nodeName: String, data: XMLElement) {
         var pstore = nodeData[nodeName]
         if (pstore == null) {
             pstore = PersistentStore()
@@ -42,7 +42,7 @@ object P2PLocalDummy {
         pstore.commit(transactionID)
     }
 
-    fun execOnNamedNode(transactionID: Long, nodeName: String, pop: OPBase): OPBase {
+    inline fun execOnNamedNode(transactionID: Long, nodeName: String, pop: OPBase): OPBase {
 /*execute "pop" on remote node - if it exist - otherwiese throw an exception*/
         val optimizer = KeyDistributionOptimizer(transactionID, ResultSetDictionary())
         optimizer.store = nodeData[nodeName]!!
@@ -50,20 +50,20 @@ object P2PLocalDummy {
         return res
     }
 
-    fun execTruncate() {
+    inline fun execTruncate() {
         nodeData.clear()
     }
 
-    fun process_peers_list(): String {
+    inline fun process_peers_list(): String {
 /*nice to have, but not required*/
         return ""
     }
 
-    fun process_peers_join(hostname: String?): String {
+    inline fun process_peers_join(hostname: String?): String {
 /*just a dummy ... should be removed if there is a real p2p*/
         return ""
     }
 
-    suspend fun start(bootstrap: String?) {
+    suspend inline fun start(bootstrap: String?) {
     }
 }

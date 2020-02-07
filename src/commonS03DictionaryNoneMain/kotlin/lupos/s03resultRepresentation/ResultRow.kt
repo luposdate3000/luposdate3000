@@ -8,11 +8,11 @@ import lupos.s03resultRepresentation.Variable
 
 class ResultRow() : Comparable<ResultRow> {
     val values = mutableMapOf<Variable, Value>()
-    operator fun set(name: Variable, value: Value) {
+    operator inline fun set(name: Variable, value: Value) {
         values[name] = value
     }
 
-    operator fun get(name: Variable): Value {
+    operator inline fun get(name: Variable): Value {
         return values[name]
     }
 
@@ -20,7 +20,7 @@ class ResultRow() : Comparable<ResultRow> {
         return values.toString()
     }
 
-    override operator fun compareTo(other: ResultRow): Int {
+    override operator inline fun compareTo(other: ResultRow): Int {
         var res = 0
         val s = values.size - other.values.size
         if (s != 0) {
@@ -41,13 +41,13 @@ class ResultRow() : Comparable<ResultRow> {
         return res
     }
 
-    override fun equals(other: Any?): Boolean {
+    override inline fun equals(other: Any?): Boolean {
         if (other == null || !(other is ResultRow))
             return false
         return compareTo(other) == 0
     }
 
-    override fun hashCode(): Int {
+    override inline fun hashCode(): Int {
         return values.hashCode()
     }
 

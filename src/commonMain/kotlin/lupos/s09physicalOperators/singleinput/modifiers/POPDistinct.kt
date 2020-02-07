@@ -55,9 +55,8 @@ class POPDistinct : POPBaseNullableIterator {
                     val rsNew = resultSetNew.createResultRow()
                     var key: String = ""
                     for (variable in variables) {
-                        val tmp = resultSetOld.getValue(rsOld[variable.second])
-                        rsNew[variable.first] = resultSetNew.createValue(tmp)
-                        key += "-" + tmp
+                        rsNew[variable.first] = rsOld[variable.second]
+                        key += "-" + rsOld[variable.second]
                     }
                     tmpMutableMap[key] = rsNew
                 }

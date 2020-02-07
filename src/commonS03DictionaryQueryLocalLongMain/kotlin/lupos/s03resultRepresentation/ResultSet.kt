@@ -10,7 +10,7 @@ class ResultSet(val dictionary: ResultSetDictionary) {
     val variablesSTL = mutableMapOf<String, Long>()
     val variablesLTS = mutableListOf<String>()
 
-    fun renameVariable(variableOld: String, variableNew: String): Long {
+    inline fun renameVariable(variableOld: String, variableNew: String): Long {
         val l = variablesSTL[variableOld]!!
         variablesSTL.remove(variableOld)
         variablesSTL[variableNew] = l
@@ -18,7 +18,7 @@ class ResultSet(val dictionary: ResultSetDictionary) {
         return l
     }
 
-    fun createVariable(variable: String): Variable {
+    inline fun createVariable(variable: String): Variable {
         val o = variablesSTL[variable]
         if (o != null)
             return o
@@ -28,33 +28,33 @@ class ResultSet(val dictionary: ResultSetDictionary) {
         return l
     }
 
-    fun getVariable(variable: Variable): String {
+    inline fun getVariable(variable: Variable): String {
         return variablesLTS[variable.toInt()]
     }
 
-    fun getVariableNames(): Set<String> {
+    inline fun getVariableNames(): Set<String> {
         return variablesLTS.toSet()
     }
 
-    fun createValue(value: String?): Value {
+    inline fun createValue(value: String?): Value {
         if (value == null)
             return dictionary.undefValue
         return dictionary.createValue(value)
     }
 
-    fun createResultRow(): ResultRow {
+    inline fun createResultRow(): ResultRow {
         return ResultRow()
     }
 
-    fun getValue(value: Value): String? {
+    inline fun getValue(value: Value): String? {
         return dictionary.getValue(value)
     }
 
-    fun isUndefValue(r: ResultRow, v: Variable): Boolean {
+    inline fun isUndefValue(r: ResultRow, v: Variable): Boolean {
         return r[v] == dictionary.undefValue
     }
 
-    fun setUndefValue(r: ResultRow, v: Variable) {
+    inline fun setUndefValue(r: ResultRow, v: Variable) {
         r[v] = dictionary.undefValue
     }
 }

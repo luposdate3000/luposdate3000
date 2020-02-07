@@ -7,7 +7,7 @@ import lupos.s11outputResult.QueryResultToCSV
 
 
 object QueryResultToXML {
-    fun toXML(query: POPBase): List<XMLElement> {
+inline    fun toXML(query: POPBase): List<XMLElement> {
         val res = mutableListOf<XMLElement>()
         val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
         res.add(nodeSparql)

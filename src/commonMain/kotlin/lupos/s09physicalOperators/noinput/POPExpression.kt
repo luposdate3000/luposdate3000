@@ -110,7 +110,7 @@ class DateTime {
         }
     }
 
-    fun getTZ(): String {
+    inline fun getTZ(): String {
         if (timezoneHours == 0 && timezoneMinutes == 0)
             return "\"Z\""
         if (timezoneHours == -1 && timezoneMinutes == -1)
@@ -118,7 +118,7 @@ class DateTime {
         return "\"-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}\""
     }
 
-    fun getTimeZone(): String {
+    inline fun getTimeZone(): String {
         if (timezoneHours == 0 && timezoneMinutes == 0)
             return "\"PT0S\"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>"
         if (timezoneHours >= 0 && timezoneMinutes == 0)
@@ -146,7 +146,7 @@ enum class TmpAggregateMode {
 
 class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: TmpResultType, val dataType: String) {
 
-    fun myAbs(a: T): T {
+    inline fun myAbs(a: T): T {
         return when (a) {
             is Double -> abs(a).toDouble() as T
             is Int -> abs(a) as T
@@ -154,7 +154,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         }
     }
 
-    fun myCeil(a: T): T {
+    inline fun myCeil(a: T): T {
         return when (a) {
             is Double -> ceil(a) as T
             is Int -> a
@@ -162,7 +162,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         }
     }
 
-    fun myFloor(a: T): T {
+    inline fun myFloor(a: T): T {
         return when (a) {
             is Double -> floor(a) as T
             is Int -> a
@@ -170,7 +170,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         }
     }
 
-    fun myRound(a: Any): T {
+    inline fun myRound(a: Any): T {
         return when (a) {
             is Double -> a.roundToInt().toDouble() as T
             is Int -> a as T
@@ -178,7 +178,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         }
     }
 
-    operator fun T.plus(b: T): T {
+    operator inline fun T.plus(b: T): T {
         return when (this) {
             is Double -> (this + (b as Double)) as T
             is Int -> (this + (b as Int)) as T
@@ -186,7 +186,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         }
     }
 
-    operator fun T.minus(b: T): T {
+    operator inline fun T.minus(b: T): T {
         return when (this) {
             is Double -> (this - (b as Double)) as T
             is Int -> (this - (b as Int)) as T
@@ -194,7 +194,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         }
     }
 
-    operator fun T.times(b: T): T {
+    operator inline fun T.times(b: T): T {
         return when (this) {
             is Double -> (this * (b as Double)) as T
             is Int -> (this * (b as Int)) as T
@@ -202,7 +202,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         }
     }
 
-    operator fun T.div(b: T): T {
+    operator inline fun T.div(b: T): T {
         return when (this) {
             is Double -> {
                 if ((b as Double) == 0.0)
@@ -218,7 +218,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         }
     }
 
-    operator fun T.compareTo(b: T): Int {
+    operator inline fun T.compareTo(b: T): Int {
         return when (this) {
             is Double -> {
                 if (this < (b as Double))
@@ -240,7 +240,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         }
     }
 
-    private fun helperNull(): T {
+    private inline fun helperNull(): T {
         val a: T? = null
         return when (a) {
             is Double? -> (0.0) as T
@@ -249,7 +249,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         }
     }
 
-    private fun helperToT(a: Number): T {
+    private inline fun helperToT(a: Number): T {
         val b: T? = null
         return when (b) {
             is Double? -> a.toDouble() as T
@@ -258,7 +258,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         }
     }
 
-    private fun fromString(a: String): T {
+    private inline fun fromString(a: String): T {
         val b: T? = null
         return when (b) {
             is Double? -> a.toDouble() as T
@@ -428,7 +428,7 @@ class POPExpression : LOPBase {
         this.child = child
     }
 
-    fun isAUpgradeableToB(a: TmpResultType, b: TmpResultType): Boolean {
+    inline fun isAUpgradeableToB(a: TmpResultType, b: TmpResultType): Boolean {
         if (a == b)
             return true
         when (a) {
@@ -448,7 +448,7 @@ class POPExpression : LOPBase {
         }
     }
 
-    private fun commonDatatype(aType: TmpResultType, bType: TmpResultType): TmpResultType {
+    private inline fun commonDatatype(aType: TmpResultType, bType: TmpResultType): TmpResultType {
         if (aType == bType)
             return aType
         if (isAUpgradeableToB(aType, bType))
@@ -458,7 +458,7 @@ class POPExpression : LOPBase {
         throw ArithmeticException("incompatible datatypes $aType $bType")
     }
 
-    private fun commonDatatype(resultSet: ResultSet, resultRow: ResultRow, nodeA: ASTNode, nodeB: ASTNode): TmpResultType {
+    private inline fun commonDatatype(resultSet: ResultSet, resultRow: ResultRow, nodeA: ASTNode, nodeB: ASTNode): TmpResultType {
         val aType = getResultType(resultSet, resultRow, nodeA)
         val bType = getResultType(resultSet, resultRow, nodeB)
         return commonDatatype(aType, bType)
@@ -633,7 +633,7 @@ class POPExpression : LOPBase {
         }
     }
 
-    fun extractLanguageFromLiteral(literal: String?): String? {
+    inline fun extractLanguageFromLiteral(literal: String?): String? {
         if (literal == null)
             return null
         when {
@@ -642,7 +642,7 @@ class POPExpression : LOPBase {
         }
     }
 
-    fun extractDatatypeFromLiteral(literal: String?): String? {
+    inline fun extractDatatypeFromLiteral(literal: String?): String? {
         if (literal == null)
             return null
         when {
@@ -936,7 +936,7 @@ println(tmp2.toString().replace(".0",""))
 }
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
-fun ByteArray.toHexString(): String {
+inline fun ByteArray.toHexString(): String {
     val sb = StringBuilder()
     for (b in this) {
         val tmp = (b + 256) % 256

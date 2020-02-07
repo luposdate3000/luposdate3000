@@ -27,14 +27,14 @@ abstract class OPBase : ResultSetIterator {
     abstract fun getRequiredVariableNames(): List<String>
     abstract fun getProvidedVariableNames(): List<String>
     abstract fun toXMLElement(): XMLElement
-    fun childrenToXML(): XMLElement {
+inline    fun childrenToXML(): XMLElement {
         val res = XMLElement("children")
         for (c in children)
             res.addContent(c.toXMLElement())
         return res
     }
 
-    fun syntaxVerifyAllVariableExistsAutocorrect() {
+    inline fun syntaxVerifyAllVariableExistsAutocorrect() {
         for (req in getRequiredVariableNames()) {
             var found = false
             for (prov in getProvidedVariableNames()) {
@@ -62,7 +62,7 @@ abstract class OPBase : ResultSetIterator {
         }
     }
 
-    fun setChild(child: OPBase): OPBase {
+inline    fun setChild(child: OPBase): OPBase {
         require(children.size > 0)
         this.children[0] = child
         return child

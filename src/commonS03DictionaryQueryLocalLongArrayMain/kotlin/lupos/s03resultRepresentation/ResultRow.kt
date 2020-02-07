@@ -13,11 +13,11 @@ class ResultRow : Comparable<ResultRow> {
         values = Array<Value>(columns, { undefValue })
     }
 
-    operator fun set(name: Variable, value: Value) {
+    operator inline fun set(name: Variable, value: Value) {
         values[name.toInt()] = value
     }
 
-    operator fun get(name: Variable): Value {
+    operator inline fun get(name: Variable): Value {
         return values[name.toInt()]!!
     }
 
@@ -25,7 +25,7 @@ class ResultRow : Comparable<ResultRow> {
         return values.toString()
     }
 
-    override operator fun compareTo(other: ResultRow): Int {
+    override operator inline fun compareTo(other: ResultRow): Int {
         var res = 0
         val s = values.size - other.values.size
         if (s != 0) {
@@ -46,13 +46,13 @@ class ResultRow : Comparable<ResultRow> {
         return res
     }
 
-    override fun equals(other: Any?): Boolean {
+    override inline fun equals(other: Any?): Boolean {
         if (other == null || !(other is ResultRow))
             return false
         return compareTo(other) == 0
     }
 
-    override fun hashCode(): Int {
+    override inline fun hashCode(): Int {
         var res = values.size.hashCode()
         for (v in values)
             res += v.hashCode()

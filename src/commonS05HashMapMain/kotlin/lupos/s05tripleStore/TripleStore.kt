@@ -169,7 +169,7 @@ class TripleStore {
 
     val pendingModifications = mutableMapOf<Long, MutableSet<Pair<ModifyType, List<Value>>>>()
 
-    private fun modifyData(transactionID: Long, vals: Value, valp: Value, valo: Value, action: ModifyType) {
+    inline fun modifyData(transactionID: Long, vals: Value, valp: Value, valo: Value, action: ModifyType) {
         var tmp = pendingModifications[transactionID]
         if (tmp == null) {
             tmp = mutableSetOf<Pair<ModifyType, List<Value>>>()
@@ -182,7 +182,7 @@ class TripleStore {
         this.name = name
     }
 
-    fun truncate() {
+    inline fun truncate() {
         tripleStoreS.clear()
         tripleStoreP.clear()
         tripleStoreO.clear()
@@ -193,7 +193,7 @@ class TripleStore {
     }
 
 
-    private fun addData(
+    inline fun addData(
             key: ResultRow,
             value: ResultRow,
             store: MutableMap<ResultRow, MutableSet<ResultRow>>
@@ -206,7 +206,7 @@ class TripleStore {
         list.add(value)
     }
 
-    private fun deleteData(
+    inline fun deleteData(
             key: ResultRow,
             value: ResultRow,
             store: MutableMap<ResultRow, MutableSet<ResultRow>>
@@ -219,11 +219,11 @@ class TripleStore {
         list.remove(value)
     }
 
-    fun abort(transactionID: Long) {
+    inline fun abort(transactionID: Long) {
         pendingModifications.remove(transactionID)
     }
 
-    fun commit2(transactionID: Long) {
+    inline fun commit2(transactionID: Long) {
         val tmp = pendingModifications[transactionID]
         if (tmp == null)
             return
@@ -236,7 +236,7 @@ class TripleStore {
         pendingModifications.remove(transactionID)
     }
 
-    private fun commitModifyData(vals: Value, valp: Value, valo: Value, action: (ResultRow, ResultRow, MutableMap<ResultRow, MutableSet<ResultRow>>) -> Unit) {
+    inline fun commitModifyData(vals: Value, valp: Value, valo: Value, action: (ResultRow, ResultRow, MutableMap<ResultRow, MutableSet<ResultRow>>) -> Unit) {
         run {
             val rrk = resultSet.createResultRow()
             val rrv = resultSet.createResultRow()
@@ -301,21 +301,21 @@ class TripleStore {
         }
     }
 
-    fun addData(transactionID: Long, t: List<String?>) {
+    inline fun addData(transactionID: Long, t: List<String?>) {
         val vals = resultSet.createValue(t[0])
         val valp = resultSet.createValue(t[1])
         val valo = resultSet.createValue(t[2])
         modifyData(transactionID, vals, valp, valo, ModifyType.INSERT)
     }
 
-    fun deleteData(transactionID: Long, t: List<String?>) {
+    inline fun deleteData(transactionID: Long, t: List<String?>) {
         val vals = resultSet.createValue(t[0])
         val valp = resultSet.createValue(t[1])
         val valo = resultSet.createValue(t[2])
         modifyData(transactionID, vals, valp, valo, ModifyType.DELETE)
     }
 
-    fun addDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
+    inline fun addDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
         require(t[0].second == true)
         require(t[1].second == true)
         require(t[2].second == true)
@@ -325,7 +325,7 @@ class TripleStore {
         modifyData(transactionID, vals, valp, valo, ModifyType.INSERT)
     }
 
-    fun deleteDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
+    inline fun deleteDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
         val vals = resultSet.createValue(t[0].first)
         val valp = resultSet.createValue(t[1].first)
         val valo = resultSet.createValue(t[2].first)
@@ -378,7 +378,7 @@ class TripleStore {
         }
     }
 
-    fun addData(transactionID: Long, iterator: ResultSetIterator) {
+    inline fun addData(transactionID: Long, iterator: ResultSetIterator) {
         val rsOld = iterator.getResultSet()
         val sOld = rsOld.createVariable("s")
         val pOld = rsOld.createVariable("p")
@@ -392,11 +392,11 @@ class TripleStore {
         }
     }
 
-    fun getIterator(dictionary: ResultSetDictionary): POPTripleStoreIteratorBase {
+    inline fun getIterator(dictionary: ResultSetDictionary): POPTripleStoreIteratorBase {
         return TripleStoreIterator(dictionary, this)
     }
 
-    fun getIterator(dictionary: ResultSetDictionary, s: String, p: String, o: String): POPTripleStoreIteratorBase {
+    inline fun getIterator(dictionary: ResultSetDictionary, s: String, p: String, o: String): POPTripleStoreIteratorBase {
         val res = TripleStoreIterator(dictionary, this)
         res.setMNameS(s)
         res.setMNameP(p)
@@ -404,7 +404,7 @@ class TripleStore {
         return res
     }
 
-    fun getIterator(dictionary: ResultSetDictionary, index: IndexPattern): POPTripleStoreIteratorBase {
+    inline fun getIterator(dictionary: ResultSetDictionary, index: IndexPattern): POPTripleStoreIteratorBase {
         return TripleStoreIterator(dictionary, this, index)
     }
 }

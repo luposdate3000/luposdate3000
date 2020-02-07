@@ -36,7 +36,7 @@ class TripleInsertIterator : POPBaseNullableIterator {
         return XMLElement("TripleInsertIterator")
     }
 
-    fun cleanString(s: String): String {
+    inline fun cleanString(s: String): String {
         var res = s
         while (true) {
             val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
@@ -76,7 +76,7 @@ class TripleInsertIterator : POPBaseNullableIterator {
 
 }
 
-fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
+inline fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
     val triple = ID_Triple(triple_s, triple_p, triple_o)
     val transactionID = globalStore.nextTransactionID()
     val dictionary = ResultSetDictionary()
@@ -85,12 +85,12 @@ fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
 }
 
 object Endpoint {
-    fun process_truncate(): XMLElement {
+    inline fun process_truncate(): XMLElement {
         globalStore.getDefaultGraph().truncate()
         return XMLElement("success")
     }
 
-    fun process_turtle_input(data: String): XMLElement {
+    inline fun process_turtle_input(data: String): XMLElement {
         val lcit = LexerCharIterator(data)
         val tit = TurtleScanner(lcit)
         val ltit = LookAheadTokenIterator(tit, 3)
@@ -98,7 +98,7 @@ object Endpoint {
         return XMLElement("done")
     }
 
-    fun process_xml_input(data: String): XMLElement {
+    inline fun process_xml_input(data: String): XMLElement {
         val transactionID = globalStore.nextTransactionID()
         val dictionary = ResultSetDictionary()
         globalStore.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, XMLElement.parseFromXml(data)!!.first()))
@@ -106,7 +106,7 @@ object Endpoint {
         return XMLElement("done")
     }
 
-    fun process_sparql_query(query: String): XMLElement {
+    inline fun process_sparql_query(query: String): XMLElement {
         val transactionID = globalStore.nextTransactionID()
         val dictionary = ResultSetDictionary()
         println("----------String Query")
@@ -135,7 +135,7 @@ object Endpoint {
         return QueryResultToXML.toXML(pop_distributed_node).first()
     }
 
-    fun process_operatorgraph_query(query: String): XMLElement {
+    inline fun process_operatorgraph_query(query: String): XMLElement {
         val transactionID = globalStore.nextTransactionID()
         val dictionary = ResultSetDictionary()
         val pop_node = XMLElement.convertToOPBase(dictionary, transactionID, XMLElement.parseFromXml(query)!!.first()) as POPBase
