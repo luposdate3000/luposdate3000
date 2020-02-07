@@ -158,7 +158,7 @@ object P2P {
         Endpoint.process_truncate()
         synchronized(knownClients) {
             knownClients.forEach {
-		if(it!="$EndpointImpl.full"){
+		if(it!=EndpointImpl.fullname){
                 runBlocking {
                     retryRequest(Http.Method.GET, "http://${resolveNodeName(it)}${EndpointImpl.REQUEST_TRUNCATE[0]}")
                 }
