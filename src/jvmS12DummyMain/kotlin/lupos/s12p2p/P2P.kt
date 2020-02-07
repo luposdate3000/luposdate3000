@@ -22,17 +22,19 @@ import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
-import lupos.s03resultRepresentation.ResultRow
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.*
 import lupos.s08logicalOptimisation.LogicalOptimizer
-import lupos.s09physicalOperators.POPBaseNullableIterator
+import lupos.s09physicalOperators.*
+import lupos.s09physicalOperators.noinput.*
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
-import lupos.s12p2p.P2P
+import lupos.s12p2p.*
 import lupos.s12p2p.P2PLocalDummy
 import lupos.s12p2p.POPServiceIRI
-
+import lupos.s14endpoint.*
 
 object P2P {
     val nodeNameRemapping = mutableMapOf<String, String>()
@@ -60,6 +62,10 @@ object P2P {
     suspend fun start(bootstrap: String?) {
 /*start the p2p network. DONT block the thread*/
         knownClients.add(EndpointImpl.fullname)
+//var done=false
+//while(!done){
+//try{
+//done=true
         if (bootstrap != null && bootstrap != "$EndpointImpl.hostname:$EndpointImpl.port") {
             var response = client.request(Http.Method.GET, "http://${bootstrap}${EndpointImpl.REQUEST_PEERS_LIST[0]}")
             var responseString = response.readAllString()
@@ -74,6 +80,11 @@ object P2P {
                 }
             }
         }
+//}catch(e:Throwable){
+//done=false
+//TODO sleep here?!?!?
+//}
+//}
     }
 
     fun execInsertOnNamedNode(nodeName: String, data: XMLElement) {
@@ -83,13 +94,13 @@ object P2P {
         }
     }
 
-    fun execOnNamedNode(nodeName: String, pop: OPBase): OPBase {
+    fun execOnNamedNode(dictionary:ResultSetDictionary,transactionID: Long,nodeName: String, pop: OPBase): OPBase {
 /*execute "pop" on remote node - if it exist - otherwiese throw an exception*/
-        var res: POPBase = POPEmptyRow()
+        var res: POPBase = POPEmptyRow(dictionary)
         runBlocking {
             val response = client.request(Http.Method.GET, "http://${resolveNodeName(nodeName)}${EndpointImpl.REQUEST_OPERATOR_QUERY[0]}?EndpointImpl.REQUEST_OPERATOR_QUERY[1]=" + URL.encodeComponent(pop.toXMLElement().toPrettyString()))
             val xml = response.readAllString()
-            res = POPImportFromXml(XMLElement.parseFromXml(xml)!!.first())
+            res = POPImportFromXml(dictionary,XMLElement.parseFromXml(xml)!!.first())
         }
         return res
     }

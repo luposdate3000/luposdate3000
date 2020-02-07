@@ -1,35 +1,29 @@
 version: "3.3"
 services:
   node0:
+    restart: always
     image: luposdate3000-p2p
     ports:
      - 8000:80
-    command: []
+    command: ["node0"]
     build:
       context: .
       dockerfile: Dockerfile
-    networks:
-     - luposdate
   node1:
+    restart: always
     image: luposdate3000-p2p
     ports:
      - 8001:80
-    command: ["node0"]
-    networks:
-      - luposdate
+    command: ["node1","node0"]
   node2:
+    restart: always
     image: luposdate3000-p2p
     ports:
       - 8002:80
-    command: ["node0"]
-    networks:
-      - luposdate
+    command: ["node2","node0"]
   node3:
+    restart: always
     image: luposdate3000-p2p
     ports:
       - 8003:80
-    command: ["node0"]
-    networks:
-      - luposdate
-networks:
-  luposdate:
+    command: ["node3","node0"]

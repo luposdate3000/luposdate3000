@@ -38,7 +38,7 @@ val variables=mutableListOf<Pair<Variable,Variable>>()
         this.serverName = serverName
         originalConstraint = constraint
         this.constraint = try {
-            P2P.execOnNamedNode(transactionID, serverName, constraint)
+            P2P.execOnNamedNode(dictionary,transactionID,serverName, constraint)
         } catch (e: Throwable) {
             null
         }

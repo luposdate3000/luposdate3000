@@ -130,7 +130,8 @@ fun main(args: Array<String>) = runBlocking {
     for (a in args) {
         println("args[$i]=$a")
         when (i) {
-            0 -> bootStrapServer = a
+	    0-> EndpointImpl.hostname=a
+            1 -> bootStrapServer = a
         }
         i++
     }

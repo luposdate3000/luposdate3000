@@ -6,7 +6,7 @@ for chooseS03 in "commonS03DictionaryNoneMain" "commonS03DictionaryQueryLocalLon
 do
 for chooseS05 in "commonS05HashMapMain"
 do
-for chooseS12 in "commonS12LocalDummyMain"
+for chooseS12 in "commonS12LocalDummyMain" "jvmS12DummyMain"
 do
 for chooseS14 in "jvmS14KorioMain"
 do
