@@ -7,7 +7,7 @@ import lupos.s11outputResult.QueryResultToCSV
 
 
 object QueryResultToXML {
-inline    fun toXML(query: POPBase): List<XMLElement> {
+    inline fun toXML(query: POPBase): List<XMLElement> {
         val res = mutableListOf<XMLElement>()
         val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
         res.add(nodeSparql)
@@ -37,7 +37,7 @@ inline    fun toXML(query: POPBase): List<XMLElement> {
                 for (variable in variables) {
                     if (!resultSet.isUndefValue(resultRow, variable.second)) {
                         val value = resultSet.getValue(resultRow[variable.second])!!
-                            val nodeBinding = XMLElement("binding").addAttribute("name", variable.first)
+                        val nodeBinding = XMLElement("binding").addAttribute("name", variable.first)
                         if (value.length > 1) {
                             if (value.startsWith("\"") && !value.endsWith("\"")) {
                                 val idx = value.lastIndexOf("\"^^<")
@@ -63,7 +63,7 @@ inline    fun toXML(query: POPBase): List<XMLElement> {
                                 nodeBinding.addContent(XMLElement("literal").addContent(value.substring(1, value.length - 1)))
                             }
                         }
-                            nodeResult.addContent(nodeBinding)
+                        nodeResult.addContent(nodeBinding)
                     }
                 }
             }

@@ -156,7 +156,7 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
         return POPJoinHashMap(dictionary, optimize(node.children[0]), optimize(node.children[1]), node.optional)
     }
 
-inline    fun optimizeTriple(param: OPBase, name: String, child: POPBase, node: LOPTriple): POPBase {
+    inline fun optimizeTriple(param: OPBase, name: String, child: POPBase, node: LOPTriple): POPBase {
         when (param) {
             is LOPVariable -> {
                 if (param.name != name)

@@ -63,7 +63,7 @@ class POPModify : POPBase {
         }
     }
 
-     fun evaluateRow(node: ASTNode, row: ResultRow): String? {
+    fun evaluateRow(node: ASTNode, row: ResultRow): String? {
         return POPExpression(dictionary, node).evaluate(resultSetOld, row)
     }
 

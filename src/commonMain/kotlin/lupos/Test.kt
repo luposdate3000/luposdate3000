@@ -35,6 +35,10 @@ import lupos.s14endpoint.convertToOPBase
 val errorBoundForDecimalsDigits = 6
 
 fun main(args: Array<String>) {
+    testMain()
+}
+
+fun testMain() {
     repeat(1) {
         println("Starting tests...")
         val (nr_t, nr_e) = parseManifestFile("resources/sparql11-test-suite/", "manifest-all.ttl")
@@ -432,7 +436,9 @@ fun parseSPARQLAndEvaluate(//
     val inputData = readFileOrNull(inputDataFileName)
     val resultData = readFileOrNull(resultDataFileName)
     try {
+println("a")
         P2P.execTruncate()
+println("b")
         val store = PersistentStore()
         if (inputData != null && inputDataFileName != null) {
             println("InputData Graph[] Original")

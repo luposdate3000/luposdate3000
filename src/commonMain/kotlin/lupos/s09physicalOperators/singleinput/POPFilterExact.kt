@@ -23,7 +23,7 @@ class POPFilterExact : POPBaseNullableIterator {
     override val children: Array<OPBase> = arrayOf(OPNothing())
     val variable: LOPVariable
     val value: String
-    val valueR:Value
+    val valueR: Value
     private val resultSet: ResultSet
     private val filterVariable: Variable
 
@@ -33,7 +33,7 @@ class POPFilterExact : POPBaseNullableIterator {
         this.variable = variable
         this.value = value
         resultSet = children[0].getResultSet()
-	valueR=resultSet.createValue(value)
+        valueR = resultSet.createValue(value)
         require(resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         filterVariable = resultSet.createVariable(variable.name)
     }

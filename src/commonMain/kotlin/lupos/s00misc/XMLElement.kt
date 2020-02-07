@@ -7,7 +7,7 @@ class XMLElement {
     // https://regex101.com
     companion object {
         val XMLHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-inline        fun parseFromAny(data: String, filename: String): List<XMLElement>? {
+        inline fun parseFromAny(data: String, filename: String): List<XMLElement>? {
             when {
                 filename.endsWith(".srx") -> return XMLElement.parseFromXml(data)
                 filename.endsWith(".tsv") -> return XMLElement.parseFromTsv(data)
@@ -71,7 +71,7 @@ inline        fun parseFromAny(data: String, filename: String): List<XMLElement>
         this.tag = decodeText(tag)
     }
 
-inline     operator fun get(key: String): XMLElement? {
+    inline operator fun get(key: String): XMLElement? {
         childs.forEach {
             if (it.tag == key)
                 return it

@@ -29,7 +29,7 @@ class PersistentStore {
         private val global_transactionID = ThreadSafeUuid()
     }
 
-     fun nextTransactionID(): Long {
+    fun nextTransactionID(): Long {
         return global_transactionID.next()
     }
 

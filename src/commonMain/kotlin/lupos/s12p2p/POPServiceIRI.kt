@@ -30,7 +30,7 @@ class POPServiceIRI : POPBase {
     var first = true
     val originalConstraint: OPBase
     override val dictionary: ResultSetDictionary
-val variables=mutableListOf<Pair<Variable,Variable>>()
+    val variables = mutableListOf<Pair<Variable, Variable>>()
 
     constructor(dictionary: ResultSetDictionary, transactionID: Long, serverName: String, silent: Boolean, constraint: OPBase) : super() {
         this.dictionary = dictionary
@@ -38,7 +38,7 @@ val variables=mutableListOf<Pair<Variable,Variable>>()
         this.serverName = serverName
         originalConstraint = constraint
         this.constraint = try {
-            P2P.execOnNamedNode(dictionary,transactionID,serverName, constraint)
+            P2P.execOnNamedNode(dictionary, transactionID, serverName, constraint)
         } catch (e: Throwable) {
             null
         }
@@ -46,9 +46,9 @@ val variables=mutableListOf<Pair<Variable,Variable>>()
         resultSetOld = this.constraint?.getResultSet()
         //todo ... handle the case if the target node is not part of this p2p network
         resultSet = ResultSet(dictionary)
-for (n in getProvidedVariableNames()) {
-variables.add(Pair(resultSet.createVariable(n),resultSetOld!!.createVariable(n)))
-}
+        for (n in getProvidedVariableNames()) {
+            variables.add(Pair(resultSet.createVariable(n), resultSetOld!!.createVariable(n)))
+        }
     }
 
     override fun getProvidedVariableNames(): List<String> {

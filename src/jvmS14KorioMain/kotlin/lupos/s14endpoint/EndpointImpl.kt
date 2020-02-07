@@ -1,6 +1,5 @@
 package lupos.s14endpoint
 
-import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
 import com.soywiz.korio.net.http.HttpServer
@@ -46,9 +45,10 @@ object EndpointImpl {
     val REQUEST_XML_INPUT = arrayOf("/import/xml", "data")
     val REQUEST_PEERS_LIST = arrayOf("/peers/list")
     val REQUEST_PEERS_JOIN = arrayOf("/peers/join", "hostname")
+    val REQUEST_PEERS_JOIN_INTERNAL = arrayOf("/peers/join_internal", "hostname")
+    val REQUEST_PEERS_SELF_TEST = arrayOf("/peers/self_test")
     val REQUEST_OPERATOR_QUERY = arrayOf("operator/query", "query")
     var server: HttpServer? = null
-    val client = createHttpClient()
 
     suspend fun process_print_traces(): String {
         return Trace.toString()
@@ -78,7 +78,9 @@ object EndpointImpl {
             when (request.path) {
                 REQUEST_TRACE_PRINT[0] -> response = process_print_traces()
                 REQUEST_PEERS_LIST[0] -> response = P2P.process_peers_list()
+                REQUEST_PEERS_SELF_TEST[0] -> response = P2P.process_peers_self_test()
                 REQUEST_PEERS_JOIN[0] -> response = P2P.process_peers_join(params[REQUEST_PEERS_JOIN[1]]?.first())
+                REQUEST_PEERS_JOIN_INTERNAL[0] -> response = P2P.process_peers_join_internal(params[REQUEST_PEERS_JOIN_INTERNAL[1]]?.first())
                 REQUEST_TRUNCATE[0] -> response = Endpoint.process_truncate().toPrettyString()
                 REQUEST_OPERATOR_QUERY[0] -> {
                     if (request.method == Http.Method.POST)
@@ -117,9 +119,9 @@ object EndpointImpl {
 
     suspend fun start(bootstrap: String?) {
         fullname = hostname + ":" + port
-println("before P2P.start")
+        println("before P2P.start")
         P2P.start(bootstrap)
-println("listen:: $hostname $port")
+        println("listen:: $hostname $port")
         server = createHttpServer().listen(port, hostname, ::myRequestHandler)
     }
 }
@@ -130,7 +132,7 @@ fun main(args: Array<String>) = runBlocking {
     for (a in args) {
         println("args[$i]=$a")
         when (i) {
-	    0-> EndpointImpl.hostname=a
+            0 -> EndpointImpl.hostname = a
             1 -> bootStrapServer = a
         }
         i++
