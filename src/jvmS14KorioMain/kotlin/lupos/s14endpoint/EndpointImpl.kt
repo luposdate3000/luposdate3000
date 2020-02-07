@@ -37,7 +37,7 @@ import lupos.s14endpoint.Endpoint
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 object EndpointImpl {
     var hostname = "localhost"
-    var port = 8080
+    var port = 80
     var fullname = hostname + ":" + port
     val REQUEST_TRACE_PRINT = arrayOf("/trace/print")
     val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query", "query")
@@ -117,15 +117,35 @@ object EndpointImpl {
 
     suspend fun start(bootstrap: String?) {
         fullname = hostname + ":" + port
+println("before P2P.start")
         P2P.start(bootstrap)
+println("listen:: $hostname $port")
         server = createHttpServer().listen(port, hostname, ::myRequestHandler)
     }
 }
 
 fun main(args: Array<String>) = runBlocking {
     var i = 0
-    var serverPort = 0
-    var serverName = ""
+    var bootStrapServer: String? = null
+    for (a in args) {
+        println("args[$i]=$a")
+        when (i) {
+            0 -> bootStrapServer = a
+        }
+        i++
+    }
+    thread(start = true) {
+        launch(Dispatchers.Default) {
+            EndpointImpl.start(bootStrapServer)
+        }
+    }
+    while (true) {
+        delay(1000)
+    }
+}
+/*
+fun main(args: Array<String>) = runBlocking {
+    var i = 0
     var bootStrapServer: String? = null
     for (a in args) {
         println("args[$i]=$a")
@@ -145,3 +165,4 @@ fun main(args: Array<String>) = runBlocking {
         delay(1000)
     }
 }
+*/

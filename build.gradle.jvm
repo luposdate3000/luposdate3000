@@ -92,7 +92,7 @@ sourceSets {
     main.kotlin.srcDirs += 'src/commonS01BufferMainmemoryMain/kotlin'
     main.kotlin.srcDirs += 'src/commonS03DictionaryQueryLocalLongArrayMain/kotlin'
     main.kotlin.srcDirs += 'src/commonS05HashMapMain/kotlin'
-    main.kotlin.srcDirs += 'src/commonS12LocalDummyMain/kotlin'
+    main.kotlin.srcDirs += 'src/jvmS12DummyMain/kotlin'
     main.kotlin.srcDirs += 'src/jvmS14KorioMain/kotlin'
 //    main.kotlin.srcDirs += 'src/jvmS11DummyMain/kotlin'
 }
