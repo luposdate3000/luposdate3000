@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s03resultRepresentation.ResultSetDictionary
+import com.benasher44.uuid.uuid4
 
-import com.benasher44.uuid.*
 import com.soywiz.krypto.md5
 import com.soywiz.krypto.sha1
 import com.soywiz.krypto.sha256
@@ -37,13 +38,10 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTOr
 import lupos.s02buildSyntaxTree.sparql1_1.ASTUndef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
-import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.parseFromASTNode

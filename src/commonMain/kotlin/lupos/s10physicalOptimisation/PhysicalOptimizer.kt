@@ -1,4 +1,10 @@
 package lupos.s10physicalOptimisation
+import lupos.s12p2p.globalStore
+import lupos.s04logicalOperators.singleinput.LOPGroup
+import lupos.s04logicalOperators.singleinput.LOPModify
+import lupos.s04logicalOperators.noinput.LOPModifyData
+import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s03resultRepresentation.ResultSetDictionary
 
 import lupos.s00misc.classNameToString
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
@@ -6,17 +12,14 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTSimpleLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTypedLiteral
-import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPUnion
-import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.noinput.LOPGraphOperation
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
@@ -49,7 +52,6 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s10physicalOptimisation.OptimizerVisitorPOP
-import lupos.s12p2p.*
 
 
 class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerVisitorPOP(transactionID, dictionary) {

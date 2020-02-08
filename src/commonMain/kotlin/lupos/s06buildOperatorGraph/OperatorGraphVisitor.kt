@@ -1,4 +1,6 @@
 package lupos.s06buildOperatorGraph
+import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s04logicalOperators.noinput.ModifyDataType
 
 import lupos.s00misc.classNameToString
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAdd
@@ -94,7 +96,6 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
-import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.GraphOperationType
 import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.noinput.LOPGraphOperation

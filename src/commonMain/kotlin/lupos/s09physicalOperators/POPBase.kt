@@ -1,6 +1,6 @@
 package lupos.s09physicalOperators
+import lupos.s03resultRepresentation.ResultSetDictionary
 
-import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPExpression

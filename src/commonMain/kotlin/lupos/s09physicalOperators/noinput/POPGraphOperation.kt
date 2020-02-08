@@ -1,27 +1,24 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s12p2p.DistributedTripleStore
+import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s02buildSyntaxTree.sparql1_1.ASTGraphRef
 
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
-import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAllGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTDefaultGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIriGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNamedGraphRef
-import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.*
-import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.GraphOperationType
 import lupos.s04logicalOperators.OPBase
-import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
-import lupos.s12p2p.*
 
 
 class POPGraphOperation(override val dictionary: ResultSetDictionary, val transactionID: Long, val silent: Boolean, val graphref1: ASTGraphRef, val graphref2: ASTGraphRef?, val action: GraphOperationType, val pstore: DistributedTripleStore) : POPBase() {

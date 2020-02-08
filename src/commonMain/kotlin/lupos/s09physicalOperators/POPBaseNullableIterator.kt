@@ -1,7 +1,6 @@
 package lupos.s09physicalOperators
 
 import lupos.s00misc.Trace
-import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSetIterator
 import lupos.s04logicalOperators.OPBase

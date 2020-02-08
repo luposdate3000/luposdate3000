@@ -1,20 +1,20 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s12p2p.DistributedTripleStore
+import lupos.s04logicalOperators.noinput.ModifyDataType
+import lupos.s04logicalOperators.OPBase
+import lupos.s03resultRepresentation.ResultSetDictionary
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.*
-import lupos.s04logicalOperators.noinput.*
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.noinput.POPGraphOperation
 import lupos.s09physicalOperators.noinput.POPImportFromXml
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
-import lupos.s12p2p.*
 
 
 class POPModifyData(override val dictionary: ResultSetDictionary, val transactionID: Long, val type: ModifyDataType, val data: List<List<Pair<String, Boolean>>>, val pstore: DistributedTripleStore) : POPBase() {

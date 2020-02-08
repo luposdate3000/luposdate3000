@@ -1,14 +1,15 @@
 package lupos.s05tripleStore
+import lupos.s04logicalOperators.OPBase
+import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.Value
+import lupos.s00misc.XMLElement
 
-import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Trace
-import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetIterator
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.*
 import lupos.s05tripleStore.IndexPattern
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
 import lupos.s09physicalOperators.POPBase

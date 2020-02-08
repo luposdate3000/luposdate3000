@@ -1,6 +1,7 @@
 package lupos.s10physicalOptimisation
+import lupos.s12p2p.DistributedTripleStore
+import lupos.s03resultRepresentation.ResultSetDictionary
 
-import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
@@ -27,7 +28,6 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s09physicalOperators.singleinput.POPTemporaryStore
-import lupos.s12p2p.*
 
 
 abstract class OptimizerVisitorPOP(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerVisitorLOP(transactionID, dictionary) {

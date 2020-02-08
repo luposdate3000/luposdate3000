@@ -1,10 +1,10 @@
 package lupos.s08logicalOptimisation
+import lupos.s04logicalOperators.noinput.LOPModifyData
+import lupos.s03resultRepresentation.ResultSetDictionary
 
-import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
-import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.noinput.LOPGraphOperation
 import lupos.s04logicalOperators.noinput.LOPTriple

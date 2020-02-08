@@ -1,4 +1,8 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s12p2p.DistributedTripleStore
+import lupos.s09physicalOperators.POPBase
+import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s03resultRepresentation.ResultSetDictionary
 
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Trace
@@ -8,14 +12,10 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTriple
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
-import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.*
-import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
-import lupos.s09physicalOperators.*
 import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBaseNullableIterator
 import lupos.s09physicalOperators.singleinput.POPBind
@@ -24,7 +24,6 @@ import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
-import lupos.s12p2p.*
 
 
 class POPModify : POPBase {

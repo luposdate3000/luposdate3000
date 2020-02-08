@@ -1,9 +1,7 @@
 package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.XMLElement
-import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPBind

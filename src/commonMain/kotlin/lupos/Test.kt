@@ -1,4 +1,7 @@
 package lupos
+import lupos.s12p2p.DistributedTripleStore
+import lupos.s12p2p.P2P
+import lupos.s03resultRepresentation.ResultSetDictionary
 
 import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.readFileContents
@@ -16,7 +19,6 @@ import lupos.s02buildSyntaxTree.sparql1_1.parseSPARQL
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
-import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
@@ -26,7 +28,6 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
-import lupos.s12p2p.*
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
 

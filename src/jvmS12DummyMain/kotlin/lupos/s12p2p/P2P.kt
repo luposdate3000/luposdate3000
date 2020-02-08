@@ -1,6 +1,14 @@
 package lupos.s12p2p
+import lupos.s14endpoint.Endpoint
+import lupos.s14endpoint.EndpointImpl
+import lupos.s09physicalOperators.noinput.POPEmptyRow
+import lupos.s09physicalOperators.noinput.POPImportFromXml
+import lupos.s09physicalOperators.POPBase
+import lupos.s04logicalOperators.OPBase
+import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.testMain
+import com.soywiz.korio.net.http.HttpClient
 
-import com.soywiz.korio.net.http.*
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
@@ -11,7 +19,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import lupos.*
 import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.Trace
@@ -24,19 +31,13 @@ import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
-import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.*
 import lupos.s08logicalOptimisation.LogicalOptimizer
-import lupos.s09physicalOperators.*
-import lupos.s09physicalOperators.noinput.*
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
-import lupos.s12p2p.*
 import lupos.s12p2p.P2PLocalDummy
 import lupos.s12p2p.POPServiceIRI
-import lupos.s14endpoint.*
 
 
 object P2P {

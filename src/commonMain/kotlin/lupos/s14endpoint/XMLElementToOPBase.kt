@@ -1,7 +1,9 @@
 package lupos.s14endpoint
+import lupos.s12p2p.DistributedTripleStore
+import lupos.s12p2p.globalStore
+import lupos.s03resultRepresentation.ResultSetDictionary
 
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.toASTNode
@@ -25,7 +27,6 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s09physicalOperators.singleinput.POPTemporaryStore
-import lupos.s12p2p.*
 import lupos.s12p2p.POPServiceIRI
 import lupos.s14endpoint.Endpoint
 

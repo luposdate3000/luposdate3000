@@ -1,6 +1,6 @@
 package lupos.s13keyDistributionOptimizer
+import lupos.s03resultRepresentation.ResultSetDictionary
 
-import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s08logicalOptimisation.OptimizerVisitorLOP
