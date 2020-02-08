@@ -15,7 +15,6 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
-import lupos.s05tripleStore.PersistentStore
 import lupos.s09physicalOperators.*
 import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBaseNullableIterator
@@ -25,6 +24,7 @@ import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPFilterExact
 import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
+import lupos.s12p2p.*
 
 
 class POPModify : POPBase {
@@ -33,7 +33,7 @@ class POPModify : POPBase {
     val iri: String?
     val insert: List<ASTNode>
     val delete: List<ASTNode>
-    val pstore: PersistentStore
+    val pstore: DistributedTripleStore
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private val resultSetNew: ResultSet
     private val resultSetOld: ResultSet
@@ -41,7 +41,7 @@ class POPModify : POPBase {
         return resultSetNew
     }
 
-    constructor(dictionary: ResultSetDictionary, transactionID: Long, iri: String?, insert: List<ASTNode>, delete: List<ASTNode>, pstore: PersistentStore, child: OPBase) : super() {
+    constructor(dictionary: ResultSetDictionary, transactionID: Long, iri: String?, insert: List<ASTNode>, delete: List<ASTNode>, pstore: DistributedTripleStore, child: OPBase) : super() {
         this.dictionary = dictionary
         this.transactionID = transactionID
         this.iri = iri

@@ -2,7 +2,6 @@ package lupos.s05tripleStore
 
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s03resultRepresentation.ResultSetIterator
-import lupos.s05tripleStore.TripleStore
 import lupos.s09physicalOperators.POPBase
 
 
@@ -20,9 +19,7 @@ abstract class POPTripleStoreIteratorBase() : POPBase() {
     abstract fun getGraphName(): String
 }
 
-val globalStore = PersistentStore()
-
-class PersistentStore {
+class PersistentStoreLocal {
     val defaultGraphName = ""
 
     companion object {
@@ -33,9 +30,9 @@ class PersistentStore {
         return global_transactionID.next()
     }
 
-    val stores = mutableMapOf<String, TripleStore>()
+    val stores = mutableMapOf<String, TripleStoreLocal>()
 
-    inline fun forEach(action: (String, TripleStore) -> Unit) {
+    inline fun forEach(action: (String, TripleStoreLocal) -> Unit) {
         for ((k, v) in stores)
             action(k, v)
     }
@@ -50,15 +47,15 @@ class PersistentStore {
 
     constructor() {
         if (stores[defaultGraphName] == null) {
-            stores[defaultGraphName] = TripleStore(defaultGraphName)
+            stores[defaultGraphName] = TripleStoreLocal(defaultGraphName)
         }
     }
 
-    inline fun createGraph(name: String): TripleStore {
+    inline fun createGraph(name: String): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null)
             throw Exception("PersistentStore.createGraph :: graph[$name] already exist")
-        val tmp2 = TripleStore(name)
+        val tmp2 = TripleStoreLocal(name)
         stores[name] = tmp2
         return tmp2
     }
@@ -85,14 +82,14 @@ class PersistentStore {
         }
     }
 
-    inline fun getNamedGraph(name: String, create: Boolean = false): TripleStore {
+    inline fun getNamedGraph(name: String, create: Boolean = false): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null || !create)
             return tmp!!
         return createGraph(name)
     }
 
-    inline fun getDefaultGraph(): TripleStore {
+    inline fun getDefaultGraph(): TripleStoreLocal {
         return getNamedGraph(defaultGraphName)
     }
 

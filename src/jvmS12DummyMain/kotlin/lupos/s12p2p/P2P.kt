@@ -45,7 +45,7 @@ object P2P {
     val knownClients = mutableSetOf<String>()
 
     suspend fun retryRequest(method: Http.Method, url: String): HttpClient.Response {
-	require(!url.startsWith("http://${EndpointImpl.fullname}"))
+        require(!url.startsWith("http://${EndpointImpl.fullname}"))
         while (true) {
             try {
                 return client.request(method, url)
@@ -158,12 +158,12 @@ object P2P {
         Endpoint.process_truncate()
         synchronized(knownClients) {
             knownClients.forEach {
-		if(it!=EndpointImpl.fullname){
-                runBlocking {
-                    retryRequest(Http.Method.GET, "http://${resolveNodeName(it)}${EndpointImpl.REQUEST_TRUNCATE[0]}")
+                if (it != EndpointImpl.fullname) {
+                    runBlocking {
+                        retryRequest(Http.Method.GET, "http://${resolveNodeName(it)}${EndpointImpl.REQUEST_TRUNCATE[0]}")
+                    }
                 }
             }
-}
         }
         nodeNameRemapping.clear()
     }

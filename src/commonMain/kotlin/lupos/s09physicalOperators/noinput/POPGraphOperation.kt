@@ -16,14 +16,15 @@ import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.noinput.GraphOperationType
 import lupos.s04logicalOperators.OPBase
-import lupos.s05tripleStore.PersistentStore
+import lupos.s05tripleStore.*
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
+import lupos.s12p2p.*
 
 
-class POPGraphOperation(override val dictionary: ResultSetDictionary, val transactionID: Long, val silent: Boolean, val graphref1: ASTGraphRef, val graphref2: ASTGraphRef?, val action: GraphOperationType, val pstore: PersistentStore) : POPBase() {
+class POPGraphOperation(override val dictionary: ResultSetDictionary, val transactionID: Long, val silent: Boolean, val graphref1: ASTGraphRef, val graphref2: ASTGraphRef?, val action: GraphOperationType, val pstore: DistributedTripleStore) : POPBase() {
     override val children: Array<OPBase> = arrayOf()
     private val resultSetNew = ResultSet(dictionary)
 

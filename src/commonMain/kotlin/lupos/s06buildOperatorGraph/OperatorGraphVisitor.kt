@@ -610,7 +610,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTTriple, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 3)
-        return LOPTriple(childrenValues[0], childrenValues[1], childrenValues[2], "")//TODO graph name
+        return LOPTriple(childrenValues[0], childrenValues[1], childrenValues[2], "")
     }
 
     override fun visit(node: ASTOptional, childrenValues: List<OPBase>): OPBase {

@@ -16,23 +16,23 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04logicalOperators.OPBase
-import lupos.s05tripleStore.PersistentStore
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPImportFromXml
 import lupos.s09physicalOperators.POPBaseNullableIterator
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
+import lupos.s12p2p.*
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.Endpoint
 
 
 object P2PLocalDummy {
-    val nodeData = mutableMapOf<String, PersistentStore>()
+    val nodeData = mutableMapOf<String, DistributedTripleStore>()
 
     inline fun execInsertOnNamedNode(nodeName: String, data: XMLElement) {
         var pstore = nodeData[nodeName]
         if (pstore == null) {
-            pstore = PersistentStore()
+            pstore = DistributedTripleStore()
             nodeData[nodeName] = pstore
         }
         val store = pstore.getDefaultGraph()

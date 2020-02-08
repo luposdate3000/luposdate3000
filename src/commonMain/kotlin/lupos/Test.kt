@@ -19,7 +19,6 @@ import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
-import lupos.s05tripleStore.PersistentStore
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPImportFromXml
@@ -27,7 +26,7 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
-import lupos.s12p2p.P2P
+import lupos.s12p2p.*
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
 
@@ -433,13 +432,15 @@ fun parseSPARQLAndEvaluate(//
         outputDataGraph: MutableList<MutableMap<String, String>>//
 ): Boolean {
     val toParse = readFileOrNull(queryFile)!!
+if(toParse.contains("service",true)){
+println("----------Failed(Service)")
+return false
+}
     val inputData = readFileOrNull(inputDataFileName)
     val resultData = readFileOrNull(resultDataFileName)
     try {
-println("a")
         P2P.execTruncate()
-println("b")
-        val store = PersistentStore()
+        val store = DistributedTripleStore()
         if (inputData != null && inputDataFileName != null) {
             println("InputData Graph[] Original")
             println(inputData)
