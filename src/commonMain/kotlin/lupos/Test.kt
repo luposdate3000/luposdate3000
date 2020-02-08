@@ -432,10 +432,10 @@ fun parseSPARQLAndEvaluate(//
         outputDataGraph: MutableList<MutableMap<String, String>>//
 ): Boolean {
     val toParse = readFileOrNull(queryFile)!!
-if(toParse.contains("service",true)){
-println("----------Failed(Service)")
-return false
-}
+    if (toParse.contains("service", true)) {
+        println("----------Failed(Service)")
+        return false
+    }
     val inputData = readFileOrNull(inputDataFileName)
     val resultData = readFileOrNull(resultDataFileName)
     try {

@@ -29,11 +29,11 @@ class DistributedGraph(val store: DistributedTripleStore, val name: String, val 
     }
 
     fun addData(key: ResultRow, value: ResultRow, store: MutableMap<ResultRow, MutableSet<ResultRow>>) {
-require(false)
+        require(false)
     }
 
     fun deleteData(key: ResultRow, value: ResultRow, store: MutableMap<ResultRow, MutableSet<ResultRow>>) {
-require(false)
+        require(false)
     }
 
     fun abort(transactionID: Long) {
