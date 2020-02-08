@@ -6,7 +6,7 @@ changed=0
 while [[ $changed == 1 ]]
 do
 	changed=0
-	failed=$(./tool-gradle-build-without-tests-jvm.sh 2>&1 | grep "BUILD FAILED in ")
+	failed=$(./tool-gradle-build-without-tests-jvm-all.sh 2>&1 | grep "BUILD FAILED in ")
 	if [ -z "$failed" ]
 	then
 		echo success

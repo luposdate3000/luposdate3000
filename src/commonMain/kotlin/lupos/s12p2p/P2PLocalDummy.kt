@@ -63,7 +63,12 @@ object P2PLocalDummy {
 /*just a dummy ... should be removed if there is a real p2p*/
         return ""
     }
-
+fun process_peers_self_test(): String{
+return ""
+}
+fun process_peers_join_internal(hostname: String?): String {
+return ""
+}
     suspend inline fun start(bootstrap: String?) {
     }
 }

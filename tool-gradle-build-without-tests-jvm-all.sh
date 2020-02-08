@@ -14,11 +14,11 @@ do
 buildName="${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}"
 buildFile="build.gradle-${buildName}.jvm.generated"
 buildDir="buildJvm${buildName}"
+buildCache="gradleJvm${buildName}"
 
 cat >tmp <<EOF
 project.buildDir="$buildDir"
 buildscript {
-
     ext.kotlin_version = '1.3.41'
 
     repositories {
@@ -123,7 +123,7 @@ EOF
 	mv tmp $buildFile
 (
 (
-	gradle --build-file="$buildFile" build -x test
+	gradle --build-file="$buildFile" --project-cache-dir="$buildCache" build -x test
         cd $buildDir/distributions
         tar -xf luposdate3000.tar
 	cat ./luposdate3000/bin/luposdate3000 | sed "s/lupos.TestKt/lupos.s14endpoint.P2PKt/g"> ./luposdate3000/bin/luposdate3000-p2p

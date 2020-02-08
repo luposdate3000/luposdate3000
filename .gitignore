@@ -6,7 +6,7 @@ buildNative*
 buildJvm*
 gradle
 tmp
-gradlew
+gradle*
 gradlew.bat
 */build
 */out

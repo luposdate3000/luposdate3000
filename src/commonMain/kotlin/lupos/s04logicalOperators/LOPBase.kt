@@ -1,7 +1,8 @@
 package lupos.s04logicalOperators
+import lupos.s03resultRepresentation.ResultRow
+import lupos.s03resultRepresentation.ResultSetDictionary
 
 import lupos.s00misc.classNameToString
-import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
