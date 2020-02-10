@@ -14,66 +14,38 @@ import lupos.s05tripleStore.TripleStoreLocal
 import lupos.s12p2p.*
 
 
-class DistributedGraph(val name: String, val create: Boolean = false) {
-
-    fun modifyData(transactionID: Long, vals: Value, valp: Value, valo: Value, action: ModifyType) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).modifyData(transactionID, vals, valp, valo, action)
-    }
+class DistributedGraph(val name: String) {
 
     fun clear() {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).clear()
-    }
-
-    fun addData(key: ResultRow, value: ResultRow, store: MutableMap<ResultRow, MutableSet<ResultRow>>) {
-        require(false)
-    }
-
-    fun deleteData(key: ResultRow, value: ResultRow, store: MutableMap<ResultRow, MutableSet<ResultRow>>) {
-        require(false)
-    }
-
-    fun abort(transactionID: Long) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).abort(transactionID)
-    }
-
-    fun commit2(transactionID: Long) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).commit2(transactionID)
-    }
-
-    fun commitModifyData(vals: Value, valp: Value, valo: Value, action: (ResultRow, ResultRow, MutableMap<ResultRow, MutableSet<ResultRow>>) -> Unit) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).commitModifyData(vals, valp, valo, action)
+        DistributedTripleStore.localStore.getNamedGraph(name).clear()
     }
 
     fun addData(transactionID: Long, t: List<String?>) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).addData(transactionID, t)
+        DistributedTripleStore.localStore.getNamedGraph(name).addData(transactionID, t)
     }
 
     fun deleteData(transactionID: Long, t: List<String?>) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).deleteData(transactionID, t)
+        DistributedTripleStore.localStore.getNamedGraph(name).deleteData(transactionID, t)
     }
 
     fun addDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).addDataVar(transactionID, t)
+        DistributedTripleStore.localStore.getNamedGraph(name).addDataVar(transactionID, t)
     }
 
     fun deleteDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).deleteDataVar(transactionID, t)
+        DistributedTripleStore.localStore.getNamedGraph(name).deleteDataVar(transactionID, t)
     }
 
     fun addData(transactionID: Long, iterator: ResultSetIterator) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).addData(transactionID, iterator)
+        DistributedTripleStore.localStore.getNamedGraph(name).addData(transactionID, iterator)
     }
 
     fun getIterator(dictionary: ResultSetDictionary): POPTripleStoreIteratorBase {
-        return DistributedTripleStore.localStore.getNamedGraph(name, create).getIterator(dictionary)
+        return DistributedTripleStore.localStore.getNamedGraph(name).getIterator(dictionary)
     }
 
     fun getIterator(dictionary: ResultSetDictionary, s: String, p: String, o: String): POPTripleStoreIteratorBase {
-        return DistributedTripleStore.localStore.getNamedGraph(name, create).getIterator(dictionary, s, p, o)
-    }
-
-    fun getIterator(dictionary: ResultSetDictionary, index: IndexPattern): POPTripleStoreIteratorBase {
-        return DistributedTripleStore.localStore.getNamedGraph(name, create).getIterator(dictionary, index)
+        return DistributedTripleStore.localStore.getNamedGraph(name).getIterator(dictionary, s, p, o)
     }
 }
 
@@ -102,7 +74,9 @@ object DistributedTripleStore {
     }
 
     fun getNamedGraph(name: String, create: Boolean = false): DistributedGraph {
-        return DistributedGraph(name, create)
+	if(create && ! (localStore.getGraphNames(true).contains(name)))
+		createGraph(name)
+        return DistributedGraph(name)
     }
 
     fun getDefaultGraph(): DistributedGraph {
