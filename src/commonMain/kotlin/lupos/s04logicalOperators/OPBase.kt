@@ -1,13 +1,13 @@
 package lupos.s04logicalOperators
-import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s04logicalOperators.noinput.LOPExpression
-import lupos.s04logicalOperators.noinput.LOPVariable
-import lupos.s02buildSyntaxTree.sparql1_1.ASTUndef
 
 import lupos.s00misc.classNameToString
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
+import lupos.s02buildSyntaxTree.sparql1_1.ASTUndef
 import lupos.s03resultRepresentation.ResultSetIterator
+import lupos.s04logicalOperators.noinput.LOPExpression
+import lupos.s04logicalOperators.noinput.LOPVariable
+import lupos.s04logicalOperators.singleinput.LOPBind
 
 
 abstract class OPBase : ResultSetIterator {

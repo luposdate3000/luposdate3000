@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 
-
 class ThreadSafeMutableMap<k, v>() {
     val map = mutableMapOf<k, v>()
     fun clear() {

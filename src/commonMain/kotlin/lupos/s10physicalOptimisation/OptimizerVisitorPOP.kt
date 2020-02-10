@@ -1,7 +1,6 @@
 package lupos.s10physicalOptimisation
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
-import lupos.s03resultRepresentation.ResultSetDictionary
 
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
@@ -28,11 +27,10 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s09physicalOperators.singleinput.POPTemporaryStore
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 abstract class OptimizerVisitorPOP(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerVisitorLOP(transactionID, dictionary) {
-    var store: DistributedTripleStore? = null
-
 
     open fun visit(node: POPGraphOperation): OPBase {
         require(node.transactionID == transactionID)
@@ -40,7 +38,7 @@ abstract class OptimizerVisitorPOP(transactionID: Long, dictionary: ResultSetDic
     }
 
     open fun visit(node: POPModify): OPBase {
-        return POPModify(dictionary, transactionID, node.iri, node.insert, node.delete, node.pstore, optimize(node.children[0]))
+        return POPModify(dictionary, transactionID, node.iri, node.insert, node.delete, optimize(node.children[0]))
     }
 
     open fun visit(node: POPModifyData): OPBase {
@@ -61,13 +59,7 @@ abstract class OptimizerVisitorPOP(transactionID: Long, dictionary: ResultSetDic
     }
 
     open fun visit(node: POPTripleStoreIteratorBase): OPBase {
-        if (store == null)
-            return node
-        val res = store!!.getNamedGraph(node.getGraphName()).getIterator(dictionary)
-        res.setMNameS(node.nameS)
-        res.setMNameP(node.nameP)
-        res.setMNameO(node.nameO)
-        return res
+        return node
     }
 
     open fun visit(node: POPBind): OPBase {

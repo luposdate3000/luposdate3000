@@ -1,10 +1,10 @@
 package lupos.s04logicalOperators.noinput
-import lupos.s04logicalOperators.OPBase
 
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.noinput.LOPVariable
+import lupos.s04logicalOperators.OPBase
 
 
 class LOPValues(val variables: List<LOPVariable>, val values: List<LOPExpression>) : LOPBase() {

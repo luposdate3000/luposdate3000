@@ -1,7 +1,4 @@
 package lupos
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
-import lupos.s12p2p.P2P
-import lupos.s03resultRepresentation.ResultSetDictionary
 
 import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.readFileContents
@@ -20,14 +17,17 @@ import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s03resultRepresentation.ResultSet
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPImportFromXml
 import lupos.s09physicalOperators.POPBase
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
+import lupos.s12p2p.P2P
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.convertToOPBase
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 val errorBoundForDecimalsDigits = 6
@@ -430,6 +430,10 @@ fun parseSPARQLAndEvaluate(//
         inputDataGraph: MutableList<MutableMap<String, String>>,//
         outputDataGraph: MutableList<MutableMap<String, String>>//
 ): Boolean {
+    for (g in DistributedTripleStore.getGraphNames()) {
+        DistributedTripleStore.dropGraph(g)
+    }
+    DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
     val toParse = readFileOrNull(queryFile)!!
     if (toParse.contains("service", true)) {
         println("----------Failed(Service)")
@@ -439,16 +443,15 @@ fun parseSPARQLAndEvaluate(//
     val resultData = readFileOrNull(resultDataFileName)
     try {
         P2P.execGraphClearAll()
-        val store = DistributedTripleStore()
         if (inputData != null && inputDataFileName != null) {
             println("InputData Graph[] Original")
             println(inputData)
             println("----------Input Data Graph[]")
             var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
-            val transactionID = store.nextTransactionID()
+            val transactionID = DistributedTripleStore.nextTransactionID()
             val dictionary = ResultSetDictionary()
-            store.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
-            store.commit(transactionID)
+            DistributedTripleStore.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
+            DistributedTripleStore.commit(transactionID)
             println(xmlQueryInput.first().toPrettyString())
         }
         inputDataGraph.forEach {
@@ -457,10 +460,10 @@ fun parseSPARQLAndEvaluate(//
             println(inputData)
             println("----------Input Data Graph[${it["name"]}]")
             var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
-            val transactionID = store.nextTransactionID()
+            val transactionID = DistributedTripleStore.nextTransactionID()
             val dictionary = ResultSetDictionary()
-            store.getNamedGraph(it["name"]!!, true).addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
-            store.commit(transactionID)
+            DistributedTripleStore.getNamedGraph(it["name"]!!, true).addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
+            DistributedTripleStore.commit(transactionID)
             println(xmlQueryInput.first().toPrettyString())
         }
         if (services != null)
@@ -470,7 +473,7 @@ fun parseSPARQLAndEvaluate(//
                 val fc = readFileOrNull(fn)!!
                 P2P.execInsertOnNamedNode(n, XMLElement.parseFromAny(fc, fn)!!.first())
             }
-        val transactionID = store.nextTransactionID()
+        val transactionID = DistributedTripleStore.nextTransactionID()
         val dictionary = ResultSetDictionary()
         var res: Boolean
         println("----------String Query")
@@ -490,7 +493,6 @@ fun parseSPARQLAndEvaluate(//
         println(lop_node2.toXMLElement().toPrettyString())
         println("----------Physical Operator Graph")
         val pop_optimizer = PhysicalOptimizer(transactionID, dictionary)
-        pop_optimizer.store = store
         val pop_node = pop_optimizer.optimizeCall(lop_node2)
         println(pop_node.toXMLElement().toPrettyString())
         println("----------Distributed Operator Graph")
@@ -501,7 +503,7 @@ fun parseSPARQLAndEvaluate(//
             println("----------Query Result")
             xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node).first()
             println(xmlQueryResult.toPrettyString())
-            store.commit(transactionID)
+            DistributedTripleStore.commit(transactionID)
         }
         var verifiedOutput = false
         outputDataGraph.forEach {
@@ -510,7 +512,7 @@ fun parseSPARQLAndEvaluate(//
             println(outputData)
             println("----------Verify Output Data Graph[${it["name"]}] ... target,actual")
             var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)
-            val tmp = store.getNamedGraph(it["name"]!!).getIterator(dictionary)
+            val tmp = DistributedTripleStore.getNamedGraph(it["name"]!!).getIterator(dictionary)
             tmp.setMNameS("s")
             tmp.setMNameP("p")
             tmp.setMNameO("o")
@@ -531,12 +533,13 @@ fun parseSPARQLAndEvaluate(//
             res = xmlQueryResult!!.myEquals(xmlQueryTarget?.first())
             if (res) {
                 val xmlPOP = pop_distributed_node.toXMLElement()
-                val transactionID2 = store.nextTransactionID()
-                val popNodeRecovered = XMLElement.convertToOPBase(dictionary, transactionID2, xmlPOP, store) as POPBase
+                val transactionID2 = DistributedTripleStore.nextTransactionID()
+                val popNodeRecovered = XMLElement.convertToOPBase(dictionary, transactionID2, xmlPOP) as POPBase
                 println(xmlPOP.toPrettyString())
                 println(popNodeRecovered.toXMLElement().toPrettyString())
                 val xmlQueryResultRecovered = QueryResultToXML.toXML(popNodeRecovered)
-                store.commit(transactionID2)
+                DistributedTripleStore.commit(transactionID2)
+                println(xmlQueryResultRecovered.first().toPrettyString())
                 if (xmlQueryResultRecovered.first().myEquals(xmlQueryResult)) {
                     if (expectedResult)
                         println("----------Success")

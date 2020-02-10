@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 
-
 class ThreadSafeUuid() {
 
     companion object {

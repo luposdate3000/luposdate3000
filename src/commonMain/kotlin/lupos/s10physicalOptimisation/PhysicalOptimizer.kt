@@ -1,10 +1,4 @@
 package lupos.s10physicalOptimisation
-import lupos.s15tripleStoreDistributed.globalStore
-import lupos.s04logicalOperators.singleinput.LOPGroup
-import lupos.s04logicalOperators.singleinput.LOPModify
-import lupos.s04logicalOperators.noinput.LOPModifyData
-import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s03resultRepresentation.ResultSetDictionary
 
 import lupos.s00misc.classNameToString
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
@@ -12,17 +6,22 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTSimpleLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTypedLiteral
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.noinput.LOPGraphOperation
+import lupos.s04logicalOperators.noinput.LOPModifyData
+import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.singleinput.LOPGroup
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
+import lupos.s04logicalOperators.singleinput.LOPModify
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.LOPRename
 import lupos.s04logicalOperators.singleinput.LOPSort
@@ -52,31 +51,22 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s10physicalOptimisation.OptimizerVisitorPOP
+import lupos.s15tripleStoreDistributed.*
 
 
 class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerVisitorPOP(transactionID, dictionary) {
 
 
     override fun visit(node: LOPGraphOperation): OPBase {
-        val s = store
-        if (s == null)
-            return POPGraphOperation(dictionary, transactionID, node.silent, node.graphref1!!, node.graphref2, node.action, globalStore)
-        else
-            return POPGraphOperation(dictionary, transactionID, node.silent, node.graphref1!!, node.graphref2, node.action, s)
+        return POPGraphOperation(dictionary, transactionID, node.silent, node.graphref1!!, node.graphref2, node.action)
     }
 
     override fun visit(node: LOPModify): OPBase {
-        val s = store
-        if (s == null)
-            return POPModify(dictionary, transactionID, node.iri, node.insert, node.delete, globalStore, optimize(node.children[0]))
-        return POPModify(dictionary, transactionID, node.iri, node.insert, node.delete, s, optimize(node.children[0]))
+        return POPModify(dictionary, transactionID, node.iri, node.insert, node.delete, optimize(node.children[0]))
     }
 
     override fun visit(node: LOPModifyData): OPBase {
-        val s = store
-        if (s == null)
-            return POPModifyData(dictionary, transactionID, node.type, node.data, globalStore)
-        return POPModifyData(dictionary, transactionID, node.type, node.data, s)
+        return POPModifyData(dictionary, transactionID, node.type, node.data)
     }
 
     override fun visit(node: LOPProjection): OPBase {
@@ -186,10 +176,7 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
             variables.add(node.p)
         if (node.o is LOPVariable)
             variables.add(node.o)
-        var result2 = if (store == null)
-            globalStore.getNamedGraph(node.graph).getIterator(dictionary)
-        else
-            store!!.getNamedGraph(node.graph).getIterator(dictionary)
+        var result2 = DistributedTripleStore.getNamedGraph(node.graph).getIterator(dictionary)
         var sname = result2.nameS
         var pname = result2.nameP
         var oname = result2.nameO

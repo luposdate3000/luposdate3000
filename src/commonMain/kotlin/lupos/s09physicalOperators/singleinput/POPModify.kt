@@ -1,8 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
-import lupos.s09physicalOperators.POPBase
-import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s03resultRepresentation.ResultSetDictionary
 
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Trace
@@ -14,9 +10,13 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTTriple
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPExpression
+import lupos.s09physicalOperators.POPBase
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class POPModify : POPBase {
@@ -25,7 +25,6 @@ class POPModify : POPBase {
     val iri: String?
     val insert: List<ASTNode>
     val delete: List<ASTNode>
-    val pstore: DistributedTripleStore
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private val resultSetNew: ResultSet
     private val resultSetOld: ResultSet
@@ -33,13 +32,12 @@ class POPModify : POPBase {
         return resultSetNew
     }
 
-    constructor(dictionary: ResultSetDictionary, transactionID: Long, iri: String?, insert: List<ASTNode>, delete: List<ASTNode>, pstore: DistributedTripleStore, child: OPBase) : super() {
+    constructor(dictionary: ResultSetDictionary, transactionID: Long, iri: String?, insert: List<ASTNode>, delete: List<ASTNode>, child: OPBase) : super() {
         this.dictionary = dictionary
         this.transactionID = transactionID
         this.iri = iri
         this.insert = insert
         this.delete = delete
-        this.pstore = pstore
         children[0] = child
         resultSetNew = ResultSet(dictionary)
         resultSetOld = children[0].getResultSet()
@@ -66,15 +64,15 @@ class POPModify : POPBase {
             for (i in insert) {
                 when (i) {
                     is ASTTriple -> {
-                        val store = pstore.getDefaultGraph()
+                        val store = DistributedTripleStore.getDefaultGraph()
                         val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
                         store.addData(transactionID, data)
                     }
                     is ASTGraph -> {
                         val store = if (i.iriOrVar is ASTIri) {
-                            pstore.getNamedGraph(i.iriOrVar.iri)
+                            DistributedTripleStore.getNamedGraph(i.iriOrVar.iri)
                         } else {
-                            pstore.getNamedGraph(resultSetOld.getValue(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)])!!)
+                            DistributedTripleStore.getNamedGraph(resultSetOld.getValue(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)])!!)
                         }
                         for (c in i.children) {
                             when (c) {
@@ -92,15 +90,15 @@ class POPModify : POPBase {
             for (i in delete) {
                 when (i) {
                     is ASTTriple -> {
-                        val store = pstore.getDefaultGraph()
+                        val store = DistributedTripleStore.getDefaultGraph()
                         val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
                         store.deleteData(transactionID, data)
                     }
                     is ASTGraph -> {
                         val store = if (i.iriOrVar is ASTIri) {
-                            pstore.getNamedGraph(i.iriOrVar.iri)
+                            DistributedTripleStore.getNamedGraph(i.iriOrVar.iri)
                         } else {
-                            pstore.getNamedGraph(resultSetOld.getValue(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)])!!)
+                            DistributedTripleStore.getNamedGraph(resultSetOld.getValue(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)])!!)
                         }
                         for (c in i.children) {
                             when (c) {

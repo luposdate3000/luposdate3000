@@ -1,7 +1,6 @@
 package lupos.s01io.buffer
 
 
-
 class UnsafePage {
 
     companion object {

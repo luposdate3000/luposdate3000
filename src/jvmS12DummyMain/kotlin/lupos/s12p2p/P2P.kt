@@ -1,17 +1,8 @@
 package lupos.s12p2p
-import lupos.s04logicalOperators.noinput.*
-import lupos.s14endpoint.Endpoint
-import lupos.s14endpoint.EndpointImpl
-import lupos.s09physicalOperators.noinput.POPEmptyRow
-import lupos.s09physicalOperators.noinput.POPImportFromXml
-import lupos.s09physicalOperators.POPBase
-import lupos.s04logicalOperators.OPBase
-import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.testMain
-import com.soywiz.korio.net.http.HttpClient
 
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.Http
+import com.soywiz.korio.net.http.HttpClient
 import com.soywiz.korio.net.URL
 import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
@@ -20,6 +11,15 @@ import lupos.s00misc.parseFromXml
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.ResultSet
+import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s04logicalOperators.noinput.*
+import lupos.s04logicalOperators.OPBase
+import lupos.s09physicalOperators.noinput.POPEmptyRow
+import lupos.s09physicalOperators.noinput.POPImportFromXml
+import lupos.s09physicalOperators.POPBase
+import lupos.s14endpoint.Endpoint
+import lupos.s14endpoint.EndpointImpl
+import lupos.testMain
 
 
 object P2P {
@@ -138,7 +138,7 @@ object P2P {
 
     fun execGraphClearAll() {
 /*execute clear on every known node - for TESTING only*/
-        Endpoint.process_graph_clear_all()
+        Endpoint.process_local_graph_clear_all()
         synchronized(knownClients) {
             knownClients.forEach {
                 if (it != EndpointImpl.fullname) {
@@ -150,9 +150,12 @@ object P2P {
         }
         nodeNameRemapping.clear()
     }
-    fun execGraphOperation(name:String,type:GraphOperationType) {
+
+    fun execGraphOperation(name: String, type: GraphOperationType) {
 /*execute clear on every known node - for TESTING only*/
-        Endpoint.process_graph_operation(name,type)
+        println("execGraphOperation $name $type P2P a")
+        Endpoint.process_local_graph_operation(name, type)
+        println("execGraphOperation $name $type P2P b")
         synchronized(knownClients) {
             knownClients.forEach {
                 if (it != EndpointImpl.fullname) {
@@ -162,6 +165,20 @@ object P2P {
                 }
             }
         }
-        nodeNameRemapping.clear()
+        println("execGraphOperation $name $type P2P c")
+    }
+
+    fun execCommit(transactionID: Long) {
+/*execute clear on every known node - for TESTING only*/
+        Endpoint.process_local_commit(transactionID)
+        synchronized(knownClients) {
+            knownClients.forEach {
+                if (it != EndpointImpl.fullname) {
+                    runBlocking {
+                        retryRequest(Http.Method.GET, "http://${resolveNodeName(it)}${EndpointImpl.REQUEST_COMMIT[0]}?${EndpointImpl.REQUEST_COMMIT[1]}=$transactionID")
+                    }
+                }
+            }
+        }
     }
 }

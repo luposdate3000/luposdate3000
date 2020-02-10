@@ -1,6 +1,6 @@
 package lupos.s13keyDistributionOptimizer
-import lupos.s03resultRepresentation.ResultSetDictionary
 
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPServiceIRI
 import lupos.s09physicalOperators.POPBase

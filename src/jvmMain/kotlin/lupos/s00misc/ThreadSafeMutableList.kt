@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 
-
 class ThreadSafeMutableList<T>() {
     val list = mutableListOf<T>()
 

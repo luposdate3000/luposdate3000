@@ -36,10 +36,10 @@ class PersistentStoreLocal {
             action(k, v)
     }
 
-    inline fun getGraphNames(): List<String> {
+    inline fun getGraphNames(includeDefault: Boolean = false): List<String> {
         val res = mutableListOf<String>()
         for (t in stores.keys)
-            if (t != defaultGraphName)
+            if (t != defaultGraphName || includeDefault)
                 res.add(t)
         return res
     }
@@ -60,10 +60,12 @@ class PersistentStoreLocal {
     }
 
     inline fun dropGraph(name: String) {
+        println("PersistentStoreLocal.dropGraph $name b ${stores.keys} a")
         require(name != defaultGraphName)
         if (stores[name] == null)
             throw Exception("PersistentStore.dropGraph :: graph[$name] did not exist")
         stores.remove(name)
+        println("PersistentStoreLocal.dropGraph $name b ${stores.keys} b")
     }
 
     inline fun dropGraphAll() {
@@ -72,7 +74,9 @@ class PersistentStoreLocal {
     }
 
     inline fun clearGraph(name: String) {
+        println("PersistentStoreLocal.clearGraph $name a ${stores.keys}")
         getNamedGraph(name).clear()
+        println("PersistentStoreLocal.clearGraph $name b ${stores.keys}")
     }
 
     inline fun clearGraphAll() {

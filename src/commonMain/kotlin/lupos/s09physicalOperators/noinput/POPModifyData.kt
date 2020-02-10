@@ -1,18 +1,18 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
-import lupos.s04logicalOperators.noinput.ModifyDataType
-import lupos.s04logicalOperators.OPBase
-import lupos.s03resultRepresentation.ResultSetDictionary
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.noinput.ModifyDataType
+import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class POPModifyData(override val dictionary: ResultSetDictionary, val transactionID: Long, val type: ModifyDataType, val data: List<List<Pair<String, Boolean>>>, val pstore: DistributedTripleStore) : POPBase() {
+class POPModifyData(override val dictionary: ResultSetDictionary, val transactionID: Long, val type: ModifyDataType, val data: List<List<Pair<String, Boolean>>>) : POPBase() {
     override val children: Array<OPBase> = arrayOf()
     private val resultSetNew = ResultSet(dictionary)
 
@@ -36,7 +36,7 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
             Trace.start("POPInsertData.next")
             first = false
             for (t in data) {
-                val store = pstore.getNamedGraph(t[3].first)
+                val store = DistributedTripleStore.getNamedGraph(t[3].first)
                 if (type == ModifyDataType.INSERT)
                     store.addDataVar(transactionID, t)
                 else

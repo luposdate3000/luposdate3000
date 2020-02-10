@@ -1,8 +1,4 @@
 package lupos.s14endpoint
-import lupos.s15tripleStoreDistributed.globalStore
-import lupos.s04logicalOperators.OPBase
-import lupos.s03resultRepresentation.ResultRow
-import lupos.s03resultRepresentation.ResultSetDictionary
 
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.XMLElement
@@ -14,9 +10,12 @@ import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
+import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.*
+import lupos.s04logicalOperators.OPBase
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPImportFromXml
@@ -25,6 +24,7 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
+import lupos.s15tripleStoreDistributed.*
 
 
 class TripleInsertIterator : POPBaseNullableIterator {
@@ -80,23 +80,33 @@ class TripleInsertIterator : POPBaseNullableIterator {
 
 inline fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
     val triple = ID_Triple(triple_s, triple_p, triple_o)
-    val transactionID = globalStore.nextTransactionID()
+    val transactionID = DistributedTripleStore.nextTransactionID()
     val dictionary = ResultSetDictionary()
-    globalStore.getDefaultGraph().addData(transactionID, TripleInsertIterator(dictionary, triple))
-    globalStore.commit(transactionID)
+    DistributedTripleStore.getDefaultGraph().addData(transactionID, TripleInsertIterator(dictionary, triple))
+    DistributedTripleStore.commit(transactionID)
 }
 
 object Endpoint {
-    inline fun process_graph_clear_all(): XMLElement {
-        globalStore.getDefaultGraph().clear()
+    inline fun process_local_graph_clear_all(): XMLElement {
+        DistributedTripleStore.localStore.getDefaultGraph().clear()
         return XMLElement("success")
     }
-    inline fun process_graph_operation(name:String,type:GraphOperationType): XMLElement {
-	when (type){
-        	GraphOperationType.CLEAR->globalStore.localStore.clearGraph(name)
-        	GraphOperationType.CREATE->globalStore.localStore.createGraph(name)
-        	GraphOperationType.DROP->globalStore.localStore.dropGraph(name)
-	}
+
+    inline fun process_local_commit(transactionID: Long): XMLElement {
+        DistributedTripleStore.localStore.commit(transactionID)
+        return XMLElement("success")
+    }
+
+    inline fun process_local_graph_operation(name: String, type: GraphOperationType): XMLElement {
+        println("process_local_graph_operation aa $name $type")
+        println("${DistributedTripleStore}")
+        println("${DistributedTripleStore.localStore}")
+        when (type) {
+            GraphOperationType.CLEAR -> DistributedTripleStore.localStore.clearGraph(name)
+            GraphOperationType.CREATE -> DistributedTripleStore.localStore.createGraph(name)
+            GraphOperationType.DROP -> DistributedTripleStore.localStore.dropGraph(name)
+        }
+        println("process_local_graph_operation bb")
         return XMLElement("success")
     }
 
@@ -109,15 +119,15 @@ object Endpoint {
     }
 
     inline fun process_xml_input(data: String): XMLElement {
-        val transactionID = globalStore.nextTransactionID()
+        val transactionID = DistributedTripleStore.nextTransactionID()
         val dictionary = ResultSetDictionary()
-        globalStore.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, XMLElement.parseFromXml(data)!!.first()))
-        globalStore.commit(transactionID)
+        DistributedTripleStore.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, XMLElement.parseFromXml(data)!!.first()))
+        DistributedTripleStore.commit(transactionID)
         return XMLElement("done")
     }
 
     inline fun process_sparql_query(query: String): XMLElement {
-        val transactionID = globalStore.nextTransactionID()
+        val transactionID = DistributedTripleStore.nextTransactionID()
         val dictionary = ResultSetDictionary()
         println("----------String Query")
         println(query)
@@ -141,17 +151,17 @@ object Endpoint {
         println("----------Distributed Operator Graph")
         val pop_distributed_node = KeyDistributionOptimizer(transactionID, dictionary).optimizeCall(pop_node) as POPBase
         println(pop_distributed_node)
-        globalStore.commit(transactionID)
+        DistributedTripleStore.commit(transactionID)
         return QueryResultToXML.toXML(pop_distributed_node).first()
     }
 
     inline fun process_operatorgraph_query(query: String): XMLElement {
-        val transactionID = globalStore.nextTransactionID()
+        val transactionID = DistributedTripleStore.nextTransactionID()
         val dictionary = ResultSetDictionary()
         val pop_node = XMLElement.convertToOPBase(dictionary, transactionID, XMLElement.parseFromXml(query)!!.first()) as POPBase
         println(pop_node)
         val res = QueryResultToXML.toXML(pop_node).first()
-        globalStore.commit(transactionID)
+        DistributedTripleStore.commit(transactionID)
         return res
     }
 }
