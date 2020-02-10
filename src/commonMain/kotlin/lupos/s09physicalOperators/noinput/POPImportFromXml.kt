@@ -6,9 +6,6 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
-import lupos.s09physicalOperators.noinput.POPEmptyRow
-import lupos.s09physicalOperators.noinput.POPExpression
-import lupos.s09physicalOperators.noinput.POPGraphOperation
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
 

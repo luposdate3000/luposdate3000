@@ -30,7 +30,6 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
-import lupos.s08logicalOptimisation.LogicalOptimizer
 
 
 abstract class OptimizerVisitorLOP(val transactionID: Long, val dictionary: ResultSetDictionary) {

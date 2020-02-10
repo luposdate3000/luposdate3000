@@ -3,18 +3,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s04logicalOperators.singleinput.LOPFilter
-import lupos.s04logicalOperators.singleinput.LOPGroup
-import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
-import lupos.s04logicalOperators.singleinput.LOPModify
-import lupos.s04logicalOperators.singleinput.LOPNOOP
-import lupos.s04logicalOperators.singleinput.LOPOptional
-import lupos.s04logicalOperators.singleinput.LOPProjection
-import lupos.s04logicalOperators.singleinput.LOPRename
-import lupos.s04logicalOperators.singleinput.LOPServiceIRI
 
 
 class LOPServiceVAR(val name: String, val silent: Boolean, constraint: OPBase) : LOPBase() {

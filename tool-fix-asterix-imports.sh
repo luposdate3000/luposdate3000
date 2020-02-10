@@ -9,7 +9,7 @@ do
 	if [ -z "$failed" ]
 	then
 		echo success
-		for f in $(grep -rw "^import" --include "*.kt" --exclude-dir=".git" --exclude-dir="korio" --exclude-dir="build" | grep -F "*" | sed "s/:import.*//g" | sort | uniq)
+		for f in $(grep -rw "^import" --include "*.kt" src | grep -F "*" | sed "s/:import.*//g" | sort | uniq)
 		do
 			echo $f
 			for i in $(grep '^import' $f | grep -F '*' | sed "s/import //g")

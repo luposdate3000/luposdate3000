@@ -28,7 +28,6 @@ import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 import lupos.s12p2p.POPServiceIRI
-import lupos.s14endpoint.Endpoint
 
 
 inline fun createLOPVariable(mapping: MutableMap<String, String>, name: String): LOPVariable {

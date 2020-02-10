@@ -10,14 +10,6 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
-import lupos.s09physicalOperators.singleinput.POPBind
-import lupos.s09physicalOperators.singleinput.POPBindUndefined
-import lupos.s09physicalOperators.singleinput.POPFilter
-import lupos.s09physicalOperators.singleinput.POPFilterExact
-import lupos.s09physicalOperators.singleinput.POPGroup
-import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
-import lupos.s09physicalOperators.singleinput.POPModify
 
 
 class POPProjection : POPBase {

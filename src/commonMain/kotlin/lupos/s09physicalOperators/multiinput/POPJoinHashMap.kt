@@ -9,7 +9,6 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
-import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 
 
 class POPJoinHashMap : POPBaseNullableIterator {

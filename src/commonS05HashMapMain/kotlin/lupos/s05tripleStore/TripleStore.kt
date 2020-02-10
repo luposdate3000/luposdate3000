@@ -12,7 +12,6 @@ import lupos.s03resultRepresentation.ResultSetIterator
 import lupos.s03resultRepresentation.Variable
 import lupos.s05tripleStore.IndexPattern
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
-import lupos.s09physicalOperators.POPBase
 
 
 class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {

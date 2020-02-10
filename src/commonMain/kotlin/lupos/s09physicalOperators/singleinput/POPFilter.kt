@@ -7,16 +7,10 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.noinput.LOPExpression
-import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
-import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
-import lupos.s09physicalOperators.singleinput.POPBind
-import lupos.s09physicalOperators.singleinput.POPBindUndefined
-import lupos.s09physicalOperators.singleinput.POPFilterExact
 
 
 class POPFilter : POPBaseNullableIterator {

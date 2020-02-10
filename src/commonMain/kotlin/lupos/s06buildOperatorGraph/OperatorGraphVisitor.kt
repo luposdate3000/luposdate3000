@@ -92,7 +92,6 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTValue
 import lupos.s02buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.Visitor
-import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion

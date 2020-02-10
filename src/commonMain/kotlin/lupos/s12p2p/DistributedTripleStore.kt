@@ -6,15 +6,10 @@ import lupos.s05tripleStore.TripleStoreLocal
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 
-import lupos.s00misc.classNameToString
-import lupos.s00misc.ThreadSafeUuid
-import lupos.s00misc.Trace
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetIterator
-import lupos.s03resultRepresentation.Variable
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
-import lupos.s09physicalOperators.POPBase
 
 
 val globalStore = DistributedTripleStore()

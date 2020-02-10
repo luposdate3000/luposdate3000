@@ -4,12 +4,6 @@ import lupos.s04logicalOperators.LOPBase
 
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s04logicalOperators.singleinput.LOPFilter
-import lupos.s04logicalOperators.singleinput.LOPGroup
-import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
-import lupos.s04logicalOperators.singleinput.LOPModify
-import lupos.s04logicalOperators.singleinput.LOPNOOP
 
 
 class LOPOptional() : LOPBase() {

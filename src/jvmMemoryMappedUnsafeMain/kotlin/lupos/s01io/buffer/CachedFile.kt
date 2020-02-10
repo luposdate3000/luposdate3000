@@ -3,15 +3,8 @@ package lupos.s01io.buffer
 import java.io.File
 import java.io.RandomAccessFile
 import java.lang.reflect.Method
-import lupos.s01io.buffer.Benchmark
-import lupos.s01io.buffer.BufferManager
-import lupos.s01io.buffer.ByteArrayPage
 import lupos.s01io.buffer.Cache
 import lupos.s01io.buffer.CachedFile
-import lupos.s01io.buffer.CacheOfFiles
-import lupos.s01io.buffer.MappedByteBufferPage
-import lupos.s01io.buffer.MemoryAccess
-import lupos.s01io.buffer.PageHelper
 import sun.nio.ch.FileChannelImpl
 
 

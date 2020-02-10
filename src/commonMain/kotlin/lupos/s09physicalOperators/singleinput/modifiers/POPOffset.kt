@@ -10,8 +10,6 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.POPBaseNullableIterator
-import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
-import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 
 
 class POPOffset : POPBaseNullableIterator {

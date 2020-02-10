@@ -9,26 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.kotlinStacktrace
-import lupos.s00misc.parseFromXml
 import lupos.s00misc.Trace
-import lupos.s00misc.XMLElement
-import lupos.s02buildSyntaxTree.LexerCharIterator
-import lupos.s02buildSyntaxTree.LookAheadTokenIterator
-import lupos.s02buildSyntaxTree.rdf.Dictionary
-import lupos.s02buildSyntaxTree.rdf.ID_Triple
-import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
-import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
-import lupos.s02buildSyntaxTree.turtle.TurtleScanner
-import lupos.s03resultRepresentation.ResultRow
-import lupos.s03resultRepresentation.ResultSet
-import lupos.s03resultRepresentation.Variable
-import lupos.s06buildOperatorGraph.OperatorGraphVisitor
-import lupos.s08logicalOptimisation.LogicalOptimizer
-import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.POPBaseNullableIterator
-import lupos.s10physicalOptimisation.PhysicalOptimizer
-import lupos.s11outputResult.QueryResultToXML
 import lupos.s12p2p.P2P
 import lupos.s14endpoint.Endpoint
 

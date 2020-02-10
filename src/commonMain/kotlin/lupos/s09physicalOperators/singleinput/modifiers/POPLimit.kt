@@ -9,7 +9,6 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 
 
 class POPLimit : POPBase {

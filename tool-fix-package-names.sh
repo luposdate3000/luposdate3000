@@ -10,7 +10,7 @@ do
 	if [ -z "$failed" ]
 	then
 		echo success
-		for f in $(grep -rwl "^package" --include "*.kt" --exclude-dir=".git" --exclude-dir="korio" --exclude-dir="build*" | sort)
+		for f in $(grep -rwl "^package" --include "*.kt" src | sort)
 		do
 			f4=$(echo $f | sed "s-/[^/]*\$--g")
 		        f2=$(echo $f | sed "s-.*/src/-/-g")

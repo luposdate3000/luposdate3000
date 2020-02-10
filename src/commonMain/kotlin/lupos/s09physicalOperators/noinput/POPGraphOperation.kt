@@ -15,10 +15,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.GraphOperationType
 import lupos.s04logicalOperators.OPBase
-import lupos.s09physicalOperators.noinput.POPEmptyRow
-import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPGraphOperation(override val dictionary: ResultSetDictionary, val transactionID: Long, val silent: Boolean, val graphref1: ASTGraphRef, val graphref2: ASTGraphRef?, val action: GraphOperationType, val pstore: DistributedTripleStore) : POPBase() {

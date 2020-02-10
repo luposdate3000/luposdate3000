@@ -33,9 +33,6 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTTriple
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTypedLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTUndef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
-import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.OPBase
 
 
 fun XMLElement.Companion.parseFromASTNode(node: ASTNode): XMLElement {

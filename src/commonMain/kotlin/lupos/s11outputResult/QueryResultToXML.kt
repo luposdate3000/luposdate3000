@@ -3,7 +3,6 @@ package lupos.s11outputResult
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Variable
 import lupos.s09physicalOperators.POPBase
-import lupos.s11outputResult.QueryResultToCSV
 
 
 object QueryResultToXML {

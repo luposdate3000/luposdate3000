@@ -12,7 +12,6 @@ import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
 
 
 class POPBind : POPBase {

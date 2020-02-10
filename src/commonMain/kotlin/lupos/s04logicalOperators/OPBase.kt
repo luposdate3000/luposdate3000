@@ -8,7 +8,6 @@ import lupos.s00misc.classNameToString
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetIterator
-import lupos.s04logicalOperators.LOPBase
 
 
 abstract class OPBase : ResultSetIterator {

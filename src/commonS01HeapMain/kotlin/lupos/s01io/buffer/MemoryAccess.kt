@@ -1,6 +1,5 @@
 package lupos.s01io.buffer
 
-import lupos.s01io.buffer.BufferManager
 import lupos.s01io.buffer.ByteArrayPage
 
 
