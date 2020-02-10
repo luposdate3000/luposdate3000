@@ -107,7 +107,15 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
         "POPTemporaryStore" -> POPTemporaryStore(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping))
         "POPExpression" -> POPExpression(dictionary, XMLElement.toASTNode(node.childs[0]))
         "TripleStoreIterator" -> {
-            val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(dictionary)
+            val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID,dictionary)
+            val olduuid = node.attributes["uuid"]
+            mapping["#s" + olduuid] = "#s${res.uuid}"
+            mapping["#p" + olduuid] = "#p${res.uuid}"
+            mapping["#o" + olduuid] = "#o${res.uuid}"
+            return res
+        }
+        "TripleStoreIteratorGlobal" -> {
+            val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID,dictionary)
             val olduuid = node.attributes["uuid"]
             mapping["#s" + olduuid] = "#s${res.uuid}"
             mapping["#p" + olduuid] = "#p${res.uuid}"

@@ -87,6 +87,20 @@ inline fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
 }
 
 object Endpoint {
+    inline fun process_local_triple_add(graphName: String, transactionID: Long, s: String?, p: String?, o: String?): XMLElement {
+        DistributedTripleStore.localStore.getNamedGraph(graphName).addData(transactionID, listOf(s, p, o))
+        return XMLElement("success")
+    }
+
+    inline fun process_local_triple_delete(graphName: String, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean): XMLElement {
+        DistributedTripleStore.localStore.getNamedGraph(graphName).deleteDataVar(transactionID, listOf(Pair(s, sv), Pair(p, pv), Pair(o, ov)))
+        return XMLElement("success")
+    }
+
+    inline fun process_local_triple_get(graphName: String, transactionID: Long): XMLElement {
+        return QueryResultToXML.toXML(DistributedTripleStore.localStore.getNamedGraph(graphName).getIterator(ResultSetDictionary(),"s","p","o")).first()
+    }
+
     inline fun process_local_graph_clear_all(): XMLElement {
         DistributedTripleStore.localStore.getDefaultGraph().clear()
         return XMLElement("success")

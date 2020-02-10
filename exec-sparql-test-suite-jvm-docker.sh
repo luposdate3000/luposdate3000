@@ -6,7 +6,8 @@ sleep 2
 function execJvm
 {
 	curl localhost:8000/peers/self_test > log/x 2>&1
-	docker-compose logs | sed 's/\x1b\[[0-9;]*m//g' | sed "s/^[^|]*| //g" >> log/x 2>&1
+	docker-compose logs > log/xall
+	docker-compose logs node0 | sed 's/\x1b\[[0-9;]*m//g' | sed "s/^[^|]*| //g" >> log/x 2>&1
 }
 
 { { time execJvm ; } > log/c 2>&1 ;} &
