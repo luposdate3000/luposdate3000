@@ -16,10 +16,6 @@ import lupos.s12p2p.*
 
 class DistributedGraph(val name: String) {
 
-    fun clear() {
-        DistributedTripleStore.localStore.getNamedGraph(name).clear()
-    }
-
     fun addData(transactionID: Long, t: List<String?>) {
         DistributedTripleStore.localStore.getNamedGraph(name).addData(transactionID, t)
     }
@@ -74,8 +70,8 @@ object DistributedTripleStore {
     }
 
     fun getNamedGraph(name: String, create: Boolean = false): DistributedGraph {
-	if(create && ! (localStore.getGraphNames(true).contains(name)))
-		createGraph(name)
+        if (create && !(localStore.getGraphNames(true).contains(name)))
+            createGraph(name)
         return DistributedGraph(name)
     }
 

@@ -81,7 +81,7 @@ object DistributedTripleStore {
         return localStore.nextTransactionID()
     }
 
-    fun getGraphNames(includeDefault:Boolean=false): List<String> {
+    fun getGraphNames(includeDefault: Boolean = false): List<String> {
         return localStore.getGraphNames(includeDefault)
     }
 
