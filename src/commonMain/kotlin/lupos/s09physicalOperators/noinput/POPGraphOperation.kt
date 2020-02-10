@@ -48,19 +48,23 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
             when (graphref1) {
                 is ASTAllGraphRef -> {
                     when (action) {
-                        GraphOperationType.CLEAR -> pstore.clearGraphAll()
-                        GraphOperationType.DROP -> pstore.dropGraphAll()
+                        GraphOperationType.CLEAR ->for(s in pstore.getGraphNames()){
+                pstore.clearGraph(s)
+        }
+                        GraphOperationType.DROP -> for(s in pstore.getGraphNames()) {
+                pstore.dropGraph(s)
+        }
                         else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                     }
                 }
                 is ASTDefaultGraphRef -> {
                     when (action) {
-                        GraphOperationType.CLEAR -> pstore.getDefaultGraph().truncate()
-                        GraphOperationType.DROP -> pstore.getDefaultGraph().truncate()
+                        GraphOperationType.CLEAR -> pstore.getDefaultGraph().clear()
+                        GraphOperationType.DROP -> pstore.getDefaultGraph().clear()
                         GraphOperationType.COPY -> {
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
-                                    pstore.getNamedGraph(i2s(graphref2), true).truncate()
+                                    pstore.getNamedGraph(i2s(graphref2), true).clear()
                                     pstore.getNamedGraph(i2s(graphref2), true).addData(transactionID, pstore.getDefaultGraph().getIterator(dictionary, "s", "p", "o"))
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
@@ -69,9 +73,9 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                         GraphOperationType.MOVE -> {
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
-                                    pstore.getNamedGraph(i2s(graphref2), true).truncate()
+                                    pstore.getNamedGraph(i2s(graphref2), true).clear()
                                     pstore.getNamedGraph(i2s(graphref2), true).addData(transactionID, pstore.getDefaultGraph().getIterator(dictionary, "s", "p", "o"))
-                                    pstore.getDefaultGraph().truncate()
+                                    pstore.getDefaultGraph().clear()
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                             }
@@ -90,18 +94,18 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                 is ASTIriGraphRef -> {
                     when (action) {
                         GraphOperationType.CREATE -> pstore.createGraph(i2s(graphref1))
-                        GraphOperationType.CLEAR -> pstore.getNamedGraph(i2s(graphref1), true).truncate()
+                        GraphOperationType.CLEAR -> pstore.getNamedGraph(i2s(graphref1), true).clear()
                         GraphOperationType.DROP -> pstore.dropGraph(i2s(graphref1))
                         GraphOperationType.COPY -> {
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
                                     if (i2s(graphref2) != i2s(graphref1)) {
-                                        pstore.getNamedGraph(i2s(graphref2), true).truncate()
+                                        pstore.getNamedGraph(i2s(graphref2), true).clear()
                                         pstore.getNamedGraph(i2s(graphref2), true).addData(transactionID, pstore.getNamedGraph(i2s(graphref1)).getIterator(dictionary, "s", "p", "o"))
                                     }
                                 }
                                 is ASTDefaultGraphRef -> {
-                                    pstore.getDefaultGraph().truncate()
+                                    pstore.getDefaultGraph().clear()
                                     pstore.getDefaultGraph().addData(transactionID, pstore.getNamedGraph(i2s(graphref1)).getIterator(dictionary, "s", "p", "o"))
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
@@ -111,13 +115,13 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
                                     if (i2s(graphref2) != i2s(graphref1)) {
-                                        pstore.getNamedGraph(i2s(graphref2), true).truncate()
+                                        pstore.getNamedGraph(i2s(graphref2), true).clear()
                                         pstore.getNamedGraph(i2s(graphref2), true).addData(transactionID, pstore.getNamedGraph(i2s(graphref1)).getIterator(dictionary, "s", "p", "o"))
                                         pstore.dropGraph(i2s(graphref1))
                                     }
                                 }
                                 is ASTDefaultGraphRef -> {
-                                    pstore.getDefaultGraph().truncate()
+                                    pstore.getDefaultGraph().clear()
                                     pstore.getDefaultGraph().addData(transactionID, pstore.getNamedGraph(i2s(graphref1)).getIterator(dictionary, "s", "p", "o"))
                                     pstore.dropGraph(i2s(graphref1))
                                 }
@@ -143,7 +147,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                     pstore.getGraphNames().forEach { name ->
                         when (action) {
                             GraphOperationType.CREATE -> pstore.createGraph(name)
-                            GraphOperationType.CLEAR -> pstore.getNamedGraph(name, true).truncate()
+                            GraphOperationType.CLEAR -> pstore.getNamedGraph(name, true).clear()
                             GraphOperationType.DROP -> pstore.dropGraph(name)
                             GraphOperationType.COPY -> {
                                 when (graphref2) {

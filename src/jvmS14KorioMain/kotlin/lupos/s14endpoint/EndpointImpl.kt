@@ -12,7 +12,7 @@ import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.Trace
 import lupos.s12p2p.P2P
 import lupos.s14endpoint.Endpoint
-
+import lupos.s04logicalOperators.noinput.*
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 object EndpointImpl {
@@ -21,7 +21,8 @@ object EndpointImpl {
     var fullname = hostname + ":" + port
     val REQUEST_TRACE_PRINT = arrayOf("/trace/print")
     val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query", "query")
-    val REQUEST_TRUNCATE = arrayOf("/import/truncate")
+    val REQUEST_GRAPH_CLEAR_ALL = arrayOf("/graph/clear")
+    val REQUEST_GRAPH_OPERATION = arrayOf("/graph/operation","name","type")
     val REQUEST_TURTLE_INPUT = arrayOf("/import/turtle", "data")
     val REQUEST_XML_INPUT = arrayOf("/import/xml", "data")
     val REQUEST_PEERS_LIST = arrayOf("/peers/list")
@@ -62,7 +63,8 @@ object EndpointImpl {
                 REQUEST_PEERS_SELF_TEST[0] -> response = P2P.process_peers_self_test()
                 REQUEST_PEERS_JOIN[0] -> response = P2P.process_peers_join(params[REQUEST_PEERS_JOIN[1]]?.first())
                 REQUEST_PEERS_JOIN_INTERNAL[0] -> response = P2P.process_peers_join_internal(params[REQUEST_PEERS_JOIN_INTERNAL[1]]?.first())
-                REQUEST_TRUNCATE[0] -> response = Endpoint.process_truncate().toPrettyString()
+                REQUEST_GRAPH_CLEAR_ALL[0] -> response = Endpoint.process_graph_clear_all().toPrettyString()
+                REQUEST_GRAPH_OPERATION[0] -> response = Endpoint.process_graph_operation(params[REQUEST_GRAPH_OPERATION[1]]!!.first(),GraphOperationType.valueOf(params[REQUEST_GRAPH_OPERATION[2]]!!.first())).toPrettyString()
                 REQUEST_OPERATOR_QUERY[0] -> {
                     if (request.method == Http.Method.POST)
                         response = Endpoint.process_operatorgraph_query(data).toPrettyString()

@@ -10,8 +10,9 @@ for chooseS12 in "commonS12LocalDummyMain"
 do
 for chooseS14 in "jvmS14KorioMain"
 do
-
-buildName="${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}"
+for chooseS15 in "commonS15LocalMain" "commonS15DistributedMain"
+do
+buildName="${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}-${chooseS15}"
 buildFile="build.gradle-${buildName}.jvm.generated"
 buildDir="buildJvm${buildName}"
 
@@ -30,6 +31,7 @@ echo "diff a c-$buildName"
 diff a c-$buildName
 )
 
+done
 done
 done
 done

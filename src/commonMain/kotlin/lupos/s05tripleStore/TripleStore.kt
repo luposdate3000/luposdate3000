@@ -72,12 +72,12 @@ class PersistentStoreLocal {
     }
 
     inline fun clearGraph(name: String) {
-        getNamedGraph(name).truncate()
+        getNamedGraph(name).clear()
     }
 
     inline fun clearGraphAll() {
         for (v in stores.values) {
-            v.truncate()
+            v.clear()
         }
     }
 

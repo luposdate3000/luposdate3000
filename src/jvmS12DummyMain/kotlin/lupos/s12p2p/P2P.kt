@@ -1,4 +1,5 @@
 package lupos.s12p2p
+import lupos.s04logicalOperators.noinput.*
 import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.EndpointImpl
 import lupos.s09physicalOperators.noinput.POPEmptyRow
@@ -135,14 +136,28 @@ object P2P {
         return res
     }
 
-    fun execTruncate() {
-/*execute truncate on every known node - for TESTING only*/
-        Endpoint.process_truncate()
+    fun execGraphClearAll() {
+/*execute clear on every known node - for TESTING only*/
+        Endpoint.process_graph_clear_all()
         synchronized(knownClients) {
             knownClients.forEach {
                 if (it != EndpointImpl.fullname) {
                     runBlocking {
-                        retryRequest(Http.Method.GET, "http://${resolveNodeName(it)}${EndpointImpl.REQUEST_TRUNCATE[0]}")
+                        retryRequest(Http.Method.GET, "http://${resolveNodeName(it)}${EndpointImpl.REQUEST_GRAPH_CLEAR_ALL[0]}")
+                    }
+                }
+            }
+        }
+        nodeNameRemapping.clear()
+    }
+    fun execGraphOperation(name:String,type:GraphOperationType) {
+/*execute clear on every known node - for TESTING only*/
+        Endpoint.process_graph_operation(name,type)
+        synchronized(knownClients) {
+            knownClients.forEach {
+                if (it != EndpointImpl.fullname) {
+                    runBlocking {
+                        retryRequest(Http.Method.GET, "http://${resolveNodeName(it)}${EndpointImpl.REQUEST_GRAPH_OPERATION[0]}?${EndpointImpl.REQUEST_GRAPH_OPERATION[1]}=$name&${EndpointImpl.REQUEST_GRAPH_OPERATION[2]}=$type")
                     }
                 }
             }

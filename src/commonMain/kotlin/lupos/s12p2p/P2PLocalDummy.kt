@@ -5,6 +5,7 @@ import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.noinput.*
 import lupos.s09physicalOperators.noinput.POPImportFromXml
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 
@@ -33,9 +34,18 @@ object P2PLocalDummy {
         return res
     }
 
-    inline fun execTruncate() {
+    inline fun execGraphClearAll() {
         nodeData.clear()
     }
+fun execGraphOperation(name:String,type:GraphOperationType) {
+for((k,v) in nodeData){
+when (type){
+                GraphOperationType.CLEAR->v.localStore.clearGraph(name)
+                GraphOperationType.CREATE->v.localStore.createGraph(name)
+               GraphOperationType.DROP->v.localStore.dropGraph(name)
+        }
+}
+}
 
     inline fun process_peers_list(): String {
 /*nice to have, but not required*/

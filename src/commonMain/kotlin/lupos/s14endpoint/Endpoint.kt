@@ -16,6 +16,7 @@ import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.Variable
+import lupos.s04logicalOperators.noinput.*
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPImportFromXml
@@ -86,8 +87,16 @@ inline fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
 }
 
 object Endpoint {
-    inline fun process_truncate(): XMLElement {
-        globalStore.getDefaultGraph().truncate()
+    inline fun process_graph_clear_all(): XMLElement {
+        globalStore.getDefaultGraph().clear()
+        return XMLElement("success")
+    }
+    inline fun process_graph_operation(name:String,type:GraphOperationType): XMLElement {
+	when (type){
+        	GraphOperationType.CLEAR->globalStore.localStore.clearGraph(name)
+        	GraphOperationType.CREATE->globalStore.localStore.createGraph(name)
+        	GraphOperationType.DROP->globalStore.localStore.dropGraph(name)
+	}
         return XMLElement("success")
     }
 

@@ -182,7 +182,7 @@ class TripleStoreLocal {
         this.name = name
     }
 
-    inline fun truncate() {
+    inline fun clear() {
         tripleStoreS.clear()
         tripleStoreP.clear()
         tripleStoreO.clear()

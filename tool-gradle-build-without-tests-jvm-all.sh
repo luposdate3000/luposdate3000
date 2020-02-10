@@ -10,7 +10,7 @@ for chooseS12 in "commonS12LocalDummyMain" "jvmS12DummyMain"
 do
 for chooseS14 in "jvmS14KorioMain"
 do
-for chooseS15 in "commonS15LocalMain"
+for chooseS15 in "commonS15LocalMain" "commonS15DistributedMain"
 do
 
 buildName="${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}-${chooseS15}"

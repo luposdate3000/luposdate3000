@@ -88,6 +88,7 @@ class DistributedTripleStore() {
     }
 
     fun createGraph(name: String): DistributedGraph {
+        localStore.createGraph(name)
         return DistributedGraph(this, name)
     }
 

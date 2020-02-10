@@ -438,7 +438,7 @@ fun parseSPARQLAndEvaluate(//
     val inputData = readFileOrNull(inputDataFileName)
     val resultData = readFileOrNull(resultDataFileName)
     try {
-        P2P.execTruncate()
+        P2P.execGraphClearAll()
         val store = DistributedTripleStore()
         if (inputData != null && inputDataFileName != null) {
             println("InputData Graph[] Original")
