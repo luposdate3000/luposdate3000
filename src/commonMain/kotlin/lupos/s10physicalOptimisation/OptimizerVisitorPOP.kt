@@ -1,5 +1,5 @@
 package lupos.s10physicalOptimisation
-import lupos.s12p2p.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s03resultRepresentation.ResultSetDictionary
 
 import lupos.s04logicalOperators.noinput.LOPVariable

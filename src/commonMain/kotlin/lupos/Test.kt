@@ -1,5 +1,5 @@
 package lupos
-import lupos.s12p2p.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s12p2p.P2P
 import lupos.s03resultRepresentation.ResultSetDictionary
 

@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s12p2p.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s02buildSyntaxTree.sparql1_1.ASTGraphRef
 

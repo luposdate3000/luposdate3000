@@ -56,6 +56,7 @@ kotlin {
             kotlin.srcDir("src/commonS03DictionaryNoneMain/kotlin")
             kotlin.srcDir("src/commonS05HashMapMain/kotlin")
             kotlin.srcDir("src/commonS12LocalDummyMain/kotlin")
+            kotlin.srcDir("src/commonS15LocalMain/kotlin")
             dependencies {
                 implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
 implementation("com.benasher44:uuid:0.0.7")

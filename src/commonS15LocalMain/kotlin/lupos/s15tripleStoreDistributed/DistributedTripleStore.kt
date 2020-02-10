@@ -1,4 +1,4 @@
-package lupos.s12p2p
+package lupos.s15tripleStoreDistributed
 import lupos.s05tripleStore.IndexPattern
 import lupos.s05tripleStore.ModifyType
 import lupos.s05tripleStore.PersistentStoreLocal

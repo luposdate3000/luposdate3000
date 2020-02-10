@@ -10,8 +10,10 @@ for chooseS12 in "commonS12LocalDummyMain" "jvmS12DummyMain"
 do
 for chooseS14 in "jvmS14KorioMain"
 do
+for chooseS15 in "commonS15LocalMain"
+do
 
-buildName="${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}"
+buildName="${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}-${chooseS15}"
 buildFile="build.gradle-${buildName}.jvm.generated"
 buildDir="buildJvm${buildName}"
 buildCache="gradleJvm${buildName}"
@@ -112,6 +114,7 @@ sourceSets {
     main.kotlin.srcDirs += 'src/$chooseS05/kotlin'
     main.kotlin.srcDirs += 'src/$chooseS12/kotlin'
     main.kotlin.srcDirs += 'src/$chooseS14/kotlin'
+    main.kotlin.srcDirs += 'src/$chooseS15/kotlin'
 }
 //test {
 //    testLogging {
@@ -130,6 +133,7 @@ EOF
 	chmod +x ./luposdate3000/bin/luposdate3000-p2p
 ) > log/compile-$buildName.log 2>&1
 )
+done
 done
 done
 done

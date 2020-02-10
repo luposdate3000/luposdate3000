@@ -1,6 +1,6 @@
 package lupos.s12p2p
 import lupos.s03resultRepresentation.ResultSetDictionary
-
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.ResultSet

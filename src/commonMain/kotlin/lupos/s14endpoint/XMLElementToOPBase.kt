@@ -1,6 +1,6 @@
 package lupos.s14endpoint
-import lupos.s12p2p.DistributedTripleStore
-import lupos.s12p2p.globalStore
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.globalStore
 import lupos.s03resultRepresentation.ResultSetDictionary
 
 import lupos.s00misc.XMLElement

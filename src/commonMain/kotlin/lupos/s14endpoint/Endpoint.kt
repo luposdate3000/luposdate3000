@@ -1,5 +1,5 @@
 package lupos.s14endpoint
-import lupos.s12p2p.globalStore
+import lupos.s15tripleStoreDistributed.globalStore
 import lupos.s04logicalOperators.OPBase
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSetDictionary

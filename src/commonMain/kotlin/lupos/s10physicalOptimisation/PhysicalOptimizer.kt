@@ -1,5 +1,5 @@
 package lupos.s10physicalOptimisation
-import lupos.s12p2p.globalStore
+import lupos.s15tripleStoreDistributed.globalStore
 import lupos.s04logicalOperators.singleinput.LOPGroup
 import lupos.s04logicalOperators.singleinput.LOPModify
 import lupos.s04logicalOperators.noinput.LOPModifyData

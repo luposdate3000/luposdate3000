@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s12p2p.DistributedTripleStore
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s04logicalOperators.noinput.ModifyDataType
 import lupos.s04logicalOperators.OPBase
 import lupos.s03resultRepresentation.ResultSetDictionary
