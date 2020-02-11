@@ -73,7 +73,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                                         DistributedTripleStore.clearGraph(i2s(graphref2))
                                     } catch (e: Throwable) {
                                     }
-                                    DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID,dictionary, "s", "p", "o"))
+                                    DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, "s", "p", "o"))
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                             }
@@ -85,7 +85,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                                         DistributedTripleStore.clearGraph(i2s(graphref2))
                                     } catch (e: Throwable) {
                                     }
-                                    DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID,dictionary, "s", "p", "o"))
+                                    DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, "s", "p", "o"))
                                     DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
@@ -94,7 +94,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                         GraphOperationType.ADD -> {
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
-                                    DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID,dictionary, "s", "p", "o"))
+                                    DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, "s", "p", "o"))
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                             }
@@ -120,12 +120,12 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                                             DistributedTripleStore.clearGraph(i2s(graphref2))
                                         } catch (e: Throwable) {
                                         }
-                                        DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID,dictionary, "s", "p", "o"))
+                                        DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, "s", "p", "o"))
                                     }
                                 }
                                 is ASTDefaultGraphRef -> {
                                     DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
-                                    DistributedTripleStore.getDefaultGraph().addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID,dictionary, "s", "p", "o"))
+                                    DistributedTripleStore.getDefaultGraph().addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, "s", "p", "o"))
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                             }
@@ -138,13 +138,13 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                                             DistributedTripleStore.clearGraph(i2s(graphref2))
                                         } catch (e: Throwable) {
                                         }
-                                        DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID,dictionary, "s", "p", "o"))
+                                        DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, "s", "p", "o"))
                                         DistributedTripleStore.dropGraph(i2s(graphref1))
                                     }
                                 }
                                 is ASTDefaultGraphRef -> {
                                     DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
-                                    DistributedTripleStore.getDefaultGraph().addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID,dictionary, "s", "p", "o"))
+                                    DistributedTripleStore.getDefaultGraph().addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, "s", "p", "o"))
                                     DistributedTripleStore.dropGraph(i2s(graphref1))
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
@@ -154,10 +154,10 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
                                     if (i2s(graphref2) != i2s(graphref1))
-                                        DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID,dictionary, "s", "p", "o"))
+                                        DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, "s", "p", "o"))
                                 }
                                 is ASTDefaultGraphRef -> {
-                                    DistributedTripleStore.getDefaultGraph().addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID,dictionary, "s", "p", "o"))
+                                    DistributedTripleStore.getDefaultGraph().addData(transactionID, DistributedTripleStore.getNamedGraph(i2s(graphref1)).getIterator(transactionID, dictionary, "s", "p", "o"))
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                             }

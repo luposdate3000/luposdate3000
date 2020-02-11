@@ -176,7 +176,7 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
             variables.add(node.p)
         if (node.o is LOPVariable)
             variables.add(node.o)
-        var result2 = DistributedTripleStore.getNamedGraph(node.graph).getIterator(transactionID,dictionary)
+        var result2 = DistributedTripleStore.getNamedGraph(node.graph).getIterator(transactionID, dictionary)
         var sname = result2.nameS
         var pname = result2.nameP
         var oname = result2.nameO

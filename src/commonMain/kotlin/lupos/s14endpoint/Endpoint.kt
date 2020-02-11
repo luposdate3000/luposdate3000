@@ -98,7 +98,7 @@ object Endpoint {
     }
 
     inline fun process_local_triple_get(graphName: String, transactionID: Long): XMLElement {
-        return QueryResultToXML.toXML(DistributedTripleStore.localStore.getNamedGraph(graphName).getIterator(ResultSetDictionary(),"s","p","o")).first()
+        return QueryResultToXML.toXML(DistributedTripleStore.localStore.getNamedGraph(graphName).getIterator(ResultSetDictionary(), "s", "p", "o")).first()
     }
 
     inline fun process_local_graph_clear_all(): XMLElement {

@@ -59,7 +59,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     }
 
     override fun next(): ResultRow {
-println("globalIterator.next start")
+        println("globalIterator.next start")
         val data = xmlIterator!!.next()
         val res = resultSetNew.createResultRow()
         data.childs.forEach {
@@ -69,39 +69,39 @@ println("globalIterator.next start")
                 "o" -> oNew
                 else -> throw Exception("unknown triple attribute")
             }
-val c =it.childs.first()
+            val c = it.childs.first()
             when (c.tag) {
-                "uri" -> res[v] = resultSetNew.createValue("<"+c.content+">")
-		"literal"->{
-	val		l=c.attributes["xml:lang"]
-	val		t=c.attributes["datatype"]
-			if(l!=null)
-				res[v] = resultSetNew.createValue("\"${c.content}\"@$l")
-			else if(t!=null)
-				res[v] = resultSetNew.createValue("\"${c.content}\"^^<$t>")
-			else
-				 res[v] = resultSetNew.createValue("\"${c.content}\"")
-		}
-		"bnode"->res[v] = resultSetNew.createValue("_:"+c.content)
+                "uri" -> res[v] = resultSetNew.createValue("<" + c.content + ">")
+                "literal" -> {
+                    val l = c.attributes["xml:lang"]
+                    val t = c.attributes["datatype"]
+                    if (l != null)
+                        res[v] = resultSetNew.createValue("\"${c.content}\"@$l")
+                    else if (t != null)
+                        res[v] = resultSetNew.createValue("\"${c.content}\"^^<$t>")
+                    else
+                        res[v] = resultSetNew.createValue("\"${c.content}\"")
+                }
+                "bnode" -> res[v] = resultSetNew.createValue("_:" + c.content)
                 else -> require(false)
             }
         }
-println("globalIterator.next end")
+        println("globalIterator.next end")
         return res
     }
 
     override fun hasNext(): Boolean {
-println("globalIterator.hasNext start")
+        println("globalIterator.hasNext start")
         while (xmlIterator == null || !xmlIterator!!.hasNext()) {
-            if (!nodeNameIterator.hasNext()){
-println("globalIterator.hasNext end1")
+            if (!nodeNameIterator.hasNext()) {
+                println("globalIterator.hasNext end1")
                 return false
-	}
+            }
             val xml = P2P.execTripleGet(nodeNameIterator.next(), graphName, transactionID)
             require(xml.tag == "sparql")
             xmlIterator = xml["results"]!!.childs.iterator()
         }
-println("globalIterator.hasNext end2")
+        println("globalIterator.hasNext end2")
         return true
     }
 
@@ -134,19 +134,23 @@ class DistributedGraph(val name: String) {
     }
 
     fun addData(transactionID: Long, t: List<String?>) {
-        DistributedTripleStore.localStore.getNamedGraph(name).addData(transactionID, t)
-    }
-
-    fun deleteData(transactionID: Long, t: List<String?>) {
-        DistributedTripleStore.localStore.getNamedGraph(name).deleteData(transactionID, t)
+        val node = calculateNodeForData(t[0], t[1], t[2])
+        P2P.execTripleAdd(node, name, transactionID, listOf(t[0]!!, t[1]!!, t[2]!!))
     }
 
     fun addDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
-        DistributedTripleStore.localStore.getNamedGraph(name).addDataVar(transactionID, t)
+        val node = calculateNodeForData(t[0].first, t[1].first, t[2].first)
+        P2P.execTripleAdd(node, name, transactionID, listOf(t[0].first, t[1].first, t[2].first))
+    }
+
+    fun deleteData(transactionID: Long, t: List<String?>) {
+        for (node in P2P.getKnownClientsCopy())
+            P2P.execTripleDelete(node, name, transactionID, listOf(Pair(t[0]!!, false), Pair(t[1]!!, false), Pair(t[2]!!, false)))
     }
 
     fun deleteDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
-        DistributedTripleStore.localStore.getNamedGraph(name).deleteDataVar(transactionID, t)
+        for (node in P2P.getKnownClientsCopy())
+            P2P.execTripleDelete(node, name, transactionID, listOf(t[0], t[1], t[2]))
     }
 
     fun addData(transactionID: Long, iterator: ResultSetIterator) {
@@ -201,6 +205,6 @@ object DistributedTripleStore {
     }
 
     fun commit(transactionID: Long) {
-        localStore.commit(transactionID)
+	P2P.execCommit(transactionID)
     }
 }

@@ -512,7 +512,7 @@ fun parseSPARQLAndEvaluate(//
             println(outputData)
             println("----------Verify Output Data Graph[${it["name"]}] ... target,actual")
             var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)
-            val tmp = DistributedTripleStore.getNamedGraph(it["name"]!!).getIterator(transactionID,dictionary)
+            val tmp = DistributedTripleStore.getNamedGraph(it["name"]!!).getIterator(transactionID, dictionary)
             tmp.setMNameS("s")
             tmp.setMNameP("p")
             tmp.setMNameO("o")
