@@ -228,10 +228,12 @@ class TripleStoreLocal {
         if (tmp == null)
             return
         for (m in tmp) {
-            if (m.first == ModifyType.INSERT)
+println("commit2::$m")
+            if (m.first == ModifyType.INSERT){
                 commitModifyData(m.second[0], m.second[1], m.second[2], ::addData)
-            else if (m.first == ModifyType.DELETE)
+}            else if (m.first == ModifyType.DELETE){
                 commitModifyData(m.second[0], m.second[1], m.second[2], ::deleteData)
+	}
         }
         pendingModifications.remove(transactionID)
     }

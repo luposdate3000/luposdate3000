@@ -235,6 +235,7 @@ println("execCommit $transactionID end")
                 res = XMLElement.parseFromXml(responseString)!!.first()!!
             }
         }
+println("execTripleGet $node $graphName "+res!!.toPrettyString())
         println("execTripleGet end")
         return res!!
     }
