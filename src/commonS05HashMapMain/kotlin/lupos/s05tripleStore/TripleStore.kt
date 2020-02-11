@@ -331,6 +331,7 @@ class TripleStoreLocal {
         val valo = resultSet.createValue(t[2].first)
         var tmp = 0
         val row = resultSet.createResultRow()
+println("printTheT::"+t)
         if (t[0].second) {
             tmp++
             row[s] = vals
@@ -373,6 +374,7 @@ class TripleStoreLocal {
                 }
             }
             else -> {
+println("printTheT2::"+t)
                 throw Exception("deleteDataVar $tmp")
             }
         }

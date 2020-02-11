@@ -144,8 +144,21 @@ class DistributedGraph(val name: String) {
     }
 
     fun deleteData(transactionID: Long, t: List<String?>) {
+	val l=mutableListOf<Pair<String,Boolean>>()
+	if(t[0]!=null)
+		l.add(Pair(t[0]!!, true))
+	else
+		l.add(Pair("s", false))
+	if(t[1]!=null)
+		l.add(Pair(t[1]!!, true))
+	else
+		l.add(Pair("p", false))
+	if(t[2]!=null)
+		l.add(Pair(t[2]!!, true))
+	else
+		l.add(Pair("o", false))
         for (node in P2P.getKnownClientsCopy())
-            P2P.execTripleDelete(node, name, transactionID, listOf(Pair(t[0]!!, false), Pair(t[1]!!, false), Pair(t[2]!!, false)))
+            P2P.execTripleDelete(node, name, transactionID, l)
     }
 
     fun deleteDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
