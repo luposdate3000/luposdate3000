@@ -20,7 +20,7 @@ object EndpointImpl {
     var port = 80
     var fullname = hostname + ":" + port
     val REQUEST_TRIPLE_ADD = arrayOf("/triple/add", "graph", "id", "s", "p", "o", "idx")
-    val REQUEST_TRIPLE_GET = arrayOf("/triple/get", "graph", "id", "idx")
+    val REQUEST_TRIPLE_GET = arrayOf("/triple/get", "graph", "id", "s", "p", "o", "sv", "pv", "ov", "idx")
     val REQUEST_TRIPLE_DELETE = arrayOf("/triple/delete", "graph", "id", "s", "p", "o", "sv", "pv", "ov", "idx")
     val REQUEST_COMMIT = arrayOf("/commit", "id")
     val REQUEST_TRACE_PRINT = arrayOf("/trace/print")
@@ -63,7 +63,7 @@ object EndpointImpl {
         try {
             when (request.path) {
                 REQUEST_TRIPLE_ADD[0] -> response = Endpoint.process_local_triple_add(params[REQUEST_TRIPLE_ADD[1]]!!.first(), params[REQUEST_TRIPLE_ADD[2]]!!.first().toLong(), params[REQUEST_TRIPLE_ADD[3]]!!.first(), params[REQUEST_TRIPLE_ADD[4]]!!.first(), params[REQUEST_TRIPLE_ADD[5]]!!.first(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_ADD[6]]!!.first())).toPrettyString()
-                REQUEST_TRIPLE_GET[0] -> response = Endpoint.process_local_triple_get(params[REQUEST_TRIPLE_GET[1]]!!.first(), params[REQUEST_TRIPLE_GET[2]]!!.first().toLong(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_GET[3]]!!.first())).toPrettyString()
+                REQUEST_TRIPLE_GET[0] -> response = Endpoint.process_local_triple_get(params[REQUEST_TRIPLE_GET[1]]!!.first(), params[REQUEST_TRIPLE_GET[2]]!!.first().toLong(), params[REQUEST_TRIPLE_GET[3]]!!.first(), params[REQUEST_TRIPLE_GET[4]]!!.first(), params[REQUEST_TRIPLE_GET[5]]!!.first(), params[REQUEST_TRIPLE_GET[6]]!!.first().toBoolean(), params[REQUEST_TRIPLE_GET[7]]!!.first().toBoolean(), params[REQUEST_TRIPLE_GET[8]]!!.first().toBoolean(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_GET[9]]!!.first())).toPrettyString()
                 REQUEST_TRIPLE_DELETE[0] -> response = Endpoint.process_local_triple_delete(params[REQUEST_TRIPLE_DELETE[1]]!!.first(), params[REQUEST_TRIPLE_DELETE[2]]!!.first().toLong(), params[REQUEST_TRIPLE_DELETE[3]]!!.first(), params[REQUEST_TRIPLE_DELETE[4]]!!.first(), params[REQUEST_TRIPLE_DELETE[5]]!!.first(), params[REQUEST_TRIPLE_DELETE[6]]!!.first().toBoolean(), params[REQUEST_TRIPLE_DELETE[7]]!!.first().toBoolean(), params[REQUEST_TRIPLE_DELETE[8]]!!.first().toBoolean(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_DELETE[9]]!!.first())).toPrettyString()
                 REQUEST_TRACE_PRINT[0] -> response = process_print_traces()
                 REQUEST_PEERS_LIST[0] -> response = P2P.process_peers_list()

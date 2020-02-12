@@ -94,7 +94,7 @@ sourceSets {
     main.kotlin.srcDirs += 'src/commonS05HashMapMain/kotlin'
     main.kotlin.srcDirs += 'src/jvmS12DummyMain/kotlin'
     main.kotlin.srcDirs += 'src/jvmS14KorioMain/kotlin'
-    main.kotlin.srcDirs += 'src/commonS15LocalMain/kotlin'
+    main.kotlin.srcDirs += 'src/commonS15DistributedMain/kotlin'
 //    main.kotlin.srcDirs += 'src/jvmS11DummyMain/kotlin'
 }
 //test {

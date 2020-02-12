@@ -221,16 +221,22 @@ object P2P {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleAdd end" })
     }
 
-    fun execTripleGet(node: String, graphName: String, transactionID: Long, idx: EIndexPattern): XMLElement {
+    fun execTripleGet(node: String, graphName: String, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): XMLElement {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleGet start $node $graphName $transactionID" })
         var res: XMLElement? = null
         if (node == EndpointImpl.fullname)
-            res = Endpoint.process_local_triple_get(graphName, transactionID, idx)
+            res = Endpoint.process_local_triple_get(graphName, transactionID,s,p,o,sv,ov,pv, idx)
         else {
             val req = "${EndpointImpl.REQUEST_TRIPLE_GET[0]}" +//
                     "?${EndpointImpl.REQUEST_TRIPLE_GET[1]}=${URL.encodeComponent(graphName)}" +//
                     "&${EndpointImpl.REQUEST_TRIPLE_GET[2]}=${URL.encodeComponent("" + transactionID)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_GET[3]}=${URL.encodeComponent("" + idx)}"
+                    "&${EndpointImpl.REQUEST_TRIPLE_GET[3]}=${URL.encodeComponent(s)}"+//
+                    "&${EndpointImpl.REQUEST_TRIPLE_GET[4]}=${URL.encodeComponent(p)}"+//
+                    "&${EndpointImpl.REQUEST_TRIPLE_GET[5]}=${URL.encodeComponent(o)}"+//
+                    "&${EndpointImpl.REQUEST_TRIPLE_GET[6]}=${URL.encodeComponent("" + sv)}"+//
+                    "&${EndpointImpl.REQUEST_TRIPLE_GET[7]}=${URL.encodeComponent("" + pv)}"+//
+                    "&${EndpointImpl.REQUEST_TRIPLE_GET[8]}=${URL.encodeComponent("" + ov)}"+//
+                    "&${EndpointImpl.REQUEST_TRIPLE_GET[9]}=${URL.encodeComponent("" + idx)}"
             runBlocking {
                 val response = retryRequest(Http.Method.GET, "http://${resolveNodeName(node)}$req")
                 var responseString = response.readAllString()
