@@ -1,10 +1,10 @@
 package lupos.s14endpoint
-import lupos.s00misc.EGraphOperationType
+
 import lupos.s00misc.*
+import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.parseFromXml
-
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
@@ -102,7 +102,7 @@ object Endpoint {
     }
 
     inline fun process_local_triple_get(graphName: String, transactionID: Long, idx: EIndexPattern): XMLElement {
-        return QueryResultToXML.toXML(DistributedTripleStore.localStore.getNamedGraph(graphName).getIterator(transactionID,ResultSetDictionary(), "s", "p", "o", idx)).first()
+        return QueryResultToXML.toXML(DistributedTripleStore.localStore.getNamedGraph(graphName).getIterator(transactionID, ResultSetDictionary(), "s", "p", "o", idx)).first()
     }
 
     inline fun process_local_graph_clear_all(): XMLElement {

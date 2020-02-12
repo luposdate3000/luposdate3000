@@ -13,26 +13,99 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
 
 
-class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
+class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
+    var sFilter: Value? = null
+    var pFilter: Value? = null
+    var oFilter: Value? = null
+    var nextRow: ResultRow? = null
+
+    override fun toXMLElement(): XMLElement {
+        val res= XMLElement("TripleStoreIteratorLocalFilter").addAttribute("uuid", "" + uuid).addAttribute("name", getGraphName())
+if(sFilter==null)
+res.addAttribute("nameS", nameS)
+else
+res.addAttribute("filterS", resultSetOld.getValue(sFilter!!)!!)
+if(pFilter==null)
+res.addAttribute("nameP", nameP)
+else
+res.addAttribute("filterP", resultSetOld.getValue(pFilter!!)!!)
+if(oFilter==null)
+res.addAttribute("nameO", nameO)
+else
+res.addAttribute("filterO", resultSetOld.getValue(oFilter!!)!!)
+return res
+    }
+
+    constructor(dictionary: ResultSetDictionary, store: TripleStoreLocal, index: EIndexPattern) : super(dictionary, store, index)
+
+    override fun next(): ResultRow = Trace.trace({
+        "TripleStore.next"
+    }, {
+val tmp= nextRow!!
+nextRow=null
+        return tmp
+    }) as ResultRow
+
+    fun setSFilterV(s: String) {
+        sFilter = resultSetOld.createValue(s)
+    }
+
+    fun setPFilterV(p: String) {
+        pFilter = resultSetOld.createValue(p)
+    }
+
+    fun setOFilterV(o: String) {
+        oFilter = resultSetOld.createValue(o)
+    }
+
+    override fun hasNext(): Boolean = Trace.trace({ "TripleStore.hasNext" }, {
+        if (nextRow != null)
+            return true
+        while (iterator.hasNext()) {
+            val value = iterator.next()
+            val result = resultSetNew.createResultRow()
+            if (sFilter != null) {
+                if (value[sOld] != sFilter)
+                    continue
+            }else
+            result[sNew] = resultSetNew.createValue(resultSetOld.getValue(value!![sOld]))
+            if (pFilter != null) {
+                if (value[pOld] != pFilter)
+                    continue
+            }else
+            result[pNew] = resultSetNew.createValue(resultSetOld.getValue(value!![pOld]))
+            if (oFilter != null) {
+                if (value[oOld] != oFilter)
+                    continue
+            }else
+            result[oNew] = resultSetNew.createValue(resultSetOld.getValue(value!![oOld]))
+            nextRow = result
+            return true
+        }
+        return false
+    }) as Boolean
+}
+
+open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
-    private val resultSetNew: ResultSet
-    private val resultSetOld: ResultSet
-    private val iterator: Iterator<ResultRow>
-    private var sNew: Variable
-    private var pNew: Variable
-    private var oNew: Variable
-    private val sOld: Variable
-    private val pOld: Variable
-    private val oOld: Variable
-    private val store: TripleStoreLocal
-    private var index: EIndexPattern = EIndexPattern.SPO
+    val resultSetNew: ResultSet
+    val resultSetOld: ResultSet
+    val iterator: Iterator<ResultRow>
+    var sNew: Variable
+    var pNew: Variable
+    var oNew: Variable
+    val sOld: Variable
+    val pOld: Variable
+    val oOld: Variable
+    val store: TripleStoreLocal
+    var index: EIndexPattern = EIndexPattern.SPO
     override fun getGraphName(): String {
         return store.name
     }
 
     override fun toXMLElement(): XMLElement {
-        return XMLElement("TripleStoreIterator").addAttribute("uuid", "" + uuid).addAttribute("nameS", nameS).addAttribute("nameP", nameP).addAttribute("nameO", nameO).addAttribute("name", getGraphName())
+        return XMLElement("TripleStoreIteratorLocal").addAttribute("uuid", "" + uuid).addAttribute("nameS", nameS).addAttribute("nameP", nameP).addAttribute("nameO", nameO).addAttribute("name", getGraphName())
     }
 
     override fun setMNameS(n: String) {
@@ -196,49 +269,49 @@ class TripleStoreLocal {
             2 -> {
                 if (!ov) {
                     val iterator = tripleStore[idx.ordinal].iterator()
-                        while (iterator.hasNext()) {
-                            val r = iterator.next()
-                            if (r[s] == vals && r[p] == valp)
-                                modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
+                    while (iterator.hasNext()) {
+                        val r = iterator.next()
+                        if (r[s] == vals && r[p] == valp)
+                            modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
                     }
                 } else if (!pv) {
                     val iterator = tripleStore[idx.ordinal].iterator()
-                        while (iterator.hasNext()) {
-                            val r = iterator.next()
-                            if (r[s] == vals && r[o] == valo)
-                                modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
+                    while (iterator.hasNext()) {
+                        val r = iterator.next()
+                        if (r[s] == vals && r[o] == valo)
+                            modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
                     }
                 } else {
                     val iterator = tripleStore[idx.ordinal].iterator()
-                        while (iterator.hasNext()) {
-                            val r = iterator.next()
-                            if (r[p] == valp && r[o] == valo)
-                                modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
+                    while (iterator.hasNext()) {
+                        val r = iterator.next()
+                        if (r[p] == valp && r[o] == valo)
+                            modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
                     }
                 }
             }
             1 -> {
                 if (ov) {
                     val iterator = tripleStore[idx.ordinal].iterator()
-                        while (iterator.hasNext()) {
-                            val r = iterator.next()
-                            if (r[o] == valo)
-                                modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
+                    while (iterator.hasNext()) {
+                        val r = iterator.next()
+                        if (r[o] == valo)
+                            modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
                     }
                 } else if (pv) {
                     val iterator = tripleStore[idx.ordinal].iterator()
-                        while (iterator.hasNext()) {
-                            val r = iterator.next()
-                            if (r[p] == valp)
-                                modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
+                    while (iterator.hasNext()) {
+                        val r = iterator.next()
+                        if (r[p] == valp)
+                            modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
                     }
                 } else {
                     val iterator = tripleStore[idx.ordinal].iterator()
-                        while (iterator.hasNext()) {
-                            val r = iterator.next()
-                            if (r[s] == vals)
-                                modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
-                        }
+                    while (iterator.hasNext()) {
+                        val r = iterator.next()
+                        if (r[s] == vals)
+                            modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
+                    }
                 }
             }
             else -> {
@@ -247,15 +320,32 @@ class TripleStoreLocal {
         }
     }
 
-    inline fun getIterator(transactionID: Long,dictionary: ResultSetDictionary, index: EIndexPattern): POPTripleStoreIteratorBase {
+    inline fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, index: EIndexPattern): POPTripleStoreIteratorBase {
         return TripleStoreIteratorLocal(dictionary, this, index)
     }
 
-    inline fun getIterator(transactionID: Long,dictionary: ResultSetDictionary, s: String, p: String, o: String, index: EIndexPattern): POPTripleStoreIteratorBase {
+    inline fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String, index: EIndexPattern): POPTripleStoreIteratorBase {
         val res = TripleStoreIteratorLocal(dictionary, this, index)
         res.setMNameS(s)
         res.setMNameP(p)
         res.setMNameO(o)
+        return res
+    }
+
+    inline fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, index: EIndexPattern): POPTripleStoreIteratorBase {
+        val res = TripleStoreIteratorLocalFilter(dictionary, this, index)
+        if (sv)
+            res.setSFilterV(s)
+        else
+            res.setMNameS(s)
+        if (pv)
+            res.setPFilterV(p)
+        else
+            res.setMNameP(p)
+        if (ov)
+            res.setOFilterV(o)
+        else
+            res.setMNameO(o)
         return res
     }
 }

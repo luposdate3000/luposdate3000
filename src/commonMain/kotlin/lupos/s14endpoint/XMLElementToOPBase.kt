@@ -106,16 +106,43 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
         "POPJoinHashMap" -> POPJoinHashMap(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         "POPTemporaryStore" -> POPTemporaryStore(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping))
         "POPExpression" -> POPExpression(dictionary, XMLElement.toASTNode(node.childs[0]))
-        "TripleStoreIterator" -> {
-            val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary,EIndexPattern.SPO)
+        "TripleStoreIteratorLocal" -> {
+            val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary, EIndexPattern.SPO)
             val olduuid = node.attributes["uuid"]
             mapping["#s" + olduuid] = "#s${res.uuid}"
             mapping["#p" + olduuid] = "#p${res.uuid}"
             mapping["#o" + olduuid] = "#o${res.uuid}"
             return res
         }
+        "TripleStoreIteratorLocalFilter" -> {
+		val sFilter=node.attributes["filterS"]
+		val sName=node.attributes["nameS"]
+		val pFilter=node.attributes["filterP"]
+		val pName=node.attributes["nameP"]
+		val oFilter=node.attributes["filterO"]
+		val oName=node.attributes["nameO"]
+
+val sv=sFilter!=null
+val pv=pFilter!=null
+val ov=oFilter!=null
+val s=if(sv)
+sFilter!!
+else
+sName!!
+val p=if(pv)
+pFilter!!
+else
+pName!!
+val o=if(ov)
+oFilter!!
+else
+oName!!
+
+            val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary, s,p,o,sv,pv,ov,EIndexPattern.SPO)
+            return res
+        }
         "TripleStoreIteratorGlobal" -> {
-            val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary,EIndexPattern.SPO)
+            val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary, EIndexPattern.SPO)
             val olduuid = node.attributes["uuid"]
             mapping["#s" + olduuid] = "#s${res.uuid}"
             mapping["#p" + olduuid] = "#p${res.uuid}"

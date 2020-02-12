@@ -1,5 +1,4 @@
 package lupos.s10physicalOptimisation
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
@@ -52,6 +51,7 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s10physicalOptimisation.OptimizerVisitorPOP
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerVisitorPOP(transactionID, dictionary) {
@@ -148,46 +148,31 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
         return POPJoinHashMap(dictionary, optimize(node.children[0]), optimize(node.children[1]), node.optional)
     }
 
-    inline fun optimizeTriple(param: OPBase, name: String, child: POPBase, node: LOPTriple): POPBase {
+    inline fun optimizeTriple(param: OPBase): Pair<String, Boolean> {
         when (param) {
             is LOPVariable -> {
-                if (param.name != name)
-                    return POPRename(dictionary, param, LOPVariable(name), child)
+                return Pair(param.name, false)
             }
             is LOPExpression -> {
                 when (param.child) {
-                    is ASTInteger -> return POPFilterExact(dictionary, LOPVariable(name), "\"" + param.child.value + "\"^^<http://www.w3.org/2001/XMLSchema#integer>", child)
-                    is ASTIri -> return POPFilterExact(dictionary, LOPVariable(name), "<" + param.child.iri + ">", child)
-                    is ASTLanguageTaggedLiteral -> return POPFilterExact(dictionary, LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter + "@" + param.child.language, child)
-                    is ASTTypedLiteral -> return POPFilterExact(dictionary, LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter + "^^<" + param.child.type_iri + ">", child)
-                    is ASTSimpleLiteral -> return POPFilterExact(dictionary, LOPVariable(name), param.child.delimiter + param.child.content + param.child.delimiter, child)
-                    else -> throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)}, ${classNameToString(param.child)}")
+                    is ASTInteger -> return Pair("\"" + param.child.value + "\"^^<http://www.w3.org/2001/XMLSchema#integer>", true)
+                    is ASTIri -> return Pair("<" + param.child.iri + ">", true)
+                    is ASTLanguageTaggedLiteral -> return Pair(param.child.delimiter + param.child.content + param.child.delimiter + "@" + param.child.language, true)
+                    is ASTTypedLiteral -> return Pair(param.child.delimiter + param.child.content + param.child.delimiter + "^^<" + param.child.type_iri + ">", true)
+                    is ASTSimpleLiteral -> return Pair(param.child.delimiter + param.child.content + param.child.delimiter, true)
+                    else -> throw UnsupportedOperationException("${classNameToString(this)}, 1 ${classNameToString(param.child)}")
                 }
             }
+            else -> throw UnsupportedOperationException("${classNameToString(this)} , 2 ${classNameToString(param)}")
         }
-        return child
+
     }
 
     override fun visit(node: LOPTriple): OPBase {
-        val variables = mutableListOf<LOPVariable>()
-        if (node.s is LOPVariable)
-            variables.add(node.s)
-        if (node.p is LOPVariable)
-            variables.add(node.p)
-        if (node.o is LOPVariable)
-            variables.add(node.o)
-        var result2 = DistributedTripleStore.getNamedGraph(node.graph).getIterator(transactionID, dictionary,EIndexPattern.SPO)
-        var sname = result2.nameS
-        var pname = result2.nameP
-        var oname = result2.nameO
-        var result: POPBase = result2
-        result = optimizeTriple(node.s, sname, result, node)
-        result = optimizeTriple(node.p, pname, result, node)
-        result = optimizeTriple(node.o, oname, result, node)
-        if (variables.size < 3) {
-            result = POPProjection(dictionary, variables, result)
-        }
-        return result
+        val ts = optimizeTriple(node.s)
+        val tp = optimizeTriple(node.p)
+        val to = optimizeTriple(node.o)
+        return DistributedTripleStore.getNamedGraph(node.graph).getIterator(transactionID, dictionary, ts.first, tp.first, to.first, ts.second, tp.second, to.second, EIndexPattern.SPO)
     }
 
     override fun visit(node: OPNothing): OPBase {

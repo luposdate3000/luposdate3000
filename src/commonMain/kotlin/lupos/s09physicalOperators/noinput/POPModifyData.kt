@@ -1,7 +1,7 @@
 package lupos.s09physicalOperators.noinput
+
 import lupos.s00misc.EModifyType
 import lupos.s00misc.Trace
-
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet

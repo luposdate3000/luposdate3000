@@ -49,7 +49,7 @@ class DistributedGraph(val name: String) {
     fun addData(transactionID: Long, t: List<String?>) {
         EIndexPattern.values().forEach {
             val node = calculateNodeForDataFull(t[0]!!, t[1]!!, t[2]!!, it)
-	    Endpoint.process_local_triple_add(name, transactionID, t[0]!!, t[1]!!, t[2]!!, it)
+            Endpoint.process_local_triple_add(name, transactionID, t[0]!!, t[1]!!, t[2]!!, it)
         }
     }
 
@@ -57,7 +57,7 @@ class DistributedGraph(val name: String) {
         require(t[0].second && t[1].second && t[2].second)
         EIndexPattern.values().forEach {
             val node = calculateNodeForDataFull(t[0].first, t[1].first, t[2].first, it)
-	 Endpoint.process_local_triple_add(name, transactionID, t[0].first, t[1].first, t[2].first, it)
+            Endpoint.process_local_triple_add(name, transactionID, t[0].first, t[1].first, t[2].first, it)
         }
     }
 
@@ -77,16 +77,16 @@ class DistributedGraph(val name: String) {
             l.add(Pair("o", false))
         EIndexPattern.values().forEach {
             for (node in calculateNodeForDataMaybe(l[0].first, l[1].first, l[2].first, l[0].second, l[1].second, l[2].second, it)) {
- Endpoint.process_local_triple_delete(name, transactionID, l[0].first, l[1].first, l[2].first, l[0].second, l[1].second, l[2].second, it)
+                Endpoint.process_local_triple_delete(name, transactionID, l[0].first, l[1].first, l[2].first, l[0].second, l[1].second, l[2].second, it)
             }
         }
     }
 
     fun deleteDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
         EIndexPattern.values().forEach {
-            for (node in calculateNodeForDataMaybe(t[0].first, t[1].first, t[2].first, t[0].second, t[1].second, t[2].second, it)){
-		Endpoint.process_local_triple_delete(name, transactionID, t[0].first, t[1].first, t[2].first, t[0].second, t[1].second, t[2].second, it)
-	    }
+            for (node in calculateNodeForDataMaybe(t[0].first, t[1].first, t[2].first, t[0].second, t[1].second, t[2].second, it)) {
+                Endpoint.process_local_triple_delete(name, transactionID, t[0].first, t[1].first, t[2].first, t[0].second, t[1].second, t[2].second, it)
+            }
         }
     }
 
@@ -109,7 +109,12 @@ class DistributedGraph(val name: String) {
     }
 
     fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String, index: EIndexPattern): POPTripleStoreIteratorBase {
-        val res = DistributedTripleStore.localStore.getNamedGraph(name).getIterator(transactionID, dictionary, s,p,o,index)
+        val res = DistributedTripleStore.localStore.getNamedGraph(name).getIterator(transactionID, dictionary, s, p, o, index)
+        return res
+    }
+
+    fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, index: EIndexPattern): POPTripleStoreIteratorBase {
+        val res = DistributedTripleStore.localStore.getNamedGraph(name).getIterator(transactionID, dictionary, s, p, o, sv, pv, ov, index)
         return res
     }
 }
@@ -126,20 +131,20 @@ object DistributedTripleStore {
 
     fun createGraph(name: String): DistributedGraph {
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.createGraph $name 1" })
-Endpoint.process_local_graph_operation(name,  EGraphOperationType.CREATE)
+        Endpoint.process_local_graph_operation(name, EGraphOperationType.CREATE)
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.createGraph $name 2" })
         return DistributedGraph(name)
     }
 
     fun dropGraph(name: String) {
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.dropGraph $name 1" })
-Endpoint.process_local_graph_operation(name,  EGraphOperationType.DROP)
+        Endpoint.process_local_graph_operation(name, EGraphOperationType.DROP)
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.dropGraph $name 2" })
     }
 
     fun clearGraph(name: String) {
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.clearGraph $name 1" })
-Endpoint.process_local_graph_operation(name,  EGraphOperationType.CLEAR)
+        Endpoint.process_local_graph_operation(name, EGraphOperationType.CLEAR)
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.clearGraph $name 2" })
     }
 
@@ -157,7 +162,7 @@ Endpoint.process_local_graph_operation(name,  EGraphOperationType.CLEAR)
 
     fun commit(transactionID: Long) {
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.commit 1" })
- Endpoint.process_local_commit(transactionID)
+        Endpoint.process_local_commit(transactionID)
         GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.commit 2" })
     }
 }
