@@ -44,22 +44,15 @@ class POPModify : POPBase {
         require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
     }
 
-    override fun hasNext(): Boolean {
-        try {
-            Trace.start("POPModify.hasNext")
+    override fun hasNext(): Boolean =            Trace.trace("POPModify.hasNext"){
             return children[0].hasNext()
-        } finally {
-            Trace.stop("POPModify.hasNext")
-        }
-    }
+    }as Boolean
 
     fun evaluateRow(node: ASTNode, row: ResultRow): String? {
         return POPExpression(dictionary, node).evaluate(resultSetOld, row)
     }
 
-    override fun next(): ResultRow {
-        try {
-            Trace.start("POPModify.next")
+    override fun next(): ResultRow =            Trace.trace("POPModify.next"){
             val row = children[0].next()
             for (i in insert) {
                 when (i) {
@@ -114,10 +107,7 @@ class POPModify : POPBase {
                 }
             }
             return resultSetNew.createResultRow()
-        } finally {
-            Trace.stop("POPModify.next")
-        }
-    }
+    }as ResultRow
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

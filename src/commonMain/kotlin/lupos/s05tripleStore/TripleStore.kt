@@ -1,12 +1,7 @@
 package lupos.s05tripleStore
 
-import lupos.s00misc.ThreadSafeUuid
+import lupos.s00misc.*
 import lupos.s09physicalOperators.POPBase
-
-
-enum class IndexPattern {
-    S, P, O, SP, SO, PO, SPO, SOP, PSO, POS, OSP, OPS
-}
 
 abstract class POPTripleStoreIteratorBase() : POPBase() {
     var nameS = "#s" + uuid

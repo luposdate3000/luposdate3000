@@ -46,9 +46,7 @@ class POPFilterExact : POPBaseNullableIterator {
         return resultSet
     }
 
-    override fun nnext(): ResultRow? {
-        try {
-            Trace.start("POPFilterExact.nnext")
+    override fun nnext(): ResultRow? =            Trace.trace("POPFilterExact.nnext"){
             while (true) {
                 if (!children[0].hasNext())
                     return null
@@ -56,10 +54,7 @@ class POPFilterExact : POPBaseNullableIterator {
                 if (nextRow[filterVariable] == valueR)
                     return nextRow
             }
-        } finally {
-            Trace.stop("POPFilterExact.nnext")
-        }
-    }
+    } as ResultRow?
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPFilterExact")

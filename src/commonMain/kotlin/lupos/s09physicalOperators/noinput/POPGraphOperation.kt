@@ -1,7 +1,7 @@
 package lupos.s09physicalOperators.noinput
 
 import lupos.s00misc.classNameToString
-import lupos.s00misc.Trace
+import lupos.s00misc.*
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAllGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTDefaultGraphRef
@@ -12,13 +12,12 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.noinput.GraphOperationType
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class POPGraphOperation(override val dictionary: ResultSetDictionary, val transactionID: Long, val silent: Boolean, val graphref1: ASTGraphRef, val graphref2: ASTGraphRef?, val action: GraphOperationType) : POPBase() {
+class POPGraphOperation(override val dictionary: ResultSetDictionary, val transactionID: Long, val silent: Boolean, val graphref1: ASTGraphRef, val graphref2: ASTGraphRef?, val action: EGraphOperationType) : POPBase() {
     override val children: Array<OPBase> = arrayOf()
     private val resultSetNew = ResultSet(dictionary)
 
@@ -28,32 +27,26 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
         return resultSetNew
     }
 
-    override fun hasNext(): Boolean {
-        try {
-            Trace.start("POPGraphOperation.hasNext")
+    override fun hasNext(): Boolean =            Trace.trace("POPGraphOperation.hasNext"){
             return first
-        } finally {
-            Trace.stop("POPGraphOperation.hasNext")
-        }
-    }
+    }as Boolean
 
     inline fun i2s(iri: ASTIriGraphRef): String {
         return iri.iri
     }
 
-    override fun next(): ResultRow {
-        try {
-            Trace.start("POPGraphOperation.next")
+    override fun next(): ResultRow =            Trace.trace("POPGraphOperation.next"){
+try{
             first = false
             when (graphref1) {
                 is ASTAllGraphRef -> {
                     when (action) {
-                        GraphOperationType.CLEAR -> {
+                        EGraphOperationType.CLEAR -> {
                             for (s in DistributedTripleStore.getGraphNames(true)) {
                                 DistributedTripleStore.clearGraph(s)
                             }
                         }
-                        GraphOperationType.DROP -> {
+                        EGraphOperationType.DROP -> {
                             DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
                             for (s in DistributedTripleStore.getGraphNames(false)) {
                                 DistributedTripleStore.dropGraph(s)
@@ -64,9 +57,9 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                 }
                 is ASTDefaultGraphRef -> {
                     when (action) {
-                        GraphOperationType.CLEAR -> DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
-                        GraphOperationType.DROP -> DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
-                        GraphOperationType.COPY -> {
+                        EGraphOperationType.CLEAR -> DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
+                        EGraphOperationType.DROP -> DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
+                        EGraphOperationType.COPY -> {
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
                                     try {
@@ -78,7 +71,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                             }
                         }
-                        GraphOperationType.MOVE -> {
+                        EGraphOperationType.MOVE -> {
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
                                     try {
@@ -91,7 +84,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                             }
                         }
-                        GraphOperationType.ADD -> {
+                        EGraphOperationType.ADD -> {
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
                                     DistributedTripleStore.getNamedGraph(i2s(graphref2), true).addData(transactionID, DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, "s", "p", "o"))
@@ -104,15 +97,15 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                 }
                 is ASTIriGraphRef -> {
                     when (action) {
-                        GraphOperationType.CREATE -> DistributedTripleStore.createGraph(i2s(graphref1))
-                        GraphOperationType.CLEAR -> {
+                        EGraphOperationType.CREATE -> DistributedTripleStore.createGraph(i2s(graphref1))
+                        EGraphOperationType.CLEAR -> {
                             try {
                                 DistributedTripleStore.clearGraph(i2s(graphref1))
                             } catch (e: Throwable) {
                             }
                         }
-                        GraphOperationType.DROP -> DistributedTripleStore.dropGraph(i2s(graphref1))
-                        GraphOperationType.COPY -> {
+                        EGraphOperationType.DROP -> DistributedTripleStore.dropGraph(i2s(graphref1))
+                        EGraphOperationType.COPY -> {
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
                                     if (i2s(graphref2) != i2s(graphref1)) {
@@ -130,7 +123,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                             }
                         }
-                        GraphOperationType.MOVE -> {
+                        EGraphOperationType.MOVE -> {
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
                                     if (i2s(graphref2) != i2s(graphref1)) {
@@ -150,7 +143,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                             }
                         }
-                        GraphOperationType.ADD -> {
+                        EGraphOperationType.ADD -> {
                             when (graphref2) {
                                 is ASTIriGraphRef -> {
                                     if (i2s(graphref2) != i2s(graphref1))
@@ -168,20 +161,20 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                 is ASTNamedGraphRef -> {
                     DistributedTripleStore.getGraphNames().forEach { name ->
                         when (action) {
-                            GraphOperationType.CREATE -> DistributedTripleStore.createGraph(name)
-                            GraphOperationType.CLEAR -> {
+                            EGraphOperationType.CREATE -> DistributedTripleStore.createGraph(name)
+                            EGraphOperationType.CLEAR -> {
                                 try {
                                     DistributedTripleStore.clearGraph(name)
                                 } catch (e: Throwable) {
                                 }
                             }
-                            GraphOperationType.DROP -> DistributedTripleStore.dropGraph(name)
-                            GraphOperationType.COPY -> {
+                            EGraphOperationType.DROP -> DistributedTripleStore.dropGraph(name)
+                            EGraphOperationType.COPY -> {
                                 when (graphref2) {
                                     else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                                 }
                             }
-                            GraphOperationType.ADD -> {
+                            EGraphOperationType.ADD -> {
                                 when (graphref2) {
                                     else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)} $action")
                                 }
@@ -197,10 +190,8 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
             if (!silent)
                 throw e
             return resultSetNew.createResultRow()
-        } finally {
-            Trace.stop("POPGraphOperation.next")
-        }
-    }
+}
+    }as ResultRow
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

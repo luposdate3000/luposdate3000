@@ -44,18 +44,11 @@ class POPTemporaryStore : POPBase {
         return resultSetNew
     }
 
-    override fun hasNext(): Boolean {
-        try {
-            Trace.start("POPTemporaryStore.hasNext")
+    override fun hasNext(): Boolean =            Trace.trace("POPTemporaryStore.hasNext"){
             return iterator.hasNext()
-        } finally {
-            Trace.stop("POPTemporaryStore.hasNext")
-        }
-    }
+    }as Boolean
 
-    override fun next(): ResultRow {
-        try {
-            Trace.start("POPTemporaryStore.next")
+    override fun next(): ResultRow =            Trace.trace("POPTemporaryStore.next"){
             if (iterator == children[0]) {
                 val rsOld = children[0].next()
                 var rsNew = resultSetNew.createResultRow()
@@ -71,10 +64,7 @@ class POPTemporaryStore : POPBase {
                 rsNew[variable.first] = rsOld[variable.second]
             }
             return rsNew
-        } finally {
-            Trace.stop("POPTemporaryStore.next")
-        }
-    }
+    }as ResultRow
 
     fun reset() {
         iterator = data.listIterator()

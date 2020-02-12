@@ -8,8 +8,6 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetIterator
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
-import lupos.s05tripleStore.IndexPattern
-import lupos.s05tripleStore.ModifyType
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
 import lupos.s05tripleStore.TripleStoreLocal
@@ -29,9 +27,11 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     private var xmlIterator: Iterator<XMLElement>? = null
     private val transactionID: Long
     private val graphName: String
+private val idx:EIndexPattern
 
-    constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String) : this(transactionID, dictionary, graphName, IndexPattern.S)
-    constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String, index: IndexPattern) {
+    constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String) : this(transactionID, dictionary, graphName, EIndexPattern.SPO)
+    constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String, index: EIndexPattern) {
+idx=index
         this.graphName = graphName
         this.dictionary = dictionary
         this.transactionID = transactionID
@@ -97,7 +97,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
                 println("globalIterator.hasNext end1")
                 return false
             }
-            val xml = P2P.execTripleGet(nodeNameIterator.next(), graphName, transactionID)
+            val xml = P2P.execTripleGet(nodeNameIterator.next(), graphName, transactionID,idx)
             require(xml.tag == "sparql")
             xmlIterator = xml["results"]!!.childs.iterator()
         }
@@ -128,19 +128,73 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
 }
 
 class DistributedGraph(val name: String) {
+	val K=8 // defined in project.pdf
 
-    inline fun calculateNodeForData(s: String?, p: String?, o: String?): String {
-        return P2P.getKnownClientsCopy()[uuid.next().toInt() % P2P.knownClients.size]
+inline fun myHashCode(s:String,d:Int):Int{
+	val c=s.hashCode()
+	if(c<0)
+		return (-c)%d
+	return c % d
+}
+
+inline fun myHashCode(s:Int, p:Int,  o:Int, d:Int,idx:EIndexPattern):Int{
+when(idx){
+EIndexPattern.SPO-> return myHashCode(""+s+"-"+p+"-"+o,d)
+EIndexPattern.SOP-> return myHashCode(""+s+"-"+o+"-"+p,d)
+EIndexPattern.PSO-> return myHashCode(""+p+"-"+s+"-"+o,d)
+EIndexPattern.POS-> return myHashCode(""+p+"-"+o+"-"+s,d)
+EIndexPattern.OPS-> return myHashCode(""+o+"-"+p+"-"+s,d)
+EIndexPattern.OSP-> return myHashCode(""+o+"-"+s+"-"+p,d)
+}
+}
+
+    inline fun calculateNodeForDataFull(s: String, p: String, o: String,idx:EIndexPattern): String {
+	val sh=+myHashCode(s,K)
+	val ph=+myHashCode(p,K)
+	val oh=+myHashCode(o,K)
+        return P2P.getKnownClientsCopy()[myHashCode(sh,ph,oh,P2P.knownClients.size,idx)]
     }
 
+    inline fun calculateNodeForDataMaybe(s: String, p: String, o: String,sv:Boolean,pv:Boolean,ov:Boolean,idx:EIndexPattern): Set<String> {
+	val res=mutableSetOf<String>()
+	val sr=if(sv){
+		val h=myHashCode(s,K)
+		IntRange(h,h)
+}	else
+		IntRange(0,K)
+	val pr=if(pv){
+		val h=myHashCode(p,K)
+		IntRange(h,h)
+}	else
+		IntRange(0,K)
+	val or=if(ov){
+		val h=myHashCode(o,K)
+		IntRange(h,h)
+}	else
+		IntRange(0,K)
+	for(si in sr){
+	for(pi in pr){
+	for(oi in or){
+		res.add(P2P.getKnownClientsCopy()[myHashCode(si,pi,oi,P2P.knownClients.size,idx)])
+	}
+	}
+	}
+	return res
+    }
+    
     fun addData(transactionID: Long, t: List<String?>) {
-        val node = calculateNodeForData(t[0], t[1], t[2])
-        P2P.execTripleAdd(node, name, transactionID, listOf(t[0]!!, t[1]!!, t[2]!!))
+	EIndexPattern.values().forEach{
+        val node = calculateNodeForDataFull(t[0]!!, t[1]!!, t[2]!!,it)
+	        P2P.execTripleAdd(node, name, transactionID, t[0]!!, t[1]!!, t[2]!!,it)
+	}
     }
 
     fun addDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
-        val node = calculateNodeForData(t[0].first, t[1].first, t[2].first)
-        P2P.execTripleAdd(node, name, transactionID, listOf(t[0].first, t[1].first, t[2].first))
+	require(t[0].second&&t[1].second&&t[2].second)
+	EIndexPattern.values().forEach{
+        val node = calculateNodeForDataFull(t[0].first, t[1].first, t[2].first,it)
+		P2P.execTripleAdd(node, name, transactionID, t[0].first, t[1].first, t[2].first,it)
+	}
     }
 
     fun deleteData(transactionID: Long, t: List<String?>) {
@@ -157,17 +211,32 @@ class DistributedGraph(val name: String) {
 		l.add(Pair(t[2]!!, true))
 	else
 		l.add(Pair("o", false))
-        for (node in P2P.getKnownClientsCopy())
-            P2P.execTripleDelete(node, name, transactionID, l)
+EIndexPattern.values().forEach{
+        for (node in calculateNodeForDataMaybe(l[0].first,l[1].first,l[2].first,l[0].second,l[1].second,l[2].second,it)){
+            P2P.execTripleDelete(node, name, transactionID, l,it)
+}
     }
+}
 
     fun deleteDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
-        for (node in P2P.getKnownClientsCopy())
-            P2P.execTripleDelete(node, name, transactionID, listOf(t[0], t[1], t[2]))
+EIndexPattern.values().forEach{
+        for (node in calculateNodeForDataMaybe(t[0].first,t[1].first,t[2].first,t[0].second,t[1].second,t[2].second,it))
+            P2P.execTripleDelete(node, name, transactionID, listOf(t[0], t[1], t[2]),it)
+}
     }
 
     fun addData(transactionID: Long, iterator: ResultSetIterator) {
-        DistributedTripleStore.localStore.getNamedGraph(name).addData(transactionID, iterator)
+	val rs=iterator.getResultSet()
+	val ks=rs.createVariable("s")
+	val kp=rs.createVariable("p")
+	val ko=rs.createVariable("o")
+	while(iterator.hasNext()){
+		val v=iterator.next()
+		val s=rs.getValue(v[ks])
+		val p=rs.getValue(v[kp])
+		val o=rs.getValue(v[ko])
+		addData(transactionID,listOf(s,p,o))
+	}
     }
 
     fun getIterator(transactionID: Long, dictionary: ResultSetDictionary): POPTripleStoreIteratorBase {
@@ -194,17 +263,17 @@ object DistributedTripleStore {
     }
 
     fun createGraph(name: String): DistributedGraph {
-        P2P.execGraphOperation(name, GraphOperationType.CREATE)
+        P2P.execGraphOperation(name, EGraphOperationType.CREATE)
         return DistributedGraph(name)
     }
 
     fun dropGraph(name: String) {
-        P2P.execGraphOperation(name, GraphOperationType.DROP)
+        P2P.execGraphOperation(name, EGraphOperationType.DROP)
     }
 
     fun clearGraph(name: String) {
         println("DistributedTripleStore.clearGraph $name")
-        P2P.execGraphOperation(name, GraphOperationType.CLEAR)
+        P2P.execGraphOperation(name, EGraphOperationType.CLEAR)
     }
 
     fun getNamedGraph(name: String, create: Boolean = false): DistributedGraph {

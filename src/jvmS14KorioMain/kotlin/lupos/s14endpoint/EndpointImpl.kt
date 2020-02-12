@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.kotlinStacktrace
-import lupos.s00misc.Trace
+import lupos.s00misc.*
 import lupos.s04logicalOperators.noinput.*
 import lupos.s12p2p.P2P
 import lupos.s14endpoint.Endpoint
@@ -20,9 +20,9 @@ object EndpointImpl {
     var hostname = "localhost"
     var port = 80
     var fullname = hostname + ":" + port
-    val REQUEST_TRIPLE_ADD = arrayOf("/triple/add", "graph", "id", "s", "p", "o")
-    val REQUEST_TRIPLE_GET = arrayOf("/triple/get", "graph", "id")
-    val REQUEST_TRIPLE_DELETE = arrayOf("/triple/delete", "graph", "id", "s", "p", "o", "sv", "pv", "ov")
+    val REQUEST_TRIPLE_ADD = arrayOf("/triple/add", "graph", "id", "s", "p", "o","idx")
+    val REQUEST_TRIPLE_GET = arrayOf("/triple/get", "graph", "id","idx")
+    val REQUEST_TRIPLE_DELETE = arrayOf("/triple/delete", "graph", "id", "s", "p", "o", "sv", "pv", "ov","idx")
     val REQUEST_COMMIT = arrayOf("/commit", "id")
     val REQUEST_TRACE_PRINT = arrayOf("/trace/print")
     val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query", "query")
@@ -63,9 +63,9 @@ object EndpointImpl {
             delay(1)
         try {
             when (request.path) {
-                REQUEST_TRIPLE_ADD[0] -> response = Endpoint.process_local_triple_add(params[REQUEST_TRIPLE_ADD[1]]!!.first(), params[REQUEST_TRIPLE_ADD[2]]!!.first().toLong(), params[REQUEST_TRIPLE_ADD[3]]!!.first(), params[REQUEST_TRIPLE_ADD[4]]!!.first(), params[REQUEST_TRIPLE_ADD[5]]!!.first()).toPrettyString()
-                REQUEST_TRIPLE_GET[0] -> response = Endpoint.process_local_triple_get(params[REQUEST_TRIPLE_GET[1]]!!.first(), params[REQUEST_TRIPLE_GET[2]]!!.first().toLong()).toPrettyString()
-                REQUEST_TRIPLE_DELETE[0] -> response = Endpoint.process_local_triple_delete(params[REQUEST_TRIPLE_DELETE[1]]!!.first(), params[REQUEST_TRIPLE_DELETE[2]]!!.first().toLong(), params[REQUEST_TRIPLE_DELETE[3]]!!.first(), params[REQUEST_TRIPLE_DELETE[4]]!!.first(), params[REQUEST_TRIPLE_DELETE[5]]!!.first(), params[REQUEST_TRIPLE_DELETE[6]]!!.first().toBoolean(), params[REQUEST_TRIPLE_DELETE[7]]!!.first().toBoolean(), params[REQUEST_TRIPLE_DELETE[8]]!!.first().toBoolean()).toPrettyString()
+                REQUEST_TRIPLE_ADD[0] -> response = Endpoint.process_local_triple_add(params[REQUEST_TRIPLE_ADD[1]]!!.first(), params[REQUEST_TRIPLE_ADD[2]]!!.first().toLong(), params[REQUEST_TRIPLE_ADD[3]]!!.first(), params[REQUEST_TRIPLE_ADD[4]]!!.first(), params[REQUEST_TRIPLE_ADD[5]]!!.first(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_ADD[6]]!!.first())).toPrettyString()
+                REQUEST_TRIPLE_GET[0] -> response = Endpoint.process_local_triple_get(params[REQUEST_TRIPLE_GET[1]]!!.first(), params[REQUEST_TRIPLE_GET[2]]!!.first().toLong(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_GET[3]]!!.first())).toPrettyString()
+                REQUEST_TRIPLE_DELETE[0] -> response = Endpoint.process_local_triple_delete(params[REQUEST_TRIPLE_DELETE[1]]!!.first(), params[REQUEST_TRIPLE_DELETE[2]]!!.first().toLong(), params[REQUEST_TRIPLE_DELETE[3]]!!.first(), params[REQUEST_TRIPLE_DELETE[4]]!!.first(), params[REQUEST_TRIPLE_DELETE[5]]!!.first(), params[REQUEST_TRIPLE_DELETE[6]]!!.first().toBoolean(), params[REQUEST_TRIPLE_DELETE[7]]!!.first().toBoolean(), params[REQUEST_TRIPLE_DELETE[8]]!!.first().toBoolean(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_DELETE[9]]!!.first())).toPrettyString()
                 REQUEST_TRACE_PRINT[0] -> response = process_print_traces()
                 REQUEST_PEERS_LIST[0] -> response = P2P.process_peers_list()
                 REQUEST_PEERS_SELF_TEST[0] -> response = P2P.process_peers_self_test()
@@ -73,7 +73,7 @@ object EndpointImpl {
                 REQUEST_PEERS_JOIN[0] -> response = P2P.process_peers_join(params[REQUEST_PEERS_JOIN[1]]?.first())
                 REQUEST_PEERS_JOIN_INTERNAL[0] -> response = P2P.process_peers_join_internal(params[REQUEST_PEERS_JOIN_INTERNAL[1]]?.first())
                 REQUEST_GRAPH_CLEAR_ALL[0] -> response = Endpoint.process_local_graph_clear_all().toPrettyString()
-                REQUEST_GRAPH_OPERATION[0] -> response = Endpoint.process_local_graph_operation(params[REQUEST_GRAPH_OPERATION[1]]!!.first(), GraphOperationType.valueOf(params[REQUEST_GRAPH_OPERATION[2]]!!.first())).toPrettyString()
+                REQUEST_GRAPH_OPERATION[0] -> response = Endpoint.process_local_graph_operation(params[REQUEST_GRAPH_OPERATION[1]]!!.first(), EGraphOperationType.valueOf(params[REQUEST_GRAPH_OPERATION[2]]!!.first())).toPrettyString()
                 REQUEST_OPERATOR_QUERY[0] -> {
                     if (request.method == Http.Method.POST)
                         response = Endpoint.process_operatorgraph_query(data).toPrettyString()

@@ -44,9 +44,7 @@ class POPDistinct : POPBaseNullableIterator {
         return resultSetNew
     }
 
-    override fun nnext(): ResultRow? {
-        try {
-            Trace.start("POPDistinct.nnext")
+    override fun nnext(): ResultRow? =            Trace.trace("POPDistinct.nnext"){
             if (data == null) {
                 val tmpMutableMap = mutableMapOf<String, ResultRow>()
                 while (children[0].hasNext()) {
@@ -68,10 +66,7 @@ class POPDistinct : POPBaseNullableIterator {
             if (iterator == null || !iterator!!.hasNext())
                 return null
             return iterator!!.next()
-        } finally {
-            Trace.stop("POPDistinct.nnext")
-        }
-    }
+    }as ResultRow?
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPDistinct")

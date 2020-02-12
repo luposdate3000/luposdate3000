@@ -20,24 +20,14 @@ class POPEmptyRow(override val dictionary: ResultSetDictionary) : POPBase() {
         return resultSetNew
     }
 
-    override fun hasNext(): Boolean {
-        try {
-            Trace.start("POPEmptyRow.hasNext")
+    override fun hasNext(): Boolean =            Trace.trace("POPEmptyRow.hasNext"){
             return first
-        } finally {
-            Trace.stop("POPEmptyRow.hasNext")
-        }
-    }
+    }as Boolean
 
-    override fun next(): ResultRow {
-        try {
-            Trace.start("POPEmptyRow.next")
+    override fun next(): ResultRow =            Trace.trace("POPEmptyRow.next"){
             first = false
             return resultSetNew.createResultRow()
-        } finally {
-            Trace.stop("POPEmptyRow.next")
-        }
-    }
+    }as ResultRow
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

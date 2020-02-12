@@ -1,6 +1,6 @@
 package lupos.s14endpoint
 
-import lupos.s00misc.parseFromXml
+import lupos.s00misc.*
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
@@ -87,18 +87,18 @@ inline fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
 }
 
 object Endpoint {
-    inline fun process_local_triple_add(graphName: String, transactionID: Long, s: String?, p: String?, o: String?): XMLElement {
-        DistributedTripleStore.localStore.getNamedGraph(graphName).addData(transactionID, listOf(s, p, o))
+    inline fun process_local_triple_add(graphName: String, transactionID: Long, s: String, p: String, o: String,idx:EIndexPattern): XMLElement {
+        DistributedTripleStore.localStore.getNamedGraph(graphName).addData(transactionID, s, p, o,idx)
         return XMLElement("success")
     }
 
-    inline fun process_local_triple_delete(graphName: String, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean): XMLElement {
-        DistributedTripleStore.localStore.getNamedGraph(graphName).deleteDataVar(transactionID, listOf(Pair(s, sv), Pair(p, pv), Pair(o, ov)))
+    inline fun process_local_triple_delete(graphName: String, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean,idx:EIndexPattern): XMLElement {
+        DistributedTripleStore.localStore.getNamedGraph(graphName).deleteDataVar(transactionID, s,p,o,sv,pv,ov,idx)
         return XMLElement("success")
     }
 
-    inline fun process_local_triple_get(graphName: String, transactionID: Long): XMLElement {
-        return QueryResultToXML.toXML(DistributedTripleStore.localStore.getNamedGraph(graphName).getIterator(ResultSetDictionary(), "s", "p", "o")).first()
+    inline fun process_local_triple_get(graphName: String, transactionID: Long,idx:EIndexPattern): XMLElement {
+        return QueryResultToXML.toXML(DistributedTripleStore.localStore.getNamedGraph(graphName).getIterator(ResultSetDictionary(), "s", "p", "o",idx)).first()
     }
 
     inline fun process_local_graph_clear_all(): XMLElement {
@@ -111,14 +111,14 @@ object Endpoint {
         return XMLElement("success")
     }
 
-    inline fun process_local_graph_operation(name: String, type: GraphOperationType): XMLElement {
+    inline fun process_local_graph_operation(name: String, type: EGraphOperationType): XMLElement {
         println("process_local_graph_operation aa $name $type")
         println("${DistributedTripleStore}")
         println("${DistributedTripleStore.localStore}")
         when (type) {
-            GraphOperationType.CLEAR -> DistributedTripleStore.localStore.clearGraph(name)
-            GraphOperationType.CREATE -> DistributedTripleStore.localStore.createGraph(name)
-            GraphOperationType.DROP -> DistributedTripleStore.localStore.dropGraph(name)
+            EGraphOperationType.CLEAR -> DistributedTripleStore.localStore.clearGraph(name)
+            EGraphOperationType.CREATE -> DistributedTripleStore.localStore.createGraph(name)
+            EGraphOperationType.DROP -> DistributedTripleStore.localStore.dropGraph(name)
         }
         println("process_local_graph_operation bb")
         return XMLElement("success")

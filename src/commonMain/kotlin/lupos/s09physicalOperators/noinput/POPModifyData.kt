@@ -1,18 +1,17 @@
 package lupos.s09physicalOperators.noinput
 
-import lupos.s00misc.Trace
+import lupos.s00misc.*
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.noinput.ModifyDataType
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class POPModifyData(override val dictionary: ResultSetDictionary, val transactionID: Long, val type: ModifyDataType, val data: List<List<Pair<String, Boolean>>>) : POPBase() {
+class POPModifyData(override val dictionary: ResultSetDictionary, val transactionID: Long, val type: EModifyType, val data: List<List<Pair<String, Boolean>>>) : POPBase() {
     override val children: Array<OPBase> = arrayOf()
     private val resultSetNew = ResultSet(dictionary)
 
@@ -22,31 +21,21 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
         return resultSetNew
     }
 
-    override fun hasNext(): Boolean {
-        try {
-            Trace.start("POPInsertData.hasNext")
+    override fun hasNext(): Boolean =            Trace.trace("POPInsertData.hasNext"){
             return first
-        } finally {
-            Trace.stop("POPInsertData.hasNext")
-        }
-    }
+    }as Boolean
 
-    override fun next(): ResultRow {
-        try {
-            Trace.start("POPInsertData.next")
+    override fun next(): ResultRow =            Trace.trace("POPInsertData.next"){
             first = false
             for (t in data) {
                 val store = DistributedTripleStore.getNamedGraph(t[3].first)
-                if (type == ModifyDataType.INSERT)
+                if (type == EModifyType.INSERT)
                     store.addDataVar(transactionID, t)
                 else
                     store.deleteDataVar(transactionID, t)
             }
             return resultSetNew.createResultRow()
-        } finally {
-            Trace.stop("POPInsertData.next")
-        }
-    }
+    }as ResultRow
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

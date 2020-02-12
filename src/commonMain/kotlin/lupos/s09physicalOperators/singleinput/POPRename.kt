@@ -78,19 +78,12 @@ class POPRename : POPBase {
         return resultSetNew
     }
 
-    override fun hasNext(): Boolean {
-        try {
-            Trace.start("POPRename.hasNext")
+    override fun hasNext(): Boolean      =       Trace.trace("POPRename.hasNext"){
             val res = children[0].hasNext()
             return res
-        } finally {
-            Trace.stop("POPRename.hasNext")
-        }
-    }
+    }as Boolean
 
-    override fun next(): ResultRow {
-        try {
-            Trace.start("POPRename.next")
+    override fun next(): ResultRow =            Trace.trace("POPRename.next"){
             var rsNew = resultSetNew.createResultRow()
             val rsOld = children[0].next()
             for (i in variablesNew.indices) {
@@ -98,10 +91,7 @@ class POPRename : POPBase {
                 rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
             }
             return rsNew
-        } finally {
-            Trace.stop("POPRename.next")
-        }
-    }
+    }as ResultRow
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPRename")

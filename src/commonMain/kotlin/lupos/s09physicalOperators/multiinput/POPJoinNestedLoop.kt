@@ -67,9 +67,7 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
         return resultSetNew
     }
 
-    override fun nnext(): ResultRow? {
-        try {
-            Trace.start("POPJoinNestedLoop.nnext")
+    override fun nnext(): ResultRow? =            Trace.trace("POPJoinNestedLoop.nnext"){
             while (true) {
                 var resultRowB: ResultRow?
                 if (!children[1].hasNext()) {
@@ -134,10 +132,7 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
                 hadMatchForA = true
                 return rsNew
             }
-        } finally {
-            Trace.stop("POPJoinNestedLoop.nnext")
-        }
-    }
+    } as ResultRow?
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPJoinNestedLoop")

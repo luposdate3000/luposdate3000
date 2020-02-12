@@ -1,6 +1,6 @@
 package lupos.s06buildOperatorGraph
 
-import lupos.s00misc.classNameToString
+import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAdd
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation
@@ -93,14 +93,12 @@ import lupos.s02buildSyntaxTree.sparql1_1.Visitor
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
-import lupos.s04logicalOperators.noinput.GraphOperationType
 import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.noinput.LOPGraphOperation
 import lupos.s04logicalOperators.noinput.LOPModifyData
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.LOPVariable
-import lupos.s04logicalOperators.noinput.ModifyDataType
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPBind
@@ -347,17 +345,13 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         return result
     }
 
-    enum class GroupMember {
-        GMLOPFilter, GMLOPMinus, GMLOPDataSource, GMLOPOptional
-    }
-
     private fun parseGroup(nodes: Array<ASTNode>): OPBase {
         if (nodes.isEmpty()) {
             return LOPNOOP()
         }
         var result: OPBase? = null
         val bind = mutableListOf<LOPBind>()
-        var members = mutableMapOf<GroupMember, OPBase>()
+        var members = mutableMapOf<EGroupMember, OPBase>()
         for (n in nodes) {
             var tmp2 = n.visit(this)
             while (tmp2 is LOPNOOP) {
@@ -365,105 +359,105 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             }
             when (tmp2) {
                 is LOPMinus -> {
-                    if (members.containsKey(GroupMember.GMLOPMinus))
-                        (members[GroupMember.GMLOPMinus])!!.getLatestChild().setChild(tmp2)
+                    if (members.containsKey(EGroupMember.GMLOPMinus))
+                        (members[EGroupMember.GMLOPMinus])!!.getLatestChild().setChild(tmp2)
                     else
-                        members[GroupMember.GMLOPMinus] = tmp2
+                        members[EGroupMember.GMLOPMinus] = tmp2
                 }
                 is LOPFilter -> {
-                    if (members.containsKey(GroupMember.GMLOPFilter))
-                        (members[GroupMember.GMLOPFilter])!!.getLatestChild().setChild(tmp2)
+                    if (members.containsKey(EGroupMember.GMLOPFilter))
+                        (members[EGroupMember.GMLOPFilter])!!.getLatestChild().setChild(tmp2)
                     else
-                        members[GroupMember.GMLOPFilter] = tmp2
+                        members[EGroupMember.GMLOPFilter] = tmp2
                 }
                 is LOPProjection -> {
-                    if (members.containsKey(GroupMember.GMLOPDataSource))
-                        members[GroupMember.GMLOPDataSource] = LOPJoin(members[GroupMember.GMLOPDataSource]!!, tmp2, false)
+                    if (members.containsKey(EGroupMember.GMLOPDataSource))
+                        members[EGroupMember.GMLOPDataSource] = LOPJoin(members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
                     else
-                        members[GroupMember.GMLOPDataSource] = tmp2
+                        members[EGroupMember.GMLOPDataSource] = tmp2
                 }
                 is LOPBind -> {
                     bind.add(tmp2)
                 }
                 is LOPTriple -> {
-                    if (members.containsKey(GroupMember.GMLOPDataSource)) {
-                        members[GroupMember.GMLOPDataSource] = LOPJoin(members[GroupMember.GMLOPDataSource]!!, tmp2, false)
+                    if (members.containsKey(EGroupMember.GMLOPDataSource)) {
+                        members[EGroupMember.GMLOPDataSource] = LOPJoin(members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
                     } else {
-                        members[GroupMember.GMLOPDataSource] = tmp2
+                        members[EGroupMember.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPUnion -> {
-                    if (members.containsKey(GroupMember.GMLOPDataSource)) {
-                        members[GroupMember.GMLOPDataSource] = LOPJoin(members[GroupMember.GMLOPDataSource]!!, tmp2, false)
+                    if (members.containsKey(EGroupMember.GMLOPDataSource)) {
+                        members[EGroupMember.GMLOPDataSource] = LOPJoin(members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
                     } else {
-                        members[GroupMember.GMLOPDataSource] = tmp2
+                        members[EGroupMember.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPValues -> {
-                    if (members.containsKey(GroupMember.GMLOPDataSource)) {
-                        members[GroupMember.GMLOPDataSource] = LOPJoin(members[GroupMember.GMLOPDataSource]!!, tmp2, false)
+                    if (members.containsKey(EGroupMember.GMLOPDataSource)) {
+                        members[EGroupMember.GMLOPDataSource] = LOPJoin(members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
                     } else {
-                        members[GroupMember.GMLOPDataSource] = tmp2
+                        members[EGroupMember.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPOptional -> {
-                    if (members.containsKey(GroupMember.GMLOPOptional)) {
-                        members[GroupMember.GMLOPOptional] = LOPJoin(members[GroupMember.GMLOPOptional]!!, tmp2.children[0], true)
+                    if (members.containsKey(EGroupMember.GMLOPOptional)) {
+                        members[EGroupMember.GMLOPOptional] = LOPJoin(members[EGroupMember.GMLOPOptional]!!, tmp2.children[0], true)
                     } else {
-                        members[GroupMember.GMLOPOptional] = tmp2.children[0]
+                        members[EGroupMember.GMLOPOptional] = tmp2.children[0]
                     }
                 }
                 is LOPJoin -> {
-                    if (members.containsKey(GroupMember.GMLOPDataSource)) {
-                        members[GroupMember.GMLOPDataSource] = LOPJoin(members[GroupMember.GMLOPDataSource]!!, tmp2, true)
+                    if (members.containsKey(EGroupMember.GMLOPDataSource)) {
+                        members[EGroupMember.GMLOPDataSource] = LOPJoin(members[EGroupMember.GMLOPDataSource]!!, tmp2, true)
                     } else {
-                        members[GroupMember.GMLOPDataSource] = tmp2
+                        members[EGroupMember.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPSubGroup -> {
-                    if (members.containsKey(GroupMember.GMLOPDataSource)) {
-                        members[GroupMember.GMLOPDataSource] = LOPJoin(members[GroupMember.GMLOPDataSource]!!, tmp2, false)
+                    if (members.containsKey(EGroupMember.GMLOPDataSource)) {
+                        members[EGroupMember.GMLOPDataSource] = LOPJoin(members[EGroupMember.GMLOPDataSource]!!, tmp2, false)
                     } else {
-                        members[GroupMember.GMLOPDataSource] = tmp2
+                        members[EGroupMember.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPServiceIRI -> {
-                    if (members.containsKey(GroupMember.GMLOPDataSource)) {
-                        members[GroupMember.GMLOPDataSource] = LOPJoin(members[GroupMember.GMLOPDataSource]!!, tmp2, true)
+                    if (members.containsKey(EGroupMember.GMLOPDataSource)) {
+                        members[EGroupMember.GMLOPDataSource] = LOPJoin(members[EGroupMember.GMLOPDataSource]!!, tmp2, true)
                     } else {
-                        members[GroupMember.GMLOPDataSource] = tmp2
+                        members[EGroupMember.GMLOPDataSource] = tmp2
                     }
                 }
                 is LOPServiceVAR -> {
-                    if (members.containsKey(GroupMember.GMLOPDataSource)) {
-                        tmp2.children[0] = members[GroupMember.GMLOPDataSource]!!
-                        members[GroupMember.GMLOPDataSource] = tmp2
+                    if (members.containsKey(EGroupMember.GMLOPDataSource)) {
+                        tmp2.children[0] = members[EGroupMember.GMLOPDataSource]!!
+                        members[EGroupMember.GMLOPDataSource] = tmp2
                     } else {
-                        members[GroupMember.GMLOPDataSource] = tmp2
+                        members[EGroupMember.GMLOPDataSource] = tmp2
                     }
                 }
                 else ->
-                    throw UnsupportedOperationException("${classNameToString(this)} GroupMember ${classNameToString(tmp2)}")
+                    throw UnsupportedOperationException("${classNameToString(this)} EGroupMember ${classNameToString(tmp2)}")
             }
         }
-        if (members.containsKey(GroupMember.GMLOPMinus)) {
-            result = members[GroupMember.GMLOPMinus]
+        if (members.containsKey(EGroupMember.GMLOPMinus)) {
+            result = members[EGroupMember.GMLOPMinus]
         }
-        if (members.containsKey(GroupMember.GMLOPFilter)) {
+        if (members.containsKey(EGroupMember.GMLOPFilter)) {
             if (result == null)
-                result = members[GroupMember.GMLOPFilter]
+                result = members[EGroupMember.GMLOPFilter]
             else
-                (result).getLatestChild().setChild(members[GroupMember.GMLOPFilter]!!)
+                (result).getLatestChild().setChild(members[EGroupMember.GMLOPFilter]!!)
         }
         var firstJoin: OPBase? = null
-        if (members.containsKey(GroupMember.GMLOPDataSource)) {
-            firstJoin = members[GroupMember.GMLOPDataSource]
+        if (members.containsKey(EGroupMember.GMLOPDataSource)) {
+            firstJoin = members[EGroupMember.GMLOPDataSource]
         }
-        if (members.containsKey(GroupMember.GMLOPOptional)) {
+        if (members.containsKey(EGroupMember.GMLOPOptional)) {
             if (firstJoin == null)
-                firstJoin = LOPOptional(members[GroupMember.GMLOPOptional]!!)
+                firstJoin = LOPOptional(members[EGroupMember.GMLOPOptional]!!)
             else
-                firstJoin = LOPJoin(firstJoin, members[GroupMember.GMLOPOptional]!!, true)
+                firstJoin = LOPJoin(firstJoin, members[EGroupMember.GMLOPOptional]!!, true)
         }
         if (firstJoin == null) {
             var bb: LOPBind? = null
@@ -807,7 +801,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     override fun visit(node: ASTAdd, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
         val res = LOPGraphOperation()
-        res.action = GraphOperationType.ADD
+        res.action = EGraphOperationType.ADD
         res.silent = node.silent
         res.graphref1 = node.fromGraph
         res.graphref2 = node.toGraph
@@ -817,7 +811,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     override fun visit(node: ASTMove, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
         val res = LOPGraphOperation()
-        res.action = GraphOperationType.MOVE
+        res.action = EGraphOperationType.MOVE
         res.silent = node.silent
         res.graphref1 = node.fromGraph
         res.graphref2 = node.toGraph
@@ -827,7 +821,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     override fun visit(node: ASTCopy, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
         val res = LOPGraphOperation()
-        res.action = GraphOperationType.COPY
+        res.action = EGraphOperationType.COPY
         res.silent = node.silent
         res.graphref1 = node.fromGraph
         res.graphref2 = node.toGraph
@@ -837,7 +831,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     override fun visit(node: ASTClear, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
         val res = LOPGraphOperation()
-        res.action = GraphOperationType.CLEAR
+        res.action = EGraphOperationType.CLEAR
         res.silent = node.silent
         res.graphref1 = node.graphref
         return res
@@ -846,7 +840,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     override fun visit(node: ASTDrop, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
         val res = LOPGraphOperation()
-        res.action = GraphOperationType.DROP
+        res.action = EGraphOperationType.DROP
         res.silent = node.silent
         res.graphref1 = node.graphref
         return res
@@ -855,7 +849,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     override fun visit(node: ASTCreate, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
         val res = LOPGraphOperation()
-        res.action = GraphOperationType.CREATE
+        res.action = EGraphOperationType.CREATE
         res.silent = node.silent
         res.graphref1 = node.graphref
         return res
@@ -895,19 +889,19 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTDeleteData, childrenValues: List<OPBase>): OPBase {
-        val res = LOPModifyData(ModifyDataType.DELETE)
+        val res = LOPModifyData(EModifyType.DELETE)
         modifyDataHelper(node.children, res)
         return res
     }
 
     override fun visit(node: ASTDeleteWhere, childrenValues: List<OPBase>): OPBase {
-        val res = LOPModifyData(ModifyDataType.DELETE)
+        val res = LOPModifyData(EModifyType.DELETE)
         modifyDataHelper(node.children, res)
         return res
     }
 
     override fun visit(node: ASTInsertData, childrenValues: List<OPBase>): OPBase {
-        val res = LOPModifyData(ModifyDataType.INSERT)
+        val res = LOPModifyData(EModifyType.INSERT)
         modifyDataHelper(node.children, res)
         return res
     }

@@ -50,19 +50,12 @@ class POPProjection : POPBase {
         return res
     }
 
-    override fun hasNext(): Boolean {
-        try {
-            Trace.start("POPProjection.hasNext")
+    override fun hasNext(): Boolean =            Trace.trace("POPProjection.hasNext"){
             val res = children[0].hasNext()
             return res
-        } finally {
-            Trace.stop("POPProjection.hasNext")
-        }
-    }
+    }as Boolean
 
-    override fun next(): ResultRow {
-        try {
-            Trace.start("POPProjection.next")
+    override fun next(): ResultRow =            Trace.trace("POPProjection.next"){
             var rsNew = resultSetNew.createResultRow()
             val rsOld = children[0].next()
             for (i in variablesNew.indices) {
@@ -70,10 +63,7 @@ class POPProjection : POPBase {
                 rsNew[variablesNew[i]] = rsOld[variablesOld[i]]
             }
             return rsNew
-        } finally {
-            Trace.stop("POPProjection.next")
-        }
-    }
+    }as ResultRow
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPProjection")

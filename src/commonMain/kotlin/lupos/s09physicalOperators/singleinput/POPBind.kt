@@ -58,19 +58,12 @@ class POPBind : POPBase {
         return resultSetNew
     }
 
-    override fun hasNext(): Boolean {
-        try {
-            Trace.start("POPBind.hasNext")
+    override fun hasNext(): Boolean =            Trace.trace("POPBind.hasNext"){
             val res = children[0].hasNext()
             return res
-        } finally {
-            Trace.stop("POPBind.hasNext")
-        }
-    }
+    }as Boolean
 
-    override fun next(): ResultRow {
-        try {
-            Trace.start("POPBind.next")
+    override fun next(): ResultRow =            Trace.trace("POPBind.next"){
             var rsNew = resultSetNew.createResultRow()
             val rsOld = children[0].next()
             for (i in variablesOld.indices) {
@@ -89,10 +82,7 @@ class POPBind : POPBase {
                 e.kotlinStacktrace()
             }
             return rsNew
-        } finally {
-            Trace.stop("POPBind.next")
-        }
-    }
+    }as ResultRow
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPBind")

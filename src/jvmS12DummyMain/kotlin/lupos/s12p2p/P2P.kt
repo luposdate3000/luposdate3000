@@ -8,7 +8,7 @@ import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import lupos.s00misc.parseFromXml
-import lupos.s00misc.XMLElement
+import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -166,7 +166,7 @@ object P2P {
         nodeNameRemapping.clear()
     }
 
-    fun execGraphOperation(name: String, type: GraphOperationType) {
+    fun execGraphOperation(name: String, type: EGraphOperationType) {
 /*execute clear on every known node - for TESTING only*/
         println("execGraphOperation $name $type P2P a")
         Endpoint.process_local_graph_operation(name, type)
@@ -202,17 +202,18 @@ println("execCommit $transactionID begin")
 println("execCommit $transactionID end")
     }
 
-    fun execTripleAdd(node: String, graphName: String, transactionID: Long, data: List<String>) {
+    fun execTripleAdd(node: String, graphName: String, transactionID: Long, s:String,p:String,o:String,idx:EIndexPattern) {
         println("execTripleAdd start")
         if (node == EndpointImpl.fullname)
-            Endpoint.process_local_triple_add(graphName, transactionID, data[0], data[1], data[2])
+            Endpoint.process_local_triple_add(graphName, transactionID, s,p,o,idx)
         else {
             val req = "${EndpointImpl.REQUEST_TRIPLE_ADD[0]}" +//
                     "?${EndpointImpl.REQUEST_TRIPLE_ADD[1]}=${URL.encodeComponent(graphName)}" +//
                     "&${EndpointImpl.REQUEST_TRIPLE_ADD[2]}=${URL.encodeComponent(""+transactionID)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_ADD[3]}=${URL.encodeComponent(data[0])}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_ADD[4]}=${URL.encodeComponent(data[1])}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_ADD[5]}=${URL.encodeComponent(data[2])}"
+                    "&${EndpointImpl.REQUEST_TRIPLE_ADD[3]}=${URL.encodeComponent(s)}" +//
+                    "&${EndpointImpl.REQUEST_TRIPLE_ADD[4]}=${URL.encodeComponent(p)}" +//
+                    "&${EndpointImpl.REQUEST_TRIPLE_ADD[5]}=${URL.encodeComponent(o)}"+//
+                    "&${EndpointImpl.REQUEST_TRIPLE_ADD[6]}=${URL.encodeComponent(""+idx)}"
             runBlocking {
                 retryRequest(Http.Method.GET, "http://${resolveNodeName(node)}$req")
             }
@@ -220,15 +221,16 @@ println("execCommit $transactionID end")
         println("execTripleAdd end")
     }
 
-    fun execTripleGet(node: String, graphName: String, transactionID: Long): XMLElement {
+    fun execTripleGet(node: String, graphName: String, transactionID: Long,idx:EIndexPattern): XMLElement {
         println("execTripleGet start $node $graphName $transactionID")
         var res: XMLElement? = null
         if (node == EndpointImpl.fullname)
-            res = Endpoint.process_local_triple_get(graphName, transactionID)
+            res = Endpoint.process_local_triple_get(graphName, transactionID,idx)
         else {
             val req = "${EndpointImpl.REQUEST_TRIPLE_GET[0]}" +//
                     "?${EndpointImpl.REQUEST_TRIPLE_GET[1]}=${URL.encodeComponent(graphName)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_GET[2]}=${URL.encodeComponent(""+transactionID)}"
+                    "&${EndpointImpl.REQUEST_TRIPLE_GET[2]}=${URL.encodeComponent(""+transactionID)}"+//
+                    "&${EndpointImpl.REQUEST_TRIPLE_GET[3]}=${URL.encodeComponent(""+idx)}"
             runBlocking {
                 val response = retryRequest(Http.Method.GET, "http://${resolveNodeName(node)}$req")
                 var responseString = response.readAllString()
@@ -240,10 +242,10 @@ println("execTripleGet $node $graphName "+res!!.toPrettyString())
         return res!!
     }
 
-    fun execTripleDelete(node: String, graphName: String, transactionID: Long, data: List<Pair<String, Boolean>>) {
+    fun execTripleDelete(node: String, graphName: String, transactionID: Long, data: List<Pair<String, Boolean>>,idx:EIndexPattern) {
         println("execTripleDelete start")
         if (node == EndpointImpl.fullname)
-            Endpoint.process_local_triple_delete(graphName, transactionID, data[0].first, data[1].first, data[2].first, data[0].second, data[1].second, data[2].second)
+            Endpoint.process_local_triple_delete(graphName, transactionID, data[0].first, data[1].first, data[2].first, data[0].second, data[1].second, data[2].second,idx)
         else {
             val req = "${EndpointImpl.REQUEST_TRIPLE_DELETE[0]}" +//
                     "?${EndpointImpl.REQUEST_TRIPLE_DELETE[1]}=${URL.encodeComponent(graphName)}" +//
@@ -253,7 +255,8 @@ println("execTripleGet $node $graphName "+res!!.toPrettyString())
                     "&${EndpointImpl.REQUEST_TRIPLE_DELETE[5]}=${URL.encodeComponent(data[2].first)}" +//
                     "&${EndpointImpl.REQUEST_TRIPLE_DELETE[6]}=${URL.encodeComponent(""+data[0].second)}" +//
                     "&${EndpointImpl.REQUEST_TRIPLE_DELETE[7]}=${URL.encodeComponent(""+data[1].second)}" +//
-                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[8]}=${URL.encodeComponent(""+data[2].second)}"
+                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[8]}=${URL.encodeComponent(""+data[2].second)}"+//
+                    "&${EndpointImpl.REQUEST_TRIPLE_DELETE[9]}=${URL.encodeComponent(""+idx)}"
             runBlocking {
                 retryRequest(Http.Method.GET, "http://${resolveNodeName(node)}$req")
             }

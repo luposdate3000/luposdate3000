@@ -44,9 +44,7 @@ class POPOffset : POPBaseNullableIterator {
         return children[0].getRequiredVariableNames()
     }
 
-    override fun nnext(): ResultRow? {
-        try {
-            Trace.start("POPOffset.nnext")
+    override fun nnext(): ResultRow? =            Trace.trace("POPOffset.nnext"){
             while (count < offset) {
                 if (children[0].hasNext()) {
                     children[0].next()
@@ -63,10 +61,7 @@ class POPOffset : POPBaseNullableIterator {
                 rsNew[v.first] = rsOld[v.second]
             }
             return rsNew
-        } finally {
-            Trace.stop("POPOffset.nnext")
-        }
-    }
+    }as ResultRow?
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPOffset")
