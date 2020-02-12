@@ -239,12 +239,12 @@ class DistributedGraph(val name: String) {
         }
     }
 
-    fun getIterator(transactionID: Long, dictionary: ResultSetDictionary): POPTripleStoreIteratorBase {
-        return TripleStoreIteratorGlobal(transactionID, dictionary, name)
+    fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, index: EIndexPattern): POPTripleStoreIteratorBase {
+        return TripleStoreIteratorGlobal(transactionID, dictionary, name, index)
     }
 
-    fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String): POPTripleStoreIteratorBase {
-        val res = TripleStoreIteratorGlobal(transactionID, dictionary, name)
+    fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String, index: EIndexPattern): POPTripleStoreIteratorBase {
+        val res = TripleStoreIteratorGlobal(transactionID, dictionary, name, index)
         res.setMNameS(s)
         res.setMNameP(p)
         res.setMNameO(o)

@@ -1,6 +1,6 @@
 package lupos.s14endpoint
 
-import lupos.s00misc.XMLElement
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.OPBase
@@ -107,7 +107,7 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
         "POPTemporaryStore" -> POPTemporaryStore(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping))
         "POPExpression" -> POPExpression(dictionary, XMLElement.toASTNode(node.childs[0]))
         "TripleStoreIterator" -> {
-            val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary)
+            val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary,EIndexPattern.SPO)
             val olduuid = node.attributes["uuid"]
             mapping["#s" + olduuid] = "#s${res.uuid}"
             mapping["#p" + olduuid] = "#p${res.uuid}"
@@ -115,7 +115,7 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
             return res
         }
         "TripleStoreIteratorGlobal" -> {
-            val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary)
+            val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary,EIndexPattern.SPO)
             val olduuid = node.attributes["uuid"]
             mapping["#s" + olduuid] = "#s${res.uuid}"
             mapping["#p" + olduuid] = "#p${res.uuid}"

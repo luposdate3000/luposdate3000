@@ -1,4 +1,6 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s00misc.ELoggerType
+import lupos.s00misc.GlobalLogger
 
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement

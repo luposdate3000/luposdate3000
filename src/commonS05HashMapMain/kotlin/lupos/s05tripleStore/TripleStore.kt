@@ -247,11 +247,11 @@ class TripleStoreLocal {
         }
     }
 
-    inline fun getIterator(dictionary: ResultSetDictionary, index: EIndexPattern): POPTripleStoreIteratorBase {
+    inline fun getIterator(transactionID: Long,dictionary: ResultSetDictionary, index: EIndexPattern): POPTripleStoreIteratorBase {
         return TripleStoreIteratorLocal(dictionary, this, index)
     }
 
-    inline fun getIterator(dictionary: ResultSetDictionary, s: String, p: String, o: String, index: EIndexPattern): POPTripleStoreIteratorBase {
+    inline fun getIterator(transactionID: Long,dictionary: ResultSetDictionary, s: String, p: String, o: String, index: EIndexPattern): POPTripleStoreIteratorBase {
         val res = TripleStoreIteratorLocal(dictionary, this, index)
         res.setMNameS(s)
         res.setMNameP(p)

@@ -25,6 +25,7 @@ object Trace {
     }
 
     inline fun start(name: String) {
+GlobalLogger.log(ELoggerType.DEBUG, {"trace-start $name"})
         stack.push(Pair(name, MonoClock.markNow()))
     }
 
@@ -33,6 +34,7 @@ object Trace {
     }
 
     inline fun stop(name: String) {
+GlobalLogger.log(ELoggerType.DEBUG,{ "trace-stop $name"})
         require(!stack.isEmpty())
         var key = ""
         stack.elements.forEach {

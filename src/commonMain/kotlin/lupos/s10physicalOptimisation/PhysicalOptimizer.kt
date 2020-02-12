@@ -1,6 +1,7 @@
 package lupos.s10physicalOptimisation
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
-import lupos.s00misc.classNameToString
+import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
 import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
 import lupos.s02buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
@@ -51,7 +52,6 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s10physicalOptimisation.OptimizerVisitorPOP
-import lupos.s15tripleStoreDistributed.*
 
 
 class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerVisitorPOP(transactionID, dictionary) {
@@ -176,7 +176,7 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
             variables.add(node.p)
         if (node.o is LOPVariable)
             variables.add(node.o)
-        var result2 = DistributedTripleStore.getNamedGraph(node.graph).getIterator(transactionID, dictionary)
+        var result2 = DistributedTripleStore.getNamedGraph(node.graph).getIterator(transactionID, dictionary,EIndexPattern.SPO)
         var sname = result2.nameS
         var pname = result2.nameP
         var oname = result2.nameO
