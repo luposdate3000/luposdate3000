@@ -59,7 +59,7 @@ class POPUnion : POPBaseNullableIterator {
         return resultSetNew
     }
 
-    override fun nnext(): ResultRow? = Trace.trace("POPUnion.nnext") {
+    override fun nnext(): ResultRow? = Trace.trace({ "POPUnion.nnext" }, {
         if (children[0].hasNext()) {
             val rsOld = children[0].next()
             val rsNew = resultSetNew.createResultRow()
@@ -84,7 +84,7 @@ class POPUnion : POPBaseNullableIterator {
             return rsNew
         }
         return null
-    } as ResultRow?
+    }) as ResultRow?
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPUnion")

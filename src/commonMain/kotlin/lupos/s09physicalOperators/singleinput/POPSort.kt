@@ -50,7 +50,7 @@ class POPSort : POPBaseNullableIterator {
         return resultSetNew
     }
 
-    override fun nnext(): ResultRow? = Trace.trace("POPSort.nnext") {
+    override fun nnext(): ResultRow? = Trace.trace({ "POPSort.nnext" }, {
         if (data == null) {
             val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
             while (children[0].hasNext()) {
@@ -90,7 +90,7 @@ class POPSort : POPBaseNullableIterator {
         if (iterator == null || !iterator!!.hasNext())
             return null
         return iterator!!.next()
-    } as ResultRow?
+    }) as ResultRow?
 
     fun reset() {
         iterator = data!!.listIterator()

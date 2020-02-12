@@ -1,5 +1,6 @@
 package lupos.s00misc
 
+import lupos.s00misc.*
 import kotlin.time.ClockMark
 import kotlin.time.DurationUnit
 import kotlin.time.MonoClock
@@ -10,12 +11,12 @@ object Trace {
     val map = ThreadSafeMutableMap<String, Pair<Long, Double>>()
     val stack = ThreadSafeMutableStack<Pair<String, ClockMark>>()
 
-    inline fun trace(name: String, action: () -> Any): Any {
+    inline fun trace(name: () -> String, action: () -> Any): Any {
         try {
-            start(name)
+            start(name())
             return action()
         } finally {
-            stop(name)
+            stop(name())
         }
     }
 
@@ -50,7 +51,7 @@ object Trace {
     }
 
     inline fun print() {
-        println(toString())
+	GlobalLogger.log(ELoggerType.TRACE_RESULT,::toString)
     }
 
     override fun toString(): String {

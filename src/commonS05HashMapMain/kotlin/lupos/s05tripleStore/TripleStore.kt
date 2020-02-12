@@ -75,18 +75,20 @@ class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
         return mutableListOf<String>()
     }
 
-    override fun next(): ResultRow = Trace.trace("TripleStore.next") {
+    override fun next(): ResultRow = Trace.trace({
+        "TripleStore.next"
+    }, {
         val value = iterator!!.next()
         val result = resultSetNew.createResultRow()
         result[sNew] = resultSetNew.createValue(resultSetOld.getValue(value!![sOld]))
         result[pNew] = resultSetNew.createValue(resultSetOld.getValue(value!![pOld]))
         result[oNew] = resultSetNew.createValue(resultSetOld.getValue(value!![oOld]))
         return result
-    } as ResultRow
+    }) as ResultRow
 
-    override fun hasNext(): Boolean = Trace.trace("TripleStore.hasNext") {
+    override fun hasNext(): Boolean = Trace.trace({ "TripleStore.hasNext" }, {
         return iterator.hasNext()
-    } as Boolean
+    }) as Boolean
 
     override fun getResultSet(): ResultSet {
         return resultSetNew
@@ -216,6 +218,36 @@ class TripleStoreLocal {
                         while (iterator.hasNext()) {
                             val r = iterator.next()
                             if (r[p] == valp && r[o] == valo)
+                                modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
+                        }
+                    }
+                }
+            }
+            1 -> {
+                if (ov) {
+                    val iterator = tripleStore[idx.ordinal].iterator()
+                    if (iterator != null) {
+                        while (iterator.hasNext()) {
+                            val r = iterator.next()
+                            if (r[o] == valo)
+                                modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
+                        }
+                    }
+                } else if (pv) {
+                    val iterator = tripleStore[idx.ordinal].iterator()
+                    if (iterator != null) {
+                        while (iterator.hasNext()) {
+                            val r = iterator.next()
+                            if (r[p] == valp)
+                                modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
+                        }
+                    }
+                } else {
+                    val iterator = tripleStore[idx.ordinal].iterator()
+                    if (iterator != null) {
+                        while (iterator.hasNext()) {
+                            val r = iterator.next()
+                            if (r[s] == vals)
                                 modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
                         }
                     }

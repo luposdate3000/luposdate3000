@@ -1,5 +1,6 @@
 package lupos.s01io.buffer
 
+import lupos.s00misc.*
 import lupos.s01io.buffer.getString
 import lupos.s01io.buffer.Page
 
@@ -62,10 +63,10 @@ class OnePageBenchmark {
             timeForReadString += measure(::readOnePageString)
             timeForRelease += measure(::release)
         }
-        println("Time for write: " + timeForWrite / 100.0)
-        println("Time for write string: " + timeForWriteString / 100.0)
-        println("Time for read: " + timeForRead / 100.0)
-        println("Time for read string: " + timeForReadString / 100.0)
-        println("Time for release: " + timeForRelease / 100.0)
+        GlobalLogger.log(ELoggerType.DEBUG,{"Time for write: " + timeForWrite / 100.0})
+        GlobalLogger.log(ELoggerType.DEBUG,{"Time for write string: " + timeForWriteString / 100.0})
+        GlobalLogger.log(ELoggerType.DEBUG,{"Time for read: " + timeForRead / 100.0})
+        GlobalLogger.log(ELoggerType.DEBUG,{"Time for read string: " + timeForReadString / 100.0})
+        GlobalLogger.log(ELoggerType.DEBUG,{"Time for release: " + timeForRelease / 100.0})
     }
 }

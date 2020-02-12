@@ -112,15 +112,15 @@ object Endpoint {
     }
 
     inline fun process_local_graph_operation(name: String, type: EGraphOperationType): XMLElement {
-        println("process_local_graph_operation aa $name $type")
-        println("${DistributedTripleStore}")
-        println("${DistributedTripleStore.localStore}")
+        GlobalLogger.log(ELoggerType.DEBUG,{"process_local_graph_operation aa $name $type"})
+        GlobalLogger.log(ELoggerType.DEBUG,{"${DistributedTripleStore}"})
+        GlobalLogger.log(ELoggerType.DEBUG,{"${DistributedTripleStore.localStore}"})
         when (type) {
             EGraphOperationType.CLEAR -> DistributedTripleStore.localStore.clearGraph(name)
             EGraphOperationType.CREATE -> DistributedTripleStore.localStore.createGraph(name)
             EGraphOperationType.DROP -> DistributedTripleStore.localStore.dropGraph(name)
         }
-        println("process_local_graph_operation bb")
+        GlobalLogger.log(ELoggerType.DEBUG,{"process_local_graph_operation bb"})
         return XMLElement("success")
     }
 
@@ -143,28 +143,28 @@ object Endpoint {
     inline fun process_sparql_query(query: String): XMLElement {
         val transactionID = DistributedTripleStore.nextTransactionID()
         val dictionary = ResultSetDictionary()
-        println("----------String Query")
-        println(query)
-        println("----------Abstract Syntax Tree")
+        GlobalLogger.log(ELoggerType.DEBUG,{"----------String Query"})
+        GlobalLogger.log(ELoggerType.DEBUG,{query})
+        GlobalLogger.log(ELoggerType.DEBUG,{"----------Abstract Syntax Tree"})
         val lcit = LexerCharIterator(query)
         val tit = TokenIteratorSPARQLParser(lcit)
         val ltit = LookAheadTokenIterator(tit, 3)
         val parser = SPARQLParser(ltit)
         val ast_node = parser.expr()
-        println(ast_node)
-        println("----------Logical Operator Graph")
+        GlobalLogger.log(ELoggerType.DEBUG,{ast_node})
+        GlobalLogger.log(ELoggerType.DEBUG,{"----------Logical Operator Graph"})
         val lop_node = ast_node.visit(OperatorGraphVisitor())
-        println(lop_node)
-        println("----------Logical Operator Graph optimized")
+        GlobalLogger.log(ELoggerType.DEBUG,{lop_node})
+        GlobalLogger.log(ELoggerType.DEBUG,{"----------Logical Operator Graph optimized"})
         val lop_node2 = LogicalOptimizer(transactionID, dictionary).optimizeCall(lop_node)
-        println(lop_node2)
-        println("----------Physical Operator Graph")
+        GlobalLogger.log(ELoggerType.DEBUG,{lop_node2})
+        GlobalLogger.log(ELoggerType.DEBUG,{"----------Physical Operator Graph"})
         val pop_optimizer = PhysicalOptimizer(transactionID, dictionary)
         val pop_node = pop_optimizer.optimizeCall(lop_node2)
-        println(pop_node)
-        println("----------Distributed Operator Graph")
+        GlobalLogger.log(ELoggerType.DEBUG,{pop_node})
+        GlobalLogger.log(ELoggerType.DEBUG,{"----------Distributed Operator Graph"})
         val pop_distributed_node = KeyDistributionOptimizer(transactionID, dictionary).optimizeCall(pop_node) as POPBase
-        println(pop_distributed_node)
+        GlobalLogger.log(ELoggerType.DEBUG,{pop_distributed_node})
         DistributedTripleStore.commit(transactionID)
         return QueryResultToXML.toXML(pop_distributed_node).first()
     }
@@ -173,7 +173,7 @@ object Endpoint {
         val transactionID = DistributedTripleStore.nextTransactionID()
         val dictionary = ResultSetDictionary()
         val pop_node = XMLElement.convertToOPBase(dictionary, transactionID, XMLElement.parseFromXml(query)!!.first()) as POPBase
-        println(pop_node)
+        GlobalLogger.log(ELoggerType.DEBUG,{pop_node})
         val res = QueryResultToXML.toXML(pop_node).first()
         DistributedTripleStore.commit(transactionID)
         return res

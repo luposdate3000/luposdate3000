@@ -1,4 +1,5 @@
 package lupos.s11outputResult
+import lupos.s00misc.*
 
 import lupos.s03resultRepresentation.Variable
 import lupos.s09physicalOperators.POPBase
@@ -9,28 +10,28 @@ inline fun printResult(graph: POPBase) {
     val variableNames = resultSet.getVariableNames().toTypedArray()
     val variables = arrayOfNulls<Variable>(variableNames.size)
     var i = 0
-    println("result:::")
+    GlobalLogger.log(ELoggerType.RELEASE,{"result:::"})
     for (variableName in variableNames) {
         if (i == 0)
-            print(variableName)
+            GlobalLogger.log(ELoggerType.DEBUG,{variableName})
         else
-            print(", " + variableName)
+            GlobalLogger.log(ELoggerType.DEBUG,{", " + variableName})
         variables[i] = resultSet.createVariable(variableName)
         i++
     }
-    println()
-    println()
+    GlobalLogger.log(ELoggerType.RELEASE,{""})
+    GlobalLogger.log(ELoggerType.RELEASE,{""})
     while (graph.hasNext()) {
         val resultRow = graph.next()
         i = 0
         for (variable in variables) {
             if (i == 0)
-                print(resultSet.getValue(resultRow[variable!!]))
+                GlobalLogger.log(ELoggerType.DEBUG,{resultSet.getValue(resultRow[variable!!])})
             else
-                print(", " + resultSet.getValue(resultRow[variable!!]))
+                GlobalLogger.log(ELoggerType.DEBUG,{", " + resultSet.getValue(resultRow[variable!!])})
             i++
         }
-        println()
+        GlobalLogger.log(ELoggerType.RELEASE,{""})
     }
-    println()
+    GlobalLogger.log(ELoggerType.RELEASE,{""})
 }

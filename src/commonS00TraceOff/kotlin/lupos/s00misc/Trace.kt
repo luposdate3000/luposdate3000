@@ -1,6 +1,9 @@
 package lupos.s00misc
 
 object Trace {
+inline fun trace(name: () -> String, action: () -> Any): Any {
+return action()
+}
     inline fun start(obj: Any) {
     }
 

@@ -74,18 +74,18 @@ class POPValues : POPBase {
         return resultSet
     }
 
-    override fun hasNext(): Boolean = Trace.trace("POPValues.hasNext") {
+    override fun hasNext(): Boolean = Trace.trace({ "POPValues.hasNext" }, {
         return iterator.hasNext()
-    } as Boolean
+    }) as Boolean
 
-    override fun next(): ResultRow = Trace.trace("POPValues.next") {
+    override fun next(): ResultRow = Trace.trace({ "POPValues.next" }, {
         val rsOld = iterator.next()
         var rsNew = resultSet.createResultRow()
         for ((variable, value) in rsOld) {
             rsNew[variable] = value
         }
         return rsNew
-    } as ResultRow
+    }) as ResultRow
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPValues")

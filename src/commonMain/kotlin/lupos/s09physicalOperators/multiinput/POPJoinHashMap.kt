@@ -129,7 +129,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
         }
     }
 
-    override fun nnext(): ResultRow? = Trace.trace("POPJoinHashMap.nnext") {
+    override fun nnext(): ResultRow? = Trace.trace({ "POPJoinHashMap.nnext" }, {
         while (true) {
             if (!queue.isEmpty())
                 return queue.removeAt(0)
@@ -157,7 +157,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
             } else
                 return null
         }
-    } as ResultRow?
+    }) as ResultRow?
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPJoinHashMap")

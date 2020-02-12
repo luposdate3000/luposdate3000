@@ -1,6 +1,6 @@
 package lupos.s09physicalOperators.singleinput
 
-import lupos.s00misc.kotlinStacktrace
+import lupos.s00misc.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -82,7 +82,7 @@ class POPGroup : POPBaseNullableIterator {
         return resultSetNew
     }
 
-    override fun nnext(): ResultRow? = Trace.trace("POPGroup.nnext") {
+    override fun nnext(): ResultRow? = Trace.trace({ "POPGroup.nnext" }, {
         if (data == null) {
             val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
             val variables = mutableListOf<Pair<Variable, Variable>>()
@@ -123,8 +123,8 @@ class POPGroup : POPBaseNullableIterator {
                             rsNew[b.first] = resultSetNew.createValue(value)
                     } catch (e: Throwable) {
                         resultSetNew.setUndefValue(rsNew, b.first)
-                        print("silent :: ")
-                        e.kotlinStacktrace()
+                        GlobalLogger.log(ELoggerType.DEBUG,{"silent :: "})
+                        GlobalLogger.stacktrace(ELoggerType.DEBUG,e)
                     }
                 }
                 data!!.add(rsNew)
@@ -134,7 +134,7 @@ class POPGroup : POPBaseNullableIterator {
         if (iterator == null || !iterator!!.hasNext())
             return null
         return iterator!!.next()
-    } as ResultRow?
+    }) as ResultRow?
 
     fun reset() {
         iterator = data!!.listIterator()

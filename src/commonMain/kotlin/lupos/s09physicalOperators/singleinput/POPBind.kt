@@ -1,6 +1,6 @@
 package lupos.s09physicalOperators.singleinput
 
-import lupos.s00misc.kotlinStacktrace
+import lupos.s00misc.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -58,12 +58,12 @@ class POPBind : POPBase {
         return resultSetNew
     }
 
-    override fun hasNext(): Boolean = Trace.trace("POPBind.hasNext") {
+    override fun hasNext(): Boolean = Trace.trace({ "POPBind.hasNext" }, {
         val res = children[0].hasNext()
         return res
-    } as Boolean
+    }) as Boolean
 
-    override fun next(): ResultRow = Trace.trace("POPBind.next") {
+    override fun next(): ResultRow = Trace.trace({ "POPBind.next" }, {
         var rsNew = resultSetNew.createResultRow()
         val rsOld = children[0].next()
         for (i in variablesOld.indices) {
@@ -78,11 +78,11 @@ class POPBind : POPBase {
                 rsNew[variableBound] = resultSetNew.createValue(value)
         } catch (e: Throwable) {
             resultSetNew.setUndefValue(rsNew, variableBound)
-            print("silent :: ")
-            e.kotlinStacktrace()
+            GlobalLogger.log(ELoggerType.DEBUG,{"silent :: "})
+            GlobalLogger.stacktrace(ELoggerType.DEBUG,e)
         }
         return rsNew
-    } as ResultRow
+    }) as ResultRow
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPBind")

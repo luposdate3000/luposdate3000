@@ -21,11 +21,11 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
         return resultSetNew
     }
 
-    override fun hasNext(): Boolean = Trace.trace("POPInsertData.hasNext") {
+    override fun hasNext(): Boolean = Trace.trace({ "POPInsertData.hasNext" }, {
         return first
-    } as Boolean
+    }) as Boolean
 
-    override fun next(): ResultRow = Trace.trace("POPInsertData.next") {
+    override fun next(): ResultRow = Trace.trace({ "POPInsertData.next" }, {
         first = false
         for (t in data) {
             val store = DistributedTripleStore.getNamedGraph(t[3].first)
@@ -35,7 +35,7 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
                 store.deleteDataVar(transactionID, t)
         }
         return resultSetNew.createResultRow()
-    } as ResultRow
+    }) as ResultRow
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

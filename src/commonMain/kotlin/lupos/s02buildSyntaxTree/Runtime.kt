@@ -142,16 +142,16 @@ fun main(args : Array<String>){
         val nnc = lci.nextChar()
         val nnnc = lci.nextChar()
         if (n != nc) {
-            println("Expected: " + n + " found: " + nc)
-        } else println(n)
+            GlobalLogger.log(ELoggerType.TEST_DEBUG,{"Expected: " + n + " found: " + nc})
+        } else GlobalLogger.log(ELoggerType.TEST_DEBUG,(n)
         if (nn != nnc) {
-            println("Expected: " + nn + " found: " + nnc)
-        } else println(nn)
+            GlobalLogger.log(ELoggerType.TEST_DEBUG,{"Expected: " + nn + " found: " + nnc})
+        } else GlobalLogger.log(ELoggerType.TEST_DEBUG,(nn)
         if (nnn != nnnc) {
-            println("Expected: " + nnn + " found: " + nnnc)
-        } else println(nnn)
+            GlobalLogger.log(ELoggerType.TEST_DEBUG,{"Expected: " + nnn + " found: " + nnnc})
+        } else GlobalLogger.log(ELoggerType.TEST_DEBUG,(nnn)
     } else {
-        println("lookahead(1) is not available!")
+        GlobalLogger.log(ELoggerType.TEST_DEBUG,{"lookahead(1) is not available!"})
     }
 }
 */

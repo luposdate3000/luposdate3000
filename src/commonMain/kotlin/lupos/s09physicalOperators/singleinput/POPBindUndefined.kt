@@ -55,12 +55,12 @@ class POPBindUndefined : POPBase {
         return resultSetNew
     }
 
-    override fun hasNext(): Boolean = Trace.trace("POPBindUndefined.hasNext") {
+    override fun hasNext(): Boolean = Trace.trace({ "POPBindUndefined.hasNext" }, {
         val res = children[0].hasNext()
         return res
-    } as Boolean
+    }) as Boolean
 
-    override fun next(): ResultRow = Trace.trace("POPBindUndefined.next") {
+    override fun next(): ResultRow = Trace.trace({ "POPBindUndefined.next" }, {
         var rsNew = resultSetNew.createResultRow()
         val rsOld = children[0].next()
         for (i in variablesOld.indices) {
@@ -69,7 +69,7 @@ class POPBindUndefined : POPBase {
         }
         resultSetNew.setUndefValue(rsNew, variableBound)
         return rsNew
-    } as ResultRow
+    }) as ResultRow
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPBindUndefined")

@@ -56,12 +56,12 @@ class PersistentStoreLocal {
     }
 
     inline fun dropGraph(name: String) {
-        println("PersistentStoreLocal.dropGraph $name b ${stores.keys} a")
+        GlobalLogger.log(ELoggerType.DEBUG,{"PersistentStoreLocal.dropGraph $name b ${stores.keys} a"})
         require(name != defaultGraphName)
         if (stores[name] == null)
             throw Exception("PersistentStore.dropGraph :: graph[$name] did not exist")
         stores.remove(name)
-        println("PersistentStoreLocal.dropGraph $name b ${stores.keys} b")
+        GlobalLogger.log(ELoggerType.DEBUG,{"PersistentStoreLocal.dropGraph $name b ${stores.keys} b"})
     }
 
     inline fun dropGraphAll() {
@@ -70,9 +70,9 @@ class PersistentStoreLocal {
     }
 
     inline fun clearGraph(name: String) {
-        println("PersistentStoreLocal.clearGraph $name a ${stores.keys}")
+        GlobalLogger.log(ELoggerType.DEBUG,{"PersistentStoreLocal.clearGraph $name a ${stores.keys}"})
         getNamedGraph(name).clear()
-        println("PersistentStoreLocal.clearGraph $name b ${stores.keys}")
+        GlobalLogger.log(ELoggerType.DEBUG,{"PersistentStoreLocal.clearGraph $name b ${stores.keys}"})
     }
 
     inline fun clearGraphAll() {

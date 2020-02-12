@@ -43,11 +43,11 @@ class POPLimit : POPBase {
         return children[0].getRequiredVariableNames()
     }
 
-    override fun hasNext(): Boolean = Trace.trace("POPLimit.hasNext") {
+    override fun hasNext(): Boolean = Trace.trace({ "POPLimit.hasNext" }, {
         return count < limit && children[0].hasNext()
-    } as Boolean
+    }) as Boolean
 
-    override fun next(): ResultRow = Trace.trace("POPLimit.next") {
+    override fun next(): ResultRow = Trace.trace({ "POPLimit.next" }, {
         var rsNew = resultSetNew.createResultRow()
         val rsOld = children[0].next()
         for (v in variables) {
@@ -56,7 +56,7 @@ class POPLimit : POPBase {
         }
         count++
         return rsNew
-    } as ResultRow
+    }) as ResultRow
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPLimit")

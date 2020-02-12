@@ -27,15 +27,15 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
         return resultSetNew
     }
 
-    override fun hasNext(): Boolean = Trace.trace("POPGraphOperation.hasNext") {
+    override fun hasNext(): Boolean = Trace.trace({ "POPGraphOperation.hasNext" }, {
         return first
-    } as Boolean
+    }) as Boolean
 
     inline fun i2s(iri: ASTIriGraphRef): String {
         return iri.iri
     }
 
-    override fun next(): ResultRow = Trace.trace("POPGraphOperation.next") {
+    override fun next(): ResultRow = Trace.trace({ "POPGraphOperation.next" }, {
         try {
             first = false
             when (graphref1) {
@@ -191,7 +191,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                 throw e
             return resultSetNew.createResultRow()
         }
-    } as ResultRow
+    }) as ResultRow
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

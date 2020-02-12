@@ -1,8 +1,7 @@
 package lupos
 
-import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.readFileContents
-import lupos.s00misc.Trace
+import lupos.s00misc.*
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
@@ -26,26 +25,27 @@ import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
 import lupos.s12p2p.P2P
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
-import lupos.s14endpoint.convertToOPBase
+import lupos.s14endpoint.*
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 val errorBoundForDecimalsDigits = 6
 
 fun main(args: Array<String>) {
+P2P.knownClients.add(EndpointImpl.fullname)
     testMain()
 }
 
 fun testMain() {
     repeat(1) {
-        println("Starting tests...")
+        GlobalLogger.log(ELoggerType.RELEASE,{"Starting tests..."})
         val (nr_t, nr_e) = parseManifestFile("resources/sparql11-test-suite/", "manifest-all.ttl")
-        println("Number of tests: " + nr_t)
-        println("Number of errors: " + nr_e)
+        GlobalLogger.log(ELoggerType.RELEASE,{"Number of tests: " + nr_t})
+        GlobalLogger.log(ELoggerType.RELEASE,{"Number of errors: " + nr_e})
         val sp2bFiles = listOf("q3a", "q9", "q4", "q5b", "q10", "q2", "q6", "q12a", "q3b", "q8", "q1", "q5a", "q11", "q12b", "q12c", "q3c", "q7")
         val inputDataFile = "resources/sp2b/sp2b.n3"
         for (f in sp2bFiles) {
-            println("  Test: sp2b/$f")
+            GlobalLogger.log(ELoggerType.RELEASE,{"  Test: sp2b/$f"})
             val queryFile = "resources/sp2b/$f.sparql"
             val resultFile = "resources/sp2b/$f.srj"
             parseSPARQLAndEvaluate(true, queryFile, inputDataFile, resultFile, null, mutableListOf<MutableMap<String, String>>(), mutableListOf<MutableMap<String, String>>())
@@ -151,9 +151,9 @@ private fun readTurtleData(filename: String, consume_triple: (Long, Long, Long) 
     try {
         TurtleParserWithDictionary(consume_triple, ltit).turtleDoc()
     } catch (e: ParseError) {
-        e.kotlinStacktrace()
-        println("Error in the following line:")
-        println(e.lineNumber)
+GlobalLogger.stacktrace(ELoggerType.DEBUG,e)
+        GlobalLogger.log(ELoggerType.DEBUG,{"Error in the following line:"})
+        GlobalLogger.log(ELoggerType.DEBUG,{e.lineNumber})
     }
 }
 
@@ -167,7 +167,7 @@ private fun createSevenIndices(filename: String): SevenIndices {
 private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> {
     var numberOfErrors = 0
     var numberOfTests = 0
-    println("Reading file " + filename + "...")
+    GlobalLogger.log(ELoggerType.DEBUG,{"Reading file " + filename + "..."})
     val data = createSevenIndices(prefix + filename)
 
     val newprefix = prefix + filename.substringBeforeLast("/") + "/"
@@ -197,9 +197,9 @@ private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> 
                 // for printing out the name:
                 val name = data.sp(it, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name"))
                 name.forEach {
-                    println("  Test: " + (Dictionary[it] as SimpleLiteral).content)
+                    GlobalLogger.log(ELoggerType.RELEASE,{"  Test: " + (Dictionary[it] as SimpleLiteral).content})
                     if ((Dictionary[it] as SimpleLiteral).content.compareTo("(pp28a) Diamond, with loop -- (:p/:p)?") == 0) {
-                        println("found")
+                        GlobalLogger.log(ELoggerType.RELEASE,{"found"})
                     }
                 }
                 numberOfTests++
@@ -267,7 +267,7 @@ private fun testOneEntry(data: SevenIndices, node: Long, prefix: String): Boolea
                                     outputDataGraph.add(graph)
                                 }
                                 "http://www.w3.org/2009/sparql/tests/test-update#result" -> {
-                                    println("unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + (Dictionary[it.second] as IRI).iri)
+                                    GlobalLogger.log(ELoggerType.DEBUG,{"unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + (Dictionary[it.second] as IRI).iri})
                                 }
                                 else -> throw Exception("unknown manifest resultBlankNode : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
                             }
@@ -292,10 +292,10 @@ private fun testOneEntry(data: SevenIndices, node: Long, prefix: String): Boolea
                                     queryFile = prefix + (Dictionary[it.second] as IRI).iri
                                 }
                                 "http://www.w3.org/ns/sparql-service-description#entailmentRegime" -> {
-                                    println("unknown-manifest::http://www.w3.org/ns/sparql-service-description#entailmentRegime " + Dictionary[it.second])
+                                    GlobalLogger.log(ELoggerType.DEBUG,{"unknown-manifest::http://www.w3.org/ns/sparql-service-description#entailmentRegime " + Dictionary[it.second]})
                                 }
                                 "http://www.w3.org/ns/sparql-service-description#EntailmentProfile" -> {
-                                    println("unknown-manifest::http://www.w3.org/ns/sparql-service-description#EntailmentProfile " + Dictionary[it.second])
+                                    GlobalLogger.log(ELoggerType.DEBUG,{"unknown-manifest::http://www.w3.org/ns/sparql-service-description#EntailmentProfile " + Dictionary[it.second]})
                                 }
                                 "http://www.w3.org/2001/sw/DataAccess/tests/test-query#graphData" -> {
                                     val graph = mutableMapOf<String, String>()
@@ -385,16 +385,16 @@ private fun testOneEntry(data: SevenIndices, node: Long, prefix: String): Boolea
                 comment = (Dictionary[it.second] as SimpleLiteral).content
             }
             "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval" -> {
-                println("unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval " + Dictionary[it.second])
+                GlobalLogger.log(ELoggerType.DEBUG,{"unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval " + Dictionary[it.second]})
             }
             "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy" -> {
-                println("unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy " + Dictionary[it.second])
+                GlobalLogger.log(ELoggerType.DEBUG,{"unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy " + Dictionary[it.second]})
             }
             "http://www.w3.org/2000/01/rdf-schema#seeAlso" -> {
-                println("unknown-manifest::http://www.w3.org/2000/01/rdf-schema#seeAlso " + (Dictionary[it.second] as IRI).iri)
+                GlobalLogger.log(ELoggerType.DEBUG,{"unknown-manifest::http://www.w3.org/2000/01/rdf-schema#seeAlso " + (Dictionary[it.second] as IRI).iri})
             }
             "http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm" -> {
-                println("unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + (Dictionary[it.second] as IRI).iri)
+                GlobalLogger.log(ELoggerType.DEBUG,{"unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + (Dictionary[it.second] as IRI).iri})
             }
             "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description" -> {
                 require(description == null)
@@ -403,18 +403,18 @@ private fun testOneEntry(data: SevenIndices, node: Long, prefix: String): Boolea
             else -> throw Exception("unknown manifest entry : " + (Dictionary[it.first] as IRI).iri + " # " + Dictionary[it.second])
         }
     }
-    println("testType : $testType")
-    println("names : $names")
-    println("comment : $comment")
-    println("description : $description")
-    println("features : $features")
-    println("inputDataGraph : $inputDataGraph")
-    println("outputDataGraph : $outputDataGraph")
-    println("expectedResult : $expectedResult")
-    println("queryFile : $queryFile")
-    println("inputDataFile : $inputDataFile")
-    println("resultFile : $resultFile")
-    println("services : $services")
+    GlobalLogger.log(ELoggerType.TEST_DETAIL,{"testType : $testType"})
+    GlobalLogger.log(ELoggerType.TEST_DETAIL,{"names : $names"})
+    GlobalLogger.log(ELoggerType.TEST_DETAIL,{"comment : $comment"})
+    GlobalLogger.log(ELoggerType.TEST_DETAIL,{"description : $description"})
+    GlobalLogger.log(ELoggerType.TEST_DETAIL,{"features : $features"})
+    GlobalLogger.log(ELoggerType.TEST_DETAIL,{"inputDataGraph : $inputDataGraph"})
+    GlobalLogger.log(ELoggerType.TEST_DETAIL,{"outputDataGraph : $outputDataGraph"})
+    GlobalLogger.log(ELoggerType.TEST_DETAIL,{"expectedResult : $expectedResult"})
+    GlobalLogger.log(ELoggerType.TEST_DETAIL,{"queryFile : $queryFile"})
+    GlobalLogger.log(ELoggerType.TEST_DETAIL,{"inputDataFile : $inputDataFile"})
+    GlobalLogger.log(ELoggerType.TEST_DETAIL,{"resultFile : $resultFile"})
+    GlobalLogger.log(ELoggerType.TEST_DETAIL,{"services : $services"})
     if (queryFile == null)
         return true
     val success = parseSPARQLAndEvaluate(expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
@@ -436,7 +436,7 @@ fun parseSPARQLAndEvaluate(//
     DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
     val toParse = readFileOrNull(queryFile)!!
     if (toParse.contains("service", true)) {
-        println("----------Failed(Service)")
+        GlobalLogger.log(ELoggerType.TEST_RESULT,{"----------Failed(Service)"})
         return false
     }
     val inputData = readFileOrNull(inputDataFileName)
@@ -444,27 +444,27 @@ fun parseSPARQLAndEvaluate(//
     try {
         P2P.execGraphClearAll()
         if (inputData != null && inputDataFileName != null) {
-            println("InputData Graph[] Original")
-            println(inputData)
-            println("----------Input Data Graph[]")
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{"InputData Graph[] Original"})
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{inputData})
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{"----------Input Data Graph[]"})
             var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
             val transactionID = DistributedTripleStore.nextTransactionID()
             val dictionary = ResultSetDictionary()
             DistributedTripleStore.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
             DistributedTripleStore.commit(transactionID)
-            println("test InputData Graph[] ::" + xmlQueryInput.first().toPrettyString())
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{"test InputData Graph[] ::" + xmlQueryInput.first().toPrettyString()})
         }
         inputDataGraph.forEach {
-            println("InputData Graph[${it["name"]}] Original")
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{"InputData Graph[${it["name"]}] Original"})
             val inputData = readFileOrNull(it["filename"])
-            println(inputData)
-            println("----------Input Data Graph[${it["name"]}]")
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{inputData})
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{"----------Input Data Graph[${it["name"]}]"})
             var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
             val transactionID = DistributedTripleStore.nextTransactionID()
             val dictionary = ResultSetDictionary()
             DistributedTripleStore.getNamedGraph(it["name"]!!, true).addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
             DistributedTripleStore.commit(transactionID)
-            println("test Input Graph[${it["name"]}] :: " + xmlQueryInput.first().toPrettyString())
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{"test Input Graph[${it["name"]}] :: " + xmlQueryInput.first().toPrettyString()})
         }
         if (services != null)
             for (s in services) {
@@ -476,122 +476,122 @@ fun parseSPARQLAndEvaluate(//
         val transactionID = DistributedTripleStore.nextTransactionID()
         val dictionary = ResultSetDictionary()
         var res: Boolean
-        println("----------String Query")
-        println(toParse)
-        println("----------Abstract Syntax Tree")
+        GlobalLogger.log(ELoggerType.TEST_DETAIL,{"----------String Query"})
+        GlobalLogger.log(ELoggerType.RELEASE,{toParse})
+        GlobalLogger.log(ELoggerType.TEST_DETAIL,{"----------Abstract Syntax Tree"})
         val lcit = LexerCharIterator(toParse)
         val tit = TokenIteratorSPARQLParser(lcit)
         val ltit = LookAheadTokenIterator(tit, 3)
         val parser = SPARQLParser(ltit)
         val ast_node = parser.expr()
-        println(ast_node)
-        println("----------Logical Operator Graph")
+        GlobalLogger.log(ELoggerType.TEST_DETAIL,{ast_node})
+        GlobalLogger.log(ELoggerType.TEST_DETAIL,{"----------Logical Operator Graph"})
         val lop_node = ast_node.visit(OperatorGraphVisitor())
-        println(lop_node.toXMLElement().toPrettyString())
-        println("----------Logical Operator Graph optimized")
+        GlobalLogger.log(ELoggerType.TEST_DETAIL,{lop_node.toXMLElement().toPrettyString()})
+        GlobalLogger.log(ELoggerType.TEST_DETAIL,{"----------Logical Operator Graph optimized"})
         val lop_node2 = LogicalOptimizer(transactionID, dictionary).optimizeCall(lop_node)
-        println(lop_node2.toXMLElement().toPrettyString())
-        println("----------Physical Operator Graph")
+        GlobalLogger.log(ELoggerType.TEST_DETAIL,{lop_node2.toXMLElement().toPrettyString()})
+        GlobalLogger.log(ELoggerType.TEST_DETAIL,{"----------Physical Operator Graph"})
         val pop_optimizer = PhysicalOptimizer(transactionID, dictionary)
         val pop_node = pop_optimizer.optimizeCall(lop_node2)
-        println(pop_node.toXMLElement().toPrettyString())
-        println("----------Distributed Operator Graph")
+        GlobalLogger.log(ELoggerType.TEST_DETAIL,{pop_node.toXMLElement().toPrettyString()})
+        GlobalLogger.log(ELoggerType.TEST_DETAIL,{"----------Distributed Operator Graph"})
         val pop_distributed_node = KeyDistributionOptimizer(transactionID, dictionary).optimizeCall(pop_node) as POPBase
-        println(pop_distributed_node)
+        GlobalLogger.log(ELoggerType.TEST_DETAIL,{pop_distributed_node})
         var xmlQueryResult: XMLElement? = null
         if (!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)) {
-            println("----------Query Result")
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{"----------Query Result"})
             xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node).first()
-            println("test xmlQueryResult :: " + xmlQueryResult.toPrettyString())
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{"test xmlQueryResult :: " + xmlQueryResult.toPrettyString()})
             DistributedTripleStore.commit(transactionID)
         }
         var verifiedOutput = false
         outputDataGraph.forEach {
-            println("OutputData Graph[${it["name"]}] Original")
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{"OutputData Graph[${it["name"]}] Original"})
             val outputData = readFileOrNull(it["filename"])
-            println(outputData)
-            println("----------Verify Output Data Graph[${it["name"]}] ... target,actual")
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{outputData})
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{"----------Verify Output Data Graph[${it["name"]}] ... target,actual"})
             var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)
             val tmp = DistributedTripleStore.getNamedGraph(it["name"]!!).getIterator(transactionID, dictionary)
             tmp.setMNameS("s")
             tmp.setMNameP("p")
             tmp.setMNameO("o")
             var xmlGraphActual = QueryResultToXML.toXML(tmp)
-            println("test xmlGraphTarget :: " + xmlGraphTarget!!.first().toPrettyString())
-            println("test xmlGraphActual :: " + xmlGraphActual.first().toPrettyString())
-            if (!xmlGraphTarget.first().myEqualsUnclean(xmlGraphActual.first())) {
-                println("----------Failed(PersistentStore Graph)")
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{"test xmlGraphTarget :: " + xmlGraphTarget!!.first().toPrettyString()})
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{"test xmlGraphActual :: " + xmlGraphActual.first().toPrettyString()})
+            if (!xmlGraphTarget!!.first().myEqualsUnclean(xmlGraphActual!!.first())) {
+                GlobalLogger.log(ELoggerType.TEST_RESULT,{"----------Failed(PersistentStore Graph)"})
                 return false
             }
             verifiedOutput = true
         }
         if (resultData != null && resultDataFileName != null) {
-            println("----------Target Result")
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{"----------Target Result"})
             var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)
-            println("test xmlQueryTarget :: " + xmlQueryTarget?.first()?.toPrettyString())
-            println(resultData)
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{"test xmlQueryTarget :: " + xmlQueryTarget?.first()?.toPrettyString()})
+            GlobalLogger.log(ELoggerType.TEST_DETAIL,{resultData})
             res = xmlQueryResult!!.myEquals(xmlQueryTarget?.first())
             if (res) {
                 val xmlPOP = pop_distributed_node.toXMLElement()
                 val transactionID2 = DistributedTripleStore.nextTransactionID()
                 val popNodeRecovered = XMLElement.convertToOPBase(dictionary, transactionID2, xmlPOP) as POPBase
-                println(xmlPOP.toPrettyString())
-                println(popNodeRecovered.toXMLElement().toPrettyString())
+                GlobalLogger.log(ELoggerType.TEST_DETAIL,{xmlPOP.toPrettyString()})
+                GlobalLogger.log(ELoggerType.TEST_DETAIL,{popNodeRecovered.toXMLElement().toPrettyString()})
                 val xmlQueryResultRecovered = QueryResultToXML.toXML(popNodeRecovered)
                 DistributedTripleStore.commit(transactionID2)
-                println("test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.first().toPrettyString())
+                GlobalLogger.log(ELoggerType.TEST_DETAIL,{"test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.first().toPrettyString()})
                 if (xmlQueryResultRecovered.first().myEquals(xmlQueryResult)) {
                     if (expectedResult)
-                        println("----------Success")
+                        GlobalLogger.log(ELoggerType.TEST_RESULT,{"----------Success"})
                     else
-                        println("----------Failed(expectFalse)")
+                        GlobalLogger.log(ELoggerType.TEST_RESULT,{"----------Failed(expectFalse)"})
                 } else {
-                    println("----------Failed(RecoverFromXMLOperatorGraph)")
+                    GlobalLogger.log(ELoggerType.TEST_RESULT,{"----------Failed(RecoverFromXMLOperatorGraph)"})
                     res = false
                 }
             } else {
                 if (xmlQueryResult.myEqualsUnclean(xmlQueryTarget?.first())) {
                     if (expectedResult)
-                        println("----------Success(Unordered)")
+                        GlobalLogger.log(ELoggerType.TEST_RESULT,{"----------Success(Unordered)"})
                     else
-                        println("----------Failed(expectFalse,Unordered)")
+                        GlobalLogger.log(ELoggerType.TEST_RESULT,{"----------Failed(expectFalse,Unordered)"})
                 } else {
                     if (expectedResult)
-                        println("----------Failed(Incorrect)")
+                        GlobalLogger.log(ELoggerType.TEST_RESULT,{"----------Failed(Incorrect)"})
                     else
-                        println("----------Success(ExpectFalse)")
+                        GlobalLogger.log(ELoggerType.TEST_RESULT,{"----------Success(ExpectFalse)"})
                 }
             }
             return res
         } else {
             if (verifiedOutput) {
                 if (expectedResult)
-                    println("----------Success(Graph)")
+                    GlobalLogger.log(ELoggerType.TEST_RESULT,{"----------Success(Graph)"})
                 else
-                    println("----------Failed(ExpectFalse,Graph)")
+                    GlobalLogger.log(ELoggerType.TEST_RESULT,{"----------Failed(ExpectFalse,Graph)"})
             } else {
                 if (expectedResult)
-                    println("----------Success(Syntax)")
+                    GlobalLogger.log(ELoggerType.TEST_RESULT,{"----------Success(Syntax)"})
                 else
-                    println("----------Failed(ExpectFalse,Syntax)")
+                    GlobalLogger.log(ELoggerType.TEST_RESULT,{"----------Failed(ExpectFalse,Syntax)"})
             }
             return expectedResult
         }
     } catch (e: ParseError) {
         if (expectedResult) {
-            println(e.message)
-            println("Error in the following line:")
-            println(e.lineNumber)
-            println("----------Failed(ParseError)")
+            GlobalLogger.log(ELoggerType.DEBUG,{e.message})
+            GlobalLogger.log(ELoggerType.DEBUG,{"Error in the following line:"})
+            GlobalLogger.log(ELoggerType.DEBUG,{e.lineNumber})
+            GlobalLogger.log(ELoggerType.TEST_RESULT,{"----------Failed(ParseError)"})
         } else
-            println("----------Success(ExpectFalse,ParseError)")
+            GlobalLogger.log(ELoggerType.TEST_RESULT,{"----------Success(ExpectFalse,ParseError)"})
         return false
     } catch (e: Throwable) {
         if (expectedResult) {
-            println("----------Failed(Throwable)")
-            e.kotlinStacktrace()
+            GlobalLogger.log(ELoggerType.TEST_RESULT,{"----------Failed(Throwable)"})
+	    GlobalLogger.stacktrace(ELoggerType.TEST_RESULT,e)
         } else
-            println("----------Success(ExpectFalse,Throwable)")
+            GlobalLogger.log(ELoggerType.TEST_RESULT,{"----------Success(ExpectFalse,Throwable)"})
         return false
     }
 }
