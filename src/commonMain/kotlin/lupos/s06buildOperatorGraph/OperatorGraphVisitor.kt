@@ -1,6 +1,9 @@
 package lupos.s06buildOperatorGraph
+import lupos.s00misc.classNameToString
+import lupos.s00misc.EGraphOperationType
+import lupos.s00misc.EGroupMember
+import lupos.s00misc.EModifyType
 
-import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAdd
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation

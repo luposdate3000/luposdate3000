@@ -196,61 +196,49 @@ class TripleStoreLocal {
             2 -> {
                 if (!ov) {
                     val iterator = tripleStore[idx.ordinal].iterator()
-                    if (iterator != null) {
                         while (iterator.hasNext()) {
                             val r = iterator.next()
                             if (r[s] == vals && r[p] == valp)
                                 modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
-                        }
                     }
                 } else if (!pv) {
                     val iterator = tripleStore[idx.ordinal].iterator()
-                    if (iterator != null) {
                         while (iterator.hasNext()) {
                             val r = iterator.next()
                             if (r[s] == vals && r[o] == valo)
                                 modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
-                        }
                     }
                 } else {
                     val iterator = tripleStore[idx.ordinal].iterator()
-                    if (iterator != null) {
                         while (iterator.hasNext()) {
                             val r = iterator.next()
                             if (r[p] == valp && r[o] == valo)
                                 modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
-                        }
                     }
                 }
             }
             1 -> {
                 if (ov) {
                     val iterator = tripleStore[idx.ordinal].iterator()
-                    if (iterator != null) {
                         while (iterator.hasNext()) {
                             val r = iterator.next()
                             if (r[o] == valo)
                                 modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
-                        }
                     }
                 } else if (pv) {
                     val iterator = tripleStore[idx.ordinal].iterator()
-                    if (iterator != null) {
                         while (iterator.hasNext()) {
                             val r = iterator.next()
                             if (r[p] == valp)
                                 modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
-                        }
                     }
                 } else {
                     val iterator = tripleStore[idx.ordinal].iterator()
-                    if (iterator != null) {
                         while (iterator.hasNext()) {
                             val r = iterator.next()
                             if (r[s] == vals)
                                 modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
                         }
-                    }
                 }
             }
             else -> {

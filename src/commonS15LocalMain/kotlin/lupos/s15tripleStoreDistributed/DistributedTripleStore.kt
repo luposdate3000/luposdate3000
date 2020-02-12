@@ -1,77 +1,229 @@
 package lupos.s15tripleStoreDistributed
 
+import lupos.s00misc.*
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetIterator
-import lupos.s03resultRepresentation.Value
-import lupos.s05tripleStore.IndexPattern
-import lupos.s05tripleStore.ModifyType
+import lupos.s04logicalOperators.noinput.*
+import lupos.s04logicalOperators.OPBase
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
 import lupos.s05tripleStore.TripleStoreLocal
+import lupos.s12p2p.*
+import lupos.s14endpoint.*
 
 
-class DistributedGraph(val name: String, val create: Boolean = false) {
+val uuid = ThreadSafeUuid()
 
-    fun modifyData(transactionID: Long, vals: Value, valp: Value, valo: Value, action: ModifyType) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).modifyData(transactionID, vals, valp, valo, action)
+class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
+    override val dictionary: ResultSetDictionary
+    override val children: Array<OPBase> = arrayOf()
+    private var sNew: Variable
+    private var pNew: Variable
+    private val resultSetNew: ResultSet
+    private var oNew: Variable
+    private val nodeNameIterator: Iterator<String>
+    private var xmlIterator: Iterator<XMLElement>? = null
+    private val transactionID: Long
+    private val graphName: String
+    private val idx: EIndexPattern
+
+    constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String) : this(transactionID, dictionary, graphName, EIndexPattern.SPO)
+    constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String, index: EIndexPattern) {
+        idx = index
+        this.graphName = graphName
+        this.dictionary = dictionary
+        this.transactionID = transactionID
+        resultSetNew = ResultSet(dictionary)
+        sNew = resultSetNew.createVariable(nameS)
+        pNew = resultSetNew.createVariable(nameP)
+        oNew = resultSetNew.createVariable(nameO)
+        nodeNameIterator = listOf(EndpointImpl.fullname).iterator()
     }
 
-    fun clear() {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).clear()
+    override fun toXMLElement(): XMLElement {
+        return XMLElement("TripleStoreIteratorGlobal").addAttribute("uuid", "" + uuid).addAttribute("nameS", nameS).addAttribute("nameP", nameP).addAttribute("nameO", nameO).addAttribute("name", getGraphName())
     }
 
-    fun addData(key: ResultRow, value: ResultRow, store: MutableMap<ResultRow, MutableSet<ResultRow>>) {
-        require(false)
+    override fun getGraphName(): String {
+        return graphName
     }
 
-    fun deleteData(key: ResultRow, value: ResultRow, store: MutableMap<ResultRow, MutableSet<ResultRow>>) {
-        require(false)
+    override fun getProvidedVariableNames(): List<String> {
+        return mutableListOf<String>(nameS, nameP, nameO)
     }
 
-    fun abort(transactionID: Long) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).abort(transactionID)
+    override fun getRequiredVariableNames(): List<String> {
+        return mutableListOf<String>()
     }
 
-    fun commit2(transactionID: Long) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).commit2(transactionID)
+    override fun next(): ResultRow {
+        GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.next start" })
+        val data = xmlIterator!!.next()
+        val res = resultSetNew.createResultRow()
+        data.childs.forEach {
+            val v: Variable = when (it.attributes["name"]) {
+                "s" -> sNew
+                "p" -> pNew
+                "o" -> oNew
+                else -> throw Exception("unknown triple attribute")
+            }
+            val c = it.childs.first()
+            when (c.tag) {
+                "uri" -> res[v] = resultSetNew.createValue("<" + c.content + ">")
+                "literal" -> {
+                    val l = c.attributes["xml:lang"]
+                    val t = c.attributes["datatype"]
+                    if (l != null)
+                        res[v] = resultSetNew.createValue("\"${c.content}\"@$l")
+                    else if (t != null)
+                        res[v] = resultSetNew.createValue("\"${c.content}\"^^<$t>")
+                    else
+                        res[v] = resultSetNew.createValue("\"${c.content}\"")
+                }
+                "bnode" -> res[v] = resultSetNew.createValue("_:" + c.content)
+                else -> require(false)
+            }
+        }
+        GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.next end" })
+        return res
     }
 
-    fun commitModifyData(vals: Value, valp: Value, valo: Value, action: (ResultRow, ResultRow, MutableMap<ResultRow, MutableSet<ResultRow>>) -> Unit) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).commitModifyData(vals, valp, valo, action)
+    override fun hasNext(): Boolean {
+        GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.hasNext start" })
+        while (xmlIterator == null || !xmlIterator!!.hasNext()) {
+            if (!nodeNameIterator.hasNext()) {
+                GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.hasNext end1" })
+                return false
+            }
+            val xml = P2P.execTripleGet(nodeNameIterator.next(), graphName, transactionID, idx)
+            require(xml.tag == "sparql")
+            xmlIterator = xml["results"]!!.childs.iterator()
+        }
+        GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.hasNext end2" })
+        return true
+    }
+
+    override fun getResultSet(): ResultSet {
+        return resultSetNew
+    }
+
+    override fun setMNameS(n: String) {
+        sNew = resultSetNew.renameVariable(nameS, n)
+        nameS = n
+    }
+
+    override fun setMNameP(n: String) {
+        pNew = resultSetNew.renameVariable(nameP, n)
+        nameP = n
+    }
+
+    override fun setMNameO(n: String) {
+        oNew = resultSetNew.renameVariable(nameO, n)
+        nameO = n
+    }
+
+
+}
+
+class DistributedGraph(val name: String) {
+    val K = 8 // defined in project.pdf
+
+    inline fun myHashCode(s: String, d: Int): Int {
+        val c = s.hashCode()
+        if (c < 0)
+            return (-c) % d
+        return c % d
+    }
+
+    inline fun myHashCode(s: Int, p: Int, o: Int, d: Int, idx: EIndexPattern): Int {
+        when (idx) {
+            EIndexPattern.SPO -> return myHashCode("" + s + "-" + p + "-" + o, d)
+            EIndexPattern.SOP -> return myHashCode("" + s + "-" + o + "-" + p, d)
+            EIndexPattern.PSO -> return myHashCode("" + p + "-" + s + "-" + o, d)
+            EIndexPattern.POS -> return myHashCode("" + p + "-" + o + "-" + s, d)
+            EIndexPattern.OPS -> return myHashCode("" + o + "-" + p + "-" + s, d)
+            EIndexPattern.OSP -> return myHashCode("" + o + "-" + s + "-" + p, d)
+        }
+    }
+
+    inline fun calculateNodeForDataFull(s: String, p: String, o: String, idx: EIndexPattern): String {
+        return EndpointImpl.fullname
+    }
+
+    inline fun calculateNodeForDataMaybe(s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): Set<String> {
+        return setOf(EndpointImpl.fullname)
     }
 
     fun addData(transactionID: Long, t: List<String?>) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).addData(transactionID, t)
-    }
-
-    fun deleteData(transactionID: Long, t: List<String?>) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).deleteData(transactionID, t)
+        EIndexPattern.values().forEach {
+            val node = calculateNodeForDataFull(t[0]!!, t[1]!!, t[2]!!, it)
+            P2P.execTripleAdd(node, name, transactionID, t[0]!!, t[1]!!, t[2]!!, it)
+        }
     }
 
     fun addDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).addDataVar(transactionID, t)
+        require(t[0].second && t[1].second && t[2].second)
+        EIndexPattern.values().forEach {
+            val node = calculateNodeForDataFull(t[0].first, t[1].first, t[2].first, it)
+            P2P.execTripleAdd(node, name, transactionID, t[0].first, t[1].first, t[2].first, it)
+        }
+    }
+
+    fun deleteData(transactionID: Long, t: List<String?>) {
+        val l = mutableListOf<Pair<String, Boolean>>()
+        if (t[0] != null)
+            l.add(Pair(t[0]!!, true))
+        else
+            l.add(Pair("s", false))
+        if (t[1] != null)
+            l.add(Pair(t[1]!!, true))
+        else
+            l.add(Pair("p", false))
+        if (t[2] != null)
+            l.add(Pair(t[2]!!, true))
+        else
+            l.add(Pair("o", false))
+        EIndexPattern.values().forEach {
+            for (node in calculateNodeForDataMaybe(l[0].first, l[1].first, l[2].first, l[0].second, l[1].second, l[2].second, it)) {
+                P2P.execTripleDelete(node, name, transactionID, l, it)
+            }
+        }
     }
 
     fun deleteDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).deleteDataVar(transactionID, t)
+        EIndexPattern.values().forEach {
+            for (node in calculateNodeForDataMaybe(t[0].first, t[1].first, t[2].first, t[0].second, t[1].second, t[2].second, it))
+                P2P.execTripleDelete(node, name, transactionID, listOf(t[0], t[1], t[2]), it)
+        }
     }
 
     fun addData(transactionID: Long, iterator: ResultSetIterator) {
-        DistributedTripleStore.localStore.getNamedGraph(name, create).addData(transactionID, iterator)
+        val rs = iterator.getResultSet()
+        val ks = rs.createVariable("s")
+        val kp = rs.createVariable("p")
+        val ko = rs.createVariable("o")
+        while (iterator.hasNext()) {
+            val v = iterator.next()
+            val s = rs.getValue(v[ks])
+            val p = rs.getValue(v[kp])
+            val o = rs.getValue(v[ko])
+            addData(transactionID, listOf(s, p, o))
+        }
     }
 
-    fun getIterator(dictionary: ResultSetDictionary): POPTripleStoreIteratorBase {
-        return DistributedTripleStore.localStore.getNamedGraph(name, create).getIterator(dictionary)
+    fun getIterator(transactionID: Long, dictionary: ResultSetDictionary): POPTripleStoreIteratorBase {
+        return TripleStoreIteratorGlobal(transactionID, dictionary, name)
     }
 
-    fun getIterator(dictionary: ResultSetDictionary, s: String, p: String, o: String): POPTripleStoreIteratorBase {
-        return DistributedTripleStore.localStore.getNamedGraph(name, create).getIterator(dictionary, s, p, o)
-    }
-
-    fun getIterator(dictionary: ResultSetDictionary, index: IndexPattern): POPTripleStoreIteratorBase {
-        return DistributedTripleStore.localStore.getNamedGraph(name, create).getIterator(dictionary, index)
+    fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String): POPTripleStoreIteratorBase {
+        val res = TripleStoreIteratorGlobal(transactionID, dictionary, name)
+        res.setMNameS(s)
+        res.setMNameP(p)
+        res.setMNameO(o)
+        return res
     }
 }
 
@@ -86,19 +238,23 @@ object DistributedTripleStore {
     }
 
     fun createGraph(name: String): DistributedGraph {
+        P2P.execGraphOperation(name, EGraphOperationType.CREATE)
         return DistributedGraph(name)
     }
 
     fun dropGraph(name: String) {
-        localStore.dropGraph(name)
+        P2P.execGraphOperation(name, EGraphOperationType.DROP)
     }
 
     fun clearGraph(name: String) {
-        localStore.clearGraph(name)
+        GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.clearGraph $name" })
+        P2P.execGraphOperation(name, EGraphOperationType.CLEAR)
     }
 
     fun getNamedGraph(name: String, create: Boolean = false): DistributedGraph {
-        return DistributedGraph(name, create)
+        if (create && !(localStore.getGraphNames(true).contains(name)))
+            createGraph(name)
+        return DistributedGraph(name)
     }
 
     fun getDefaultGraph(): DistributedGraph {
@@ -106,6 +262,6 @@ object DistributedTripleStore {
     }
 
     fun commit(transactionID: Long) {
-        localStore.commit(transactionID)
+        P2P.execCommit(transactionID)
     }
 }

@@ -444,27 +444,27 @@ fun parseSPARQLAndEvaluate(//
     try {
         P2P.execGraphClearAll()
         if (inputData != null && inputDataFileName != null) {
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "InputData Graph[] Original" })
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { inputData })
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Input Data Graph[]" })
+            GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[] Original" })
+            GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
+            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[]" })
             var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
             val transactionID = DistributedTripleStore.nextTransactionID()
             val dictionary = ResultSetDictionary()
             DistributedTripleStore.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
             DistributedTripleStore.commit(transactionID)
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test InputData Graph[] ::" + xmlQueryInput.first().toPrettyString() })
+            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput.first().toPrettyString() })
         }
         inputDataGraph.forEach {
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "InputData Graph[${it["name"]}] Original" })
+            GlobalLogger.log(ELoggerType.TEST_RESULT, { "InputData Graph[${it["name"]}] Original" })
             val inputData = readFileOrNull(it["filename"])
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { inputData })
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Input Data Graph[${it["name"]}]" })
+            GlobalLogger.log(ELoggerType.TEST_RESULT, { inputData })
+            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Input Data Graph[${it["name"]}]" })
             var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
             val transactionID = DistributedTripleStore.nextTransactionID()
             val dictionary = ResultSetDictionary()
             DistributedTripleStore.getNamedGraph(it["name"]!!, true).addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
             DistributedTripleStore.commit(transactionID)
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test Input Graph[${it["name"]}] :: " + xmlQueryInput.first().toPrettyString() })
+            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]}] :: " + xmlQueryInput.first().toPrettyString() })
         }
         if (services != null)
             for (s in services) {
@@ -507,22 +507,28 @@ fun parseSPARQLAndEvaluate(//
         }
         var verifiedOutput = false
         outputDataGraph.forEach {
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "OutputData Graph[${it["name"]}] Original" })
             val outputData = readFileOrNull(it["filename"])
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { outputData })
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" })
             var xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)
             val tmp = DistributedTripleStore.getNamedGraph(it["name"]!!).getIterator(transactionID, dictionary)
             tmp.setMNameS("s")
             tmp.setMNameP("p")
             tmp.setMNameO("o")
             var xmlGraphActual = QueryResultToXML.toXML(tmp)
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphTarget :: " + xmlGraphTarget!!.first().toPrettyString() })
-            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphActual :: " + xmlGraphActual.first().toPrettyString() })
             if (!xmlGraphTarget!!.first().myEqualsUnclean(xmlGraphActual!!.first())) {
+            GlobalLogger.log(ELoggerType.TEST_RESULT, { "OutputData Graph[${it["name"]}] Original" })
+            GlobalLogger.log(ELoggerType.TEST_RESULT, { outputData })
+            GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" })
+            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphTarget :: " + xmlGraphTarget!!.first().toPrettyString() })
+            GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphActual :: " + xmlGraphActual.first().toPrettyString() })
                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(PersistentStore Graph)" })
                 return false
-            }
+            }else{
+            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "OutputData Graph[${it["name"]}] Original" })
+            GlobalLogger.log(ELoggerType.TEST_DETAIL, { outputData })
+            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" })
+            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphTarget :: " + xmlGraphTarget!!.first().toPrettyString() })
+            GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlGraphActual :: " + xmlGraphActual.first().toPrettyString() })
+		}
             verifiedOutput = true
         }
         if (resultData != null && resultDataFileName != null) {

@@ -1,6 +1,7 @@
 package lupos.s01io.buffer
 
-import lupos.s00misc.*
+import lupos.s00misc.GlobalLogger
+import lupos.s00misc.ELoggerType
 import lupos.s01io.buffer.getString
 import lupos.s01io.buffer.Page
 

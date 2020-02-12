@@ -1,6 +1,8 @@
 package lupos.s05tripleStore
+import lupos.s00misc.ELoggerType
+import lupos.s00misc.GlobalLogger
+import lupos.s00misc.ThreadSafeUuid
 
-import lupos.s00misc.*
 import lupos.s09physicalOperators.POPBase
 
 

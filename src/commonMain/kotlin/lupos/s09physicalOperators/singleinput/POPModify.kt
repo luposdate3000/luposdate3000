@@ -48,13 +48,14 @@ class POPModify : POPBase {
         return children[0].hasNext()
     }) as Boolean
 
-    fun evaluateRow(node: ASTNode, row: ResultRow): String? {
-        return POPExpression(dictionary, node).evaluate(resultSetOld, row)
+    fun evaluateRow(node: ASTNode, row: ResultRow): String {
+        return POPExpression(dictionary, node).evaluate(resultSetOld, row)!!
     }
 
     override fun next(): ResultRow = Trace.trace({ "POPModify.next" }, {
         val row = children[0].next()
         for (i in insert) {
+		try{
             when (i) {
                 is ASTTriple -> {
                     val store = DistributedTripleStore.getDefaultGraph()
@@ -79,8 +80,13 @@ class POPModify : POPBase {
                 }
                 else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
             }
+}catch (e:Throwable){
+//ignore unbound variables
+}
+
         }
         for (i in delete) {
+try{
             when (i) {
                 is ASTTriple -> {
                     val store = DistributedTripleStore.getDefaultGraph()
@@ -105,6 +111,9 @@ class POPModify : POPBase {
                 }
                 else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
             }
+}catch (e:Throwable){
+//ignore unbound variables
+}
         }
         return resultSetNew.createResultRow()
     }) as ResultRow
