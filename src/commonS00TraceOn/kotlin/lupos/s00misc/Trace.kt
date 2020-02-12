@@ -1,9 +1,9 @@
 package lupos.s00misc
 
-import lupos.s00misc.*
 import kotlin.time.ClockMark
 import kotlin.time.DurationUnit
 import kotlin.time.MonoClock
+import lupos.s00misc.*
 
 
 @UseExperimental(kotlin.time.ExperimentalTime::class)
@@ -51,7 +51,7 @@ object Trace {
     }
 
     inline fun print() {
-	GlobalLogger.log(ELoggerType.TRACE_RESULT,::toString)
+        GlobalLogger.log(ELoggerType.TRACE_RESULT, ::toString)
     }
 
     override fun toString(): String {

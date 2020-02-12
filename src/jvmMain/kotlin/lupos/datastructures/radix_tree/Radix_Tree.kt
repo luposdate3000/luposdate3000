@@ -1,8 +1,8 @@
 package lupos.datastructures.radix_tree
-import lupos.s00misc.*
 
 import kotlin.math.abs
 import kotlin.math.min
+import lupos.s00misc.*
 import lupos.s01io.buffer.bufferManager
 import lupos.s01io.buffer.Page
 import lupos.s01io.buffer.toBytesUTF
@@ -234,13 +234,13 @@ fun main() {
     val toInsert = listOf("alf", "adalbert", "bert", "bernhard", "adam", "bern")
     var index = 0
     for (input in toInsert) {
-        GlobalLogger.log(ELoggerType.DEBUG,{"---> Insert " + input})
+        GlobalLogger.log(ELoggerType.DEBUG, { "---> Insert " + input })
         t.put(input, index)
-        GlobalLogger.log(ELoggerType.DEBUG,{t.toStringDataStructure()})
+        GlobalLogger.log(ELoggerType.DEBUG, { t.toStringDataStructure() })
         index++
     }
     for (input in toInsert) {
-        GlobalLogger.log(ELoggerType.DEBUG,{input + " -> " + t.get(input)})
+        GlobalLogger.log(ELoggerType.DEBUG, { input + " -> " + t.get(input) })
     }
 }
 

@@ -77,9 +77,9 @@ class CachedFile {
     fun mapAndGetOffset(pageOffset: Long): Long {
         // this.file.setLength(this.size)
         val endOffset = pageOffset + PAGESIZE
-        GlobalLogger.log(ELoggerType.DEBUG,{"->" + this.file.length()})
+        GlobalLogger.log(ELoggerType.DEBUG, { "->" + this.file.length() })
         if (this.file.length() < endOffset) {
-            GlobalLogger.log(ELoggerType.DEBUG,{endOffset})
+            GlobalLogger.log(ELoggerType.DEBUG, { endOffset })
             this.file.setLength(pageOffset)
         }
         val ch = this.file.getChannel()

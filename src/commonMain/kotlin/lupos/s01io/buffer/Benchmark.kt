@@ -63,10 +63,10 @@ class OnePageBenchmark {
             timeForReadString += measure(::readOnePageString)
             timeForRelease += measure(::release)
         }
-        GlobalLogger.log(ELoggerType.DEBUG,{"Time for write: " + timeForWrite / 100.0})
-        GlobalLogger.log(ELoggerType.DEBUG,{"Time for write string: " + timeForWriteString / 100.0})
-        GlobalLogger.log(ELoggerType.DEBUG,{"Time for read: " + timeForRead / 100.0})
-        GlobalLogger.log(ELoggerType.DEBUG,{"Time for read string: " + timeForReadString / 100.0})
-        GlobalLogger.log(ELoggerType.DEBUG,{"Time for release: " + timeForRelease / 100.0})
+        GlobalLogger.log(ELoggerType.DEBUG, { "Time for write: " + timeForWrite / 100.0 })
+        GlobalLogger.log(ELoggerType.DEBUG, { "Time for write string: " + timeForWriteString / 100.0 })
+        GlobalLogger.log(ELoggerType.DEBUG, { "Time for read: " + timeForRead / 100.0 })
+        GlobalLogger.log(ELoggerType.DEBUG, { "Time for read string: " + timeForReadString / 100.0 })
+        GlobalLogger.log(ELoggerType.DEBUG, { "Time for release: " + timeForRelease / 100.0 })
     }
 }

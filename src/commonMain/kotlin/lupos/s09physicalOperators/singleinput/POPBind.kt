@@ -78,8 +78,8 @@ class POPBind : POPBase {
                 rsNew[variableBound] = resultSetNew.createValue(value)
         } catch (e: Throwable) {
             resultSetNew.setUndefValue(rsNew, variableBound)
-            GlobalLogger.log(ELoggerType.DEBUG,{"silent :: "})
-            GlobalLogger.stacktrace(ELoggerType.DEBUG,e)
+            GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
+            GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
         }
         return rsNew
     }) as ResultRow

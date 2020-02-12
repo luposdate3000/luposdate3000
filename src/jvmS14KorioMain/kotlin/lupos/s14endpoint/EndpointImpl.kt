@@ -1,5 +1,4 @@
 package lupos.s14endpoint
-import lupos.s00misc.*
 
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http
@@ -42,11 +41,11 @@ object EndpointImpl {
     }
 
     suspend fun myRequestHandler(request: HttpServer.Request) {
-        GlobalLogger.log(ELoggerType.DEBUG,{"listen::Request"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "listen::Request" })
         val params = request.getParams
-        GlobalLogger.log(ELoggerType.DEBUG,{params})
-        GlobalLogger.log(ELoggerType.DEBUG,{request.path})
-        GlobalLogger.log(ELoggerType.DEBUG,{request.method})
+        GlobalLogger.log(ELoggerType.DEBUG, { params })
+        GlobalLogger.log(ELoggerType.DEBUG, { request.path })
+        GlobalLogger.log(ELoggerType.DEBUG, { request.method })
         request.replaceHeader("Connection", "close")
         request.replaceHeader("Content-Type", "text/html")
         var response = ""
@@ -54,7 +53,7 @@ object EndpointImpl {
         var endFlag = true
         request.handler { it ->
             data += it.decodeToString()
-            GlobalLogger.log(ELoggerType.DEBUG,{data})
+            GlobalLogger.log(ELoggerType.DEBUG, { data })
         }
         request.endHandler {
             endFlag = false
@@ -101,19 +100,19 @@ object EndpointImpl {
                 else -> throw Exception("unknown request path: \"" + request.path + "\"")
             }
         } catch (e: Throwable) {
-GlobalLogger.stacktrace(ELoggerType.DEBUG,e)
+            GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
             response = e.toString()
             request.setStatus(404)
         }
         request.end(response)
-        GlobalLogger.log(ELoggerType.DEBUG,{"response::" + response})
+        GlobalLogger.log(ELoggerType.DEBUG, { "response::" + response })
     }
 
     suspend fun start(bootstrap: String?) {
         fullname = hostname + ":" + port
-        GlobalLogger.log(ELoggerType.DEBUG,{"before P2P.start"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "before P2P.start" })
         P2P.start(bootstrap)
-        GlobalLogger.log(ELoggerType.DEBUG,{"listen:: $hostname $port"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "listen:: $hostname $port" })
         server = createHttpServer().listen(port, hostname, ::myRequestHandler)
     }
 }
@@ -122,7 +121,7 @@ fun main(args: Array<String>) = runBlocking {
     var i = 0
     var bootStrapServer: String? = null
     for (a in args) {
-        GlobalLogger.log(ELoggerType.DEBUG,{"args[$i]=$a"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "args[$i]=$a" })
         when (i) {
             0 -> EndpointImpl.hostname = a
             1 -> bootStrapServer = a

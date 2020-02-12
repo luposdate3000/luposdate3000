@@ -1,5 +1,4 @@
 package lupos.s12p2p
-import lupos.s00misc.*
 
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.Http
@@ -30,7 +29,7 @@ object P2P {
 
     suspend fun retryRequest(method: Http.Method, url: String): HttpClient.Response {
         require(!url.startsWith("http://${EndpointImpl.fullname}"))
-	GlobalLogger.log(ELoggerType.DEBUG,{"retryRequest::$url"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "retryRequest::$url" })
         while (true) {
             try {
                 return client.request(method, url)
@@ -54,7 +53,7 @@ object P2P {
 
     fun process_peers_list(): String {
 /*nice to have, but not required*/
-GlobalLogger.log(ELoggerType.DEBUG,{"process_peers_list"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_list" })
         var res = ""
         synchronized(knownClients) {
             res = XMLElement.XMLHeader + "\n" + XMLElement("servers").addContent(knownClients, "server").toPrettyString()
@@ -64,7 +63,7 @@ GlobalLogger.log(ELoggerType.DEBUG,{"process_peers_list"})
 
     fun process_peers_join_internal(hostname: String?): String {
 /*just a dummy ... should be removed if there is a real p2p*/
-        GlobalLogger.log(ELoggerType.DEBUG,{"process_peers_join_internal $hostname"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join_internal $hostname" })
         synchronized(knownClients) {
             if (hostname != null && hostname != "localhost")
                 knownClients.add(hostname)
@@ -84,7 +83,7 @@ GlobalLogger.log(ELoggerType.DEBUG,{"process_peers_list"})
 
     suspend fun process_peers_join(hostname: String?): String {
 /*just a dummy ... should be removed if there is a real p2p*/
-        GlobalLogger.log(ELoggerType.DEBUG,{"process_peers_join $hostname"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join $hostname" })
         val knownClientsCopy = mutableListOf<String>()
         synchronized(knownClients) {
             knownClients.forEach {
@@ -94,29 +93,29 @@ GlobalLogger.log(ELoggerType.DEBUG,{"process_peers_list"})
                 knownClients.add(hostname)
         }
         if (hostname != null && hostname != "localhost") {
-            GlobalLogger.log(ELoggerType.DEBUG,{"process_peers_join $hostname 2"})
+            GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join $hostname 2" })
             knownClientsCopy.forEach {
                 if (it != EndpointImpl.fullname) {
-                    GlobalLogger.log(ELoggerType.DEBUG,{"process_peers_join $hostname 3 $it"})
-                    GlobalLogger.log(ELoggerType.DEBUG,{"req ${it} ${EndpointImpl.REQUEST_PEERS_JOIN_INTERNAL[0]} ${hostname}"})
+                    GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join $hostname 3 $it" })
+                    GlobalLogger.log(ELoggerType.DEBUG, { "req ${it} ${EndpointImpl.REQUEST_PEERS_JOIN_INTERNAL[0]} ${hostname}" })
                     retryRequest(Http.Method.GET, "http://${resolveNodeName(it)}${EndpointImpl.REQUEST_PEERS_JOIN_INTERNAL[0]}" +//
                             "?${EndpointImpl.REQUEST_PEERS_JOIN_INTERNAL[1]}=${URL.encodeComponent(hostname)}")
                 }
             }
-            GlobalLogger.log(ELoggerType.DEBUG,{"process_peers_join $hostname 4"})
+            GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join $hostname 4" })
         }
         return XMLElement.XMLHeader + "\n" + XMLElement("servers").addContent(knownClientsCopy, "server").toPrettyString()
     }
 
     suspend fun start(bootstrap: String?) {
 /*start the p2p network. DONT block the thread*/
-        GlobalLogger.log(ELoggerType.DEBUG,{"P2P.start $bootstrap"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "P2P.start $bootstrap" })
         synchronized(knownClients) {
             knownClients.add(EndpointImpl.fullname)
         }
         if (bootstrap != null && bootstrap != "$EndpointImpl.fullname") {
-            GlobalLogger.log(ELoggerType.DEBUG,{"P2P.start 2 $bootstrap"})
-            GlobalLogger.log(ELoggerType.DEBUG,{"req ${bootstrap} ${EndpointImpl.REQUEST_PEERS_JOIN[0]} ${EndpointImpl.fullname}"})
+            GlobalLogger.log(ELoggerType.DEBUG, { "P2P.start 2 $bootstrap" })
+            GlobalLogger.log(ELoggerType.DEBUG, { "req ${bootstrap} ${EndpointImpl.REQUEST_PEERS_JOIN[0]} ${EndpointImpl.fullname}" })
             var response = retryRequest(Http.Method.GET, "http://${resolveNodeName(bootstrap)}${EndpointImpl.REQUEST_PEERS_JOIN[0]}" +//
                     "?${EndpointImpl.REQUEST_PEERS_JOIN[1]}=${URL.encodeComponent(EndpointImpl.fullname)}")
             var responseString = response.readAllString()
@@ -169,9 +168,9 @@ GlobalLogger.log(ELoggerType.DEBUG,{"process_peers_list"})
 
     fun execGraphOperation(name: String, type: EGraphOperationType) {
 /*execute clear on every known node - for TESTING only*/
-        GlobalLogger.log(ELoggerType.DEBUG,{"execGraphOperation $name $type P2P a"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P a" })
         Endpoint.process_local_graph_operation(name, type)
-        GlobalLogger.log(ELoggerType.DEBUG,{"execGraphOperation $name $type P2P b"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P b" })
         synchronized(knownClients) {
             knownClients.forEach {
                 if (it != EndpointImpl.fullname) {
@@ -183,12 +182,12 @@ GlobalLogger.log(ELoggerType.DEBUG,{"process_peers_list"})
                 }
             }
         }
-        GlobalLogger.log(ELoggerType.DEBUG,{"execGraphOperation $name $type P2P c"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P c" })
     }
 
     fun execCommit(transactionID: Long) {
 /*execute clear on every known node - for TESTING only*/
-        GlobalLogger.log(ELoggerType.DEBUG,{"execCommit $transactionID begin"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "execCommit $transactionID begin" })
         Endpoint.process_local_commit(transactionID)
         synchronized(knownClients) {
             knownClients.forEach {
@@ -200,11 +199,11 @@ GlobalLogger.log(ELoggerType.DEBUG,{"process_peers_list"})
                 }
             }
         }
-        GlobalLogger.log(ELoggerType.DEBUG,{"execCommit $transactionID end"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "execCommit $transactionID end" })
     }
 
     fun execTripleAdd(node: String, graphName: String, transactionID: Long, s: String, p: String, o: String, idx: EIndexPattern) {
-        GlobalLogger.log(ELoggerType.DEBUG,{"execTripleAdd start"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "execTripleAdd start" })
         if (node == EndpointImpl.fullname)
             Endpoint.process_local_triple_add(graphName, transactionID, s, p, o, idx)
         else {
@@ -219,11 +218,11 @@ GlobalLogger.log(ELoggerType.DEBUG,{"process_peers_list"})
                 retryRequest(Http.Method.GET, "http://${resolveNodeName(node)}$req")
             }
         }
-        GlobalLogger.log(ELoggerType.DEBUG,{"execTripleAdd end"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "execTripleAdd end" })
     }
 
     fun execTripleGet(node: String, graphName: String, transactionID: Long, idx: EIndexPattern): XMLElement {
-        GlobalLogger.log(ELoggerType.DEBUG,{"execTripleGet start $node $graphName $transactionID"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "execTripleGet start $node $graphName $transactionID" })
         var res: XMLElement? = null
         if (node == EndpointImpl.fullname)
             res = Endpoint.process_local_triple_get(graphName, transactionID, idx)
@@ -238,13 +237,13 @@ GlobalLogger.log(ELoggerType.DEBUG,{"process_peers_list"})
                 res = XMLElement.parseFromXml(responseString)!!.first()!!
             }
         }
-        GlobalLogger.log(ELoggerType.DEBUG,{"execTripleGet $node $graphName " + res!!.toPrettyString()})
-        GlobalLogger.log(ELoggerType.DEBUG,{"execTripleGet end"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "execTripleGet $node $graphName " + res!!.toPrettyString() })
+        GlobalLogger.log(ELoggerType.DEBUG, { "execTripleGet end" })
         return res!!
     }
 
     fun execTripleDelete(node: String, graphName: String, transactionID: Long, data: List<Pair<String, Boolean>>, idx: EIndexPattern) {
-        GlobalLogger.log(ELoggerType.DEBUG,{"execTripleDelete start"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "execTripleDelete start" })
         if (node == EndpointImpl.fullname)
             Endpoint.process_local_triple_delete(graphName, transactionID, data[0].first, data[1].first, data[2].first, data[0].second, data[1].second, data[2].second, idx)
         else {
@@ -262,6 +261,6 @@ GlobalLogger.log(ELoggerType.DEBUG,{"process_peers_list"})
                 retryRequest(Http.Method.GET, "http://${resolveNodeName(node)}$req")
             }
         }
-        GlobalLogger.log(ELoggerType.DEBUG,{"execTripleDelete end"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "execTripleDelete end" })
     }
 }

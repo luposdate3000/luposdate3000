@@ -123,8 +123,8 @@ class POPGroup : POPBaseNullableIterator {
                             rsNew[b.first] = resultSetNew.createValue(value)
                     } catch (e: Throwable) {
                         resultSetNew.setUndefValue(rsNew, b.first)
-                        GlobalLogger.log(ELoggerType.DEBUG,{"silent :: "})
-                        GlobalLogger.stacktrace(ELoggerType.DEBUG,e)
+                        GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
+                        GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
                     }
                 }
                 data!!.add(rsNew)

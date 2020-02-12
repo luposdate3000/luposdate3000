@@ -59,7 +59,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     }
 
     override fun next(): ResultRow {
-        GlobalLogger.log(ELoggerType.DEBUG,{"globalIterator.next start"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.next start" })
         val data = xmlIterator!!.next()
         val res = resultSetNew.createResultRow()
         data.childs.forEach {
@@ -86,22 +86,22 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
                 else -> require(false)
             }
         }
-        GlobalLogger.log(ELoggerType.DEBUG,{"globalIterator.next end"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.next end" })
         return res
     }
 
     override fun hasNext(): Boolean {
-        GlobalLogger.log(ELoggerType.DEBUG,{"globalIterator.hasNext start"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.hasNext start" })
         while (xmlIterator == null || !xmlIterator!!.hasNext()) {
             if (!nodeNameIterator.hasNext()) {
-                GlobalLogger.log(ELoggerType.DEBUG,{"globalIterator.hasNext end1"})
+                GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.hasNext end1" })
                 return false
             }
             val xml = P2P.execTripleGet(nodeNameIterator.next(), graphName, transactionID, idx)
             require(xml.tag == "sparql")
             xmlIterator = xml["results"]!!.childs.iterator()
         }
-        GlobalLogger.log(ELoggerType.DEBUG,{"globalIterator.hasNext end2"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.hasNext end2" })
         return true
     }
 
@@ -272,7 +272,7 @@ object DistributedTripleStore {
     }
 
     fun clearGraph(name: String) {
-        GlobalLogger.log(ELoggerType.DEBUG,{"DistributedTripleStore.clearGraph $name"})
+        GlobalLogger.log(ELoggerType.DEBUG, { "DistributedTripleStore.clearGraph $name" })
         P2P.execGraphOperation(name, EGraphOperationType.CLEAR)
     }
 
