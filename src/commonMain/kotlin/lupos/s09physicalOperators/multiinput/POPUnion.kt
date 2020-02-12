@@ -59,32 +59,32 @@ class POPUnion : POPBaseNullableIterator {
         return resultSetNew
     }
 
-    override fun nnext(): ResultRow? =            Trace.trace("POPUnion.nnext"){
-            if (children[0].hasNext()) {
-                val rsOld = children[0].next()
-                val rsNew = resultSetNew.createResultRow()
-                for (p in variablesOldAMissing) {
-                    resultSetNew.setUndefValue(rsNew, p)
-                }
-                for (p in variablesOldA) {
-                    // TODO reuse resultSet
-                    rsNew[p.second] = rsOld[p.first]
-                }
-                return rsNew
+    override fun nnext(): ResultRow? = Trace.trace("POPUnion.nnext") {
+        if (children[0].hasNext()) {
+            val rsOld = children[0].next()
+            val rsNew = resultSetNew.createResultRow()
+            for (p in variablesOldAMissing) {
+                resultSetNew.setUndefValue(rsNew, p)
             }
-            if (children[1].hasNext()) {
-                val rsOld = children[1].next()
-                val rsNew = resultSetNew.createResultRow()
-                for (p in variablesOldBMissing) {
-                    resultSetNew.setUndefValue(rsNew, p)
-                }
-                for (p in variablesOldB) {
-                    rsNew[p.second] = rsOld[p.first]
-                }
-                return rsNew
+            for (p in variablesOldA) {
+                // TODO reuse resultSet
+                rsNew[p.second] = rsOld[p.first]
             }
-            return null
-    }as ResultRow?
+            return rsNew
+        }
+        if (children[1].hasNext()) {
+            val rsOld = children[1].next()
+            val rsNew = resultSetNew.createResultRow()
+            for (p in variablesOldBMissing) {
+                resultSetNew.setUndefValue(rsNew, p)
+            }
+            for (p in variablesOldB) {
+                rsNew[p.second] = rsOld[p.first]
+            }
+            return rsNew
+        }
+        return null
+    } as ResultRow?
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPUnion")

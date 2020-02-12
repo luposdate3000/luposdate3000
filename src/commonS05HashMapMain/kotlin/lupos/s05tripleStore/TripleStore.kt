@@ -1,7 +1,7 @@
 package lupos.s05tripleStore
 
-import lupos.s00misc.classNameToString
 import lupos.s00misc.*
+import lupos.s00misc.classNameToString
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
@@ -57,8 +57,8 @@ class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
         pNew = resultSetNew.createVariable(nameP)
         oNew = resultSetNew.createVariable(nameO)
         this.store = store
-	this.index=index
-	iterator = store.tripleStore[index.ordinal].iterator()
+        this.index = index
+        iterator = store.tripleStore[index.ordinal].iterator()
         resultSetOld = store.resultSet
         sOld = resultSetOld.createVariable("s")
         pOld = resultSetOld.createVariable("p")
@@ -75,18 +75,18 @@ class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
         return mutableListOf<String>()
     }
 
-    override fun next(): ResultRow =            Trace.trace("TripleStore.next"){
-	            val value = iterator!!.next()
-	            val result = resultSetNew.createResultRow()
-		    result[sNew] = resultSetNew.createValue(resultSetOld.getValue(value!![sOld]))
-		    result[pNew] = resultSetNew.createValue(resultSetOld.getValue(value!![pOld]))
-		    result[oNew] = resultSetNew.createValue(resultSetOld.getValue(value!![oOld]))
-	            return result
-    }as ResultRow
+    override fun next(): ResultRow = Trace.trace("TripleStore.next") {
+        val value = iterator!!.next()
+        val result = resultSetNew.createResultRow()
+        result[sNew] = resultSetNew.createValue(resultSetOld.getValue(value!![sOld]))
+        result[pNew] = resultSetNew.createValue(resultSetOld.getValue(value!![pOld]))
+        result[oNew] = resultSetNew.createValue(resultSetOld.getValue(value!![oOld]))
+        return result
+    } as ResultRow
 
-    override fun hasNext(): Boolean  =            Trace.trace("TripleStore.hasNext"){
-		return iterator.hasNext()
-    }as Boolean
+    override fun hasNext(): Boolean = Trace.trace("TripleStore.hasNext") {
+        return iterator.hasNext()
+    } as Boolean
 
     override fun getResultSet(): ResultSet {
         return resultSetNew
@@ -98,21 +98,21 @@ class TripleStoreLocal {
     val s = resultSet.createVariable("s")
     val p = resultSet.createVariable("p")
     val o = resultSet.createVariable("o")
-    val tripleStore = Array(EIndexPattern.values().size){it->mutableSetOf<ResultRow>()}
+    val tripleStore = Array(EIndexPattern.values().size) { it -> mutableSetOf<ResultRow>() }
     val name: String
 
-    val pendingModifications = Array(EIndexPattern.values().size){it->mutableMapOf<Long, MutableSet<Pair<EModifyType, ResultRow>>>()}
+    val pendingModifications = Array(EIndexPattern.values().size) { it -> mutableMapOf<Long, MutableSet<Pair<EModifyType, ResultRow>>>() }
 
-    inline fun modifyData(transactionID: Long, vals: Value, valp: Value, valo: Value, action: EModifyType,idx:EIndexPattern) {
+    inline fun modifyData(transactionID: Long, vals: Value, valp: Value, valo: Value, action: EModifyType, idx: EIndexPattern) {
         var tmp = pendingModifications[idx.ordinal][transactionID]
         if (tmp == null) {
             tmp = mutableSetOf<Pair<EModifyType, ResultRow>>()
             pendingModifications[idx.ordinal][transactionID] = tmp
         }
-	val r=resultSet.createResultRow()
-	r[s]=vals
-	r[p]=valp
-	r[o]=valo
+        val r = resultSet.createResultRow()
+        r[s] = vals
+        r[p] = valp
+        r[o] = valo
         tmp.add(Pair(action, r))
     }
 
@@ -121,60 +121,60 @@ class TripleStoreLocal {
     }
 
     inline fun clear() {
-	tripleStore.forEach(){
-		it.clear()
-	}
+        tripleStore.forEach() {
+            it.clear()
+        }
     }
 
     inline fun abort(transactionID: Long) {
-        pendingModifications.forEach{
-		it.remove(transactionID)
-	}
+        pendingModifications.forEach {
+            it.remove(transactionID)
+        }
     }
 
     inline fun commit2(transactionID: Long) {
-	EIndexPattern.values().forEach{
-	        val tmp = pendingModifications[it.ordinal][transactionID]
-	        if (tmp != null){
-		        for (m in tmp) {
-				when(m.first){
-					EModifyType.INSERT->tripleStore[it.ordinal].add(m.second)
-					EModifyType.DELETE->tripleStore[it.ordinal].remove(m.second)
-				}
-			}
-		        pendingModifications[it.ordinal].remove(transactionID)
-	        }
-	}
+        EIndexPattern.values().forEach {
+            val tmp = pendingModifications[it.ordinal][transactionID]
+            if (tmp != null) {
+                for (m in tmp) {
+                    when (m.first) {
+                        EModifyType.INSERT -> tripleStore[it.ordinal].add(m.second)
+                        EModifyType.DELETE -> tripleStore[it.ordinal].remove(m.second)
+                    }
+                }
+                pendingModifications[it.ordinal].remove(transactionID)
+            }
+        }
     }
 
-    inline fun addData(transactionID: Long, ss:String,ps:String,os:String,idx:EIndexPattern) {
+    inline fun addData(transactionID: Long, ss: String, ps: String, os: String, idx: EIndexPattern) {
         val vals = resultSet.createValue(ss)
         val valp = resultSet.createValue(ps)
         val valo = resultSet.createValue(os)
-        modifyData(transactionID, vals, valp, valo, EModifyType.INSERT,idx)
+        modifyData(transactionID, vals, valp, valo, EModifyType.INSERT, idx)
     }
 
-    inline fun deleteData(transactionID: Long,  ss:String,ps:String,os:String,idx:EIndexPattern) {
+    inline fun deleteData(transactionID: Long, ss: String, ps: String, os: String, idx: EIndexPattern) {
         val vals = resultSet.createValue(ss)
         val valp = resultSet.createValue(ps)
         val valo = resultSet.createValue(os)
-        modifyData(transactionID, vals, valp, valo, EModifyType.DELETE,idx)
+        modifyData(transactionID, vals, valp, valo, EModifyType.DELETE, idx)
     }
 
-    inline fun addDataVar(transactionID: Long,  ss:String,ps:String,os:String,sv:Boolean,pv:Boolean,ov:Boolean,idx:EIndexPattern) {
+    inline fun addDataVar(transactionID: Long, ss: String, ps: String, os: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern) {
         require(sv == true)
         require(pv == true)
         require(ov == true)
         val vals = resultSet.createValue(ss)
         val valp = resultSet.createValue(ps)
         val valo = resultSet.createValue(os)
-        modifyData(transactionID, vals, valp, valo, EModifyType.INSERT,idx)
+        modifyData(transactionID, vals, valp, valo, EModifyType.INSERT, idx)
     }
 
-    inline fun deleteDataVar(transactionID: Long,  ss:String,ps:String,os:String,sv:Boolean,pv:Boolean,ov:Boolean,idx:EIndexPattern) {
-        val vals:Value = resultSet.createValue(ss)
-        val valp :Value= resultSet.createValue(ps)
-        val valo:Value = resultSet.createValue(os)
+    inline fun deleteDataVar(transactionID: Long, ss: String, ps: String, os: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern) {
+        val vals: Value = resultSet.createValue(ss)
+        val valp: Value = resultSet.createValue(ps)
+        val valo: Value = resultSet.createValue(os)
         var tmp = 0
         val row = resultSet.createResultRow()
         if (sv) {
@@ -190,15 +190,15 @@ class TripleStoreLocal {
             row[o] = valo
         }
         when (tmp) {
-            3 -> modifyData(transactionID, vals, valp, valo, EModifyType.DELETE,idx)
+            3 -> modifyData(transactionID, vals, valp, valo, EModifyType.DELETE, idx)
             2 -> {
                 if (!ov) {
                     val iterator = tripleStore[idx.ordinal].iterator()
                     if (iterator != null) {
                         while (iterator.hasNext()) {
                             val r = iterator.next()
-			    if(r[s]==vals && r[p]==valp)
-                            modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE,idx)
+                            if (r[s] == vals && r[p] == valp)
+                                modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
                         }
                     }
                 } else if (!pv) {
@@ -206,8 +206,8 @@ class TripleStoreLocal {
                     if (iterator != null) {
                         while (iterator.hasNext()) {
                             val r = iterator.next()
-			    if(r[s]==vals && r[o]==valo)
-                            modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE,idx)
+                            if (r[s] == vals && r[o] == valo)
+                                modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
                         }
                     }
                 } else {
@@ -215,8 +215,8 @@ class TripleStoreLocal {
                     if (iterator != null) {
                         while (iterator.hasNext()) {
                             val r = iterator.next()
-			    if(r[p]==valp && r[o]==valo)
-                            modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE,idx)
+                            if (r[p] == valp && r[o] == valo)
+                                modifyData(transactionID, r[s], r[p], r[o], EModifyType.DELETE, idx)
                         }
                     }
                 }
@@ -228,11 +228,11 @@ class TripleStoreLocal {
     }
 
     inline fun getIterator(dictionary: ResultSetDictionary, index: EIndexPattern): POPTripleStoreIteratorBase {
-        return TripleStoreIteratorLocal(dictionary, this,index)
+        return TripleStoreIteratorLocal(dictionary, this, index)
     }
 
     inline fun getIterator(dictionary: ResultSetDictionary, s: String, p: String, o: String, index: EIndexPattern): POPTripleStoreIteratorBase {
-        val res = TripleStoreIteratorLocal(dictionary, this,index)
+        val res = TripleStoreIteratorLocal(dictionary, this, index)
         res.setMNameS(s)
         res.setMNameP(p)
         res.setMNameO(o)

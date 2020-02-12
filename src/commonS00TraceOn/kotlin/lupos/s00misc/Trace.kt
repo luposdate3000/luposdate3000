@@ -10,14 +10,14 @@ object Trace {
     val map = ThreadSafeMutableMap<String, Pair<Long, Double>>()
     val stack = ThreadSafeMutableStack<Pair<String, ClockMark>>()
 
-inline fun trace(name:String,action:()->Any):Any{
-try{
-start(name)
-return action()
-}finally{
-stop(name)
-}
-}
+    inline fun trace(name: String, action: () -> Any): Any {
+        try {
+            start(name)
+            return action()
+        } finally {
+            stop(name)
+        }
+    }
 
     inline fun start(obj: Any) {
         start(classNameToString(obj))

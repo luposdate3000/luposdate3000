@@ -129,35 +129,35 @@ class POPJoinHashMap : POPBaseNullableIterator {
         }
     }
 
-    override fun nnext(): ResultRow? =            Trace.trace("POPJoinHashMap.nnext"){
-            while (true) {
-                if (!queue.isEmpty())
-                    return queue.removeAt(0)
-                else if (children[0].hasNext())
-                    joinHelper(0)
-                else if (children[1].hasNext())
-                    joinHelper(1)
-                else if (optional && !hadOptionals) {
-                    for ((k, v) in map[0]) {
-                        if (map[1][k] == null) {
-                            for (rowA in v) {
-                                val row = resultSetNew.createResultRow()
-                                for (p in variables[1])
-                                    resultSetNew.setUndefValue(row, p.second)
-                                for (p in variables[0])
-                                    row[p.second] = rowA[p.first]
-                                for (p in variablesJ[0])
-                                    row[p.second] = rowA[p.first]
-                                queue.add(row)
-                            }
-                            map[1][k] = mutableListOf<ResultRow>()
+    override fun nnext(): ResultRow? = Trace.trace("POPJoinHashMap.nnext") {
+        while (true) {
+            if (!queue.isEmpty())
+                return queue.removeAt(0)
+            else if (children[0].hasNext())
+                joinHelper(0)
+            else if (children[1].hasNext())
+                joinHelper(1)
+            else if (optional && !hadOptionals) {
+                for ((k, v) in map[0]) {
+                    if (map[1][k] == null) {
+                        for (rowA in v) {
+                            val row = resultSetNew.createResultRow()
+                            for (p in variables[1])
+                                resultSetNew.setUndefValue(row, p.second)
+                            for (p in variables[0])
+                                row[p.second] = rowA[p.first]
+                            for (p in variablesJ[0])
+                                row[p.second] = rowA[p.first]
+                            queue.add(row)
                         }
+                        map[1][k] = mutableListOf<ResultRow>()
                     }
-                    hadOptionals = true
-                } else
-                    return null
-            }
-    }as ResultRow?
+                }
+                hadOptionals = true
+            } else
+                return null
+        }
+    } as ResultRow?
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPJoinHashMap")

@@ -87,18 +87,18 @@ inline fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
 }
 
 object Endpoint {
-    inline fun process_local_triple_add(graphName: String, transactionID: Long, s: String, p: String, o: String,idx:EIndexPattern): XMLElement {
-        DistributedTripleStore.localStore.getNamedGraph(graphName).addData(transactionID, s, p, o,idx)
+    inline fun process_local_triple_add(graphName: String, transactionID: Long, s: String, p: String, o: String, idx: EIndexPattern): XMLElement {
+        DistributedTripleStore.localStore.getNamedGraph(graphName).addData(transactionID, s, p, o, idx)
         return XMLElement("success")
     }
 
-    inline fun process_local_triple_delete(graphName: String, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean,idx:EIndexPattern): XMLElement {
-        DistributedTripleStore.localStore.getNamedGraph(graphName).deleteDataVar(transactionID, s,p,o,sv,pv,ov,idx)
+    inline fun process_local_triple_delete(graphName: String, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): XMLElement {
+        DistributedTripleStore.localStore.getNamedGraph(graphName).deleteDataVar(transactionID, s, p, o, sv, pv, ov, idx)
         return XMLElement("success")
     }
 
-    inline fun process_local_triple_get(graphName: String, transactionID: Long,idx:EIndexPattern): XMLElement {
-        return QueryResultToXML.toXML(DistributedTripleStore.localStore.getNamedGraph(graphName).getIterator(ResultSetDictionary(), "s", "p", "o",idx)).first()
+    inline fun process_local_triple_get(graphName: String, transactionID: Long, idx: EIndexPattern): XMLElement {
+        return QueryResultToXML.toXML(DistributedTripleStore.localStore.getNamedGraph(graphName).getIterator(ResultSetDictionary(), "s", "p", "o", idx)).first()
     }
 
     inline fun process_local_graph_clear_all(): XMLElement {

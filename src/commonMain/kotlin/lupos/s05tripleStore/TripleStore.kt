@@ -3,6 +3,7 @@ package lupos.s05tripleStore
 import lupos.s00misc.*
 import lupos.s09physicalOperators.POPBase
 
+
 abstract class POPTripleStoreIteratorBase() : POPBase() {
     var nameS = "#s" + uuid
     var nameP = "#p" + uuid

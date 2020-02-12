@@ -38,15 +38,15 @@ class POPFilter : POPBaseNullableIterator {
         return resultSet
     }
 
-    override fun nnext(): ResultRow? =            Trace.trace("POPFilter.nnext"){
-            while (children[0].hasNext()) {
-                val nextRow = children[0].next()
-                if (filter.evaluateBoolean(resultSet, nextRow)) {
-                    return nextRow
-                }
+    override fun nnext(): ResultRow? = Trace.trace("POPFilter.nnext") {
+        while (children[0].hasNext()) {
+            val nextRow = children[0].next()
+            if (filter.evaluateBoolean(resultSet, nextRow)) {
+                return nextRow
             }
-            return null
-    }as ResultRow?
+        }
+        return null
+    } as ResultRow?
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPFilter")

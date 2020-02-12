@@ -1,7 +1,7 @@
 package lupos.s09physicalOperators.noinput
 
-import lupos.s00misc.classNameToString
 import lupos.s00misc.*
+import lupos.s00misc.classNameToString
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAllGraphRef
 import lupos.s02buildSyntaxTree.sparql1_1.ASTDefaultGraphRef
@@ -27,16 +27,16 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
         return resultSetNew
     }
 
-    override fun hasNext(): Boolean =            Trace.trace("POPGraphOperation.hasNext"){
-            return first
-    }as Boolean
+    override fun hasNext(): Boolean = Trace.trace("POPGraphOperation.hasNext") {
+        return first
+    } as Boolean
 
     inline fun i2s(iri: ASTIriGraphRef): String {
         return iri.iri
     }
 
-    override fun next(): ResultRow =            Trace.trace("POPGraphOperation.next"){
-try{
+    override fun next(): ResultRow = Trace.trace("POPGraphOperation.next") {
+        try {
             first = false
             when (graphref1) {
                 is ASTAllGraphRef -> {
@@ -190,8 +190,8 @@ try{
             if (!silent)
                 throw e
             return resultSetNew.createResultRow()
-}
-    }as ResultRow
+        }
+    } as ResultRow
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

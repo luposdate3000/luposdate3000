@@ -8,8 +8,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import lupos.s00misc.kotlinStacktrace
 import lupos.s00misc.*
+import lupos.s00misc.kotlinStacktrace
 import lupos.s04logicalOperators.noinput.*
 import lupos.s12p2p.P2P
 import lupos.s14endpoint.Endpoint
@@ -20,9 +20,9 @@ object EndpointImpl {
     var hostname = "localhost"
     var port = 80
     var fullname = hostname + ":" + port
-    val REQUEST_TRIPLE_ADD = arrayOf("/triple/add", "graph", "id", "s", "p", "o","idx")
-    val REQUEST_TRIPLE_GET = arrayOf("/triple/get", "graph", "id","idx")
-    val REQUEST_TRIPLE_DELETE = arrayOf("/triple/delete", "graph", "id", "s", "p", "o", "sv", "pv", "ov","idx")
+    val REQUEST_TRIPLE_ADD = arrayOf("/triple/add", "graph", "id", "s", "p", "o", "idx")
+    val REQUEST_TRIPLE_GET = arrayOf("/triple/get", "graph", "id", "idx")
+    val REQUEST_TRIPLE_DELETE = arrayOf("/triple/delete", "graph", "id", "s", "p", "o", "sv", "pv", "ov", "idx")
     val REQUEST_COMMIT = arrayOf("/commit", "id")
     val REQUEST_TRACE_PRINT = arrayOf("/trace/print")
     val REQUEST_SPARQL_QUERY = arrayOf("/sparql/query", "query")

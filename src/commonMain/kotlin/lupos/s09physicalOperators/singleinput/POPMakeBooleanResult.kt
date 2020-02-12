@@ -39,16 +39,16 @@ class POPMakeBooleanResult : POPBase {
         return listOf<String>()
     }
 
-    override fun hasNext(): Boolean =            Trace.trace("POPMakeBooleanResult.hasNext"){
-            return count == 0
-    }as Boolean
+    override fun hasNext(): Boolean = Trace.trace("POPMakeBooleanResult.hasNext") {
+        return count == 0
+    } as Boolean
 
-    override fun next(): ResultRow =            Trace.trace("POPMakeBooleanResult.next"){
-            var rsNew = resultSetNew.createResultRow()
-            rsNew[variableNew] = resultSetNew.createValue("\"" + children[0].hasNext() + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
-            count++
-            return rsNew
-    }as ResultRow
+    override fun next(): ResultRow = Trace.trace("POPMakeBooleanResult.next") {
+        var rsNew = resultSetNew.createResultRow()
+        rsNew[variableNew] = resultSetNew.createValue("\"" + children[0].hasNext() + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+        count++
+        return rsNew
+    } as ResultRow
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPMakeBooleanResult")

@@ -21,21 +21,21 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
         return resultSetNew
     }
 
-    override fun hasNext(): Boolean =            Trace.trace("POPInsertData.hasNext"){
-            return first
-    }as Boolean
+    override fun hasNext(): Boolean = Trace.trace("POPInsertData.hasNext") {
+        return first
+    } as Boolean
 
-    override fun next(): ResultRow =            Trace.trace("POPInsertData.next"){
-            first = false
-            for (t in data) {
-                val store = DistributedTripleStore.getNamedGraph(t[3].first)
-                if (type == EModifyType.INSERT)
-                    store.addDataVar(transactionID, t)
-                else
-                    store.deleteDataVar(transactionID, t)
-            }
-            return resultSetNew.createResultRow()
-    }as ResultRow
+    override fun next(): ResultRow = Trace.trace("POPInsertData.next") {
+        first = false
+        for (t in data) {
+            val store = DistributedTripleStore.getNamedGraph(t[3].first)
+            if (type == EModifyType.INSERT)
+                store.addDataVar(transactionID, t)
+            else
+                store.deleteDataVar(transactionID, t)
+        }
+        return resultSetNew.createResultRow()
+    } as ResultRow
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

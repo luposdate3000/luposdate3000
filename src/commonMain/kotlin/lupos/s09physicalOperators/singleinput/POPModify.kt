@@ -44,70 +44,70 @@ class POPModify : POPBase {
         require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
     }
 
-    override fun hasNext(): Boolean =            Trace.trace("POPModify.hasNext"){
-            return children[0].hasNext()
-    }as Boolean
+    override fun hasNext(): Boolean = Trace.trace("POPModify.hasNext") {
+        return children[0].hasNext()
+    } as Boolean
 
     fun evaluateRow(node: ASTNode, row: ResultRow): String? {
         return POPExpression(dictionary, node).evaluate(resultSetOld, row)
     }
 
-    override fun next(): ResultRow =            Trace.trace("POPModify.next"){
-            val row = children[0].next()
-            for (i in insert) {
-                when (i) {
-                    is ASTTriple -> {
-                        val store = DistributedTripleStore.getDefaultGraph()
-                        val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
-                        store.addData(transactionID, data)
-                    }
-                    is ASTGraph -> {
-                        val store = if (i.iriOrVar is ASTIri) {
-                            DistributedTripleStore.getNamedGraph(i.iriOrVar.iri)
-                        } else {
-                            DistributedTripleStore.getNamedGraph(resultSetOld.getValue(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)])!!)
-                        }
-                        for (c in i.children) {
-                            when (c) {
-                                is ASTTriple -> {
-                                    val data = listOf<String?>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
-                                    store.addData(transactionID, data)
-                                }
-                                else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
-                            }
-                        }
-                    }
-                    else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
+    override fun next(): ResultRow = Trace.trace("POPModify.next") {
+        val row = children[0].next()
+        for (i in insert) {
+            when (i) {
+                is ASTTriple -> {
+                    val store = DistributedTripleStore.getDefaultGraph()
+                    val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
+                    store.addData(transactionID, data)
                 }
-            }
-            for (i in delete) {
-                when (i) {
-                    is ASTTriple -> {
-                        val store = DistributedTripleStore.getDefaultGraph()
-                        val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
-                        store.deleteData(transactionID, data)
+                is ASTGraph -> {
+                    val store = if (i.iriOrVar is ASTIri) {
+                        DistributedTripleStore.getNamedGraph(i.iriOrVar.iri)
+                    } else {
+                        DistributedTripleStore.getNamedGraph(resultSetOld.getValue(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)])!!)
                     }
-                    is ASTGraph -> {
-                        val store = if (i.iriOrVar is ASTIri) {
-                            DistributedTripleStore.getNamedGraph(i.iriOrVar.iri)
-                        } else {
-                            DistributedTripleStore.getNamedGraph(resultSetOld.getValue(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)])!!)
-                        }
-                        for (c in i.children) {
-                            when (c) {
-                                is ASTTriple -> {
-                                    val data = listOf<String?>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
-                                    store.deleteData(transactionID, data)
-                                }
-                                else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
+                    for (c in i.children) {
+                        when (c) {
+                            is ASTTriple -> {
+                                val data = listOf<String?>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
+                                store.addData(transactionID, data)
                             }
+                            else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
                         }
                     }
-                    else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
                 }
+                else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
             }
-            return resultSetNew.createResultRow()
-    }as ResultRow
+        }
+        for (i in delete) {
+            when (i) {
+                is ASTTriple -> {
+                    val store = DistributedTripleStore.getDefaultGraph()
+                    val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
+                    store.deleteData(transactionID, data)
+                }
+                is ASTGraph -> {
+                    val store = if (i.iriOrVar is ASTIri) {
+                        DistributedTripleStore.getNamedGraph(i.iriOrVar.iri)
+                    } else {
+                        DistributedTripleStore.getNamedGraph(resultSetOld.getValue(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)])!!)
+                    }
+                    for (c in i.children) {
+                        when (c) {
+                            is ASTTriple -> {
+                                val data = listOf<String?>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
+                                store.deleteData(transactionID, data)
+                            }
+                            else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
+                        }
+                    }
+                }
+                else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
+            }
+        }
+        return resultSetNew.createResultRow()
+    } as ResultRow
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

@@ -58,31 +58,31 @@ class POPBind : POPBase {
         return resultSetNew
     }
 
-    override fun hasNext(): Boolean =            Trace.trace("POPBind.hasNext"){
-            val res = children[0].hasNext()
-            return res
-    }as Boolean
+    override fun hasNext(): Boolean = Trace.trace("POPBind.hasNext") {
+        val res = children[0].hasNext()
+        return res
+    } as Boolean
 
-    override fun next(): ResultRow =            Trace.trace("POPBind.next"){
-            var rsNew = resultSetNew.createResultRow()
-            val rsOld = children[0].next()
-            for (i in variablesOld.indices) {
-                // TODO reuse resultSet
-                rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
-            }
-            try {
-                val value = expression.evaluate(resultSetOld, rsOld)
-                if (value == null)
-                    resultSetNew.setUndefValue(rsNew, variableBound)
-                else
-                    rsNew[variableBound] = resultSetNew.createValue(value)
-            } catch (e: Throwable) {
+    override fun next(): ResultRow = Trace.trace("POPBind.next") {
+        var rsNew = resultSetNew.createResultRow()
+        val rsOld = children[0].next()
+        for (i in variablesOld.indices) {
+            // TODO reuse resultSet
+            rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
+        }
+        try {
+            val value = expression.evaluate(resultSetOld, rsOld)
+            if (value == null)
                 resultSetNew.setUndefValue(rsNew, variableBound)
-                print("silent :: ")
-                e.kotlinStacktrace()
-            }
-            return rsNew
-    }as ResultRow
+            else
+                rsNew[variableBound] = resultSetNew.createValue(value)
+        } catch (e: Throwable) {
+            resultSetNew.setUndefValue(rsNew, variableBound)
+            print("silent :: ")
+            e.kotlinStacktrace()
+        }
+        return rsNew
+    } as ResultRow
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPBind")

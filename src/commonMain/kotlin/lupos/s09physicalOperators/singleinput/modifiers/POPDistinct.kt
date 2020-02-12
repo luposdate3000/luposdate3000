@@ -44,29 +44,29 @@ class POPDistinct : POPBaseNullableIterator {
         return resultSetNew
     }
 
-    override fun nnext(): ResultRow? =            Trace.trace("POPDistinct.nnext"){
-            if (data == null) {
-                val tmpMutableMap = mutableMapOf<String, ResultRow>()
-                while (children[0].hasNext()) {
-                    val rsOld = children[0].next()
-                    val rsNew = resultSetNew.createResultRow()
-                    var key: String = ""
-                    for (variable in variables) {
-                        rsNew[variable.first] = rsOld[variable.second]
-                        key += "-" + rsOld[variable.second]
-                    }
-                    tmpMutableMap[key] = rsNew
+    override fun nnext(): ResultRow? = Trace.trace("POPDistinct.nnext") {
+        if (data == null) {
+            val tmpMutableMap = mutableMapOf<String, ResultRow>()
+            while (children[0].hasNext()) {
+                val rsOld = children[0].next()
+                val rsNew = resultSetNew.createResultRow()
+                var key: String = ""
+                for (variable in variables) {
+                    rsNew[variable.first] = rsOld[variable.second]
+                    key += "-" + rsOld[variable.second]
                 }
-                data = mutableListOf<ResultRow>()
-                for (k in tmpMutableMap.keys) {
-                    data!!.add(tmpMutableMap[k]!!)
-                }
-                iterator = data!!.listIterator()
+                tmpMutableMap[key] = rsNew
             }
-            if (iterator == null || !iterator!!.hasNext())
-                return null
-            return iterator!!.next()
-    }as ResultRow?
+            data = mutableListOf<ResultRow>()
+            for (k in tmpMutableMap.keys) {
+                data!!.add(tmpMutableMap[k]!!)
+            }
+            iterator = data!!.listIterator()
+        }
+        if (iterator == null || !iterator!!.hasNext())
+            return null
+        return iterator!!.next()
+    } as ResultRow?
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPDistinct")

@@ -452,7 +452,7 @@ fun parseSPARQLAndEvaluate(//
             val dictionary = ResultSetDictionary()
             DistributedTripleStore.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
             DistributedTripleStore.commit(transactionID)
-            println("test InputData Graph[] ::"+xmlQueryInput.first().toPrettyString())
+            println("test InputData Graph[] ::" + xmlQueryInput.first().toPrettyString())
         }
         inputDataGraph.forEach {
             println("InputData Graph[${it["name"]}] Original")
@@ -464,7 +464,7 @@ fun parseSPARQLAndEvaluate(//
             val dictionary = ResultSetDictionary()
             DistributedTripleStore.getNamedGraph(it["name"]!!, true).addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
             DistributedTripleStore.commit(transactionID)
-            println("test Input Graph[${it["name"]}] :: "+xmlQueryInput.first().toPrettyString())
+            println("test Input Graph[${it["name"]}] :: " + xmlQueryInput.first().toPrettyString())
         }
         if (services != null)
             for (s in services) {
@@ -502,7 +502,7 @@ fun parseSPARQLAndEvaluate(//
         if (!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)) {
             println("----------Query Result")
             xmlQueryResult = QueryResultToXML.toXML(pop_distributed_node).first()
-            println("test xmlQueryResult :: "+xmlQueryResult.toPrettyString())
+            println("test xmlQueryResult :: " + xmlQueryResult.toPrettyString())
             DistributedTripleStore.commit(transactionID)
         }
         var verifiedOutput = false
@@ -517,8 +517,8 @@ fun parseSPARQLAndEvaluate(//
             tmp.setMNameP("p")
             tmp.setMNameO("o")
             var xmlGraphActual = QueryResultToXML.toXML(tmp)
-            println("test xmlGraphTarget :: "+xmlGraphTarget!!.first().toPrettyString())
-            println("test xmlGraphActual :: "+xmlGraphActual.first().toPrettyString())
+            println("test xmlGraphTarget :: " + xmlGraphTarget!!.first().toPrettyString())
+            println("test xmlGraphActual :: " + xmlGraphActual.first().toPrettyString())
             if (!xmlGraphTarget.first().myEqualsUnclean(xmlGraphActual.first())) {
                 println("----------Failed(PersistentStore Graph)")
                 return false
@@ -528,7 +528,7 @@ fun parseSPARQLAndEvaluate(//
         if (resultData != null && resultDataFileName != null) {
             println("----------Target Result")
             var xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)
-            println("test xmlQueryTarget :: "+xmlQueryTarget?.first()?.toPrettyString())
+            println("test xmlQueryTarget :: " + xmlQueryTarget?.first()?.toPrettyString())
             println(resultData)
             res = xmlQueryResult!!.myEquals(xmlQueryTarget?.first())
             if (res) {
@@ -539,7 +539,7 @@ fun parseSPARQLAndEvaluate(//
                 println(popNodeRecovered.toXMLElement().toPrettyString())
                 val xmlQueryResultRecovered = QueryResultToXML.toXML(popNodeRecovered)
                 DistributedTripleStore.commit(transactionID2)
-                println("test xmlQueryResultRecovered :: "+xmlQueryResultRecovered.first().toPrettyString())
+                println("test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.first().toPrettyString())
                 if (xmlQueryResultRecovered.first().myEquals(xmlQueryResult)) {
                     if (expectedResult)
                         println("----------Success")

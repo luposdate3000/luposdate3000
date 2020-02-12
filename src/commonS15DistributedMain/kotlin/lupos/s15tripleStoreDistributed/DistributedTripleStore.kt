@@ -27,11 +27,11 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     private var xmlIterator: Iterator<XMLElement>? = null
     private val transactionID: Long
     private val graphName: String
-private val idx:EIndexPattern
+    private val idx: EIndexPattern
 
     constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String) : this(transactionID, dictionary, graphName, EIndexPattern.SPO)
     constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String, index: EIndexPattern) {
-idx=index
+        idx = index
         this.graphName = graphName
         this.dictionary = dictionary
         this.transactionID = transactionID
@@ -97,7 +97,7 @@ idx=index
                 println("globalIterator.hasNext end1")
                 return false
             }
-            val xml = P2P.execTripleGet(nodeNameIterator.next(), graphName, transactionID,idx)
+            val xml = P2P.execTripleGet(nodeNameIterator.next(), graphName, transactionID, idx)
             require(xml.tag == "sparql")
             xmlIterator = xml["results"]!!.childs.iterator()
         }
@@ -128,115 +128,115 @@ idx=index
 }
 
 class DistributedGraph(val name: String) {
-	val K=8 // defined in project.pdf
+    val K = 8 // defined in project.pdf
 
-inline fun myHashCode(s:String,d:Int):Int{
-	val c=s.hashCode()
-	if(c<0)
-		return (-c)%d
-	return c % d
-}
-
-inline fun myHashCode(s:Int, p:Int,  o:Int, d:Int,idx:EIndexPattern):Int{
-when(idx){
-EIndexPattern.SPO-> return myHashCode(""+s+"-"+p+"-"+o,d)
-EIndexPattern.SOP-> return myHashCode(""+s+"-"+o+"-"+p,d)
-EIndexPattern.PSO-> return myHashCode(""+p+"-"+s+"-"+o,d)
-EIndexPattern.POS-> return myHashCode(""+p+"-"+o+"-"+s,d)
-EIndexPattern.OPS-> return myHashCode(""+o+"-"+p+"-"+s,d)
-EIndexPattern.OSP-> return myHashCode(""+o+"-"+s+"-"+p,d)
-}
-}
-
-    inline fun calculateNodeForDataFull(s: String, p: String, o: String,idx:EIndexPattern): String {
-	val sh=+myHashCode(s,K)
-	val ph=+myHashCode(p,K)
-	val oh=+myHashCode(o,K)
-        return P2P.getKnownClientsCopy()[myHashCode(sh,ph,oh,P2P.knownClients.size,idx)]
+    inline fun myHashCode(s: String, d: Int): Int {
+        val c = s.hashCode()
+        if (c < 0)
+            return (-c) % d
+        return c % d
     }
 
-    inline fun calculateNodeForDataMaybe(s: String, p: String, o: String,sv:Boolean,pv:Boolean,ov:Boolean,idx:EIndexPattern): Set<String> {
-	val res=mutableSetOf<String>()
-	val sr=if(sv){
-		val h=myHashCode(s,K)
-		IntRange(h,h)
-}	else
-		IntRange(0,K)
-	val pr=if(pv){
-		val h=myHashCode(p,K)
-		IntRange(h,h)
-}	else
-		IntRange(0,K)
-	val or=if(ov){
-		val h=myHashCode(o,K)
-		IntRange(h,h)
-}	else
-		IntRange(0,K)
-	for(si in sr){
-	for(pi in pr){
-	for(oi in or){
-		res.add(P2P.getKnownClientsCopy()[myHashCode(si,pi,oi,P2P.knownClients.size,idx)])
-	}
-	}
-	}
-	return res
+    inline fun myHashCode(s: Int, p: Int, o: Int, d: Int, idx: EIndexPattern): Int {
+        when (idx) {
+            EIndexPattern.SPO -> return myHashCode("" + s + "-" + p + "-" + o, d)
+            EIndexPattern.SOP -> return myHashCode("" + s + "-" + o + "-" + p, d)
+            EIndexPattern.PSO -> return myHashCode("" + p + "-" + s + "-" + o, d)
+            EIndexPattern.POS -> return myHashCode("" + p + "-" + o + "-" + s, d)
+            EIndexPattern.OPS -> return myHashCode("" + o + "-" + p + "-" + s, d)
+            EIndexPattern.OSP -> return myHashCode("" + o + "-" + s + "-" + p, d)
+        }
     }
-    
+
+    inline fun calculateNodeForDataFull(s: String, p: String, o: String, idx: EIndexPattern): String {
+        val sh = +myHashCode(s, K)
+        val ph = +myHashCode(p, K)
+        val oh = +myHashCode(o, K)
+        return P2P.getKnownClientsCopy()[myHashCode(sh, ph, oh, P2P.knownClients.size, idx)]
+    }
+
+    inline fun calculateNodeForDataMaybe(s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): Set<String> {
+        val res = mutableSetOf<String>()
+        val sr = if (sv) {
+            val h = myHashCode(s, K)
+            IntRange(h, h)
+        } else
+            IntRange(0, K)
+        val pr = if (pv) {
+            val h = myHashCode(p, K)
+            IntRange(h, h)
+        } else
+            IntRange(0, K)
+        val or = if (ov) {
+            val h = myHashCode(o, K)
+            IntRange(h, h)
+        } else
+            IntRange(0, K)
+        for (si in sr) {
+            for (pi in pr) {
+                for (oi in or) {
+                    res.add(P2P.getKnownClientsCopy()[myHashCode(si, pi, oi, P2P.knownClients.size, idx)])
+                }
+            }
+        }
+        return res
+    }
+
     fun addData(transactionID: Long, t: List<String?>) {
-	EIndexPattern.values().forEach{
-        val node = calculateNodeForDataFull(t[0]!!, t[1]!!, t[2]!!,it)
-	        P2P.execTripleAdd(node, name, transactionID, t[0]!!, t[1]!!, t[2]!!,it)
-	}
+        EIndexPattern.values().forEach {
+            val node = calculateNodeForDataFull(t[0]!!, t[1]!!, t[2]!!, it)
+            P2P.execTripleAdd(node, name, transactionID, t[0]!!, t[1]!!, t[2]!!, it)
+        }
     }
 
     fun addDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
-	require(t[0].second&&t[1].second&&t[2].second)
-	EIndexPattern.values().forEach{
-        val node = calculateNodeForDataFull(t[0].first, t[1].first, t[2].first,it)
-		P2P.execTripleAdd(node, name, transactionID, t[0].first, t[1].first, t[2].first,it)
-	}
+        require(t[0].second && t[1].second && t[2].second)
+        EIndexPattern.values().forEach {
+            val node = calculateNodeForDataFull(t[0].first, t[1].first, t[2].first, it)
+            P2P.execTripleAdd(node, name, transactionID, t[0].first, t[1].first, t[2].first, it)
+        }
     }
 
     fun deleteData(transactionID: Long, t: List<String?>) {
-	val l=mutableListOf<Pair<String,Boolean>>()
-	if(t[0]!=null)
-		l.add(Pair(t[0]!!, true))
-	else
-		l.add(Pair("s", false))
-	if(t[1]!=null)
-		l.add(Pair(t[1]!!, true))
-	else
-		l.add(Pair("p", false))
-	if(t[2]!=null)
-		l.add(Pair(t[2]!!, true))
-	else
-		l.add(Pair("o", false))
-EIndexPattern.values().forEach{
-        for (node in calculateNodeForDataMaybe(l[0].first,l[1].first,l[2].first,l[0].second,l[1].second,l[2].second,it)){
-            P2P.execTripleDelete(node, name, transactionID, l,it)
-}
+        val l = mutableListOf<Pair<String, Boolean>>()
+        if (t[0] != null)
+            l.add(Pair(t[0]!!, true))
+        else
+            l.add(Pair("s", false))
+        if (t[1] != null)
+            l.add(Pair(t[1]!!, true))
+        else
+            l.add(Pair("p", false))
+        if (t[2] != null)
+            l.add(Pair(t[2]!!, true))
+        else
+            l.add(Pair("o", false))
+        EIndexPattern.values().forEach {
+            for (node in calculateNodeForDataMaybe(l[0].first, l[1].first, l[2].first, l[0].second, l[1].second, l[2].second, it)) {
+                P2P.execTripleDelete(node, name, transactionID, l, it)
+            }
+        }
     }
-}
 
     fun deleteDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) {
-EIndexPattern.values().forEach{
-        for (node in calculateNodeForDataMaybe(t[0].first,t[1].first,t[2].first,t[0].second,t[1].second,t[2].second,it))
-            P2P.execTripleDelete(node, name, transactionID, listOf(t[0], t[1], t[2]),it)
-}
+        EIndexPattern.values().forEach {
+            for (node in calculateNodeForDataMaybe(t[0].first, t[1].first, t[2].first, t[0].second, t[1].second, t[2].second, it))
+                P2P.execTripleDelete(node, name, transactionID, listOf(t[0], t[1], t[2]), it)
+        }
     }
 
     fun addData(transactionID: Long, iterator: ResultSetIterator) {
-	val rs=iterator.getResultSet()
-	val ks=rs.createVariable("s")
-	val kp=rs.createVariable("p")
-	val ko=rs.createVariable("o")
-	while(iterator.hasNext()){
-		val v=iterator.next()
-		val s=rs.getValue(v[ks])
-		val p=rs.getValue(v[kp])
-		val o=rs.getValue(v[ko])
-		addData(transactionID,listOf(s,p,o))
-	}
+        val rs = iterator.getResultSet()
+        val ks = rs.createVariable("s")
+        val kp = rs.createVariable("p")
+        val ko = rs.createVariable("o")
+        while (iterator.hasNext()) {
+            val v = iterator.next()
+            val s = rs.getValue(v[ks])
+            val p = rs.getValue(v[kp])
+            val o = rs.getValue(v[ko])
+            addData(transactionID, listOf(s, p, o))
+        }
     }
 
     fun getIterator(transactionID: Long, dictionary: ResultSetDictionary): POPTripleStoreIteratorBase {
@@ -287,6 +287,6 @@ object DistributedTripleStore {
     }
 
     fun commit(transactionID: Long) {
-	P2P.execCommit(transactionID)
+        P2P.execCommit(transactionID)
     }
 }

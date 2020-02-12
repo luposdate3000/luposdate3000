@@ -10,19 +10,19 @@ abstract class POPBaseNullableIterator : POPBase() {
     var tmpResult: ResultRow? = null
     abstract fun nnext(): ResultRow?
     var tryNext = true
-    override fun hasNext(): Boolean =            Trace.trace("POPBaseNullableIterator.hasNext"){
-            if (!tryNext)
-                return false
-            if (tmpResult == null)
-                tmpResult = nnext()
-            tryNext = tmpResult != null
-            return tryNext
-    }as Boolean
+    override fun hasNext(): Boolean = Trace.trace("POPBaseNullableIterator.hasNext") {
+        if (!tryNext)
+            return false
+        if (tmpResult == null)
+            tmpResult = nnext()
+        tryNext = tmpResult != null
+        return tryNext
+    } as Boolean
 
-    override fun next(): ResultRow =            Trace.trace("POPBaseNullableIterator.next"){
-            require(tmpResult != null)
-            val res = tmpResult!!
-            tmpResult = null
-            return res
-    }as ResultRow
+    override fun next(): ResultRow = Trace.trace("POPBaseNullableIterator.next") {
+        require(tmpResult != null)
+        val res = tmpResult!!
+        tmpResult = null
+        return res
+    } as ResultRow
 }

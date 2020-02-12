@@ -4,6 +4,7 @@ import lupos.s00misc.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
+
 class LOPModifyData(val type: EModifyType) : LOPBase() {
     override val children: Array<OPBase> = arrayOf()
     val data = mutableListOf<List<Pair<String, Boolean>>>()
