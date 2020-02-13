@@ -199,7 +199,7 @@ private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> 
                 name.forEach {
                     GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + (Dictionary[it] as SimpleLiteral).content })
                     if ((Dictionary[it] as SimpleLiteral).content.compareTo("(pp28a) Diamond, with loop -- (:p/:p)?") == 0) {
-                        GlobalLogger.log(ELoggerType.RELEASE, { "found" })
+                        GlobalLogger.log(ELoggerType.DEBUG, { "found" })
                     }
                 }
                 numberOfTests++
@@ -562,12 +562,11 @@ fun parseSPARQLAndEvaluate(//
                     else
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(expectFalse,Unordered)" })
                 } else {
-                    if (expectedResult){
-			GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryTarget :: " + xmlQueryTarget?.first()?.toPrettyString() })
-			GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() })
+                    if (expectedResult) {
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryTarget :: " + xmlQueryTarget?.first()?.toPrettyString() })
+                        GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Incorrect)" })
-		    }
-                    else
+                    } else
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse)" })
                 }
             }

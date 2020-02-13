@@ -1,6 +1,6 @@
 package lupos.s12p2p
 
-import lupos.s00misc.XMLElement
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -54,7 +54,7 @@ class POPServiceIRI : POPBase {
         return resultSet
     }
 
-    override fun next(): ResultRow {
+    override fun next(): ResultRow = Trace.trace({ "POPServiceIRI.next" }, {
         try {
             val value = constraint!!.next()
             val res = resultSet.createResultRow()
@@ -71,9 +71,9 @@ class POPServiceIRI : POPBase {
             }
             throw e
         }
-    }
+    })as ResultRow
 
-    override fun hasNext(): Boolean {
+    override fun hasNext(): Boolean = Trace.trace({ "POPServiceIRI.hasNext" }, {
         if (first && constraint == null) {
             first = false
             return true
@@ -81,7 +81,7 @@ class POPServiceIRI : POPBase {
             return false
         } else
             return constraint.hasNext()
-    }
+    })as Boolean
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPServiceIRI")
