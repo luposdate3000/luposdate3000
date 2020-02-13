@@ -104,6 +104,7 @@ object EndpointImpl {
         } catch (e: Throwable) {
             GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
             responseStr = e.toString()
+println(e)
             request.setStatus(404)
         }
         if (responseBytes != null)
