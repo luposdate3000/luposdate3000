@@ -152,9 +152,9 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
             val pv = pFilter != null
             val ov = oFilter != null
             val nodeName = nodeNameIterator.next()
-            GlobalLogger.log(ELoggerType.RELEASE, { "nodeName :: ${nodeName} $s $p $o $sv $pv $ov" })
+            GlobalLogger.log(ELoggerType.DEBUG, { "nodeName :: ${nodeName} $s $p $o $sv $pv $ov" })
             val xml = P2P.execTripleGet(nodeName, graphName, transactionID, s, p, o, sv, pv, ov, idx)
-            GlobalLogger.log(ELoggerType.RELEASE, { "xml :: $xml" })
+            GlobalLogger.log(ELoggerType.DEBUG, { "xml :: $xml" })
             require(xml.tag == "sparql")
             xmlIterator = xml["results"]!!.childs.iterator()
         }
