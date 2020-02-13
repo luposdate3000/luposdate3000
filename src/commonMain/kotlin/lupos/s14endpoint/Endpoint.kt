@@ -91,31 +91,32 @@ inline fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long){
 }
 
 object Endpoint {
-    inline fun process_local_triple_add(graphName: String, transactionID: Long, s: String, p: String, o: String, idx: EIndexPattern): XMLElement = Trace.trace({ "Endpoint.process_local_triple_add" }, {
+     fun process_local_triple_add(graphName: String, transactionID: Long, s: String, p: String, o: String, idx: EIndexPattern): XMLElement = Trace.trace({ "Endpoint.process_local_triple_add" }, {
         DistributedTripleStore.localStore.getNamedGraph(graphName).addData(transactionID, s, p, o, idx)
         return XMLElement("success")
     })as XMLElement
 
-    inline fun process_local_triple_delete(graphName: String, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): XMLElement = Trace.trace({ "Endpoint.process_local_triple_delete" }, {
+     fun process_local_triple_delete(graphName: String, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): XMLElement = Trace.trace({ "Endpoint.process_local_triple_delete" }, {
         DistributedTripleStore.localStore.getNamedGraph(graphName).deleteDataVar(transactionID, s, p, o, sv, pv, ov, idx)
         return XMLElement("success")
     })as XMLElement
 
-    inline fun process_local_triple_get(graphName: String, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): XMLElement = Trace.trace({ "Endpoint.process_local_triple_get" }, {
-        return QueryResultToXML.toXML(DistributedTripleStore.localStore.getNamedGraph(graphName).getIterator(transactionID, ResultSetDictionary(), s, p, o, sv, pv, ov, idx)).first()
+     fun process_local_triple_get(graphName: String, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): XMLElement = Trace.trace({ "Endpoint.process_local_triple_get" }, {
+	val g=DistributedTripleStore.localStore.getNamedGraph(graphName)
+        return QueryResultToXML.toXML(g.getIterator(transactionID, ResultSetDictionary(), s, p, o, sv, pv, ov, idx)).first()
     })as XMLElement
 
-    inline fun process_local_graph_clear_all(): XMLElement = Trace.trace({ "Endpoint.process_local_graph_clear_all" }, {
+     fun process_local_graph_clear_all(): XMLElement = Trace.trace({ "Endpoint.process_local_graph_clear_all" }, {
         DistributedTripleStore.localStore.getDefaultGraph().clear()
         return XMLElement("success")
     })as XMLElement
 
-    inline fun process_local_commit(transactionID: Long): XMLElement = Trace.trace({ "Endpoint.process_local_commit" }, {
+     fun process_local_commit(transactionID: Long): XMLElement = Trace.trace({ "Endpoint.process_local_commit" }, {
         DistributedTripleStore.localStore.commit(transactionID)
         return XMLElement("success")
     })as XMLElement
 
-    inline fun process_local_graph_operation(name: String, type: EGraphOperationType): XMLElement = Trace.trace({ "Endpoint.process_local_graph_operation" }, {
+     fun process_local_graph_operation(name: String, type: EGraphOperationType): XMLElement = Trace.trace({ "Endpoint.process_local_graph_operation" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "process_local_graph_operation aa $name $type" })
         GlobalLogger.log(ELoggerType.DEBUG, { "${DistributedTripleStore}" })
         GlobalLogger.log(ELoggerType.DEBUG, { "${DistributedTripleStore.localStore}" })
@@ -128,7 +129,7 @@ object Endpoint {
         return XMLElement("success")
     })as XMLElement
 
-    inline fun process_turtle_input(data: String): XMLElement = Trace.trace({ "Endpoint.process_turtle_input" }, {
+     fun process_turtle_input(data: String): XMLElement = Trace.trace({ "Endpoint.process_turtle_input" }, {
         val lcit = LexerCharIterator(data)
         val tit = TurtleScanner(lcit)
         val ltit = LookAheadTokenIterator(tit, 3)
@@ -136,7 +137,7 @@ object Endpoint {
         return XMLElement("done")
     })as XMLElement
 
-    inline fun process_xml_input(data: String): XMLElement = Trace.trace({ "Endpoint.process_xml_input" }, {
+     fun process_xml_input(data: String): XMLElement = Trace.trace({ "Endpoint.process_xml_input" }, {
         val transactionID = DistributedTripleStore.nextTransactionID()
         val dictionary = ResultSetDictionary()
         DistributedTripleStore.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, XMLElement.parseFromXml(data)!!.first()))
@@ -144,7 +145,7 @@ object Endpoint {
         return XMLElement("done")
     })as XMLElement
 
-    inline fun process_sparql_query(query: String): XMLElement  = Trace.trace({ "Endpoint.process_sparql_query" }, {
+     fun process_sparql_query(query: String): XMLElement  = Trace.trace({ "Endpoint.process_sparql_query" }, {
         val transactionID = DistributedTripleStore.nextTransactionID()
         val dictionary = ResultSetDictionary()
         GlobalLogger.log(ELoggerType.DEBUG, { "----------String Query" })
@@ -173,7 +174,7 @@ object Endpoint {
         return QueryResultToXML.toXML(pop_distributed_node).first()
     })as XMLElement
 
-    inline fun process_operatorgraph_query(query: String): XMLElement  = Trace.trace({ "Endpoint.process_operatorgraph_query" }, {
+     fun process_operatorgraph_query(query: String): XMLElement  = Trace.trace({ "Endpoint.process_operatorgraph_query" }, {
         val transactionID = DistributedTripleStore.nextTransactionID()
         val dictionary = ResultSetDictionary()
         val pop_node = XMLElement.convertToOPBase(dictionary, transactionID, XMLElement.parseFromXml(query)!!.first()) as POPBase
