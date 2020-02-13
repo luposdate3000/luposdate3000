@@ -98,7 +98,8 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     }
 
     override fun next(): ResultRow = Trace.trace({ "TripleStoreIteratorGlobal.next" }, {
-	return remoteIterator!!.next()
+        val tmp = remoteIterator!!.next()
+        return tmp
     }) as ResultRow
 
     override fun hasNext(): Boolean = Trace.trace({ "TripleStoreIteratorGlobal.hasNext" }, {
@@ -125,7 +126,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
             val ov = oFilter != null
             val nodeName = nodeNameIterator.next()
             GlobalLogger.log(ELoggerType.DEBUG, { "nodeName :: ${nodeName} $s $p $o $sv $pv $ov" })
-            val remoteNode = P2P.execTripleGet(nodeName, graphName,dictionary, transactionID, s, p, o, sv, pv, ov, idx)
+            val remoteNode = P2P.execTripleGet(nodeName, graphName, dictionary, transactionID, s, p, o, sv, pv, ov, idx)
             remoteIterator = remoteNode
         }
         GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.hasNext end2" })
@@ -157,14 +158,14 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
 class DistributedGraph(val name: String) {
     val K = 8 // defined in project.pdf
 
-    inline fun myHashCode(s: String, d: Int): Int {
+    fun myHashCode(s: String, d: Int): Int {
         val c = s.hashCode()
         if (c < 0)
             return (-c) % d
         return c % d
     }
 
-    inline fun myHashCode(s: Int, p: Int, o: Int, d: Int, idx: EIndexPattern): Int = Trace.trace({ "DistributedGraph.myHashCode" }, {
+    fun myHashCode(s: Int, p: Int, o: Int, d: Int, idx: EIndexPattern): Int = Trace.trace({ "DistributedGraph.myHashCode" }, {
         when (idx) {
             EIndexPattern.SPO -> return myHashCode("" + s + "-" + p + "-" + o, d)
             EIndexPattern.SOP -> return myHashCode("" + s + "-" + o + "-" + p, d)
@@ -175,14 +176,14 @@ class DistributedGraph(val name: String) {
         }
     }) as Int
 
-    inline fun calculateNodeForDataFull(s: String, p: String, o: String, idx: EIndexPattern): String = Trace.trace({ "DistributedGraph.calculateNodeForDataFull" }, {
+    fun calculateNodeForDataFull(s: String, p: String, o: String, idx: EIndexPattern): String = Trace.trace({ "DistributedGraph.calculateNodeForDataFull" }, {
         val sh = +myHashCode(s, K)
         val ph = +myHashCode(p, K)
         val oh = +myHashCode(o, K)
         return P2P.getKnownClientsCopy()[myHashCode(sh, ph, oh, P2P.knownClients.size, idx)]
     }) as String
 
-    inline fun calculateNodeForDataMaybe(s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): Set<String> = Trace.trace({ "DistributedGraph.calculateNodeForDataMaybe" }, {
+    fun calculateNodeForDataMaybe(s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): Set<String> = Trace.trace({ "DistributedGraph.calculateNodeForDataMaybe" }, {
         val res = mutableSetOf<String>()
         val sr = if (sv) {
             val h = myHashCode(s, K)

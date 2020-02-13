@@ -8,23 +8,28 @@ import lupos.s09physicalOperators.POPBase
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class DynamicByteArray {
-var data: ByteArray
-val maxlen:Int
-constructor(){
-data=ByteArray(100)
-maxlen=Int.MAX_VALUE
-}
-constructor(data: ByteArray){
-this.data=data
-maxlen=getInt(0)
-}
-    fun finish():ByteArray{
-        setInt(pos,0)
-	return data
+    var data: ByteArray
+    val maxlen: Int
+
+    constructor() {
+        data = ByteArray(100)
+        maxlen = Int.MAX_VALUE
     }
+
+    constructor(data: ByteArray) {
+        this.data = data
+        maxlen = getInt(0)
+    }
+
+    fun finish(): ByteArray {
+        println("DynamicByteArray.finish")
+        setInt(pos, 0)
+        return data
+    }
+
     var pos = 4
     fun setInt(i: Int, p: Int) {
-        println("setInt $p $i")
+        println("DynamicByteArray.setInt $p $i")
         data.set(p, i.toByte())
         data.set(p + 1, (i shr 8).toByte())
         data.set(p + 2, (i shr 16).toByte())
@@ -53,7 +58,7 @@ maxlen=getInt(0)
     }
 
     fun setLong(i: Long, p: Int) {
-        println("setLong $p $i")
+        println("DynamicByteArray.setLong $p $i")
         data.set(p, i.toByte())
         data.set(p + 1, (i shr 8).toByte())
         data.set(p + 2, (i shr 16).toByte())
@@ -90,7 +95,7 @@ maxlen=getInt(0)
     }
 
     fun setByte(b: Byte, p: Int) {
-        println("setByte $p $b")
+        println("DynamicByteArray.setByte $p $b")
         data.set(p, b)
     }
 
@@ -112,7 +117,7 @@ maxlen=getInt(0)
     }
 
     fun appendString(s: String) {
-        println("setString $pos $s")
+        println("DynamicByteArray.setString $pos $s")
         val tmp = s.encodeToByteArray()
         appendInt(tmp.size)
         while (pos + tmp.size >= data.size)
@@ -157,6 +162,7 @@ maxlen=getInt(0)
 
 object ResultRepresenationNetwork {
     fun toNetworkPackage(query: POPBase): ByteArray {
+        println("ResultRepresenationNetwork.toNetworkPackage")
         val res = DynamicByteArray()
         val resultSet = query.getResultSet()
         val variableNames = resultSet.getVariableNames().toTypedArray()
@@ -217,6 +223,7 @@ object ResultRepresenationNetwork {
     }
 
     fun fromNetworkPackage(dictionary: ResultSetDictionary, data: ByteArray): POPBase {
+        println("ResultRepresenationNetwork.fromNetworkPackage")
         val d = DynamicByteArray()
         d.data = data
         return POPImportFromNetworkPackage(dictionary, d)

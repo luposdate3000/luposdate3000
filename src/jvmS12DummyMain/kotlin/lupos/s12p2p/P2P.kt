@@ -221,11 +221,11 @@ object P2P {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleAdd end" })
     })
 
-    fun execTripleGet(node: String, graphName: String,dictionary: ResultSetDictionary, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
+    fun execTripleGet(node: String, graphName: String, dictionary: ResultSetDictionary, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleGet start $node $graphName $transactionID" })
         var res: POPBase? = null
         if (node == EndpointImpl.fullname)
-            res = Endpoint.process_local_triple_get(graphName, transactionID, s, p, o, sv, pv, ov, idx)
+            res = Endpoint.process_local_triple_get(graphName, dictionary, transactionID, s, p, o, sv, pv, ov, idx)
         else {
             val req = "${EndpointImpl.REQUEST_TRIPLE_GET[0]}" +//
                     "?${EndpointImpl.REQUEST_TRIPLE_GET[1]}=${URL.encodeComponent(graphName)}" +//
@@ -240,7 +240,7 @@ object P2P {
             runBlocking {
                 val response = retryRequest(Http.Method.GET, "http://${resolveNodeName(node)}$req")
                 var responseBytes = response.readAllBytes()
-		res = ResultRepresenationNetwork.fromNetworkPackage(dictionary,responseBytes)
+                res = ResultRepresenationNetwork.fromNetworkPackage(dictionary, responseBytes)
             }
         }
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleGet end" })

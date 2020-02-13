@@ -50,7 +50,7 @@ object EndpointImpl {
         request.replaceHeader("Connection", "close")
         request.replaceHeader("Content-Type", "text/html")
         var responseStr = ""
-        var responseBytes:ByteArray?=null
+        var responseBytes: ByteArray? = null
         var data = ""
         var endFlag = true
         request.handler { it ->
@@ -65,7 +65,7 @@ object EndpointImpl {
         try {
             when (request.path) {
                 REQUEST_TRIPLE_ADD[0] -> responseStr = Endpoint.process_local_triple_add(params[REQUEST_TRIPLE_ADD[1]]!!.first(), params[REQUEST_TRIPLE_ADD[2]]!!.first().toLong(), params[REQUEST_TRIPLE_ADD[3]]!!.first(), params[REQUEST_TRIPLE_ADD[4]]!!.first(), params[REQUEST_TRIPLE_ADD[5]]!!.first(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_ADD[6]]!!.first())).toPrettyString()
-                REQUEST_TRIPLE_GET[0] -> responseBytes = ResultRepresenationNetwork.toNetworkPackage(Endpoint.process_local_triple_get(params[REQUEST_TRIPLE_GET[1]]!!.first(), params[REQUEST_TRIPLE_GET[2]]!!.first().toLong(), params[REQUEST_TRIPLE_GET[3]]!!.first(), params[REQUEST_TRIPLE_GET[4]]!!.first(), params[REQUEST_TRIPLE_GET[5]]!!.first(), params[REQUEST_TRIPLE_GET[6]]!!.first().toBoolean(), params[REQUEST_TRIPLE_GET[7]]!!.first().toBoolean(), params[REQUEST_TRIPLE_GET[8]]!!.first().toBoolean(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_GET[9]]!!.first())))
+                REQUEST_TRIPLE_GET[0] -> responseBytes = ResultRepresenationNetwork.toNetworkPackage(Endpoint.process_local_triple_get(params[REQUEST_TRIPLE_GET[1]]!!.first(), ResultSetDictionary(), params[REQUEST_TRIPLE_GET[2]]!!.first().toLong(), params[REQUEST_TRIPLE_GET[3]]!!.first(), params[REQUEST_TRIPLE_GET[4]]!!.first(), params[REQUEST_TRIPLE_GET[5]]!!.first(), params[REQUEST_TRIPLE_GET[6]]!!.first().toBoolean(), params[REQUEST_TRIPLE_GET[7]]!!.first().toBoolean(), params[REQUEST_TRIPLE_GET[8]]!!.first().toBoolean(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_GET[9]]!!.first())))
                 REQUEST_TRIPLE_DELETE[0] -> responseStr = Endpoint.process_local_triple_delete(params[REQUEST_TRIPLE_DELETE[1]]!!.first(), params[REQUEST_TRIPLE_DELETE[2]]!!.first().toLong(), params[REQUEST_TRIPLE_DELETE[3]]!!.first(), params[REQUEST_TRIPLE_DELETE[4]]!!.first(), params[REQUEST_TRIPLE_DELETE[5]]!!.first(), params[REQUEST_TRIPLE_DELETE[6]]!!.first().toBoolean(), params[REQUEST_TRIPLE_DELETE[7]]!!.first().toBoolean(), params[REQUEST_TRIPLE_DELETE[8]]!!.first().toBoolean(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_DELETE[9]]!!.first())).toPrettyString()
                 REQUEST_TRACE_PRINT[0] -> responseStr = process_print_traces()
                 REQUEST_PEERS_LIST[0] -> responseStr = P2P.process_peers_list()
@@ -106,10 +106,10 @@ object EndpointImpl {
             responseStr = e.toString()
             request.setStatus(404)
         }
-	if(responseBytes!=null)
-	        request.end(responseBytes)
-	else
-	        request.end(responseStr)
+        if (responseBytes != null)
+            request.end(responseBytes)
+        else
+            request.end(responseStr)
         GlobalLogger.log(ELoggerType.DEBUG, { "responseStr::" + responseStr })
     }
 
