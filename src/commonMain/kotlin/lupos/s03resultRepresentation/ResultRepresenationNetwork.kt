@@ -183,7 +183,7 @@ println("write variablesCount $variablesCount")
         for (n in variableNames) {
 println("write variableNames $n")
             res.appendString(n)
-            variables[i] == resultSet.createVariable(n)
+            variables[i] = resultSet.createVariable(n)
             i++
         }
         var posResultLen = 0
@@ -193,15 +193,17 @@ println("write variableNames $n")
             val resultRow = query.next()
             var newDictionaryMax = latestDictionaryMax
             for (v in variables) {
-                if (newDictionaryMax == null || resultRow[v!!] > newDictionaryMax)
+                if (newDictionaryMax == null || resultRow[v!!] > newDictionaryMax){
                     newDictionaryMax = resultRow[v!!]
+		}
             }
-println("write dictlen ${latestDictionaryMax!! + 1}")
-            res.appendLong(latestDictionaryMax!! + 1)
-            for (v in latestDictionaryMax!! + 1 until newDictionaryMax!!) {
+println("write dictlen ${newDictionaryMax!! + 1}")
+            res.appendLong(newDictionaryMax!! + 1)
+            for (v in 0 until newDictionaryMax!!+1) {
 println("write dictentry ${resultSet.getValue(v)!!}")
                 res.appendString(resultSet.getValue(v)!!)
             }
+	latestDictionaryMax=newDictionaryMax
             currentRowCounter = 0
 println("space for resultcount")
             posResultLen = res.appendSpace(4)
@@ -228,13 +230,14 @@ println("override resultcount $currentRowCounter")
                 res.setInt(currentRowCounter, posResultLen)
 println("write dictlen ${newDictionaryMax - latestDictionaryMax}")
                 res.appendLong(newDictionaryMax - latestDictionaryMax)
-                for (v in latestDictionaryMax + 1 until newDictionaryMax) {
+                for (v in latestDictionaryMax + 1 until newDictionaryMax+1) {
 println("write dictentry ${resultSet.getValue(v)!!}")
                     res.appendString(resultSet.getValue(v)!!)
                 }
                 currentRowCounter = 0
 println("space for resultcount")
                 posResultLen = res.appendSpace(4)
+latestDictionaryMax=newDictionaryMax
             }
             for (v in variables) {
 println("write triplevalue ${resultRow[v!!]}")
