@@ -191,19 +191,19 @@ class TripleStoreLocal {
         this.name = name
     }
 
-    inline fun clear()  = Trace.trace({ "TripleStoreLocal.clear" }, {
+    inline fun clear() = Trace.trace({ "TripleStoreLocal.clear" }, {
         tripleStore.forEach() {
             it.clear()
         }
     })
 
-    inline fun abort(transactionID: Long)  = Trace.trace({ "TripleStoreLocal.abort" }, {
+    inline fun abort(transactionID: Long) = Trace.trace({ "TripleStoreLocal.abort" }, {
         pendingModifications.forEach {
             it.remove(transactionID)
         }
     })
 
-    inline fun commit2(transactionID: Long)  = Trace.trace({ "TripleStoreLocal.commit2" }, {
+    inline fun commit2(transactionID: Long) = Trace.trace({ "TripleStoreLocal.commit2" }, {
         EIndexPattern.values().forEach {
             val tmp = pendingModifications[it.ordinal][transactionID]
             if (tmp != null) {
@@ -218,21 +218,21 @@ class TripleStoreLocal {
         }
     })
 
-    inline fun addData(transactionID: Long, ss: String, ps: String, os: String, idx: EIndexPattern)  = Trace.trace({ "TripleStoreLocal.addData" }, {
+    inline fun addData(transactionID: Long, ss: String, ps: String, os: String, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.addData" }, {
         val vals = resultSet.createValue(ss)
         val valp = resultSet.createValue(ps)
         val valo = resultSet.createValue(os)
         modifyData(transactionID, vals, valp, valo, EModifyType.INSERT, idx)
     })
 
-    inline fun deleteData(transactionID: Long, ss: String, ps: String, os: String, idx: EIndexPattern)  = Trace.trace({ "TripleStoreLocal.deleteData" }, {
+    inline fun deleteData(transactionID: Long, ss: String, ps: String, os: String, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.deleteData" }, {
         val vals = resultSet.createValue(ss)
         val valp = resultSet.createValue(ps)
         val valo = resultSet.createValue(os)
         modifyData(transactionID, vals, valp, valo, EModifyType.DELETE, idx)
     })
 
-    inline fun addDataVar(transactionID: Long, ss: String, ps: String, os: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern)  = Trace.trace({ "TripleStoreLocal.addDataVar" }, {
+    inline fun addDataVar(transactionID: Long, ss: String, ps: String, os: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.addDataVar" }, {
         require(sv == true)
         require(pv == true)
         require(ov == true)
@@ -242,7 +242,7 @@ class TripleStoreLocal {
         modifyData(transactionID, vals, valp, valo, EModifyType.INSERT, idx)
     })
 
-    inline fun deleteDataVar(transactionID: Long, ss: String, ps: String, os: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern)  = Trace.trace({ "TripleStoreLocal.deleteDataVar" }, {
+    inline fun deleteDataVar(transactionID: Long, ss: String, ps: String, os: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.deleteDataVar" }, {
         val vals: Value = resultSet.createValue(ss)
         val valp: Value = resultSet.createValue(ps)
         val valo: Value = resultSet.createValue(os)
@@ -316,9 +316,9 @@ class TripleStoreLocal {
         }
     })
 
-    inline fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, index: EIndexPattern): POPTripleStoreIteratorBase  = Trace.trace({ "TripleStoreLocal.getIterator a" }, {
+    inline fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator a" }, {
         return TripleStoreIteratorLocal(dictionary, this, index)
-    })as POPTripleStoreIteratorBase
+    }) as POPTripleStoreIteratorBase
 
     inline fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator b" }, {
         val res = TripleStoreIteratorLocal(dictionary, this, index)
@@ -326,7 +326,7 @@ class TripleStoreLocal {
         res.setMNameP(p)
         res.setMNameO(o)
         return res
-    })as POPTripleStoreIteratorBase
+    }) as POPTripleStoreIteratorBase
 
     inline fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator c" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "local get iterator :: $s $p $o $sv $pv $ov" })
@@ -344,5 +344,5 @@ class TripleStoreLocal {
         else
             res.setMNameO(o)
         return res
-    })as POPTripleStoreIteratorBase
+    }) as POPTripleStoreIteratorBase
 }

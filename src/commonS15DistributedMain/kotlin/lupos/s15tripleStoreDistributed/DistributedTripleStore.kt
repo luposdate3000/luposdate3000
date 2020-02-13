@@ -87,7 +87,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
 
     override fun getGraphName(): String = Trace.trace({ "TripleStoreIteratorGlobal.getGraphName" }, {
         return graphName
-    })as String
+    }) as String
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>(nameS, nameP, nameO)
@@ -160,7 +160,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
         }
         GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.hasNext end2" })
         return true
-    })as Boolean
+    }) as Boolean
 
     override fun getResultSet(): ResultSet {
         return resultSetNew
@@ -203,14 +203,14 @@ class DistributedGraph(val name: String) {
             EIndexPattern.OPS -> return myHashCode("" + o + "-" + p + "-" + s, d)
             EIndexPattern.OSP -> return myHashCode("" + o + "-" + s + "-" + p, d)
         }
-    })as Int
+    }) as Int
 
     inline fun calculateNodeForDataFull(s: String, p: String, o: String, idx: EIndexPattern): String = Trace.trace({ "DistributedGraph.calculateNodeForDataFull" }, {
         val sh = +myHashCode(s, K)
         val ph = +myHashCode(p, K)
         val oh = +myHashCode(o, K)
         return P2P.getKnownClientsCopy()[myHashCode(sh, ph, oh, P2P.knownClients.size, idx)]
-    })as String
+    }) as String
 
     inline fun calculateNodeForDataMaybe(s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): Set<String> = Trace.trace({ "DistributedGraph.calculateNodeForDataMaybe" }, {
         val res = mutableSetOf<String>()
@@ -238,16 +238,16 @@ class DistributedGraph(val name: String) {
         }
         GlobalLogger.log(ELoggerType.DEBUG, { "maybe :: " + res })
         return res
-    })as Set<String>
+    }) as Set<String>
 
-    fun addData(transactionID: Long, t: List<String?>)  = Trace.trace({ "DistributedGraph.addData a" }, {
+    fun addData(transactionID: Long, t: List<String?>) = Trace.trace({ "DistributedGraph.addData a" }, {
         EIndexPattern.values().forEach {
             val node = calculateNodeForDataFull(t[0]!!, t[1]!!, t[2]!!, it)
             P2P.execTripleAdd(node, name, transactionID, t[0]!!, t[1]!!, t[2]!!, it)
         }
     })
 
-    fun addDataVar(transactionID: Long, t: List<Pair<String, Boolean>>)  = Trace.trace({ "DistributedGraph.addDataVar" }, {
+    fun addDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) = Trace.trace({ "DistributedGraph.addDataVar" }, {
         require(t[0].second && t[1].second && t[2].second)
         EIndexPattern.values().forEach {
             val node = calculateNodeForDataFull(t[0].first, t[1].first, t[2].first, it)
@@ -255,7 +255,7 @@ class DistributedGraph(val name: String) {
         }
     })
 
-    fun deleteData(transactionID: Long, t: List<String?>)  = Trace.trace({ "DistributedGraph.deleteData" }, {
+    fun deleteData(transactionID: Long, t: List<String?>) = Trace.trace({ "DistributedGraph.deleteData" }, {
         val l = mutableListOf<Pair<String, Boolean>>()
         if (t[0] != null)
             l.add(Pair(t[0]!!, true))
@@ -276,7 +276,7 @@ class DistributedGraph(val name: String) {
         }
     })
 
-    fun deleteDataVar(transactionID: Long, t: List<Pair<String, Boolean>>)  = Trace.trace({ "DistributedGraph.deleteDataVar" }, {
+    fun deleteDataVar(transactionID: Long, t: List<Pair<String, Boolean>>) = Trace.trace({ "DistributedGraph.deleteDataVar" }, {
         EIndexPattern.values().forEach {
             for (node in calculateNodeForDataMaybe(t[0].first, t[1].first, t[2].first, t[0].second, t[1].second, t[2].second, it))
                 P2P.execTripleDelete(node, name, transactionID, listOf(t[0], t[1], t[2]), it)
@@ -297,9 +297,9 @@ class DistributedGraph(val name: String) {
         }
     })
 
-    fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, index: EIndexPattern): POPTripleStoreIteratorBase  = Trace.trace({ "DistributedGraph.getIterator c" }, {
+    fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "DistributedGraph.getIterator c" }, {
         return TripleStoreIteratorGlobal(transactionID, dictionary, name, index)
-    })as POPTripleStoreIteratorBase
+    }) as POPTripleStoreIteratorBase
 
     fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "DistributedGraph.getIterator b" }, {
         val res = TripleStoreIteratorGlobal(transactionID, dictionary, name, index)
@@ -307,28 +307,28 @@ class DistributedGraph(val name: String) {
         res.setMNameP(p)
         res.setMNameO(o)
         return res
-    })as POPTripleStoreIteratorBase
+    }) as POPTripleStoreIteratorBase
 
     fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "DistributedGraph.getIterator a" }, {
         val res = TripleStoreIteratorGlobal(transactionID, dictionary, name, s, p, o, sv, pv, ov, index)
         return res
-    })as POPTripleStoreIteratorBase
+    }) as POPTripleStoreIteratorBase
 }
 
 object DistributedTripleStore {
     val localStore = PersistentStoreLocal()
     fun nextTransactionID(): Long = Trace.trace({ "DistributedTripleStore.nextTransactionID" }, {
         return localStore.nextTransactionID()
-    })as Long
+    }) as Long
 
-    fun getGraphNames(includeDefault: Boolean = false): List<String>  = Trace.trace({ "DistributedTripleStore.getGraphNames" }, {
+    fun getGraphNames(includeDefault: Boolean = false): List<String> = Trace.trace({ "DistributedTripleStore.getGraphNames" }, {
         return localStore.getGraphNames(includeDefault)
-    })as List<String>
+    }) as List<String>
 
     fun createGraph(name: String): DistributedGraph = Trace.trace({ "DistributedTripleStore.createGraph" }, {
         P2P.execGraphOperation(name, EGraphOperationType.CREATE)
         return DistributedGraph(name)
-    })as DistributedGraph
+    }) as DistributedGraph
 
     fun dropGraph(name: String) = Trace.trace({ "DistributedTripleStore.dropGraph" }, {
         P2P.execGraphOperation(name, EGraphOperationType.DROP)
@@ -343,11 +343,11 @@ object DistributedTripleStore {
         if (create && !(localStore.getGraphNames(true).contains(name)))
             createGraph(name)
         return DistributedGraph(name)
-    })as DistributedGraph
+    }) as DistributedGraph
 
     fun getDefaultGraph(): DistributedGraph = Trace.trace({ "DistributedTripleStore.getDefaultGraph" }, {
         return DistributedGraph(localStore.defaultGraphName)
-    })as DistributedGraph
+    }) as DistributedGraph
 
     fun commit(transactionID: Long) = Trace.trace({ "DistributedTripleStore.commit" }, {
         P2P.execCommit(transactionID)

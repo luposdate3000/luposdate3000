@@ -80,11 +80,11 @@ object Trace {
         var totalrelative = 0.0
         res += "real::\n"
         for (v in map2.values) {
-	    if(v.first>0){
-            	total += v.second
-        	totalrelative += v.second / v.first
+            if (v.first > 0) {
+                total += v.second
+                totalrelative += v.second / v.first
             }
-	}
+        }
         val scale = 1000000.0 / totalrelative
         for ((k, v) in map2) {
             val relativeTime = v.second / v.first

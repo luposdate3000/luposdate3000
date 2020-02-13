@@ -15,7 +15,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.parseSPARQL
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
-import lupos.s03resultRepresentation.ResultSet
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
@@ -32,6 +32,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 val errorBoundForDecimalsDigits = 6
 
 fun main(args: Array<String>) {
+    dynamicByteArraySelfTest()
     P2P.knownClients.add(EndpointImpl.fullname)
     testMain()
 }
@@ -53,9 +54,9 @@ fun testMain() {
         }
 */
     }
-GlobalLogger.log(ELoggerType.RELEASE, { "beforeTrace"})
+    GlobalLogger.log(ELoggerType.RELEASE, { "beforeTrace" })
     Trace.print()
-GlobalLogger.log(ELoggerType.RELEASE, { "afterTrace"})
+    GlobalLogger.log(ELoggerType.RELEASE, { "afterTrace" })
 }
 
 class SevenIndices {
@@ -425,7 +426,7 @@ private fun testOneEntry(data: SevenIndices, node: Long, prefix: String): Boolea
     return success == expectedResult
 }
 
-var i=0
+var i = 0
 
 fun parseSPARQLAndEvaluate(//
         expectedResult: Boolean,//
@@ -436,9 +437,9 @@ fun parseSPARQLAndEvaluate(//
         inputDataGraph: MutableList<MutableMap<String, String>>,//
         outputDataGraph: MutableList<MutableMap<String, String>>//
 ): Boolean {
-i++
-if(i>100)
-	return true
+    i++
+    if (i > 100)
+        return true
 
     for (g in DistributedTripleStore.getGraphNames()) {
         DistributedTripleStore.dropGraph(g)

@@ -37,39 +37,39 @@ object P2P {
                 delay(10)
             }
         }
-    })as HttpClient.Response
+    }) as HttpClient.Response
 
-    fun resolveNodeName(name: String): String  = Trace.trace({ "P2P.resolveNodeName" }, {
+    fun resolveNodeName(name: String): String = Trace.trace({ "P2P.resolveNodeName" }, {
         val tmp = nodeNameRemapping[name]
         if (tmp != null)
             return tmp
         return name
-    })as String
+    }) as String
 
     fun process_peers_self_test(): String = Trace.trace({ "P2P.process_peers_self_test" }, {
         testMain()
         return XMLElement.XMLHeader
-    })as String
+    }) as String
 
     fun process_peers_list(): String = Trace.trace({ "P2P.process_peers_list" }, {
-/*nice to have, but not required*/
+        /*nice to have, but not required*/
         GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_list" })
         var res = ""
         synchronized(knownClients) {
             res = XMLElement.XMLHeader + "\n" + XMLElement("servers").addContent(knownClients, "server").toPrettyString()
         }
         return res
-    })as String
+    }) as String
 
     fun process_peers_join_internal(hostname: String?): String = Trace.trace({ "P2P.process_peers_join_internal" }, {
-/*just a dummy ... should be removed if there is a real p2p*/
+        /*just a dummy ... should be removed if there is a real p2p*/
         GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join_internal $hostname" })
         synchronized(knownClients) {
             if (hostname != null && hostname != "localhost")
                 knownClients.add(hostname)
         }
         return XMLElement.XMLHeader
-    })as String
+    }) as String
 
     fun getKnownClientsCopy(): List<String> = Trace.trace({ "P2P.getKnownClientsCopy" }, {
         val knownClientsCopy = mutableListOf<String>()
@@ -79,10 +79,10 @@ object P2P {
             }
         }
         return knownClientsCopy
-    })as  List<String>
+    }) as List<String>
 
     suspend fun process_peers_join(hostname: String?): String = Trace.trace({ "P2P.process_peers_join" }, {
-/*just a dummy ... should be removed if there is a real p2p*/
+        /*just a dummy ... should be removed if there is a real p2p*/
         GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join $hostname" })
         val knownClientsCopy = mutableListOf<String>()
         synchronized(knownClients) {
@@ -105,10 +105,10 @@ object P2P {
             GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join $hostname 4" })
         }
         return XMLElement.XMLHeader + "\n" + XMLElement("servers").addContent(knownClientsCopy, "server").toPrettyString()
-    })as String
+    }) as String
 
     suspend fun start(bootstrap: String?) = Trace.trace({ "P2P.start" }, {
-/*start the p2p network. DONT block the thread*/
+        /*start the p2p network. DONT block the thread*/
         GlobalLogger.log(ELoggerType.DEBUG, { "P2P.start $bootstrap" })
         synchronized(knownClients) {
             knownClients.add(EndpointImpl.fullname)
@@ -132,7 +132,7 @@ object P2P {
     })
 
     fun execInsertOnNamedNode(nodeName: String, data: XMLElement) = Trace.trace({ "P2P.execInsertOnNamedNode" }, {
-/*insert "data" on remote node - if it exist - otherwiese throw an exception*/
+        /*insert "data" on remote node - if it exist - otherwiese throw an exception*/
         runBlocking {
             val response = retryRequest(Http.Method.GET, "http://${resolveNodeName(nodeName)}${EndpointImpl.REQUEST_XML_INPUT[0]}" +//
                     "?EndpointImpl.REQUEST_XML_INPUT[1]=${URL.encodeComponent(data.toPrettyString())}")
@@ -140,7 +140,7 @@ object P2P {
     })
 
     fun execOnNamedNode(dictionary: ResultSetDictionary, transactionID: Long, nodeName: String, pop: OPBase): OPBase = Trace.trace({ "P2P.execOnNamedNode" }, {
-/*execute "pop" on remote node - if it exist - otherwiese throw an exception*/
+        /*execute "pop" on remote node - if it exist - otherwiese throw an exception*/
         var res: POPBase = POPEmptyRow(dictionary)
         runBlocking {
             val response = retryRequest(Http.Method.GET, "http://${resolveNodeName(nodeName)}${EndpointImpl.REQUEST_OPERATOR_QUERY[0]}" +//
@@ -149,10 +149,10 @@ object P2P {
             res = POPImportFromXml(dictionary, XMLElement.parseFromXml(xml)!!.first())
         }
         return res
-    })as OPBase
+    }) as OPBase
 
     fun execGraphClearAll() = Trace.trace({ "P2P.execGraphClearAll" }, {
-/*execute clear on every known node - for TESTING only*/
+        /*execute clear on every known node - for TESTING only*/
         Endpoint.process_local_graph_clear_all()
         synchronized(knownClients) {
             knownClients.forEach {
@@ -167,7 +167,7 @@ object P2P {
     })
 
     fun execGraphOperation(name: String, type: EGraphOperationType) = Trace.trace({ "P2P.execGraphOperation" }, {
-/*execute clear on every known node - for TESTING only*/
+        /*execute clear on every known node - for TESTING only*/
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P a" })
         Endpoint.process_local_graph_operation(name, type)
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P b" })
@@ -186,7 +186,7 @@ object P2P {
     })
 
     fun execCommit(transactionID: Long) = Trace.trace({ "P2P.execCommit" }, {
-/*execute clear on every known node - for TESTING only*/
+        /*execute clear on every known node - for TESTING only*/
         GlobalLogger.log(ELoggerType.DEBUG, { "execCommit $transactionID begin" })
         Endpoint.process_local_commit(transactionID)
         synchronized(knownClients) {
@@ -246,7 +246,7 @@ object P2P {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleGet $node $graphName " + res!!.toPrettyString() })
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleGet end" })
         return res!!
-    })as XMLElement
+    }) as XMLElement
 
     fun execTripleDelete(node: String, graphName: String, transactionID: Long, data: List<Pair<String, Boolean>>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleDelete start" })

@@ -71,7 +71,7 @@ class POPServiceIRI : POPBase {
             }
             throw e
         }
-    })as ResultRow
+    }) as ResultRow
 
     override fun hasNext(): Boolean = Trace.trace({ "POPServiceIRI.hasNext" }, {
         if (first && constraint == null) {
@@ -81,7 +81,7 @@ class POPServiceIRI : POPBase {
             return false
         } else
             return constraint.hasNext()
-    })as Boolean
+    }) as Boolean
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPServiceIRI")
