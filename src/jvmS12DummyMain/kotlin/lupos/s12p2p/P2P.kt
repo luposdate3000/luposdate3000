@@ -10,7 +10,7 @@ import kotlinx.coroutines.runBlocking
 import lupos.s00misc.*
 import lupos.s00misc.parseFromXml
 import lupos.s02buildSyntaxTree.rdf.Dictionary
-import lupos.s03resultRepresentation.ResultSet
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
@@ -221,9 +221,9 @@ object P2P {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleAdd end" })
     })
 
-    fun execTripleGet(node: String, graphName: String, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): XMLElement = Trace.trace({ "P2P.execTripleGet" }, {
+    fun execTripleGet(node: String, graphName: String,dictionary: ResultSetDictionary, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleGet start $node $graphName $transactionID" })
-        var res: XMLElement? = null
+        var res: POPBase? = null
         if (node == EndpointImpl.fullname)
             res = Endpoint.process_local_triple_get(graphName, transactionID, s, p, o, sv, pv, ov, idx)
         else {
@@ -239,14 +239,13 @@ object P2P {
                     "&${EndpointImpl.REQUEST_TRIPLE_GET[9]}=${URL.encodeComponent("" + idx)}"
             runBlocking {
                 val response = retryRequest(Http.Method.GET, "http://${resolveNodeName(node)}$req")
-                var responseString = response.readAllString()
-                res = XMLElement.parseFromXml(responseString)!!.first()!!
+                var responseBytes = response.readAllBytes()
+		res = ResultRepresenationNetwork.fromNetworkPackage(dictionary,responseBytes)
             }
         }
-        GlobalLogger.log(ELoggerType.DEBUG, { "execTripleGet $node $graphName " + res!!.toPrettyString() })
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleGet end" })
         return res!!
-    }) as XMLElement
+    }) as POPBase
 
     fun execTripleDelete(node: String, graphName: String, transactionID: Long, data: List<Pair<String, Boolean>>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleDelete start" })

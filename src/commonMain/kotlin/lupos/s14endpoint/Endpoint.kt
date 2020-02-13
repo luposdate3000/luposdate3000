@@ -101,10 +101,10 @@ object Endpoint {
         return XMLElement("success")
     }) as XMLElement
 
-    fun process_local_triple_get(graphName: String, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): XMLElement = Trace.trace({ "Endpoint.process_local_triple_get" }, {
+    fun process_local_triple_get(graphName: String, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): POPBase = Trace.trace({ "Endpoint.process_local_triple_get" }, {
         val g = DistributedTripleStore.localStore.getNamedGraph(graphName)
-        return QueryResultToXML.toXML(g.getIterator(transactionID, ResultSetDictionary(), s, p, o, sv, pv, ov, idx)).first()
-    }) as XMLElement
+        return g.getIterator(transactionID, ResultSetDictionary(), s, p, o, sv, pv, ov, idx)
+    }) as POPBase
 
     fun process_local_graph_clear_all(): XMLElement = Trace.trace({ "Endpoint.process_local_graph_clear_all" }, {
         DistributedTripleStore.localStore.getDefaultGraph().clear()

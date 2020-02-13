@@ -24,7 +24,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     private val resultSetNew: ResultSet
     private var oNew: Variable
     private val nodeNameIterator: Iterator<String>
-    private var xmlIterator: Iterator<XMLElement>? = null
+    private var remoteIterator: Iterator<ResultRow>? = null
     private val transactionID: Long
     private val graphName: String
     private val idx: EIndexPattern
@@ -98,40 +98,12 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     }
 
     override fun next(): ResultRow = Trace.trace({ "TripleStoreIteratorGlobal.next" }, {
-        GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.next start" })
-        val data = xmlIterator!!.next()
-        val res = resultSetNew.createResultRow()
-        data.childs.forEach {
-            val v: Variable = when (it.attributes["name"]) {
-                "s" -> sNew
-                "p" -> pNew
-                "o" -> oNew
-                else -> throw Exception("unknown triple attribute ${it.attributes["name"]}")
-            }
-            val c = it.childs.first()
-            when (c.tag) {
-                "uri" -> res[v] = resultSetNew.createValue("<" + c.content + ">")
-                "literal" -> {
-                    val l = c.attributes["xml:lang"]
-                    val t = c.attributes["datatype"]
-                    if (l != null)
-                        res[v] = resultSetNew.createValue("\"${c.content}\"@$l")
-                    else if (t != null)
-                        res[v] = resultSetNew.createValue("\"${c.content}\"^^<$t>")
-                    else
-                        res[v] = resultSetNew.createValue("\"${c.content}\"")
-                }
-                "bnode" -> res[v] = resultSetNew.createValue("_:" + c.content)
-                else -> require(false)
-            }
-        }
-        GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.next end" })
-        return res
+	return remoteIterator!!.next()
     }) as ResultRow
 
     override fun hasNext(): Boolean = Trace.trace({ "TripleStoreIteratorGlobal.hasNext" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.hasNext start" })
-        while (xmlIterator == null || !xmlIterator!!.hasNext()) {
+        while (remoteIterator == null || !remoteIterator!!.hasNext()) {
             if (!nodeNameIterator.hasNext()) {
                 GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.hasNext end1" })
                 return false
@@ -153,10 +125,8 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
             val ov = oFilter != null
             val nodeName = nodeNameIterator.next()
             GlobalLogger.log(ELoggerType.DEBUG, { "nodeName :: ${nodeName} $s $p $o $sv $pv $ov" })
-            val xml = P2P.execTripleGet(nodeName, graphName, transactionID, s, p, o, sv, pv, ov, idx)
-            GlobalLogger.log(ELoggerType.DEBUG, { "xml :: $xml" })
-            require(xml.tag == "sparql")
-            xmlIterator = xml["results"]!!.childs.iterator()
+            val remoteNode = P2P.execTripleGet(nodeName, graphName,dictionary, transactionID, s, p, o, sv, pv, ov, idx)
+            remoteIterator = remoteNode
         }
         GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.hasNext end2" })
         return true

@@ -7,8 +7,22 @@ import lupos.s09physicalOperators.POPBase
 
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
-class DynamicByteArray(var data: ByteArray = ByteArray(100)) {
-    var pos = 0
+class DynamicByteArray {
+var data: ByteArray
+val maxlen:Int
+constructor(){
+data=ByteArray(100)
+maxlen=Int.MAX_VALUE
+}
+constructor(data: ByteArray){
+this.data=data
+maxlen=getInt(0)
+}
+    fun finish():ByteArray{
+        setInt(pos,0)
+	return data
+    }
+    var pos = 4
     fun setInt(i: Int, p: Int) {
         println("setInt $p $i")
         data.set(p, i.toByte())
@@ -123,7 +137,7 @@ class DynamicByteArray(var data: ByteArray = ByteArray(100)) {
     }
 
     fun rewind() {
-        pos = 0
+        pos = 4
     }
 
     fun appendSpace(l: Int): Int {
@@ -137,12 +151,12 @@ class DynamicByteArray(var data: ByteArray = ByteArray(100)) {
     }
 
     fun hasAvailable(): Boolean {
-        return data.size > pos
+        return maxlen > pos
     }
 }
 
 object ResultRepresenationNetwork {
-    fun toNetworkPackage(query: POPBase): Pair<ByteArray, Int> {
+    fun toNetworkPackage(query: POPBase): ByteArray {
         val res = DynamicByteArray()
         val resultSet = query.getResultSet()
         val variableNames = resultSet.getVariableNames().toTypedArray()
@@ -199,13 +213,12 @@ object ResultRepresenationNetwork {
             currentRowCounter++
         }
         res.setInt(currentRowCounter, posResultLen)
-        return Pair(res.data, res.pos)
+        return res.finish()
     }
 
-    fun fromNetworkPackage(dictionary: ResultSetDictionary, data: ByteArray, len: Int): POPBase {
+    fun fromNetworkPackage(dictionary: ResultSetDictionary, data: ByteArray): POPBase {
         val d = DynamicByteArray()
         d.data = data
-        require(data.size == len)
         return POPImportFromNetworkPackage(dictionary, d)
     }
 }
