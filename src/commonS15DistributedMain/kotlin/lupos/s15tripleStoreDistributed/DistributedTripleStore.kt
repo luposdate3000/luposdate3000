@@ -29,13 +29,13 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     private val graphName: String
     private val idx: EIndexPattern
 
-private val filterS:String?
-private val filterP:String?
-private val filterO:String?
+    private val sFilter: String?
+    private val pFilter: String?
+    private val oFilter: String?
 
     constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String) : this(transactionID, dictionary, graphName, EIndexPattern.SPO)
-    constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String, index: EIndexPattern) :this(transactionID, dictionary, graphName,null,null,null,false,false,false,index)
-    constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String,s: String?, p: String?, o: String?, sv: Boolean, pv: Boolean, ov: Boolean, index: EIndexPattern){
+    constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String, index: EIndexPattern) : this(transactionID, dictionary, graphName, null, null, null, false, false, false, index)
+    constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String, s: String?, p: String?, o: String?, sv: Boolean, pv: Boolean, ov: Boolean, index: EIndexPattern) {
         idx = index
         this.graphName = graphName
         this.dictionary = dictionary
@@ -45,30 +45,44 @@ private val filterO:String?
         pNew = resultSetNew.createVariable(nameP)
         oNew = resultSetNew.createVariable(nameO)
         nodeNameIterator = P2P.getKnownClientsCopy().iterator()
-if(sv)
-filterS=s
-else{
-filterS=null
-if(s!=null)
-setMNameS(s)
-}
-if(pv)
-filterP=p
-else{
-filterP=null
-if(p!=null)
-setMNameP(p)
-}
-if(ov)
-filterO=o
-else{
-filterO=null
-if(o!=null)
-setMNameO(o)
-}
-}
+        if (sv)
+            sFilter = s
+        else {
+            sFilter = null
+            if (s != null)
+                setMNameS(s)
+        }
+        if (pv)
+            pFilter = p
+        else {
+            pFilter = null
+            if (p != null)
+                setMNameP(p)
+        }
+        if (ov)
+            oFilter = o
+        else {
+            oFilter = null
+            if (o != null)
+                setMNameO(o)
+        }
+    }
+
     override fun toXMLElement(): XMLElement {
-        return XMLElement("TripleStoreIteratorGlobal").addAttribute("uuid", "" + uuid).addAttribute("nameS", nameS).addAttribute("nameP", nameP).addAttribute("nameO", nameO).addAttribute("name", getGraphName())
+val res = XMLElement("TripleStoreIteratorGlobalFilter").addAttribute("uuid", "" + uuid).addAttribute("name", getGraphName())
+        if (sFilter == null)
+            res.addAttribute("nameS", nameS)
+        else
+            res.addAttribute("filterS",sFilter)
+        if (pFilter == null)
+            res.addAttribute("nameP", nameP)
+        else
+            res.addAttribute("filterP", pFilter)
+        if (oFilter == null)
+            res.addAttribute("nameO", nameO)
+        else
+            res.addAttribute("filterO", oFilter)
+        return res
     }
 
     override fun getGraphName(): String {
@@ -122,19 +136,25 @@ setMNameO(o)
                 GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.hasNext end1" })
                 return false
             }
-val s=if(filterS==null)
-	"s"
-	else
-	filterS
-val p=if(filterP==null)
-	"p"
-	else
-	filterP
-val o=if(filterO==null)
-	"o"
-	else
-	filterO
-            val xml = P2P.execTripleGet(nodeNameIterator.next(), graphName, transactionID,s,p,o,filterS!=null,filterP!=null,filterO!=null, idx)
+            val s = if (sFilter == null)
+                "s"
+            else
+                sFilter
+            val p = if (pFilter == null)
+                "p"
+            else
+                pFilter
+            val o = if (oFilter == null)
+                "o"
+            else
+                oFilter
+val sv=sFilter != null
+val pv=pFilter != null
+val ov=oFilter != null
+	val nodeName=nodeNameIterator.next()
+GlobalLogger.log(ELoggerType.RELEASE, {"nodeName :: ${nodeName} $s $p $o $sv $pv $ov"})
+            val xml = P2P.execTripleGet(nodeName, graphName, transactionID, s, p, o, sv,pv,ov, idx)
+GlobalLogger.log(ELoggerType.RELEASE, {"xml :: $xml"})
             require(xml.tag == "sparql")
             xmlIterator = xml["results"]!!.childs.iterator()
         }
@@ -216,6 +236,7 @@ class DistributedGraph(val name: String) {
                 }
             }
         }
+GlobalLogger.log(ELoggerType.DEBUG, { "maybe :: " + res } )
         return res
     }
 
@@ -287,8 +308,9 @@ class DistributedGraph(val name: String) {
         res.setMNameO(o)
         return res
     }
+
     fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, index: EIndexPattern): POPTripleStoreIteratorBase {
-        val res = TripleStoreIteratorGlobal(transactionID, dictionary,name, s, p, o, sv, pv, ov, index)
+        val res = TripleStoreIteratorGlobal(transactionID, dictionary, name, s, p, o, sv, pv, ov, index)
         return res
     }
 }

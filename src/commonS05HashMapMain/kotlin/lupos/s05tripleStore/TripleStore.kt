@@ -20,20 +20,20 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
     var nextRow: ResultRow? = null
 
     override fun toXMLElement(): XMLElement {
-        val res= XMLElement("TripleStoreIteratorLocalFilter").addAttribute("uuid", "" + uuid).addAttribute("name", getGraphName())
-if(sFilter==null)
-res.addAttribute("nameS", nameS)
-else
-res.addAttribute("filterS", resultSetOld.getValue(sFilter!!)!!)
-if(pFilter==null)
-res.addAttribute("nameP", nameP)
-else
-res.addAttribute("filterP", resultSetOld.getValue(pFilter!!)!!)
-if(oFilter==null)
-res.addAttribute("nameO", nameO)
-else
-res.addAttribute("filterO", resultSetOld.getValue(oFilter!!)!!)
-return res
+        val res = XMLElement("TripleStoreIteratorLocalFilter").addAttribute("uuid", "" + uuid).addAttribute("name", getGraphName())
+        if (sFilter == null)
+            res.addAttribute("nameS", nameS)
+        else
+            res.addAttribute("filterS", resultSetOld.getValue(sFilter!!)!!)
+        if (pFilter == null)
+            res.addAttribute("nameP", nameP)
+        else
+            res.addAttribute("filterP", resultSetOld.getValue(pFilter!!)!!)
+        if (oFilter == null)
+            res.addAttribute("nameO", nameO)
+        else
+            res.addAttribute("filterO", resultSetOld.getValue(oFilter!!)!!)
+        return res
     }
 
     constructor(dictionary: ResultSetDictionary, store: TripleStoreLocal, index: EIndexPattern) : super(dictionary, store, index)
@@ -41,8 +41,8 @@ return res
     override fun next(): ResultRow = Trace.trace({
         "TripleStore.next"
     }, {
-val tmp= nextRow!!
-nextRow=null
+        val tmp = nextRow!!
+        nextRow = null
         return tmp
     }) as ResultRow
 
@@ -67,18 +67,18 @@ nextRow=null
             if (sFilter != null) {
                 if (value[sOld] != sFilter)
                     continue
-            }else
-            result[sNew] = resultSetNew.createValue(resultSetOld.getValue(value!![sOld]))
+            } else
+                result[sNew] = resultSetNew.createValue(resultSetOld.getValue(value!![sOld]))
             if (pFilter != null) {
                 if (value[pOld] != pFilter)
                     continue
-            }else
-            result[pNew] = resultSetNew.createValue(resultSetOld.getValue(value!![pOld]))
+            } else
+                result[pNew] = resultSetNew.createValue(resultSetOld.getValue(value!![pOld]))
             if (oFilter != null) {
                 if (value[oOld] != oFilter)
                     continue
-            }else
-            result[oNew] = resultSetNew.createValue(resultSetOld.getValue(value!![oOld]))
+            } else
+                result[oNew] = resultSetNew.createValue(resultSetOld.getValue(value!![oOld]))
             nextRow = result
             return true
         }
@@ -333,6 +333,7 @@ class TripleStoreLocal {
     }
 
     inline fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, index: EIndexPattern): POPTripleStoreIteratorBase {
+GlobalLogger.log(ELoggerType.RELEASE, {"local get iterator :: $s $p $o $sv $pv $ov"})
         val res = TripleStoreIteratorLocalFilter(dictionary, this, index)
         if (sv)
             res.setSFilterV(s)

@@ -562,8 +562,11 @@ fun parseSPARQLAndEvaluate(//
                     else
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(expectFalse,Unordered)" })
                 } else {
-                    if (expectedResult)
+                    if (expectedResult){
+			GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryTarget :: " + xmlQueryTarget?.first()?.toPrettyString() })
+			GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Incorrect)" })
+		    }
                     else
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse)" })
                 }

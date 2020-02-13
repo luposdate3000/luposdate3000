@@ -101,8 +101,8 @@ object Endpoint {
         return XMLElement("success")
     }
 
-    inline fun process_local_triple_get(graphName: String, transactionID: Long,s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): XMLElement {
-        return QueryResultToXML.toXML(DistributedTripleStore.localStore.getNamedGraph(graphName).getIterator(transactionID, ResultSetDictionary(), s,p,o,sv,pv,ov, idx)).first()
+    inline fun process_local_triple_get(graphName: String, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): XMLElement {
+        return QueryResultToXML.toXML(DistributedTripleStore.localStore.getNamedGraph(graphName).getIterator(transactionID, ResultSetDictionary(), s, p, o, sv, pv, ov, idx)).first()
     }
 
     inline fun process_local_graph_clear_all(): XMLElement {
