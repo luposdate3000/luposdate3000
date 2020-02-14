@@ -42,6 +42,7 @@ object EndpointImpl {
     }
 
     suspend fun myRequestHandler(request: HttpServer.Request) {
+println("request start")
         GlobalLogger.log(ELoggerType.DEBUG, { "listen::Request" })
         val params = request.getParams
         GlobalLogger.log(ELoggerType.DEBUG, { params })
@@ -104,7 +105,7 @@ object EndpointImpl {
         } catch (e: Throwable) {
             GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
             responseStr = e.toString()
-e.printStackTrace()
+            e.printStackTrace()
             request.setStatus(404)
         }
         if (responseBytes != null)
@@ -112,6 +113,7 @@ e.printStackTrace()
         else
             request.end(responseStr)
         GlobalLogger.log(ELoggerType.DEBUG, { "responseStr::" + responseStr })
+println("request end")
     }
 
     suspend fun start(bootstrap: String?) {

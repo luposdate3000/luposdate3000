@@ -28,12 +28,18 @@ object P2P {
     val knownClients = mutableListOf<String>()
 
     suspend fun retryRequest(method: Http.Method, url: String): HttpClient.Response = Trace.trace({ "P2P.retryRequest" }, {
+println("retryRequest :: $url start")
         require(!url.startsWith("http://${EndpointImpl.fullname}"))
         GlobalLogger.log(ELoggerType.DEBUG, { "retryRequest::$url" })
+var i=0
         while (true) {
+i++
             try {
-                return client.request(method, url)
+		val res= client.request(method, url)
+		println("retryRequest :: done")
+		return res
             } catch (e: Throwable) {
+println("retryRequest :: loop $i")
                 delay(10)
             }
         }

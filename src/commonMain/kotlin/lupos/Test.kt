@@ -202,7 +202,7 @@ private fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> 
                 // for printing out the name:
                 val name = data.sp(it, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name"))
                 name.forEach {
-                    GlobalLogger.log(ELoggerType.TEST_RESULT, { "  Test: " + (Dictionary[it] as SimpleLiteral).content })
+                    GlobalLogger.log(ELoggerType.RELEASE, { "  Test: " + (Dictionary[it] as SimpleLiteral).content })
                     if ((Dictionary[it] as SimpleLiteral).content.compareTo("(pp28a) Diamond, with loop -- (:p/:p)?") == 0) {
                         GlobalLogger.log(ELoggerType.DEBUG, { "found" })
                     }

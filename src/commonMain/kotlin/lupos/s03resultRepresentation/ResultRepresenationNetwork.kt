@@ -14,25 +14,20 @@ class DynamicByteArray {
     constructor() {
         data = ByteArray(100)
         maxlen = Int.MAX_VALUE
-println("init $maxlen")
     }
 
     constructor(data: ByteArray) {
         this.data = data
         maxlen = getInt(0)
-println("init $maxlen")
     }
 
     fun finish(): ByteArray {
-println("finish $pos")
         setInt(pos, 0)
-println("finish ${getInt(0)}")
         return data
     }
 
     var pos = 4
     fun setInt(i: Int, p: Int) {
-println("DynamicByteArray.setInt $p $i")
         data.set(p, i.toByte())
         data.set(p + 1, (i ushr 8).toByte())
         data.set(p + 2, (i ushr 16).toByte())
@@ -51,7 +46,6 @@ println("DynamicByteArray.setInt $p $i")
                 ((0xFF and data[p + 1].toInt()) shl 8) or
                 ((0xFF and data[p + 2].toInt()) shl 16) or
                 ((0xFF and data[p + 3].toInt()) shl 24)
-println("DynamicByteArray.getInt $p $res")
         return res
     }
 
@@ -62,7 +56,6 @@ println("DynamicByteArray.getInt $p $res")
     }
 
     fun setLong(i: Long, p: Int) {
-println("DynamicByteArray.setLong $p $i")
         data.set(p, i.toByte())
         data.set(p + 1, (i ushr 8).toByte())
         data.set(p + 2, (i ushr 16).toByte())
@@ -89,7 +82,6 @@ println("DynamicByteArray.setLong $p $i")
                 ((0xFF and data[p + 5].toInt()).toLong() shl 40) or
                 ((0xFF and data[p + 6].toInt()).toLong() shl 48) or
                 ((0xFF and data[p + 7].toInt()).toLong() shl 56)
-println("DynamicByteArray.getLong $p $res")
         return res
     }
 
@@ -100,7 +92,6 @@ println("DynamicByteArray.getLong $p $res")
     }
 
     fun setByte(b: Byte, p: Int) {
-println("DynamicByteArray.setByte $p $b")
         data.set(p, b)
     }
 
@@ -112,7 +103,6 @@ println("DynamicByteArray.setByte $p $b")
     }
 
     fun getByte(p: Int): Byte {
-println("DynamicByteArray.getByte $p ${data[p]}")
         return data[p]
     }
 
@@ -123,7 +113,6 @@ println("DynamicByteArray.getByte $p ${data[p]}")
     }
 
     fun appendString(s: String) {
-println("DynamicByteArray.setString $pos $s")
         val tmp = s.encodeToByteArray()
         appendInt(tmp.size)
         while (pos + tmp.size >= data.size)
@@ -135,11 +124,10 @@ println("DynamicByteArray.setString $pos $s")
     }
 
     fun getString(p: Int): String {
-val p=pos
+        val p = pos
         val l = getInt(p)
-        val res= data.decodeToString(p + 4, pos + 5, true)
-println("DynamicByteArray.getString $p $res")
-return res
+        val res = data.decodeToString(p + 4, pos + 5, true)
+        return res
     }
 
     fun getNextString(): String {
@@ -164,24 +152,20 @@ return res
     }
 
     fun hasAvailable(): Boolean {
-println("hasAvailable :: $maxlen $pos")
         return maxlen > pos
     }
 }
 
 object ResultRepresenationNetwork {
     fun toNetworkPackage(query: POPBase): ByteArray {
-        println("ResultRepresenationNetwork.toNetworkPackage")
         val res = DynamicByteArray()
         val resultSet = query.getResultSet()
         val variableNames = resultSet.getVariableNames().toTypedArray()
         val variablesCount = variableNames.size
         val variables = arrayOfNulls<Variable>(variablesCount)
-println("write variablesCount $variablesCount")
         res.appendInt(variablesCount)
         var i = 0
         for (n in variableNames) {
-println("write variableNames $n")
             res.appendString(n)
             variables[i] = resultSet.createVariable(n)
             i++
@@ -193,31 +177,25 @@ println("write variableNames $n")
             val resultRow = query.next()
             var newDictionaryMax = latestDictionaryMax
             for (v in variables) {
-                if (newDictionaryMax == null || resultRow[v!!] > newDictionaryMax){
+                if (newDictionaryMax == null || resultRow[v!!] > newDictionaryMax) {
                     newDictionaryMax = resultRow[v!!]
-		}
+                }
             }
-println("write dictlen ${newDictionaryMax!! + 1}")
             res.appendLong(newDictionaryMax!! + 1)
-            for (v in 0 until newDictionaryMax!!+1) {
-println("write dictentry ${resultSet.getValue(v)!!}")
+            for (v in 0 until newDictionaryMax!! + 1) {
                 res.appendString(resultSet.getValue(v)!!)
             }
-	latestDictionaryMax=newDictionaryMax
+            latestDictionaryMax = newDictionaryMax
             currentRowCounter = 0
-println("space for resultcount")
             posResultLen = res.appendSpace(4)
             for (v in variables) {
-println("write triplevalue ${resultRow[v!!]}")
                 res.appendLong(resultRow[v!!])
             }
             currentRowCounter++
-        }else{
-		println("write dictlen 0")
+        } else {
             res.appendLong(0L)
-	    println("space for resultcount")
             posResultLen = res.appendSpace(4)
-	}
+        }
         while (query.hasNext()) {
             val resultRow = query.next()
             var newDictionaryMax = latestDictionaryMax!!
@@ -226,34 +204,26 @@ println("write triplevalue ${resultRow[v!!]}")
                     newDictionaryMax = resultRow[v!!]
             }
             if (newDictionaryMax != latestDictionaryMax) {
-println("override resultcount $currentRowCounter")
                 res.setInt(currentRowCounter, posResultLen)
-println("write dictlen ${newDictionaryMax - latestDictionaryMax}")
                 res.appendLong(newDictionaryMax - latestDictionaryMax)
-                for (v in latestDictionaryMax + 1 until newDictionaryMax+1) {
-println("write dictentry ${resultSet.getValue(v)!!}")
+                for (v in latestDictionaryMax + 1 until newDictionaryMax + 1) {
                     res.appendString(resultSet.getValue(v)!!)
                 }
                 currentRowCounter = 0
-println("space for resultcount")
                 posResultLen = res.appendSpace(4)
-latestDictionaryMax=newDictionaryMax
+                latestDictionaryMax = newDictionaryMax
             }
             for (v in variables) {
-println("write triplevalue ${resultRow[v!!]}")
                 res.appendLong(resultRow[v!!])
             }
             currentRowCounter++
         }
-println("override resultcount ${currentRowCounter}")
         res.setInt(currentRowCounter, posResultLen)
         return res.finish()
     }
 
     fun fromNetworkPackage(dictionary: ResultSetDictionary, data: ByteArray): POPBase {
-        println("ResultRepresenationNetwork.fromNetworkPackage")
         val d = DynamicByteArray(data)
-println("verify :: ${d.maxlen}")
         return POPImportFromNetworkPackage(dictionary, d)
     }
 }
@@ -275,13 +245,11 @@ class POPImportFromNetworkPackage : POPBase {
         resultSet = ResultSet(dictionary)
         this.data = data
         val variablesCount = data.getNextInt()
-println("read variablesCount $variablesCount")
         for (i in 0 until variablesCount) {
             val name = data.getNextString()
-println("read variableNames $name")
             variables.add(resultSet.createVariable(name))
         }
-readDict()
+        readDict()
     }
 
     override fun getProvidedVariableNames(): List<String> {
@@ -300,28 +268,24 @@ readDict()
         return data.hasAvailable()
     }
 
-fun readDict(){
+    fun readDict() {
         if (rowsUntilNextDictionary == 0) {
             val dictEntryCount = data.getNextLong()
-println("read dictlen $dictEntryCount")
             for (i in 0 until dictEntryCount) {
-val s=data.getNextString()
+                val s = data.getNextString()
                 variableMap.add(dictionary.createValue(s))
-println("read dictentry $s")
             }
             rowsUntilNextDictionary = data.getNextInt()
-println("read resultcount $rowsUntilNextDictionary")
         }
-}
+    }
 
     override fun next(): ResultRow {
         val row = resultSet.createResultRow()
-readDict()
+        readDict()
         rowsUntilNextDictionary--
         for (v in variables) {
-val i=data.getNextLong().toInt()
+            val i = data.getNextLong().toInt()
             row[v] = variableMap[i]
-println("read triplevalue $i")
         }
         return row
     }
