@@ -1,4 +1,4 @@
 package lupos.s03resultRepresentation
 
 
-typealias Value = Long
+typealias Value = Int

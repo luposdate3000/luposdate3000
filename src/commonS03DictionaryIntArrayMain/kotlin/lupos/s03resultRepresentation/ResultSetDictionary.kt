@@ -1,14 +1,14 @@
 package lupos.s03resultRepresentation
 
 class ResultSetDictionary() {
-    val mapSTL = mutableMapOf<String, Long>()
+    val mapSTL = mutableMapOf<String, Value>()
     val mapLTS = mutableListOf<String>()
-    val undefValue = Long.MAX_VALUE
+    val undefValue = Value.MAX_VALUE
     inline fun createValue(value: String): Value {
         val o = mapSTL[value]
         if (o != null)
             return o
-        val l = 0L + mapLTS.size
+        val l = mapLTS.size
         mapSTL[value] = l
         mapLTS.add(value)
         return l

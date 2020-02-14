@@ -45,10 +45,10 @@ class TransferHelperNetwork : AsyncStreamBase {
                     }
                     ENetworkMessageType.TRIPLE_ADD -> {
                         for (i in 0 until count) {
-                            val graphName = dictionary.getValue(data.getNextLong())!!
-                            val s = dictionary.getValue(data.getNextLong())!!
-                            val p = dictionary.getValue(data.getNextLong())!!
-                            val o = dictionary.getValue(data.getNextLong())!!
+                            val graphName = dictionary.getValue(data.getNextInt())!!
+                            val s = dictionary.getValue(data.getNextInt())!!
+                            val p = dictionary.getValue(data.getNextInt())!!
+                            val o = dictionary.getValue(data.getNextInt())!!
                             val idx = EIndexPattern.values()[data.getNextInt()]
 try{
                             Endpoint.process_local_triple_add(graphName, transactionID, s, p, o, idx)
@@ -104,10 +104,10 @@ res+=e.toString().toByteArray()
         val pv = createDictionaryValue(p)
         val ov = createDictionaryValue(o)
         enforceHeader(ENetworkMessageType.TRIPLE_ADD)
-        data.appendLong(gv)
-        data.appendLong(sv)
-        data.appendLong(pv)
-        data.appendLong(ov)
+        data.appendInt(gv)
+        data.appendInt(sv)
+        data.appendInt(pv)
+        data.appendInt(ov)
         data.appendInt(idx.ordinal)
         lastCounterValue++
     }

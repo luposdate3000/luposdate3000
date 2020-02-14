@@ -2,7 +2,7 @@
 mkdir log
 for chooseS00Trace in "commonS00TraceOn" "commonS00TraceOff"
 do
-for chooseS03 in "commonS03DictionaryNoneMain" "commonS03DictionaryQueryLocalLongArrayMain"
+for chooseS03 in "commonS03DictionaryNoneMain" "commonS03DictionaryIntArrayMain"
 do
 for chooseS05 in "commonS05HashMapMain"
 do

@@ -5,10 +5,10 @@ import lupos.s03resultRepresentation.Variable
 
 
 class ResultSet(val dictionary: ResultSetDictionary) {
-    val variablesSTL = mutableMapOf<String, Long>()
+    val variablesSTL = mutableMapOf<String, Variable>()
     val variablesLTS = mutableListOf<String>()
 
-    inline fun renameVariable(variableOld: String, variableNew: String): Long {
+    inline fun renameVariable(variableOld: String, variableNew: String): Variable {
         val l = variablesSTL[variableOld]!!
         variablesSTL.remove(variableOld)
         variablesSTL[variableNew] = l
