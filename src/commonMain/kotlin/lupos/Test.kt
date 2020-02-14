@@ -436,9 +436,9 @@ fun parseSPARQLAndEvaluate(//
         inputDataGraph: MutableList<MutableMap<String, String>>,//
         outputDataGraph: MutableList<MutableMap<String, String>>//
 ): Boolean {
-//    i++
-//    if (i > 1) //xxx
-//        return true
+    i++
+    if (i > 50)
+        return true
 
     for (g in DistributedTripleStore.getGraphNames()) {
         DistributedTripleStore.dropGraph(g)

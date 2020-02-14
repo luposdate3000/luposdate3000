@@ -26,6 +26,7 @@ import lupos.testMain
 class TransferHelperNetwork : AsyncStreamBase {
     companion object {
         fun processBinary(d: ByteArray): ByteArray {
+	var res=ByteArray(0)
             val dictionary = ResultSetDictionary()
             val data = DynamicByteArray(d)
             val transactionID = data.getNextLong()
@@ -49,13 +50,18 @@ class TransferHelperNetwork : AsyncStreamBase {
                             val p = dictionary.getValue(data.getNextLong())!!
                             val o = dictionary.getValue(data.getNextLong())!!
                             val idx = EIndexPattern.values()[data.getNextInt()]
+try{
                             Endpoint.process_local_triple_add(graphName, transactionID, s, p, o, idx)
+}catch(e:Throwable){
+e.printStackTrace()
+res+=e.toString().toByteArray()
+}
                         }
                     }
                 }
                 header = ENetworkMessageType.values()[data.getNextInt()]
             }
-            return ByteArray(0)
+            return res
         }
     }
 
@@ -107,9 +113,21 @@ class TransferHelperNetwork : AsyncStreamBase {
     }
 
     override suspend fun read(position: Long, buffer: ByteArray, offset: Int, len: Int): Int {
-        data.data.copyInto(buffer, position.toInt(), offset, len)
+println("read $position $offset $len ${data.pos.toLong()} ${buffer.size}")
+if(position>data.pos)
+	return 0
+if(position+len>data.pos){
+        data.data.copyInto(buffer, offset, position.toInt(), data.pos)
+	return data.pos-position.toInt()
+}
+        data.data.copyInto(buffer, offset, position.toInt(),  position.toInt()+len)
         return len
     }
+
+	override suspend fun getLength(): Long{
+println("getLength ${data.pos.toLong()}")
+		return data.pos.toLong()
+	}
 
     fun finish(): AsyncStream {
         enforceHeader(ENetworkMessageType.FINISH)

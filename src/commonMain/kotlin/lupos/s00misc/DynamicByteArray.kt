@@ -66,7 +66,7 @@ class DynamicByteArray {
     }
 
     fun appendLong(i: Long) {
-        if (pos + 4 >= data.size)
+        if (pos + 8 >= data.size)
             data += ByteArray(data.size)
         setLong(i, pos)
         pos += 8
@@ -150,8 +150,5 @@ class DynamicByteArray {
         return pos
     }
 
-    fun hasAvailable(): Boolean {
-        return maxlen > pos
-    }
 }
 

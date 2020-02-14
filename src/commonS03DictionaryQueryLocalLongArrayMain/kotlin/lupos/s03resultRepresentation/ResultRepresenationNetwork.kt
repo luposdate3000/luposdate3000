@@ -13,9 +13,11 @@ object ResultRepresenationNetwork {
         val variableNames = resultSet.getVariableNames().toTypedArray()
         val variablesCount = variableNames.size
         val variables = arrayOfNulls<Variable>(variablesCount)
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"write variablecount $variablesCount"})
         res.appendInt(variablesCount)
         var i = 0
         for (n in variableNames) {
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"write variablename $n"})
             res.appendString(n)
             variables[i] = resultSet.createVariable(n)
             i++
@@ -27,48 +29,57 @@ object ResultRepresenationNetwork {
             val resultRow = query.next()
             var newDictionaryMax = latestDictionaryMax
             for (v in variables) {
-                if (newDictionaryMax == null || resultRow[v!!] > newDictionaryMax) {
+                if (newDictionaryMax == null || ((!resultSet.isUndefValue(resultRow,v!!)) && resultRow[v!!] > newDictionaryMax)) {
                     newDictionaryMax = resultRow[v!!]
                 }
             }
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"write dictlen a ${newDictionaryMax!! + 1}"})
             res.appendLong(newDictionaryMax!! + 1)
             for (v in 0 until newDictionaryMax!! + 1) {
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"write dictentry ${resultSet.getValue(v)!!}"})
                 res.appendString(resultSet.getValue(v)!!)
             }
             latestDictionaryMax = newDictionaryMax
             currentRowCounter = 0
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"space triplecount"})
             posResultLen = res.appendSpace(4)
             for (v in variables) {
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"write triple ${resultSet.getValue(resultRow[v!!])}"})
                 res.appendLong(resultRow[v!!])
             }
             currentRowCounter++
-        } else {
-            res.appendLong(0L)
-            posResultLen = res.appendSpace(4)
-        }
         while (query.hasNext()) {
             val resultRow = query.next()
             var newDictionaryMax = latestDictionaryMax!!
             for (v in variables) {
-                if (resultRow[v!!] > newDictionaryMax)
+                if ((!resultSet.isUndefValue(resultRow,v!!)) && resultRow[v!!] > newDictionaryMax)
                     newDictionaryMax = resultRow[v!!]
             }
             if (newDictionaryMax != latestDictionaryMax) {
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"override triplecount $currentRowCounter"})
                 res.setInt(currentRowCounter, posResultLen)
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"write dictlen c ${newDictionaryMax!! - latestDictionaryMax!!}"})
                 res.appendLong(newDictionaryMax - latestDictionaryMax)
                 for (v in latestDictionaryMax + 1 until newDictionaryMax + 1) {
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"write dictentry ${resultSet.getValue(v)!!}"})
                     res.appendString(resultSet.getValue(v)!!)
                 }
                 currentRowCounter = 0
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"space triplecount"})
                 posResultLen = res.appendSpace(4)
                 latestDictionaryMax = newDictionaryMax
             }
             for (v in variables) {
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"write triple ${resultSet.getValue(resultRow[v!!])}"})
                 res.appendLong(resultRow[v!!])
             }
             currentRowCounter++
         }
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"override triplecount $currentRowCounter"})
         res.setInt(currentRowCounter, posResultLen)
+        }
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"write dictlen d 0"})
+	res.appendLong(0L)
         return res.finish()
     }
 
@@ -94,11 +105,12 @@ object ResultRepresenationNetwork {
             resultSet = ResultSet(dictionary)
             this.data = data
             val variablesCount = data.getNextInt()
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"read variablecount $variablesCount"})
             for (i in 0 until variablesCount) {
                 val name = data.getNextString()
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"read variablename $name"})
                 variables.add(resultSet.createVariable(name))
             }
-            readDict()
         }
 
         override fun getProvidedVariableNames(): List<String> {
@@ -114,27 +126,35 @@ object ResultRepresenationNetwork {
         }
 
         override fun hasNext(): Boolean {
-            return data.hasAvailable()
-        }
-
-        fun readDict() {
             if (rowsUntilNextDictionary == 0) {
                 val dictEntryCount = data.getNextLong()
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"read dictlen $dictEntryCount"})
+		if(dictEntryCount==0L)
+			return false
                 for (i in 0 until dictEntryCount) {
                     val s = data.getNextString()
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"read dictentry $s"})
                     variableMap.add(dictionary.createValue(s))
                 }
                 rowsUntilNextDictionary = data.getNextInt()
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"read triplecount $rowsUntilNextDictionary"})
             }
+	    return true
         }
 
         override fun next(): ResultRow {
             val row = resultSet.createResultRow()
-            readDict()
             rowsUntilNextDictionary--
             for (v in variables) {
-                val i = data.getNextLong().toInt()
+                val l = data.getNextLong()
+if(l==Long.MAX_VALUE){
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"read triple UNDEF"})
+row[v]=l
+}else{
+		val i=l.toInt()
+GlobalLogger.log(ELoggerType.BINARY_ENCODING,{"read triple ${dictionary.getValue(variableMap[i]!!)}"})
                 row[v] = variableMap[i]
+}
             }
             return row
         }

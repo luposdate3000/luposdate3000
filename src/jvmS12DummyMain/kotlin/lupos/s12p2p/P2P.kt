@@ -198,6 +198,8 @@ object P2P {
                 return res
             } catch (e: Throwable) {
                 println("retryRequestGet :: loop $i")
+if(i>100)
+throw e
                 delay(10)
             }
         }
@@ -215,6 +217,8 @@ object P2P {
                 return res
             } catch (e: Throwable) {
                 println("retryRequestPost :: loop $i")
+if(i>100)
+throw e
                 delay(10)
             }
         }
