@@ -43,37 +43,50 @@ object EndpointImpl {
     }
 
     suspend fun myRequestHandler(request: HttpServer.Request) {
-        println("request start")
         GlobalLogger.log(ELoggerType.DEBUG, { "listen::Request" })
         val params = request.getParams
         GlobalLogger.log(ELoggerType.DEBUG, { params })
         GlobalLogger.log(ELoggerType.DEBUG, { request.path })
         GlobalLogger.log(ELoggerType.DEBUG, { request.method })
         request.replaceHeader("Connection", "close")
-        var endFlag = true
         if (request.path == REQUEST_BINARY[0]) {
-            var data: ByteArray? = null
+
+            val channelOut = DynamicByteArrayAsyncWrite()
+            val channelIn = DynamicByteArrayAsyncRead()
             request.handler { it ->
-                if (data == null)
-                    data = it
-                else
-                    data = data!! + it
+                runBlocking {
+                    println("network receive :: ${it.size}")
+                    channelIn.channel.send(it)
+                }
             }
             request.endHandler {
-                endFlag = false
+                channelIn.channel.close()
             }
-            while (endFlag)
-                delay(10)
-            val res = TransferHelperNetwork.processBinary(data!!)
+            TransferHelperNetwork.processBinary(channelIn, channelOut)
+println("a 1")
             request.replaceHeader("Content-Type", "application/x-binary")
+            var res = ByteArray(0)
+println("a 2")
+            try {
+println("a 3")
+                for (t in channelOut.channel) {
+println("a 4")
+                    res += t.first
+                }
+println("a 5")
+            } catch (e: Throwable) {
+println("a 6")
+            }
+println("a 7")
             request.end(res)
+println("a 8")
             return
         }
         request.replaceHeader("Content-Type", "text/html")
         var responseStr = ""
         var responseBytes: ByteArray? = null
         var data = ""
-
+        var endFlag = true
 
         request.handler { it ->
             data += it.decodeToString()
@@ -135,7 +148,6 @@ object EndpointImpl {
         else
             request.end(responseStr)
         GlobalLogger.log(ELoggerType.DEBUG, { "responseStr::" + responseStr })
-        println("request end")
     }
 
     suspend fun start(bootstrap: String?) {

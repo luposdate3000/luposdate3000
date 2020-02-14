@@ -55,7 +55,9 @@ object P2P {
         if (pending != null) {
             for ((node, data) in pending) {
                 runBlocking {
+println("b 1")
                     retryRequestPost("http://${resolveNodeName(node)}${EndpointImpl.REQUEST_BINARY[0]}", data.finish())
+println("b 2")
                 }
             }
             pendingModifications.remove(transactionID)
@@ -84,12 +86,14 @@ object P2P {
     })
 
     fun execTripleAdd(node: String, graphName: String, transactionID: Long, s: String, p: String, o: String, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleAdd" }, {
-        GlobalLogger.log(ELoggerType.DEBUG, { "execTripleAdd start" })
-        if (node == EndpointImpl.fullname)
-            Endpoint.process_local_triple_add(graphName, transactionID, s, p, o, idx)
-        else
-            getPendingModifications(transactionID, node).addTriple(graphName, s, p, o, idx)
-        GlobalLogger.log(ELoggerType.DEBUG, { "execTripleAdd end" })
+        runBlocking {
+            GlobalLogger.log(ELoggerType.DEBUG, { "execTripleAdd start" })
+            if (node == EndpointImpl.fullname)
+                Endpoint.process_local_triple_add(graphName, transactionID, s, p, o, idx)
+            else
+                getPendingModifications(transactionID, node).addTriple(graphName, s, p, o, idx)
+            GlobalLogger.log(ELoggerType.DEBUG, { "execTripleAdd end" })
+        }
     })
 
     fun execOnNamedNode(dictionary: ResultSetDictionary, transactionID: Long, nodeName: String, pop: OPBase): OPBase = Trace.trace({ "P2P.execOnNamedNode" }, {
@@ -186,39 +190,33 @@ object P2P {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleDelete end" })
     })
 
-    suspend fun retryRequestGet(url: String): HttpClient.Response = Trace.trace({ "P2P.retryRequest" }, {
-        println("retryRequestGet :: $url start")
+    suspend fun retryRequestGet(url: String): HttpClient.Response = Trace.trace({ "P2P.retryRequestGet" }, {
         require(!url.startsWith("http://${EndpointImpl.fullname}"))
         var i = 0
         while (true) {
             i++
             try {
                 val res = client.request(Http.Method.GET, url)
-                println("retryRequestGet :: done")
                 return res
             } catch (e: Throwable) {
-                println("retryRequestGet :: loop $i")
-if(i>100)
-throw e
+                if (i > 100)
+                    throw e
                 delay(10)
             }
         }
     }) as HttpClient.Response
 
-    suspend fun retryRequestPost(url: String, data: AsyncStream): HttpClient.Response = Trace.trace({ "P2P.retryRequest" }, {
-        println("retryRequestPost :: $url start")
+    suspend fun retryRequestPost(url: String, data: AsyncStream): HttpClient.Response = Trace.trace({ "P2P.retryRequestPost" }, {
         require(!url.startsWith("http://${EndpointImpl.fullname}"))
         var i = 0
         while (true) {
             i++
             try {
                 val res = client.request(Http.Method.POST, url, Http.Headers(), data)
-                println("retryRequestPost :: done")
                 return res
             } catch (e: Throwable) {
-                println("retryRequestPost :: loop $i")
-if(i>100)
-throw e
+                if (i > 100)
+                    throw e
                 delay(10)
             }
         }

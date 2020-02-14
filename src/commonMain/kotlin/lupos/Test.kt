@@ -437,7 +437,7 @@ fun parseSPARQLAndEvaluate(//
         outputDataGraph: MutableList<MutableMap<String, String>>//
 ): Boolean {
     i++
-    if (i > 50)
+    if (i > 200)
         return true
 
     for (g in DistributedTripleStore.getGraphNames()) {
