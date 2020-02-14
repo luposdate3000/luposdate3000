@@ -75,8 +75,6 @@ object ResultRepresenationNetwork {
         val d = DynamicByteArray(data)
         return POPImportFromNetworkPackage(dictionary, d)
     }
-}
-
 class POPImportFromNetworkPackage : POPBase {
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
@@ -140,39 +138,4 @@ class POPImportFromNetworkPackage : POPBase {
     }
 }
 
-fun myRequire(a: Any, b: Any) {
-    println("require ($a == $b) >> ${a == b}")
-    require(a == b)
-}
-
-fun dynamicByteArraySelfTest() {
-    val a1 = DynamicByteArray()
-    a1.appendInt(35)
-    a1.appendLong(35L)
-    a1.appendByte(245.toByte())
-    a1.appendString("abc")
-    a1.rewind()
-    myRequire(a1.getNextInt(), 35)
-    myRequire(a1.getNextLong(), 35L)
-    myRequire(a1.getNextByte(), 245.toByte())
-    myRequire(a1.getNextString(), "abc")
-    val a2 = DynamicByteArray()
-    a2.appendInt(35)
-    a2.appendLong(Long.MAX_VALUE - 1L)
-    a2.appendByte(245.toByte())
-    a2.appendString("abc")
-    a2.appendInt(35)
-    a2.appendLong(35L)
-    a2.appendByte(245.toByte())
-    a2.appendString("abc")
-    a2.rewind()
-    myRequire(a2.getNextInt(), 35)
-    myRequire(a2.getNextLong(), Long.MAX_VALUE - 1L)
-    myRequire(a2.getNextByte(), 245.toByte())
-    myRequire(a2.getNextString(), "abc")
-    myRequire(a2.getNextInt(), 35)
-    myRequire(a2.getNextLong(), 35L)
-    myRequire(a2.getNextByte(), 245.toByte())
-    myRequire(a2.getNextString(), "abc")
-    println("dynamicByteArraySelfTest ok")
 }

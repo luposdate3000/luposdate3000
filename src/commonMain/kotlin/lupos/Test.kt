@@ -32,7 +32,6 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 val errorBoundForDecimalsDigits = 6
 
 fun main(args: Array<String>) {
-    dynamicByteArraySelfTest()
     P2P.knownClients.add(EndpointImpl.fullname)
     testMain()
 }
