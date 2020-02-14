@@ -5,6 +5,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.*
 import lupos.s09physicalOperators.POPBase
 
+
 object ResultRepresenationNetwork {
     fun toNetworkPackage(query: POPBase): ByteArray {
         val res = DynamicByteArray()
@@ -75,67 +76,68 @@ object ResultRepresenationNetwork {
         val d = DynamicByteArray(data)
         return POPImportFromNetworkPackage(dictionary, d)
     }
-class POPImportFromNetworkPackage : POPBase {
-    override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf()
-    private val resultSet: ResultSet
-    val variableMap = mutableListOf<Value>()
-    var rowsUntilNextDictionary = 0
-    val data: DynamicByteArray
-    val variables = mutableListOf<Variable>()
-    override fun toXMLElement(): XMLElement {
-        return XMLElement("POPImportFromNetworkPackage")
-    }
 
-    constructor(dictionary: ResultSetDictionary, data: DynamicByteArray) {
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
-        this.data = data
-        val variablesCount = data.getNextInt()
-        for (i in 0 until variablesCount) {
-            val name = data.getNextString()
-            variables.add(resultSet.createVariable(name))
+    class POPImportFromNetworkPackage : POPBase {
+        override val dictionary: ResultSetDictionary
+        override val children: Array<OPBase> = arrayOf()
+        private val resultSet: ResultSet
+        val variableMap = mutableListOf<Value>()
+        var rowsUntilNextDictionary = 0
+        val data: DynamicByteArray
+        val variables = mutableListOf<Variable>()
+        override fun toXMLElement(): XMLElement {
+            return XMLElement("POPImportFromNetworkPackage")
         }
-        readDict()
-    }
 
-    override fun getProvidedVariableNames(): List<String> {
-        return resultSet.getVariableNames().toList()
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
-    override fun getResultSet(): ResultSet {
-        return resultSet
-    }
-
-    override fun hasNext(): Boolean {
-        return data.hasAvailable()
-    }
-
-    fun readDict() {
-        if (rowsUntilNextDictionary == 0) {
-            val dictEntryCount = data.getNextLong()
-            for (i in 0 until dictEntryCount) {
-                val s = data.getNextString()
-                variableMap.add(dictionary.createValue(s))
+        constructor(dictionary: ResultSetDictionary, data: DynamicByteArray) {
+            this.dictionary = dictionary
+            resultSet = ResultSet(dictionary)
+            this.data = data
+            val variablesCount = data.getNextInt()
+            for (i in 0 until variablesCount) {
+                val name = data.getNextString()
+                variables.add(resultSet.createVariable(name))
             }
-            rowsUntilNextDictionary = data.getNextInt()
+            readDict()
         }
-    }
 
-    override fun next(): ResultRow {
-        val row = resultSet.createResultRow()
-        readDict()
-        rowsUntilNextDictionary--
-        for (v in variables) {
-            val i = data.getNextLong().toInt()
-            row[v] = variableMap[i]
+        override fun getProvidedVariableNames(): List<String> {
+            return resultSet.getVariableNames().toList()
         }
-        return row
+
+        override fun getRequiredVariableNames(): List<String> {
+            return mutableListOf<String>()
+        }
+
+        override fun getResultSet(): ResultSet {
+            return resultSet
+        }
+
+        override fun hasNext(): Boolean {
+            return data.hasAvailable()
+        }
+
+        fun readDict() {
+            if (rowsUntilNextDictionary == 0) {
+                val dictEntryCount = data.getNextLong()
+                for (i in 0 until dictEntryCount) {
+                    val s = data.getNextString()
+                    variableMap.add(dictionary.createValue(s))
+                }
+                rowsUntilNextDictionary = data.getNextInt()
+            }
+        }
+
+        override fun next(): ResultRow {
+            val row = resultSet.createResultRow()
+            readDict()
+            rowsUntilNextDictionary--
+            for (v in variables) {
+                val i = data.getNextLong().toInt()
+                row[v] = variableMap[i]
+            }
+            return row
+        }
     }
-}
 
 }

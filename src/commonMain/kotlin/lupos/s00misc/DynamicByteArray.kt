@@ -4,6 +4,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.*
 import lupos.s09physicalOperators.POPBase
 
+
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class DynamicByteArray {
     var data: ByteArray
@@ -63,6 +64,7 @@ class DynamicByteArray {
         data.set(p + 6, (i ushr 48).toByte())
         data.set(p + 7, (i ushr 56).toByte())
     }
+
     fun appendLong(i: Long) {
         if (pos + 4 >= data.size)
             data += ByteArray(data.size)

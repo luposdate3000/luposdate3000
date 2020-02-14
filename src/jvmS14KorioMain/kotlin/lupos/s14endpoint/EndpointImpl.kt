@@ -11,7 +11,7 @@ import kotlinx.coroutines.runBlocking
 import lupos.s00misc.*
 import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.noinput.*
-import lupos.s12p2p.P2P
+import lupos.s12p2p.*
 import lupos.s14endpoint.Endpoint
 
 
@@ -20,6 +20,7 @@ object EndpointImpl {
     var hostname = "localhost"
     var port = 80
     var fullname = hostname + ":" + port
+    val REQUEST_BINARY = arrayOf("/binary")
     val REQUEST_TRIPLE_ADD = arrayOf("/triple/add", "graph", "id", "s", "p", "o", "idx")
     val REQUEST_TRIPLE_GET = arrayOf("/triple/get", "graph", "id", "s", "p", "o", "sv", "pv", "ov", "idx")
     val REQUEST_TRIPLE_DELETE = arrayOf("/triple/delete", "graph", "id", "s", "p", "o", "sv", "pv", "ov", "idx")
@@ -42,18 +43,38 @@ object EndpointImpl {
     }
 
     suspend fun myRequestHandler(request: HttpServer.Request) {
-println("request start")
+        println("request start")
         GlobalLogger.log(ELoggerType.DEBUG, { "listen::Request" })
         val params = request.getParams
         GlobalLogger.log(ELoggerType.DEBUG, { params })
         GlobalLogger.log(ELoggerType.DEBUG, { request.path })
         GlobalLogger.log(ELoggerType.DEBUG, { request.method })
         request.replaceHeader("Connection", "close")
+        var endFlag = true
+        if (request.path == REQUEST_BINARY[0]) {
+            var data: ByteArray? = null
+            request.handler { it ->
+                if (data == null)
+                    data = it
+                else
+                    data = data!! + it
+            }
+            request.endHandler {
+                endFlag = false
+            }
+            while (endFlag)
+                delay(10)
+            val res = TransferHelperNetwork.processBinary(data!!)
+            request.replaceHeader("Content-Type", "application/x-binary")
+            request.end(res)
+            return
+        }
         request.replaceHeader("Content-Type", "text/html")
         var responseStr = ""
         var responseBytes: ByteArray? = null
         var data = ""
-        var endFlag = true
+
+
         request.handler { it ->
             data += it.decodeToString()
             GlobalLogger.log(ELoggerType.DEBUG, { data })
@@ -62,9 +83,10 @@ println("request start")
             endFlag = false
         }
         while (endFlag)
-            delay(1)
+            delay(10)
         try {
             when (request.path) {
+
                 REQUEST_TRIPLE_ADD[0] -> responseStr = Endpoint.process_local_triple_add(params[REQUEST_TRIPLE_ADD[1]]!!.first(), params[REQUEST_TRIPLE_ADD[2]]!!.first().toLong(), params[REQUEST_TRIPLE_ADD[3]]!!.first(), params[REQUEST_TRIPLE_ADD[4]]!!.first(), params[REQUEST_TRIPLE_ADD[5]]!!.first(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_ADD[6]]!!.first())).toPrettyString()
                 REQUEST_TRIPLE_GET[0] -> responseBytes = ResultRepresenationNetwork.toNetworkPackage(Endpoint.process_local_triple_get(params[REQUEST_TRIPLE_GET[1]]!!.first(), ResultSetDictionary(), params[REQUEST_TRIPLE_GET[2]]!!.first().toLong(), params[REQUEST_TRIPLE_GET[3]]!!.first(), params[REQUEST_TRIPLE_GET[4]]!!.first(), params[REQUEST_TRIPLE_GET[5]]!!.first(), params[REQUEST_TRIPLE_GET[6]]!!.first().toBoolean(), params[REQUEST_TRIPLE_GET[7]]!!.first().toBoolean(), params[REQUEST_TRIPLE_GET[8]]!!.first().toBoolean(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_GET[9]]!!.first())))
                 REQUEST_TRIPLE_DELETE[0] -> responseStr = Endpoint.process_local_triple_delete(params[REQUEST_TRIPLE_DELETE[1]]!!.first(), params[REQUEST_TRIPLE_DELETE[2]]!!.first().toLong(), params[REQUEST_TRIPLE_DELETE[3]]!!.first(), params[REQUEST_TRIPLE_DELETE[4]]!!.first(), params[REQUEST_TRIPLE_DELETE[5]]!!.first(), params[REQUEST_TRIPLE_DELETE[6]]!!.first().toBoolean(), params[REQUEST_TRIPLE_DELETE[7]]!!.first().toBoolean(), params[REQUEST_TRIPLE_DELETE[8]]!!.first().toBoolean(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_DELETE[9]]!!.first())).toPrettyString()
@@ -113,7 +135,7 @@ println("request start")
         else
             request.end(responseStr)
         GlobalLogger.log(ELoggerType.DEBUG, { "responseStr::" + responseStr })
-println("request end")
+        println("request end")
     }
 
     suspend fun start(bootstrap: String?) {
