@@ -31,4 +31,4 @@ do
                 echo $lastpackagename.$lastclassname.$functionname >> log/provided-functions-tmp
         fi
 done < log/tmp-provided
-cat log/provided-functions-tmp | sort | uniq > log/provided-functions
+cat log/provided-functions-tmp | sed "s/Companion\.//g" | sort | uniq > log/provided-functions
