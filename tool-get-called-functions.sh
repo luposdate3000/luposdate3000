@@ -19,4 +19,4 @@ do
         fi
 
 done < log/tmp-called
-cat log/called-functions | grep "^lupos" | sort | uniq > log/called-functions
+cat log/called-functions-tmp | grep "^lupos" | sed "s-/-.-g" | sort | uniq > log/called-functions

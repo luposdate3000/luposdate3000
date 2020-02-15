@@ -9,7 +9,7 @@ do
         packagename=$(echo $l | grep package | sed "s/package //g")
         objectname=$(echo $l | grep -w "^object" | sed "s/object //g" | sed "s/ .*//g")
         classname=$(echo $l | grep -w "class" | grep -v "class.simpleName" | grep -v "::class" | sed "s/.*class //g" | sed -e "s/(.*//g"| sed "s/ .*//g" )
-        functionname=$(echo $l | grep -w fun | sed "s/.*fun //g" | sed -e "s/(.*//g")
+        functionname=$(echo $l | grep -w fun | grep -vw "override"| sed "s/.*fun //g" | sed -e "s/(.*//g")
         if [ ! -z "$packagename" ]
         then
                 lastpackagename=$packagename
