@@ -42,7 +42,7 @@ class TripleInsertIterator : POPBaseNullableIterator {
         return XMLElement("TripleInsertIterator")
     }
 
-    inline fun cleanString(s: String): String = Trace.trace({ "TripleInsertIterator.cleanString" }, {
+     fun cleanString(s: String): String = Trace.trace({ "TripleInsertIterator.cleanString" }, {
         var res = s
         while (true) {
             val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
@@ -82,7 +82,7 @@ class TripleInsertIterator : POPBaseNullableIterator {
 
 }
 
-inline fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
+ fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
     val triple = ID_Triple(triple_s, triple_p, triple_o)
     val transactionID = DistributedTripleStore.nextTransactionID()
     val dictionary = ResultSetDictionary()

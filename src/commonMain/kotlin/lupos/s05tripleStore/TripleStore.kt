@@ -29,12 +29,12 @@ class PersistentStoreLocal {
 
     val stores = mutableMapOf<String, TripleStoreLocal>()
 
-    inline fun forEach(action: (String, TripleStoreLocal) -> Unit) {
+     fun forEach(action: (String, TripleStoreLocal) -> Unit) {
         for ((k, v) in stores)
             action(k, v)
     }
 
-    inline fun getGraphNames(includeDefault: Boolean = false): List<String> {
+     fun getGraphNames(includeDefault: Boolean = false): List<String> {
         val res = mutableListOf<String>()
         for (t in stores.keys)
             if (t != defaultGraphName || includeDefault)
@@ -48,7 +48,7 @@ class PersistentStoreLocal {
         }
     }
 
-    inline fun createGraph(name: String): TripleStoreLocal {
+     fun createGraph(name: String): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null)
             throw Exception("PersistentStore.createGraph :: graph[$name] already exist")
@@ -57,7 +57,7 @@ class PersistentStoreLocal {
         return tmp2
     }
 
-    inline fun dropGraph(name: String) {
+     fun dropGraph(name: String) {
         GlobalLogger.log(ELoggerType.DEBUG, { "PersistentStoreLocal.dropGraph $name b ${stores.keys} a" })
         require(name != defaultGraphName)
         if (stores[name] == null)
@@ -66,35 +66,35 @@ class PersistentStoreLocal {
         GlobalLogger.log(ELoggerType.DEBUG, { "PersistentStoreLocal.dropGraph $name b ${stores.keys} b" })
     }
 
-    inline fun dropGraphAll() {
+     fun dropGraphAll() {
         stores.clear()
         createGraph(defaultGraphName)
     }
 
-    inline fun clearGraph(name: String) {
+     fun clearGraph(name: String) {
         GlobalLogger.log(ELoggerType.DEBUG, { "PersistentStoreLocal.clearGraph $name a ${stores.keys}" })
         getNamedGraph(name).clear()
         GlobalLogger.log(ELoggerType.DEBUG, { "PersistentStoreLocal.clearGraph $name b ${stores.keys}" })
     }
 
-    inline fun clearGraphAll() {
+     fun clearGraphAll() {
         for (v in stores.values) {
             v.clear()
         }
     }
 
-    inline fun getNamedGraph(name: String, create: Boolean = false): TripleStoreLocal {
+     fun getNamedGraph(name: String, create: Boolean = false): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null || !create)
             return tmp!!
         return createGraph(name)
     }
 
-    inline fun getDefaultGraph(): TripleStoreLocal {
+     fun getDefaultGraph(): TripleStoreLocal {
         return getNamedGraph(defaultGraphName)
     }
 
-    inline fun commit(transactionID: Long) {
+     fun commit(transactionID: Long) {
         for (v in stores.values) {
             v.commit2(transactionID)
         }

@@ -4,7 +4,7 @@ class ResultSetDictionary() {
     val mapSTL = mutableMapOf<String, Value>()
     val mapLTS = mutableListOf<String>()
     val undefValue = Value.MAX_VALUE
-    inline fun createValue(value: String): Value {
+     fun createValue(value: String): Value {
         val o = mapSTL[value]
         if (o != null)
             return o
@@ -14,7 +14,7 @@ class ResultSetDictionary() {
         return l
     }
 
-    inline fun getValue(value: Value): String? {
+     fun getValue(value: Value): String? {
         if (value == undefValue)
             return null
         return mapLTS[value.toInt()]

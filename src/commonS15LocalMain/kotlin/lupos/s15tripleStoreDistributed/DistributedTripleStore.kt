@@ -20,14 +20,14 @@ val uuid = ThreadSafeUuid()
 class DistributedGraph(val name: String) {
     val K = 8 // defined in project.pdf
 
-    inline fun myHashCode(s: String, d: Int): Int {
+     fun myHashCode(s: String, d: Int): Int {
         val c = s.hashCode()
         if (c < 0)
             return (-c) % d
         return c % d
     }
 
-    inline fun myHashCode(s: Int, p: Int, o: Int, d: Int, idx: EIndexPattern): Int {
+     fun myHashCode(s: Int, p: Int, o: Int, d: Int, idx: EIndexPattern): Int {
         when (idx) {
             EIndexPattern.SPO -> return myHashCode("" + s + "-" + p + "-" + o, d)
             EIndexPattern.SOP -> return myHashCode("" + s + "-" + o + "-" + p, d)
@@ -38,11 +38,11 @@ class DistributedGraph(val name: String) {
         }
     }
 
-    inline fun calculateNodeForDataFull(s: String, p: String, o: String, idx: EIndexPattern): String {
+     fun calculateNodeForDataFull(s: String, p: String, o: String, idx: EIndexPattern): String {
         return EndpointImpl.fullname
     }
 
-    inline fun calculateNodeForDataMaybe(s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): Set<String> {
+     fun calculateNodeForDataMaybe(s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): Set<String> {
         return setOf(EndpointImpl.fullname)
     }
 

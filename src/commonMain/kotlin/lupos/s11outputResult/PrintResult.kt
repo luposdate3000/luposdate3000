@@ -6,7 +6,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s09physicalOperators.POPBase
 
 
-inline fun printResult(graph: POPBase) {
+ fun printResult(graph: POPBase) {
     val resultSet = graph.getResultSet()
     val variableNames = resultSet.getVariableNames().toTypedArray()
     val variables = arrayOfNulls<Variable>(variableNames.size)

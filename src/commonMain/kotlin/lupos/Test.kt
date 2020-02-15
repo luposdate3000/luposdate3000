@@ -96,7 +96,7 @@ class SevenIndices {
         this.spo += ID_Triple(triple_s, triple_p, triple_o)
     }
 
-    private inline fun addToOneKeyMap(onekeymap: MutableMap<Long, Array<Pair<Long, Long>>>, key: Long, value1: Long, value2: Long) {
+    private  fun addToOneKeyMap(onekeymap: MutableMap<Long, Array<Pair<Long, Long>>>, key: Long, value1: Long, value2: Long) {
         val values = onekeymap[key]
         val value = Pair(value1, value2)
         if (values == null) {
@@ -106,7 +106,7 @@ class SevenIndices {
         }
     }
 
-    private inline fun addToTwoKeysMap(twokeysmap: MutableMap<Pair<Long, Long>, LongArray>, key1: Long, key2: Long, value: Long) {
+    private  fun addToTwoKeysMap(twokeysmap: MutableMap<Pair<Long, Long>, LongArray>, key1: Long, key2: Long, value: Long) {
         val key = Pair(key1, key2)
         val values = twokeysmap[key]
         if (values == null) {
@@ -116,13 +116,13 @@ class SevenIndices {
         }
     }
 
-    private inline fun distinctOneKeyMap(onekeymap: MutableMap<Long, Array<Pair<Long, Long>>>) {
+    private  fun distinctOneKeyMap(onekeymap: MutableMap<Long, Array<Pair<Long, Long>>>) {
         for (entry in onekeymap) {
             entry.setValue(entry.value.toMutableSet().toTypedArray())
         }
     }
 
-    private inline fun distinctTwoKeysMap(twokeysmap: MutableMap<Pair<Long, Long>, LongArray>) {
+    private  fun distinctTwoKeysMap(twokeysmap: MutableMap<Pair<Long, Long>, LongArray>) {
         for (entry in twokeysmap) {
             entry.setValue(entry.value.toMutableSet().toLongArray())
         }

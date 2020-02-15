@@ -11,7 +11,7 @@ object Trace {
     val map = ThreadSafeMutableMap<String, Pair<Long, Double>>()
     val stack = ThreadSafeMutableStack<Pair<String, ClockMark>>()
 
-    inline fun trace(name: () -> String, action: () -> Any): Any {
+inline     fun trace(name: () -> String, action: () -> Any): Any {
         try {
             start(name())
             return action()
@@ -20,20 +20,20 @@ object Trace {
         }
     }
 
-    inline fun start(obj: Any) {
+     fun start(obj: Any) {
         start(classNameToString(obj))
     }
 
-    inline fun start(name: String) {
+     fun start(name: String) {
         GlobalLogger.log(ELoggerType.DEBUG, { "trace-start $name" })
         stack.push(Pair(name, MonoClock.markNow()))
     }
 
-    inline fun stop(obj: Any) {
+     fun stop(obj: Any) {
         stop(classNameToString(obj))
     }
 
-    inline fun stop(name: String) {
+     fun stop(name: String) {
         GlobalLogger.log(ELoggerType.DEBUG, { "trace-stop $name" })
         require(!stack.isEmpty())
         var key = ""
@@ -52,7 +52,7 @@ object Trace {
             map[key] = Pair(old.first + 1L, old.second + timediff)
     }
 
-    inline fun print() {
+     fun print() {
         GlobalLogger.log(ELoggerType.TRACE_RESULT, ::toString)
     }
 
