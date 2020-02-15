@@ -50,8 +50,6 @@ class POPServiceIRI : POPBase {
     }
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
         runBlocking {
             if (constraint == null) {
                 if (silent) {
@@ -61,6 +59,7 @@ class POPServiceIRI : POPBase {
                     channel.send(res)
                 }
             } else {
+                constraint.evaluate()
                 for (value in constraint.channel) {
                     val res = resultSet.createResultRow()
                     for (n in variables) {
@@ -70,8 +69,6 @@ class POPServiceIRI : POPBase {
                 }
             }
             channel.close()
-            for (c in children)
-                c.channel.close()
         }
     }
 

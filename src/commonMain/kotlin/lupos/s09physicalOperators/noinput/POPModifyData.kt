@@ -19,8 +19,6 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
     private var first = true
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
         runBlocking {
             for (t in data) {
                 val store = DistributedTripleStore.getNamedGraph(t[3].first)
@@ -31,8 +29,6 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
             }
             channel.send(resultSet.createResultRow())
             channel.close()
-            for (c in children)
-                c.channel.close()
         }
     }
 

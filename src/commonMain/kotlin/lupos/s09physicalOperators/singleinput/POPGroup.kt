@@ -22,8 +22,6 @@ class POPGroup : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
-    private var data: MutableList<ResultRow>? = null
-    private var iterator: Iterator<ResultRow>? = null
     var by: List<LOPVariable>
     var bindings = mutableListOf<Pair<Variable, POPExpression>>()
 
@@ -78,8 +76,7 @@ class POPGroup : POPBase {
     }
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
+        children[0].evaluate()
         runBlocking {
             val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
             val variables = mutableListOf<Pair<Variable, Variable>>()
@@ -96,14 +93,13 @@ class POPGroup : POPBase {
                 }
                 tmp.add(rsOld)
             }
-            data = mutableListOf<ResultRow>()
             if (tmpMutableMap.keys.size == 0) {
                 val rsNew = resultSet.createResultRow()
                 for (b in variables)
                     resultSet.setUndefValue(rsNew, b.first)
                 for (b in bindings)
                     resultSet.setUndefValue(rsNew, b.first)
-                data!!.add(rsNew)
+                channel.send(rsNew)
             }
             for (k in tmpMutableMap.keys) {
                 val rsOld = tmpMutableMap[k]!!.first()
@@ -123,14 +119,10 @@ class POPGroup : POPBase {
                         GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
                     }
                 }
-                data!!.add(rsNew)
+                channel.send(rsNew)
             }
-
-            for (c in data!!)
-                channel.send(c)
             channel.close()
-            for (c in children)
-                c.channel.close()
+            children[0].channel.close()
         }
     }
 

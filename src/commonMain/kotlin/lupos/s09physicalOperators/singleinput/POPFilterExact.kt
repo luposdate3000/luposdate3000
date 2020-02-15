@@ -43,16 +43,13 @@ class POPFilterExact : POPBase {
     }
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
+        children[0].evaluate()
         runBlocking {
-            for (nextRow in children[0].channel) {
+            for (nextRow in children[0].channel)
                 if (nextRow[filterVariable] == valueR)
                     channel.send(nextRow)
-            }
             channel.close()
-            for (c in children)
-                c.channel.close()
+            children[0].channel.close()
         }
     }
 

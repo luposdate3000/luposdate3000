@@ -98,8 +98,6 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     }
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
         runBlocking {
             for (nodeName in nodeNameIterator) {
                 val s = if (sFilter == null)
@@ -123,8 +121,6 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
                     channel.send(c)
             }
             channel.close()
-            for (c in children)
-                c.channel.close()
         }
     }
 

@@ -18,7 +18,6 @@ class POPDistinct : POPBase {
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private var data: MutableList<ResultRow>? = null
     private val variables = mutableListOf<Pair<Variable, Variable>>()
-    private var iterator: Iterator<ResultRow>? = null
 
     constructor(dictionary: ResultSetDictionary, child: OPBase) : super() {
         this.dictionary = dictionary
@@ -39,39 +38,28 @@ class POPDistinct : POPBase {
     }
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
+        children[0].evaluate()
         runBlocking {
-            if (data == null) {
-                val tmpMutableMap = mutableMapOf<String, ResultRow>()
-                for (rsOld in children[0].channel) {
-                    val rsNew = resultSet.createResultRow()
-                    var key: String = ""
-                    for (variable in variables) {
-                        rsNew[variable.first] = rsOld[variable.second]
-                        key += "-" + rsOld[variable.second]
-                    }
-                    tmpMutableMap[key] = rsNew
+            val tmpMutableMap = mutableMapOf<String, ResultRow>()
+            for (rsOld in children[0].channel) {
+                val rsNew = resultSet.createResultRow()
+                var key: String = ""
+                for (variable in variables) {
+                    rsNew[variable.first] = rsOld[variable.second]
+                    key += "-" + rsOld[variable.second]
                 }
-                data = mutableListOf<ResultRow>()
-                for (k in tmpMutableMap.keys) {
-                    data!!.add(tmpMutableMap[k]!!)
-                }
-                iterator = data!!.listIterator()
+                tmpMutableMap[key] = rsNew
             }
-            if (iterator == null || !iterator!!.hasNext()) {
-            } else {
-                channel.send(iterator!!.next())
-            }
-            channel.close()
-            for (c in children)
-                c.channel.close()
-        }
+            for (k in tmpMutableMap.keys)
+                channel.send(tmpMutableMap[k]!!)
+        channel.close()
+        children[0].channel.close()
     }
+}
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPDistinct")
-        res.addContent(childrenToXML())
-        return res
-    }
+override fun toXMLElement(): XMLElement {
+    val res = XMLElement("POPDistinct")
+    res.addContent(childrenToXML())
+    return res
+}
 }

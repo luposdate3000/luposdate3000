@@ -35,17 +35,13 @@ class POPFilter : POPBase {
     }
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
+        children[0].evaluate()
         runBlocking {
-            for (nextRow in children[0].channel) {
-                if (filter.evaluateBoolean(resultSet, nextRow)) {
+            for (nextRow in children[0].channel)
+                if (filter.evaluateBoolean(resultSet, nextRow))
                     channel.send(nextRow)
-                }
-            }
             channel.close()
-            for (c in children)
-                c.channel.close()
+            children[0].channel.close()
         }
     }
 

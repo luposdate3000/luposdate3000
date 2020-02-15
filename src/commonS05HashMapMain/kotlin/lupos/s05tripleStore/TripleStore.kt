@@ -50,11 +50,8 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
     }
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
         runBlocking {
-            while (iterator.hasNext()) {
-                val value = iterator.next()
+            for (value in iterator) {
                 val result = resultSet.createResultRow()
                 if (sFilter != null) {
                     if (value[sOld] != sFilter)
@@ -74,8 +71,6 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
                 channel.send(result)
             }
             channel.close()
-            for (c in children)
-                c.channel.close()
         }
     }
 }
@@ -141,9 +136,6 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
     }
 
     override fun evaluate() {
-        for (c in children) {
-            c.evaluate()
-        }
         runBlocking {
             for (value in iterator) {
                 val result = resultSet.createResultRow()

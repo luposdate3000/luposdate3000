@@ -8,6 +8,7 @@ import lupos.s09physicalOperators.POPBase
 
 object QueryResultToXML {
     fun toXML(query: POPBase): List<XMLElement> {
+        query.evaluate()
         val res = mutableListOf<XMLElement>()
         val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
         res.add(nodeSparql)
@@ -17,7 +18,6 @@ object QueryResultToXML {
         val variables = mutableListOf<Pair<String, Variable>>()
         if (variableNames.size == 1 && variableNames[0] == "?boolean") {
             runBlocking {
-                query.evaluate()
                 for (resultRow in query.channel) {
                     val value = query.resultSet.getValue(resultRow[query.resultSet.createVariable("?boolean")])!!
                     val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
@@ -33,7 +33,6 @@ object QueryResultToXML {
                 variables.add(Pair(variableName, query.resultSet.createVariable(variableName)))
             }
             runBlocking {
-                query.evaluate()
                 for (resultRow in query.channel) {
                     val nodeResult = XMLElement("result")
                     nodeResults.addContent(nodeResult)
@@ -54,17 +53,15 @@ object QueryResultToXML {
                                             val data = value.substring(1, idx2)
                                             val lang = value.substring(idx2 + 2, value.length)
                                             nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("xml:lang", lang))
-                                        } else {
+                                        } else
                                             nodeBinding.addContent(XMLElement("literal").addContent(value))
-                                        }
                                     }
                                 } else if (value.startsWith("<") && value.endsWith(">"))
                                     nodeBinding.addContent(XMLElement("uri").addContent(value.substring(1, value.length - 1)))
                                 else if (value.startsWith("_:"))
                                     nodeBinding.addContent(XMLElement("bnode").addContent(value.substring(2, value.length)))
-                                else {
+                                else
                                     nodeBinding.addContent(XMLElement("literal").addContent(value.substring(1, value.length - 1)))
-                                }
                             }
                             nodeResult.addContent(nodeBinding)
                         }

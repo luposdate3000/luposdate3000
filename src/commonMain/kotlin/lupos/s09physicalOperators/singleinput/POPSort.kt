@@ -45,8 +45,7 @@ class POPSort : POPBase {
     }
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
+        children[0].evaluate()
         runBlocking {
             val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
             for (rsOld in children[0].channel) {
@@ -69,7 +68,6 @@ class POPSort : POPBase {
                 }
                 tmp.add(rsNew)
             }
-            data = mutableListOf<ResultRow>()
             val allKeys = Array<String>(tmpMutableMap.keys.size) { "" }
             var i = 0
             for (k in tmpMutableMap.keys) {
@@ -77,14 +75,11 @@ class POPSort : POPBase {
                 i++
             }
             allKeys.sort()
-            for (k in allKeys) {
-                data!!.addAll(tmpMutableMap[k]!!)
-            }
-            for (c in data!!)
-                channel.send(c)
+            for (k in allKeys)
+                for (c in tmpMutableMap[k]!!)
+                    channel.send(c)
             channel.close()
-            for (c in children)
-                c.channel.close()
+            children[0].channel.close()
         }
     }
 

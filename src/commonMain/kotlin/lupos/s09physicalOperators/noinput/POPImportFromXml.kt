@@ -25,14 +25,11 @@ class POPImportFromXml : POPBase {
         if (data.tag != "sparql")
             throw Exception("can only parse sparql xml into an iterator")
         for (r in data.childs) {
-            if (r.tag == "results") {
+            if (r.tag == "results")
                 iterator = r.childs.iterator()
-            }
-            if (r.tag == "head") {
-                for (v in r.childs) {
+            if (r.tag == "head")
+                for (v in r.childs)
                     variables[v.attributes["name"]!!] = resultSet.createVariable(v.attributes["name"]!!)
-                }
-            }
         }
         if (iterator == null)
             throw Exception("can only parse sparql xml into an iterator")
@@ -62,8 +59,6 @@ class POPImportFromXml : POPBase {
     }
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
         runBlocking {
             for (node in iterator!!) {
                 val result = resultSet.createResultRow()
@@ -71,7 +66,6 @@ class POPImportFromXml : POPBase {
                     val name = v.attributes["name"]
                     val child = v.childs.first()
                     val content = cleanString(child.content)
-
                     val value = when {
                         child.tag == "uri" -> "<" + content + ">"
                         child.tag == "literal" && child.attributes["datatype"] != null -> "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
@@ -81,10 +75,9 @@ class POPImportFromXml : POPBase {
                     }
                     result[variables[name]!!] = resultSet.createValue(value)
                 }
+                channel.send(result)
             }
             channel.close()
-            for (c in children)
-                c.channel.close()
         }
     }
 }

@@ -40,24 +40,20 @@ class POPLimit : POPBase {
     }
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
+        children[0].evaluate()
         runBlocking {
             var count = 0
             for (rsOld in children[0].channel) {
                 var rsNew = resultSet.createResultRow()
-                if (count >= limit) {
-                    children[0].channel.close()
+                if (count >= limit)
                     break
-                }
-                for (v in variables) {
-                    // TODO reuse resultSet
+                for (v in variables)
                     rsNew[v.first] = rsOld[v.second]
-                }
                 count++
                 channel.send(rsNew)
             }
             channel.close()
+            children[0].channel.close()
         }
     }
 

@@ -39,27 +39,19 @@ class POPOffset : POPBase {
     }
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
+        children[0].evaluate()
         runBlocking {
             var count = 0
-            for (c in children[0].channel) {
-                if (count >= offset) {
-                    break
-                }
-                count++
-            }
             for (rsOld in children[0].channel) {
-                var rsNew = resultSet.createResultRow()
-                for (v in variables) {
-                    // TODO reuse resultSet
-                    rsNew[v.first] = rsOld[v.second]
+                if (count >= offset) {
+                    var rsNew = resultSet.createResultRow()
+                    for (v in variables)
+                        rsNew[v.first] = rsOld[v.second]
+                    channel.send(rsNew)
                 }
-                channel.send(rsNew)
             }
             channel.close()
-            for (c in children)
-                c.channel.close()
+            children[0].channel.close()
         }
     }
 

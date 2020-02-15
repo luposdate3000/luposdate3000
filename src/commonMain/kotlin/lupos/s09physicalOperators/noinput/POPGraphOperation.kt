@@ -19,6 +19,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class POPGraphOperation : POPBase {
+    override val children: Array<OPBase> = arrayOf()
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     val transactionID: Long
@@ -37,20 +38,14 @@ class POPGraphOperation : POPBase {
         this.resultSet = ResultSet(dictionary)
     }
 
-    override val children: Array<OPBase> = arrayOf()
-
-    private var first = true
 
     fun i2s(iri: ASTIriGraphRef): String {
         return iri.iri
     }
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
         runBlocking {
             try {
-                first = false
                 when (graphref1) {
                     is ASTAllGraphRef -> {
                         when (action) {
@@ -204,8 +199,6 @@ class POPGraphOperation : POPBase {
             }
             channel.send(resultSet.createResultRow())
             channel.close()
-            for (c in children)
-                c.channel.close()
         }
     }
 

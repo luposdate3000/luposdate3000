@@ -72,8 +72,6 @@ class POPValues : POPBase {
     }
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
         runBlocking {
             for (rsOld in iterator) {
                 var rsNew = resultSet.createResultRow()
@@ -82,8 +80,6 @@ class POPValues : POPBase {
                 channel.send(rsNew)
             }
             channel.close()
-            for (c in children)
-                c.channel.close()
         }
     }
 

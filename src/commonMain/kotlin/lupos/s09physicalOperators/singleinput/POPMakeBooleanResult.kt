@@ -37,17 +37,16 @@ class POPMakeBooleanResult : POPBase {
     }
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
+        children[0].evaluate()
         runBlocking {
-            var count = 0
+            var first = true
             for (c in children[0].channel) {
-                count++
+                first = false
                 children[0].channel.close()
                 break
             }
             var rsNew = resultSet.createResultRow()
-            rsNew[variableNew] = resultSet.createValue("\"" + (count > 0) + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+            rsNew[variableNew] = resultSet.createValue("\"" + (!first) + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
             channel.send(rsNew)
             channel.close()
         }

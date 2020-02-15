@@ -16,10 +16,8 @@ class POPUnion : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
-    private val variablesOldA = mutableListOf<Pair<Variable, Variable>>()
-    private val variablesOldAMissing = mutableListOf<Variable>()
-    private val variablesOldB = mutableListOf<Pair<Variable, Variable>>()
-    private val variablesOldBMissing = mutableListOf<Variable>()
+    private val variablesOld = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf<Pair<Variable, Variable>>())
+    private val variablesOldMissing = arrayOf(mutableListOf<Variable>(), mutableListOf<Variable>())
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }
@@ -39,14 +37,14 @@ class POPUnion : POPBase {
         var variablesB = children[1].resultSet.getVariableNames()
 
         for (name in variablesA) {
-            variablesOldA.add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
+            variablesOld[0].add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
             if (!variablesB.contains(name))
-                variablesOldBMissing.add(resultSet.createVariable(name))
+                variablesOldMissing[1].add(resultSet.createVariable(name))
         }
         for (name in variablesB) {
-            variablesOldB.add(Pair(children[1].resultSet.createVariable(name), resultSet.createVariable(name)))
+            variablesOld[1].add(Pair(children[1].resultSet.createVariable(name), resultSet.createVariable(name)))
             if (!variablesA.contains(name))
-                variablesOldAMissing.add(resultSet.createVariable(name))
+                variablesOldMissing[0].add(resultSet.createVariable(name))
         }
 
     }
@@ -55,26 +53,18 @@ class POPUnion : POPBase {
         for (c in children)
             c.evaluate()
         runBlocking {
-            for (rsOld in children[0].channel) {
-                val rsNew = resultSet.createResultRow()
-                for (p in variablesOldAMissing) {
-                    resultSet.setUndefValue(rsNew, p)
+            for (idx in children.indices) {
+val                c = children[idx]
+                for (rsOld in c.channel) {
+                    val rsNew = resultSet.createResultRow()
+                    for (p in variablesOldMissing[idx]) {
+                        resultSet.setUndefValue(rsNew, p)
+                    }
+                    for (p in variablesOld[idx]) {
+                        rsNew[p.second] = rsOld[p.first]
+                    }
+                    channel.send(rsNew)
                 }
-                for (p in variablesOldA) {
-                    // TODO reuse resultSet
-                    rsNew[p.second] = rsOld[p.first]
-                }
-                channel.send(rsNew)
-            }
-            for (rsOld in children[1].channel) {
-                val rsNew = resultSet.createResultRow()
-                for (p in variablesOldBMissing) {
-                    resultSet.setUndefValue(rsNew, p)
-                }
-                for (p in variablesOldB) {
-                    rsNew[p.second] = rsOld[p.first]
-                }
-                channel.send(rsNew)
             }
             channel.close()
             for (c in children)

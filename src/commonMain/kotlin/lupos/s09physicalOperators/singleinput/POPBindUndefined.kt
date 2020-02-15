@@ -51,21 +51,17 @@ class POPBindUndefined : POPBase {
     }
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
+        children[0].evaluate()
         runBlocking {
             for (rsOld in children[0].channel) {
                 var rsNew = resultSet.createResultRow()
-                for (i in variablesOld.indices) {
-                    // TODO reuse resultSet
+                for (i in variablesOld.indices)
                     rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
-                }
                 resultSet.setUndefValue(rsNew, variableBound)
                 channel.send(rsNew)
             }
             channel.close()
-            for (c in children)
-                c.channel.close()
+            children[0].channel.close()
         }
     }
 

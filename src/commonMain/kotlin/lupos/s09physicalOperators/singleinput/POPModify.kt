@@ -45,8 +45,7 @@ class POPModify : POPBase {
     }
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
+        children[0].evaluate()
         runBlocking {
             for (row in children[0].channel) {
                 for (i in insert) {
@@ -78,42 +77,41 @@ class POPModify : POPBase {
                     } catch (e: Throwable) {
 //ignore unbound variables
                     }
-                    for (i in delete) {
-                        try {
-                            when (i) {
-                                is ASTTriple -> {
-                                    val store = DistributedTripleStore.getDefaultGraph()
-                                    val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
-                                    store.deleteData(transactionID, data)
-                                }
-                                is ASTGraph -> {
-                                    val store = if (i.iriOrVar is ASTIri) {
-                                        DistributedTripleStore.getNamedGraph(i.iriOrVar.iri)
-                                    } else {
-                                        DistributedTripleStore.getNamedGraph(children[0].resultSet.getValue(row[children[0].resultSet.createVariable((i.iriOrVar as ASTVar).name)])!!)
-                                    }
-                                    for (c in i.children) {
-                                        when (c) {
-                                            is ASTTriple -> {
-                                                val data = listOf<String?>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
-                                                store.deleteData(transactionID, data)
-                                            }
-                                            else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
-                                        }
-                                    }
-                                }
-                                else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
-                            }
-                        } catch (e: Throwable) {
-//ignore unbound variables
-                        }
-                    }
-                    channel.send(resultSet.createResultRow())
                 }
+                for (i in delete) {
+                    try {
+                        when (i) {
+                            is ASTTriple -> {
+                                val store = DistributedTripleStore.getDefaultGraph()
+                                val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
+                                store.deleteData(transactionID, data)
+                            }
+                            is ASTGraph -> {
+                                val store = if (i.iriOrVar is ASTIri) {
+                                    DistributedTripleStore.getNamedGraph(i.iriOrVar.iri)
+                                } else {
+                                    DistributedTripleStore.getNamedGraph(children[0].resultSet.getValue(row[children[0].resultSet.createVariable((i.iriOrVar as ASTVar).name)])!!)
+                                }
+                                for (c in i.children) {
+                                    when (c) {
+                                        is ASTTriple -> {
+                                            val data = listOf<String?>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
+                                            store.deleteData(transactionID, data)
+                                        }
+                                        else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
+                                    }
+                                }
+                            }
+                            else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
+                        }
+                    } catch (e: Throwable) {
+//ignore unbound variables
+                    }
+                }
+                channel.send(resultSet.createResultRow())
             }
             channel.close()
-            for (c in children)
-                c.channel.close()
+            children[0].channel.close()
         }
     }
 

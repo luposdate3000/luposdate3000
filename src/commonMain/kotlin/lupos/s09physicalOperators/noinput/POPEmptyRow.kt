@@ -23,13 +23,9 @@ class POPEmptyRow : POPBase {
     }
 
     override fun evaluate() {
-        for (c in children)
-            c.evaluate()
         runBlocking {
             channel.send(resultSet.createResultRow())
             channel.close()
-            for (c in children)
-                c.channel.close()
         }
     }
 

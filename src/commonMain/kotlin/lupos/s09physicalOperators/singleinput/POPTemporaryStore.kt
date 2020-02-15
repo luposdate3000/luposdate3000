@@ -38,15 +38,12 @@ class POPTemporaryStore : POPBase {
     }
 
     override fun evaluate() {
-        for (c in children) {
-            c.evaluate()
-        }
+        children[0].evaluate()
         runBlocking {
             for (rsOld in children[0].channel) {
                 var rsNew = resultSet.createResultRow()
-                for (variable in variables) {
+                for (variable in variables)
                     rsNew[variable.first] = rsOld[variable.second]
-                }
                 data.add(rsNew)
                 channel.send(rsNew)
             }
