@@ -1,5 +1,6 @@
 package lupos.s04logicalOperators
 
+import kotlinx.coroutines.channels.Channel
 import lupos.s00misc.classNameToString
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
@@ -10,12 +11,12 @@ import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.singleinput.LOPBind
 
 
-abstract class OPBase : Iterator<ResultRow> {
-
+abstract class OPBase {
+    val channel = Channel<ResultRow>(100)
     abstract val resultSet: ResultSet
 
     abstract val children: Array<OPBase>
-
+    abstract fun evaluate()
     open fun toString(indentation: String): String = "${indentation}${classNameToString(this)}\n"
 
     companion object {

@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput
 
+import kotlinx.coroutines.*
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.Trace
@@ -53,31 +54,34 @@ class POPBind : POPBase {
         return expression.getRequiredVariableNames()
     }
 
-    override fun hasNext(): Boolean = Trace.trace({ "POPBind.hasNext" }, {
-        val res = children[0].hasNext()
-        return res
-    }) as Boolean
-
-    override fun next(): ResultRow = Trace.trace({ "POPBind.next" }, {
-        var rsNew = resultSet.createResultRow()
-        val rsOld = children[0].next()
-        for (i in variablesOld.indices) {
-            // TODO reuse resultSet
-            rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
+            for (rsOld in children[0].channel) {
+                var rsNew = resultSet.createResultRow()
+                for (i in variablesOld.indices) {
+                    // TODO reuse resultSet
+                    rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
+                }
+                try {
+                    val value = expression.evaluate(children[0].resultSet, rsOld)
+                    if (value == null)
+                        resultSet.setUndefValue(rsNew, variableBound)
+                    else
+                        rsNew[variableBound] = resultSet.createValue(value)
+                } catch (e: Throwable) {
+                    resultSet.setUndefValue(rsNew, variableBound)
+                    GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
+                    GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
+                }
+                channel.send(rsNew)
+            }
+            channel.close()
+            for (c in children)
+                c.channel.close()
         }
-        try {
-            val value = expression.evaluate(children[0].resultSet, rsOld)
-            if (value == null)
-                resultSet.setUndefValue(rsNew, variableBound)
-            else
-                rsNew[variableBound] = resultSet.createValue(value)
-        } catch (e: Throwable) {
-            resultSet.setUndefValue(rsNew, variableBound)
-            GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
-            GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
-        }
-        return rsNew
-    }) as ResultRow
+    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPBind")

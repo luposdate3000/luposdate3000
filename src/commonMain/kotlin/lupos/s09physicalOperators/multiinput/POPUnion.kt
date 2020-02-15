@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.multiinput
 
+import kotlinx.coroutines.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -9,10 +10,9 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
-class POPUnion : POPBaseNullableIterator {
+class POPUnion : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
@@ -51,32 +51,36 @@ class POPUnion : POPBaseNullableIterator {
 
     }
 
-    override fun nnext(): ResultRow? = Trace.trace({ "POPUnion.nnext" }, {
-        if (children[0].hasNext()) {
-            val rsOld = children[0].next()
-            val rsNew = resultSet.createResultRow()
-            for (p in variablesOldAMissing) {
-                resultSet.setUndefValue(rsNew, p)
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
+            for (rsOld in children[0].channel) {
+                val rsNew = resultSet.createResultRow()
+                for (p in variablesOldAMissing) {
+                    resultSet.setUndefValue(rsNew, p)
+                }
+                for (p in variablesOldA) {
+                    // TODO reuse resultSet
+                    rsNew[p.second] = rsOld[p.first]
+                }
+                channel.send(rsNew)
             }
-            for (p in variablesOldA) {
-                // TODO reuse resultSet
-                rsNew[p.second] = rsOld[p.first]
+            for (rsOld in children[1].channel) {
+                val rsNew = resultSet.createResultRow()
+                for (p in variablesOldBMissing) {
+                    resultSet.setUndefValue(rsNew, p)
+                }
+                for (p in variablesOldB) {
+                    rsNew[p.second] = rsOld[p.first]
+                }
+                channel.send(rsNew)
             }
-            return rsNew
+            channel.close()
+            for (c in children)
+                c.channel.close()
         }
-        if (children[1].hasNext()) {
-            val rsOld = children[1].next()
-            val rsNew = resultSet.createResultRow()
-            for (p in variablesOldBMissing) {
-                resultSet.setUndefValue(rsNew, p)
-            }
-            for (p in variablesOldB) {
-                rsNew[p.second] = rsOld[p.first]
-            }
-            return rsNew
-        }
-        return null
-    }) as ResultRow?
+    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPUnion")

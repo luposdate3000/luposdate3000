@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput
 
+import kotlinx.coroutines.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -11,10 +12,9 @@ import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
-class POPSort : POPBaseNullableIterator {
+class POPSort : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
@@ -44,11 +44,12 @@ class POPSort : POPBaseNullableIterator {
         return getProvidedVariableNames()
     }
 
-    override fun nnext(): ResultRow? = Trace.trace({ "POPSort.nnext" }, {
-        if (data == null) {
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
             val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
-            while (children[0].hasNext()) {
-                val rsOld = children[0].next()
+            for (rsOld in children[0].channel) {
                 val rsNew = resultSet.createResultRow()
                 var key: String = ""
                 for (variable in variables) {
@@ -79,15 +80,12 @@ class POPSort : POPBaseNullableIterator {
             for (k in allKeys) {
                 data!!.addAll(tmpMutableMap[k]!!)
             }
-            reset()
+            for (c in data!!)
+                channel.send(c)
+            channel.close()
+            for (c in children)
+                c.channel.close()
         }
-        if (iterator == null || !iterator!!.hasNext())
-            return null
-        return iterator!!.next()
-    }) as ResultRow?
-
-    fun reset() {
-        iterator = data!!.listIterator()
     }
 
     override fun toXMLElement(): XMLElement {

@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput
 
+import kotlinx.coroutines.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -49,21 +50,24 @@ class POPBindUndefined : POPBase {
         return children[0].getRequiredVariableNames()
     }
 
-    override fun hasNext(): Boolean = Trace.trace({ "POPBindUndefined.hasNext" }, {
-        val res = children[0].hasNext()
-        return res
-    }) as Boolean
-
-    override fun next(): ResultRow = Trace.trace({ "POPBindUndefined.next" }, {
-        var rsNew = resultSet.createResultRow()
-        val rsOld = children[0].next()
-        for (i in variablesOld.indices) {
-            // TODO reuse resultSet
-            rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
+            for (rsOld in children[0].channel) {
+                var rsNew = resultSet.createResultRow()
+                for (i in variablesOld.indices) {
+                    // TODO reuse resultSet
+                    rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
+                }
+                resultSet.setUndefValue(rsNew, variableBound)
+                channel.send(rsNew)
+            }
+            channel.close()
+            for (c in children)
+                c.channel.close()
         }
-        resultSet.setUndefValue(rsNew, variableBound)
-        return rsNew
-    }) as ResultRow
+    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPBindUndefined")

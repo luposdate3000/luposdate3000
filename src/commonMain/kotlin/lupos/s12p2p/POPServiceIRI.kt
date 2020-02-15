@@ -1,5 +1,6 @@
 package lupos.s12p2p
 
+import kotlinx.coroutines.*
 import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
@@ -48,34 +49,31 @@ class POPServiceIRI : POPBase {
         return originalConstraint.getProvidedVariableNames()
     }
 
-    override fun next(): ResultRow = Trace.trace({ "POPServiceIRI.next" }, {
-        try {
-            val value = constraint!!.next()
-            val res = resultSet.createResultRow()
-            for (n in variables) {
-                res[n.first] = resultSet.createValue(constraint.resultSet.getValue(value[n.second]))
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
+            if (constraint == null) {
+                if (silent) {
+                    val res = resultSet.createResultRow()
+                    for (n in getProvidedVariableNames())
+                        resultSet.setUndefValue(res, resultSet.createVariable(n))
+                    channel.send(res)
+                }
+            } else {
+                for (value in constraint.channel) {
+                    val res = resultSet.createResultRow()
+                    for (n in variables) {
+                        res[n.first] = resultSet.createValue(constraint.resultSet.getValue(value[n.second]))
+                    }
+                    channel.send(res)
+                }
             }
-            return res
-        } catch (e: Throwable) {
-            if (silent || constraint == null) {
-                val res = resultSet.createResultRow()
-                for (n in getProvidedVariableNames())
-                    resultSet.setUndefValue(res, resultSet.createVariable(n))
-                return res
-            }
-            throw e
+            channel.close()
+            for (c in children)
+                c.channel.close()
         }
-    }) as ResultRow
-
-    override fun hasNext(): Boolean = Trace.trace({ "POPServiceIRI.hasNext" }, {
-        if (first && constraint == null) {
-            first = false
-            return true
-        } else if (constraint == null) {
-            return false
-        } else
-            return constraint.hasNext()
-    }) as Boolean
+    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPServiceIRI")

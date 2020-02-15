@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput
 
+import kotlinx.coroutines.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -10,10 +11,9 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
-class POPFilter : POPBaseNullableIterator {
+class POPFilter : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
@@ -34,15 +34,20 @@ class POPFilter : POPBaseNullableIterator {
         return filter.getRequiredVariableNames()
     }
 
-    override fun nnext(): ResultRow? = Trace.trace({ "POPFilter.nnext" }, {
-        while (children[0].hasNext()) {
-            val nextRow = children[0].next()
-            if (filter.evaluateBoolean(resultSet, nextRow)) {
-                return nextRow
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
+            for (nextRow in children[0].channel) {
+                if (filter.evaluateBoolean(resultSet, nextRow)) {
+                    channel.send(nextRow)
+                }
             }
+            channel.close()
+            for (c in children)
+                c.channel.close()
         }
-        return null
-    }) as ResultRow?
+    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPFilter")

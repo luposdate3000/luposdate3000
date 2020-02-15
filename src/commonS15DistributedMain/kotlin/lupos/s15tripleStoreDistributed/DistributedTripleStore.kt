@@ -1,5 +1,6 @@
 package lupos.s15tripleStoreDistributed
 
+import kotlinx.coroutines.*
 import lupos.s00misc.*
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
@@ -96,41 +97,36 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
         return mutableListOf<String>()
     }
 
-    override fun next(): ResultRow = Trace.trace({ "TripleStoreIteratorGlobal.next" }, {
-        val tmp = remoteIterator!!.next()
-        return tmp
-    }) as ResultRow
-
-    override fun hasNext(): Boolean = Trace.trace({ "TripleStoreIteratorGlobal.hasNext" }, {
-        GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.hasNext start" })
-        while (remoteIterator == null || !remoteIterator!!.hasNext()) {
-            if (!nodeNameIterator.hasNext()) {
-                GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.hasNext end1" })
-                return false
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
+            for (nodeName in nodeNameIterator) {
+                val s = if (sFilter == null)
+                    "s"
+                else
+                    sFilter
+                val p = if (pFilter == null)
+                    "p"
+                else
+                    pFilter
+                val o = if (oFilter == null)
+                    "o"
+                else
+                    oFilter
+                val sv = sFilter != null
+                val pv = pFilter != null
+                val ov = oFilter != null
+                val remoteNode = P2P.execTripleGet(nodeName, graphName, dictionary, transactionID, s, p, o, sv, pv, ov, idx)
+                remoteNode.evaluate()
+                for (c in remoteNode.channel)
+                    channel.send(c)
             }
-            val s = if (sFilter == null)
-                "s"
-            else
-                sFilter
-            val p = if (pFilter == null)
-                "p"
-            else
-                pFilter
-            val o = if (oFilter == null)
-                "o"
-            else
-                oFilter
-            val sv = sFilter != null
-            val pv = pFilter != null
-            val ov = oFilter != null
-            val nodeName = nodeNameIterator.next()
-            GlobalLogger.log(ELoggerType.DEBUG, { "nodeName :: ${nodeName} $s $p $o $sv $pv $ov" })
-            val remoteNode = P2P.execTripleGet(nodeName, graphName, dictionary, transactionID, s, p, o, sv, pv, ov, idx)
-            remoteIterator = remoteNode
+            channel.close()
+            for (c in children)
+                c.channel.close()
         }
-        GlobalLogger.log(ELoggerType.DEBUG, { "globalIterator.hasNext end2" })
-        return true
-    }) as Boolean
+    }
 
     override fun setMNameS(n: String) {
         sNew = resultSet.renameVariable(nameS, n)
@@ -254,12 +250,14 @@ class DistributedGraph(val name: String) {
         val ks = rs.createVariable("s")
         val kp = rs.createVariable("p")
         val ko = rs.createVariable("o")
-        while (iterator.hasNext()) {
-            val v = iterator.next()
-            val s = rs.getValue(v[ks])
-            val p = rs.getValue(v[kp])
-            val o = rs.getValue(v[ko])
-            addData(transactionID, listOf(s, p, o))
+        iterator.evaluate()
+        runBlocking {
+            for (v in iterator.channel) {
+                val s = rs.getValue(v[ks])
+                val p = rs.getValue(v[kp])
+                val o = rs.getValue(v[ko])
+                addData(transactionID, listOf(s, p, o))
+            }
         }
     })
 

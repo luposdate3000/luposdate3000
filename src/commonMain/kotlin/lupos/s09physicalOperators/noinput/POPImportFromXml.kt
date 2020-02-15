@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.noinput
 
+import kotlinx.coroutines.*
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
@@ -7,10 +8,9 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
-class POPImportFromXml : POPBaseNullableIterator {
+class POPImportFromXml : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
@@ -61,25 +61,30 @@ class POPImportFromXml : POPBaseNullableIterator {
         }
     }
 
-    override fun nnext(): ResultRow? {
-        if (!iterator!!.hasNext())
-            return null
-        val node = iterator!!.next()
-        val result = resultSet.createResultRow()
-        for (v in node.childs) {
-            val name = v.attributes["name"]
-            val child = v.childs.first()
-            val content = cleanString(child.content)
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
+            for (node in iterator!!) {
+                val result = resultSet.createResultRow()
+                for (v in node.childs) {
+                    val name = v.attributes["name"]
+                    val child = v.childs.first()
+                    val content = cleanString(child.content)
 
-            val value = when {
-                child.tag == "uri" -> "<" + content + ">"
-                child.tag == "literal" && child.attributes["datatype"] != null -> "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
-                child.tag == "literal" && child.attributes["xml:lang"] != null -> "\"" + content + "\"@" + child.attributes["xml:lang"]
-                child.tag == "bnode" -> "_:" + content
-                else -> "\"" + content + "\""
+                    val value = when {
+                        child.tag == "uri" -> "<" + content + ">"
+                        child.tag == "literal" && child.attributes["datatype"] != null -> "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
+                        child.tag == "literal" && child.attributes["xml:lang"] != null -> "\"" + content + "\"@" + child.attributes["xml:lang"]
+                        child.tag == "bnode" -> "_:" + content
+                        else -> "\"" + content + "\""
+                    }
+                    result[variables[name]!!] = resultSet.createValue(value)
+                }
             }
-            result[variables[name]!!] = resultSet.createValue(value)
+            channel.close()
+            for (c in children)
+                c.channel.close()
         }
-        return result
     }
 }

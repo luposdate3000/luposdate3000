@@ -1,5 +1,6 @@
 package lupos.s14endpoint
 
+import kotlinx.coroutines.*
 import lupos.s00misc.*
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.ELoggerType
@@ -24,18 +25,17 @@ import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPImportFromXml
 import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.POPBaseNullableIterator
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s15tripleStoreDistributed.*
 
 
-class TripleInsertIterator : POPBaseNullableIterator {
+class TripleInsertIterator : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
-    var result: ResultRow?
+    var result: ResultRow
 
 
     override fun toXMLElement(): XMLElement {
@@ -70,12 +70,16 @@ class TripleInsertIterator : POPBaseNullableIterator {
         return mutableListOf<String>()
     }
 
-    override fun nnext(): ResultRow? = Trace.trace({ "TripleInsertIterator.nnext" }, {
-        var res = result
-        result = null
-        return res
-    }) as ResultRow?
-
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
+            channel.send(result)
+            channel.close()
+            for (c in children)
+                c.channel.close()
+        }
+    }
 }
 
 fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {

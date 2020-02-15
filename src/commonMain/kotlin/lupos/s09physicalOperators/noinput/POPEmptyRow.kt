@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.noinput
 
+import kotlinx.coroutines.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -21,15 +22,16 @@ class POPEmptyRow : POPBase {
         resultSet = ResultSet(dictionary)
     }
 
-
-    override fun hasNext(): Boolean = Trace.trace({ "POPEmptyRow.hasNext" }, {
-        return first
-    }) as Boolean
-
-    override fun next(): ResultRow = Trace.trace({ "POPEmptyRow.next" }, {
-        first = false
-        return resultSet.createResultRow()
-    }) as ResultRow
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
+            channel.send(resultSet.createResultRow())
+            channel.close()
+            for (c in children)
+                c.channel.close()
+        }
+    }
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

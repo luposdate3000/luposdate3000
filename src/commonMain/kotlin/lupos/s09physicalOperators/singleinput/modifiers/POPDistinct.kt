@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput.modifiers
 
+import kotlinx.coroutines.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -9,10 +10,9 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
-class POPDistinct : POPBaseNullableIterator {
+class POPDistinct : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
@@ -38,29 +38,36 @@ class POPDistinct : POPBaseNullableIterator {
         return children[0].getRequiredVariableNames()
     }
 
-    override fun nnext(): ResultRow? = Trace.trace({ "POPDistinct.nnext" }, {
-        if (data == null) {
-            val tmpMutableMap = mutableMapOf<String, ResultRow>()
-            while (children[0].hasNext()) {
-                val rsOld = children[0].next()
-                val rsNew = resultSet.createResultRow()
-                var key: String = ""
-                for (variable in variables) {
-                    rsNew[variable.first] = rsOld[variable.second]
-                    key += "-" + rsOld[variable.second]
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
+            if (data == null) {
+                val tmpMutableMap = mutableMapOf<String, ResultRow>()
+                for (rsOld in children[0].channel) {
+                    val rsNew = resultSet.createResultRow()
+                    var key: String = ""
+                    for (variable in variables) {
+                        rsNew[variable.first] = rsOld[variable.second]
+                        key += "-" + rsOld[variable.second]
+                    }
+                    tmpMutableMap[key] = rsNew
                 }
-                tmpMutableMap[key] = rsNew
+                data = mutableListOf<ResultRow>()
+                for (k in tmpMutableMap.keys) {
+                    data!!.add(tmpMutableMap[k]!!)
+                }
+                iterator = data!!.listIterator()
             }
-            data = mutableListOf<ResultRow>()
-            for (k in tmpMutableMap.keys) {
-                data!!.add(tmpMutableMap[k]!!)
+            if (iterator == null || !iterator!!.hasNext()) {
+            } else {
+                channel.send(iterator!!.next())
             }
-            iterator = data!!.listIterator()
+            channel.close()
+            for (c in children)
+                c.channel.close()
         }
-        if (iterator == null || !iterator!!.hasNext())
-            return null
-        return iterator!!.next()
-    }) as ResultRow?
+    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPDistinct")

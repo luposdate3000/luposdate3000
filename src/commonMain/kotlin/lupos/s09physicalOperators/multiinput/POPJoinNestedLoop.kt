@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.multiinput
 
+import kotlinx.coroutines.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -9,11 +10,10 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.POPBaseNullableIterator
 import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 
 
-class POPJoinNestedLoop : POPBaseNullableIterator {
+class POPJoinNestedLoop : POPBase {
     override val dictionary: ResultSetDictionary
     override val resultSet: ResultSet
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
@@ -57,72 +57,47 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
         }
     }
 
-    override fun nnext(): ResultRow? = Trace.trace({ "POPJoinNestedLoop.nnext" }, {
-        while (true) {
-            var resultRowB: ResultRow?
-            if (!children[1].hasNext()) {
-                (children[1] as POPTemporaryStore).reset()
-                if (optional && !hadMatchForA && resultRowA != null) {
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
+            for (resultRowA in children[0].channel) {
+                for (resultRowB in children[1].channel) {
+                    var joinVariableOk = true
                     var rsNew = resultSet.createResultRow()
-                    for (p in variablesOldB) {
-                        // TODO reuse resultSet
-                        resultSet.setUndefValue(rsNew, p.second)
-                    }
-                    for (p in variablesOldJ) {
-                        // TODO reuse resultSet
-                        rsNew[p.second] = resultRowA!![p.first.first]
-                    }
                     for (p in variablesOldA) {
                         // TODO reuse resultSet
                         rsNew[p.second] = resultRowA!![p.first]
                     }
-                    resultRowA = null
-                    return rsNew
+                    for (p in variablesOldB) {
+                        // TODO reuse resultSet
+                        rsNew[p.second] = resultRowB[p.first]
+                    }
+                    for (p in variablesOldJ) {
+                        // TODO reuse resultSet
+                        val a = children[0].resultSet.getValue(resultRowA!![p.first.first])
+                        val b = children[1].resultSet.getValue(resultRowB[p.first.second])
+                        if (a != b && (!children[0].resultSet.isUndefValue(resultRowA!!, p.first.first)) && (!children[1].resultSet.isUndefValue(resultRowB, p.first.second))) {
+                            joinVariableOk = false
+                            break
+                        }
+                        if (children[0].resultSet.isUndefValue(resultRowA!!, p.first.first))
+                            rsNew[p.second] = resultSet.createValue(b)
+                        else
+                            rsNew[p.second] = resultSet.createValue(a)
+                    }
+                    if (!joinVariableOk)
+                        continue
+                    hadMatchForA = true
+                    channel.send(rsNew)
                 }
-                resultRowA = null
-                if (!children[1].hasNext()) {
-                    return null
-                }
+                (children[1] as POPTemporaryStore).reset()
             }
-            if (resultRowA == null) {
-                if (!children[0].hasNext())
-                    return null
-                else {
-                    resultRowA = children[0].next()
-                    hadMatchForA = false
-                }
-            }
-            require(resultRowA != null)
-            resultRowB = children[1].next()
-            var joinVariableOk = true
-            var rsNew = resultSet.createResultRow()
-            for (p in variablesOldA) {
-                // TODO reuse resultSet
-                rsNew[p.second] = resultRowA!![p.first]
-            }
-            for (p in variablesOldB) {
-                // TODO reuse resultSet
-                rsNew[p.second] = resultRowB[p.first]
-            }
-            for (p in variablesOldJ) {
-                // TODO reuse resultSet
-                val a = children[0].resultSet.getValue(resultRowA!![p.first.first])
-                val b = children[1].resultSet.getValue(resultRowB[p.first.second])
-                if (a != b && (!children[0].resultSet.isUndefValue(resultRowA!!, p.first.first)) && (!children[1].resultSet.isUndefValue(resultRowB, p.first.second))) {
-                    joinVariableOk = false
-                    break
-                }
-                if (children[0].resultSet.isUndefValue(resultRowA!!, p.first.first))
-                    rsNew[p.second] = resultSet.createValue(b)
-                else
-                    rsNew[p.second] = resultSet.createValue(a)
-            }
-            if (!joinVariableOk)
-                continue
-            hadMatchForA = true
-            return rsNew
+            channel.close()
+            for (c in children)
+                c.channel.close()
         }
-    }) as ResultRow?
+    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPJoinNestedLoop")

@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput
 
+import kotlinx.coroutines.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -17,13 +18,11 @@ class POPTemporaryStore : POPBase {
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private val data = mutableListOf<ResultRow>()
     private val variables = mutableListOf<Pair<Variable, Variable>>()
-    private var iterator: Iterator<ResultRow>
 
     constructor(dictionary: ResultSetDictionary, child: OPBase) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)
         children[0] = child
-        iterator = child
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         for (name in children[0].resultSet.getVariableNames()) {
             variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
@@ -38,30 +37,26 @@ class POPTemporaryStore : POPBase {
         return children[0].getRequiredVariableNames()
     }
 
-    override fun hasNext(): Boolean = Trace.trace({ "POPTemporaryStore.hasNext" }, {
-        return iterator.hasNext()
-    }) as Boolean
-
-    override fun next(): ResultRow = Trace.trace({ "POPTemporaryStore.next" }, {
-        if (iterator == children[0]) {
-            val rsOld = children[0].next()
-            var rsNew = resultSet.createResultRow()
-            for (variable in variables) {
-                rsNew[variable.first] = rsOld[variable.second]
+    override fun evaluate() {
+        for (c in children) {
+            c.evaluate()
+        }
+        runBlocking {
+            for (rsOld in children[0].channel) {
+                var rsNew = resultSet.createResultRow()
+                for (variable in variables) {
+                    rsNew[variable.first] = rsOld[variable.second]
+                }
+                data.add(rsNew)
+                channel.send(rsNew)
             }
-            data.add(rsNew)
-            return rsNew
         }
-        val rsOld = iterator.next()
-        var rsNew = resultSet.createResultRow()
-        for (variable in variables) {
-            rsNew[variable.first] = rsOld[variable.second]
-        }
-        return rsNew
-    }) as ResultRow
+    }
 
-    fun reset() {
-        iterator = data.listIterator()
+    suspend fun reset() {
+        for (c in data) {
+            channel.send(c)
+        }
     }
 
     override fun toXMLElement(): XMLElement {

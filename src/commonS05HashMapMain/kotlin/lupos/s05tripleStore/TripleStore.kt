@@ -1,5 +1,6 @@
 package lupos.s05tripleStore
 
+import kotlinx.coroutines.*
 import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.XMLElement
@@ -16,7 +17,6 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
     var sFilter: Value? = null
     var pFilter: Value? = null
     var oFilter: Value? = null
-    var nextRow: ResultRow? = null
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("TripleStoreIteratorLocalFilter").addAttribute("uuid", "" + uuid).addAttribute("name", getGraphName())
@@ -37,12 +37,6 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
 
     constructor(dictionary: ResultSetDictionary, store: TripleStoreLocal, index: EIndexPattern) : super(dictionary, store, index)
 
-    override fun next(): ResultRow = Trace.trace({ "TripleStore.next a" }, {
-        val tmp = nextRow!!
-        nextRow = null
-        return tmp
-    }) as ResultRow
-
     fun setSFilterV(s: String) {
         sFilter = store.resultSet.createValue(s)
     }
@@ -55,32 +49,35 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
         oFilter = store.resultSet.createValue(o)
     }
 
-    override fun hasNext(): Boolean = Trace.trace({ "TripleStore.hasNext a" }, {
-        if (nextRow != null)
-            return true
-        while (iterator.hasNext()) {
-            val value = iterator.next()
-            val result = resultSet.createResultRow()
-            if (sFilter != null) {
-                if (value[sOld] != sFilter)
-                    continue
-            } else
-                result[sNew] = resultSet.createValue(store.resultSet.getValue(value[sOld]))
-            if (pFilter != null) {
-                if (value[pOld] != pFilter)
-                    continue
-            } else
-                result[pNew] = resultSet.createValue(store.resultSet.getValue(value[pOld]))
-            if (oFilter != null) {
-                if (value[oOld] != oFilter)
-                    continue
-            } else
-                result[oNew] = resultSet.createValue(store.resultSet.getValue(value[oOld]))
-            nextRow = result
-            return true
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
+            while (iterator.hasNext()) {
+                val value = iterator.next()
+                val result = resultSet.createResultRow()
+                if (sFilter != null) {
+                    if (value[sOld] != sFilter)
+                        continue
+                } else
+                    result[sNew] = resultSet.createValue(store.resultSet.getValue(value[sOld]))
+                if (pFilter != null) {
+                    if (value[pOld] != pFilter)
+                        continue
+                } else
+                    result[pNew] = resultSet.createValue(store.resultSet.getValue(value[pOld]))
+                if (oFilter != null) {
+                    if (value[oOld] != oFilter)
+                        continue
+                } else
+                    result[oNew] = resultSet.createValue(store.resultSet.getValue(value[oOld]))
+                channel.send(result)
+            }
+            channel.close()
+            for (c in children)
+                c.channel.close()
         }
-        return false
-    }) as Boolean
+    }
 }
 
 open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
@@ -143,19 +140,21 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
         return mutableListOf<String>()
     }
 
-    override fun next(): ResultRow = Trace.trace({ "TripleStore.next b" }, {
-        val value = iterator.next()
-        val result = resultSet.createResultRow()
-        result[sNew] = resultSet.createValue(store.resultSet.getValue(value[sOld]))
-        result[pNew] = resultSet.createValue(store.resultSet.getValue(value[pOld]))
-        result[oNew] = resultSet.createValue(store.resultSet.getValue(value[oOld]))
-        return result
-    }) as ResultRow
-
-    override fun hasNext(): Boolean = Trace.trace({ "TripleStore.hasNext b" }, {
-        return iterator.hasNext()
-    }) as Boolean
-
+    override fun evaluate() {
+        for (c in children) {
+            c.evaluate()
+        }
+        runBlocking {
+            for (value in iterator) {
+                val result = resultSet.createResultRow()
+                result[sNew] = resultSet.createValue(store.resultSet.getValue(value[sOld]))
+                result[pNew] = resultSet.createValue(store.resultSet.getValue(value[pOld]))
+                result[oNew] = resultSet.createValue(store.resultSet.getValue(value[oOld]))
+                channel.send(result)
+            }
+            channel.close()
+        }
+    }
 }
 
 class TripleStoreLocal {

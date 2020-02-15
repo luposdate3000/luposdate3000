@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.noinput
 
+import kotlinx.coroutines.*
 import lupos.s00misc.EModifyType
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -17,21 +18,23 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
     override val children: Array<OPBase> = arrayOf()
     private var first = true
 
-    override fun hasNext(): Boolean = Trace.trace({ "POPInsertData.hasNext" }, {
-        return first
-    }) as Boolean
-
-    override fun next(): ResultRow = Trace.trace({ "POPInsertData.next" }, {
-        first = false
-        for (t in data) {
-            val store = DistributedTripleStore.getNamedGraph(t[3].first)
-            if (type == EModifyType.INSERT)
-                store.addDataVar(transactionID, t)
-            else
-                store.deleteDataVar(transactionID, t)
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
+            for (t in data) {
+                val store = DistributedTripleStore.getNamedGraph(t[3].first)
+                if (type == EModifyType.INSERT)
+                    store.addDataVar(transactionID, t)
+                else
+                    store.deleteDataVar(transactionID, t)
+            }
+            channel.send(resultSet.createResultRow())
+            channel.close()
+            for (c in children)
+                c.channel.close()
         }
-        return resultSet.createResultRow()
-    }) as ResultRow
+    }
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

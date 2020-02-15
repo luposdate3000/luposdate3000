@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput
 
+import kotlinx.coroutines.*
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.Trace
@@ -14,11 +15,10 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.POPBaseNullableIterator
 import lupos.s09physicalOperators.singleinput.POPBind
 
 
-class POPGroup : POPBaseNullableIterator {
+class POPGroup : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
@@ -77,14 +77,15 @@ class POPGroup : POPBaseNullableIterator {
         return mutableListOf<String>()
     }
 
-    override fun nnext(): ResultRow? = Trace.trace({ "POPGroup.nnext" }, {
-        if (data == null) {
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
             val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
             val variables = mutableListOf<Pair<Variable, Variable>>()
             for (v in by)
                 variables.add(Pair(resultSet.createVariable(v.name), children[0].resultSet.createVariable(v.name)))
-            while (children[0].hasNext()) {
-                val rsOld = children[0].next()
+            for (rsOld in children[0].channel) {
                 var key: String = "|"
                 for (variable in variables)
                     key = key + children[0].resultSet.getValue(rsOld[variable.second]) + "|"
@@ -124,15 +125,13 @@ class POPGroup : POPBaseNullableIterator {
                 }
                 data!!.add(rsNew)
             }
-            reset()
-        }
-        if (iterator == null || !iterator!!.hasNext())
-            return null
-        return iterator!!.next()
-    }) as ResultRow?
 
-    fun reset() {
-        iterator = data!!.listIterator()
+            for (c in data!!)
+                channel.send(c)
+            channel.close()
+            for (c in children)
+                c.channel.close()
+        }
     }
 
     override fun toXMLElement(): XMLElement {

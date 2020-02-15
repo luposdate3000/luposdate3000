@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput
 
+import kotlinx.coroutines.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -72,20 +73,23 @@ class POPRename : POPBase {
         return listOf<String>(nameFrom.name)
     }
 
-    override fun hasNext(): Boolean = Trace.trace({ "POPRename.hasNext" }, {
-        val res = children[0].hasNext()
-        return res
-    }) as Boolean
-
-    override fun next(): ResultRow = Trace.trace({ "POPRename.next" }, {
-        var rsNew = resultSet.createResultRow()
-        val rsOld = children[0].next()
-        for (i in variablesNew.indices) {
-            // TODO reuse resultSet
-            rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
+            for (rsOld in children[0].channel) {
+                var rsNew = resultSet.createResultRow()
+                for (i in variablesNew.indices) {
+                    // TODO reuse resultSet
+                    rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
+                }
+                channel.send(rsNew)
+            }
+            channel.close()
+            for (c in children)
+                c.channel.close()
         }
-        return rsNew
-    }) as ResultRow
+    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPRename")

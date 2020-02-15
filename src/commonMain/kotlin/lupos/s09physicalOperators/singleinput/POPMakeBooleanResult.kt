@@ -1,5 +1,6 @@
 package lupos.s09physicalOperators.singleinput
 
+import kotlinx.coroutines.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -35,16 +36,22 @@ class POPMakeBooleanResult : POPBase {
         return listOf<String>()
     }
 
-    override fun hasNext(): Boolean = Trace.trace({ "POPMakeBooleanResult.hasNext" }, {
-        return count == 0
-    }) as Boolean
-
-    override fun next(): ResultRow = Trace.trace({ "POPMakeBooleanResult.next" }, {
-        var rsNew = resultSet.createResultRow()
-        rsNew[variableNew] = resultSet.createValue("\"" + children[0].hasNext() + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
-        count++
-        return rsNew
-    }) as ResultRow
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
+            var count = 0
+            for (c in children[0].channel) {
+                count++
+                children[0].channel.close()
+                break
+            }
+            var rsNew = resultSet.createResultRow()
+            rsNew[variableNew] = resultSet.createValue("\"" + (count > 0) + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+            channel.send(rsNew)
+            channel.close()
+        }
+    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPMakeBooleanResult")

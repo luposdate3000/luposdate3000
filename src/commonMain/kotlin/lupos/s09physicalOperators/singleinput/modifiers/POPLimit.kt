@@ -1,5 +1,7 @@
 package lupos.s09physicalOperators.singleinput.modifiers
 
+import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -37,20 +39,27 @@ class POPLimit : POPBase {
         return children[0].getRequiredVariableNames()
     }
 
-    override fun hasNext(): Boolean = Trace.trace({ "POPLimit.hasNext" }, {
-        return count < limit && children[0].hasNext()
-    }) as Boolean
-
-    override fun next(): ResultRow = Trace.trace({ "POPLimit.next" }, {
-        var rsNew = resultSet.createResultRow()
-        val rsOld = children[0].next()
-        for (v in variables) {
-            // TODO reuse resultSet
-            rsNew[v.first] = rsOld[v.second]
+    override fun evaluate() {
+        for (c in children)
+            c.evaluate()
+        runBlocking {
+            var count = 0
+            for (rsOld in children[0].channel) {
+                var rsNew = resultSet.createResultRow()
+                if (count >= limit) {
+                    children[0].channel.close()
+                    break
+                }
+                for (v in variables) {
+                    // TODO reuse resultSet
+                    rsNew[v.first] = rsOld[v.second]
+                }
+                count++
+                channel.send(rsNew)
+            }
+            channel.close()
         }
-        count++
-        return rsNew
-    }) as ResultRow
+    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPLimit")
