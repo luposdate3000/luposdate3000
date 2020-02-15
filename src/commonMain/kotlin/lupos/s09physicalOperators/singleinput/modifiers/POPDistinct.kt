@@ -52,14 +52,14 @@ class POPDistinct : POPBase {
             }
             for (k in tmpMutableMap.keys)
                 channel.send(tmpMutableMap[k]!!)
-        channel.close()
-        children[0].channel.close()
+            channel.close()
+            children[0].channel.close()
+        }
     }
-}
 
-override fun toXMLElement(): XMLElement {
-    val res = XMLElement("POPDistinct")
-    res.addContent(childrenToXML())
-    return res
-}
+    override fun toXMLElement(): XMLElement {
+        val res = XMLElement("POPDistinct")
+        res.addContent(childrenToXML())
+        return res
+    }
 }

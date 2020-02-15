@@ -26,7 +26,7 @@ object ResultRepresenationNetwork {
         var latestDictionaryMax: Value? = null
         var currentRowCounter = 0
         runBlocking {
-try{
+            try {
                 var resultRow = query.channel.receive()
                 var newDictionaryMax = latestDictionaryMax
                 for (v in variables) {
@@ -77,8 +77,8 @@ try{
                 }
                 GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "override triplecount $currentRowCounter" })
                 res.setInt(currentRowCounter, posResultLen)
-            }catch(e:Throwable){
-		}
+            } catch (e: Throwable) {
+            }
         }
         GlobalLogger.log(ELoggerType.BINARY_ENCODING,
                 { "write dictlen d 0" })

@@ -54,7 +54,7 @@ class POPUnion : POPBase {
             c.evaluate()
         runBlocking {
             for (idx in children.indices) {
-val                c = children[idx]
+                val c = children[idx]
                 for (rsOld in c.channel) {
                     val rsNew = resultSet.createResultRow()
                     for (p in variablesOldMissing[idx]) {
