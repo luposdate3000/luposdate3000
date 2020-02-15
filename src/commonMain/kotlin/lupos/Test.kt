@@ -58,77 +58,6 @@ fun testMain() {
     GlobalLogger.log(ELoggerType.RELEASE, { "afterTrace" })
 }
 
-class SevenIndices {
-    private val s = mutableMapOf<Long, Array<Pair<Long, Long>>>()
-    private val p = mutableMapOf<Long, Array<Pair<Long, Long>>>()
-    private val o = mutableMapOf<Long, Array<Pair<Long, Long>>>()
-    private val sp = mutableMapOf<Pair<Long, Long>, LongArray>()
-    private val so = mutableMapOf<Pair<Long, Long>, LongArray>()
-    private val po = mutableMapOf<Pair<Long, Long>, LongArray>()
-    val spo = mutableSetOf<ID_Triple>()
-
-    fun s(key: Long): Array<Pair<Long, Long>> = this.s[key] ?: arrayOf()
-    fun p(key: Long): Array<Pair<Long, Long>> = this.p[key] ?: arrayOf()
-    fun o(key: Long): Array<Pair<Long, Long>> = this.o[key] ?: arrayOf()
-    fun sp(key1: Long, key2: Long): LongArray = this.sp[Pair(key1, key2)] ?: longArrayOf()
-    fun so(key1: Long, key2: Long): LongArray = this.so[Pair(key1, key2)] ?: longArrayOf()
-    fun po(key1: Long, key2: Long): LongArray = this.po[Pair(key1, key2)] ?: longArrayOf()
-    fun spo(key1: Long, key2: Long, key3: Long): Boolean = this.spo(ID_Triple(key1, key2, key3))
-    fun spo(key: ID_Triple): Boolean = this.spo.contains(key)
-
-    fun distinct() {
-        distinctOneKeyMap(this.s)
-        distinctOneKeyMap(this.p)
-        distinctOneKeyMap(this.o)
-        distinctTwoKeysMap(this.sp)
-        distinctTwoKeysMap(this.so)
-        distinctTwoKeysMap(this.po)
-        // duplicates are already eliminated in this.spo!
-    }
-
-    fun add(triple_s: Long, triple_p: Long, triple_o: Long) {
-        addToOneKeyMap(this.s, triple_s, triple_p, triple_o)
-        addToOneKeyMap(this.p, triple_p, triple_s, triple_o)
-        addToOneKeyMap(this.o, triple_o, triple_s, triple_p)
-        addToTwoKeysMap(this.sp, triple_s, triple_p, triple_o)
-        addToTwoKeysMap(this.so, triple_s, triple_o, triple_p)
-        addToTwoKeysMap(this.po, triple_p, triple_o, triple_s)
-        this.spo += ID_Triple(triple_s, triple_p, triple_o)
-    }
-
-    private fun addToOneKeyMap(onekeymap: MutableMap<Long, Array<Pair<Long, Long>>>, key: Long, value1: Long, value2: Long) {
-        val values = onekeymap[key]
-        val value = Pair(value1, value2)
-        if (values == null) {
-            onekeymap[key] = arrayOf(value)
-        } else {
-            onekeymap[key] = values + value
-        }
-    }
-
-    private fun addToTwoKeysMap(twokeysmap: MutableMap<Pair<Long, Long>, LongArray>, key1: Long, key2: Long, value: Long) {
-        val key = Pair(key1, key2)
-        val values = twokeysmap[key]
-        if (values == null) {
-            twokeysmap[key] = longArrayOf(value)
-        } else {
-            twokeysmap[key] = values + value
-        }
-    }
-
-    private fun distinctOneKeyMap(onekeymap: MutableMap<Long, Array<Pair<Long, Long>>>) {
-        for (entry in onekeymap) {
-            entry.setValue(entry.value.toMutableSet().toTypedArray())
-        }
-    }
-
-    private fun distinctTwoKeysMap(twokeysmap: MutableMap<Pair<Long, Long>, LongArray>) {
-        for (entry in twokeysmap) {
-            entry.setValue(entry.value.toMutableSet().toLongArray())
-        }
-    }
-}
-
 private fun listMembers(data: SevenIndices, start: Long, f: (Long) -> Unit) {
     val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     val nil = rdf + "nil"
@@ -613,3 +542,74 @@ fun parseSPARQLAndEvaluate(//
         return false
     }
 }
+class SevenIndices {
+    private val s = mutableMapOf<Long, Array<Pair<Long, Long>>>()
+    private val p = mutableMapOf<Long, Array<Pair<Long, Long>>>()
+    private val o = mutableMapOf<Long, Array<Pair<Long, Long>>>()
+    private val sp = mutableMapOf<Pair<Long, Long>, LongArray>()
+    private val so = mutableMapOf<Pair<Long, Long>, LongArray>()
+    private val po = mutableMapOf<Pair<Long, Long>, LongArray>()
+    val spo = mutableSetOf<ID_Triple>()
+
+    fun s(key: Long): Array<Pair<Long, Long>> = this.s[key] ?: arrayOf()
+    fun p(key: Long): Array<Pair<Long, Long>> = this.p[key] ?: arrayOf()
+    fun o(key: Long): Array<Pair<Long, Long>> = this.o[key] ?: arrayOf()
+    fun sp(key1: Long, key2: Long): LongArray = this.sp[Pair(key1, key2)] ?: longArrayOf()
+    fun so(key1: Long, key2: Long): LongArray = this.so[Pair(key1, key2)] ?: longArrayOf()
+    fun po(key1: Long, key2: Long): LongArray = this.po[Pair(key1, key2)] ?: longArrayOf()
+    fun spo(key1: Long, key2: Long, key3: Long): Boolean = this.spo(ID_Triple(key1, key2, key3))
+    fun spo(key: ID_Triple): Boolean = this.spo.contains(key)
+
+    fun distinct() {
+        distinctOneKeyMap(this.s)
+        distinctOneKeyMap(this.p)
+        distinctOneKeyMap(this.o)
+        distinctTwoKeysMap(this.sp)
+        distinctTwoKeysMap(this.so)
+        distinctTwoKeysMap(this.po)
+        // duplicates are already eliminated in this.spo!
+    }
+
+    fun add(triple_s: Long, triple_p: Long, triple_o: Long) {
+        addToOneKeyMap(this.s, triple_s, triple_p, triple_o)
+        addToOneKeyMap(this.p, triple_p, triple_s, triple_o)
+        addToOneKeyMap(this.o, triple_o, triple_s, triple_p)
+        addToTwoKeysMap(this.sp, triple_s, triple_p, triple_o)
+        addToTwoKeysMap(this.so, triple_s, triple_o, triple_p)
+        addToTwoKeysMap(this.po, triple_p, triple_o, triple_s)
+        this.spo += ID_Triple(triple_s, triple_p, triple_o)
+    }
+
+    private fun addToOneKeyMap(onekeymap: MutableMap<Long, Array<Pair<Long, Long>>>, key: Long, value1: Long, value2: Long) {
+        val values = onekeymap[key]
+        val value = Pair(value1, value2)
+        if (values == null) {
+            onekeymap[key] = arrayOf(value)
+        } else {
+            onekeymap[key] = values + value
+        }
+    }
+
+    private fun addToTwoKeysMap(twokeysmap: MutableMap<Pair<Long, Long>, LongArray>, key1: Long, key2: Long, value: Long) {
+        val key = Pair(key1, key2)
+        val values = twokeysmap[key]
+        if (values == null) {
+            twokeysmap[key] = longArrayOf(value)
+        } else {
+            twokeysmap[key] = values + value
+        }
+    }
+
+    private fun distinctOneKeyMap(onekeymap: MutableMap<Long, Array<Pair<Long, Long>>>) {
+        for (entry in onekeymap) {
+            entry.setValue(entry.value.toMutableSet().toTypedArray())
+        }
+    }
+
+    private fun distinctTwoKeysMap(twokeysmap: MutableMap<Pair<Long, Long>, LongArray>) {
+        for (entry in twokeysmap) {
+            entry.setValue(entry.value.toMutableSet().toLongArray())
+        }
+    }
+}
+

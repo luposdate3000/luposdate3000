@@ -48,8 +48,5 @@ actual class ThreadSafeMutableMap<k, v> {
         return value
     }
 
-    actual fun put(key: k, value: v) {
-        set(key, value)
-    }
 }
 //pthread_mutex_destroy

@@ -15,10 +15,6 @@ class ThreadSafeMutableMap<k, v>() {
         }
     }
 
-    fun put(key: k, value: v) {
-        set(key, value)
-    }
-
     operator fun set(key: k, value: v) {
         synchronized(map) {
             map[key] = value

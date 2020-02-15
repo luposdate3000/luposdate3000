@@ -90,27 +90,6 @@ class DynamicByteArray {
         return res
     }
 
-    fun setByte(b: Byte, p: Int) {
-        data.set(p, b)
-    }
-
-    fun appendByte(b: Byte) {
-        if (pos + 1 >= data.size)
-            data += ByteArray(data.size)
-        setByte(b, pos)
-        pos++
-    }
-
-    fun getByte(p: Int): Byte {
-        return data[p]
-    }
-
-    fun getNextByte(): Byte {
-        val res = getByte(pos)
-        pos += 1
-        return res
-    }
-
     fun appendString(s: String) {
         val tmp = s.encodeToByteArray()
         appendInt(tmp.size)
@@ -123,7 +102,6 @@ class DynamicByteArray {
     }
 
     fun getString(p: Int): String {
-        val p = pos
         val l = getInt(p)
         val res = data.decodeToString(p + 4, p + 4 + l, true)
         return res
@@ -136,18 +114,10 @@ class DynamicByteArray {
         return res
     }
 
-    fun rewind() {
-        pos = 4
-    }
-
     fun appendSpace(l: Int): Int {
         val res = pos
         pos += l
         return res
-    }
-
-    fun getPosition(): Int {
-        return pos
     }
 
 }
