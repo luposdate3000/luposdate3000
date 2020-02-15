@@ -113,7 +113,6 @@ res+=e.toString().toByteArray()
     }
 
     override suspend fun read(position: Long, buffer: ByteArray, offset: Int, len: Int): Int {
-println("read $position $offset $len ${data.pos.toLong()} ${buffer.size}")
 if(position>data.pos)
 	return 0
 if(position+len>data.pos){
@@ -125,7 +124,6 @@ if(position+len>data.pos){
     }
 
 	override suspend fun getLength(): Long{
-println("getLength ${data.pos.toLong()}")
 		return data.pos.toLong()
 	}
 

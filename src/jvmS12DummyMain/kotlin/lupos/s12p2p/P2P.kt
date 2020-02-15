@@ -187,17 +187,14 @@ object P2P {
     })
 
     suspend fun retryRequestGet(url: String): HttpClient.Response = Trace.trace({ "P2P.retryRequest" }, {
-        println("retryRequestGet :: $url start")
         require(!url.startsWith("http://${EndpointImpl.fullname}"))
         var i = 0
         while (true) {
             i++
             try {
                 val res = client.request(Http.Method.GET, url)
-                println("retryRequestGet :: done")
                 return res
             } catch (e: Throwable) {
-                println("retryRequestGet :: loop $i")
 if(i>100)
 throw e
                 delay(10)
@@ -206,17 +203,14 @@ throw e
     }) as HttpClient.Response
 
     suspend fun retryRequestPost(url: String, data: AsyncStream): HttpClient.Response = Trace.trace({ "P2P.retryRequest" }, {
-        println("retryRequestPost :: $url start")
         require(!url.startsWith("http://${EndpointImpl.fullname}"))
         var i = 0
         while (true) {
             i++
             try {
                 val res = client.request(Http.Method.POST, url, Http.Headers(), data)
-                println("retryRequestPost :: done")
                 return res
             } catch (e: Throwable) {
-                println("retryRequestPost :: loop $i")
 if(i>100)
 throw e
                 delay(10)

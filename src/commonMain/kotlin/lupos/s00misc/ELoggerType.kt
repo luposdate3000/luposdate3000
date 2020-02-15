@@ -1,10 +1,10 @@
 package lupos.s00misc
 
 enum class ELoggerType {
-    BINARY_ENCODING,
     TRACE_RESULT,
     RELEASE,
     TEST_RESULT,
+    BINARY_ENCODING,
     TEST_RESULT_DISABLED,
     TEST_DETAIL,
     DEBUG
