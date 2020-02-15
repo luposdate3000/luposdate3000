@@ -29,11 +29,6 @@ class PersistentStoreLocal {
 
     val stores = mutableMapOf<String, TripleStoreLocal>()
 
-    fun forEach(action: (String, TripleStoreLocal) -> Unit) {
-        for ((k, v) in stores)
-            action(k, v)
-    }
-
     fun getGraphNames(includeDefault: Boolean = false): List<String> {
         val res = mutableListOf<String>()
         for (t in stores.keys)
@@ -66,21 +61,10 @@ class PersistentStoreLocal {
         GlobalLogger.log(ELoggerType.DEBUG, { "PersistentStoreLocal.dropGraph $name b ${stores.keys} b" })
     }
 
-    fun dropGraphAll() {
-        stores.clear()
-        createGraph(defaultGraphName)
-    }
-
     fun clearGraph(name: String) {
         GlobalLogger.log(ELoggerType.DEBUG, { "PersistentStoreLocal.clearGraph $name a ${stores.keys}" })
         getNamedGraph(name).clear()
         GlobalLogger.log(ELoggerType.DEBUG, { "PersistentStoreLocal.clearGraph $name b ${stores.keys}" })
-    }
-
-    fun clearGraphAll() {
-        for (v in stores.values) {
-            v.clear()
-        }
     }
 
     fun getNamedGraph(name: String, create: Boolean = false): TripleStoreLocal {

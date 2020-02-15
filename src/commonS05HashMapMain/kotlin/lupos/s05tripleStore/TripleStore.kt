@@ -197,12 +197,6 @@ class TripleStoreLocal {
         }
     })
 
-    fun abort(transactionID: Long) = Trace.trace({ "TripleStoreLocal.abort" }, {
-        pendingModifications.forEach {
-            it.remove(transactionID)
-        }
-    })
-
     fun commit2(transactionID: Long) = Trace.trace({ "TripleStoreLocal.commit2" }, {
         EIndexPattern.values().forEach {
             val tmp = pendingModifications[it.ordinal][transactionID]
@@ -219,23 +213,6 @@ class TripleStoreLocal {
     })
 
     fun addData(transactionID: Long, ss: String, ps: String, os: String, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.addData" }, {
-        val vals = resultSet.createValue(ss)
-        val valp = resultSet.createValue(ps)
-        val valo = resultSet.createValue(os)
-        modifyData(transactionID, vals, valp, valo, EModifyType.INSERT, idx)
-    })
-
-    fun deleteData(transactionID: Long, ss: String, ps: String, os: String, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.deleteData" }, {
-        val vals = resultSet.createValue(ss)
-        val valp = resultSet.createValue(ps)
-        val valo = resultSet.createValue(os)
-        modifyData(transactionID, vals, valp, valo, EModifyType.DELETE, idx)
-    })
-
-    fun addDataVar(transactionID: Long, ss: String, ps: String, os: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.addDataVar" }, {
-        require(sv == true)
-        require(pv == true)
-        require(ov == true)
         val vals = resultSet.createValue(ss)
         val valp = resultSet.createValue(ps)
         val valo = resultSet.createValue(os)
