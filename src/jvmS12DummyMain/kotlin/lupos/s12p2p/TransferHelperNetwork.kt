@@ -8,6 +8,7 @@ import com.soywiz.korio.stream.*
 import kotlin.concurrent.thread
 import kotlinx.coroutines.channels.*
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.*
 import lupos.s00misc.parseFromXml
 import lupos.s02buildSyntaxTree.rdf.Dictionary
@@ -22,10 +23,12 @@ import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.EndpointImpl
 import lupos.testMain
 
+
 class TransferHelperNetwork : AsyncStreamBase {
     companion object {
-        suspend fun processBinary(channelIn: DynamicByteArrayAsyncRead) {
+        suspend fun processBinary(channelIn: DynamicByteArrayAsyncRead, channelOut: DynamicByteArrayAsyncWrite) {
             channelIn.fetch()
+            var res = DynamicByteArrayAsyncWrite()
             val dictionary = ResultSetDictionary()
             val transactionID = channelIn.buffer!!.getNextLong()
             println("read transactionID $transactionID")
@@ -59,7 +62,12 @@ class TransferHelperNetwork : AsyncStreamBase {
                             println("read triple o $o")
                             val idx = EIndexPattern.values()[channelIn.buffer!!.getNextInt()]
                             println("read triple idx $idx")
+                            try {
                                 Endpoint.process_local_triple_add(graphName, transactionID, s, p, o, idx)
+                            } catch (e: Throwable) {
+                                e.printStackTrace()
+                                channelOut.buffer!!.appendString(e.toString())
+                            }
                         }
                     }
                 }
@@ -67,6 +75,7 @@ class TransferHelperNetwork : AsyncStreamBase {
                 header = ENetworkMessageType.values()[channelIn.buffer!!.getNextInt()]
                 println("read header $header")
             }
+            channelOut.finish()
             channelIn.finish()
         }
     }
@@ -79,7 +88,6 @@ class TransferHelperNetwork : AsyncStreamBase {
     var lastDictionaryKey: Value? = null
 
     constructor(transactionID: Long) {
-println("DynamicByteArrayAsyncWrite() b")
         println("write transactionID $transactionID")
         channelOut.buffer!!.appendLong(transactionID)
     }
@@ -136,8 +144,7 @@ println("DynamicByteArrayAsyncWrite() b")
     var sendbuf = ByteArray(0)
     var sendbufsize = 0
     var sendoffset = 0
-var combinedChannel=Channel<Pair<ByteArray,Int>>(Channel.UNLIMITED)
-var combinedLength=-1
+val buflimit=65536
     override suspend fun read(position: Long, buffer: ByteArray, offset: Int, len: Int): Int {
         println("read :: $position $offset $len")
         require(senduntil == position)
@@ -145,12 +152,10 @@ var combinedLength=-1
         var outlenremaining = len
 
         try {
-while(true){
+while(len - outlenremaining<buflimit){
 println("currentsend ::${len - outlenremaining}")
             while (sendoffset == sendbufsize) {
-println("channel 1 receive a")
-                val tmp = combinedChannel.receive()
-println("channel 1 receive b")
+                val tmp = channelOut.channel.receive()
                 sendbuf = tmp.first
                 sendbufsize = tmp.second
                 println("sender.fromqueue :: ${sendbufsize} ${sendbuf.size}")
@@ -174,12 +179,11 @@ println("channel 1 receive b")
             }
 }
         } catch (e: Throwable) {
-println("c 3")
             e.printStackTrace()
-println("c 4")
+            if (len != outlenremaining) {
                 println("sender.sending b ${len - outlenremaining}")
-println("c 5")
                 return len - outlenremaining
+            }
         }
         println("sender.sending c 0")
         return 0
@@ -187,39 +191,13 @@ println("c 5")
 
     override suspend fun getLength(): Long {
         println("getlength start")
-if(combinedLength==-1){
-var len=0
-println("d 1")
-try{
-println("d 2")
-while(true){
-println("d 3")
-val tmp=channelOut.channel.receive()
-println("d 4")
-len+=tmp.second
-combinedChannel.send(tmp)
-println("d 5")
-}
-println("d 6")
-} catch (e: Throwable) {
-println("d 7")
-combinedChannel.close()
-}
-println("d 8")
-try{
-throw Exception("getLength")
-}catch (e: Throwable) {
-e.printStackTrace()
-}
-combinedLength=len
-}
-println("getlength :: ${combinedLength}")
-        return 0L+combinedLength
+println("getlength :: ${buflimit}")
+        return 0L+buflimit
     }
 
     suspend fun finish(): AsyncStream {
         enforceHeader(ENetworkMessageType.FINISH)
-        channelOut.finish()
+        val binary = channelOut.finish()
         return AsyncStream(this)
     }
 }

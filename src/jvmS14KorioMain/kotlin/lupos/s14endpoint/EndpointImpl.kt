@@ -49,42 +49,39 @@ object EndpointImpl {
         GlobalLogger.log(ELoggerType.DEBUG, { request.path })
         GlobalLogger.log(ELoggerType.DEBUG, { request.method })
         request.replaceHeader("Connection", "close")
-println("a 10")
         if (request.path == REQUEST_BINARY[0]) {
+
+            val channelOut = DynamicByteArrayAsyncWrite()
             val channelIn = DynamicByteArrayAsyncRead()
             request.handler { it ->
                 runBlocking {
-println("runBlocking 10 enter")
                     println("network receive :: ${it.size}")
-println("channel 1 send a")
                     channelIn.channel.send(it)
-println("channel 1 send b")
-println("runBlocking 10 leave")
                 }
             }
             request.endHandler {
-		runBlocking {
-println("runBlocking 11 enter")
-	                channelIn.finish()
-println("runBlocking 11 leave")
-		}
+                channelIn.channel.close()
             }
-            TransferHelperNetwork.processBinary(channelIn)
+            TransferHelperNetwork.processBinary(channelIn, channelOut)
 println("a 1")
-            var res = ByteArray(1)
-try{
             request.replaceHeader("Content-Type", "application/x-binary")
-		res.set(0,0)
-}catch(e:Throwable){
-e.printStackTrace()
-		res.set(0,1)
-}
+            var res = ByteArray(0)
 println("a 2")
+            try {
+println("a 3")
+                for (t in channelOut.channel) {
+println("a 4")
+                    res += t.first
+                }
+println("a 5")
+            } catch (e: Throwable) {
+println("a 6")
+            }
+println("a 7")
             request.end(res)
 println("a 8")
             return
         }
-println("a 9")
         request.replaceHeader("Content-Type", "text/html")
         var responseStr = ""
         var responseBytes: ByteArray? = null
@@ -98,10 +95,8 @@ println("a 9")
         request.endHandler {
             endFlag = false
         }
-println("endFlag a")
         while (endFlag)
             delay(10)
-println("endFlag b")
         try {
             when (request.path) {
 
@@ -165,7 +160,6 @@ println("endFlag b")
 }
 
 fun main(args: Array<String>) = runBlocking {
-println("runBlocking 12 enter")
     var i = 0
     var bootStrapServer: String? = null
     for (a in args) {
@@ -184,7 +178,6 @@ println("runBlocking 12 enter")
     while (true) {
         delay(1000)
     }
-println("runBlocking 12 leave")
 }
 /*
 fun main(args: Array<String>) = runBlocking {

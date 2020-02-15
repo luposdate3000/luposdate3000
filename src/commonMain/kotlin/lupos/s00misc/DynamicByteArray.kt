@@ -11,7 +11,6 @@ class DynamicByteArrayAsyncWrite {
     var buffer = DynamicByteArray()
 
     constructor() {
-println("open channel w $channel")
         buffer.appendSpace(4)
     }
 
@@ -19,9 +18,7 @@ println("open channel w $channel")
         println("DynamicByteArrayAsyncWrite.flush start")
         buffer.setInt(buffer.pos, 0)
         println("flush :: ${buffer.pos} ${buffer.data.size}")
-println("channel 2 send a")
         channel.send(buffer.finish())
-println("channel 2 send b")
         buffer = DynamicByteArray()
         buffer.appendSpace(4)
         println("DynamicByteArrayAsyncWrite.flush end")
@@ -30,10 +27,7 @@ println("channel 2 send b")
     suspend fun finish() {
         println("DynamicByteArrayAsyncWrite.finish start")
         buffer.setInt(buffer.pos, 0)
-println("channel 3 send a")
         channel.send(buffer.finish())
-println("channel 3 send a")
-println("close channel w $channel")
         channel.close()
         println("DynamicByteArrayAsyncWrite.finish end")
     }
@@ -45,15 +39,12 @@ class DynamicByteArrayAsyncRead {
     var maxlen = 0
 
     constructor() {
-println("open channel r $channel")
     }
 
     suspend fun fetch() {
         println("DynamicByteArrayAsyncRead.fetch start")
         if (buffer == null || buffer!!.pos >= buffer!!.data.size) {
-println("channel 2 receive a")
             buffer = DynamicByteArray(channel.receive())
-println("channel 2 receive b")
 println("fetch a ${buffer!!.data.size}")
             maxlen = buffer!!.getNextInt()
 println("fetch b ${maxlen}")
@@ -63,9 +54,7 @@ println("fetch update :: $maxlen $newlen ${buffer!!.data.size}")
 if(newlen>buffer!!.data.size){
 val remaining=buffer!!.data.size-maxlen
 println("fetch c $remaining")
-println("channel 3 receive a")
 	val nextB=channel.receive()
-println("channel 3 receive b")
 println("fetch d ${remaining+nextB.size}")
 	val buf=ByteArray(remaining+nextB.size)
 println("fetch e $maxlen ${buffer!!.data.size}")
@@ -84,8 +73,6 @@ println("fetch h $maxlen ${buf.size}")
 
     suspend fun finish() {
         println("DynamicByteArrayAsyncRead.finish")
-println("close channel r $channel")
-	channel.close()
     }
 }
 
