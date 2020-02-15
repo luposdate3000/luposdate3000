@@ -125,7 +125,7 @@ class DynamicByteArray {
     fun getString(p: Int): String {
         val p = pos
         val l = getInt(p)
-        val res = data.decodeToString(p + 4, pos + 5, true)
+        val res = data.decodeToString(p + 4, p+4+l, true)
         return res
     }
 

@@ -548,7 +548,9 @@ class TurtleParserWithStringTriples(val consume_triple: (String, String, String)
                 if (token !is ANON_BNODE) {
                     throw UnexpectedToken(token, arrayOf("ANON_BNODE"), ltit)
                 }
-                return "_:_" + bnode_counter; bnode_counter++;
+		val res="_:_" + bnode_counter
+                bnode_counter++;
+		return res
             }
             else -> {
                 throw UnexpectedToken(t21, arrayOf("BNODE", "ANON_BNODE"), ltit)

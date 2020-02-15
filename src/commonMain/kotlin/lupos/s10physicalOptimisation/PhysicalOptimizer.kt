@@ -144,7 +144,6 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
     }
 
     override fun visit(node: LOPJoin): OPBase {
-//        return POPJoinNestedLoop(dictionary,optimize(node.children[0]), optimize(node.children[1]), node.optional)
         return POPJoinHashMap(dictionary, optimize(node.children[0]), optimize(node.children[1]), node.optional)
     }
 

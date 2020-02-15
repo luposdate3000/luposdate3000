@@ -165,26 +165,3 @@ fun main(args: Array<String>) = runBlocking {
         delay(1000)
     }
 }
-/*
-fun main(args: Array<String>) = runBlocking {
-    var i = 0
-    var bootStrapServer: String? = null
-    for (a in args) {
-        GlobalLogger.log(ELoggerType.DEBUG,{"args[$i]=$a"})
-        when (i) {
-            0 -> EndpointImpl.port = a.toInt()
-            1 -> EndpointImpl.hostname = a
-            2 -> bootStrapServer = a
-        }
-        i++
-    }
-    thread(start = true) {
-        launch(Dispatchers.Default) {
-            EndpointImpl.start(bootStrapServer)
-        }
-    }
-    while (true) {
-        delay(1000)
-    }
-}
-*/

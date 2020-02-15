@@ -34,14 +34,9 @@ class TransferHelperNetwork : AsyncStreamBase {
             while (header != ENetworkMessageType.FINISH) {
                 val count = data.getNextInt()
                 when (header) {
-                    ENetworkMessageType.NONE -> {
-                    }
-                    ENetworkMessageType.FINISH -> {
-                    }
                     ENetworkMessageType.DICTIONARY_ENTRY -> {
-                        for (i in 0 until count) {
+                        for (i in 0 until count) 
                             dictionary.createValue(data.getNextString())
-                        }
                     }
                     ENetworkMessageType.TRIPLE_ADD -> {
                         for (i in 0 until count) {
@@ -129,7 +124,7 @@ if(position+len>data.pos){
 
     fun finish(): AsyncStream {
         enforceHeader(ENetworkMessageType.FINISH)
-        val binary = data.finish()
+        data.finish()
         return AsyncStream(this)
     }
 }

@@ -102,8 +102,7 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
                         return res
                     }
                 }
-                if (!flag) {
-                    if (nodeBinding != null) {
+                if (!flag && nodeBinding != null){
                         val token3 = regexToken.find(json, idx + 1)
                         if (token3 == null)
                             return res
@@ -119,7 +118,6 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
                             attributes[token.value.substring(1, token.value.length - 1)] = token2.value
                     }
                 }
-            }
         }
     }
     return res
