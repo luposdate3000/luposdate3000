@@ -4,7 +4,6 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.*
 import lupos.s09physicalOperators.POPBase
 
-
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class DynamicByteArray {
     var data: ByteArray
