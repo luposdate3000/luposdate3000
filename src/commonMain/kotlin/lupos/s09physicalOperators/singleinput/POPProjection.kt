@@ -13,7 +13,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPProjection : POPBase {
-override val resultSet: ResultSet
+    override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     val variables: MutableList<LOPVariable>
@@ -25,8 +25,8 @@ override val resultSet: ResultSet
         resultSet = ResultSet(dictionary)
         this.children[0] = child
         this.variables = variables
-        require(children[0].resultSet .dictionary == dictionary || (!(this.children[0] is POPBase)))
-        this.variablesOld = Array<Variable>(variables.size, init = fun(it: Int) = children[0].resultSet .createVariable(variables[it].name))
+        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
+        this.variablesOld = Array<Variable>(variables.size, init = fun(it: Int) = children[0].resultSet.createVariable(variables[it].name))
         this.variablesNew = Array<Variable>(variables.size, init = fun(it: Int) = resultSet.createVariable(variables[it].name))
     }
 

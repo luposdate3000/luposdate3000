@@ -14,7 +14,8 @@ import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 
 
 class POPJoinNestedLoop : POPBaseNullableIterator {
-override val resultSet: ResultSet
+    override val dictionary: ResultSetDictionary
+    override val resultSet: ResultSet
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     val optional: Boolean
     val joinVariables: Set<String>
@@ -23,7 +24,6 @@ override val resultSet: ResultSet
     private val variablesOldJ = mutableListOf<Pair<Pair<Variable, Variable>, Variable>>()//joined
     private var resultRowA: ResultRow? = null
     private var hadMatchForA = false
-    override val dictionary: ResultSetDictionary
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }

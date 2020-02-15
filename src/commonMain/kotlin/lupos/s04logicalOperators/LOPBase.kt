@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 abstract class LOPBase : OPBase() {
-override val resultSet=ResultSet(ResultSetDictionary())
+    override val resultSet = ResultSet(ResultSetDictionary())
 
     override fun next(): ResultRow {
         throw Exception("${classNameToString(this)}.next must not be called")

@@ -11,15 +11,12 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPImportFromXml : POPBaseNullableIterator {
-override val resultSet: ResultSet
+    override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     val data: XMLElement
     var iterator: Iterator<XMLElement>? = null
     val variables = mutableMapOf<String, Variable>()
-    override fun toXMLElement(): XMLElement {
-        return XMLElement("POPImportFromXML").addContent(data)
-    }
 
     constructor(dictionary: ResultSetDictionary, data: XMLElement) {
         this.dictionary = dictionary
@@ -39,6 +36,10 @@ override val resultSet: ResultSet
         }
         if (iterator == null)
             throw Exception("can only parse sparql xml into an iterator")
+    }
+
+    override fun toXMLElement(): XMLElement {
+        return XMLElement("POPImportFromXML").addContent(data)
     }
 
     override fun getProvidedVariableNames(): List<String> {

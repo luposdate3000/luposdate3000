@@ -28,6 +28,7 @@ import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 import lupos.s12p2p.POPServiceIRI
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
+
 fun createLOPVariable(mapping: MutableMap<String, String>, name: String): LOPVariable {
     val n = mapping[name]
     if (n != null)

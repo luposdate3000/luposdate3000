@@ -12,7 +12,8 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPJoinHashMap : POPBaseNullableIterator {
-override val resultSet: ResultSet
+    override val dictionary: ResultSetDictionary
+    override val resultSet: ResultSet
     override val children: Array<OPBase>
     val optional: Boolean
     val joinVariables: Set<String>
@@ -21,7 +22,6 @@ override val resultSet: ResultSet
     var hadOptionals = false
     val variables: Array<MutableList<Pair<Variable, Variable>>>
     val variablesJ: Array<MutableList<Pair<Variable, Variable>>>
-    override val dictionary: ResultSetDictionary
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }

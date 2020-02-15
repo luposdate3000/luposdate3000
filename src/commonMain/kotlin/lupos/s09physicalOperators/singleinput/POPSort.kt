@@ -15,7 +15,7 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPSort : POPBaseNullableIterator {
-override val resultSet: ResultSet
+    override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private var data: MutableList<ResultRow>? = null

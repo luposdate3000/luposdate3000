@@ -13,7 +13,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPRename : POPBase {
-override val resultSet: ResultSet
+    override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     var nameTo: LOPVariable

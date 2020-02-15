@@ -14,7 +14,7 @@ import lupos.s09physicalOperators.singleinput.POPBind
 
 
 class POPBindUndefined : POPBase {
-override val resultSet: ResultSet
+    override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     val name: LOPVariable

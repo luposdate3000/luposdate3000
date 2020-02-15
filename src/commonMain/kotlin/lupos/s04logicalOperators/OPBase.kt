@@ -10,9 +10,9 @@ import lupos.s04logicalOperators.noinput.LOPVariable
 import lupos.s04logicalOperators.singleinput.LOPBind
 
 
-abstract class OPBase :Iterator<ResultRow>{
+abstract class OPBase : Iterator<ResultRow> {
 
-abstract val resultSet: ResultSet
+    abstract val resultSet: ResultSet
 
     abstract val children: Array<OPBase>
 

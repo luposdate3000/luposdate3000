@@ -14,7 +14,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPValues : POPBase {
-override val resultSet: ResultSet
+    override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     private val variables = mutableListOf<Variable>()

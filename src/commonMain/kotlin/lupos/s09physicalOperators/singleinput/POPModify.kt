@@ -20,13 +20,13 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class POPModify : POPBase {
-override val resultSet: ResultSet
+    override val resultSet: ResultSet
+    override val children: Array<OPBase> = arrayOf(OPNothing())
     override val dictionary: ResultSetDictionary
     val transactionID: Long
     val iri: String?
     val insert: List<ASTNode>
     val delete: List<ASTNode>
-    override val children: Array<OPBase> = arrayOf(OPNothing())
 
     constructor(dictionary: ResultSetDictionary, transactionID: Long, iri: String?, insert: List<ASTNode>, delete: List<ASTNode>, child: OPBase) : super() {
         this.dictionary = dictionary

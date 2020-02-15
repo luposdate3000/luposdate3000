@@ -542,6 +542,7 @@ fun parseSPARQLAndEvaluate(//
         return false
     }
 }
+
 class SevenIndices {
     private val s = mutableMapOf<Long, Array<Pair<Long, Long>>>()
     private val p = mutableMapOf<Long, Array<Pair<Long, Long>>>()

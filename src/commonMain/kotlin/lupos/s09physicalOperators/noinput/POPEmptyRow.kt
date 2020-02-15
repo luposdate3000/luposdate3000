@@ -11,15 +11,15 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPEmptyRow : POPBase {
-override val dictionary: ResultSetDictionary
-override val resultSet: ResultSet
-constructor(dictionary: ResultSetDictionary):super(){
-this.dictionary=dictionary
-resultSet=ResultSet(dictionary)
-}
+    override val dictionary: ResultSetDictionary
+    override val resultSet: ResultSet
     override val children: Array<OPBase> = arrayOf()
-
     private var first = true
+
+    constructor(dictionary: ResultSetDictionary) : super() {
+        this.dictionary = dictionary
+        resultSet = ResultSet(dictionary)
+    }
 
 
     override fun hasNext(): Boolean = Trace.trace({ "POPEmptyRow.hasNext" }, {

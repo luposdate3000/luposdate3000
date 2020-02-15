@@ -11,7 +11,8 @@ import lupos.s12p2p.P2P
 
 
 class POPServiceIRI : POPBase {
-override val resultSet:ResultSet
+    override val resultSet: ResultSet
+    override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     val transactionID: Long
     val constraint: OPBase?
@@ -19,7 +20,6 @@ override val resultSet:ResultSet
     val silent: Boolean
     var first = true
     val originalConstraint: OPBase
-    override val dictionary: ResultSetDictionary
     val variables = mutableListOf<Pair<Variable, Variable>>()
 
     constructor(dictionary: ResultSetDictionary, transactionID: Long, serverName: String, silent: Boolean, constraint: OPBase) : super() {

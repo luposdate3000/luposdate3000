@@ -13,8 +13,8 @@ object Dictionary {
 
     private fun addRDFTerm(term: RDFTerm): Long {
         val result = max_id.next()
-        this.RDFTerm_to_ID[term.toN3String()]= result
-        this.ID_to_RDFTerm[result]= term
+        this.RDFTerm_to_ID[term.toN3String()] = result
+        this.ID_to_RDFTerm[result] = term
         return result
     }
 

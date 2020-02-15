@@ -13,13 +13,13 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPUnion : POPBaseNullableIterator {
-override val resultSet: ResultSet
+    override val resultSet: ResultSet
+    override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     private val variablesOldA = mutableListOf<Pair<Variable, Variable>>()
     private val variablesOldAMissing = mutableListOf<Variable>()
     private val variablesOldB = mutableListOf<Pair<Variable, Variable>>()
     private val variablesOldBMissing = mutableListOf<Variable>()
-    override val dictionary: ResultSetDictionary
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }
