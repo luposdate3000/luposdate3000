@@ -1,22 +1,22 @@
 package lupos.s00misc
 
 object Trace {
-inline     fun trace(name: () -> String, action: () -> Any): Any {
+    inline fun trace(name: () -> String, action: () -> Any): Any {
         return action()
     }
 
-     fun start(obj: Any) {
+    fun start(obj: Any) {
     }
 
-     fun start(name: String) {
+    fun start(name: String) {
     }
 
-     fun stop(obj: Any) {
+    fun stop(obj: Any) {
     }
 
-     fun stop(name: String) {
+    fun stop(name: String) {
     }
 
-     fun print() {
+    fun print() {
     }
 }

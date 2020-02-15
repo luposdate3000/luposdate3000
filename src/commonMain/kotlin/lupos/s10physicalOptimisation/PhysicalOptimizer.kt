@@ -147,7 +147,7 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
         return POPJoinHashMap(dictionary, optimize(node.children[0]), optimize(node.children[1]), node.optional)
     }
 
-     fun optimizeTriple(param: OPBase): Pair<String, Boolean> {
+    fun optimizeTriple(param: OPBase): Pair<String, Boolean> {
         when (param) {
             is LOPVariable -> {
                 return Pair(param.name, false)

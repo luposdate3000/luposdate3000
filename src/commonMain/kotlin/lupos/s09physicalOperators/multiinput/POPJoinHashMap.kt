@@ -83,7 +83,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
         }
     }
 
-     fun joinHelper(idx: Int) {
+    fun joinHelper(idx: Int) {
         try {
             val rowA = children[idx].next()
             var keys = mutableSetOf<String>()

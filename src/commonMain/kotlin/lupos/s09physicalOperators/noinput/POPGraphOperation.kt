@@ -31,7 +31,7 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
         return first
     }) as Boolean
 
-     fun i2s(iri: ASTIriGraphRef): String {
+    fun i2s(iri: ASTIriGraphRef): String {
         return iri.iri
     }
 
