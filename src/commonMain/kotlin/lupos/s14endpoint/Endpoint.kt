@@ -92,8 +92,8 @@ inline fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
 
 object Endpoint {
     fun process_local_triple_add(graphName: String, transactionID: Long, s: String, p: String, o: String, idx: EIndexPattern): XMLElement = Trace.trace({ "Endpoint.process_local_triple_add" }, {
-	val g=DistributedTripleStore.localStore.getNamedGraph(graphName,true)
-	g.addData(transactionID, s, p, o, idx)
+        val g = DistributedTripleStore.localStore.getNamedGraph(graphName, true)
+        g.addData(transactionID, s, p, o, idx)
         return XMLElement("success")
     }) as XMLElement
 

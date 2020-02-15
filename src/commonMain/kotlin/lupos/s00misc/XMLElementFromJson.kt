@@ -102,22 +102,22 @@ fun XMLElement.Companion.parseFromJson(json: String): List<XMLElement>? {
                         return res
                     }
                 }
-                if (!flag && nodeBinding != null){
-                        val token3 = regexToken.find(json, idx + 1)
-                        if (token3 == null)
-                            return res
-                        require(token3.value == ":")
-                        idx = token3.range.last
-                        val token2 = regexToken.find(json, idx + 1)
-                        if (token2 == null)
-                            return res
-                        idx = token2.range.last
-                        if (token2.value.startsWith("\"") && token2.value.endsWith("\""))
-                            attributes[token.value.substring(1, token.value.length - 1)] = token2.value.substring(1, token2.value.length - 1)
-                        else
-                            attributes[token.value.substring(1, token.value.length - 1)] = token2.value
-                    }
+                if (!flag && nodeBinding != null) {
+                    val token3 = regexToken.find(json, idx + 1)
+                    if (token3 == null)
+                        return res
+                    require(token3.value == ":")
+                    idx = token3.range.last
+                    val token2 = regexToken.find(json, idx + 1)
+                    if (token2 == null)
+                        return res
+                    idx = token2.range.last
+                    if (token2.value.startsWith("\"") && token2.value.endsWith("\""))
+                        attributes[token.value.substring(1, token.value.length - 1)] = token2.value.substring(1, token2.value.length - 1)
+                    else
+                        attributes[token.value.substring(1, token.value.length - 1)] = token2.value
                 }
+            }
         }
     }
     return res

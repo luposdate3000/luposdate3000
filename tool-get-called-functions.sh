@@ -1,6 +1,20 @@
 #!/bin/bash
 rm log/called-functions-tmp
-javap -c $(find -name "*.class") | grep -e class -e Method | grep -v "// class"> log/tmp-called
+
+rm -rf tmpsrc
+cp -r src tmpsrc
+
+(
+cd src
+for f in $(find -name "*.kt")
+do
+cat $f | sed "s/ inline //g" > ../tmpsrc/$f
+done
+)
+cat build.gradle.jvm | sed "s-src/-tmpsrc/-g" | sed "s/buildJvm/buildJvm.tmp/g" > build.gradle.jvm.tmp
+gradle --build-file="build.gradle.jvm.tmp" build -x test
+
+javap -c $(find -name "*.class" buildJvm.tmp) | grep -e class -e Method | grep -v "// class"> log/tmp-called
 lastclassname=""
 while read l
 do

@@ -78,7 +78,7 @@ object P2P {
     fun execInsertOnNamedNode(nodeName: String, data: XMLElement) = Trace.trace({ "P2P.execInsertOnNamedNode" }, {
         /*insert "data" on remote node - if it exist - otherwiese throw an exception*/
         runBlocking {
- retryRequestGet("http://${resolveNodeName(nodeName)}${EndpointImpl.REQUEST_XML_INPUT[0]}" +//
+            retryRequestGet("http://${resolveNodeName(nodeName)}${EndpointImpl.REQUEST_XML_INPUT[0]}" +//
                     "?EndpointImpl.REQUEST_XML_INPUT[1]=${URL.encodeComponent(data.toPrettyString())}")
         }
     })
@@ -195,8 +195,8 @@ object P2P {
                 val res = client.request(Http.Method.GET, url)
                 return res
             } catch (e: Throwable) {
-if(i>100)
-throw e
+                if (i > 100)
+                    throw e
                 delay(10)
             }
         }
@@ -211,8 +211,8 @@ throw e
                 val res = client.request(Http.Method.POST, url, Http.Headers(), data)
                 return res
             } catch (e: Throwable) {
-if(i>100)
-throw e
+                if (i > 100)
+                    throw e
                 delay(10)
             }
         }

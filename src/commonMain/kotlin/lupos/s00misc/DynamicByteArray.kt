@@ -4,6 +4,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.*
 import lupos.s09physicalOperators.POPBase
 
+
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class DynamicByteArray {
     var data: ByteArray
@@ -124,7 +125,7 @@ class DynamicByteArray {
     fun getString(p: Int): String {
         val p = pos
         val l = getInt(p)
-        val res = data.decodeToString(p + 4, p+4+l, true)
+        val res = data.decodeToString(p + 4, p + 4 + l, true)
         return res
     }
 

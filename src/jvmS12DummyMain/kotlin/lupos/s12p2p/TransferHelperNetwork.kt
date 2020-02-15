@@ -26,7 +26,7 @@ import lupos.testMain
 class TransferHelperNetwork : AsyncStreamBase {
     companion object {
         fun processBinary(d: ByteArray): ByteArray {
-	var res=ByteArray(0)
+            var res = ByteArray(0)
             val dictionary = ResultSetDictionary()
             val data = DynamicByteArray(d)
             val transactionID = data.getNextLong()
@@ -35,7 +35,7 @@ class TransferHelperNetwork : AsyncStreamBase {
                 val count = data.getNextInt()
                 when (header) {
                     ENetworkMessageType.DICTIONARY_ENTRY -> {
-                        for (i in 0 until count) 
+                        for (i in 0 until count)
                             dictionary.createValue(data.getNextString())
                     }
                     ENetworkMessageType.TRIPLE_ADD -> {
@@ -45,12 +45,12 @@ class TransferHelperNetwork : AsyncStreamBase {
                             val p = dictionary.getValue(data.getNextInt())!!
                             val o = dictionary.getValue(data.getNextInt())!!
                             val idx = EIndexPattern.values()[data.getNextInt()]
-try{
-                            Endpoint.process_local_triple_add(graphName, transactionID, s, p, o, idx)
-}catch(e:Throwable){
-e.printStackTrace()
-res+=e.toString().toByteArray()
-}
+                            try {
+                                Endpoint.process_local_triple_add(graphName, transactionID, s, p, o, idx)
+                            } catch (e: Throwable) {
+                                e.printStackTrace()
+                                res += e.toString().toByteArray()
+                            }
                         }
                     }
                 }
@@ -108,19 +108,19 @@ res+=e.toString().toByteArray()
     }
 
     override suspend fun read(position: Long, buffer: ByteArray, offset: Int, len: Int): Int {
-if(position>data.pos)
-	return 0
-if(position+len>data.pos){
-        data.data.copyInto(buffer, offset, position.toInt(), data.pos)
-	return data.pos-position.toInt()
-}
-        data.data.copyInto(buffer, offset, position.toInt(),  position.toInt()+len)
+        if (position > data.pos)
+            return 0
+        if (position + len > data.pos) {
+            data.data.copyInto(buffer, offset, position.toInt(), data.pos)
+            return data.pos - position.toInt()
+        }
+        data.data.copyInto(buffer, offset, position.toInt(), position.toInt() + len)
         return len
     }
 
-	override suspend fun getLength(): Long{
-		return data.pos.toLong()
-	}
+    override suspend fun getLength(): Long {
+        return data.pos.toLong()
+    }
 
     fun finish(): AsyncStream {
         enforceHeader(ENetworkMessageType.FINISH)
