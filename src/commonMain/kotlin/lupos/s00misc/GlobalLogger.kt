@@ -1,7 +1,7 @@
 package lupos.s00misc
 
 object GlobalLogger {
-    var enabled = ELoggerType.RELEASE
+    var enabled = ELoggerType.DEBUG
     inline fun log(type: ELoggerType, action: () -> Any?) {
         if (enabled.ordinal >= type.ordinal)
             println(action())
