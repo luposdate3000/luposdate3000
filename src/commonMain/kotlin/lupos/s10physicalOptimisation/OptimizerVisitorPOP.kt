@@ -85,7 +85,7 @@ abstract class OptimizerVisitorPOP(transactionID: Long, dictionary: ResultSetDic
     open fun visit(node: POPGroup): OPBase {
         var bindings: POPBase = POPEmptyRow(dictionary)
         for ((v, e) in node.bindings) {
-            bindings = POPBind(dictionary, LOPVariable(node.getResultSet().getVariable(v)), e, bindings)
+            bindings = POPBind(dictionary, LOPVariable(node.resultSet.getVariable(v)), e, bindings)
         }
         if (bindings is POPEmptyRow)
             return POPGroup(dictionary, node.by, null, optimize(node.children[0]))
@@ -105,7 +105,7 @@ abstract class OptimizerVisitorPOP(transactionID: Long, dictionary: ResultSetDic
     }
 
     open fun visit(node: POPSort): OPBase {
-        return POPSort(dictionary, LOPVariable(node.getResultSet().getVariable(node.sortBy)), node.sortOrder, optimize(node.children[0]))
+        return POPSort(dictionary, LOPVariable(node.resultSet.getVariable(node.sortBy)), node.sortOrder, optimize(node.children[0]))
     }
 
     open fun visit(node: POPUnion): OPBase {

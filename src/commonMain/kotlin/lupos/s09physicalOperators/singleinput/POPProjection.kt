@@ -13,27 +13,21 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPProjection : POPBase {
+override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     val variables: MutableList<LOPVariable>
-    private val resultSetOld: ResultSet
-    private val resultSetNew: ResultSet
     private val variablesOld: Array<Variable>
     private val variablesNew: Array<Variable>
 
     constructor(dictionary: ResultSetDictionary, variables: MutableList<LOPVariable>, child: OPBase) : super() {
         this.dictionary = dictionary
-        resultSetNew = ResultSet(dictionary)
+        resultSet = ResultSet(dictionary)
         this.children[0] = child
         this.variables = variables
-        resultSetOld = children[0].getResultSet()
-        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        this.variablesOld = Array<Variable>(variables.size, init = fun(it: Int) = resultSetOld.createVariable(variables[it].name))
-        this.variablesNew = Array<Variable>(variables.size, init = fun(it: Int) = resultSetNew.createVariable(variables[it].name))
-    }
-
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
+        require(children[0].resultSet .dictionary == dictionary || (!(this.children[0] is POPBase)))
+        this.variablesOld = Array<Variable>(variables.size, init = fun(it: Int) = children[0].resultSet .createVariable(variables[it].name))
+        this.variablesNew = Array<Variable>(variables.size, init = fun(it: Int) = resultSet.createVariable(variables[it].name))
     }
 
     override fun getProvidedVariableNames(): List<String> {
@@ -56,7 +50,7 @@ class POPProjection : POPBase {
     }) as Boolean
 
     override fun next(): ResultRow = Trace.trace({ "POPProjection.next" }, {
-        var rsNew = resultSetNew.createResultRow()
+        var rsNew = resultSet.createResultRow()
         val rsOld = children[0].next()
         for (i in variablesNew.indices) {
             // TODO reuse resultSet

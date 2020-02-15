@@ -10,15 +10,17 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
-class POPEmptyRow(override val dictionary: ResultSetDictionary) : POPBase() {
+class POPEmptyRow : POPBase {
+override val dictionary: ResultSetDictionary
+override val resultSet: ResultSet
+constructor(dictionary: ResultSetDictionary):super(){
+this.dictionary=dictionary
+resultSet=ResultSet(dictionary)
+}
     override val children: Array<OPBase> = arrayOf()
-    private val resultSetNew = ResultSet(dictionary)
 
     private var first = true
 
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
-    }
 
     override fun hasNext(): Boolean = Trace.trace({ "POPEmptyRow.hasNext" }, {
         return first
@@ -26,7 +28,7 @@ class POPEmptyRow(override val dictionary: ResultSetDictionary) : POPBase() {
 
     override fun next(): ResultRow = Trace.trace({ "POPEmptyRow.next" }, {
         first = false
-        return resultSetNew.createResultRow()
+        return resultSet.createResultRow()
     }) as ResultRow
 
     override fun getProvidedVariableNames(): List<String> {

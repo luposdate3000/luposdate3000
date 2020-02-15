@@ -13,27 +13,21 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPOffset : POPBaseNullableIterator {
+override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
-    private val resultSetOld: ResultSet
-    private val resultSetNew: ResultSet
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     val offset: Int
     private var count = 0
 
     constructor(dictionary: ResultSetDictionary, offset: Int, child: OPBase) : super() {
         this.dictionary = dictionary
-        resultSetNew = ResultSet(dictionary)
+        resultSet = ResultSet(dictionary)
         children[0] = child
         this.offset = offset
-        resultSetOld = children[0].getResultSet()
-        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        for (v in resultSetOld.getVariableNames())
-            variables.add(Pair(resultSetNew.createVariable(v), resultSetOld.createVariable(v)))
-    }
-
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
+        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
+        for (v in children[0].resultSet.getVariableNames())
+            variables.add(Pair(resultSet.createVariable(v), children[0].resultSet.createVariable(v)))
     }
 
     override fun getProvidedVariableNames(): List<String> {
@@ -54,7 +48,7 @@ class POPOffset : POPBaseNullableIterator {
         }
         if (!children[0].hasNext())
             return null
-        var rsNew = resultSetNew.createResultRow()
+        var rsNew = resultSet.createResultRow()
         val rsOld = children[0].next()
         for (v in variables) {
             // TODO reuse resultSet

@@ -15,12 +15,12 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPFilterExact : POPBaseNullableIterator {
+override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     val variable: LOPVariable
     val value: String
     val valueR: Value
-    private val resultSet: ResultSet
     private val filterVariable: Variable
 
     constructor(dictionary: ResultSetDictionary, variable: LOPVariable, value: String, child: OPBase) : super() {
@@ -28,7 +28,7 @@ class POPFilterExact : POPBaseNullableIterator {
         children[0] = child
         this.variable = variable
         this.value = value
-        resultSet = children[0].getResultSet()
+        resultSet = children[0].resultSet
         valueR = resultSet.createValue(value)
         require(resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         filterVariable = resultSet.createVariable(variable.name)
@@ -40,10 +40,6 @@ class POPFilterExact : POPBaseNullableIterator {
 
     override fun getRequiredVariableNames(): List<String> {
         return listOf(variable.name)
-    }
-
-    override fun getResultSet(): ResultSet {
-        return resultSet
     }
 
     override fun nnext(): ResultRow? = Trace.trace({ "POPFilterExact.nnext" }, {

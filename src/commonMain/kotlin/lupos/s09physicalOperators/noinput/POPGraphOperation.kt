@@ -17,15 +17,27 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class POPGraphOperation(override val dictionary: ResultSetDictionary, val transactionID: Long, val silent: Boolean, val graphref1: ASTGraphRef, val graphref2: ASTGraphRef?, val action: EGraphOperationType) : POPBase() {
+class POPGraphOperation : POPBase {
+override val resultSet: ResultSet
+override val dictionary: ResultSetDictionary
+val transactionID: Long
+val silent: Boolean
+val graphref1: ASTGraphRef
+val graphref2: ASTGraphRef?
+val action: EGraphOperationType
+constructor(  dictionary: ResultSetDictionary,  transactionID: Long,  silent: Boolean,  graphref1: ASTGraphRef,  graphref2: ASTGraphRef?,  action: EGraphOperationType):super(){
+this.dictionary=dictionary
+this.transactionID=transactionID
+this.silent=silent
+this.graphref1=graphref1
+this.graphref2=graphref2
+this.action=action
+this.resultSet=ResultSet(dictionary)
+}
+
     override val children: Array<OPBase> = arrayOf()
-    private val resultSetNew = ResultSet(dictionary)
 
     private var first = true
-
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
-    }
 
     override fun hasNext(): Boolean = Trace.trace({ "POPGraphOperation.hasNext" }, {
         return first
@@ -185,11 +197,11 @@ class POPGraphOperation(override val dictionary: ResultSetDictionary, val transa
                 }
                 else -> throw UnsupportedOperationException("${classNameToString(this)} graphref ${classNameToString(graphref1)} ${classNameToString(graphref2!!)}")
             }
-            return resultSetNew.createResultRow()
+            return resultSet.createResultRow()
         } catch (e: Throwable) {
             if (!silent)
                 throw e
-            return resultSetNew.createResultRow()
+            return resultSet.createResultRow()
         }
     }) as ResultRow
 

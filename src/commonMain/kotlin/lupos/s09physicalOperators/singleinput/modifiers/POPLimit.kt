@@ -12,27 +12,21 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPLimit : POPBase {
+override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
-    private val resultSetOld: ResultSet
-    private val resultSetNew: ResultSet
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     val limit: Int
     private var count = 0
 
     constructor(dictionary: ResultSetDictionary, limit: Int, child: OPBase) : super() {
         this.dictionary = dictionary
-        resultSetNew = ResultSet(dictionary)
+        resultSet = ResultSet(dictionary)
         this.limit = limit
         children[0] = child
-        resultSetOld = children[0].getResultSet()
-        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        for (v in resultSetOld.getVariableNames())
-            variables.add(Pair(resultSetNew.createVariable(v), resultSetOld.createVariable(v)))
-    }
-
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
+        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
+        for (v in children[0].resultSet.getVariableNames())
+            variables.add(Pair(resultSet.createVariable(v), children[0].resultSet.createVariable(v)))
     }
 
     override fun getProvidedVariableNames(): List<String> {
@@ -48,7 +42,7 @@ class POPLimit : POPBase {
     }) as Boolean
 
     override fun next(): ResultRow = Trace.trace({ "POPLimit.next" }, {
-        var rsNew = resultSetNew.createResultRow()
+        var rsNew = resultSet.createResultRow()
         val rsOld = children[0].next()
         for (v in variables) {
             // TODO reuse resultSet

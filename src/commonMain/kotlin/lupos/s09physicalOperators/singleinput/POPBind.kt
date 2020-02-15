@@ -16,32 +16,30 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPBind : POPBase {
+override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     val name: LOPVariable
     val expression: POPExpression
-    private val resultSetOld: ResultSet
-    private val resultSetNew: ResultSet
     private val variablesOld: Array<Variable?>
     private val variablesNew: Array<Variable?>
     private val variableBound: Variable
 
     constructor(dictionary: ResultSetDictionary, name: LOPVariable, expression: POPExpression, child: OPBase) : super() {
         this.dictionary = dictionary
-        resultSetNew = ResultSet(dictionary)
+        resultSet = ResultSet(dictionary)
         children[0] = child
         this.name = name
         this.expression = expression
-        resultSetOld = children[0].getResultSet()
-        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        val variableNames = resultSetOld.getVariableNames()
+        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
+        val variableNames = children[0].resultSet.getVariableNames()
         variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
         variablesNew = Array<Variable?>(variableNames.size + 1, init = fun(_: Int) = (null as Variable?))
         var i = 0
-        variableBound = resultSetNew.createVariable(name.name)
+        variableBound = resultSet.createVariable(name.name)
         for (n in variableNames) {
-            variablesOld[i] = resultSetOld.createVariable(n)
-            variablesNew[i] = resultSetNew.createVariable(n)
+            variablesOld[i] = children[0].resultSet.createVariable(n)
+            variablesNew[i] = resultSet.createVariable(n)
             i++
         }
         variablesNew[i] = variableBound
@@ -55,30 +53,26 @@ class POPBind : POPBase {
         return expression.getRequiredVariableNames()
     }
 
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
-    }
-
     override fun hasNext(): Boolean = Trace.trace({ "POPBind.hasNext" }, {
         val res = children[0].hasNext()
         return res
     }) as Boolean
 
     override fun next(): ResultRow = Trace.trace({ "POPBind.next" }, {
-        var rsNew = resultSetNew.createResultRow()
+        var rsNew = resultSet.createResultRow()
         val rsOld = children[0].next()
         for (i in variablesOld.indices) {
             // TODO reuse resultSet
             rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
         }
         try {
-            val value = expression.evaluate(resultSetOld, rsOld)
+            val value = expression.evaluate(children[0].resultSet, rsOld)
             if (value == null)
-                resultSetNew.setUndefValue(rsNew, variableBound)
+                resultSet.setUndefValue(rsNew, variableBound)
             else
-                rsNew[variableBound] = resultSetNew.createValue(value)
+                rsNew[variableBound] = resultSet.createValue(value)
         } catch (e: Throwable) {
-            resultSetNew.setUndefValue(rsNew, variableBound)
+            resultSet.setUndefValue(rsNew, variableBound)
             GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
             GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
         }

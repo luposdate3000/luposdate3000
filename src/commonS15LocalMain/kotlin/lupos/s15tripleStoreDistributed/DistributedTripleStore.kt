@@ -5,7 +5,6 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.ResultSetIterator
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s05tripleStore.*
@@ -90,8 +89,8 @@ class DistributedGraph(val name: String) {
         }
     }
 
-    fun addData(transactionID: Long, iterator: ResultSetIterator) {
-        val rs = iterator.getResultSet()
+    fun addData(transactionID: Long, iterator: OPBase) {
+        val rs = iterator.resultSet
         val ks = rs.createVariable("s")
         val kp = rs.createVariable("p")
         val ko = rs.createVariable("o")

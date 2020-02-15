@@ -233,7 +233,7 @@ object P2P {
     fun process_peers_list(): String = Trace.trace({ "P2P.process_peers_list" }, {
         /*nice to have, but not required*/
         GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_list" })
-        var res = ""
+        var res :String
         synchronized(knownClients) {
             res = XMLElement.XMLHeader + "\n" + XMLElement("servers").addContent(knownClients, "server").toPrettyString()
         }

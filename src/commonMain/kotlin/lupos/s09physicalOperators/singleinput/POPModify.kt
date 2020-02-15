@@ -20,17 +20,13 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class POPModify : POPBase {
+override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     val transactionID: Long
     val iri: String?
     val insert: List<ASTNode>
     val delete: List<ASTNode>
     override val children: Array<OPBase> = arrayOf(OPNothing())
-    private val resultSetNew: ResultSet
-    private val resultSetOld: ResultSet
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
-    }
 
     constructor(dictionary: ResultSetDictionary, transactionID: Long, iri: String?, insert: List<ASTNode>, delete: List<ASTNode>, child: OPBase) : super() {
         this.dictionary = dictionary
@@ -39,9 +35,8 @@ class POPModify : POPBase {
         this.insert = insert
         this.delete = delete
         children[0] = child
-        resultSetNew = ResultSet(dictionary)
-        resultSetOld = children[0].getResultSet()
-        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
+        resultSet = ResultSet(dictionary)
+        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
     }
 
     override fun hasNext(): Boolean = Trace.trace({ "POPModify.hasNext" }, {
@@ -49,7 +44,7 @@ class POPModify : POPBase {
     }) as Boolean
 
     fun evaluateRow(node: ASTNode, row: ResultRow): String {
-        return POPExpression(dictionary, node).evaluate(resultSetOld, row)!!
+        return POPExpression(dictionary, node).evaluate(children[0].resultSet, row)!!
     }
 
     override fun next(): ResultRow = Trace.trace({ "POPModify.next" }, {
@@ -66,7 +61,7 @@ class POPModify : POPBase {
                         val store = if (i.iriOrVar is ASTIri) {
                             DistributedTripleStore.getNamedGraph(i.iriOrVar.iri)
                         } else {
-                            DistributedTripleStore.getNamedGraph(resultSetOld.getValue(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)])!!)
+                            DistributedTripleStore.getNamedGraph(children[0].resultSet.getValue(row[children[0].resultSet.createVariable((i.iriOrVar as ASTVar).name)])!!)
                         }
                         for (c in i.children) {
                             when (c) {
@@ -97,7 +92,7 @@ class POPModify : POPBase {
                         val store = if (i.iriOrVar is ASTIri) {
                             DistributedTripleStore.getNamedGraph(i.iriOrVar.iri)
                         } else {
-                            DistributedTripleStore.getNamedGraph(resultSetOld.getValue(row[resultSetOld.createVariable((i.iriOrVar as ASTVar).name)])!!)
+                            DistributedTripleStore.getNamedGraph(children[0].resultSet.getValue(row[children[0].resultSet.createVariable((i.iriOrVar as ASTVar).name)])!!)
                         }
                         for (c in i.children) {
                             when (c) {
@@ -115,7 +110,7 @@ class POPModify : POPBase {
 //ignore unbound variables
             }
         }
-        return resultSetNew.createResultRow()
+        return resultSet.createResultRow()
     }) as ResultRow
 
     override fun getProvidedVariableNames(): List<String> {

@@ -14,17 +14,13 @@ import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 
 
 class POPJoinNestedLoop : POPBaseNullableIterator {
+override val resultSet: ResultSet
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
-    //    val children[0]: OPBase
-//    val children[1]: POPTemporaryStore
     val optional: Boolean
     val joinVariables: Set<String>
-    private val resultSetOldA: ResultSet
     private val variablesOldA = mutableListOf<Pair<Variable, Variable>>()//not joined
-    private val resultSetOldB: ResultSet
     private val variablesOldB = mutableListOf<Pair<Variable, Variable>>()//not joined
     private val variablesOldJ = mutableListOf<Pair<Pair<Variable, Variable>, Variable>>()//joined
-    private val resultSetNew: ResultSet
     private var resultRowA: ResultRow? = null
     private var hadMatchForA = false
     override val dictionary: ResultSetDictionary
@@ -38,33 +34,27 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
 
     constructor(dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase, optional: Boolean) : super() {
         this.dictionary = dictionary
-        resultSetNew = ResultSet(dictionary)
+        resultSet = ResultSet(dictionary)
         this.children[0] = childA
         this.children[1] = POPTemporaryStore(dictionary, childB)
         this.optional = optional
-        resultSetOldA = this.children[0].getResultSet()
-        resultSetOldB = this.children[1].getResultSet()
-        require(resultSetOldA.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        require(resultSetOldB.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        var variablesA = resultSetOldA.getVariableNames()
-        var variablesB = resultSetOldB.getVariableNames()
+        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
+        require(children[1].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
+        var variablesA = children[0].resultSet.getVariableNames()
+        var variablesB = children[1].resultSet.getVariableNames()
         joinVariables = variablesA.intersect(variablesB)
         variablesA = variablesA.subtract(joinVariables)
         variablesB = variablesB.subtract(joinVariables)
 
         for (name in variablesA) {
-            variablesOldA.add(Pair(resultSetOldA.createVariable(name), resultSetNew.createVariable(name)))
+            variablesOldA.add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
         }
         for (name in variablesB) {
-            variablesOldB.add(Pair(resultSetOldB.createVariable(name), resultSetNew.createVariable(name)))
+            variablesOldB.add(Pair(children[1].resultSet.createVariable(name), resultSet.createVariable(name)))
         }
         for (name in joinVariables) {
-            variablesOldJ.add(Pair(Pair(resultSetOldA.createVariable(name), resultSetOldB.createVariable(name)), resultSetNew.createVariable(name)))
+            variablesOldJ.add(Pair(Pair(children[0].resultSet.createVariable(name), children[1].resultSet.createVariable(name)), resultSet.createVariable(name)))
         }
-    }
-
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
     }
 
     override fun nnext(): ResultRow? = Trace.trace({ "POPJoinNestedLoop.nnext" }, {
@@ -73,10 +63,10 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
             if (!children[1].hasNext()) {
                 (children[1] as POPTemporaryStore).reset()
                 if (optional && !hadMatchForA && resultRowA != null) {
-                    var rsNew = resultSetNew.createResultRow()
+                    var rsNew = resultSet.createResultRow()
                     for (p in variablesOldB) {
                         // TODO reuse resultSet
-                        resultSetNew.setUndefValue(rsNew, p.second)
+                        resultSet.setUndefValue(rsNew, p.second)
                     }
                     for (p in variablesOldJ) {
                         // TODO reuse resultSet
@@ -105,7 +95,7 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
             require(resultRowA != null)
             resultRowB = children[1].next()
             var joinVariableOk = true
-            var rsNew = resultSetNew.createResultRow()
+            var rsNew = resultSet.createResultRow()
             for (p in variablesOldA) {
                 // TODO reuse resultSet
                 rsNew[p.second] = resultRowA!![p.first]
@@ -116,16 +106,16 @@ class POPJoinNestedLoop : POPBaseNullableIterator {
             }
             for (p in variablesOldJ) {
                 // TODO reuse resultSet
-                val a = resultSetOldA.getValue(resultRowA!![p.first.first])
-                val b = resultSetOldB.getValue(resultRowB[p.first.second])
-                if (a != b && (!resultSetOldA.isUndefValue(resultRowA!!, p.first.first)) && (!resultSetOldB.isUndefValue(resultRowB, p.first.second))) {
+                val a = children[0].resultSet.getValue(resultRowA!![p.first.first])
+                val b = children[1].resultSet.getValue(resultRowB[p.first.second])
+                if (a != b && (!children[0].resultSet.isUndefValue(resultRowA!!, p.first.first)) && (!children[1].resultSet.isUndefValue(resultRowB, p.first.second))) {
                     joinVariableOk = false
                     break
                 }
-                if (resultSetOldA.isUndefValue(resultRowA!!, p.first.first))
-                    rsNew[p.second] = resultSetNew.createValue(b)
+                if (children[0].resultSet.isUndefValue(resultRowA!!, p.first.first))
+                    rsNew[p.second] = resultSet.createValue(b)
                 else
-                    rsNew[p.second] = resultSetNew.createValue(a)
+                    rsNew[p.second] = resultSet.createValue(a)
             }
             if (!joinVariableOk)
                 continue

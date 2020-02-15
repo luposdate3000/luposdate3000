@@ -14,9 +14,9 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPValues : POPBase {
+override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
-    private val resultSet: ResultSet
     private val variables = mutableListOf<Variable>()
     private var iterator: Iterator<Map<Variable, Value>>
     private val rs: ResultSet
@@ -68,10 +68,6 @@ class POPValues : POPBase {
 
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf<String>()
-    }
-
-    override fun getResultSet(): ResultSet {
-        return resultSet
     }
 
     override fun hasNext(): Boolean = Trace.trace({ "POPValues.hasNext" }, {

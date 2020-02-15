@@ -11,10 +11,9 @@ import lupos.s12p2p.P2P
 
 
 class POPServiceIRI : POPBase {
+override val resultSet:ResultSet
     override val children: Array<OPBase> = arrayOf()
     val transactionID: Long
-    private val resultSet: ResultSet
-    private val resultSetOld: ResultSet?
     val constraint: OPBase?
     val serverName: String
     val silent: Boolean
@@ -34,11 +33,10 @@ class POPServiceIRI : POPBase {
             null
         }
         this.silent = silent
-        resultSetOld = this.constraint?.getResultSet()
         //todo ... handle the case if the target node is not part of this p2p network
         resultSet = ResultSet(dictionary)
         for (n in getProvidedVariableNames()) {
-            variables.add(Pair(resultSet.createVariable(n), resultSetOld!!.createVariable(n)))
+            variables.add(Pair(resultSet.createVariable(n), constraint.resultSet.createVariable(n)))
         }
     }
 
@@ -50,16 +48,12 @@ class POPServiceIRI : POPBase {
         return originalConstraint.getProvidedVariableNames()
     }
 
-    override fun getResultSet(): ResultSet {
-        return resultSet
-    }
-
     override fun next(): ResultRow = Trace.trace({ "POPServiceIRI.next" }, {
         try {
             val value = constraint!!.next()
             val res = resultSet.createResultRow()
             for (n in variables) {
-                res[n.first] = resultSet.createValue(resultSetOld!!.getValue(value[n.second]))
+                res[n.first] = resultSet.createValue(constraint.resultSet.getValue(value[n.second]))
             }
             return res
         } catch (e: Throwable) {

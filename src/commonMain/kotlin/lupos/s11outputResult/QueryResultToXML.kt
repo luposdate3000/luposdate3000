@@ -12,13 +12,12 @@ object QueryResultToXML {
         res.add(nodeSparql)
         val nodeHead = XMLElement("head")
         nodeSparql.addContent(nodeHead)
-        val resultSet = query.getResultSet()
-        val variableNames = resultSet.getVariableNames().toTypedArray()
+        val variableNames = query.resultSet.getVariableNames().toTypedArray()
         val variables = mutableListOf<Pair<String, Variable>>()
         if (variableNames.size == 1 && variableNames[0] == "?boolean") {
             require(query.hasNext())
             val resultRow = query.next()
-            val value = resultSet.getValue(resultRow[resultSet.createVariable("?boolean")])!!
+            val value = query.resultSet.getValue(resultRow[query.resultSet.createVariable("?boolean")])!!
             val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
             require(value.endsWith("\"^^<" + datatype + ">"))
             nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<" + datatype + ">").length)))
@@ -27,15 +26,15 @@ object QueryResultToXML {
             nodeSparql.addContent(nodeResults)
             for (variableName in variableNames) {
                 nodeHead.addContent(XMLElement("variable").addAttribute("name", variableName))
-                variables.add(Pair(variableName, resultSet.createVariable(variableName)))
+                variables.add(Pair(variableName, query.resultSet.createVariable(variableName)))
             }
             while (query.hasNext()) {
                 val nodeResult = XMLElement("result")
                 nodeResults.addContent(nodeResult)
                 val resultRow = query.next()
                 for (variable in variables) {
-                    if (!resultSet.isUndefValue(resultRow, variable.second)) {
-                        val value = resultSet.getValue(resultRow[variable.second])!!
+                    if (!query.resultSet.isUndefValue(resultRow, variable.second)) {
+                        val value = query.resultSet.getValue(resultRow[variable.second])!!
                         val nodeBinding = XMLElement("binding").addAttribute("name", variable.first)
                         if (value.length > 1) {
                             if (value.startsWith("\"") && !value.endsWith("\"")) {

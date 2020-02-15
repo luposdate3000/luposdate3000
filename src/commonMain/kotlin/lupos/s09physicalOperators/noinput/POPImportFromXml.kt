@@ -11,9 +11,9 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPImportFromXml : POPBaseNullableIterator {
+override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
-    private val resultSet: ResultSet
     val data: XMLElement
     var iterator: Iterator<XMLElement>? = null
     val variables = mutableMapOf<String, Variable>()
@@ -47,10 +47,6 @@ class POPImportFromXml : POPBaseNullableIterator {
 
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf<String>()
-    }
-
-    override fun getResultSet(): ResultSet {
-        return resultSet
     }
 
     fun cleanString(s: String): String {

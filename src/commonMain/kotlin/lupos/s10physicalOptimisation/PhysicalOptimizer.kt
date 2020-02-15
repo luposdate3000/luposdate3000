@@ -134,7 +134,7 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
         val child = optimize(node.children[0])
         when (node.expression) {
             is LOPVariable ->
-                if (child.getResultSet().getVariableNames().contains(variable.name))
+                if (child.resultSet.getVariableNames().contains(variable.name))
                     return POPRename(dictionary, variable, node.expression, child)
                 else
                     return POPBindUndefined(dictionary, variable, child)

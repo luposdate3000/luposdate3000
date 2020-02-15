@@ -8,8 +8,8 @@ lastclassname=""
 while read ll
 do
 	l=$(echo $ll | sed "s/\$[0-9]*/./g")
-        classname=$(echo $l | grep "class" | grep -v "// Method" | grep -v "// InterfaceMethod" | sed "s/.*class //g" | sed "s/ .*//g"| sed "s/\$Companion//g"| sed "s-/-.-g"| sed "s/\.*\$//g")
-        functionname=$(echo $l | grep -e "// Method" -e "// InterfaceMethod" | sed "s-.*// Method --g"| sed "s-.*// InterfaceMethod --g" | grep ":" | sed "s/:.*//g"| sed "s-/-.-g")
+        classname=$(echo $l | grep "class" | grep -v "// Method" | grep -v "// InterfaceMethod" | sed "s/.*class //g" | sed "s/ .*//g"| sed "s/\$Companion//g"| sed "s-/-.-g"| sed "s/\.*\$//g" | sed "s/<.*//g")
+        functionname=$(echo $l | grep -e "// Method" -e "// InterfaceMethod" | sed "s-.*// Method --g"| sed "s-.*// InterfaceMethod --g" | grep ":" | sed "s/:.*//g"| sed "s-/-.-g"| sed "s/<.*//g")
 	if [[ $functionname == *invokeSuspend* ]]
 	then
 		functionname=$(echo $functionname | sed "s/\.*invokeSuspend//g")
@@ -20,7 +20,8 @@ do
 	fi
 	if [[ $functionname == *\"* ]]
 	then
-		functionname=$(echo $functionname | sed "s/\.*\".*//g")
+		# constructor calls
+		continue
 	fi
 	functionname=$(echo $functionname |sed "s/\.*\$//g")
         if [ -z "$classname" ]
@@ -37,4 +38,4 @@ do
         fi
 
 done < log/tmp-called
-cat log/called-functions-tmp | sed "s/Companion\.//g"| grep "^lupos" | sort | uniq > log/called-functions
+cat log/called-functions-tmp | sed "s/Companion\.//g" | sed "s/\.\.inlined.*//g"| grep "^lupos" | sort | uniq > log/called-functions

@@ -9,8 +9,7 @@ import lupos.s09physicalOperators.POPBase
 object ResultRepresenationNetwork {
     fun toNetworkPackage(query: POPBase): ByteArray {
         val res = DynamicByteArray()
-        val resultSet = query.getResultSet()
-        val variableNames = resultSet.getVariableNames().toTypedArray()
+        val variableNames = query.resultSet.getVariableNames().toTypedArray()
         val variablesCount = variableNames.size
         val variables = arrayOfNulls<Variable>(variablesCount)
         GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write variablecount $variablesCount" })
@@ -19,50 +18,50 @@ object ResultRepresenationNetwork {
         for (n in variableNames) {
             GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write variablename $n" })
             res.appendString(n)
-            variables[i] = resultSet.createVariable(n)
+            variables[i] = query.resultSet.createVariable(n)
             i++
         }
         var posResultLen = 0
         var latestDictionaryMax: Value? = null
         var currentRowCounter = 0
         if (query.hasNext()) {
-            val resultRow = query.next()
+            var resultRow = query.next()
             var newDictionaryMax = latestDictionaryMax
             for (v in variables) {
-                if (newDictionaryMax == null || ((!resultSet.isUndefValue(resultRow, v!!)) && resultRow[v!!] > newDictionaryMax)) {
+                if (newDictionaryMax == null || ((!query.resultSet.isUndefValue(resultRow, v!!)) && resultRow[v!!] > newDictionaryMax)) {
                     newDictionaryMax = resultRow[v!!]
                 }
             }
             GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen a ${newDictionaryMax!! + 1}" })
             res.appendInt(newDictionaryMax!! + 1)
             for (v in 0 until newDictionaryMax!! + 1) {
-                GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${resultSet.getValue(v)!!}" })
-                res.appendString(resultSet.getValue(v)!!)
+                GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValue(v)!!}" })
+                res.appendString(query.resultSet.getValue(v)!!)
             }
             latestDictionaryMax = newDictionaryMax
             currentRowCounter = 0
             GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "space triplecount" })
             posResultLen = res.appendSpace(4)
             for (v in variables) {
-                GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write triple ${resultSet.getValue(resultRow[v!!])}" })
+                GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write triple ${query.resultSet.getValue(resultRow[v!!])}" })
                 res.appendInt(resultRow[v!!])
             }
             currentRowCounter++
             while (query.hasNext()) {
-                val resultRow = query.next()
-                var newDictionaryMax = latestDictionaryMax!!
+                resultRow = query.next()
+                newDictionaryMax = latestDictionaryMax!!
                 for (v in variables) {
-                    if ((!resultSet.isUndefValue(resultRow, v!!)) && resultRow[v!!] > newDictionaryMax)
-                        newDictionaryMax = resultRow[v!!]
+                    if ((!query.resultSet.isUndefValue(resultRow, v!!)) && resultRow[v!!] > newDictionaryMax!!)
+                        newDictionaryMax = resultRow[v]
                 }
                 if (newDictionaryMax != latestDictionaryMax) {
                     GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "override triplecount $currentRowCounter" })
                     res.setInt(currentRowCounter, posResultLen)
                     GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen c ${newDictionaryMax!! - latestDictionaryMax!!}" })
-                    res.appendInt(newDictionaryMax - latestDictionaryMax)
-                    for (v in latestDictionaryMax + 1 until newDictionaryMax + 1) {
-                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${resultSet.getValue(v)!!}" })
-                        res.appendString(resultSet.getValue(v)!!)
+                    res.appendInt(newDictionaryMax!! - latestDictionaryMax!!)
+                    for (v in latestDictionaryMax + 1 until newDictionaryMax!! + 1) {
+                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValue(v)!!}" })
+                        res.appendString(query.resultSet.getValue(v)!!)
                     }
                     currentRowCounter = 0
                     GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "space triplecount" })
@@ -70,7 +69,7 @@ object ResultRepresenationNetwork {
                     latestDictionaryMax = newDictionaryMax
                 }
                 for (v in variables) {
-                    GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write triple ${resultSet.getValue(resultRow[v!!])}" })
+                    GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write triple ${query.resultSet.getValue(resultRow[v!!])}" })
                     res.appendInt(resultRow[v!!])
                 }
                 currentRowCounter++
@@ -91,7 +90,7 @@ object ResultRepresenationNetwork {
     class POPImportFromNetworkPackage : POPBase {
         override val dictionary: ResultSetDictionary
         override val children: Array<OPBase> = arrayOf()
-        private val resultSet: ResultSet
+        override val resultSet: ResultSet
         val variableMap = mutableListOf<Value>()
         var rowsUntilNextDictionary = 0
         val data: DynamicByteArray
@@ -119,10 +118,6 @@ object ResultRepresenationNetwork {
 
         override fun getRequiredVariableNames(): List<String> {
             return mutableListOf<String>()
-        }
-
-        override fun getResultSet(): ResultSet {
-            return resultSet
         }
 
         override fun hasNext(): Boolean {

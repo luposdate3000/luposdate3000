@@ -12,23 +12,21 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPTemporaryStore : POPBase {
+override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private val data = mutableListOf<ResultRow>()
-    private val resultSetOld: ResultSet
-    private val resultSetNew: ResultSet
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     private var iterator: Iterator<ResultRow>
 
     constructor(dictionary: ResultSetDictionary, child: OPBase) : super() {
         this.dictionary = dictionary
-        resultSetNew = ResultSet(dictionary)
+        resultSet = ResultSet(dictionary)
         children[0] = child
         iterator = child
-        resultSetOld = children[0].getResultSet()
-        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        for (name in resultSetOld.getVariableNames()) {
-            variables.add(Pair(resultSetNew.createVariable(name), resultSetOld.createVariable(name)))
+        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
+        for (name in children[0].resultSet.getVariableNames()) {
+            variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
         }
     }
 
@@ -40,10 +38,6 @@ class POPTemporaryStore : POPBase {
         return children[0].getRequiredVariableNames()
     }
 
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
-    }
-
     override fun hasNext(): Boolean = Trace.trace({ "POPTemporaryStore.hasNext" }, {
         return iterator.hasNext()
     }) as Boolean
@@ -51,7 +45,7 @@ class POPTemporaryStore : POPBase {
     override fun next(): ResultRow = Trace.trace({ "POPTemporaryStore.next" }, {
         if (iterator == children[0]) {
             val rsOld = children[0].next()
-            var rsNew = resultSetNew.createResultRow()
+            var rsNew = resultSet.createResultRow()
             for (variable in variables) {
                 rsNew[variable.first] = rsOld[variable.second]
             }
@@ -59,7 +53,7 @@ class POPTemporaryStore : POPBase {
             return rsNew
         }
         val rsOld = iterator.next()
-        var rsNew = resultSetNew.createResultRow()
+        var rsNew = resultSet.createResultRow()
         for (variable in variables) {
             rsNew[variable.first] = rsOld[variable.second]
         }

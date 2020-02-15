@@ -13,22 +13,20 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPDistinct : POPBaseNullableIterator {
+override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private var data: MutableList<ResultRow>? = null
-    private val resultSetOld: ResultSet
-    private val resultSetNew: ResultSet
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     private var iterator: Iterator<ResultRow>? = null
 
     constructor(dictionary: ResultSetDictionary, child: OPBase) : super() {
         this.dictionary = dictionary
-        resultSetNew = ResultSet(dictionary)
+        resultSet = ResultSet(dictionary)
         children[0] = child
-        resultSetOld = children[0].getResultSet()
-        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        for (name in resultSetOld.getVariableNames()) {
-            variables.add(Pair(resultSetNew.createVariable(name), resultSetOld.createVariable(name)))
+        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
+        for (name in children[0].resultSet.getVariableNames()) {
+            variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
         }
     }
 
@@ -40,16 +38,12 @@ class POPDistinct : POPBaseNullableIterator {
         return children[0].getRequiredVariableNames()
     }
 
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
-    }
-
     override fun nnext(): ResultRow? = Trace.trace({ "POPDistinct.nnext" }, {
         if (data == null) {
             val tmpMutableMap = mutableMapOf<String, ResultRow>()
             while (children[0].hasNext()) {
                 val rsOld = children[0].next()
-                val rsNew = resultSetNew.createResultRow()
+                val rsNew = resultSet.createResultRow()
                 var key: String = ""
                 for (variable in variables) {
                     rsNew[variable.first] = rsOld[variable.second]

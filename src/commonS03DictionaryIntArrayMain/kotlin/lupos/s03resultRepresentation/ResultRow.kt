@@ -16,7 +16,7 @@ class ResultRow : Comparable<ResultRow> {
     }
 
     operator fun get(name: Variable): Value {
-        return values[name.toInt()]!!
+        return values[name.toInt()]
     }
 
     override fun toString(): String {
@@ -31,11 +31,7 @@ class ResultRow : Comparable<ResultRow> {
             return res
         }
         for (k in values.indices) {
-            if (other.values[k] == null) {
-                res = 1
-                return res
-            }
-            val c = values[k]!!.compareTo(other.values[k]!!)
+            val c = values[k].compareTo(other.values[k])
             if (c != 0) {
                 res = c
                 return res

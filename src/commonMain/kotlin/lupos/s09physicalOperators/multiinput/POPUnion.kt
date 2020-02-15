@@ -13,14 +13,12 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPUnion : POPBaseNullableIterator {
+override val resultSet: ResultSet
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
-    private val resultSetOldA: ResultSet
     private val variablesOldA = mutableListOf<Pair<Variable, Variable>>()
     private val variablesOldAMissing = mutableListOf<Variable>()
-    private val resultSetOldB: ResultSet
     private val variablesOldB = mutableListOf<Pair<Variable, Variable>>()
     private val variablesOldBMissing = mutableListOf<Variable>()
-    private val resultSetNew: ResultSet
     override val dictionary: ResultSetDictionary
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
@@ -32,39 +30,33 @@ class POPUnion : POPBaseNullableIterator {
 
     constructor(dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase) : super() {
         this.dictionary = dictionary
-        resultSetNew = ResultSet(dictionary)
+        resultSet = ResultSet(dictionary)
         this.children[0] = childA
         this.children[1] = childB
-        resultSetOldA = this.children[0].getResultSet()
-        resultSetOldB = this.children[1].getResultSet()
-        require(resultSetOldA.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        require(resultSetOldB.dictionary == dictionary || (!(this.children[1] is POPBase)))
-        var variablesA = resultSetOldA.getVariableNames()
-        var variablesB = resultSetOldB.getVariableNames()
+        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
+        require(children[1].resultSet.dictionary == dictionary || (!(this.children[1] is POPBase)))
+        var variablesA = children[0].resultSet.getVariableNames()
+        var variablesB = children[1].resultSet.getVariableNames()
 
         for (name in variablesA) {
-            variablesOldA.add(Pair(resultSetOldA.createVariable(name), resultSetNew.createVariable(name)))
+            variablesOldA.add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
             if (!variablesB.contains(name))
-                variablesOldBMissing.add(resultSetNew.createVariable(name))
+                variablesOldBMissing.add(resultSet.createVariable(name))
         }
         for (name in variablesB) {
-            variablesOldB.add(Pair(resultSetOldB.createVariable(name), resultSetNew.createVariable(name)))
+            variablesOldB.add(Pair(children[1].resultSet.createVariable(name), resultSet.createVariable(name)))
             if (!variablesA.contains(name))
-                variablesOldAMissing.add(resultSetNew.createVariable(name))
+                variablesOldAMissing.add(resultSet.createVariable(name))
         }
 
-    }
-
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
     }
 
     override fun nnext(): ResultRow? = Trace.trace({ "POPUnion.nnext" }, {
         if (children[0].hasNext()) {
             val rsOld = children[0].next()
-            val rsNew = resultSetNew.createResultRow()
+            val rsNew = resultSet.createResultRow()
             for (p in variablesOldAMissing) {
-                resultSetNew.setUndefValue(rsNew, p)
+                resultSet.setUndefValue(rsNew, p)
             }
             for (p in variablesOldA) {
                 // TODO reuse resultSet
@@ -74,9 +66,9 @@ class POPUnion : POPBaseNullableIterator {
         }
         if (children[1].hasNext()) {
             val rsOld = children[1].next()
-            val rsNew = resultSetNew.createResultRow()
+            val rsNew = resultSet.createResultRow()
             for (p in variablesOldBMissing) {
-                resultSetNew.setUndefValue(rsNew, p)
+                resultSet.setUndefValue(rsNew, p)
             }
             for (p in variablesOldB) {
                 rsNew[p.second] = rsOld[p.first]

@@ -15,11 +15,10 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPSort : POPBaseNullableIterator {
+override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private var data: MutableList<ResultRow>? = null
-    private val resultSetOld: ResultSet
-    private val resultSetNew: ResultSet
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     private var iterator: Iterator<ResultRow>? = null
     var sortBy: Variable
@@ -27,15 +26,14 @@ class POPSort : POPBaseNullableIterator {
 
     constructor(dictionary: ResultSetDictionary, sortBy: LOPVariable, sortOrder: Boolean, child: OPBase) : super() {
         this.dictionary = dictionary
-        resultSetNew = ResultSet(dictionary)
+        resultSet = ResultSet(dictionary)
         children[0] = child
         this.sortOrder = sortOrder
-        resultSetOld = children[0].getResultSet()
-        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        for (name in resultSetOld.getVariableNames()) {
-            variables.add(Pair(resultSetNew.createVariable(name), resultSetOld.createVariable(name)))
+        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
+        for (name in children[0].resultSet.getVariableNames()) {
+            variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
         }
-        this.sortBy = resultSetNew.createVariable(sortBy.name)
+        this.sortBy = resultSet.createVariable(sortBy.name)
     }
 
     override fun getProvidedVariableNames(): List<String> {
@@ -46,21 +44,17 @@ class POPSort : POPBaseNullableIterator {
         return getProvidedVariableNames()
     }
 
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
-    }
-
     override fun nnext(): ResultRow? = Trace.trace({ "POPSort.nnext" }, {
         if (data == null) {
             val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
             while (children[0].hasNext()) {
                 val rsOld = children[0].next()
-                val rsNew = resultSetNew.createResultRow()
+                val rsNew = resultSet.createResultRow()
                 var key: String = ""
                 for (variable in variables) {
                     rsNew[variable.first] = rsOld[variable.second]
                     if (variable.first == sortBy) {
-                        val tmp = resultSetOld.getValue(rsOld[variable.second])
+                        val tmp = children[0].resultSet.getValue(rsOld[variable.second])
                         if (tmp == null)
                             key = ""
                         else
@@ -98,7 +92,7 @@ class POPSort : POPBaseNullableIterator {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPSort")
-        res.addAttribute("by", resultSetNew.getVariable(sortBy))
+        res.addAttribute("by", resultSet.getVariable(sortBy))
         if (sortOrder)
             res.addAttribute("order", "ASC")
         else

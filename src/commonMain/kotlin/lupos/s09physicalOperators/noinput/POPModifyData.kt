@@ -13,14 +13,9 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class POPModifyData(override val dictionary: ResultSetDictionary, val transactionID: Long, val type: EModifyType, val data: List<List<Pair<String, Boolean>>>) : POPBase() {
+    override val resultSet= ResultSet(dictionary)
     override val children: Array<OPBase> = arrayOf()
-    private val resultSetNew = ResultSet(dictionary)
-
     private var first = true
-
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
-    }
 
     override fun hasNext(): Boolean = Trace.trace({ "POPInsertData.hasNext" }, {
         return first
@@ -35,7 +30,7 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
             else
                 store.deleteDataVar(transactionID, t)
         }
-        return resultSetNew.createResultRow()
+        return resultSet.createResultRow()
     }) as ResultRow
 
     override fun getProvidedVariableNames(): List<String> {

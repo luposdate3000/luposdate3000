@@ -14,16 +14,16 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPFilter : POPBaseNullableIterator {
+override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     val filter: POPExpression
-    private val resultSet: ResultSet
 
     constructor(dictionary: ResultSetDictionary, filter: POPExpression, child: OPBase) : super() {
         this.dictionary = dictionary
         children[0] = child
         this.filter = filter
-        resultSet = children[0].getResultSet()
+        resultSet = children[0].resultSet
     }
 
     override fun getProvidedVariableNames(): List<String> {
@@ -32,10 +32,6 @@ class POPFilter : POPBaseNullableIterator {
 
     override fun getRequiredVariableNames(): List<String> {
         return filter.getRequiredVariableNames()
-    }
-
-    override fun getResultSet(): ResultSet {
-        return resultSet
     }
 
     override fun nnext(): ResultRow? = Trace.trace({ "POPFilter.nnext" }, {

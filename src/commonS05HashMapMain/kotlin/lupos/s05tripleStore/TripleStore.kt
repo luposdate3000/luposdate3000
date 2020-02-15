@@ -6,7 +6,6 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.ResultSetIterator
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
@@ -24,15 +23,15 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
         if (sFilter == null)
             res.addAttribute("nameS", nameS)
         else
-            res.addAttribute("filterS", resultSetOld.getValue(sFilter!!)!!)
+            res.addAttribute("filterS", store.resultSet.getValue(sFilter!!)!!)
         if (pFilter == null)
             res.addAttribute("nameP", nameP)
         else
-            res.addAttribute("filterP", resultSetOld.getValue(pFilter!!)!!)
+            res.addAttribute("filterP", store.resultSet.getValue(pFilter!!)!!)
         if (oFilter == null)
             res.addAttribute("nameO", nameO)
         else
-            res.addAttribute("filterO", resultSetOld.getValue(oFilter!!)!!)
+            res.addAttribute("filterO", store.resultSet.getValue(oFilter!!)!!)
         return res
     }
 
@@ -45,15 +44,15 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
     }) as ResultRow
 
     fun setSFilterV(s: String) {
-        sFilter = resultSetOld.createValue(s)
+        sFilter = store.resultSet.createValue(s)
     }
 
     fun setPFilterV(p: String) {
-        pFilter = resultSetOld.createValue(p)
+        pFilter = store.resultSet.createValue(p)
     }
 
     fun setOFilterV(o: String) {
-        oFilter = resultSetOld.createValue(o)
+        oFilter = store.resultSet.createValue(o)
     }
 
     override fun hasNext(): Boolean = Trace.trace({ "TripleStore.hasNext a" }, {
@@ -61,22 +60,22 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
             return true
         while (iterator.hasNext()) {
             val value = iterator.next()
-            val result = resultSetNew.createResultRow()
+            val result = resultSet.createResultRow()
             if (sFilter != null) {
                 if (value[sOld] != sFilter)
                     continue
             } else
-                result[sNew] = resultSetNew.createValue(resultSetOld.getValue(value!![sOld]))
+                result[sNew] = resultSet.createValue(store.resultSet.getValue(value[sOld]))
             if (pFilter != null) {
                 if (value[pOld] != pFilter)
                     continue
             } else
-                result[pNew] = resultSetNew.createValue(resultSetOld.getValue(value!![pOld]))
+                result[pNew] = resultSet.createValue(store.resultSet.getValue(value[pOld]))
             if (oFilter != null) {
                 if (value[oOld] != oFilter)
                     continue
             } else
-                result[oNew] = resultSetNew.createValue(resultSetOld.getValue(value!![oOld]))
+                result[oNew] = resultSet.createValue(store.resultSet.getValue(value[oOld]))
             nextRow = result
             return true
         }
@@ -87,8 +86,7 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
 open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
-    val resultSetNew: ResultSet
-    val resultSetOld: ResultSet
+    override val resultSet: ResultSet
     val iterator: Iterator<ResultRow>
     var sNew: Variable
     var pNew: Variable
@@ -107,33 +105,32 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
     }
 
     override fun setMNameS(n: String) {
-        sNew = resultSetNew.renameVariable(nameS, n)
+        sNew = resultSet.renameVariable(nameS, n)
         nameS = n
     }
 
     override fun setMNameP(n: String) {
-        pNew = resultSetNew.renameVariable(nameP, n)
+        pNew = resultSet.renameVariable(nameP, n)
         nameP = n
     }
 
     override fun setMNameO(n: String) {
-        oNew = resultSetNew.renameVariable(nameO, n)
+        oNew = resultSet.renameVariable(nameO, n)
         nameO = n
     }
 
     constructor(dictionary: ResultSetDictionary, store: TripleStoreLocal, index: EIndexPattern) {
         this.dictionary = dictionary
-        resultSetNew = ResultSet(dictionary)
-        sNew = resultSetNew.createVariable(nameS)
-        pNew = resultSetNew.createVariable(nameP)
-        oNew = resultSetNew.createVariable(nameO)
+        resultSet = ResultSet(dictionary)
+        sNew = resultSet.createVariable(nameS)
+        pNew = resultSet.createVariable(nameP)
+        oNew = resultSet.createVariable(nameO)
         this.store = store
         this.index = index
         iterator = store.tripleStore[index.ordinal].iterator()
-        resultSetOld = store.resultSet
-        sOld = resultSetOld.createVariable("s")
-        pOld = resultSetOld.createVariable("p")
-        oOld = resultSetOld.createVariable("o")
+        sOld = store.resultSet.createVariable("s")
+        pOld = store.resultSet.createVariable("p")
+        oOld = store.resultSet.createVariable("o")
     }
 
     constructor(dictionary: ResultSetDictionary, store: TripleStoreLocal) : this(dictionary, store, EIndexPattern.SPO)
@@ -147,11 +144,11 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
     }
 
     override fun next(): ResultRow = Trace.trace({ "TripleStore.next b" }, {
-        val value = iterator!!.next()
-        val result = resultSetNew.createResultRow()
-        result[sNew] = resultSetNew.createValue(resultSetOld.getValue(value!![sOld]))
-        result[pNew] = resultSetNew.createValue(resultSetOld.getValue(value!![pOld]))
-        result[oNew] = resultSetNew.createValue(resultSetOld.getValue(value!![oOld]))
+        val value = iterator.next()
+        val result = resultSet.createResultRow()
+        result[sNew] = resultSet.createValue(store.resultSet.getValue(value[sOld]))
+        result[pNew] = resultSet.createValue(store.resultSet.getValue(value[pOld]))
+        result[oNew] = resultSet.createValue(store.resultSet.getValue(value[oOld]))
         return result
     }) as ResultRow
 
@@ -159,9 +156,6 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
         return iterator.hasNext()
     }) as Boolean
 
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
-    }
 }
 
 class TripleStoreLocal {

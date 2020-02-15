@@ -13,12 +13,11 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPRename : POPBase {
+override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     var nameTo: LOPVariable
     var nameFrom: LOPVariable
-    private val resultSetOld: ResultSet
-    private val resultSetNew: ResultSet
     private val variablesOld: Array<Variable?>
     private val variablesNew: Array<Variable?>
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
@@ -38,22 +37,21 @@ class POPRename : POPBase {
 
     constructor(dictionary: ResultSetDictionary, nameTo: LOPVariable, nameFrom: LOPVariable, child: OPBase) : super() {
         this.dictionary = dictionary
-        resultSetNew = ResultSet(dictionary)
+        resultSet = ResultSet(dictionary)
         children[0] = child
         this.nameTo = nameTo
         this.nameFrom = nameFrom
-        resultSetOld = children[0].getResultSet()
-        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        val variableNames = resultSetOld.getVariableNames()
+        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
+        val variableNames = children[0].resultSet.getVariableNames()
         variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
         variablesNew = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
         var i = 0
         for (name in variableNames) {
-            variablesOld[i] = resultSetOld.createVariable(name)
+            variablesOld[i] = children[0].resultSet.createVariable(name)
             if (name == nameFrom.name)
-                variablesNew[i] = resultSetNew.createVariable(nameTo.name)
+                variablesNew[i] = resultSet.createVariable(nameTo.name)
             else
-                variablesNew[i] = resultSetNew.createVariable(name)
+                variablesNew[i] = resultSet.createVariable(name)
             i++
         }
     }
@@ -74,17 +72,13 @@ class POPRename : POPBase {
         return listOf<String>(nameFrom.name)
     }
 
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
-    }
-
     override fun hasNext(): Boolean = Trace.trace({ "POPRename.hasNext" }, {
         val res = children[0].hasNext()
         return res
     }) as Boolean
 
     override fun next(): ResultRow = Trace.trace({ "POPRename.next" }, {
-        var rsNew = resultSetNew.createResultRow()
+        var rsNew = resultSet.createResultRow()
         val rsOld = children[0].next()
         for (i in variablesNew.indices) {
             // TODO reuse resultSet

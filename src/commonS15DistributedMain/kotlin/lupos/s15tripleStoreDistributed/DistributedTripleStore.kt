@@ -5,7 +5,6 @@ import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.ResultSetIterator
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s05tripleStore.PersistentStoreLocal
@@ -21,7 +20,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     override val children: Array<OPBase> = arrayOf()
     private var sNew: Variable
     private var pNew: Variable
-    private val resultSetNew: ResultSet
+    override val resultSet: ResultSet
     private var oNew: Variable
     private val nodeNameIterator: Iterator<String>
     private var remoteIterator: Iterator<ResultRow>? = null
@@ -40,10 +39,10 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
         this.graphName = graphName
         this.dictionary = dictionary
         this.transactionID = transactionID
-        resultSetNew = ResultSet(dictionary)
-        sNew = resultSetNew.createVariable(nameS)
-        pNew = resultSetNew.createVariable(nameP)
-        oNew = resultSetNew.createVariable(nameO)
+        resultSet = ResultSet(dictionary)
+        sNew = resultSet.createVariable(nameS)
+        pNew = resultSet.createVariable(nameP)
+        oNew = resultSet.createVariable(nameO)
         nodeNameIterator = P2P.getKnownClientsCopy().iterator()
         if (sv)
             sFilter = s
@@ -133,22 +132,18 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
         return true
     }) as Boolean
 
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
-    }
-
     override fun setMNameS(n: String) {
-        sNew = resultSetNew.renameVariable(nameS, n)
+        sNew = resultSet.renameVariable(nameS, n)
         nameS = n
     }
 
     override fun setMNameP(n: String) {
-        pNew = resultSetNew.renameVariable(nameP, n)
+        pNew = resultSet.renameVariable(nameP, n)
         nameP = n
     }
 
     override fun setMNameO(n: String) {
-        oNew = resultSetNew.renameVariable(nameO, n)
+        oNew = resultSet.renameVariable(nameO, n)
         nameO = n
     }
 
@@ -254,8 +249,8 @@ class DistributedGraph(val name: String) {
         }
     })
 
-    fun addData(transactionID: Long, iterator: ResultSetIterator) = Trace.trace({ "DistributedGraph.addData b" }, {
-        val rs = iterator.getResultSet()
+    fun addData(transactionID: Long, iterator: OPBase) = Trace.trace({ "DistributedGraph.addData b" }, {
+        val rs = iterator.resultSet
         val ks = rs.createVariable("s")
         val kp = rs.createVariable("p")
         val ko = rs.createVariable("o")

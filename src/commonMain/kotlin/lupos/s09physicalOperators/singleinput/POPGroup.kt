@@ -19,31 +19,29 @@ import lupos.s09physicalOperators.singleinput.POPBind
 
 
 class POPGroup : POPBaseNullableIterator {
+override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private var data: MutableList<ResultRow>? = null
-    private val resultSetOld: ResultSet
-    private val resultSetNew: ResultSet
     private var iterator: Iterator<ResultRow>? = null
     var by: List<LOPVariable>
     var bindings = mutableListOf<Pair<Variable, POPExpression>>()
 
     constructor(dictionary: ResultSetDictionary, by: List<LOPVariable>, bindings: POPBind?, child: OPBase) : super() {
         this.dictionary = dictionary
-        resultSetNew = ResultSet(dictionary)
+        resultSet = ResultSet(dictionary)
         children[0] = child
         this.by = by
-        resultSetOld = children[0].getResultSet()
-        require(resultSetOld.dictionary == dictionary || (!(this.children[0] is POPBase)))
+        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         var tmpBind: OPBase? = bindings
         while (tmpBind != null && tmpBind is POPBind) {
-            this.bindings.add(Pair(resultSetNew.createVariable(tmpBind.name.name), tmpBind.expression))
-            resultSetNew.createVariable(tmpBind.name.name)
+            this.bindings.add(Pair(resultSet.createVariable(tmpBind.name.name), tmpBind.expression))
+            resultSet.createVariable(tmpBind.name.name)
             tmpBind = tmpBind.children[0]
         }
         this.bindings = this.bindings.asReversed()
         for (v in by)
-            resultSetNew.createVariable(v.name)
+            resultSet.createVariable(v.name)
     }
 
     override fun getProvidedVariableNames(): List<String> {
@@ -51,7 +49,7 @@ class POPGroup : POPBaseNullableIterator {
         for (v in by)
             tmp.add(v.name)
         for (v in bindings)
-            tmp.add(resultSetNew.getVariable(v.first))
+            tmp.add(resultSet.getVariable(v.first))
         return tmp
     }
 
@@ -79,21 +77,17 @@ class POPGroup : POPBaseNullableIterator {
         return mutableListOf<String>()
     }
 
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
-    }
-
     override fun nnext(): ResultRow? = Trace.trace({ "POPGroup.nnext" }, {
         if (data == null) {
             val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
             val variables = mutableListOf<Pair<Variable, Variable>>()
             for (v in by)
-                variables.add(Pair(resultSetNew.createVariable(v.name), resultSetOld.createVariable(v.name)))
+                variables.add(Pair(resultSet.createVariable(v.name), children[0].resultSet.createVariable(v.name)))
             while (children[0].hasNext()) {
                 val rsOld = children[0].next()
                 var key: String = "|"
                 for (variable in variables)
-                    key = key + resultSetOld.getValue(rsOld[variable.second]) + "|"
+                    key = key + children[0].resultSet.getValue(rsOld[variable.second]) + "|"
                 var tmp = tmpMutableMap[key]
                 if (tmp == null) {
                     tmp = mutableListOf<ResultRow>()
@@ -103,27 +97,27 @@ class POPGroup : POPBaseNullableIterator {
             }
             data = mutableListOf<ResultRow>()
             if (tmpMutableMap.keys.size == 0) {
-                val rsNew = resultSetNew.createResultRow()
+                val rsNew = resultSet.createResultRow()
                 for (b in variables)
-                    resultSetNew.setUndefValue(rsNew, b.first)
+                    resultSet.setUndefValue(rsNew, b.first)
                 for (b in bindings)
-                    resultSetNew.setUndefValue(rsNew, b.first)
+                    resultSet.setUndefValue(rsNew, b.first)
                 data!!.add(rsNew)
             }
             for (k in tmpMutableMap.keys) {
                 val rsOld = tmpMutableMap[k]!!.first()
-                val rsNew = resultSetNew.createResultRow()
+                val rsNew = resultSet.createResultRow()
                 for (variable in variables)
                     rsNew[variable.first] = rsOld[variable.second]
                 for (b in bindings) {
                     try {
-                        val value = b.second.evaluate(resultSetOld, tmpMutableMap[k]!!)
+                        val value = b.second.evaluate(children[0].resultSet, tmpMutableMap[k]!!)
                         if (value == null)
-                            resultSetNew.setUndefValue(rsNew, b.first)
+                            resultSet.setUndefValue(rsNew, b.first)
                         else
-                            rsNew[b.first] = resultSetNew.createValue(value)
+                            rsNew[b.first] = resultSet.createValue(value)
                     } catch (e: Throwable) {
-                        resultSetNew.setUndefValue(rsNew, b.first)
+                        resultSet.setUndefValue(rsNew, b.first)
                         GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
                         GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
                     }
@@ -150,7 +144,7 @@ class POPGroup : POPBaseNullableIterator {
         val xmlbindings = XMLElement("bindings")
         res.addContent(xmlbindings)
         for (b in bindings) {
-            xmlbindings.addContent(XMLElement("binding").addAttribute("name", resultSetNew.getVariable(b.first)).addContent(b.second.toXMLElement()))
+            xmlbindings.addContent(XMLElement("binding").addAttribute("name", resultSet.getVariable(b.first)).addContent(b.second.toXMLElement()))
         }
         res.addContent(childrenToXML())
         return res

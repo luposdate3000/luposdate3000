@@ -32,11 +32,11 @@ import lupos.s15tripleStoreDistributed.*
 
 
 class TripleInsertIterator : POPBaseNullableIterator {
+    override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     var result: ResultRow?
 
-    private val resultSet: ResultSet
 
     override fun toXMLElement(): XMLElement {
         return XMLElement("TripleInsertIterator")
@@ -68,10 +68,6 @@ class TripleInsertIterator : POPBaseNullableIterator {
 
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf<String>()
-    }
-
-    override fun getResultSet(): ResultSet {
-        return resultSet
     }
 
     override fun nnext(): ResultRow? = Trace.trace({ "TripleInsertIterator.nnext" }, {

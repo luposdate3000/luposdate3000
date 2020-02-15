@@ -12,16 +12,15 @@ import lupos.s09physicalOperators.POPBaseNullableIterator
 
 
 class POPJoinHashMap : POPBaseNullableIterator {
+override val resultSet: ResultSet
     override val children: Array<OPBase>
     val optional: Boolean
     val joinVariables: Set<String>
     val map: Array<MutableMap<String, MutableList<ResultRow>>>
     val queue = mutableListOf<ResultRow>()
     var hadOptionals = false
-    val resultSet: Array<ResultSet>
     val variables: Array<MutableList<Pair<Variable, Variable>>>
     val variablesJ: Array<MutableList<Pair<Variable, Variable>>>
-    val resultSetNew: ResultSet
     override val dictionary: ResultSetDictionary
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
@@ -33,13 +32,12 @@ class POPJoinHashMap : POPBaseNullableIterator {
 
     constructor(dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase, optional: Boolean) : super() {
         this.dictionary = dictionary
-        resultSetNew = ResultSet(dictionary)
+        resultSet = ResultSet(dictionary)
         map = arrayOf(mutableMapOf<String, MutableList<ResultRow>>(), mutableMapOf<String, MutableList<ResultRow>>())
         children = arrayOf(childA, childB)
         this.optional = optional
-        resultSet = arrayOf(childA.getResultSet(), childB.getResultSet())
-        require(resultSet[0].dictionary == dictionary || (!(this.children[0] is POPBase)))
-        require(resultSet[1].dictionary == dictionary || (!(this.children[1] is POPBase)))
+        require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
+        require(children[1].resultSet.dictionary == dictionary || (!(this.children[1] is POPBase)))
 
         var variablesA: Set<String> = mutableSetOf<String>()
         var variablesB: Set<String> = mutableSetOf<String>()
@@ -53,22 +51,18 @@ class POPJoinHashMap : POPBaseNullableIterator {
         variables = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf<Pair<Variable, Variable>>())
         variablesJ = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf<Pair<Variable, Variable>>())
         for (name in variablesA)
-            variables[0].add(Pair(resultSet[0].createVariable(name), resultSetNew.createVariable(name)))
+            variables[0].add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
         for (name in variablesB)
-            variables[1].add(Pair(resultSet[1].createVariable(name), resultSetNew.createVariable(name)))
+            variables[1].add(Pair(children[1].resultSet.createVariable(name), resultSet.createVariable(name)))
         for (name in joinVariables) {
-            variablesJ[0].add(Pair(resultSet[0].createVariable(name), resultSetNew.createVariable(name)))
-            variablesJ[1].add(Pair(resultSet[1].createVariable(name), resultSetNew.createVariable(name)))
+            variablesJ[0].add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
+            variablesJ[1].add(Pair(children[1].resultSet.createVariable(name), resultSet.createVariable(name)))
         }
-    }
-
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
     }
 
     fun joinHelper(rowA: ResultRow, rowsB: List<ResultRow>, idx: Int) {
         for (rowB in rowsB) {
-            val row = resultSetNew.createResultRow()
+            val row = resultSet.createResultRow()
             for (p in variables[idx])
                 row[p.second] = rowA[p.first]
             for (p in variables[1 - idx])
@@ -76,7 +70,7 @@ class POPJoinHashMap : POPBaseNullableIterator {
             for (p in variablesJ[idx])
                 row[p.second] = rowA[p.first]
             for (p in variablesJ[1 - idx]) {
-                if (!resultSet[1 - idx].isUndefValue(rowB, p.first))
+                if (!children[1 - idx].resultSet.isUndefValue(rowB, p.first))
                     row[p.second] = rowB[p.first]
             }
             queue.add(row)
@@ -90,8 +84,8 @@ class POPJoinHashMap : POPBaseNullableIterator {
             keys.add("")
             var exactkey = ""
             for (k in variablesJ[idx]) {
-                val v = resultSet[idx].getValue(rowA[k.first])
-                val kk = if (resultSet[idx].isUndefValue(rowA, k.first))
+                val v = children[idx].resultSet.getValue(rowA[k.first])
+                val kk = if (children[idx].resultSet.isUndefValue(rowA, k.first))
                     "-"
                 else
                     v + "-"
@@ -141,9 +135,9 @@ class POPJoinHashMap : POPBaseNullableIterator {
                 for ((k, v) in map[0]) {
                     if (map[1][k] == null) {
                         for (rowA in v) {
-                            val row = resultSetNew.createResultRow()
+                            val row = resultSet.createResultRow()
                             for (p in variables[1])
-                                resultSetNew.setUndefValue(row, p.second)
+                                resultSet.setUndefValue(row, p.second)
                             for (p in variables[0])
                                 row[p.second] = rowA[p.first]
                             for (p in variablesJ[0])

@@ -12,21 +12,17 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPMakeBooleanResult : POPBase {
+override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
-    private val resultSetNew: ResultSet
     private val variableNew: Variable
     private var count = 0
 
     constructor(dictionary: ResultSetDictionary, child: OPBase) : super() {
         this.dictionary = dictionary
-        resultSetNew = ResultSet(dictionary)
+        resultSet = ResultSet(dictionary)
         children[0] = child
-        this.variableNew = resultSetNew.createVariable("?boolean")
-    }
-
-    override fun getResultSet(): ResultSet {
-        return resultSetNew
+        this.variableNew = resultSet.createVariable("?boolean")
     }
 
     override fun getProvidedVariableNames(): List<String> {
@@ -44,8 +40,8 @@ class POPMakeBooleanResult : POPBase {
     }) as Boolean
 
     override fun next(): ResultRow = Trace.trace({ "POPMakeBooleanResult.next" }, {
-        var rsNew = resultSetNew.createResultRow()
-        rsNew[variableNew] = resultSetNew.createValue("\"" + children[0].hasNext() + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+        var rsNew = resultSet.createResultRow()
+        rsNew[variableNew] = resultSet.createValue("\"" + children[0].hasNext() + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
         count++
         return rsNew
     }) as ResultRow
