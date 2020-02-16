@@ -14,11 +14,18 @@ for chooseS14 in "jvmS14KorioMain"
 do
 for chooseS15 in "commonS15LocalMain" "commonS15DistributedMain"
 do
-if [ "$chooseS12" != "commonS12LocalMain" ]
+if [ "$chooseS12" == "commonS12LocalMain" ]
 then
-if [ "$chooseS03" == "commonS03DictionaryNoneMain" ] || [ "$chooseS15" == "commonS15DistributedMain" ]
+if [ "$chooseS15" == "commonS15DistributedMain" ]
 then
-	continue
+# if there is just one node, there is no distribution
+        continue
+fi
+else
+if [ "$chooseS03" == "commonS03DictionaryNoneMain" ]
+then
+# if multiple nodes exist, dictionaries are required
+        continue
 fi
 fi
 
@@ -143,6 +150,7 @@ EOF
 	chmod +x ./luposdate3000/bin/luposdate3000-p2p
 ) > log/compile-$buildName.log 2>&1
 )
+done
 done
 done
 done
