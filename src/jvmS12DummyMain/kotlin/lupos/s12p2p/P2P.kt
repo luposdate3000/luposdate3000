@@ -102,7 +102,7 @@ object P2P {
             res = POPImportFromXml(dictionary, XMLElement.parseFromXml(xml)!!.first())
         }
         return res
-    }) as OPBase
+    })
 
     fun execGraphClearAll() = Trace.trace({ "P2P.execGraphClearAll" }, {
         /*execute clear on every known node - for TESTING only*/
@@ -162,7 +162,7 @@ object P2P {
         }
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleGet end" })
         return res!!
-    }) as POPBase
+    })
 
     fun execTripleDelete(node: String, graphName: String, transactionID: Long, data: List<Pair<String, Boolean>>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleDelete start" })
@@ -189,46 +189,50 @@ object P2P {
     suspend fun retryRequestGet(url: String): HttpClient.Response = Trace.trace({ "P2P.retryRequest" }, {
         require(!url.startsWith("http://${EndpointImpl.fullname}"))
         var i = 0
+        var res: HttpClient.Response
         while (true) {
             i++
             try {
-                val res = client.request(Http.Method.GET, url)
-                return res
+                res = client.request(Http.Method.GET, url)
+                break
             } catch (e: Throwable) {
                 if (i > 100)
                     throw e
                 delay(10)
             }
         }
-    }) as HttpClient.Response
+        return res
+    })
 
     suspend fun retryRequestPost(url: String, data: AsyncStream): HttpClient.Response = Trace.trace({ "P2P.retryRequest" }, {
         require(!url.startsWith("http://${EndpointImpl.fullname}"))
         var i = 0
+        var res: HttpClient.Response
         while (true) {
             i++
             try {
-                val res = client.request(Http.Method.POST, url, Http.Headers(), data)
-                return res
+                res = client.request(Http.Method.POST, url, Http.Headers(), data)
+                break
             } catch (e: Throwable) {
                 if (i > 100)
                     throw e
                 delay(10)
             }
         }
-    }) as HttpClient.Response
+        return res
+    })
 
     fun resolveNodeName(name: String): String = Trace.trace({ "P2P.resolveNodeName" }, {
         val tmp = nodeNameRemapping[name]
         if (tmp != null)
             return tmp
         return name
-    }) as String
+    })
 
     fun process_peers_self_test(): String = Trace.trace({ "P2P.process_peers_self_test" }, {
         testMain()
         return XMLElement.XMLHeader
-    }) as String
+    })
 
     fun process_peers_list(): String = Trace.trace({ "P2P.process_peers_list" }, {
         /*nice to have, but not required*/
@@ -238,7 +242,7 @@ object P2P {
             res = XMLElement.XMLHeader + "\n" + XMLElement("servers").addContent(knownClients, "server").toPrettyString()
         }
         return res
-    }) as String
+    })
 
     fun process_peers_join_internal(hostname: String?): String = Trace.trace({ "P2P.process_peers_join_internal" }, {
         /*just a dummy ... should be removed if there is a real p2p*/
@@ -248,7 +252,7 @@ object P2P {
                 knownClients.add(hostname)
         }
         return XMLElement.XMLHeader
-    }) as String
+    })
 
     fun getKnownClientsCopy(): List<String> = Trace.trace({ "P2P.getKnownClientsCopy" }, {
         val knownClientsCopy = mutableListOf<String>()
@@ -258,7 +262,7 @@ object P2P {
             }
         }
         return knownClientsCopy
-    }) as List<String>
+    })
 
     suspend fun process_peers_join(hostname: String?): String = Trace.trace({ "P2P.process_peers_join" }, {
         /*just a dummy ... should be removed if there is a real p2p*/
@@ -284,7 +288,7 @@ object P2P {
             GlobalLogger.log(ELoggerType.DEBUG, { "process_peers_join $hostname 4" })
         }
         return XMLElement.XMLHeader + "\n" + XMLElement("servers").addContent(knownClientsCopy, "server").toPrettyString()
-    }) as String
+    })
 
     suspend fun start(bootstrap: String?) = Trace.trace({ "P2P.start" }, {
         /*start the p2p network. DONT block the thread*/

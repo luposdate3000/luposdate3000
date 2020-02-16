@@ -1,7 +1,7 @@
 package lupos.s00misc
 
 object Trace {
-    inline fun trace(name: () -> String, action: () -> Any): Any {
+    inline fun <T> trace(name: () -> String, action: () -> T): T {
         return action()
     }
 

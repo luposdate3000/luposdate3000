@@ -38,7 +38,7 @@ object P2P {
 
     fun execOnNamedNode(dictionary: ResultSetDictionary, transactionID: Long, nodeName: String, pop: OPBase): OPBase = Trace.trace({ "P2P.execOnNamedNode" }, {
         return POPEmptyRow(dictionary)
-    }) as OPBase
+    })
 
     fun execGraphClearAll() = Trace.trace({ "P2P.execGraphClearAll" }, {
         Endpoint.process_local_graph_clear_all()
@@ -50,7 +50,7 @@ object P2P {
 
     fun execTripleGet(node: String, graphName: String, dictionary: ResultSetDictionary, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
         return Endpoint.process_local_triple_get(graphName, dictionary, transactionID, s, p, o, sv, pv, ov, idx)
-    }) as POPBase
+    })
 
     fun execTripleDelete(node: String, graphName: String, transactionID: Long, data: List<Pair<String, Boolean>>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {
         Endpoint.process_local_triple_delete(graphName, transactionID, data[0].first, data[1].first, data[2].first, data[0].second, data[1].second, data[2].second, idx)
@@ -59,23 +59,23 @@ object P2P {
     fun process_peers_self_test(): String = Trace.trace({ "P2P.process_peers_self_test" }, {
         testMain()
         return XMLElement.XMLHeader
-    }) as String
+    })
 
     fun process_peers_list(): String = Trace.trace({ "P2P.process_peers_list" }, {
         return XMLElement.XMLHeader
-    }) as String
+    })
 
     fun process_peers_join_internal(hostname: String?): String = Trace.trace({ "P2P.process_peers_join_internal" }, {
         return XMLElement.XMLHeader
-    }) as String
+    })
 
     fun getKnownClientsCopy(): List<String> = Trace.trace({ "P2P.getKnownClientsCopy" }, {
         return mutableListOf<String>()
-    }) as List<String>
+    })
 
     suspend fun process_peers_join(hostname: String?): String = Trace.trace({ "P2P.process_peers_join" }, {
         return XMLElement.XMLHeader
-    }) as String
+    })
 
     suspend fun start(bootstrap: String?) = Trace.trace({ "P2P.start" }, {
     })

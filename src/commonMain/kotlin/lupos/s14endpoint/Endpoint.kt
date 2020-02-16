@@ -47,11 +47,12 @@ class TripleInsertIterator : POPBase {
         while (true) {
             val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res)
             if (match == null)
-                return res
+                break
             val replacement = match.value.substring(2, 6).toInt(16).toChar() + ""
             res = res.replace(match.value, replacement)
         }
-    }) as String
+        return res
+    })
 
     constructor(dictionary: ResultSetDictionary, triple: ID_Triple) {
         this.dictionary = dictionary
@@ -91,27 +92,27 @@ object Endpoint {
         val g = DistributedTripleStore.localStore.getNamedGraph(graphName, true)
         g.addData(transactionID, s, p, o, idx)
         return XMLElement("success")
-    }) as XMLElement
+    })
 
     fun process_local_triple_delete(graphName: String, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): XMLElement = Trace.trace({ "Endpoint.process_local_triple_delete" }, {
         DistributedTripleStore.localStore.getNamedGraph(graphName).deleteDataVar(transactionID, s, p, o, sv, pv, ov, idx)
         return XMLElement("success")
-    }) as XMLElement
+    })
 
     fun process_local_triple_get(graphName: String, dictionary: ResultSetDictionary, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): POPBase = Trace.trace({ "Endpoint.process_local_triple_get" }, {
         val g = DistributedTripleStore.localStore.getNamedGraph(graphName)
         return g.getIterator(transactionID, dictionary, s, p, o, sv, pv, ov, idx)
-    }) as POPBase
+    })
 
     fun process_local_graph_clear_all(): XMLElement = Trace.trace({ "Endpoint.process_local_graph_clear_all" }, {
         DistributedTripleStore.localStore.getDefaultGraph().clear()
         return XMLElement("success")
-    }) as XMLElement
+    })
 
     fun process_local_commit(transactionID: Long): XMLElement = Trace.trace({ "Endpoint.process_local_commit" }, {
         DistributedTripleStore.localStore.commit(transactionID)
         return XMLElement("success")
-    }) as XMLElement
+    })
 
     fun process_local_graph_operation(name: String, type: EGraphOperationType): XMLElement = Trace.trace({ "Endpoint.process_local_graph_operation" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "process_local_graph_operation aa $name $type" })
@@ -124,7 +125,7 @@ object Endpoint {
         }
         GlobalLogger.log(ELoggerType.DEBUG, { "process_local_graph_operation bb" })
         return XMLElement("success")
-    }) as XMLElement
+    })
 
     fun process_turtle_input(data: String): XMLElement = Trace.trace({ "Endpoint.process_turtle_input" }, {
         val lcit = LexerCharIterator(data)
@@ -132,7 +133,7 @@ object Endpoint {
         val ltit = LookAheadTokenIterator(tit, 3)
         TurtleParserWithDictionary(::consume_triple, ltit).turtleDoc()
         return XMLElement("done")
-    }) as XMLElement
+    })
 
     fun process_xml_input(data: String): XMLElement = Trace.trace({ "Endpoint.process_xml_input" }, {
         val transactionID = DistributedTripleStore.nextTransactionID()
@@ -140,7 +141,7 @@ object Endpoint {
         DistributedTripleStore.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, XMLElement.parseFromXml(data)!!.first()))
         DistributedTripleStore.commit(transactionID)
         return XMLElement("done")
-    }) as XMLElement
+    })
 
     fun process_sparql_query(query: String): XMLElement = Trace.trace({ "Endpoint.process_sparql_query" }, {
         val transactionID = DistributedTripleStore.nextTransactionID()
@@ -169,7 +170,7 @@ object Endpoint {
         GlobalLogger.log(ELoggerType.DEBUG, { pop_distributed_node })
         DistributedTripleStore.commit(transactionID)
         return QueryResultToXML.toXML(pop_distributed_node).first()
-    }) as XMLElement
+    })
 
     fun process_operatorgraph_query(query: String): XMLElement = Trace.trace({ "Endpoint.process_operatorgraph_query" }, {
         val transactionID = DistributedTripleStore.nextTransactionID()
@@ -179,5 +180,5 @@ object Endpoint {
         val res = QueryResultToXML.toXML(pop_node).first()
         DistributedTripleStore.commit(transactionID)
         return res
-    }) as XMLElement
+    })
 }
