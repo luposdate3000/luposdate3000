@@ -22,12 +22,14 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
     override fun evaluate() = Trace.trace<Unit>({ "POPModifyData.evaluate" }, {
         CoroutinesHelper.run {
             for (t in data) {
-                val store = DistributedTripleStore.getNamedGraph(t[3].first)
-                if (type == EModifyType.INSERT)
+                if (type == EModifyType.INSERT){
+                    val store = DistributedTripleStore.getNamedGraph(t[3].first,true)
                     store.addDataVar(transactionID, t)
-                else
+                }else{
+                    val store = DistributedTripleStore.getNamedGraph(t[3].first,false)
                     store.deleteDataVar(transactionID, t)
-            }
+                }
+	    }
             channel.send(resultSet.createResultRow())
             channel.close()
         }
