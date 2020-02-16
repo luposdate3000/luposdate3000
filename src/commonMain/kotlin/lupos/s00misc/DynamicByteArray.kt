@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.*
 import lupos.s09physicalOperators.POPBase
 
 

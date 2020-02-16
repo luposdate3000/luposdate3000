@@ -1,6 +1,7 @@
 package lupos.s00misc
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.runBlocking
 
 
 object CoroutinesHelper {

@@ -1,8 +1,12 @@
 package lupos.s05tripleStore
 
-import kotlinx.coroutines.*
-import lupos.s00misc.*
 import lupos.s00misc.classNameToString
+import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.EIndexPattern
+import lupos.s00misc.ELoggerType
+import lupos.s00misc.EModifyType
+import lupos.s00misc.GlobalLogger
+import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet

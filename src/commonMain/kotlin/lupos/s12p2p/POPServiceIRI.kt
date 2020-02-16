@@ -1,7 +1,8 @@
 package lupos.s12p2p
 
-import kotlinx.coroutines.*
-import lupos.s00misc.*
+import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.Trace
+import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary

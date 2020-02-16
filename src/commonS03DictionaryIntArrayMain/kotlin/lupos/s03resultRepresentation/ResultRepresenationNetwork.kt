@@ -1,9 +1,13 @@
 package lupos.s03resultRepresentation
 
-import kotlinx.coroutines.*
-import lupos.s00misc.*
+import kotlinx.coroutines.runBlocking
+import lupos.s00misc.DynamicByteArray
+import lupos.s00misc.ELoggerType
+import lupos.s00misc.GlobalLogger
+import lupos.s00misc.Trace
+import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
 
@@ -68,12 +72,12 @@ object ResultRepresenationNetwork {
                 }
                 currentRowCounter++
             }
-if (!firstDict) {
-            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "override triplecount b $currentRowCounter" })
-            res.setInt(currentRowCounter, posResultLen)
-}
+            if (!firstDict) {
+                GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "override triplecount b $currentRowCounter" })
+                res.setInt(currentRowCounter, posResultLen)
+            }
         }
-        GlobalLogger.log(ELoggerType.BINARY_ENCODING,               { "write dictlen d 0" })
+        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen d 0" })
         res.appendInt(0)
         return res.finish()
     }

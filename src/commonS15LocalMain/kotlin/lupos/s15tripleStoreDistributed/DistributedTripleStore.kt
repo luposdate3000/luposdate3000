@@ -1,18 +1,20 @@
 package lupos.s15tripleStoreDistributed
 
-import kotlinx.coroutines.*
-import lupos.s00misc.*
-import lupos.s03resultRepresentation.*
+import kotlinx.coroutines.runBlocking
+import lupos.s00misc.EGraphOperationType
+import lupos.s00misc.EIndexPattern
+import lupos.s00misc.ELoggerType
+import lupos.s00misc.GlobalLogger
+import lupos.s00misc.ThreadSafeUuid
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
-import lupos.s05tripleStore.*
+import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
 import lupos.s05tripleStore.TripleStoreLocal
-import lupos.s12p2p.*
-import lupos.s14endpoint.*
+import lupos.s14endpoint.Endpoint
+import lupos.s14endpoint.EndpointImpl
 
 
 val uuid = ThreadSafeUuid()

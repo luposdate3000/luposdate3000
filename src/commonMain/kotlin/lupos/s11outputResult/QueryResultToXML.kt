@@ -1,6 +1,6 @@
 package lupos.s11outputResult
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.runBlocking
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Variable
 import lupos.s09physicalOperators.POPBase
