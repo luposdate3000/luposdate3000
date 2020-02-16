@@ -1,5 +1,5 @@
 package lupos.s15tripleStoreDistributed
-
+import kotlinx.coroutines.*
 import lupos.s00misc.*
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultRow
@@ -94,13 +94,15 @@ class DistributedGraph(val name: String) {
         val ks = rs.createVariable("s")
         val kp = rs.createVariable("p")
         val ko = rs.createVariable("o")
-        while (iterator.hasNext()) {
-            val v = iterator.next()
+	iterator.evaluate()
+runBlocking {
+	for (v in iterator.channel) {
             val s = rs.getValue(v[ks])
             val p = rs.getValue(v[kp])
             val o = rs.getValue(v[ko])
             addData(transactionID, listOf(s, p, o))
         }
+}
     }
 
     fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, index: EIndexPattern): POPTripleStoreIteratorBase {

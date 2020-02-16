@@ -12,9 +12,14 @@ for chooseS14 in "jvmS14KorioMain"
 do
 for chooseS15 in "commonS15LocalMain" "commonS15DistributedMain"
 do
-buildName="${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}-${chooseS15}"
+if [ "$chooseS03" == "commonS03DictionaryNoneMain" ] && [ "$chooseS12" == "jvmS12DummyMain" ]
+then
+	continue
+fi
+
+buildName="${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}-${chooseS15}.generated"
 buildFile="build.gradle-${buildName}.jvm.generated"
-buildDir="buildJvm${buildName}"
+buildDir="buildJvm${buildName}.generated"
 
 function execJvm
 {

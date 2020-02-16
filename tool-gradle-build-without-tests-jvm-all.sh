@@ -12,11 +12,15 @@ for chooseS14 in "jvmS14KorioMain"
 do
 for chooseS15 in "commonS15LocalMain" "commonS15DistributedMain"
 do
+if [ "$chooseS03" == "commonS03DictionaryNoneMain" ] && [ "$chooseS12" == "jvmS12DummyMain" ]
+then
+	continue
+fi
 
-buildName="${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}-${chooseS15}"
+buildName="${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}-${chooseS15}.generated"
 buildFile="build.gradle-${buildName}.jvm.generated"
-buildDir="buildJvm${buildName}"
-buildCache="gradleJvm${buildName}"
+buildDir="buildJvm${buildName}.generated"
+buildCache="gradleJvm${buildName}.generated"
 
 cat >tmp <<EOF
 project.buildDir="$buildDir"

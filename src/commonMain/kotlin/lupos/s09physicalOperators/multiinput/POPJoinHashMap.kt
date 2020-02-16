@@ -127,8 +127,6 @@ class POPJoinHashMap : POPBase {
         for (c in children)
             c.evaluate()
         runBlocking {
-
-
             joinHelper(0)
             joinHelper(1)
             if (optional) {
@@ -144,7 +142,6 @@ class POPJoinHashMap : POPBase {
                                 row[p.second] = rowA[p.first]
                             channel.send(row)
                         }
-                        map[1][k] = mutableListOf<ResultRow>()
                     }
                 }
             }

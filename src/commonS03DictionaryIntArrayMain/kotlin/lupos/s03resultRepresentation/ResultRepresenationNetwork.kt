@@ -6,9 +6,9 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.*
 import lupos.s09physicalOperators.POPBase
 
-
 object ResultRepresenationNetwork {
     fun toNetworkPackage(query: POPBase): ByteArray {
+	query.evaluate()
         val res = DynamicByteArray()
         val variableNames = query.resultSet.getVariableNames().toTypedArray()
         val variablesCount = variableNames.size
@@ -29,11 +29,9 @@ object ResultRepresenationNetwork {
             try {
                 var resultRow = query.channel.receive()
                 var newDictionaryMax = latestDictionaryMax
-                for (v in variables) {
-                    if (newDictionaryMax == null || ((!query.resultSet.isUndefValue(resultRow, v!!)) && resultRow[v!!] > newDictionaryMax)) {
+                for (v in variables) 
+                    if (newDictionaryMax == null || ((!query.resultSet.isUndefValue(resultRow, v!!)) && resultRow[v!!] > newDictionaryMax)) 
                         newDictionaryMax = resultRow[v!!]
-                    }
-                }
                 GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen a ${newDictionaryMax!! + 1}" })
                 res.appendInt(newDictionaryMax!! + 1)
                 for (v in 0 until newDictionaryMax!! + 1) {
@@ -51,10 +49,9 @@ object ResultRepresenationNetwork {
                 currentRowCounter++
                 for (resultRow in query.channel) {
                     newDictionaryMax = latestDictionaryMax!!
-                    for (v in variables) {
+                    for (v in variables) 
                         if ((!query.resultSet.isUndefValue(resultRow, v!!)) && resultRow[v!!] > newDictionaryMax!!)
                             newDictionaryMax = resultRow[v]
-                    }
                     if (newDictionaryMax != latestDictionaryMax) {
                         GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "override triplecount $currentRowCounter" })
                         res.setInt(currentRowCounter, posResultLen)
@@ -125,12 +122,8 @@ object ResultRepresenationNetwork {
         }
 
         override fun evaluate() {
-            for (c in children) {
-                c.evaluate()
-            }
             runBlocking {
                 while (true) {
-
                     if (rowsUntilNextDictionary == 0) {
                         val dictEntryCount = data.getNextInt()
                         GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read dictlen $dictEntryCount" })
@@ -157,6 +150,7 @@ object ResultRepresenationNetwork {
                     }
                     channel.send(row)
                 }
+		channel.close()
             }
         }
     }
