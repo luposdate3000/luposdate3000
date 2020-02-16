@@ -49,8 +49,8 @@ class POPServiceIRI : POPBase {
         return originalConstraint.getProvidedVariableNames()
     }
 
-    override fun evaluate() {
-        runBlocking {
+    override fun evaluate() = Trace.trace<Unit>({ "POPServiceIRI.evaluate" }, {
+        CoroutinesHelper.run {
             if (constraint == null) {
                 if (silent) {
                     val res = resultSet.createResultRow()
@@ -70,7 +70,7 @@ class POPServiceIRI : POPBase {
             }
             channel.close()
         }
-    }
+    })
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPServiceIRI")

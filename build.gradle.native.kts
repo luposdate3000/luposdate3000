@@ -50,7 +50,8 @@ kotlin {
         commonMain {
             kotlin.srcDir("src/nativeMain/kotlin")
             kotlin.srcDir("src/commonMain/kotlin")
-            kotlin.srcDir("src/commonS00TraceOn/kotlin")
+            kotlin.srcDir("src/commonS00ExecutionSequentialMain/kotlin")
+            kotlin.srcDir("src/commonS00TraceOnMain/kotlin")
             kotlin.srcDir("src/commonS01HeapMain/kotlin")
             kotlin.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
             kotlin.srcDir("src/commonS03DictionaryNoneMain/kotlin")

@@ -1,6 +1,8 @@
 ./tool-gradle-build-without-tests-jvm-all.sh
 
-for chooseS00Trace in "commonS00TraceOn" "commonS00TraceOff"
+for chooseS00Execution in "commonS00ExecutionSequentialMain"
+do
+for chooseS00Trace in "commonS00TraceOnMain" "commonS00TraceOffMain"
 do
 for chooseS03 in "commonS03DictionaryNoneMain" "commonS03DictionaryIntArrayMain"
 do
@@ -20,9 +22,9 @@ then
 fi
 fi
 
-buildName="${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}-${chooseS15}.generated"
-buildFile="build.gradle-${buildName}.jvm.generated"
-buildDir="buildJvm${buildName}.generated"
+buildName="${chooseS00Execution}-${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}-${chooseS15}.generated"
+buildFile="build.gradle-${buildName}"
+buildDir="buildJvm${buildName}"
 
 function execJvm
 {

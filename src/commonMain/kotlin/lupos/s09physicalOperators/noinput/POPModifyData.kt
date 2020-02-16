@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators.noinput
 
 import kotlinx.coroutines.*
+import lupos.s00misc.*
 import lupos.s00misc.EModifyType
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -18,8 +19,8 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
     override val children: Array<OPBase> = arrayOf()
     private var first = true
 
-    override fun evaluate() {
-        runBlocking {
+    override fun evaluate() = Trace.trace<Unit>({ "POPModifyData.evaluate" }, {
+        CoroutinesHelper.run {
             for (t in data) {
                 val store = DistributedTripleStore.getNamedGraph(t[3].first)
                 if (type == EModifyType.INSERT)
@@ -30,7 +31,7 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
             channel.send(resultSet.createResultRow())
             channel.close()
         }
-    }
+    })
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

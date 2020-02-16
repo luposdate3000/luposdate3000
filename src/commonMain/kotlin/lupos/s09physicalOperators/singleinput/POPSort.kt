@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators.singleinput
 
 import kotlinx.coroutines.*
+import lupos.s00misc.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -44,9 +45,9 @@ class POPSort : POPBase {
         return getProvidedVariableNames()
     }
 
-    override fun evaluate() {
+    override fun evaluate() = Trace.trace<Unit>({ "POPSort.evaluate" }, {
         children[0].evaluate()
-        runBlocking {
+        CoroutinesHelper.run {
             val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
             for (rsOld in children[0].channel) {
                 val rsNew = resultSet.createResultRow()
@@ -81,7 +82,7 @@ class POPSort : POPBase {
             channel.close()
             children[0].channel.close()
         }
-    }
+    })
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPSort")

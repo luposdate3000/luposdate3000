@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators.singleinput
 
 import kotlinx.coroutines.*
+import lupos.s00misc.*
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.Trace
@@ -75,9 +76,9 @@ class POPGroup : POPBase {
         return mutableListOf<String>()
     }
 
-    override fun evaluate() {
+    override fun evaluate() = Trace.trace<Unit>({ "POPGroup.evaluate" }, {
         children[0].evaluate()
-        runBlocking {
+        CoroutinesHelper.run {
             val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
             val variables = mutableListOf<Pair<Variable, Variable>>()
             for (v in by)
@@ -124,7 +125,7 @@ class POPGroup : POPBase {
             channel.close()
             children[0].channel.close()
         }
-    }
+    })
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPGroup")

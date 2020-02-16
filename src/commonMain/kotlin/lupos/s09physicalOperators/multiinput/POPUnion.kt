@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators.multiinput
 
 import kotlinx.coroutines.*
+import lupos.s00misc.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -49,10 +50,10 @@ class POPUnion : POPBase {
 
     }
 
-    override fun evaluate() {
+    override fun evaluate() = Trace.trace<Unit>({ "POPUnion.evaluate" }, {
         for (c in children)
             c.evaluate()
-        runBlocking {
+        CoroutinesHelper.run {
             for (idx in children.indices) {
                 val c = children[idx]
                 for (rsOld in c.channel) {
@@ -70,7 +71,7 @@ class POPUnion : POPBase {
             for (c in children)
                 c.channel.close()
         }
-    }
+    })
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPUnion")

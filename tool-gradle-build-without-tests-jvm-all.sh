@@ -1,6 +1,8 @@
 #!/bin/bash
 mkdir log
-for chooseS00Trace in "commonS00TraceOn" "commonS00TraceOff"
+for chooseS00Execution in "commonS00ExecutionSequentialMain"
+do
+for chooseS00Trace in "commonS00TraceOnMain" "commonS00TraceOffMain"
 do
 for chooseS03 in "commonS03DictionaryNoneMain" "commonS03DictionaryIntArrayMain"
 do
@@ -20,10 +22,10 @@ then
 fi
 fi
 
-buildName="${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}-${chooseS15}.generated"
-buildFile="build.gradle-${buildName}.jvm.generated"
-buildDir="buildJvm${buildName}.generated"
-buildCache="gradleJvm${buildName}.generated"
+buildName="${chooseS00Execution}-${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}-${chooseS15}.generated"
+buildFile="build.gradle-${buildName}"
+buildDir="buildJvm${buildName}"
+buildCache="gradleJvm${buildName}"
 
 cat >tmp <<EOF
 project.buildDir="$buildDir"
@@ -116,6 +118,7 @@ sourceSets {
     main.kotlin.srcDirs += 'src/commonMainBak/kotlin'
     main.kotlin.srcDirs += 'src/commonS01HeapMain'
     main.kotlin.srcDirs += 'src/commonS01BufferMainmemoryMain/kotlin'
+    main.kotlin.srcDirs += 'src/$chooseS00Execution/kotlin'
     main.kotlin.srcDirs += 'src/$chooseS00Trace/kotlin'
     main.kotlin.srcDirs += 'src/$chooseS03/kotlin'
     main.kotlin.srcDirs += 'src/$chooseS05/kotlin'

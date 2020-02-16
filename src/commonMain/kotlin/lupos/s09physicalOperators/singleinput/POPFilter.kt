@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators.singleinput
 
 import kotlinx.coroutines.*
+import lupos.s00misc.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -34,16 +35,16 @@ class POPFilter : POPBase {
         return filter.getRequiredVariableNames()
     }
 
-    override fun evaluate() {
+    override fun evaluate() = Trace.trace<Unit>({ "POPFilter.evaluate" }, {
         children[0].evaluate()
-        runBlocking {
+        CoroutinesHelper.run {
             for (nextRow in children[0].channel)
                 if (filter.evaluateBoolean(resultSet, nextRow))
                     channel.send(nextRow)
             channel.close()
             children[0].channel.close()
         }
-    }
+    })
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPFilter")

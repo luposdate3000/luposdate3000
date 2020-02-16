@@ -97,8 +97,8 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
         return mutableListOf<String>()
     }
 
-    override fun evaluate() {
-        runBlocking {
+    override fun evaluate() = Trace.trace<Unit>({ "TripleStoreIteratorGlobal.evaluate" }, {
+        CoroutinesHelper.run {
             for (nodeName in nodeNameIterator) {
                 val s = if (sFilter == null)
                     "s"
@@ -122,7 +122,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
             }
             channel.close()
         }
-    }
+    })
 
     override fun setMNameS(n: String) {
         sNew = resultSet.renameVariable(nameS, n)
@@ -247,7 +247,7 @@ class DistributedGraph(val name: String) {
         val kp = rs.createVariable("p")
         val ko = rs.createVariable("o")
         iterator.evaluate()
-        runBlocking {
+        CoroutinesHelper.run {
             for (v in iterator.channel) {
                 val s = rs.getValue(v[ks])
                 val p = rs.getValue(v[kp])

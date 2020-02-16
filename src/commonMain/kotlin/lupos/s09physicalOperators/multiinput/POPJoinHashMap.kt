@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators.multiinput
 
 import kotlinx.coroutines.*
+import lupos.s00misc.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -123,10 +124,10 @@ class POPJoinHashMap : POPBase {
         }
     }
 
-    override fun evaluate() {
+    override fun evaluate() = Trace.trace<Unit>({ "POPJoinHashMap.evaluate" }, {
         for (c in children)
             c.evaluate()
-        runBlocking {
+        CoroutinesHelper.run {
             joinHelper(0)
             joinHelper(1)
             if (optional) {
@@ -149,7 +150,7 @@ class POPJoinHashMap : POPBase {
             for (c in children)
                 c.channel.close()
         }
-    }
+    })
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPJoinHashMap")

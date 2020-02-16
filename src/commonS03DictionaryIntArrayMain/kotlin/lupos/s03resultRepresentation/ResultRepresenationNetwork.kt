@@ -122,7 +122,7 @@ object ResultRepresenationNetwork {
             return mutableListOf<String>()
         }
 
-        override fun evaluate() {
+        override fun evaluate() = Trace.trace<Unit>({ "POPImportFromNetworkPackage.evaluate" }, {
             runBlocking {
                 while (true) {
                     if (rowsUntilNextDictionary == 0) {
@@ -153,6 +153,6 @@ object ResultRepresenationNetwork {
                 }
                 channel.close()
             }
-        }
+        })
     }
 }

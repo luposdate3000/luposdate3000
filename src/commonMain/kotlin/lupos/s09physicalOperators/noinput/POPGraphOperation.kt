@@ -43,8 +43,8 @@ class POPGraphOperation : POPBase {
         return iri.iri
     }
 
-    override fun evaluate() {
-        runBlocking {
+    override fun evaluate() = Trace.trace<Unit>({ "POPGraphOperation.evaluate" }, {
+        CoroutinesHelper.run {
             try {
                 when (graphref1) {
                     is ASTAllGraphRef -> {
@@ -200,7 +200,7 @@ class POPGraphOperation : POPBase {
             channel.send(resultSet.createResultRow())
             channel.close()
         }
-    }
+    })
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

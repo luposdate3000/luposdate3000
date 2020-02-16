@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators.singleinput
 
 import kotlinx.coroutines.*
+import lupos.s00misc.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -44,9 +45,9 @@ class POPModify : POPBase {
         return POPExpression(dictionary, node).evaluate(children[0].resultSet, row)!!
     }
 
-    override fun evaluate() {
+    override fun evaluate() = Trace.trace<Unit>({ "POPModify.evaluate" }, {
         children[0].evaluate()
-        runBlocking {
+        CoroutinesHelper.run {
             for (row in children[0].channel) {
                 for (i in insert) {
                     try {
@@ -113,7 +114,7 @@ class POPModify : POPBase {
             channel.close()
             children[0].channel.close()
         }
-    }
+    })
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

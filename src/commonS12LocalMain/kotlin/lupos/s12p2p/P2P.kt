@@ -7,7 +7,6 @@ import com.soywiz.korio.net.URL
 import com.soywiz.korio.stream.*
 import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import lupos.s00misc.*
 import lupos.s00misc.parseFromXml
 import lupos.s02buildSyntaxTree.rdf.Dictionary

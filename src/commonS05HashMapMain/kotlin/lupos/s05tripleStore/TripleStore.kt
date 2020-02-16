@@ -49,8 +49,8 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
         oFilter = store.resultSet.createValue(o)
     }
 
-    override fun evaluate() {
-        runBlocking {
+    override fun evaluate() = Trace.trace<Unit>({ "TripleStoreIteratorLocalFilter.evaluate" }, {
+        CoroutinesHelper.run {
             for (value in iterator) {
                 val result = resultSet.createResultRow()
                 if (sFilter != null) {
@@ -72,7 +72,7 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
             }
             channel.close()
         }
-    }
+    })
 }
 
 open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
@@ -135,8 +135,8 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
         return mutableListOf<String>()
     }
 
-    override fun evaluate() {
-        runBlocking {
+    override fun evaluate() = Trace.trace<Unit>({ "TripleStoreIteratorLocal.evaluate" }, {
+        CoroutinesHelper.run {
             for (value in iterator) {
                 val result = resultSet.createResultRow()
                 result[sNew] = resultSet.createValue(store.resultSet.getValue(value[sOld]))
@@ -146,7 +146,7 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
             }
             channel.close()
         }
-    }
+    })
 }
 
 class TripleStoreLocal {

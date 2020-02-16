@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators.singleinput
 
 import kotlinx.coroutines.*
+import lupos.s00misc.*
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.Trace
@@ -54,9 +55,9 @@ class POPBind : POPBase {
         return expression.getRequiredVariableNames()
     }
 
-    override fun evaluate() {
+    override fun evaluate() = Trace.trace<Unit>({ "POPBind.evaluate" }, {
         children[0].evaluate()
-        runBlocking {
+        CoroutinesHelper.run {
             for (rsOld in children[0].channel) {
                 var rsNew = resultSet.createResultRow()
                 for (i in variablesOld.indices)
@@ -77,7 +78,7 @@ class POPBind : POPBase {
             channel.close()
             children[0].channel.close()
         }
-    }
+    })
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPBind")

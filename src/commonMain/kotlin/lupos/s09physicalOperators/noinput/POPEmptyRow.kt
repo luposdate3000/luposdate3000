@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators.noinput
 
 import kotlinx.coroutines.*
+import lupos.s00misc.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -22,12 +23,12 @@ class POPEmptyRow : POPBase {
         resultSet = ResultSet(dictionary)
     }
 
-    override fun evaluate() {
-        runBlocking {
+    override fun evaluate() = Trace.trace<Unit>({ "POPEmptyRow.evaluate" }, {
+        CoroutinesHelper.run {
             channel.send(resultSet.createResultRow())
             channel.close()
         }
-    }
+    })
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()

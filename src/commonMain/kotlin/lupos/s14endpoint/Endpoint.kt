@@ -71,12 +71,12 @@ class TripleInsertIterator : POPBase {
         return mutableListOf<String>()
     }
 
-    override fun evaluate() {
-        runBlocking {
+    override fun evaluate() = Trace.trace<Unit>({ "TripleInsertIterator.evaluate" }, {
+        CoroutinesHelper.run {
             channel.send(result)
             channel.close()
         }
-    }
+    })
 }
 
 fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {

@@ -1,7 +1,7 @@
 package lupos.s09physicalOperators.noinput
 
 import kotlinx.coroutines.*
-import lupos.s00misc.XMLElement
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -58,8 +58,8 @@ class POPImportFromXml : POPBase {
         }
     }
 
-    override fun evaluate() {
-        runBlocking {
+    override fun evaluate() = Trace.trace<Unit>({ "POPImportFromXml.evaluate" }, {
+        CoroutinesHelper.run {
             for (node in iterator!!) {
                 val result = resultSet.createResultRow()
                 for (v in node.childs) {
@@ -79,5 +79,5 @@ class POPImportFromXml : POPBase {
             }
             channel.close()
         }
-    }
+    })
 }

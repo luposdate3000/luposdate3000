@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators.singleinput.modifiers
 
 import kotlinx.coroutines.*
+import lupos.s00misc.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -38,9 +39,9 @@ class POPOffset : POPBase {
         return children[0].getRequiredVariableNames()
     }
 
-    override fun evaluate() {
+    override fun evaluate() = Trace.trace<Unit>({ "POPOffset.evaluate" }, {
         children[0].evaluate()
-        runBlocking {
+        CoroutinesHelper.run {
             var count = 0
             for (rsOld in children[0].channel) {
                 if (count >= offset) {
@@ -53,7 +54,7 @@ class POPOffset : POPBase {
             channel.close()
             children[0].channel.close()
         }
-    }
+    })
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPOffset")

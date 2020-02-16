@@ -1,6 +1,7 @@
 package lupos.s09physicalOperators.multiinput
 
 import kotlinx.coroutines.*
+import lupos.s00misc.*
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -57,10 +58,10 @@ class POPJoinNestedLoop : POPBase {
         }
     }
 
-    override fun evaluate() {
+    override fun evaluate() = Trace.trace<Unit>({ "POPJoinNestedLoop.evaluate" }, {
         for (c in children)
             c.evaluate()
-        runBlocking {
+        CoroutinesHelper.run {
             for (resultRowA in children[0].channel) {
                 for (resultRowB in children[1].channel) {
                     var joinVariableOk = true
@@ -97,7 +98,7 @@ class POPJoinNestedLoop : POPBase {
             for (c in children)
                 c.channel.close()
         }
-    }
+    })
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPJoinNestedLoop")
