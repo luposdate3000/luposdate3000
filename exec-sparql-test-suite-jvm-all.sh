@@ -6,15 +6,18 @@ for chooseS03 in "commonS03DictionaryNoneMain" "commonS03DictionaryIntArrayMain"
 do
 for chooseS05 in "commonS05HashMapMain"
 do
-for chooseS12 in "jvmS12DummyMain"
+for chooseS12 in "jvmS12DummyMain" "commonS12LocalMain"
 do
 for chooseS14 in "jvmS14KorioMain"
 do
 for chooseS15 in "commonS15LocalMain" "commonS15DistributedMain"
 do
-if [ "$chooseS03" == "commonS03DictionaryNoneMain" ] && [ "$chooseS12" == "jvmS12DummyMain" ]
+if [ "$chooseS12" != "commonS12LocalMain" ]
+then
+if [ "$chooseS03" == "commonS03DictionaryNoneMain" ] || [ "$chooseS15" == "commonS15DistributedMain" ]
 then
 	continue
+fi
 fi
 
 buildName="${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}-${chooseS15}.generated"
