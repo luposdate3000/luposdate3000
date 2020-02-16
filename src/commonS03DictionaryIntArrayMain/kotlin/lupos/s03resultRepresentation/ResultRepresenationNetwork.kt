@@ -27,59 +27,53 @@ object ResultRepresenationNetwork {
         var latestDictionaryMax: Value? = null
         var currentRowCounter = 0
         runBlocking {
-            try {
-                var resultRow = query.channel.receive()
+            var firstDict = true
+            for (resultRow in query.channel) {
                 var newDictionaryMax = latestDictionaryMax
                 for (v in variables)
-                    if (newDictionaryMax == null || ((!query.resultSet.isUndefValue(resultRow, v!!)) && resultRow[v!!] > newDictionaryMax))
-                        newDictionaryMax = resultRow[v!!]
-                GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen a ${newDictionaryMax!! + 1}" })
-                res.appendInt(newDictionaryMax!! + 1)
-                for (v in 0 until newDictionaryMax!! + 1) {
-                    GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValue(v)!!}" })
-                    res.appendString(query.resultSet.getValue(v)!!)
-                }
-                latestDictionaryMax = newDictionaryMax
-                currentRowCounter = 0
-                GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "space triplecount" })
-                posResultLen = res.appendSpace(4)
-                for (v in variables) {
-                    GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write triple ${query.resultSet.getValue(resultRow[v!!])}" })
-                    res.appendInt(resultRow[v!!])
-                }
-                currentRowCounter++
-                for (resultRow in query.channel) {
-                    newDictionaryMax = latestDictionaryMax!!
-                    for (v in variables)
-                        if ((!query.resultSet.isUndefValue(resultRow, v!!)) && resultRow[v!!] > newDictionaryMax!!)
-                            newDictionaryMax = resultRow[v]
-                    if (newDictionaryMax != latestDictionaryMax) {
-                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "override triplecount $currentRowCounter" })
+                    if ((!query.resultSet.isUndefValue(resultRow, v!!)) && (newDictionaryMax == null || resultRow[v!!] > newDictionaryMax!!))
+                        newDictionaryMax = resultRow[v]
+                if (newDictionaryMax == null || newDictionaryMax != latestDictionaryMax) {
+                    if (!firstDict) {
+                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "override triplecount a $currentRowCounter" })
                         res.setInt(currentRowCounter, posResultLen)
+                    }
+                    if (newDictionaryMax == null) {
+                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen a 0" })
+                        res.appendInt(0)
+                    } else if (latestDictionaryMax == null) {
+                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen b ${newDictionaryMax!! + 1}" })
+                        res.appendInt(newDictionaryMax!! + 1)
+                        for (v in 0 until newDictionaryMax!! + 1) {
+                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValue(v)!!}" })
+                            res.appendString(query.resultSet.getValue(v)!!)
+                        }
+                    } else {
                         GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictlen c ${newDictionaryMax!! - latestDictionaryMax!!}" })
                         res.appendInt(newDictionaryMax!! - latestDictionaryMax!!)
                         for (v in latestDictionaryMax!! + 1 until newDictionaryMax!! + 1) {
                             GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write dictentry ${query.resultSet.getValue(v)!!}" })
                             res.appendString(query.resultSet.getValue(v)!!)
                         }
-                        currentRowCounter = 0
-                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "space triplecount" })
-                        posResultLen = res.appendSpace(4)
-                        latestDictionaryMax = newDictionaryMax
                     }
-                    for (v in variables) {
-                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write triple ${query.resultSet.getValue(resultRow[v!!])}" })
-                        res.appendInt(resultRow[v!!])
-                    }
-                    currentRowCounter++
+                    currentRowCounter = 0
+                    GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "space triplecount" })
+                    posResultLen = res.appendSpace(4)
+                    firstDict = false
+                    latestDictionaryMax = newDictionaryMax
                 }
-                GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "override triplecount $currentRowCounter" })
-                res.setInt(currentRowCounter, posResultLen)
-            } catch (e: Throwable) {
+                for (v in variables) {
+                    GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write triple ${query.resultSet.getValue(resultRow[v!!])}" })
+                    res.appendInt(resultRow[v!!])
+                }
+                currentRowCounter++
             }
+if (!firstDict) {
+            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "override triplecount b $currentRowCounter" })
+            res.setInt(currentRowCounter, posResultLen)
+}
         }
-        GlobalLogger.log(ELoggerType.BINARY_ENCODING,
-                { "write dictlen d 0" })
+        GlobalLogger.log(ELoggerType.BINARY_ENCODING,               { "write dictlen d 0" })
         res.appendInt(0)
         return res.finish()
     }

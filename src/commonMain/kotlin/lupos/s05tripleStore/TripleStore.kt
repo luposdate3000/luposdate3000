@@ -75,7 +75,7 @@ class PersistentStoreLocal {
     }
 
     fun getDefaultGraph(): TripleStoreLocal {
-        return getNamedGraph(defaultGraphName)
+        return getNamedGraph(defaultGraphName, true)
     }
 
     fun commit(transactionID: Long) {
