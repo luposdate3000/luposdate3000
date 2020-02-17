@@ -100,10 +100,4 @@ sourceSets {
     main.kotlin.srcDirs += 'src/jvmS12DummyMain/kotlin'
     main.kotlin.srcDirs += 'src/jvmS14KorioMain/kotlin'
     main.kotlin.srcDirs += 'src/commonS15DistributedMain/kotlin'
-//    main.kotlin.srcDirs += 'src/jvmS11DummyMain/kotlin'
 }
-//test {
-//    testLogging {
-//        events "failed", "skipped", "passed"
-//    }
-//}
