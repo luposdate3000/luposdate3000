@@ -1,6 +1,6 @@
 #!/bin/bash
 mkdir log
-for chooseS00Execution in "commonS00ExecutionSequentialMain"
+for chooseS00Execution in "commonS00ExecutionSequentialMain" "commonS00ExecutionParallelMain"
 do
 for chooseS00Trace in "commonS00TraceOnMain" "commonS00TraceOffMain"
 do
@@ -14,6 +14,10 @@ for chooseS14 in "jvmS14KorioMain"
 do
 for chooseS15 in "commonS15LocalMain" "commonS15DistributedMain"
 do
+if [ "$chooseS00Execution" == "commonS00ExecutionParallelMain" ] && [ "$chooseS00Trace" == "commonS00TraceOnMain" ]
+then
+	continue
+fi
 if [ "$chooseS12" == "commonS12LocalMain" ]
 then
 if [ "$chooseS15" == "commonS15DistributedMain" ]

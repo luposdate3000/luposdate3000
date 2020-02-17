@@ -1,6 +1,5 @@
 package lupos.s03resultRepresentation
 
-import kotlinx.coroutines.sync.Mutex
 import lupos.s00misc.*
 
 
@@ -8,7 +7,7 @@ class ResultSetDictionary() {
     val mapSTL = mutableMapOf<String, Value>()
     val mapLTS = mutableListOf<String>()
     val undefValue = Value.MAX_VALUE
-    val mutex = Mutex()
+    val mutex = CoroutinesHelper.createLock()
     fun createValue(value: String): Value {
         var res: Value = undefValue
         CoroutinesHelper.runBlockWithLock(mutex, {
