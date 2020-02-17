@@ -160,12 +160,12 @@ class TripleStoreLocal {
     val tripleStore = Array(EIndexPattern.values().size) { it -> ThreadSafeMutableSet<ResultRow>() }
     val name: String
 
-    val pendingModifications = Array(EIndexPattern.values().size) { it -> mutableMapOf<Long, MutableSet<Pair<EModifyType, ResultRow>>>() }
+    val pendingModifications = Array(EIndexPattern.values().size) { it -> ThreadSafeMutableMap<Long, ThreadSafeMutableSet<Pair<EModifyType, ResultRow>>>() }
 
     fun modifyData(transactionID: Long, vals: Value, valp: Value, valo: Value, action: EModifyType, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.modifyData" }, {
         var tmp = pendingModifications[idx.ordinal][transactionID]
         if (tmp == null) {
-            tmp = mutableSetOf<Pair<EModifyType, ResultRow>>()
+            tmp = ThreadSafeMutableSet<Pair<EModifyType, ResultRow>>()
             pendingModifications[idx.ordinal][transactionID] = tmp
         }
         val r = resultSet.createResultRow()
@@ -189,7 +189,7 @@ class TripleStoreLocal {
         EIndexPattern.values().forEach {
             val tmp = pendingModifications[it.ordinal][transactionID]
             if (tmp != null) {
-                for (m in tmp) {
+		tmp.forEach{m->
                     when (m.first) {
                         EModifyType.INSERT -> tripleStore[it.ordinal].add(m.second)
                         EModifyType.DELETE -> tripleStore[it.ordinal].remove(m.second)

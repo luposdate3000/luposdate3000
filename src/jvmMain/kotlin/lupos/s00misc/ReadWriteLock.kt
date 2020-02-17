@@ -9,15 +9,6 @@ class ReadWriteLock() {
     val allowNewWrites = Mutex()
     var readers = 0L
 
-    inline fun addAndGet(value: Long): Long {
-        var res = 0L
-        synchronized(readers) {
-            readers += value
-            res = readers
-        }
-        return res
-    }
-
     inline suspend fun <T> withReadLockSuspend(crossinline action: suspend () -> T): T {
         try {
             allowNewReads.lock()
@@ -29,23 +20,23 @@ class ReadWriteLock() {
         try {
             return action()
         } finally {
-try {
-            allowNewReads.lock()
-            if (--readers == 0L)
-                allowNewWrites.unlock()
-} finally {
-            allowNewReads.unlock()
-        }
+            try {
+                allowNewReads.lock()
+                if (--readers == 0L)
+                    allowNewWrites.unlock()
+            } finally {
+                allowNewReads.unlock()
+            }
         }
     }
 
     inline suspend fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
-            try {
-                allowNewWrites.lock()
-                return action()
-            } finally {
-                allowNewWrites.unlock()
-            }
+        try {
+            allowNewWrites.lock()
+            return action()
+        } finally {
+            allowNewWrites.unlock()
+        }
     }
 
     inline fun <T> withReadLock(crossinline action: suspend CoroutineScope.() -> T): T {

@@ -2,36 +2,38 @@ package lupos.s00misc
 
 
 class ThreadSafeMutableMap<k, v>() {
-    val map = mutableMapOf<k, v>()
+    val values = mutableMapOf<k, v>()
     val mutex = ReadWriteLock()
 
     fun clear() = mutex.withWriteLock {
-        map.clear()
+        values.clear()
     }
 
     operator fun get(key: k): v? {
         var res: v? = null
         mutex.withReadLock {
-            res = map[key]
+            res = values[key]
         }
         return res
     }
 
     operator fun set(key: k, value: v) = mutex.withWriteLock {
-        map[key] = value
+        values[key] = value
     }
 
-     fun remove( key:k) = mutex.withWriteLock {
-        map.remove(key)
+    fun remove(key: k) = mutex.withWriteLock {
+        values.remove(key)
     }
 
     fun forEach(action: (k, v) -> Unit) = mutex.withReadLock {
-        map.forEach(action)
+        values.forEach(action)
     }
+
     fun forEachKey(action: (k) -> Unit) = mutex.withReadLock {
-        map.keys.forEach(action)
+        values.keys.forEach(action)
     }
+
     fun forEachValue(action: (v) -> Unit) = mutex.withReadLock {
-        map.values.forEach(action)
+        values.values.forEach(action)
     }
 }

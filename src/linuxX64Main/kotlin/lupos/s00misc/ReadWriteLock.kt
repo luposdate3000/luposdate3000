@@ -15,7 +15,7 @@ import platform.posix.pthread_mutex_unlock
 class ReadWriteLock {
     val allowNewReads = cValue<pthread_mutex_t>()
     val allowNewWrites = cValue<pthread_mutex_t>()
-    var readers = AtomicLong(0L)
+    var readers = AtomicReference(0L.freeze())
 
     constructor() {
         pthread_mutex_init(allowNewReads, null)
@@ -25,7 +25,8 @@ class ReadWriteLock {
     inline suspend fun <T> withReadLockSuspend(crossinline action: suspend () -> T): T {
         try {
             pthread_mutex_lock(allowNewReads)
-            if (readers.addAndGet(1) == 1L)
+            readers.value = (readers.value + 1).freeze()
+            if (readers.value == 1L)
                 pthread_mutex_lock(allowNewWrites)
         } finally {
             pthread_mutex_unlock(allowNewReads)
@@ -33,22 +34,23 @@ class ReadWriteLock {
         try {
             return action()
         } finally {
-            if (readers.addAndGet(-1) == 0L)
-                pthread_mutex_unlock(allowNewWrites)
+            try {
+                pthread_mutex_lock(allowNewReads)
+                readers.value = (readers.value - 1).freeze()
+                if (readers.value == 0L)
+                    pthread_mutex_unlock(allowNewWrites)
+            } finally {
+                pthread_mutex_unlock(allowNewReads)
+            }
         }
     }
 
     inline suspend fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
         try {
-            pthread_mutex_lock(allowNewReads)
-            try {
-                pthread_mutex_lock(allowNewWrites)
-                return action()
-            } finally {
-                pthread_mutex_unlock(allowNewWrites)
-            }
+            pthread_mutex_lock(allowNewWrites)
+            return action()
         } finally {
-            pthread_mutex_unlock(allowNewReads)
+            pthread_mutex_unlock(allowNewWrites)
         }
     }
 

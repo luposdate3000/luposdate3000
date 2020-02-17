@@ -4,8 +4,8 @@ import lupos.s00misc.*
 
 
 class ResultSetDictionary() {
-    val mapSTL = mutableMapOf<String, Value>()
-    val mapLTS = mutableListOf<String>()
+    val mapSTL = ThreadSafeMutableMap<String, Value>()
+    val mapLTS = ThreadSafeMutableList<String>()
     val undefValue = Value.MAX_VALUE
     val mutex = CoroutinesHelper.createLock()
     fun createValue(value: String): Value {
@@ -15,7 +15,7 @@ class ResultSetDictionary() {
             if (o != null)
                 res = o
             else {
-                val l = mapLTS.size
+                val l = mapLTS.size()
                 mapSTL[value] = l
                 mapLTS.add(value)
                 res = l

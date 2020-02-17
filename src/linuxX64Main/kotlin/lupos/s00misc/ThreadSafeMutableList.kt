@@ -54,4 +54,12 @@ class ThreadSafeMutableList<T> {
             global_values.value.forEach(action)
         }
     }
+
+    operator fun get(key: Int): T? {
+        var value: T? = null
+        mutex.withReadLock {
+            value = global_values.value[key]
+        }
+        return value
+    }
 }

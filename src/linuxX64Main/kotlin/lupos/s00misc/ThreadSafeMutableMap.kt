@@ -21,13 +21,13 @@ class ThreadSafeMutableMap<k, v>() {
 
     operator fun set(key: k, value: v) = mutex.withWriteLock {
         val values = global_values.value.toMutableMap()
-        values[key]=value
+        values[key] = value
         global_values.value = values.freeze()
     }
 
-    fun remove( key: k) = mutex.withWriteLock {
+    fun remove(key: k) = mutex.withWriteLock {
         val values = global_values.value.toMutableMap()
-        values.remove( key)
+        values.remove(key)
         global_values.value = values.freeze()
     }
 
@@ -38,11 +38,11 @@ class ThreadSafeMutableMap<k, v>() {
     }
 
     fun forEachKey(action: (k) -> Unit) = mutex.withReadLock {
-        global_values.value.keys.forEach (action)
+        global_values.value.keys.forEach(action)
     }
 
     fun forEachValue(action: (v) -> Unit) = mutex.withReadLock {
-        global_values.value.values.forEach (action)
+        global_values.value.values.forEach(action)
     }
 
     operator fun get(key: k): v? {

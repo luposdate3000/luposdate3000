@@ -24,16 +24,17 @@ class PersistentStoreLocal {
         private val global_transactionID = ThreadSafeUuid()
 
     }
-        fun nextTransactionID(): Long {
-            return global_transactionID.next()
-        }
+
+    fun nextTransactionID(): Long {
+        return global_transactionID.next()
+    }
 
     fun getGraphNames(includeDefault: Boolean = false): List<String> {
         val res = mutableListOf<String>()
-stores.forEachKey{t->
+        stores.forEachKey { t ->
             if (t != defaultGraphName || includeDefault)
                 res.add(t)
-}
+        }
         return res
     }
 
@@ -75,7 +76,7 @@ stores.forEachKey{t->
     }
 
     fun commit(transactionID: Long) {
-stores.forEachValue{v->
+        stores.forEachValue { v ->
             v.commit2(transactionID)
         }
     }
