@@ -21,7 +21,7 @@ class ReadWriteLock() {
     inline suspend fun <T> withReadLockSuspend(crossinline action: suspend () -> T): T {
         try {
             allowNewReads.lock()
-            if (addAndGet(1) == 1L)
+            if (++readers == 1L)
                 allowNewWrites.lock()
         } finally {
             allowNewReads.unlock()
@@ -29,23 +29,23 @@ class ReadWriteLock() {
         try {
             return action()
         } finally {
-            if (addAndGet(-1) == 0L)
+try {
+            allowNewReads.lock()
+            if (--readers == 0L)
                 allowNewWrites.unlock()
+} finally {
+            allowNewReads.unlock()
+        }
         }
     }
 
     inline suspend fun <T> withWriteLockSuspend(crossinline action: suspend () -> T): T {
-        try {
-            allowNewReads.lock()
             try {
                 allowNewWrites.lock()
                 return action()
             } finally {
                 allowNewWrites.unlock()
             }
-        } finally {
-            allowNewReads.unlock()
-        }
     }
 
     inline fun <T> withReadLock(crossinline action: suspend CoroutineScope.() -> T): T {
