@@ -1,6 +1,5 @@
 package lupos.s05tripleStore
 
-import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType

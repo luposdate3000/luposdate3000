@@ -1,7 +1,5 @@
 package lupos.s00misc
 
-import lupos.s03resultRepresentation.Variable
-import lupos.s09physicalOperators.POPBase
 
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)

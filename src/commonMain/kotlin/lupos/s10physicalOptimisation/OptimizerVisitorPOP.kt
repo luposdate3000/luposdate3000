@@ -27,7 +27,6 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s09physicalOperators.singleinput.POPTemporaryStore
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 abstract class OptimizerVisitorPOP(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerVisitorLOP(transactionID, dictionary) {

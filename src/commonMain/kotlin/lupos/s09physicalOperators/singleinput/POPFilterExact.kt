@@ -3,7 +3,6 @@ package lupos.s09physicalOperators.singleinput
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value

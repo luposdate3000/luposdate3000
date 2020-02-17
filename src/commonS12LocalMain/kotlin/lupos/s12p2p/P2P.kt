@@ -1,24 +1,15 @@
 package lupos.s12p2p
 
-import com.soywiz.korio.net.http.createHttpClient
-import com.soywiz.korio.net.http.Http
-import com.soywiz.korio.net.http.HttpClient
-import com.soywiz.korio.net.URL
-import kotlin.concurrent.thread
-import kotlinx.coroutines.delay
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.parseFromXml
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPEmptyRow
-import lupos.s09physicalOperators.noinput.POPImportFromXml
 import lupos.s09physicalOperators.POPBase
 import lupos.s14endpoint.Endpoint
-import lupos.s14endpoint.EndpointImpl
 import lupos.testMain
 
 

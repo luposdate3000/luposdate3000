@@ -15,7 +15,6 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
-import lupos.s05tripleStore.TripleStoreLocal
 import lupos.s12p2p.P2P
 
 

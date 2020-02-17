@@ -1,6 +1,5 @@
 package lupos.s11outputResult
 
-import kotlinx.coroutines.runBlocking
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Variable
