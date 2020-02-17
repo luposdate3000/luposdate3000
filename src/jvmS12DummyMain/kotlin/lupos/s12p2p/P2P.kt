@@ -7,13 +7,12 @@ import com.soywiz.korio.net.URL
 import com.soywiz.korio.stream.AsyncStream
 import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.parseFromXml
-import lupos.s00misc.Trace
+import lupos.s00misc.*
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.ResultRepresenationNetwork
@@ -58,7 +57,7 @@ object P2P {
         val pending = pendingModifications[transactionID]
         if (pending != null) {
             for ((node, data) in pending) {
-                runBlocking {
+                CoroutinesHelper.runBlock {
                     retryRequestPost("http://${resolveNodeName(node)}${EndpointImpl.REQUEST_BINARY[0]}", data.finish())
                 }
             }
@@ -69,7 +68,7 @@ object P2P {
         synchronized(knownClients) {
             knownClients.forEach {
                 if (it != EndpointImpl.fullname) {
-                    runBlocking {
+                    CoroutinesHelper.runBlock {
                         retryRequestGet("http://${resolveNodeName(it)}${EndpointImpl.REQUEST_COMMIT[0]}" +//
                                 "?${EndpointImpl.REQUEST_COMMIT[1]}=${URL.encodeComponent("" + transactionID)}")
                     }
@@ -81,7 +80,7 @@ object P2P {
 
     fun execInsertOnNamedNode(nodeName: String, data: XMLElement) = Trace.trace({ "P2P.execInsertOnNamedNode" }, {
         /*insert "data" on remote node - if it exist - otherwiese throw an exception*/
-        runBlocking {
+        CoroutinesHelper.runBlock {
             retryRequestGet("http://${resolveNodeName(nodeName)}${EndpointImpl.REQUEST_XML_INPUT[0]}" +//
                     "?EndpointImpl.REQUEST_XML_INPUT[1]=${URL.encodeComponent(data.toPrettyString())}")
         }
@@ -99,7 +98,7 @@ object P2P {
     fun execOnNamedNode(dictionary: ResultSetDictionary, transactionID: Long, nodeName: String, pop: OPBase): OPBase = Trace.trace({ "P2P.execOnNamedNode" }, {
         /*execute "pop" on remote node - if it exist - otherwiese throw an exception*/
         var res: POPBase = POPEmptyRow(dictionary)
-        runBlocking {
+        CoroutinesHelper.runBlock {
             val response = retryRequestGet("http://${resolveNodeName(nodeName)}${EndpointImpl.REQUEST_OPERATOR_QUERY[0]}" +//
                     "?EndpointImpl.REQUEST_OPERATOR_QUERY[1]=${URL.encodeComponent(pop.toXMLElement().toPrettyString())}")
             val xml = response.readAllString()
@@ -114,7 +113,7 @@ object P2P {
         synchronized(knownClients) {
             knownClients.forEach {
                 if (it != EndpointImpl.fullname) {
-                    runBlocking {
+                    CoroutinesHelper.runBlock {
                         retryRequestGet("http://${resolveNodeName(it)}${EndpointImpl.REQUEST_GRAPH_CLEAR_ALL[0]}")
                     }
                 }
@@ -131,7 +130,7 @@ object P2P {
         synchronized(knownClients) {
             knownClients.forEach {
                 if (it != EndpointImpl.fullname) {
-                    runBlocking {
+                    CoroutinesHelper.runBlock {
                         retryRequestGet("http://${resolveNodeName(it)}${EndpointImpl.REQUEST_GRAPH_OPERATION[0]}" +//
                                 "?${EndpointImpl.REQUEST_GRAPH_OPERATION[1]}=${URL.encodeComponent(name)}" +//
                                 "&${EndpointImpl.REQUEST_GRAPH_OPERATION[2]}=${URL.encodeComponent("" + type)}")
@@ -158,7 +157,7 @@ object P2P {
                     "&${EndpointImpl.REQUEST_TRIPLE_GET[7]}=${URL.encodeComponent("" + pv)}" +//
                     "&${EndpointImpl.REQUEST_TRIPLE_GET[8]}=${URL.encodeComponent("" + ov)}" +//
                     "&${EndpointImpl.REQUEST_TRIPLE_GET[9]}=${URL.encodeComponent("" + idx)}"
-            runBlocking {
+            CoroutinesHelper.runBlock {
                 val response = retryRequestGet("http://${resolveNodeName(node)}$req")
                 var responseBytes = response.readAllBytes()
                 res = ResultRepresenationNetwork.fromNetworkPackage(dictionary, responseBytes)
@@ -183,7 +182,7 @@ object P2P {
                     "&${EndpointImpl.REQUEST_TRIPLE_DELETE[7]}=${URL.encodeComponent("" + data[1].second)}" +//
                     "&${EndpointImpl.REQUEST_TRIPLE_DELETE[8]}=${URL.encodeComponent("" + data[2].second)}" +//
                     "&${EndpointImpl.REQUEST_TRIPLE_DELETE[9]}=${URL.encodeComponent("" + idx)}"
-            runBlocking {
+            CoroutinesHelper.runBlock {
                 retryRequestGet("http://${resolveNodeName(node)}$req")
             }
         }

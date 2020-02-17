@@ -38,7 +38,6 @@ repositories {
             "https://kotlin.bintray.com/kotlinx"
     )
 }
-//https://github.com/JetBrains/kotlin-native/blob/master/GRADLE_PLUGIN.md
 kotlin {
     project.buildDir = file("buildNative")
     linuxX64("linuxX64") {

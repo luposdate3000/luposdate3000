@@ -7,12 +7,11 @@ import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
-import lupos.s00misc.Trace
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultRepresenationNetwork
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s12p2p.P2P
@@ -150,7 +149,7 @@ object EndpointImpl {
     }
 }
 
-fun main(args: Array<String>) = runBlocking {
+fun main(args: Array<String>) = CoroutinesHelper.runBlock {
     var i = 0
     var bootStrapServer: String? = null
     for (a in args) {

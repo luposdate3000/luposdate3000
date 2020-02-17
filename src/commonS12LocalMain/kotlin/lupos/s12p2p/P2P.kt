@@ -2,7 +2,7 @@ package lupos.s12p2p
 
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.Trace
+import lupos.s00misc.*
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -14,7 +14,7 @@ import lupos.testMain
 
 
 object P2P {
-    val knownClients = mutableListOf<String>()
+    val knownClients = ThreadSafeMutableList<String>()
     fun execCommit(transactionID: Long) = Trace.trace({ "P2P.execCommit" }, {
         Endpoint.process_local_commit(transactionID)
     })
