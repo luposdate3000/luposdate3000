@@ -47,76 +47,76 @@ class POPModify : POPBase {
     override fun evaluate() = Trace.trace<Unit>({ "POPModify.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
-try{
-            for (row in children[0].channel) {
-                for (i in insert) {
-                    try {
-                        when (i) {
-                            is ASTTriple -> {
-                                val store = DistributedTripleStore.getDefaultGraph()
-                                val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
-                                store.addData(transactionID, data)
-                            }
-                            is ASTGraph -> {
-                                val name = if (i.iriOrVar is ASTIri) 
-                                    i.iriOrVar.iri
-                                 else 
-                                    children[0].resultSet.getValue(row[children[0].resultSet.createVariable((i.iriOrVar as ASTVar).name)])!!
-				val store=DistributedTripleStore.getNamedGraph(name,true)
-                                for (c in i.children) {
-                                    when (c) {
-                                        is ASTTriple -> {
-                                            val data = listOf<String?>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
-                                            store.addData(transactionID, data)
+            try {
+                for (row in children[0].channel) {
+                    for (i in insert) {
+                        try {
+                            when (i) {
+                                is ASTTriple -> {
+                                    val store = DistributedTripleStore.getDefaultGraph()
+                                    val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
+                                    store.addData(transactionID, data)
+                                }
+                                is ASTGraph -> {
+                                    val name = if (i.iriOrVar is ASTIri)
+                                        i.iriOrVar.iri
+                                    else
+                                        children[0].resultSet.getValue(row[children[0].resultSet.createVariable((i.iriOrVar as ASTVar).name)])!!
+                                    val store = DistributedTripleStore.getNamedGraph(name, true)
+                                    for (c in i.children) {
+                                        when (c) {
+                                            is ASTTriple -> {
+                                                val data = listOf<String?>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
+                                                store.addData(transactionID, data)
+                                            }
+                                            else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
                                         }
-                                        else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
                                     }
                                 }
+                                else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
                             }
-                            else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
-                        }
-                    } catch (e: Throwable) {
+                        } catch (e: Throwable) {
 //ignore unbound variables
+                        }
                     }
-                }
-                for (i in delete) {
-                    try {
-                        when (i) {
-                            is ASTTriple -> {
-                                val store = DistributedTripleStore.getDefaultGraph()
-                                val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
-                                store.deleteData(transactionID, data)
-                            }
-                            is ASTGraph -> {
-                                val name = if (i.iriOrVar is ASTIri) 
-                                    i.iriOrVar.iri
-                                 else 
-                                    children[0].resultSet.getValue(row[children[0].resultSet.createVariable((i.iriOrVar as ASTVar).name)])!!
-				val store=DistributedTripleStore.getNamedGraph(name,false)
-                                for (c in i.children) {
-                                    when (c) {
-                                        is ASTTriple -> {
-                                            val data = listOf<String?>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
-                                            store.deleteData(transactionID, data)
+                    for (i in delete) {
+                        try {
+                            when (i) {
+                                is ASTTriple -> {
+                                    val store = DistributedTripleStore.getDefaultGraph()
+                                    val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
+                                    store.deleteData(transactionID, data)
+                                }
+                                is ASTGraph -> {
+                                    val name = if (i.iriOrVar is ASTIri)
+                                        i.iriOrVar.iri
+                                    else
+                                        children[0].resultSet.getValue(row[children[0].resultSet.createVariable((i.iriOrVar as ASTVar).name)])!!
+                                    val store = DistributedTripleStore.getNamedGraph(name, false)
+                                    for (c in i.children) {
+                                        when (c) {
+                                            is ASTTriple -> {
+                                                val data = listOf<String?>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
+                                                store.deleteData(transactionID, data)
+                                            }
+                                            else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
                                         }
-                                        else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
                                     }
                                 }
+                                else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
                             }
-                            else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
-                        }
-                    } catch (e: Throwable) {
+                        } catch (e: Throwable) {
 //ignore unbound variables
+                        }
                     }
+                    channel.send(resultSet.createResultRow())
                 }
-                channel.send(resultSet.createResultRow())
+                channel.close()
+                children[0].channel.close()
+            } catch (e: Throwable) {
+                channel.close(e)
+                children[0].channel.close(e)
             }
-            channel.close()
-            children[0].channel.close()
-}catch(e:Throwable){
-            channel.close(e)
-            children[0].channel.close(e)
-}
         }
     })
 

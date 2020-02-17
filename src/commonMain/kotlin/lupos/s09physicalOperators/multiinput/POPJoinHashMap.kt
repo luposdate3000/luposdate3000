@@ -127,33 +127,33 @@ class POPJoinHashMap : POPBase {
         for (c in children)
             c.evaluate()
         CoroutinesHelper.run {
-try{
-            joinHelper(0)
-            joinHelper(1)
-            if (optional) {
-                for ((k, v) in map[0]) {
-                    if (map[1][k] == null) {
-                        for (rowA in v) {
-                            val row = resultSet.createResultRow()
-                            for (p in variables[1])
-                                resultSet.setUndefValue(row, p.second)
-                            for (p in variables[0])
-                                row[p.second] = rowA[p.first]
-                            for (p in variablesJ[0])
-                                row[p.second] = rowA[p.first]
-                            channel.send(row)
+            try {
+                joinHelper(0)
+                joinHelper(1)
+                if (optional) {
+                    for ((k, v) in map[0]) {
+                        if (map[1][k] == null) {
+                            for (rowA in v) {
+                                val row = resultSet.createResultRow()
+                                for (p in variables[1])
+                                    resultSet.setUndefValue(row, p.second)
+                                for (p in variables[0])
+                                    row[p.second] = rowA[p.first]
+                                for (p in variablesJ[0])
+                                    row[p.second] = rowA[p.first]
+                                channel.send(row)
+                            }
                         }
                     }
                 }
+                channel.close()
+                for (c in children)
+                    c.channel.close()
+            } catch (e: Throwable) {
+                channel.close(e)
+                for (c in children)
+                    c.channel.close(e)
             }
-            channel.close()
-            for (c in children)
-                c.channel.close()
-}catch(e:Throwable){
-            channel.close(e)
-            for (c in children)
-                c.channel.close(e)
-}
         }
     })
 

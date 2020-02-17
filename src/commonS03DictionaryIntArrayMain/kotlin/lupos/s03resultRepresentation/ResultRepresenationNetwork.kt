@@ -122,38 +122,38 @@ object ResultRepresenationNetwork {
 
         override fun evaluate() = Trace.trace<Unit>({ "POPImportFromNetworkPackage.evaluate" }, {
             runBlocking {
-try{
-                while (true) {
-                    if (rowsUntilNextDictionary == 0) {
-                        val dictEntryCount = data.getNextInt()
-                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read dictlen $dictEntryCount" })
-                        if (dictEntryCount == 0)
-                            break
-                        for (i in 0 until dictEntryCount) {
-                            val s = data.getNextString()
-                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read dictentry $s" })
-                            variableMap.add(dictionary.createValue(s))
+                try {
+                    while (true) {
+                        if (rowsUntilNextDictionary == 0) {
+                            val dictEntryCount = data.getNextInt()
+                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read dictlen $dictEntryCount" })
+                            if (dictEntryCount == 0)
+                                break
+                            for (i in 0 until dictEntryCount) {
+                                val s = data.getNextString()
+                                GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read dictentry $s" })
+                                variableMap.add(dictionary.createValue(s))
+                            }
+                            rowsUntilNextDictionary = data.getNextInt()
+                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read triplecount $rowsUntilNextDictionary" })
                         }
-                        rowsUntilNextDictionary = data.getNextInt()
-                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read triplecount $rowsUntilNextDictionary" })
+                        val row = resultSet.createResultRow()
+                        rowsUntilNextDictionary--
+                        for (v in variables) {
+                            val l = data.getNextInt()
+                            val i = if (l > variableMap.size)
+                                l
+                            else
+                                variableMap[l]
+                            GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read triple ${dictionary.getValue(i)}" })
+                            row[v] = i
+                        }
+                        channel.send(row)
                     }
-                    val row = resultSet.createResultRow()
-                    rowsUntilNextDictionary--
-                    for (v in variables) {
-                        val l = data.getNextInt()
-                        val i = if (l > variableMap.size)
-                            l
-                        else
-                            variableMap[l]
-                        GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read triple ${dictionary.getValue(i)}" })
-                        row[v] = i
-                    }
-                    channel.send(row)
+                    channel.close()
+                } catch (e: Throwable) {
+                    channel.close(e)
                 }
-                channel.close()
-}catch(e:Throwable){
-                channel.close(e)
-}
             }
         })
     }

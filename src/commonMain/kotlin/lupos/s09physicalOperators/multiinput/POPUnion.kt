@@ -53,28 +53,28 @@ class POPUnion : POPBase {
         for (c in children)
             c.evaluate()
         CoroutinesHelper.run {
-try{
-            for (idx in children.indices) {
-                val c = children[idx]
-                for (rsOld in c.channel) {
-                    val rsNew = resultSet.createResultRow()
-                    for (p in variablesOldMissing[idx]) {
-                        resultSet.setUndefValue(rsNew, p)
+            try {
+                for (idx in children.indices) {
+                    val c = children[idx]
+                    for (rsOld in c.channel) {
+                        val rsNew = resultSet.createResultRow()
+                        for (p in variablesOldMissing[idx]) {
+                            resultSet.setUndefValue(rsNew, p)
+                        }
+                        for (p in variablesOld[idx]) {
+                            rsNew[p.second] = rsOld[p.first]
+                        }
+                        channel.send(rsNew)
                     }
-                    for (p in variablesOld[idx]) {
-                        rsNew[p.second] = rsOld[p.first]
-                    }
-                    channel.send(rsNew)
                 }
+                channel.close()
+                for (c in children)
+                    c.channel.close()
+            } catch (e: Throwable) {
+                channel.close(e)
+                for (c in children)
+                    c.channel.close(e)
             }
-            channel.close()
-            for (c in children)
-                c.channel.close()
-}catch(e:Throwable){
-            channel.close(e)
-            for (c in children)
-                c.channel.close(e)
-}
         }
     })
 

@@ -1,11 +1,11 @@
 package lupos
 
+import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.readFileContents
 import lupos.s00misc.Trace
-import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
@@ -393,9 +393,9 @@ fun parseSPARQLAndEvaluate(//
             var xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)
             val transactionID = DistributedTripleStore.nextTransactionID()
             val dictionary = ResultSetDictionary()
-CoroutinesHelper.runBlock{
-            DistributedTripleStore.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
-}
+            CoroutinesHelper.runBlock {
+                DistributedTripleStore.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
+            }
             DistributedTripleStore.commit(transactionID)
             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test InputData Graph[] ::" + xmlQueryInput!!.first()!!.toPrettyString() })
         }
@@ -407,9 +407,9 @@ CoroutinesHelper.runBlock{
             var xmlQueryInput = XMLElement.parseFromAny(inputData!!, it["filename"]!!)
             val transactionID = DistributedTripleStore.nextTransactionID()
             val dictionary = ResultSetDictionary()
-CoroutinesHelper.runBlock{
-            DistributedTripleStore.getNamedGraph(it["name"]!!, true).addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
-}
+            CoroutinesHelper.runBlock {
+                DistributedTripleStore.getNamedGraph(it["name"]!!, true).addData(transactionID, POPImportFromXml(dictionary, xmlQueryInput!!.first()))
+            }
             DistributedTripleStore.commit(transactionID)
             GlobalLogger.log(ELoggerType.TEST_RESULT, { "test Input Graph[${it["name"]!!}] :: " + xmlQueryInput!!.first()!!.toPrettyString() })
         }

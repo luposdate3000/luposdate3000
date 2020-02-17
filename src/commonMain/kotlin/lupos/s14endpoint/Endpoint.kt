@@ -73,12 +73,12 @@ class TripleInsertIterator : POPBase {
 
     override fun evaluate() = Trace.trace<Unit>({ "TripleInsertIterator.evaluate" }, {
         CoroutinesHelper.run {
-try{
-            channel.send(result)
-            channel.close()
-}catch(e:Throwable){
-            channel.close(e)
-}
+            try {
+                channel.send(result)
+                channel.close()
+            } catch (e: Throwable) {
+                channel.close(e)
+            }
         }
     })
 }
@@ -87,9 +87,9 @@ fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
     val triple = ID_Triple(triple_s, triple_p, triple_o)
     val transactionID = DistributedTripleStore.nextTransactionID()
     val dictionary = ResultSetDictionary()
-CoroutinesHelper.runBlock{
-    DistributedTripleStore.getDefaultGraph().addData(transactionID, TripleInsertIterator(dictionary, triple))
-}
+    CoroutinesHelper.runBlock {
+        DistributedTripleStore.getDefaultGraph().addData(transactionID, TripleInsertIterator(dictionary, triple))
+    }
     DistributedTripleStore.commit(transactionID)
 }
 
@@ -148,9 +148,9 @@ object Endpoint {
     fun process_xml_input(data: String): XMLElement = Trace.trace({ "Endpoint.process_xml_input" }, {
         val transactionID = DistributedTripleStore.nextTransactionID()
         val dictionary = ResultSetDictionary()
-CoroutinesHelper.runBlock{
-        DistributedTripleStore.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, XMLElement.parseFromXml(data)!!.first()))
-}
+        CoroutinesHelper.runBlock {
+            DistributedTripleStore.getDefaultGraph().addData(transactionID, POPImportFromXml(dictionary, XMLElement.parseFromXml(data)!!.first()))
+        }
         DistributedTripleStore.commit(transactionID)
         return XMLElement("done")
     })

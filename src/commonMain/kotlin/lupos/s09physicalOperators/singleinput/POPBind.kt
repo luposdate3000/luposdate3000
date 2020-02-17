@@ -57,30 +57,30 @@ class POPBind : POPBase {
     override fun evaluate() = Trace.trace<Unit>({ "POPBind.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
-try{
-            for (rsOld in children[0].channel) {
-                var rsNew = resultSet.createResultRow()
-                for (i in variablesOld.indices)
-                    rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
-                try {
-                    val value = expression.evaluate(children[0].resultSet, rsOld)
-                    if (value == null)
+            try {
+                for (rsOld in children[0].channel) {
+                    var rsNew = resultSet.createResultRow()
+                    for (i in variablesOld.indices)
+                        rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
+                    try {
+                        val value = expression.evaluate(children[0].resultSet, rsOld)
+                        if (value == null)
+                            resultSet.setUndefValue(rsNew, variableBound)
+                        else
+                            rsNew[variableBound] = resultSet.createValue(value)
+                    } catch (e: Throwable) {
                         resultSet.setUndefValue(rsNew, variableBound)
-                    else
-                        rsNew[variableBound] = resultSet.createValue(value)
-                } catch (e: Throwable) {
-                    resultSet.setUndefValue(rsNew, variableBound)
-                    GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
-                    GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
+                        GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
+                        GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
+                    }
+                    channel.send(rsNew)
                 }
-                channel.send(rsNew)
+                channel.close()
+                children[0].channel.close()
+            } catch (e: Throwable) {
+                channel.close(e)
+                children[0].channel.close(e)
             }
-            channel.close()
-            children[0].channel.close()
-}catch(e:Throwable){ 
-           channel.close(e)
-            children[0].channel.close(e)
-}
         }
     })
 

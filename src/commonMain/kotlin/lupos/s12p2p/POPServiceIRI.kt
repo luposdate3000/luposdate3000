@@ -52,28 +52,28 @@ class POPServiceIRI : POPBase {
 
     override fun evaluate() = Trace.trace<Unit>({ "POPServiceIRI.evaluate" }, {
         CoroutinesHelper.run {
-try{
-            if (constraint == null) {
-                if (silent) {
-                    val res = resultSet.createResultRow()
-                    for (n in getProvidedVariableNames())
-                        resultSet.setUndefValue(res, resultSet.createVariable(n))
-                    channel.send(res)
-                }
-            } else {
-                constraint.evaluate()
-                for (value in constraint.channel) {
-                    val res = resultSet.createResultRow()
-                    for (n in variables) {
-                        res[n.first] = resultSet.createValue(constraint.resultSet.getValue(value[n.second]))
+            try {
+                if (constraint == null) {
+                    if (silent) {
+                        val res = resultSet.createResultRow()
+                        for (n in getProvidedVariableNames())
+                            resultSet.setUndefValue(res, resultSet.createVariable(n))
+                        channel.send(res)
                     }
-                    channel.send(res)
+                } else {
+                    constraint.evaluate()
+                    for (value in constraint.channel) {
+                        val res = resultSet.createResultRow()
+                        for (n in variables) {
+                            res[n.first] = resultSet.createValue(constraint.resultSet.getValue(value[n.second]))
+                        }
+                        channel.send(res)
+                    }
                 }
+                channel.close()
+            } catch (e: Throwable) {
+                channel.close(e)
             }
-            channel.close()
-}catch(e:Throwable){
-            channel.close(e)
-}
         }
     })
 

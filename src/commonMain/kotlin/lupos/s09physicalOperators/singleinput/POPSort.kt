@@ -47,44 +47,44 @@ class POPSort : POPBase {
     override fun evaluate() = Trace.trace<Unit>({ "POPSort.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
-try{
-            val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
-            for (rsOld in children[0].channel) {
-                val rsNew = resultSet.createResultRow()
-                var key: String = ""
-                for (variable in variables) {
-                    rsNew[variable.first] = rsOld[variable.second]
-                    if (variable.first == sortBy) {
-                        val tmp = children[0].resultSet.getValue(rsOld[variable.second])
-                        if (tmp == null)
-                            key = ""
-                        else
-                            key = tmp
+            try {
+                val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
+                for (rsOld in children[0].channel) {
+                    val rsNew = resultSet.createResultRow()
+                    var key: String = ""
+                    for (variable in variables) {
+                        rsNew[variable.first] = rsOld[variable.second]
+                        if (variable.first == sortBy) {
+                            val tmp = children[0].resultSet.getValue(rsOld[variable.second])
+                            if (tmp == null)
+                                key = ""
+                            else
+                                key = tmp
+                        }
                     }
+                    var tmp = tmpMutableMap[key]
+                    if (tmp == null) {
+                        tmp = mutableListOf<ResultRow>()
+                        tmpMutableMap[key] = tmp
+                    }
+                    tmp.add(rsNew)
                 }
-                var tmp = tmpMutableMap[key]
-                if (tmp == null) {
-                    tmp = mutableListOf<ResultRow>()
-                    tmpMutableMap[key] = tmp
+                val allKeys = Array<String>(tmpMutableMap.keys.size) { "" }
+                var i = 0
+                for (k in tmpMutableMap.keys) {
+                    allKeys[i] = k
+                    i++
                 }
-                tmp.add(rsNew)
+                allKeys.sort()
+                for (k in allKeys)
+                    for (c in tmpMutableMap[k]!!)
+                        channel.send(c)
+                channel.close()
+                children[0].channel.close()
+            } catch (e: Throwable) {
+                channel.close(e)
+                children[0].channel.close(e)
             }
-            val allKeys = Array<String>(tmpMutableMap.keys.size) { "" }
-            var i = 0
-            for (k in tmpMutableMap.keys) {
-                allKeys[i] = k
-                i++
-            }
-            allKeys.sort()
-            for (k in allKeys)
-                for (c in tmpMutableMap[k]!!)
-                    channel.send(c)
-            channel.close()
-            children[0].channel.close()
-}catch(e:Throwable){
-            channel.close(e)
-            children[0].channel.close(e)
-}
         }
     })
 

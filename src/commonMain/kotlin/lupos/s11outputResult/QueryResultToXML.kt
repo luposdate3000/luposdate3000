@@ -1,7 +1,7 @@
 package lupos.s11outputResult
 
-import lupos.s00misc.CoroutinesHelper
 import kotlinx.coroutines.runBlocking
+import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.Variable
 import lupos.s09physicalOperators.POPBase
@@ -19,15 +19,15 @@ object QueryResultToXML {
         val variables = mutableListOf<Pair<String, Variable>>()
         if (variableNames.size == 1 && variableNames[0] == "?boolean") {
             CoroutinesHelper.runBlock {
-println("block a start")
+                println("block a start")
                 for (resultRow in query.channel) {
                     val value = query.resultSet.getValue(resultRow[query.resultSet.createVariable("?boolean")])!!
                     val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
                     require(value.endsWith("\"^^<" + datatype + ">"))
                     nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<" + datatype + ">").length)))
-			query.channel.close()
+                    query.channel.close()
                 }
-println("block a end")
+                println("block a end")
             }
         } else {
             val nodeResults = XMLElement("results")
@@ -37,9 +37,9 @@ println("block a end")
                 variables.add(Pair(variableName, query.resultSet.createVariable(variableName)))
             }
             CoroutinesHelper.runBlock {
-println("block b start")
+                println("block b start")
                 for (resultRow in query.channel) {
-println("QueryResultToXML received row")
+                    println("QueryResultToXML received row")
                     val nodeResult = XMLElement("result")
                     nodeResults.addContent(nodeResult)
                     for (variable in variables) {
@@ -73,7 +73,7 @@ println("QueryResultToXML received row")
                         }
                     }
                 }
-println("block b end")
+                println("block b end")
             }
         }
         return res

@@ -73,18 +73,18 @@ class POPValues : POPBase {
 
     override fun evaluate() = Trace.trace<Unit>({ "POPValues.evaluate" }, {
         CoroutinesHelper.run {
-try{
-            for (rsOld in iterator) {
-                var rsNew = resultSet.createResultRow()
-                for ((variable, value) in rsOld)
-                    rsNew[variable] = value
-                channel.send(rsNew)
+            try {
+                for (rsOld in iterator) {
+                    var rsNew = resultSet.createResultRow()
+                    for ((variable, value) in rsOld)
+                        rsNew[variable] = value
+                    channel.send(rsNew)
+                }
+                channel.close()
+            } catch (e: Throwable) {
+                channel.close(e)
             }
-            channel.close()
-}catch(e:Throwable){
-            channel.close(e)
-}        
-}
+        }
     })
 
     override fun toXMLElement(): XMLElement {

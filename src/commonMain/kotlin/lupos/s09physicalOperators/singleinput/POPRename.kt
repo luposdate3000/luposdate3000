@@ -76,20 +76,20 @@ class POPRename : POPBase {
     override fun evaluate() = Trace.trace<Unit>({ "POPRename.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
-try{
-            for (rsOld in children[0].channel) {
-                var rsNew = resultSet.createResultRow()
-                for (i in variablesNew.indices) {
-                    rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
+            try {
+                for (rsOld in children[0].channel) {
+                    var rsNew = resultSet.createResultRow()
+                    for (i in variablesNew.indices) {
+                        rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
+                    }
+                    channel.send(rsNew)
                 }
-                channel.send(rsNew)
+                channel.close()
+                children[0].channel.close()
+            } catch (e: Throwable) {
+                channel.close(e)
+                children[0].channel.close(e)
             }
-            channel.close()
-            children[0].channel.close()
-}catch(e:Throwable){
-            channel.close(e)
-            children[0].channel.close(e)
-}
         }
     })
 

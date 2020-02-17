@@ -61,28 +61,28 @@ class POPImportFromXml : POPBase {
 
     override fun evaluate() = Trace.trace<Unit>({ "POPImportFromXml.evaluate" }, {
         CoroutinesHelper.run {
-try{
-            for (node in iterator!!) {
-                val result = resultSet.createResultRow()
-                for (v in node.childs) {
-                    val name = v.attributes["name"]
-                    val child = v.childs.first()
-                    val content = cleanString(child.content)
-                    val value = when {
-                        child.tag == "uri" -> "<" + content + ">"
-                        child.tag == "literal" && child.attributes["datatype"] != null -> "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
-                        child.tag == "literal" && child.attributes["xml:lang"] != null -> "\"" + content + "\"@" + child.attributes["xml:lang"]
-                        child.tag == "bnode" -> "_:" + content
-                        else -> "\"" + content + "\""
+            try {
+                for (node in iterator!!) {
+                    val result = resultSet.createResultRow()
+                    for (v in node.childs) {
+                        val name = v.attributes["name"]
+                        val child = v.childs.first()
+                        val content = cleanString(child.content)
+                        val value = when {
+                            child.tag == "uri" -> "<" + content + ">"
+                            child.tag == "literal" && child.attributes["datatype"] != null -> "\"" + content + "\"^^<" + child.attributes["datatype"] + ">"
+                            child.tag == "literal" && child.attributes["xml:lang"] != null -> "\"" + content + "\"@" + child.attributes["xml:lang"]
+                            child.tag == "bnode" -> "_:" + content
+                            else -> "\"" + content + "\""
+                        }
+                        result[variables[name]!!] = resultSet.createValue(value)
                     }
-                    result[variables[name]!!] = resultSet.createValue(value)
+                    channel.send(result)
                 }
-                channel.send(result)
+                channel.close()
+            } catch (e: Throwable) {
+                channel.close(e)
             }
-            channel.close()
-}catch(e:Throwable){
-            channel.close(e)
-}
         }
     })
 }

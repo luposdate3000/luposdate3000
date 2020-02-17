@@ -78,56 +78,56 @@ class POPGroup : POPBase {
     override fun evaluate() = Trace.trace<Unit>({ "POPGroup.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
-try{
-            val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
-            val variables = mutableListOf<Pair<Variable, Variable>>()
-            for (v in by)
-                variables.add(Pair(resultSet.createVariable(v.name), children[0].resultSet.createVariable(v.name)))
-            for (rsOld in children[0].channel) {
-                var key: String = "|"
-                for (variable in variables)
-                    key = key + children[0].resultSet.getValue(rsOld[variable.second]) + "|"
-                var tmp = tmpMutableMap[key]
-                if (tmp == null) {
-                    tmp = mutableListOf<ResultRow>()
-                    tmpMutableMap[key] = tmp
-                }
-                tmp.add(rsOld)
-            }
-            if (tmpMutableMap.keys.size == 0) {
-                val rsNew = resultSet.createResultRow()
-                for (b in variables)
-                    resultSet.setUndefValue(rsNew, b.first)
-                for (b in bindings)
-                    resultSet.setUndefValue(rsNew, b.first)
-                channel.send(rsNew)
-            }
-            for (k in tmpMutableMap.keys) {
-                val rsOld = tmpMutableMap[k]!!.first()
-                val rsNew = resultSet.createResultRow()
-                for (variable in variables)
-                    rsNew[variable.first] = rsOld[variable.second]
-                for (b in bindings) {
-                    try {
-                        val value = b.second.evaluate(children[0].resultSet, tmpMutableMap[k]!!)
-                        if (value == null)
-                            resultSet.setUndefValue(rsNew, b.first)
-                        else
-                            rsNew[b.first] = resultSet.createValue(value)
-                    } catch (e: Throwable) {
-                        resultSet.setUndefValue(rsNew, b.first)
-                        GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
-                        GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
+            try {
+                val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
+                val variables = mutableListOf<Pair<Variable, Variable>>()
+                for (v in by)
+                    variables.add(Pair(resultSet.createVariable(v.name), children[0].resultSet.createVariable(v.name)))
+                for (rsOld in children[0].channel) {
+                    var key: String = "|"
+                    for (variable in variables)
+                        key = key + children[0].resultSet.getValue(rsOld[variable.second]) + "|"
+                    var tmp = tmpMutableMap[key]
+                    if (tmp == null) {
+                        tmp = mutableListOf<ResultRow>()
+                        tmpMutableMap[key] = tmp
                     }
+                    tmp.add(rsOld)
                 }
-                channel.send(rsNew)
+                if (tmpMutableMap.keys.size == 0) {
+                    val rsNew = resultSet.createResultRow()
+                    for (b in variables)
+                        resultSet.setUndefValue(rsNew, b.first)
+                    for (b in bindings)
+                        resultSet.setUndefValue(rsNew, b.first)
+                    channel.send(rsNew)
+                }
+                for (k in tmpMutableMap.keys) {
+                    val rsOld = tmpMutableMap[k]!!.first()
+                    val rsNew = resultSet.createResultRow()
+                    for (variable in variables)
+                        rsNew[variable.first] = rsOld[variable.second]
+                    for (b in bindings) {
+                        try {
+                            val value = b.second.evaluate(children[0].resultSet, tmpMutableMap[k]!!)
+                            if (value == null)
+                                resultSet.setUndefValue(rsNew, b.first)
+                            else
+                                rsNew[b.first] = resultSet.createValue(value)
+                        } catch (e: Throwable) {
+                            resultSet.setUndefValue(rsNew, b.first)
+                            GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
+                            GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
+                        }
+                    }
+                    channel.send(rsNew)
+                }
+                channel.close()
+                children[0].channel.close()
+            } catch (e: Throwable) {
+                channel.close(e)
+                children[0].channel.close(e)
             }
-            channel.close()
-            children[0].channel.close()
-}catch(e:Throwable){
-            channel.close(e)
-            children[0].channel.close(e)
-}
         }
     })
 

@@ -53,20 +53,20 @@ class POPBindUndefined : POPBase {
     override fun evaluate() = Trace.trace<Unit>({ "POPBindUndefined.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
-try{
-            for (rsOld in children[0].channel) {
-                var rsNew = resultSet.createResultRow()
-                for (i in variablesOld.indices)
-                    rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
-                resultSet.setUndefValue(rsNew, variableBound)
-                channel.send(rsNew)
+            try {
+                for (rsOld in children[0].channel) {
+                    var rsNew = resultSet.createResultRow()
+                    for (i in variablesOld.indices)
+                        rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
+                    resultSet.setUndefValue(rsNew, variableBound)
+                    channel.send(rsNew)
+                }
+                channel.close()
+                children[0].channel.close()
+            } catch (e: Throwable) {
+                channel.close(e)
+                children[0].channel.close(e)
             }
-            channel.close()
-            children[0].channel.close()
-}catch(e:Throwable){
-            channel.close(e)
-            children[0].channel.close(e)
-}
         }
     })
 

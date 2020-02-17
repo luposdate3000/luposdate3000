@@ -37,16 +37,16 @@ class POPFilter : POPBase {
     override fun evaluate() = Trace.trace<Unit>({ "POPFilter.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
-try{
-            for (nextRow in children[0].channel)
-                if (filter.evaluateBoolean(resultSet, nextRow))
-                    channel.send(nextRow)
-            channel.close()
-            children[0].channel.close()
-}catch(e:Throwable){
-            channel.close(e)
-            children[0].channel.close(e)
-}
+            try {
+                for (nextRow in children[0].channel)
+                    if (filter.evaluateBoolean(resultSet, nextRow))
+                        channel.send(nextRow)
+                channel.close()
+                children[0].channel.close()
+            } catch (e: Throwable) {
+                channel.close(e)
+                children[0].channel.close(e)
+            }
         }
     })
 

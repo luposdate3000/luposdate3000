@@ -61,47 +61,47 @@ class POPJoinNestedLoop : POPBase {
         for (c in children)
             c.evaluate()
         CoroutinesHelper.run {
-try{
-            for (resultRowA in children[0].channel) {
-                for (resultRowB in children[1].channel) {
-                    var joinVariableOk = true
-                    var rsNew = resultSet.createResultRow()
-                    for (p in variablesOldA) {
-                        // TODO reuse resultSet
-                        rsNew[p.second] = resultRowA!![p.first]
-                    }
-                    for (p in variablesOldB) {
-                        // TODO reuse resultSet
-                        rsNew[p.second] = resultRowB[p.first]
-                    }
-                    for (p in variablesOldJ) {
-                        // TODO reuse resultSet
-                        val a = children[0].resultSet.getValue(resultRowA!![p.first.first])
-                        val b = children[1].resultSet.getValue(resultRowB[p.first.second])
-                        if (a != b && (!children[0].resultSet.isUndefValue(resultRowA!!, p.first.first)) && (!children[1].resultSet.isUndefValue(resultRowB, p.first.second))) {
-                            joinVariableOk = false
-                            break
+            try {
+                for (resultRowA in children[0].channel) {
+                    for (resultRowB in children[1].channel) {
+                        var joinVariableOk = true
+                        var rsNew = resultSet.createResultRow()
+                        for (p in variablesOldA) {
+                            // TODO reuse resultSet
+                            rsNew[p.second] = resultRowA!![p.first]
                         }
-                        if (children[0].resultSet.isUndefValue(resultRowA!!, p.first.first))
-                            rsNew[p.second] = resultSet.createValue(b)
-                        else
-                            rsNew[p.second] = resultSet.createValue(a)
+                        for (p in variablesOldB) {
+                            // TODO reuse resultSet
+                            rsNew[p.second] = resultRowB[p.first]
+                        }
+                        for (p in variablesOldJ) {
+                            // TODO reuse resultSet
+                            val a = children[0].resultSet.getValue(resultRowA!![p.first.first])
+                            val b = children[1].resultSet.getValue(resultRowB[p.first.second])
+                            if (a != b && (!children[0].resultSet.isUndefValue(resultRowA!!, p.first.first)) && (!children[1].resultSet.isUndefValue(resultRowB, p.first.second))) {
+                                joinVariableOk = false
+                                break
+                            }
+                            if (children[0].resultSet.isUndefValue(resultRowA!!, p.first.first))
+                                rsNew[p.second] = resultSet.createValue(b)
+                            else
+                                rsNew[p.second] = resultSet.createValue(a)
+                        }
+                        if (!joinVariableOk)
+                            continue
+                        hadMatchForA = true
+                        channel.send(rsNew)
                     }
-                    if (!joinVariableOk)
-                        continue
-                    hadMatchForA = true
-                    channel.send(rsNew)
+                    (children[1] as POPTemporaryStore).reset()
                 }
-                (children[1] as POPTemporaryStore).reset()
+                channel.close()
+                for (c in children)
+                    c.channel.close()
+            } catch (e: Throwable) {
+                channel.close(e)
+                for (c in children)
+                    c.channel.close(e)
             }
-            channel.close()
-            for (c in children)
-                c.channel.close()
-}catch(e:Throwable){
-            channel.close(e)
-            for (c in children)
-                c.channel.close(e)
-}
         }
     })
 
