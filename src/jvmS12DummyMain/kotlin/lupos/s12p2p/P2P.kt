@@ -7,12 +7,12 @@ import com.soywiz.korio.net.URL
 import com.soywiz.korio.stream.AsyncStream
 import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
+import lupos.s00misc.*
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.parseFromXml
-import lupos.s00misc.*
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.ResultRepresenationNetwork

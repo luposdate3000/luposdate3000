@@ -7,11 +7,11 @@ import kotlin.concurrent.thread
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import lupos.s00misc.*
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
-import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultRepresenationNetwork
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s12p2p.P2P

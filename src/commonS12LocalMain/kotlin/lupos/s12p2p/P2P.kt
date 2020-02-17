@@ -1,8 +1,8 @@
 package lupos.s12p2p
 
+import lupos.s00misc.*
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
-import lupos.s00misc.*
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.ResultSetDictionary

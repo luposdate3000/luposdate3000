@@ -1,7 +1,7 @@
 package lupos.s14endpoint
 
-object EndpointImpl{
-    val fullname="localhost:80"
+object EndpointImpl {
+    val fullname = "localhost:80"
     val REQUEST_BINARY = arrayOf("/binary")
     val REQUEST_TRIPLE_ADD = arrayOf("/triple/add", "graph", "id", "s", "p", "o", "idx")
     val REQUEST_TRIPLE_GET = arrayOf("/triple/get", "graph", "id", "s", "p", "o", "sv", "pv", "ov", "idx")
@@ -17,5 +17,5 @@ object EndpointImpl{
     val REQUEST_PEERS_JOIN = arrayOf("/peers/join", "hostname")
     val REQUEST_PEERS_JOIN_INTERNAL = arrayOf("/peers/join_internal", "hostname")
     val REQUEST_PEERS_SELF_TEST = arrayOf("/peers/self_test")
-    val REQUEST_OPERATOR_QUERY = arrayOf("operator/query", "query") 
+    val REQUEST_OPERATOR_QUERY = arrayOf("operator/query", "query")
 }

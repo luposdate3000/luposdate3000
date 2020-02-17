@@ -1,38 +1,43 @@
 package lupos.s00misc
 
-
 class ThreadSafeMutableList<T>() {
-    val list = mutableListOf<T>()
-
+    val values = mutableListOf<T>()
+    val mutex = ReadWriteLock()
     fun forEach(action: (T) -> Unit) {
-        synchronized(list) {
-            list.forEach(action)
+        mutex.withReadLock {
+            values.forEach(action)
         }
     }
 
     fun size(): Int {
-        return list.size
+        var res: Int = 0
+        mutex.withReadLock {
+            res = values.size
+        }
+        return res
     }
 
     fun isEmpty(): Boolean {
-        return size() == 0
+        var res = false
+        mutex.withReadLock {
+            res = size() == 0
+        }
+        return res
     }
 
     fun lastOrNull(): T? {
-        synchronized(list) {
-            return list.lastOrNull()
+        var res: T? = null
+        mutex.withReadLock {
+            res = values.lastOrNull()
         }
+        return res
     }
 
-    fun add(value: T) {
-        synchronized(list) {
-            list.add(value)
-        }
+    fun add(value: T) = mutex.withWriteLock {
+        values.add(value)
     }
 
-    fun removeAt(idx: Int) {
-        synchronized(list) {
-            list.removeAt(idx)
-        }
+    fun removeAt(idx: Int) = mutex.withWriteLock {
+        values.removeAt(idx)
     }
 }

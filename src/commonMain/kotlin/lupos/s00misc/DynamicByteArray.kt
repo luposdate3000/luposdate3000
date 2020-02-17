@@ -1,7 +1,6 @@
 package lupos.s00misc
 
 
-
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class DynamicByteArray {
     var data: ByteArray
