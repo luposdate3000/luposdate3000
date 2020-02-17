@@ -39,19 +39,19 @@ class ThreadSafeMutableSet<T>() {
     }
 
     fun add(value: T) = mutex.withWriteLock {
-        val values = global_values.value
+        val values = global_values.value.toMutableSet()
         values.add(value)
         global_values.value = values.freeze()
     }
 
     fun remove(value: T) = mutex.withWriteLock {
-        val values = global_values.value
+        val values = global_values.value.toMutableSet()
         values.remove(value)
         global_values.value = values.freeze()
     }
 
     fun clear() = mutex.withWriteLock {
-        val values = global_values.value
+        val values = global_values.value.toMutableSet()
         values.clear()
         global_values.value = values.freeze()
     }

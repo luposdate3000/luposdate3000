@@ -1,6 +1,6 @@
 package lupos.s05tripleStore
 
-import lupos.s00misc.ELoggerType
+import lupos.s00misc.*
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s09physicalOperators.POPBase
@@ -18,22 +18,22 @@ abstract class POPTripleStoreIteratorBase() : POPBase() {
 
 class PersistentStoreLocal {
     val defaultGraphName = ""
+    val stores = ThreadSafeMutableMap<String, TripleStoreLocal>()
 
     companion object {
         private val global_transactionID = ThreadSafeUuid()
-    }
 
-    fun nextTransactionID(): Long {
-        return global_transactionID.next()
     }
-
-    val stores = mutableMapOf<String, TripleStoreLocal>()
+        fun nextTransactionID(): Long {
+            return global_transactionID.next()
+        }
 
     fun getGraphNames(includeDefault: Boolean = false): List<String> {
         val res = mutableListOf<String>()
-        for (t in stores.keys)
+stores.forEachKey{t->
             if (t != defaultGraphName || includeDefault)
                 res.add(t)
+}
         return res
     }
 
@@ -53,18 +53,14 @@ class PersistentStoreLocal {
     }
 
     fun dropGraph(name: String) {
-        GlobalLogger.log(ELoggerType.DEBUG, { "PersistentStoreLocal.dropGraph $name b ${stores.keys} a" })
         require(name != defaultGraphName)
         if (stores[name] == null)
             throw Exception("PersistentStore.dropGraph :: graph[$name] did not exist")
         stores.remove(name)
-        GlobalLogger.log(ELoggerType.DEBUG, { "PersistentStoreLocal.dropGraph $name b ${stores.keys} b" })
     }
 
     fun clearGraph(name: String) {
-        GlobalLogger.log(ELoggerType.DEBUG, { "PersistentStoreLocal.clearGraph $name a ${stores.keys}" })
         getNamedGraph(name).clear()
-        GlobalLogger.log(ELoggerType.DEBUG, { "PersistentStoreLocal.clearGraph $name b ${stores.keys}" })
     }
 
     fun getNamedGraph(name: String, create: Boolean = false): TripleStoreLocal {
@@ -79,7 +75,7 @@ class PersistentStoreLocal {
     }
 
     fun commit(transactionID: Long) {
-        for (v in stores.values) {
+stores.forEachValue{v->
             v.commit2(transactionID)
         }
     }
