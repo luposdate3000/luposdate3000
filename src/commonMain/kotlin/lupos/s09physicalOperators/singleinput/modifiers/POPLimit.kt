@@ -42,6 +42,7 @@ class POPLimit : POPBase {
     override fun evaluate() = Trace.trace<Unit>({ "POPLimit.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
+try{
             var count = 0
             for (rsOld in children[0].channel) {
                 var rsNew = resultSet.createResultRow()
@@ -54,6 +55,10 @@ class POPLimit : POPBase {
             }
             channel.close()
             children[0].channel.close()
+}catch(e:Throwable){
+            channel.close(e)
+            children[0].channel.close(e)
+}
         }
     })
 

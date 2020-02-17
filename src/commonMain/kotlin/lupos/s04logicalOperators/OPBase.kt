@@ -18,7 +18,9 @@ abstract class OPBase {
     abstract val resultSet: ResultSet
 
     abstract val children: Array<OPBase>
+
     abstract fun evaluate()
+
     open fun toString(indentation: String): String = "${indentation}${classNameToString(this)}\n"
 
     companion object {

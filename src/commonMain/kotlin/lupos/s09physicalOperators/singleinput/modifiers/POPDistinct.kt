@@ -40,6 +40,7 @@ class POPDistinct : POPBase {
     override fun evaluate() = Trace.trace<Unit>({ "POPDistinct.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
+try{
             val tmpMutableMap = mutableMapOf<String, ResultRow>()
             for (rsOld in children[0].channel) {
                 val rsNew = resultSet.createResultRow()
@@ -54,6 +55,10 @@ class POPDistinct : POPBase {
                 channel.send(tmpMutableMap[k]!!)
             channel.close()
             children[0].channel.close()
+}catch(e:Throwable){
+            channel.close(e)
+            children[0].channel.close(e)
+}
         }
     })
 

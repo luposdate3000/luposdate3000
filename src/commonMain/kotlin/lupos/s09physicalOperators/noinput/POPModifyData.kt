@@ -20,6 +20,7 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
 
     override fun evaluate() = Trace.trace<Unit>({ "POPModifyData.evaluate" }, {
         CoroutinesHelper.run {
+try{
             for (t in data) {
                 if (type == EModifyType.INSERT) {
                     val store = DistributedTripleStore.getNamedGraph(t[3].first, true)
@@ -31,7 +32,10 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
             }
             channel.send(resultSet.createResultRow())
             channel.close()
+}catch(e:Throwable){
+            channel.close(e)
         }
+}
     })
 
     override fun getProvidedVariableNames(): List<String> {

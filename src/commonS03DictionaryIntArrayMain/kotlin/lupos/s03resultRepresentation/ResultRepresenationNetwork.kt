@@ -122,6 +122,7 @@ object ResultRepresenationNetwork {
 
         override fun evaluate() = Trace.trace<Unit>({ "POPImportFromNetworkPackage.evaluate" }, {
             runBlocking {
+try{
                 while (true) {
                     if (rowsUntilNextDictionary == 0) {
                         val dictEntryCount = data.getNextInt()
@@ -150,6 +151,9 @@ object ResultRepresenationNetwork {
                     channel.send(row)
                 }
                 channel.close()
+}catch(e:Throwable){
+                channel.close(e)
+}
             }
         })
     }

@@ -199,8 +199,12 @@ class POPGraphOperation : POPBase {
                 if (!silent)
                     throw e
             }
+try{
             channel.send(resultSet.createResultRow())
             channel.close()
+}catch(e:Throwable){
+            channel.close(e)
+}
         }
     })
 

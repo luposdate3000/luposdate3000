@@ -41,6 +41,7 @@ class POPOffset : POPBase {
     override fun evaluate() = Trace.trace<Unit>({ "POPOffset.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
+try{
             var count = 0
             for (rsOld in children[0].channel) {
                 if (count >= offset) {
@@ -52,7 +53,11 @@ class POPOffset : POPBase {
             }
             channel.close()
             children[0].channel.close()
+}catch(e:Throwable){
+            channel.close(e)
+            children[0].channel.close(e)
         }
+}
     })
 
     override fun toXMLElement(): XMLElement {

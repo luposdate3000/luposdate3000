@@ -53,6 +53,7 @@ class POPUnion : POPBase {
         for (c in children)
             c.evaluate()
         CoroutinesHelper.run {
+try{
             for (idx in children.indices) {
                 val c = children[idx]
                 for (rsOld in c.channel) {
@@ -69,6 +70,11 @@ class POPUnion : POPBase {
             channel.close()
             for (c in children)
                 c.channel.close()
+}catch(e:Throwable){
+            channel.close(e)
+            for (c in children)
+                c.channel.close(e)
+}
         }
     })
 

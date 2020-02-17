@@ -52,6 +52,7 @@ class POPServiceIRI : POPBase {
 
     override fun evaluate() = Trace.trace<Unit>({ "POPServiceIRI.evaluate" }, {
         CoroutinesHelper.run {
+try{
             if (constraint == null) {
                 if (silent) {
                     val res = resultSet.createResultRow()
@@ -70,6 +71,9 @@ class POPServiceIRI : POPBase {
                 }
             }
             channel.close()
+}catch(e:Throwable){
+            channel.close(e)
+}
         }
     })
 

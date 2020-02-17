@@ -104,6 +104,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
 
     override fun evaluate() = Trace.trace<Unit>({ "TripleStoreIteratorGlobal.evaluate" }, {
         CoroutinesHelper.run {
+try{
             for (nodeName in nodeNameIterator) {
                 val s = if (sFilter == null)
                     "s"
@@ -120,12 +121,21 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
                 val sv = sFilter != null
                 val pv = pFilter != null
                 val ov = oFilter != null
-                val remoteNode = P2P.execTripleGet(nodeName, graphName, dictionary, transactionID, s, p, o, sv, pv, ov, idx)
+                var remoteNode :OPBase?=null
+		try{
+remoteNode= P2P.execTripleGet(nodeName, graphName, dictionary, transactionID, s, p, o, sv, pv, ov, idx)
                 remoteNode.evaluate()
                 for (c in remoteNode.channel)
                     channel.send(c)
+		}catch (e:Throwable){
+			remoteNode?.channel?.close(e)
+			channel.close(e)
+		}
             }
             channel.close()
+}catch(e:Throwable){
+            channel.close(e)
+}
         }
     })
 
@@ -246,20 +256,23 @@ class DistributedGraph(val name: String) {
         }
     })
 
-    fun addData(transactionID: Long, iterator: OPBase) = Trace.trace({ "DistributedGraph.addData b" }, {
+    suspend fun addData(transactionID: Long, iterator: OPBase) = Trace.trace({ "DistributedGraph.addData b" }, {
         val rs = iterator.resultSet
         val ks = rs.createVariable("s")
         val kp = rs.createVariable("p")
         val ko = rs.createVariable("o")
+println("xx before evaluate")
         iterator.evaluate()
-        CoroutinesHelper.run {
+println("xx after evaluate")
+println("xx before loop")
             for (v in iterator.channel) {
+println("xx in loop")
                 val s = rs.getValue(v[ks])
                 val p = rs.getValue(v[kp])
                 val o = rs.getValue(v[ko])
                 addData(transactionID, listOf(s, p, o))
             }
-        }
+println("xx after loop")
     })
 
     fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "DistributedGraph.getIterator c" }, {

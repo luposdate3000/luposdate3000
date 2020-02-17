@@ -48,6 +48,7 @@ class POPProjection : POPBase {
     override fun evaluate() = Trace.trace<Unit>({ "POPProjection.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
+try{
             for (rsOld in children[0].channel) {
                 var rsNew = resultSet.createResultRow()
                 for (i in variablesNew.indices)
@@ -56,6 +57,10 @@ class POPProjection : POPBase {
             }
             channel.close()
             children[0].channel.close()
+}catch(e:Throwable){
+            channel.close(e)
+            children[0].channel.close(e)
+}
         }
     })
 

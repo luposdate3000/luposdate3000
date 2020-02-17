@@ -40,6 +40,7 @@ class POPTemporaryStore : POPBase {
     override fun evaluate() = Trace.trace<Unit>({ "POPTemporaryStore.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
+try{
             for (rsOld in children[0].channel) {
                 var rsNew = resultSet.createResultRow()
                 for (variable in variables)
@@ -47,6 +48,9 @@ class POPTemporaryStore : POPBase {
                 data.add(rsNew)
                 channel.send(rsNew)
             }
+}catch(e:Throwable){
+channel.close(e)
+}
         }
     })
 

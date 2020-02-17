@@ -61,6 +61,7 @@ class POPImportFromXml : POPBase {
 
     override fun evaluate() = Trace.trace<Unit>({ "POPImportFromXml.evaluate" }, {
         CoroutinesHelper.run {
+try{
             for (node in iterator!!) {
                 val result = resultSet.createResultRow()
                 for (v in node.childs) {
@@ -79,6 +80,9 @@ class POPImportFromXml : POPBase {
                 channel.send(result)
             }
             channel.close()
+}catch(e:Throwable){
+            channel.close(e)
+}
         }
     })
 }

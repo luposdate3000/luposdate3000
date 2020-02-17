@@ -47,6 +47,7 @@ class POPModify : POPBase {
     override fun evaluate() = Trace.trace<Unit>({ "POPModify.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
+try{
             for (row in children[0].channel) {
                 for (i in insert) {
                     try {
@@ -112,6 +113,10 @@ class POPModify : POPBase {
             }
             channel.close()
             children[0].channel.close()
+}catch(e:Throwable){
+            channel.close(e)
+            children[0].channel.close(e)
+}
         }
     })
 

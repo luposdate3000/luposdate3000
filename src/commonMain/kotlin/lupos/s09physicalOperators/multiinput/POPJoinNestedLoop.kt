@@ -61,6 +61,7 @@ class POPJoinNestedLoop : POPBase {
         for (c in children)
             c.evaluate()
         CoroutinesHelper.run {
+try{
             for (resultRowA in children[0].channel) {
                 for (resultRowB in children[1].channel) {
                     var joinVariableOk = true
@@ -96,6 +97,11 @@ class POPJoinNestedLoop : POPBase {
             channel.close()
             for (c in children)
                 c.channel.close()
+}catch(e:Throwable){
+            channel.close(e)
+            for (c in children)
+                c.channel.close(e)
+}
         }
     })
 

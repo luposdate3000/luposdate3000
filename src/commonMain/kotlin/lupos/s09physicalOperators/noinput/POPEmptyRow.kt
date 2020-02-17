@@ -24,8 +24,12 @@ class POPEmptyRow : POPBase {
 
     override fun evaluate() = Trace.trace<Unit>({ "POPEmptyRow.evaluate" }, {
         CoroutinesHelper.run {
+try{
             channel.send(resultSet.createResultRow())
             channel.close()
+}catch(e:Throwable){
+            channel.close(e)
+}
         }
     })
 

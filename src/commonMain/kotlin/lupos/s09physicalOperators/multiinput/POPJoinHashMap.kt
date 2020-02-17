@@ -127,6 +127,7 @@ class POPJoinHashMap : POPBase {
         for (c in children)
             c.evaluate()
         CoroutinesHelper.run {
+try{
             joinHelper(0)
             joinHelper(1)
             if (optional) {
@@ -148,6 +149,11 @@ class POPJoinHashMap : POPBase {
             channel.close()
             for (c in children)
                 c.channel.close()
+}catch(e:Throwable){
+            channel.close(e)
+            for (c in children)
+                c.channel.close(e)
+}
         }
     })
 

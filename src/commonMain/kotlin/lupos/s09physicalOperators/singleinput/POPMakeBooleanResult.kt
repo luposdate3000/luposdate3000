@@ -39,6 +39,7 @@ class POPMakeBooleanResult : POPBase {
     override fun evaluate() = Trace.trace<Unit>({ "POPMakeBooleanResult.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
+try{
             var first = true
             for (c in children[0].channel) {
                 first = false
@@ -49,6 +50,9 @@ class POPMakeBooleanResult : POPBase {
             rsNew[variableNew] = resultSet.createValue("\"" + (!first) + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
             channel.send(rsNew)
             channel.close()
+}catch(e:Throwable){
+            channel.close(e)
+}
         }
     })
 

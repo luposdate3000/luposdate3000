@@ -55,6 +55,7 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
 
     override fun evaluate() = Trace.trace<Unit>({ "TripleStoreIteratorLocalFilter.evaluate" }, {
         CoroutinesHelper.run {
+try{
             for (value in iterator) {
                 val result = resultSet.createResultRow()
                 if (sFilter != null) {
@@ -75,6 +76,9 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
                 channel.send(result)
             }
             channel.close()
+}catch(e:Throwable){
+            channel.close(e)
+}
         }
     })
 }
@@ -141,6 +145,7 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
 
     override fun evaluate() = Trace.trace<Unit>({ "TripleStoreIteratorLocal.evaluate" }, {
         CoroutinesHelper.run {
+try{
             for (value in iterator) {
                 val result = resultSet.createResultRow()
                 result[sNew] = resultSet.createValue(store.resultSet.getValue(value[sOld]))
@@ -149,6 +154,9 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
                 channel.send(result)
             }
             channel.close()
+}catch(e:Throwable){
+            channel.close(e)
+}
         }
     })
 }
