@@ -58,11 +58,11 @@ try{
                                 store.addData(transactionID, data)
                             }
                             is ASTGraph -> {
-                                val store = if (i.iriOrVar is ASTIri) {
-                                    DistributedTripleStore.getNamedGraph(i.iriOrVar.iri)
-                                } else {
-                                    DistributedTripleStore.getNamedGraph(children[0].resultSet.getValue(row[children[0].resultSet.createVariable((i.iriOrVar as ASTVar).name)])!!)
-                                }
+                                val name = if (i.iriOrVar is ASTIri) 
+                                    i.iriOrVar.iri
+                                 else 
+                                    children[0].resultSet.getValue(row[children[0].resultSet.createVariable((i.iriOrVar as ASTVar).name)])!!
+				val store=DistributedTripleStore.getNamedGraph(name,true)
                                 for (c in i.children) {
                                     when (c) {
                                         is ASTTriple -> {
@@ -88,11 +88,11 @@ try{
                                 store.deleteData(transactionID, data)
                             }
                             is ASTGraph -> {
-                                val store = if (i.iriOrVar is ASTIri) {
-                                    DistributedTripleStore.getNamedGraph(i.iriOrVar.iri)
-                                } else {
-                                    DistributedTripleStore.getNamedGraph(children[0].resultSet.getValue(row[children[0].resultSet.createVariable((i.iriOrVar as ASTVar).name)])!!)
-                                }
+                                val name = if (i.iriOrVar is ASTIri) 
+                                    i.iriOrVar.iri
+                                 else 
+                                    children[0].resultSet.getValue(row[children[0].resultSet.createVariable((i.iriOrVar as ASTVar).name)])!!
+				val store=DistributedTripleStore.getNamedGraph(name,false)
                                 for (c in i.children) {
                                     when (c) {
                                         is ASTTriple -> {
