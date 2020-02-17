@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetPreset
 
 buildscript {
     repositories {
@@ -48,31 +49,25 @@ kotlin {
     }
     sourceSets {
         commonMain {
-            kotlin.srcDir("src/nativeMain/kotlin")
-            kotlin.srcDir("src/commonMain/kotlin")
-            kotlin.srcDir("src/commonS00ExecutionSequentialMain/kotlin")
-            kotlin.srcDir("src/commonS00TraceOnMain/kotlin")
-            kotlin.srcDir("src/commonS01HeapMain/kotlin")
-            kotlin.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
-            kotlin.srcDir("src/commonS03DictionaryNoneMain/kotlin")
-            kotlin.srcDir("src/commonS05HashMapMain/kotlin")
-            kotlin.srcDir("src/commonS12LocalDummyMain/kotlin")
-            kotlin.srcDir("src/commonS15LocalMain/kotlin")
-            dependencies {
+            dependencies{
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.3.3")
                 implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
-implementation("com.benasher44:uuid:0.0.7")
+                implementation("com.benasher44:uuid:0.0.7")
                 implementation("com.soywiz.korlibs.krypto:krypto:1.9.1")
-		implementation("com.soywiz.korlibs.klock:klock:1.7.0")
-//				implementation("com.soywiz.korlibs.korio:korio:1.9.9-SNAPSHOT")
-            }
-        }
-        commonTest {
-            kotlin.srcDir("src/commonTest/kotlin")
-            dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
+		implementation("com.soywiz.korlibs.klock:klock-linuxx64:1.8.7")
             }
         }
     }
     sourceSets["linuxX64Main"].kotlin.srcDir("src/linuxX64Main/kotlin")
+    sourceSets["linuxX64Main"].kotlin.srcDir("src/nativeMain/kotlin")
+    sourceSets["linuxX64Main"].kotlin.srcDir("src/commonMain/kotlin")
+    sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS00ExecutionSequentialMain/kotlin")
+    sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS00TraceOnMain/kotlin")
+    sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS01HeapMain/kotlin")
+    sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
+    sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS03DictionaryIntArrayMain/kotlin")
+    sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS05HashMapMain/kotlin")
+    sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS12LocalMain/kotlin")
+    sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS14NoneMain/kotlin")
+    sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS15LocalMain/kotlin")
 }

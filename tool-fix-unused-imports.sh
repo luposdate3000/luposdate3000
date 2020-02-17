@@ -1,7 +1,7 @@
 #!/bin/bash
 
 changed=1
-
+./tool-fix-asterix-imports.sh
 while [[ $changed == 1 ]]
 do
 	changed=0

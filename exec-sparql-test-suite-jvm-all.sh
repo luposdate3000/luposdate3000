@@ -10,7 +10,7 @@ for chooseS05 in "commonS05HashMapMain"
 do
 for chooseS12 in "jvmS12DummyMain" "commonS12LocalMain"
 do
-for chooseS14 in "jvmS14KorioMain"
+for chooseS14 in "jvmS14KorioMain" "commonS14NoneMain"
 do
 for chooseS15 in "commonS15LocalMain" "commonS15DistributedMain"
 do

@@ -1,7 +1,6 @@
 package lupos.s15tripleStoreDistributed
 
-import kotlinx.coroutines.runBlocking
-import lupos.s00misc.EGraphOperationType
+import lupos.s00misc.*
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
@@ -96,7 +95,7 @@ class DistributedGraph(val name: String) {
         val kp = rs.createVariable("p")
         val ko = rs.createVariable("o")
         iterator.evaluate()
-        runBlocking {
+        CoroutinesHelper.runBlock {
             for (v in iterator.channel) {
                 val s = rs.getValue(v[ks])
                 val p = rs.getValue(v[kp])

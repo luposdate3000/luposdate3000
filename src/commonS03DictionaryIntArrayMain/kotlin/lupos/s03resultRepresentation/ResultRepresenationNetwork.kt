@@ -1,7 +1,6 @@
 package lupos.s03resultRepresentation
 
-import kotlinx.coroutines.runBlocking
-import lupos.s00misc.DynamicByteArray
+import lupos.s00misc.*
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.Trace
@@ -30,7 +29,7 @@ object ResultRepresenationNetwork {
         var posResultLen = 0
         var latestDictionaryMax: Value? = null
         var currentRowCounter = 0
-        runBlocking {
+        CoroutinesHelper.runBlock {
             var firstDict = true
             for (resultRow in query.channel) {
                 var newDictionaryMax = latestDictionaryMax
@@ -121,7 +120,7 @@ object ResultRepresenationNetwork {
         }
 
         override fun evaluate() = Trace.trace<Unit>({ "POPImportFromNetworkPackage.evaluate" }, {
-            runBlocking {
+            CoroutinesHelper.runBlock {
                 try {
                     while (true) {
                         if (rowsUntilNextDictionary == 0) {
