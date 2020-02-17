@@ -3,12 +3,6 @@ package lupos.s00misc
 class ThreadSafeMutableList<T>() {
     val values = mutableListOf<T>()
     val mutex = ReadWriteLock()
-    fun forEach(action: (T) -> Unit) {
-        mutex.withReadLock {
-            values.forEach(action)
-        }
-    }
-
     fun size(): Int {
         var res: Int = 0
         mutex.withReadLock {
@@ -40,4 +34,9 @@ class ThreadSafeMutableList<T>() {
     fun removeAt(idx: Int) = mutex.withWriteLock {
         values.removeAt(idx)
     }
+
+    fun forEach(action: (T) -> Unit) = mutex.withReadLock {
+        values.forEach(action)
+    }
+
 }

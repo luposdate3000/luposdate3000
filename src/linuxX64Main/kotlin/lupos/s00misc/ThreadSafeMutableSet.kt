@@ -3,18 +3,27 @@ package lupos.s00misc
 import kotlin.native.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze
 import kotlinx.cinterop.cValue
+import kotlinx.coroutines.CoroutineScope
 import platform.posix.pthread_mutex_init
 import platform.posix.pthread_mutex_lock
 import platform.posix.pthread_mutex_t
 import platform.posix.pthread_mutex_unlock
 
 
-class ThreadSafeMutableList<T> {
+class ThreadSafeMutableSet<T>() {
+    val global_values = AtomicReference(mutableSetOf<T>().freeze())
     val mutex = ReadWriteLock()
-    val global_values = AtomicReference(mutableListOf<T>().freeze())
+    inline fun forEach(crossinline action: (T) -> Unit) = mutex.withReadLock {
+        global_values.value.forEach(action)
+    }
+
+    inline suspend fun forEachSuspend(crossinline action: suspend (T) -> Unit) = mutex.withReadLockSuspend {
+        for (v in global_values.value)
+            action(v)
+    }
 
     fun size(): Int {
-        var res: Int = 0
+        var res = 0
         mutex.withReadLock {
             res = global_values.value.size
         }
@@ -22,17 +31,9 @@ class ThreadSafeMutableList<T> {
     }
 
     fun isEmpty(): Boolean {
-        var res = false
+        var res = true
         mutex.withReadLock {
             res = size() == 0
-        }
-        return res
-    }
-
-    fun lastOrNull(): T? {
-        var res: T? = null
-        mutex.withReadLock {
-            res = global_values.value.lastOrNull()
         }
         return res
     }
@@ -43,15 +44,15 @@ class ThreadSafeMutableList<T> {
         global_values.value = values.freeze()
     }
 
-    fun removeAt(idx: Int) = mutex.withWriteLock {
+    fun remove(value: T) = mutex.withWriteLock {
         val values = global_values.value
-        values.removeAt(idx)
+        values.remove(value)
         global_values.value = values.freeze()
     }
 
-    fun forEach(action: (T) -> Unit) {
-        mutex.withReadLock {
-            global_values.value.forEach(action)
-        }
+    fun clear() = mutex.withWriteLock {
+        val values = global_values.value
+        values.clear()
+        global_values.value = values.freeze()
     }
 }

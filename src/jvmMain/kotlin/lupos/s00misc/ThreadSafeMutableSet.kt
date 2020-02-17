@@ -5,45 +5,42 @@ import kotlinx.coroutines.CoroutineScope
 
 class ThreadSafeMutableSet<T>() {
     val values = mutableSetOf<T>()
+    val mutex = ReadWriteLock()
 
-    inline fun forEach(crossinline action: (T) -> Unit) {
-        synchronized(values) {
-            values.forEach(action)
-        }
+    inline fun forEach(crossinline action: (T) -> Unit) = mutex.withReadLock {
+        values.forEach(action)
     }
 
-    inline suspend fun forEachSuspend(crossinline action: suspend (T) -> Unit) {
-        val valuesCopy = mutableSetOf<T>()
-        synchronized(values) {
-            valuesCopy.addAll(values)
-        }
-        for (v in valuesCopy)
+    inline suspend fun forEachSuspend(crossinline action: suspend (T) -> Unit) = mutex.withReadLockSuspend {
+        for (v in values)
             action(v)
     }
 
     fun size(): Int {
-        return values.size
+        var res = 0
+        mutex.withReadLock {
+            res = values.size
+        }
+        return res
     }
 
     fun isEmpty(): Boolean {
-        return size() == 0
+        var res = true
+        mutex.withReadLock {
+            res = size() == 0
+        }
+        return res
     }
 
-    fun add(value: T) {
-        synchronized(values) {
-            values.add(value)
-        }
+    fun add(value: T) = mutex.withWriteLock {
+        values.add(value)
     }
 
-    fun remove(value: T) {
-        synchronized(values) {
-            values.remove(value)
-        }
+    fun remove(value: T) = mutex.withWriteLock {
+        values.remove(value)
     }
 
-    fun clear() {
-        synchronized(values) {
-            values.clear()
-        }
+    fun clear() = mutex.withWriteLock {
+        values.clear()
     }
 }

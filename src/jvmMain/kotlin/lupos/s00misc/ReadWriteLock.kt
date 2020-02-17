@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.sync.Mutex
 
 
-class ReadWriteLock {
+class ReadWriteLock() {
     val allowNewReads = Mutex()
     val allowNewWrites = Mutex()
     var readers = 0L
