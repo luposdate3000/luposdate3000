@@ -25,15 +25,27 @@ class ThreadSafeMutableMap<k, v>() {
         values.remove(key)
     }
 
-    fun forEach(action: (k, v) -> Unit) = mutex.withReadLock {
-        values.forEach(action)
+    inline fun forEach(crossinline action: (k, v) -> Unit) = mutex.withReadLock {
+        values.forEach { a, b ->
+            action(a, b)
+        }
     }
 
-    fun forEachKey(action: (k) -> Unit) = mutex.withReadLock {
-        values.keys.forEach(action)
+    inline fun forEachKey(crossinline action: (k) -> Unit) = mutex.withReadLock {
+        values.keys.forEach {
+            action(it)
+        }
     }
 
-    fun forEachValue(action: (v) -> Unit) = mutex.withReadLock {
-        values.values.forEach(action)
+    inline suspend fun forEachKeySuspend(crossinline action: suspend (k) -> Unit) = mutex.withReadLock {
+        values.keys.forEach {
+            action(it)
+        }
+    }
+
+    inline fun forEachValue(crossinline action: (v) -> Unit) = mutex.withReadLock {
+        values.values.forEach {
+            action(it)
+        }
     }
 }

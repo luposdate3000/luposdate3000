@@ -31,18 +31,28 @@ class ThreadSafeMutableMap<k, v>() {
         global_values.value = values.freeze()
     }
 
-    fun forEach(action: (k, v) -> Unit) = mutex.withReadLock {
+    inline fun forEach(crossinline action: (k, v) -> Unit) = mutex.withReadLock {
         global_values.value.forEach { it ->
             action(it.key, it.value)
         }
     }
 
-    fun forEachKey(action: (k) -> Unit) = mutex.withReadLock {
-        global_values.value.keys.forEach(action)
+    inline fun forEachKey(crossinline action: (k) -> Unit) = mutex.withReadLock {
+        global_values.value.keys.forEach {
+            action(it)
+        }
     }
 
-    fun forEachValue(action: (v) -> Unit) = mutex.withReadLock {
-        global_values.value.values.forEach(action)
+    inline suspend fun forEachKeySuspend(crossinline action: suspend (k) -> Unit) = mutex.withReadLock {
+        global_values.value.keys.forEach {
+            action(it)
+        }
+    }
+
+    inline fun forEachValue(crossinline action: (v) -> Unit) = mutex.withReadLock {
+        global_values.value.values.forEach {
+            action(it)
+        }
     }
 
     operator fun get(key: k): v? {
