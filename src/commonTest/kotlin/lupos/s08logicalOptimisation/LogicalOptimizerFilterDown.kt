@@ -12,21 +12,59 @@ import org.junit.jupiter.api.Assertions.*
 
 
 class LogicalOptimizerFilterDownTest {
-    fun helper(input: OPBase, target: OPBase, transactionID: Long, dictionary: ResultSetDictionary) {
-        val output = LogicalOptimizerFilterDown(transactionID, dictionary).optimizeCall(input)
+    var store1 = LOPTriple(LOPVariable("s"), LOPVariable("p"), LOPVariable("o"), "")
+    val astS = ASTVar("s")
+    val projectS = mutableListOf(LOPVariable("s"))
+    fun helper(input: OPBase, target: OPBase, transactionID: Long, dictionary: ResultSetDictionary, expectChanged: Int) {
+        var changed = 0
+        val output = LogicalOptimizerFilterDown(transactionID, dictionary).optimizeCall(input, { changed++ })
         println(target.toXMLElement().toPrettyString())
         println(output.toXMLElement().toPrettyString())
+        assertEquals(expectChanged, changed)
         assertTrue(target.equals(output))
     }
 
     @Test
     fun test1() {
-        val ast = ASTVar("s")
         helper(
-                LOPFilter(LOPExpression(ast), LOPTriple(LOPVariable("s"), LOPVariable("p"), LOPVariable("o"), "")),
-                LOPFilter(LOPExpression(ast), LOPTriple(LOPVariable("s"), LOPVariable("p"), LOPVariable("o"), "")),
+                LOPFilter(LOPExpression(astS), store1),
+                LOPFilter(LOPExpression(astS), store1),
                 0,
-                ResultSetDictionary()
+                ResultSetDictionary(),
+                0
+        )
+    }
+
+    @Test
+    fun test2() {
+        helper(
+                LOPFilter(LOPExpression(astS), LOPProjection(projectS, store1)),
+                LOPProjection(projectS, LOPFilter(LOPExpression(astS), store1)),
+                0,
+                ResultSetDictionary(),
+                1
+        )
+    }
+
+    @Test
+    fun test3() {
+        helper(
+                LOPFilter(LOPExpression(astS), LOPProjection(projectS, LOPProjection(projectS, store1))),
+                LOPProjection(projectS, LOPFilter(LOPExpression(astS), LOPProjection(projectS, store1))),
+                0,
+                ResultSetDictionary(),
+                1
+        )
+    }
+
+    @Test
+    fun test4() {
+        helper(
+                LOPProjection(projectS, LOPFilter(LOPExpression(astS), LOPProjection(projectS, store1))),
+                LOPProjection(projectS, LOPProjection(projectS, LOPFilter(LOPExpression(astS), store1))),
+                0,
+                ResultSetDictionary(),
+                1
         )
     }
 }
