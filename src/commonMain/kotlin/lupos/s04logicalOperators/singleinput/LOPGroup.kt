@@ -8,15 +8,13 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPGroup(var by: List<LOPVariable>) : LOPBase() {
-    override val children: Array<OPBase> = arrayOf(OPNothing())
-    var bindings: OPBase? = null
+    override val children: Array<OPBase> = arrayOf(OPNothing(),OPNothing())
 
     override fun getProvidedVariableNames(): List<String> {
         val tmp = mutableListOf<String>()
         for (v in by)
             tmp.add(v.name)
-        if (bindings != null)
-            return tmp + bindings!!.getProvidedVariableNames()
+            return tmp + children[1].getProvidedVariableNames()
         return tmp
     }
 
@@ -26,8 +24,7 @@ class LOPGroup(var by: List<LOPVariable>) : LOPBase() {
         val localRequire = mutableListOf<String>()
         for (v in by)
             localRequire.add(v.name)
-        if (bindings != null)
-            localRequire += bindings!!.getRequiredVariableNames()
+            localRequire += children[1].getRequiredVariableNames()
         for (c in children)
             c.syntaxVerifyAllVariableExists(localProvide, autocorrect)
         val res = localProvide.containsAll(localRequire)
@@ -49,7 +46,8 @@ class LOPGroup(var by: List<LOPVariable>) : LOPBase() {
     }
 
     constructor(by: List<LOPVariable>, bindings: OPBase?, child: OPBase) : this(by) {
-        this.bindings = bindings
+	if(bindings!=null)
+        children[1] = bindings
         children[0] = child
     }
 
@@ -61,8 +59,8 @@ class LOPGroup(var by: List<LOPVariable>) : LOPBase() {
             byxml.addContent(XMLElement("LocalVariable").addAttribute("name", b.name))
         val xmlbindings = XMLElement("LocalBindings")
         res.addContent(xmlbindings)
-        if (bindings != null)
-            xmlbindings.addContent(bindings!!.toXMLElement())
+        if (children[1] !is OPNothing)
+            xmlbindings.addContent(children[1].toXMLElement())
         res.addContent(childrenToXML())
         return res
     }

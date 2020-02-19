@@ -69,11 +69,8 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
             is LOPDistinct -> return POPDistinct(dictionary, node.children[0])
             is LOPOffset -> return POPOffset(dictionary, node.offset, node.children[0])
             is LOPGroup -> {
-                if (node.bindings != null) {
-                    val tmp = optimizeInternal(node.bindings!!, null) as POPBind
-                    println("XXX ${(node as LOPGroup)!!.bindings!!.toXMLElement().toPrettyString()} YYY ${tmp!!.toXMLElement().toPrettyString()}")
-                    return POPGroup(dictionary, node.by, tmp, node.children[0])
-                }
+                if (node.children[1] is POPBind)
+                    return POPGroup(dictionary, node.by, node.children[1] as POPBind, node.children[0])
                 return POPGroup(dictionary, node.by, null, node.children[0])
             }
             is LOPUnion -> return POPUnion(dictionary, node.children[0], node.children[1])
