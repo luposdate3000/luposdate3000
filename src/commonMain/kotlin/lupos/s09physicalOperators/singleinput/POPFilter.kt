@@ -15,13 +15,13 @@ import lupos.s09physicalOperators.POPBase
 class POPFilter : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf(OPNothing())
-    val filter: POPExpression
+    override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
+    override fun childrenToVerifyCount() = 1
 
     constructor(dictionary: ResultSetDictionary, filter: POPExpression, child: OPBase) : super() {
         this.dictionary = dictionary
         children[0] = child
-        this.filter = filter
+        children[1] = filter
         resultSet = children[0].resultSet
     }
 
@@ -30,7 +30,7 @@ class POPFilter : POPBase {
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return filter.getRequiredVariableNames()
+        return children[1].getRequiredVariableNames()
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPFilter.evaluate" }, {
@@ -38,7 +38,7 @@ class POPFilter : POPBase {
         CoroutinesHelper.run {
             try {
                 for (nextRow in children[0].channel)
-                    if (filter.evaluateBoolean(resultSet, nextRow))
+                    if ((children[1] as POPExpression).evaluateBoolean(resultSet, nextRow))
                         channel.send(nextRow)
                 channel.close()
                 children[0].channel.close()
@@ -51,7 +51,6 @@ class POPFilter : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPFilter")
-        res.addContent(XMLElement("filter").addContent(filter.toXMLElement()))
         res.addContent(childrenToXML())
         return res
     }

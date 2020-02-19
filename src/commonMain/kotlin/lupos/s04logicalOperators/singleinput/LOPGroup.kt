@@ -8,13 +8,13 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPGroup(var by: List<LOPVariable>) : LOPBase() {
-    override val children: Array<OPBase> = arrayOf(OPNothing(),OPNothing())
-
+    override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
+    override fun childrenToVerifyCount() = 1
     override fun getProvidedVariableNames(): List<String> {
         val tmp = mutableListOf<String>()
         for (v in by)
             tmp.add(v.name)
-            return tmp + children[1].getProvidedVariableNames()
+        return tmp + children[1].getProvidedVariableNames()
         return tmp
     }
 
@@ -24,9 +24,8 @@ class LOPGroup(var by: List<LOPVariable>) : LOPBase() {
         val localRequire = mutableListOf<String>()
         for (v in by)
             localRequire.add(v.name)
-            localRequire += children[1].getRequiredVariableNames()
-        for (c in children)
-            c.syntaxVerifyAllVariableExists(localProvide, autocorrect)
+        localRequire += children[1].getRequiredVariableNames()
+        children[0].syntaxVerifyAllVariableExists(localProvide, autocorrect)
         val res = localProvide.containsAll(localRequire)
         if (!res) {
             if (autocorrect) {
@@ -46,8 +45,8 @@ class LOPGroup(var by: List<LOPVariable>) : LOPBase() {
     }
 
     constructor(by: List<LOPVariable>, bindings: OPBase?, child: OPBase) : this(by) {
-	if(bindings!=null)
-        children[1] = bindings
+        if (bindings != null)
+            children[1] = bindings
         children[0] = child
     }
 
@@ -57,10 +56,6 @@ class LOPGroup(var by: List<LOPVariable>) : LOPBase() {
         res.addContent(byxml)
         for (b in by)
             byxml.addContent(XMLElement("LocalVariable").addAttribute("name", b.name))
-        val xmlbindings = XMLElement("LocalBindings")
-        res.addContent(xmlbindings)
-        if (children[1] !is OPNothing)
-            xmlbindings.addContent(children[1].toXMLElement())
         res.addContent(childrenToXML())
         return res
     }

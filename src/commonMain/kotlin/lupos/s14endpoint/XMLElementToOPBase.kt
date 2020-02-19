@@ -70,7 +70,7 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
                 return POPGroup(dictionary, by, null, child)
             return POPGroup(dictionary, by, bindings as POPBind, child)
         }
-        "POPFilter" -> POPFilter(dictionary, POPExpression.fromXMLElement(dictionary, node["filter"]!!.childs[0]), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping))
+        "POPFilter" -> POPFilter(dictionary, POPExpression.fromXMLElement(dictionary, node["children"]!!.childs[1]), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping))
         "POPFilterExact" -> {
             val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)
             POPFilterExact(dictionary, createLOPVariable(mapping, node.attributes["name"]!!), node.attributes["value"]!!, child)

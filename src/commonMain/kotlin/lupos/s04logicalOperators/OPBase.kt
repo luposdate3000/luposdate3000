@@ -19,6 +19,8 @@ abstract class OPBase {
 
     abstract val children: Array<OPBase>
 
+    open fun childrenToVerifyCount(): Int = children.size
+
     open fun updateChildren(i: Int, child: OPBase) {
         require(i < children.size)
         children[i] = child
@@ -61,8 +63,8 @@ abstract class OPBase {
     }
 
     open fun syntaxVerifyAllVariableExists(additionalProvided: List<String> = listOf<String>(), autocorrect: Boolean = false) {
-        for (c in children)
-            c.syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
+        for (i in 0 until childrenToVerifyCount())
+            children[i].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
         val res = (additionalProvided + getProvidedVariableNames()).containsAll(getRequiredVariableNames())
         if (!res) {
             if (autocorrect) {
