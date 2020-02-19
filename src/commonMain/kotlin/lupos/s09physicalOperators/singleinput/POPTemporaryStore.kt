@@ -19,6 +19,18 @@ class POPTemporaryStore : POPBase {
     private val data = mutableListOf<ResultRow>()
     private val variables = mutableListOf<Pair<Variable, Variable>>()
 
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPTemporaryStore)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
+
     constructor(dictionary: ResultSetDictionary, child: OPBase) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)

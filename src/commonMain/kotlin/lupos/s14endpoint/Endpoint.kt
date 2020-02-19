@@ -37,6 +37,19 @@ class TripleInsertIterator : POPBase {
     override val children: Array<OPBase> = arrayOf()
     var result: ResultRow
 
+    override fun equals(other: Any?): Boolean {
+        if (other !is TripleInsertIterator)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        if (result != other.result)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
 
     override fun toXMLElement(): XMLElement {
         return XMLElement("TripleInsertIterator")

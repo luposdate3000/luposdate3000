@@ -18,6 +18,22 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
     override val children: Array<OPBase> = arrayOf()
     private var first = true
 
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPModifyData)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        if (type != other.type)
+            return false
+        if (data != other.data)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
+
     override fun evaluate() = Trace.trace<Unit>({ "POPModifyData.evaluate" }, {
         CoroutinesHelper.run {
             try {

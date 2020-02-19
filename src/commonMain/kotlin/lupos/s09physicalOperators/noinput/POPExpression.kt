@@ -417,6 +417,17 @@ class POPExpression : LOPBase {
     private val aggregateTmpString = mutableMapOf<Long, String>()
     var child: ASTNode
 
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPExpression)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        if (child !== other.child)
+            return false
+        return true
+    }
+
     constructor(dictionary: ResultSetDictionary, child: ASTNode) {
         this.dictionary = dictionary
         this.child = child

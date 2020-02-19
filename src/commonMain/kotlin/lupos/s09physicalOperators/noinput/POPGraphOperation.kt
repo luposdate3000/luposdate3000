@@ -30,6 +30,26 @@ class POPGraphOperation : POPBase {
     val graphref2: ASTGraphRef?
     val action: EGraphOperationType
 
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPGraphOperation)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        if (silent != other.silent)
+            return false
+        if (graphref1.equals(other.graphref1))
+            return false
+        if ((graphref2 == null && other.graphref2 == null) || graphref2!!.equals(other.graphref2!!))
+            return false
+        if (action != other.action)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
+
     constructor(dictionary: ResultSetDictionary, transactionID: Long, silent: Boolean, graphref1: ASTGraphRef, graphref2: ASTGraphRef?, action: EGraphOperationType) : super() {
         this.dictionary = dictionary
         this.transactionID = transactionID

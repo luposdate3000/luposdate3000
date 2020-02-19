@@ -25,6 +25,22 @@ class POPGroup : POPBase {
     var by: List<LOPVariable>
     var bindings = mutableListOf<Pair<Variable, POPExpression>>()
 
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPGroup)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        if (!by.equals(other.by))
+            return false
+        if (!bindings.equals(other.bindings))
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
+
     constructor(dictionary: ResultSetDictionary, by: List<LOPVariable>, bindings: POPBind?, child: OPBase) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)

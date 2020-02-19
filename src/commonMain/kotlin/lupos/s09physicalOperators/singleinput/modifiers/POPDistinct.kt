@@ -18,6 +18,17 @@ class POPDistinct : POPBase {
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private var data: MutableList<ResultRow>? = null
     private val variables = mutableListOf<Pair<Variable, Variable>>()
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPDistinct)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
 
     constructor(dictionary: ResultSetDictionary, child: OPBase) : super() {
         this.dictionary = dictionary

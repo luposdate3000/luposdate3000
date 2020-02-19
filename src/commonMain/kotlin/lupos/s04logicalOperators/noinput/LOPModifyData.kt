@@ -32,4 +32,10 @@ class LOPModifyData(val type: EModifyType) : LOPBase() {
         }
         return res
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is LOPModifyData)
+            return false
+        return data == other.data
+    }
 }

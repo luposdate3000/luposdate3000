@@ -17,6 +17,18 @@ class POPEmptyRow : POPBase {
     override val children: Array<OPBase> = arrayOf()
     private var first = true
 
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPEmptyRow)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
+
     constructor(dictionary: ResultSetDictionary) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)

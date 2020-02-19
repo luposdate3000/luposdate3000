@@ -28,4 +28,18 @@ class LOPPrefix(val name: String, val iri: String) : LOPBase() {
         res.addContent(childrenToXML())
         return res
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is LOPPrefix)
+            return false
+        if (name != other.name)
+            return false
+        if (iri != other.iri)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
 }

@@ -20,6 +20,20 @@ class POPLimit : POPBase {
     val limit: Int
     private var count = 0
 
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPLimit)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        if (limit != other.limit)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
+
     constructor(dictionary: ResultSetDictionary, limit: Int, child: OPBase) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)

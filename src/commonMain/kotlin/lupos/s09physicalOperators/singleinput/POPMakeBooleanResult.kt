@@ -18,6 +18,17 @@ class POPMakeBooleanResult : POPBase {
     override val children: Array<OPBase> = arrayOf(OPNothing())
     private val variableNew: Variable
     private var count = 0
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPMakeBooleanResult)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
 
     constructor(dictionary: ResultSetDictionary, child: OPBase) : super() {
         this.dictionary = dictionary

@@ -1,6 +1,6 @@
 #!/bin/bash
 mkdir log
-gradle --build-file="build.gradle.jvm" build -x test
+gradle --build-file="build.gradle.jvm" build
 (
         cd buildJvm/distributions
         tar -xf luposdate3000.tar

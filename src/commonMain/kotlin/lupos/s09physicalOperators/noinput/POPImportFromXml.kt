@@ -19,6 +19,20 @@ class POPImportFromXml : POPBase {
     var iterator: Iterator<XMLElement>? = null
     val variables = mutableMapOf<String, Variable>()
 
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPImportFromXml)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        if (!data.equals(other.data))
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
+
     constructor(dictionary: ResultSetDictionary, data: XMLElement) {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)

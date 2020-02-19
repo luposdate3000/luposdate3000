@@ -35,4 +35,14 @@ class LOPValues(val variables: List<LOPVariable>, val values: List<LOPExpression
         }
         return res
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is LOPValues)
+            return false
+        if (!variables.equals(other.variables))
+            return false
+        if (!values.equals(other.values))
+            return false
+        return true
+    }
 }

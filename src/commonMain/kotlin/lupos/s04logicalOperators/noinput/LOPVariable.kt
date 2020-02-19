@@ -18,4 +18,12 @@ class LOPVariable(var name: String) : LOPBase() {
     override fun toXMLElement(): XMLElement {
         return XMLElement("LOPVariable")
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is LOPVariable)
+            return false
+        if (name != other.name)
+            return false
+        return true
+    }
 }

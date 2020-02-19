@@ -27,4 +27,16 @@ class LOPOffset(val offset: Int) : LOPBase() {
         res.addContent(childrenToXML())
         return res
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is LOPOffset)
+            return false
+        if (offset != other.offset)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
 }

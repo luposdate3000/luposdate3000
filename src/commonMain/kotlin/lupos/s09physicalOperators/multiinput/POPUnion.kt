@@ -18,6 +18,19 @@ class POPUnion : POPBase {
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     private val variablesOld = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf<Pair<Variable, Variable>>())
     private val variablesOldMissing = arrayOf(mutableListOf<Variable>(), mutableListOf<Variable>())
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPUnion)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
+
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }

@@ -21,6 +21,20 @@ class POPJoinHashMap : POPBase {
     val variables: Array<MutableList<Pair<Variable, Variable>>>
     val variablesJ: Array<MutableList<Pair<Variable, Variable>>>
 
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPJoinHashMap)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        if (optional != other.optional)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
+
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }

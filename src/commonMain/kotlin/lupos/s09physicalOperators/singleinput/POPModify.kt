@@ -28,6 +28,25 @@ class POPModify : POPBase {
     val iri: String?
     val insert: List<ASTNode>
     val delete: List<ASTNode>
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPModify)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        if (iri != other.iri)
+            return false
+        if (transactionID != other.transactionID)
+            return false
+        if (!insert.equals(other.insert))
+            return false
+        if (!delete.equals(other.delete))
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
 
     constructor(dictionary: ResultSetDictionary, transactionID: Long, iri: String?, insert: List<ASTNode>, delete: List<ASTNode>, child: OPBase) : super() {
         this.dictionary = dictionary

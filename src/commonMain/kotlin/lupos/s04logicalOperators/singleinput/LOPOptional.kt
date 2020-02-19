@@ -26,4 +26,14 @@ class LOPOptional() : LOPBase() {
         res.addContent(childrenToXML())
         return res
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is LOPOptional)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
 }

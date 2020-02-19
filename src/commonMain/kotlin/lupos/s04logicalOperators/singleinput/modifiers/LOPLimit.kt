@@ -27,4 +27,16 @@ class LOPLimit(val limit: Int) : LOPBase() {
         res.addContent(childrenToXML())
         return res
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is LOPLimit)
+            return false
+        if (limit != other.limit)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
 }

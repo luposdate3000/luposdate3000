@@ -18,6 +18,18 @@ class POPFilter : POPBase {
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     override fun childrenToVerifyCount() = 1
 
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPFilter)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
+
     constructor(dictionary: ResultSetDictionary, filter: POPExpression, child: OPBase) : super() {
         this.dictionary = dictionary
         children[0] = child

@@ -23,6 +23,19 @@ class POPValues : POPBase {
     private val rs: ResultSet
     val stringVars = mutableListOf<String>()
     val data = mutableListOf<Map<Variable, Value>>()
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPValues)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        if (!data.equals(other.data))
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
 
     constructor(dictionary: ResultSetDictionary, v: List<String>, d: List<Map<String, String>>) : super() {
         this.dictionary = dictionary

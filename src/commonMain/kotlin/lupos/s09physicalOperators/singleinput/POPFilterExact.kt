@@ -21,6 +21,21 @@ class POPFilterExact : POPBase {
     val value: String
     val valueR: Value
     private val filterVariable: Variable
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPFilterExact)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        if (variable != other.variable)
+            return false
+        if (value != other.value)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
 
     constructor(dictionary: ResultSetDictionary, variable: LOPVariable, value: String, child: OPBase) : super() {
         this.dictionary = dictionary

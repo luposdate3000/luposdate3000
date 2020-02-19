@@ -37,4 +37,16 @@ class LOPProjection(val variables: MutableList<LOPVariable> = mutableListOf()) :
         res.addContent(childrenToXML())
         return res
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is LOPProjection)
+            return false
+        if (!variables.equals(other.variables))
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
 }

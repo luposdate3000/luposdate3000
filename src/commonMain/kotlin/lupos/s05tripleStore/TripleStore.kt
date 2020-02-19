@@ -14,6 +14,18 @@ abstract class POPTripleStoreIteratorBase() : POPBase() {
     abstract fun setMNameP(n: String)
     abstract fun setMNameO(n: String)
     abstract fun getGraphName(): String
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPTripleStoreIteratorBase)
+            return false
+        if (getGraphName() != other.getGraphName())
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
 }
 
 class PersistentStoreLocal {

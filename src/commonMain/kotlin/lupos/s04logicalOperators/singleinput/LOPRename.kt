@@ -52,4 +52,18 @@ class LOPRename(val nameTo: LOPVariable, val nameFrom: LOPVariable) : LOPBase() 
         res.addContent(childrenToXML())
         return res
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is LOPRename)
+            return false
+        if (nameTo != other.nameTo)
+            return false
+        if (nameFrom != other.nameFrom)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
 }

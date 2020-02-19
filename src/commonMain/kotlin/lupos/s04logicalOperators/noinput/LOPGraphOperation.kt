@@ -25,4 +25,18 @@ class LOPGraphOperation() : LOPBase() {
         val res = XMLElement("LOPGraphOperation")
         return res
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is LOPGraphOperation)
+            return false
+        if (silent != other.silent)
+            return false
+        if (graphref1 != other.graphref1)
+            return false
+        if (graphref2 != other.graphref2)
+            return false
+        if (action != other.action)
+            return false
+        return true
+    }
 }

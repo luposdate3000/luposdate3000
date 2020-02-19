@@ -25,6 +25,20 @@ class POPBind : POPBase {
     private val variablesNew: Array<Variable?>
     private val variableBound: Variable
 
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPBind)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        if (name != other.name)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
+
     constructor(dictionary: ResultSetDictionary, name: LOPVariable, expression: POPExpression, child: OPBase) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)

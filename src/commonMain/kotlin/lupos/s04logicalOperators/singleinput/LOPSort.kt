@@ -33,4 +33,18 @@ class LOPSort(val asc: Boolean, var by: LOPVariable) : LOPBase() {
         res.addContent(childrenToXML())
         return res
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is LOPSort)
+            return false
+        if (asc != other.asc)
+            return false
+        if (by != other.by)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
 }

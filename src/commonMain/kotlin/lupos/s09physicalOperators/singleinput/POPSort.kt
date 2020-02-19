@@ -23,6 +23,21 @@ class POPSort : POPBase {
     private var iterator: Iterator<ResultRow>? = null
     var sortBy: Variable
     val sortOrder: Boolean
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPSort)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        if (sortBy != other.sortBy)
+            return false
+        if (sortOrder != other.sortOrder)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
 
     constructor(dictionary: ResultSetDictionary, sortBy: LOPVariable, sortOrder: Boolean, child: OPBase) : super() {
         this.dictionary = dictionary

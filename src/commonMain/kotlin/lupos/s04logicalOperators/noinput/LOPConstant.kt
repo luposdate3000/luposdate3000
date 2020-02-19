@@ -18,4 +18,10 @@ class LOPConstant(val value: String) : LOPBase() {
     override fun toXMLElement(): XMLElement {
         return XMLElement("LOPConstant")
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is LOPConstant)
+            return false
+        return value == other.value
+    }
 }

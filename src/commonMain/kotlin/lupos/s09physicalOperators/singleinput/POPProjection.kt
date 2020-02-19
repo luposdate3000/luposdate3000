@@ -20,6 +20,19 @@ class POPProjection : POPBase {
     val variables: MutableList<LOPVariable>
     private val variablesOld: Array<Variable>
     private val variablesNew: Array<Variable>
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPProjection)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        if (!variables.equals(other.variables))
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
 
     constructor(dictionary: ResultSetDictionary, variables: MutableList<LOPVariable>, child: OPBase) : super() {
         this.dictionary = dictionary

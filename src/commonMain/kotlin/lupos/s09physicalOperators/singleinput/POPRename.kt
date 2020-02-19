@@ -21,6 +21,22 @@ class POPRename : POPBase {
     var nameFrom: LOPVariable
     private val variablesOld: Array<Variable?>
     private val variablesNew: Array<Variable?>
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPRename)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        if (nameFrom != other.nameFrom)
+            return false
+        if (nameTo != other.nameTo)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
+
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         val localProvide = children[0].getProvidedVariableNames()
         val localRequire = listOf<String>(nameFrom.name)

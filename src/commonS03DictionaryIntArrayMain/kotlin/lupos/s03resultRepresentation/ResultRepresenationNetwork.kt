@@ -94,6 +94,19 @@ object ResultRepresenationNetwork {
         var rowsUntilNextDictionary = 0
         val data: DynamicByteArray
         val variables = mutableListOf<Variable>()
+
+        override fun equals(other: Any?): Boolean {
+            if (other !is POPImportFromNetworkPackage)
+                return false
+            if (dictionary !== other.dictionary)
+                return false
+            for (i in children.indices) {
+                if (!children[i].equals(other.children[i]))
+                    return false
+            }
+            return true
+        }
+
         override fun toXMLElement(): XMLElement {
             return XMLElement("POPImportFromNetworkPackage")
         }

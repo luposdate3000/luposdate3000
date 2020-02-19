@@ -19,6 +19,19 @@ class POPOffset : POPBase {
     private val variables = mutableListOf<Pair<Variable, Variable>>()
     val offset: Int
     private var count = 0
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPOffset)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        if (offset != other.offset)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
 
     constructor(dictionary: ResultSetDictionary, offset: Int, child: OPBase) : super() {
         this.dictionary = dictionary

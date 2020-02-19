@@ -24,6 +24,24 @@ class POPServiceIRI : POPBase {
     val originalConstraint: OPBase
     val variables = mutableListOf<Pair<Variable, Variable>>()
 
+    override fun equals(other: Any?): Boolean {
+        if (other !is POPServiceIRI)
+            return false
+        if (dictionary !== other.dictionary)
+            return false
+        if (silent != other.silent)
+            return false
+        if (serverName != other.serverName)
+            return false
+        if (transactionID != other.transactionID)
+            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
+    }
+
     constructor(dictionary: ResultSetDictionary, transactionID: Long, serverName: String, silent: Boolean, constraint: OPBase) : super() {
         this.dictionary = dictionary
         this.transactionID = transactionID

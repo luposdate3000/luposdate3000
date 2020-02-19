@@ -32,4 +32,10 @@ class LOPExpression(val child: ASTNode) : LOPBase() {
         res.addContent(XMLElement.parseFromASTNode(child))
         return res
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is LOPExpression)
+            return false
+        return child === other.child
+    }
 }
