@@ -85,7 +85,7 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
                     throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)}, ${classNameToString(node.by)}")
             }
             is LOPSubGroup -> return node.children[0]
-            is LOPFilter -> return POPFilter(dictionary, optimizeInternal(node.filter, null) as POPExpression, node.children[0])
+            is LOPFilter -> return POPFilter(dictionary, node.children[1] as POPExpression, node.children[0])
             is LOPBind -> {
                 val variable = node.name
                 val child = node.children[0]

@@ -15,7 +15,6 @@ class LOPGroup(var by: List<LOPVariable>) : LOPBase() {
         for (v in by)
             tmp.add(v.name)
         return tmp + children[1].getProvidedVariableNames()
-        return tmp
     }
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {

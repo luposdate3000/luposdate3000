@@ -7,8 +7,13 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPFilter(val filter: LOPExpression) : LOPBase() {
-    override val children: Array<OPBase> = arrayOf(OPNothing())
+class LOPFilter : LOPBase {
+    override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
+    override fun childrenToVerifyCount() = 1
+
+    constructor(filter: LOPExpression) : super() {
+        children[1] = filter
+    }
 
     constructor(filter: LOPExpression, child: OPBase) : this(filter) {
         children[0] = child
@@ -19,12 +24,11 @@ class LOPFilter(val filter: LOPExpression) : LOPBase() {
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return children[0].getRequiredVariableNames() + filter.getRequiredVariableNames()
+        return children[0].getRequiredVariableNames() + children[1].getRequiredVariableNames()
     }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPFilter")
-        res.addContent(XMLElement("LocalFilter").addContent(filter.toXMLElement()))
         res.addContent(childrenToXML())
         return res
     }
