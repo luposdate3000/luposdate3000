@@ -16,18 +16,153 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
 
 
+class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: Int) {
+    val values = mutableListOf<Value>()
+
+    inline fun valuesToStrings(key: Array<Value>): Array<String> = Array(components) { it -> dictionary.getValue(key[it])!! }
+
+    fun calcNextStep(step: Int): Int {
+        if (step == 1)
+            return 0
+        else if (step == 2)
+            return 1
+        else
+            return step / 2 + 1
+    }
+
+    fun modifyInternal(key: Array<Value>, value: Array<String>, type: EModifyType, idx: Int, step: Int) {
+        val realIdx = idx * components
+        val nextStep = calcNextStep(step)
+        println("modifyInternal a $components $realIdx $nextStep $step ${values.size}")
+        var cmp = 0
+        for (i in 0 until components) {
+/*
+//->cmp by value
+            val tmp = dictionary.getValue(values[realIdx + i])!!
+            if (tmp < value[i]) {
+                cmp = +1
+                break
+            }
+            if (tmp > value[i]) {
+                cmp = -1
+                break
+            }
+//<-cmp by value
+*/
+//->cmp by key
+            if (values[realIdx + i] < key[i]) {
+                cmp = +1
+                break
+            }
+            if (values[realIdx + i] > key[i]) {
+                cmp = -1
+                break
+            }
+//<-cmp by key
+        }
+        if (cmp == 0) {
+            if (type == EModifyType.DELETE) {
+                for (i in 0 until components)
+                    values.removeAt(realIdx)
+            }
+            return
+        }
+        println("modifyInternal b $cmp")
+        if (step > 0 && cmp < 0) {
+            if (idx >= step)
+                modifyInternal(key, value, type, idx - step, nextStep)
+            else
+                modifyInternal(key, value, type, 0, nextStep)
+            return
+        }
+        if (cmp > 0) {
+            if (step > 0) {
+                if (idx + step < values.size / components)
+                    modifyInternal(key, value, type, idx + step, nextStep)
+                else
+                    modifyInternal(key, value, type, values.size / components - 1, nextStep)
+                return
+            }
+            require(step <= 1)
+            if (type == EModifyType.INSERT) {//insert at end
+                for (i in 0 until components) {
+                    println("modifyInternal d ${realIdx + i} ${values.size}")
+                    values.add(realIdx + components + i, key[i])
+                }
+                return
+            }
+        }
+        if (type == EModifyType.INSERT) {
+            for (i in 0 until components) {
+                println("modifyInternal c ${realIdx + i} ${values.size}")
+                values.add(realIdx + i, key[i])
+            }
+        }
+        require(step <= 1)
+    }
+
+    inline fun clear() {
+        values.clear()
+    }
+
+    fun modifyInternalFirst(key: Array<Value>, value: Array<String>, type: EModifyType) {
+        require(key.size == components)
+        require(value.size == components)
+        print("modifyInternalFirst $values ")
+        for (i in 0 until components) {
+            print("${key[i]}=${value[i]}, ")
+        }
+        println()
+
+        if (values.size == 0) {
+            if (type == EModifyType.INSERT) {
+                for (i in 0 until components) {
+                    values.add(key[i])
+                }
+            }
+        } else {
+            val tmp = calcNextStep(values.size / components)
+            val step = calcNextStep(tmp)
+            modifyInternal(key, value, type, tmp, step)
+        }
+        println(values)
+    }
+
+    inline fun add(key: Array<Value>) = modifyInternalFirst(key, valuesToStrings(key), EModifyType.INSERT)
+    inline fun add(key1: Value) = add(arrayOf(key1))
+    inline fun add(key1: Value, key2: Value) = add(arrayOf(key1, key2))
+    inline fun add(key1: Value, key2: Value, key3: Value) = add(arrayOf(key1, key2, key3))
+    inline fun remove(key: Array<Value>) = modifyInternalFirst(key, valuesToStrings(key), EModifyType.DELETE)
+    inline fun remove(key1: Value) = remove(arrayOf(key1))
+    inline fun remove(key1: Value, key2: Value) = remove(arrayOf(key1, key2))
+    inline fun remove(key1: Value, key2: Value, key3: Value) = remove(arrayOf(key1, key2, key3))
+
+    fun forEach(action: (Array<Value>) -> Unit) {
+        for (i in 0 until values.size step components) {
+            action(Array(components) { it -> values[i + it] })
+        }
+    }
+
+    suspend fun forEachSuspend(action: suspend (Array<Value>) -> Unit) {
+        for (i in 0 until values.size step components) {
+            action(Array(components) { it -> values[i + it] })
+        }
+    }
+}
+
+
 class TripleStoreLocal {
     val resultSet = ResultSet(ResultSetDictionary())
     val s = resultSet.createVariable("s")
     val p = resultSet.createVariable("p")
     val o = resultSet.createVariable("o")
-    val tripleStoreS = ThreadSafeMutableMap<Value, ThreadSafeMutableSet<Pair<Value, Value>>>()
-    val tripleStoreP = ThreadSafeMutableMap<Value, ThreadSafeMutableSet<Pair<Value, Value>>>()
-    val tripleStoreO = ThreadSafeMutableMap<Value, ThreadSafeMutableSet<Pair<Value, Value>>>()
-    val tripleStoreSP = ThreadSafeMutableMap<Pair<Value, Value>, ThreadSafeMutableSet<Value>>()
-    val tripleStoreSO = ThreadSafeMutableMap<Pair<Value, Value>, ThreadSafeMutableSet<Value>>()
-    val tripleStorePO = ThreadSafeMutableMap<Pair<Value, Value>, ThreadSafeMutableSet<Value>>()
-    val tripleStoreSPO = ThreadSafeMutableSet<ResultRow>()
+    val tripleStoreS = ThreadSafeMutableMap<Value, SortedSetDictionary>()
+    val tripleStoreP = ThreadSafeMutableMap<Value, SortedSetDictionary>()
+    val tripleStoreO = ThreadSafeMutableMap<Value, SortedSetDictionary>()
+    val tripleStoreSP = ThreadSafeMutableMap<Pair<Value, Value>, SortedSetDictionary>()
+    val tripleStoreSO = ThreadSafeMutableMap<Pair<Value, Value>, SortedSetDictionary>()
+    val tripleStorePO = ThreadSafeMutableMap<Pair<Value, Value>, SortedSetDictionary>()
+    val tripleStoreSPO = SortedSetDictionary(resultSet.dictionary, 3)
     val name: String
 
     inline suspend fun forEach(sv: Value?, pv: Value?, ov: Value?, crossinline action: suspend (Value, Value, Value) -> Unit, idx: EIndexPattern) {
@@ -35,14 +170,14 @@ class TripleStoreLocal {
             EIndexPattern.S -> {
                 if (sv != null) {
                     tripleStoreS[sv]?.forEachSuspend {
-                        if ((pv == null || pv == it.first) && (ov == null || ov == it.second))
-                            action(sv, it.first, it.second)
+                        if ((pv == null || pv == it[0]) && (ov == null || ov == it[1]))
+                            action(sv, it[0], it[1])
                     }
                 } else {
                     tripleStoreS.forEachKeySuspend { key ->
                         tripleStoreS[key]!!.forEachSuspend {
-                            if ((pv == null || pv == it.first) && (ov == null || ov == it.second))
-                                action(key, it.first, it.second)
+                            if ((pv == null || pv == it[0]) && (ov == null || ov == it[1]))
+                                action(key, it[0], it[1])
                         }
                     }
                 }
@@ -50,14 +185,14 @@ class TripleStoreLocal {
             EIndexPattern.P -> {
                 if (pv != null) {
                     tripleStoreP[pv]?.forEachSuspend {
-                        if ((sv == null || sv == it.first) && (ov == null || ov == it.second))
-                            action(it.first, pv, it.second)
+                        if ((sv == null || sv == it[0]) && (ov == null || ov == it[1]))
+                            action(it[0], pv, it[1])
                     }
                 } else {
                     tripleStoreP.forEachKeySuspend { key ->
                         tripleStoreP[key]!!.forEachSuspend {
-                            if ((sv == null || sv == it.first) && (ov == null || ov == it.second))
-                                action(it.first, key, it.second)
+                            if ((sv == null || sv == it[0]) && (ov == null || ov == it[1]))
+                                action(it[0], key, it[1])
                         }
                     }
                 }
@@ -65,14 +200,14 @@ class TripleStoreLocal {
             EIndexPattern.O -> {
                 if (ov != null) {
                     tripleStoreO[ov]?.forEachSuspend {
-                        if ((sv == null || sv == it.first) && (pv == null || pv == it.second))
-                            action(it.first, it.second, ov)
+                        if ((sv == null || sv == it[0]) && (pv == null || pv == it[1]))
+                            action(it[0], it[1], ov)
                     }
                 } else {
                     tripleStoreO.forEachKeySuspend { key ->
                         tripleStoreO[key]!!.forEachSuspend {
-                            if ((sv == null || sv == it.first) && (pv == null || pv == it.second))
-                                action(it.first, it.second, key)
+                            if ((sv == null || sv == it[0]) && (pv == null || pv == it[1]))
+                                action(it[0], it[1], key)
                         }
                     }
                 }
@@ -80,15 +215,15 @@ class TripleStoreLocal {
             EIndexPattern.SP -> {
                 if (sv != null && pv != null) {
                     tripleStoreSP[Pair(sv, pv)]?.forEachSuspend {
-                        if (ov == null || ov == it)
-                            action(sv, pv, it)
+                        if (ov == null || ov == it[0])
+                            action(sv, pv, it[0])
                     }
                 } else {
                     tripleStoreSP.forEachKeySuspend { key ->
                         if ((sv == null || sv == key.first) && (pv == null || pv == key.second))
                             tripleStoreSP[key]!!.forEachSuspend {
-                                if (ov == null || ov == it)
-                                    action(key.first, key.second, it)
+                                if (ov == null || ov == it[0])
+                                    action(key.first, key.second, it[0])
                             }
                     }
                 }
@@ -96,15 +231,15 @@ class TripleStoreLocal {
             EIndexPattern.SO -> {
                 if (sv != null && ov != null) {
                     tripleStoreSO[Pair(sv, ov)]?.forEachSuspend {
-                        if (pv == null || pv == it)
-                            action(sv, it, ov)
+                        if (pv == null || pv == it[0])
+                            action(sv, it[0], ov)
                     }
                 } else {
                     tripleStoreSO.forEachKeySuspend { key ->
                         if ((sv == null || sv == key.first) && (ov == null || ov == key.second))
                             tripleStoreSO[key]!!.forEachSuspend {
-                                if (pv == null || pv == it)
-                                    action(key.first, it, key.second)
+                                if (pv == null || pv == it[0])
+                                    action(key.first, it[0], key.second)
                             }
                     }
                 }
@@ -112,23 +247,23 @@ class TripleStoreLocal {
             EIndexPattern.PO -> {
                 if (pv != null && ov != null) {
                     tripleStorePO[Pair(pv, ov)]?.forEachSuspend {
-                        if (sv == null || sv == it)
-                            action(it, pv, ov)
+                        if (sv == null || sv == it[0])
+                            action(it[0], pv, ov)
                     }
                 } else {
                     tripleStorePO.forEachKeySuspend { key ->
                         if ((pv == null || pv == key.first) && (ov == null || ov == key.second))
                             tripleStorePO[key]!!.forEachSuspend {
-                                if (sv == null || sv == it)
-                                    action(it, key.first, key.second)
+                                if (sv == null || sv == it[0])
+                                    action(it[0], key.first, key.second)
                             }
                     }
                 }
             }
             EIndexPattern.SPO -> {
                 tripleStoreSPO.forEachSuspend {
-                    if ((sv == null || sv == it[s]) && (pv == null || pv == it[p]) && (ov == null || ov == it[o]))
-                        action(it[s], it[p], it[o])
+                    if ((sv == null || sv == it[0]) && (pv == null || pv == it[1]) && (ov == null || ov == it[2]))
+                        action(it[0], it[1], it[2])
                 }
             }
         }
@@ -176,31 +311,31 @@ class TripleStoreLocal {
                                     EIndexPattern.S -> {
                                         var values = tripleStoreS[m.second[s]]
                                         if (values == null) {
-                                            values = ThreadSafeMutableSet<Pair<Value, Value>>()
+                                            values = SortedSetDictionary(resultSet.dictionary, 2)
                                             tripleStoreS[m.second[s]] = values
                                         }
-                                        values.add(Pair(m.second[p], m.second[o]))
+                                        values.add(m.second[p], m.second[o])
                                     }
                                     EIndexPattern.P -> {
                                         var values = tripleStoreP[m.second[p]]
                                         if (values == null) {
-                                            values = ThreadSafeMutableSet<Pair<Value, Value>>()
+                                            values = SortedSetDictionary(resultSet.dictionary, 2)
                                             tripleStoreP[m.second[p]] = values
                                         }
-                                        values.add(Pair(m.second[s], m.second[o]))
+                                        values.add(m.second[s], m.second[o])
                                     }
                                     EIndexPattern.O -> {
                                         var values = tripleStoreO[m.second[o]]
                                         if (values == null) {
-                                            values = ThreadSafeMutableSet<Pair<Value, Value>>()
+                                            values = SortedSetDictionary(resultSet.dictionary, 2)
                                             tripleStoreO[m.second[o]] = values
                                         }
-                                        values.add(Pair(m.second[s], m.second[p]))
+                                        values.add(m.second[s], m.second[p])
                                     }
                                     EIndexPattern.SP -> {
                                         var values = tripleStoreSP[Pair(m.second[s], m.second[p])]
                                         if (values == null) {
-                                            values = ThreadSafeMutableSet<Value>()
+                                            values = SortedSetDictionary(resultSet.dictionary, 1)
                                             tripleStoreSP[Pair(m.second[s], m.second[p])] = values
                                         }
                                         values.add(m.second[o])
@@ -208,7 +343,7 @@ class TripleStoreLocal {
                                     EIndexPattern.SO -> {
                                         var values = tripleStoreSO[Pair(m.second[s], m.second[o])]
                                         if (values == null) {
-                                            values = ThreadSafeMutableSet<Value>()
+                                            values = SortedSetDictionary(resultSet.dictionary, 1)
                                             tripleStoreSO[Pair(m.second[s], m.second[o])] = values
                                         }
                                         values.add(m.second[p])
@@ -216,13 +351,13 @@ class TripleStoreLocal {
                                     EIndexPattern.PO -> {
                                         var values = tripleStorePO[Pair(m.second[p], m.second[o])]
                                         if (values == null) {
-                                            values = ThreadSafeMutableSet<Value>()
+                                            values = SortedSetDictionary(resultSet.dictionary, 1)
                                             tripleStorePO[Pair(m.second[p], m.second[o])] = values
                                         }
                                         values.add(m.second[s])
                                     }
                                     EIndexPattern.SPO -> {
-                                        tripleStoreSPO.add(m.second)
+                                        tripleStoreSPO.add(m.second[s], m.second[p], m.second[o])
                                     }
                                 }
                             }
@@ -232,19 +367,19 @@ class TripleStoreLocal {
                                     EIndexPattern.S -> {
                                         val values = tripleStoreS[m.second[s]]
                                         if (values != null) {
-                                            values.remove(Pair(m.second[p], m.second[o]))
+                                            values.remove(m.second[p], m.second[o])
                                         }
                                     }
                                     EIndexPattern.P -> {
                                         val values = tripleStoreP[m.second[p]]
                                         if (values != null) {
-                                            values.remove(Pair(m.second[s], m.second[o]))
+                                            values.remove(m.second[s], m.second[o])
                                         }
                                     }
                                     EIndexPattern.O -> {
                                         val values = tripleStoreO[m.second[o]]
                                         if (values != null) {
-                                            values.remove(Pair(m.second[s], m.second[p]))
+                                            values.remove(m.second[s], m.second[p])
                                         }
                                     }
                                     EIndexPattern.SP -> {
@@ -266,7 +401,7 @@ class TripleStoreLocal {
                                         }
                                     }
                                     EIndexPattern.SPO -> {
-                                        tripleStoreSPO.remove(m.second)
+                                        tripleStoreSPO.remove(m.second[s], m.second[p], m.second[o])
                                     }
                                 }
                             }
@@ -321,7 +456,7 @@ class TripleStoreLocal {
 
     fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator a" }, {
         return TripleStoreIteratorLocal(dictionary, this, index)
-    }) as POPTripleStoreIteratorBase
+    })
 
     fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator b" }, {
         val res = TripleStoreIteratorLocal(dictionary, this, index)
