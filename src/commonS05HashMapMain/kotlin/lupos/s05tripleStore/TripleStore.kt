@@ -21,22 +21,17 @@ class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: I
 
     inline fun valuesToStrings(key: Array<Value>): Array<String> = Array(components) { it -> dictionary.getValue(key[it])!! }
 
-    inline fun calcNextStep(step: Int): Int {
-        if (step == 1)
-            return 0
-        else if (step == 2)
-            return 1
-        else
-            return step / 2 + 1
-    }
-
     fun modifyInternal(key: Array<Value>, value: Array<String>, type: EModifyType, idx: Int, step: Int) {
         val realIdx = idx * components
-        val nextStep = calcNextStep(step)
+        val nextStep :Int
+        if (step == 1)
+            nextStep= 0
+        else if (step == 2)
+            nextStep= 1
+        else
+            nextStep= step / 2 + 1
         var cmp = 0
         for (i in 0 until components) {
-
-//->cmp by value
             val tmp = dictionary.getValue(values[realIdx + i])!!
             if (tmp < value[i]) {
                 cmp = +1
@@ -46,19 +41,6 @@ class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: I
                 cmp = -1
                 break
             }
-//<-cmp by value
-/*
-//->cmp by key
-            if (values[realIdx + i] < key[i]) {
-                cmp = +1
-                break
-            }
-            if (values[realIdx + i] > key[i]) {
-                cmp = -1
-                break
-            }
-//<-cmp by key
-*/
         }
         if (cmp == 0) {
             if (type == EModifyType.DELETE)
@@ -117,15 +99,13 @@ class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: I
     inline fun remove(key1: Value, key2: Value, key3: Value) = remove(arrayOf(key1, key2, key3))
 
     fun forEach(action: (Array<Value>) -> Unit) {
-        for (i in 0 until values.size step components) {
+        for (i in 0 until values.size step components)
             action(Array(components) { it -> values[i + it] })
-        }
     }
 
     suspend fun forEachSuspend(action: suspend (Array<Value>) -> Unit) {
-        for (i in 0 until values.size step components) {
+        for (i in 0 until values.size step components)
             action(Array(components) { it -> values[i + it] })
-        }
     }
 }
 
