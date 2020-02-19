@@ -34,19 +34,19 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 
 abstract class OptimizerBase(val transactionID: Long, val dictionary: ResultSetDictionary) {
 
-    abstract fun optimize(node: OPBase, parent: OPBase?): OPBase
+    abstract fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase
 
-    fun optimizeInternal(node: OPBase, parent: OPBase?): OPBase {
+    fun optimizeInternal(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         for (i in node.children.indices) {
-            val tmp = optimizeInternal(node.children[i], node)
+            val tmp = optimizeInternal(node.children[i], node, onChange)
             node.updateChildren(i, tmp)
         }
-        return optimize(node, parent)
+        return optimize(node, parent, onChange)
     }
 
-    fun optimizeCall(node: OPBase): OPBase {
+    fun optimizeCall(node: OPBase, onChange: () -> Unit = {}): OPBase {
         node.syntaxVerifyAllVariableExists(listOf<String>(), true)
-        val res = optimizeInternal(node, null)
+        val res = optimizeInternal(node, null, onChange)
         res.syntaxVerifyAllVariableExists(listOf<String>(), false)
         return res
     }

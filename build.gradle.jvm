@@ -98,8 +98,9 @@ sourceSets {
     test.kotlin.srcDirs += 'src/commonTest/kotlin'
 }
 test {
-useJUnitPlatform()
+	useJUnitPlatform()
 	testLogging {
 		events "passed", "skipped", "failed"
 	}
+	testLogging.showStandardStreams = true
 }

@@ -9,9 +9,12 @@ import lupos.s12p2p.POPServiceIRI
 
 
 class KeyDistributionOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary) {
-    override fun optimize(node: OPBase, parent: OPBase?): OPBase {
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         when (node) {
-            is LOPServiceIRI -> return POPServiceIRI(dictionary, transactionID, node.name, node.silent, optimizeInternal(node.children[0], null) as POPBase)
+            is LOPServiceIRI -> {
+                onChange()
+                return POPServiceIRI(dictionary, transactionID, node.name, node.silent, optimizeInternal(node.children[0], null, onChange) as POPBase)
+            }
             else -> return node
         }
     }

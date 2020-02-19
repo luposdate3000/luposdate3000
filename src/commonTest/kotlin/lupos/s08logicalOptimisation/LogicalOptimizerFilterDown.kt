@@ -1,5 +1,6 @@
 package lupos.s08logicalOptimisation
 
+import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
@@ -10,9 +11,9 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
 
-class LogicalOptimizerRemoveNOOPTest {
+class LogicalOptimizerFilterDownTest {
     fun helper(input: OPBase, target: OPBase, transactionID: Long, dictionary: ResultSetDictionary) {
-        val output = LogicalOptimizerRemoveNOOP(transactionID, dictionary).optimizeCall(input)
+        val output = LogicalOptimizerFilterDown(transactionID, dictionary).optimizeCall(input)
         println(target.toXMLElement().toPrettyString())
         println(output.toXMLElement().toPrettyString())
         assertTrue(target.equals(output))
@@ -20,29 +21,10 @@ class LogicalOptimizerRemoveNOOPTest {
 
     @Test
     fun test1() {
+        val ast = ASTVar("s")
         helper(
-                LOPNOOP(),
-                OPNothing(),
-                0,
-                ResultSetDictionary()
-        )
-    }
-
-    @Test
-    fun test2() {
-        helper(
-                LOPNOOP(LOPNOOP()),
-                OPNothing(),
-                0,
-                ResultSetDictionary()
-        )
-    }
-
-    @Test
-    fun test3() {
-        helper(
-                LOPProjection(mutableListOf(LOPVariable("a")), LOPNOOP()),
-                LOPProjection(mutableListOf(LOPVariable("a")), OPNothing()),
+                LOPFilter(LOPExpression(ast), LOPTriple(LOPVariable("s"), LOPVariable("p"), LOPVariable("o"), "")),
+                LOPFilter(LOPExpression(ast), LOPTriple(LOPVariable("s"), LOPVariable("p"), LOPVariable("o"), "")),
                 0,
                 ResultSetDictionary()
         )

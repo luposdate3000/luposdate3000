@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Assertions.*
 class LogicalOptimizerRemovePrefixTest {
     fun helper(input: OPBase, target: OPBase, transactionID: Long, dictionary: ResultSetDictionary) {
         val output = LogicalOptimizerRemovePrefix(transactionID, dictionary).optimizeCall(input)
-        println(target.toXMLElement().toPrettyString()) 
+        println(target.toXMLElement().toPrettyString())
         println(output.toXMLElement().toPrettyString())
         assertTrue(target.equals(output))
     }
@@ -27,20 +27,22 @@ class LogicalOptimizerRemovePrefixTest {
                 ResultSetDictionary()
         )
     }
+
     @Test
     fun test2() {
         helper(
-                LOPPrefix("a", "b",LOPPrefix("c", "d")),
+                LOPPrefix("a", "b", LOPPrefix("c", "d")),
                 OPNothing(),
                 0,
                 ResultSetDictionary()
         )
     }
+
     @Test
     fun test3() {
         helper(
-                LOPProjection(mutableListOf(LOPVariable("a")),LOPPrefix("c", "d")),
-                LOPProjection(mutableListOf(LOPVariable("a")),OPNothing()),
+                LOPProjection(mutableListOf(LOPVariable("a")), LOPPrefix("c", "d")),
+                LOPProjection(mutableListOf(LOPVariable("a")), OPNothing()),
                 0,
                 ResultSetDictionary()
         )
