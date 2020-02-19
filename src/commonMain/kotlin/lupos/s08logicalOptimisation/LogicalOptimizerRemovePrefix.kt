@@ -7,13 +7,12 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s08logicalOptimisation.OptimizerBase
 
 
-class LogicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary) {
-val optimizer=arrayOf(LogicalOptimizerRemovePrefix(transactionID,dictionary),LogicalOptimizerRemoveNOOP(transactionID,dictionary))
+class LogicalOptimizerRemovePrefix(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary) {
     override fun optimize(node: OPBase, parent: OPBase?): OPBase {
-	var tmp=node
-	for(o in optimizer)
-		tmp=o.optimize(tmp,parent)
-	return tmp
+        when (node) {
+            is LOPPrefix -> return node.children[0]
+            else -> return node
+        }
     }
 
 }
