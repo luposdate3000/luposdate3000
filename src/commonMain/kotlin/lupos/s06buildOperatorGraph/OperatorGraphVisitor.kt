@@ -129,7 +129,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     fun mergeLOPBind(a: LOPBind, b: LOPBind): LOPBind {
         val aName = a.name.name
-        if (b.expression.getRequiredVariableNames().contains(aName)) {
+        if (b.children[1].getRequiredVariableNames().contains(aName)) {
             b.getLatestChild().setChild(a)
             return b
         } else {
@@ -487,7 +487,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     fun insertLOPBind(a: OPBase, b: LOPBind): OPBase {
         if (a is LOPJoin) {
-            val requiredVariables = b.expression.getRequiredVariableNames()
+            val requiredVariables = b.children[1].getRequiredVariableNames()
             val providedLeft = a.children[0].getProvidedVariableNames()
             var leftOk = true
             for (v in requiredVariables) {
@@ -723,7 +723,11 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTOrderCondition, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 1)
-        return LOPSort(node.asc, childrenValues.first())
+val tmp=childrenValues.first()
+	if(tmp is LOPVariable)
+		return LOPSort(node.asc, tmp)
+	val v=LOPVariable("#f${tmp.uuid}")
+	return LOPSort(node.asc,v,LOPBind(v,tmp))
     }
 
     override fun visit(node: ASTVar, childrenValues: List<OPBase>): OPBase {

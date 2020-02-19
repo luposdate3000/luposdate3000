@@ -7,25 +7,32 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPBind(val name: LOPVariable, val expression: OPBase) : LOPBase() {
-    override val children: Array<OPBase> = arrayOf(OPNothing())
+class LOPBind : LOPBase {
+    override val children: Array<OPBase> = arrayOf(OPNothing(),OPNothing())
+val name: LOPVariable
+
+constructor(name: LOPVariable, expression: OPBase):super(){
+	this.name=name
+	children[1]=expression
+}
 
     constructor(name: LOPVariable, expression: OPBase, child: OPBase) : this(name, expression) {
         children[0] = child
     }
+
+override fun childrenToVerifyCount(): Int =1
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>(name.name) + children[0].getProvidedVariableNames()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return expression.getRequiredVariableNames() + children[0].getRequiredVariableNames()
+        return children[1].getRequiredVariableNames() + children[0].getRequiredVariableNames()
     }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPBind")
         res.addAttribute("name", name.name)
-        res.addContent(XMLElement("LocalValue").addContent(expression.toXMLElement()))
         res.addContent(childrenToXML())
         return res
     }

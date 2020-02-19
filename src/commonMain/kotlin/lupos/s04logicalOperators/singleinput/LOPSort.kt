@@ -7,10 +7,10 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPSort(val asc: Boolean, var by: OPBase) : LOPBase() {
+class LOPSort(val asc: Boolean, var by: LOPVariable) : LOPBase() {
     override val children: Array<OPBase> = arrayOf(OPNothing())
 
-    constructor(asc: Boolean, by: OPBase, child: OPBase) : this(asc, by) {
+    constructor(asc: Boolean, by: LOPVariable, child: OPBase) : this(asc, by) {
         this.children[0] = child
     }
 
@@ -25,7 +25,7 @@ class LOPSort(val asc: Boolean, var by: OPBase) : LOPBase() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPSort")
-        res.addAttribute("by", (by as LOPVariable).name)
+        res.addAttribute("by", by.name)
         if (asc)
             res.addAttribute("order", "ASC")
         else

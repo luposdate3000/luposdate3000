@@ -75,27 +75,19 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
             }
             is LOPUnion -> return POPUnion(dictionary, node.children[0], node.children[1])
             is LOPExpression -> return POPExpression(dictionary, node.child)
-            is LOPSort -> {
-                if (node.by is LOPVariable)
-                    return POPSort(dictionary, node.by as LOPVariable, node.asc, node.children[0])
-                else if (node.by is LOPExpression) {
-                    val v = LOPVariable("#" + node.uuid)
-                    return POPSort(dictionary, v, node.asc, POPBind(dictionary, v, optimizeInternal(node.by, null) as POPExpression, node.children[0]))
-                } else
-                    throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)}, ${classNameToString(node.by)}")
-            }
+            is LOPSort ->                     return POPSort(dictionary, node.by , node.asc, node.children[0])
             is LOPSubGroup -> return node.children[0]
             is LOPFilter -> return POPFilter(dictionary, node.children[1] as POPExpression, node.children[0])
             is LOPBind -> {
                 val variable = node.name
                 val child = node.children[0]
-                when (node.expression) {
+                when (node.children[1]) {
                     is LOPVariable ->
                         if (child.resultSet.getVariableNames().contains(variable.name))
-                            return POPRename(dictionary, variable, node.expression, child)
+                            return POPRename(dictionary, variable, node.children[1] as LOPVariable, child)
                         else
                             return POPBindUndefined(dictionary, variable, child)
-                    else -> return POPBind(dictionary, variable, optimizeInternal(node.expression, null) as POPExpression, child)
+                    else -> return POPBind(dictionary, variable, node.children[1] as POPExpression, child)
                 }
             }
             is LOPJoin -> return POPJoinHashMap(dictionary, node.children[0], node.children[1], node.optional)
