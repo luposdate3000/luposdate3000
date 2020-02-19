@@ -21,7 +21,7 @@ class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: I
 
     inline fun valuesToStrings(key: Array<Value>): Array<String> = Array(components) { it -> dictionary.getValue(key[it])!! }
 
-    fun calcNextStep(step: Int): Int {
+    inline fun calcNextStep(step: Int): Int {
         if (step == 1)
             return 0
         else if (step == 2)
@@ -33,10 +33,9 @@ class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: I
     fun modifyInternal(key: Array<Value>, value: Array<String>, type: EModifyType, idx: Int, step: Int) {
         val realIdx = idx * components
         val nextStep = calcNextStep(step)
-        println("modifyInternal a $components $realIdx $nextStep $step ${values.size}")
         var cmp = 0
         for (i in 0 until components) {
-/*
+
 //->cmp by value
             val tmp = dictionary.getValue(values[realIdx + i])!!
             if (tmp < value[i]) {
@@ -48,7 +47,7 @@ class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: I
                 break
             }
 //<-cmp by value
-*/
+/*
 //->cmp by key
             if (values[realIdx + i] < key[i]) {
                 cmp = +1
@@ -59,46 +58,35 @@ class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: I
                 break
             }
 //<-cmp by key
+*/
         }
         if (cmp == 0) {
-            if (type == EModifyType.DELETE) {
+            if (type == EModifyType.DELETE)
                 for (i in 0 until components)
                     values.removeAt(realIdx)
-            }
-            return
-        }
-        println("modifyInternal b $cmp")
-        if (step > 0 && cmp < 0) {
+        } else if (step > 0 && cmp < 0) {
             if (idx >= step)
                 modifyInternal(key, value, type, idx - step, nextStep)
             else
                 modifyInternal(key, value, type, 0, nextStep)
-            return
-        }
-        if (cmp > 0) {
+        } else if (cmp > 0) {
             if (step > 0) {
                 if (idx + step < values.size / components)
                     modifyInternal(key, value, type, idx + step, nextStep)
                 else
                     modifyInternal(key, value, type, values.size / components - 1, nextStep)
-                return
+            } else {
+                require(step <= 1)
+                if (type == EModifyType.INSERT)
+                    for (i in 0 until components)
+                        values.add(realIdx + components + i, key[i])
             }
+        } else {
             require(step <= 1)
-            if (type == EModifyType.INSERT) {//insert at end
-                for (i in 0 until components) {
-                    println("modifyInternal d ${realIdx + i} ${values.size}")
-                    values.add(realIdx + components + i, key[i])
-                }
-                return
-            }
+            if (type == EModifyType.INSERT)
+                for (i in 0 until components)
+                    values.add(realIdx + i, key[i])
         }
-        if (type == EModifyType.INSERT) {
-            for (i in 0 until components) {
-                println("modifyInternal c ${realIdx + i} ${values.size}")
-                values.add(realIdx + i, key[i])
-            }
-        }
-        require(step <= 1)
     }
 
     inline fun clear() {
@@ -108,24 +96,15 @@ class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: I
     fun modifyInternalFirst(key: Array<Value>, value: Array<String>, type: EModifyType) {
         require(key.size == components)
         require(value.size == components)
-        print("modifyInternalFirst $values ")
-        for (i in 0 until components) {
-            print("${key[i]}=${value[i]}, ")
-        }
-        println()
-
         if (values.size == 0) {
-            if (type == EModifyType.INSERT) {
-                for (i in 0 until components) {
+            if (type == EModifyType.INSERT)
+                for (i in 0 until components)
                     values.add(key[i])
-                }
-            }
         } else {
-            val tmp = calcNextStep(values.size / components)
-            val step = calcNextStep(tmp)
+            val tmp = values.size / (components * 2)
+            val step = tmp / 2 + 1
             modifyInternal(key, value, type, tmp, step)
         }
-        println(values)
     }
 
     inline fun add(key: Array<Value>) = modifyInternalFirst(key, valuesToStrings(key), EModifyType.INSERT)
@@ -306,7 +285,6 @@ class TripleStoreLocal {
                     tmp.forEach { m ->
                         when (m.first) {
                             EModifyType.INSERT -> {
-                                println("insert ${m.second[s]} ${m.second[p]} ${m.second[o]}")
                                 when (it) {
                                     EIndexPattern.S -> {
                                         var values = tripleStoreS[m.second[s]]
@@ -362,7 +340,6 @@ class TripleStoreLocal {
                                 }
                             }
                             EModifyType.DELETE -> {
-                                println("delete ${m.second[s]} ${m.second[p]} ${m.second[o]}")
                                 when (it) {
                                     EIndexPattern.S -> {
                                         val values = tripleStoreS[m.second[s]]
@@ -444,9 +421,7 @@ class TripleStoreLocal {
             when (tmp) {
                 3 -> modifyData(transactionID, vals, valp, valo, EModifyType.DELETE, idx)
                 else -> {
-                    println("prepare for deleteion ... $vars,varp,varo")
                     forEach(vars, varp, varo, { svv, pvv, ovv ->
-                        println("mark for deleteion ... $sv $pv $ov")
                         modifyData(transactionID, svv, pvv, ovv, EModifyType.DELETE, idx)
                     }, idx)
                 }
