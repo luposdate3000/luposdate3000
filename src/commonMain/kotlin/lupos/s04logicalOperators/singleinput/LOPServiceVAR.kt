@@ -6,8 +6,16 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPServiceVAR(val name: String, val silent: Boolean, constraint: OPBase) : LOPBase() {
-    override val children: Array<OPBase> = arrayOf(OPNothing(), constraint)
+class LOPServiceVAR : LOPBase {
+    override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
+    val name: String
+    val silent: Boolean
+
+    constructor(name: String, silent: Boolean, constraint: OPBase) : super() {
+        this.name = name
+        this.silent = silent
+        children[1] = constraint
+    }
 
     constructor(name: String, silent: Boolean, constraint: OPBase, child: OPBase) : this(name, silent, constraint) {
         this.children[0] = child

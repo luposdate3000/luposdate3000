@@ -723,11 +723,11 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTOrderCondition, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 1)
-val tmp=childrenValues.first()
-	if(tmp is LOPVariable)
-		return LOPSort(node.asc, tmp)
-	val v=LOPVariable("#f${tmp.uuid}")
-	return LOPSort(node.asc,v,LOPBind(v,tmp))
+        val tmp = childrenValues.first()
+        if (tmp is LOPVariable)
+            return LOPSort(node.asc, tmp)
+        val v = LOPVariable("#f${tmp.uuid}")
+        return LOPSort(node.asc, v, LOPBind(v, tmp))
     }
 
     override fun visit(node: ASTVar, childrenValues: List<OPBase>): OPBase {

@@ -80,8 +80,9 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
             POPBindUndefined(dictionary, createLOPVariable(mapping, node.attributes["name"]!!), child)
         }
         "POPBind" -> {
-            val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)
-            POPBind(dictionary, createLOPVariable(mapping, node.attributes["name"]!!), convertToOPBase(dictionary, transactionID, node["expression"]!!.childs[0], mapping) as POPExpression, child)
+            val child0 = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)
+            val child1 = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping)
+            POPBind(dictionary, createLOPVariable(mapping, node.attributes["name"]!!), child1 as POPExpression, child0)
         }
         "POPOffset" -> POPOffset(dictionary, node.attributes["offset"]!!.toInt(), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping))
         "POPLimit" -> POPLimit(dictionary, node.attributes["limit"]!!.toInt(), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping))

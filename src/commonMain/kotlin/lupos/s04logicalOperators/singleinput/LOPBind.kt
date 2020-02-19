@@ -8,19 +8,19 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPBind : LOPBase {
-    override val children: Array<OPBase> = arrayOf(OPNothing(),OPNothing())
-val name: LOPVariable
+    override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
+    val name: LOPVariable
 
-constructor(name: LOPVariable, expression: OPBase):super(){
-	this.name=name
-	children[1]=expression
-}
+    constructor(name: LOPVariable, expression: OPBase) : super() {
+        this.name = name
+        children[1] = expression
+    }
 
     constructor(name: LOPVariable, expression: OPBase, child: OPBase) : this(name, expression) {
         children[0] = child
     }
 
-override fun childrenToVerifyCount(): Int =1
+    override fun childrenToVerifyCount(): Int = 1
 
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>(name.name) + children[0].getProvidedVariableNames()

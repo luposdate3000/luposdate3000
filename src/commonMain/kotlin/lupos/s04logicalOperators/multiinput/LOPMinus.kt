@@ -1,12 +1,19 @@
 package lupos.s04logicalOperators.multiinput
 
 import lupos.s00misc.XMLElement
+import lupos.s04logicalOperators.*
 import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.noinput.*
 
 
-class LOPMinus(first: OPBase, second: OPBase) : LOPBase() {
-    override val children: Array<OPBase> = arrayOf(first, second)
+class LOPMinus : LOPBase {
+    override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
+
+    constructor(first: OPBase, second: OPBase) : super() {
+        children[0] = first
+        children[1] = second
+    }
+
     override fun getProvidedVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }

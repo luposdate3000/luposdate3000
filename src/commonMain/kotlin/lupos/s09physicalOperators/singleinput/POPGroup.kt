@@ -33,7 +33,7 @@ class POPGroup : POPBase {
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         var tmpBind: OPBase? = bindings
         while (tmpBind != null && tmpBind is POPBind) {
-            this.bindings.add(Pair(resultSet.createVariable(tmpBind.name.name), tmpBind.expression))
+            this.bindings.add(Pair(resultSet.createVariable(tmpBind.name.name), tmpBind.children[1] as POPExpression))
             resultSet.createVariable(tmpBind.name.name)
             tmpBind = tmpBind.children[0]
         }

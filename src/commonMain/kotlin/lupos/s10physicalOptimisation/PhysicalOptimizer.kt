@@ -75,7 +75,7 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
             }
             is LOPUnion -> return POPUnion(dictionary, node.children[0], node.children[1])
             is LOPExpression -> return POPExpression(dictionary, node.child)
-            is LOPSort ->                     return POPSort(dictionary, node.by , node.asc, node.children[0])
+            is LOPSort -> return POPSort(dictionary, node.by, node.asc, node.children[0])
             is LOPSubGroup -> return node.children[0]
             is LOPFilter -> return POPFilter(dictionary, node.children[1] as POPExpression, node.children[0])
             is LOPBind -> {

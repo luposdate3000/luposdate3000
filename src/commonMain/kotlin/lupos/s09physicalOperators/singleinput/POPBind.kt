@@ -19,9 +19,8 @@ import lupos.s09physicalOperators.POPBase
 class POPBind : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
-    override val children: Array<OPBase> = arrayOf(OPNothing())
+    override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     val name: LOPVariable
-    val expression: POPExpression
     private val variablesOld: Array<Variable?>
     private val variablesNew: Array<Variable?>
     private val variableBound: Variable
@@ -29,9 +28,9 @@ class POPBind : POPBase {
     constructor(dictionary: ResultSetDictionary, name: LOPVariable, expression: POPExpression, child: OPBase) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)
-        children[0] = child
         this.name = name
-        this.expression = expression
+        children[0] = child
+        children[1] = expression
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         val variableNames = children[0].resultSet.getVariableNames()
         variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
@@ -46,12 +45,13 @@ class POPBind : POPBase {
         variablesNew[i] = variableBound
     }
 
+    override fun childrenToVerifyCount(): Int = 1
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>(name.name) + children[0].getProvidedVariableNames()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        return expression.getRequiredVariableNames()
+        return children[1].getRequiredVariableNames()
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPBind.evaluate" }, {
@@ -63,7 +63,7 @@ class POPBind : POPBase {
                     for (i in variablesOld.indices)
                         rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
                     try {
-                        val value = expression.evaluate(children[0].resultSet, rsOld)
+                        val value = (children[1] as POPExpression).evaluate(children[0].resultSet, rsOld)
                         if (value == null)
                             resultSet.setUndefValue(rsNew, variableBound)
                         else
@@ -87,7 +87,6 @@ class POPBind : POPBase {
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPBind")
         res.addAttribute("name", name.name)
-        res.addContent(XMLElement("expression").addContent(expression.toXMLElement()))
         res.addContent(childrenToXML())
         return res
     }
