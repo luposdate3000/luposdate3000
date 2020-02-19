@@ -23,13 +23,13 @@ class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: I
 
     fun modifyInternal(key: Array<Value>, value: Array<String>, type: EModifyType, idx: Int, step: Int) {
         val realIdx = idx * components
-        val nextStep :Int
+        val nextStep: Int
         if (step == 1)
-            nextStep= 0
+            nextStep = 0
         else if (step == 2)
-            nextStep= 1
+            nextStep = 1
         else
-            nextStep= step / 2 + 1
+            nextStep = step / 2 + 1
         var cmp = 0
         for (i in 0 until components) {
             val tmp = dictionary.getValue(values[realIdx + i])!!

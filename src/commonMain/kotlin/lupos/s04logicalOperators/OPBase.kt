@@ -19,6 +19,11 @@ abstract class OPBase {
 
     abstract val children: Array<OPBase>
 
+    open fun updateChildren(i: Int, child: OPBase) {
+        require(i < children.size)
+        children[i] = child
+    }
+
     abstract fun evaluate()
 
     open fun toString(indentation: String): String = "${indentation}${classNameToString(this)}\n"
@@ -63,7 +68,8 @@ abstract class OPBase {
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
             } else {
-                throw Exception("undefined Variable")
+                println(this.toXMLElement().toPrettyString())
+                throw Exception("${classNameToString(this)} undefined Variable")
             }
         }
     }

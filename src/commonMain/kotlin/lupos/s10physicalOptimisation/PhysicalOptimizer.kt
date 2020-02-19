@@ -30,6 +30,7 @@ import lupos.s04logicalOperators.singleinput.LOPSubGroup
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
+import lupos.s08logicalOptimisation.*
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.noinput.POPEmptyRow
@@ -49,108 +50,72 @@ import lupos.s09physicalOperators.singleinput.POPModify
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPRename
 import lupos.s09physicalOperators.singleinput.POPSort
-import lupos.s10physicalOptimisation.OptimizerVisitorPOP
+import lupos.s10physicalOptimisation.*
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerVisitorPOP(transactionID, dictionary) {
+class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary) {
 
-
-    override fun visit(node: LOPGraphOperation): OPBase {
-        return POPGraphOperation(dictionary, transactionID, node.silent, node.graphref1!!, node.graphref2, node.action)
-    }
-
-    override fun visit(node: LOPModify): OPBase {
-        return POPModify(dictionary, transactionID, node.iri, node.insert, node.delete, optimize(node.children[0]))
-    }
-
-    override fun visit(node: LOPModifyData): OPBase {
-        return POPModifyData(dictionary, transactionID, node.type, node.data)
-    }
-
-    override fun visit(node: LOPProjection): OPBase {
-        return POPProjection(dictionary, node.variables, optimize(node.children[0]))
-    }
-
-    override fun visit(node: LOPMakeBooleanResult): OPBase {
-        return POPMakeBooleanResult(dictionary, optimize(node.children[0]))
-    }
-
-    override fun visit(node: LOPRename): OPBase {
-        return POPRename(dictionary, node.nameTo, node.nameFrom, optimize(node.children[0]))
-    }
-
-    override fun visit(node: LOPValues): OPBase {
-        return POPValues(dictionary, node)
-    }
-
-    override fun visit(node: LOPLimit): OPBase {
-        return POPLimit(dictionary, node.limit, optimize(node.children[0]))
-    }
-
-    override fun visit(node: LOPDistinct): OPBase {
-        return POPDistinct(dictionary, optimize(node.children[0]))
-    }
-
-    override fun visit(node: LOPOffset): OPBase {
-        return POPOffset(dictionary, node.offset, optimize(node.children[0]))
-    }
-
-    override fun visit(node: LOPGroup): OPBase {
-        if (node.bindings != null)
-            return POPGroup(dictionary, node.by, optimize(node.bindings!!) as POPBind, optimize(node.children[0]))
-        return POPGroup(dictionary, node.by, null, optimize(node.children[0]))
-    }
-
-    override fun visit(node: LOPUnion): OPBase {
-        return POPUnion(dictionary, optimize(node.children[0]), optimize(node.children[1]))
-    }
-
-    override fun visit(node: LOPExpression): OPBase {
-        return POPExpression(dictionary, node.child)
-    }
-
-    override fun visit(node: LOPSort): OPBase {
-        if (node.by is LOPVariable)
-            return POPSort(dictionary, node.by as LOPVariable, node.asc, optimize(node.children[0]))
-        else if (node.by is LOPExpression) {
-            val v = LOPVariable("#" + node.uuid)
-            return POPSort(dictionary, v, node.asc, POPBind(dictionary, v, optimize(node.by) as POPExpression, optimize(node.children[0])))
-        } else
-            throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)}, ${classNameToString(node.by)}")
-    }
-
-    override fun visit(node: LOPSubGroup): OPBase {
-        return optimize(node.children[0])
-    }
-
-    override fun visit(node: LOPFilter): OPBase {
-        return POPFilter(dictionary, optimize(node.filter) as POPExpression, optimize(node.children[0]))
-    }
-
-    override fun visit(node: LOPBind): OPBase {
-        val variable = optimize(node.name) as LOPVariable
-        val child = optimize(node.children[0])
-        when (node.expression) {
-            is LOPVariable ->
-                if (child.resultSet.getVariableNames().contains(variable.name))
-                    return POPRename(dictionary, variable, node.expression, child)
-                else
-                    return POPBindUndefined(dictionary, variable, child)
-            else ->
-                return POPBind(dictionary, variable, optimize(node.expression) as POPExpression, child)
+    override fun optimize(node: OPBase, parent: OPBase?): OPBase {
+        when (node) {
+            is LOPGraphOperation -> return POPGraphOperation(dictionary, transactionID, node.silent, node.graphref1!!, node.graphref2, node.action)
+            is LOPModify -> return POPModify(dictionary, transactionID, node.iri, node.insert, node.delete, node.children[0])
+            is LOPModifyData -> return POPModifyData(dictionary, transactionID, node.type, node.data)
+            is LOPProjection -> return POPProjection(dictionary, node.variables, node.children[0])
+            is LOPMakeBooleanResult -> return POPMakeBooleanResult(dictionary, node.children[0])
+            is LOPRename -> return POPRename(dictionary, node.nameTo, node.nameFrom, node.children[0])
+            is LOPValues -> return POPValues(dictionary, node)
+            is LOPLimit -> return POPLimit(dictionary, node.limit, node.children[0])
+            is LOPDistinct -> return POPDistinct(dictionary, node.children[0])
+            is LOPOffset -> return POPOffset(dictionary, node.offset, node.children[0])
+            is LOPGroup -> {
+                if (node.bindings != null) {
+                    val tmp = optimizeInternal(node.bindings!!, null) as POPBind
+                    println("XXX ${(node as LOPGroup)!!.bindings!!.toXMLElement().toPrettyString()} YYY ${tmp!!.toXMLElement().toPrettyString()}")
+                    return POPGroup(dictionary, node.by, tmp, node.children[0])
+                }
+                return POPGroup(dictionary, node.by, null, node.children[0])
+            }
+            is LOPUnion -> return POPUnion(dictionary, node.children[0], node.children[1])
+            is LOPExpression -> return POPExpression(dictionary, node.child)
+            is LOPSort -> {
+                if (node.by is LOPVariable)
+                    return POPSort(dictionary, node.by as LOPVariable, node.asc, node.children[0])
+                else if (node.by is LOPExpression) {
+                    val v = LOPVariable("#" + node.uuid)
+                    return POPSort(dictionary, v, node.asc, POPBind(dictionary, v, optimizeInternal(node.by, null) as POPExpression, node.children[0]))
+                } else
+                    throw UnsupportedOperationException("${classNameToString(this)} ${classNameToString(node)}, ${classNameToString(node.by)}")
+            }
+            is LOPSubGroup -> return node.children[0]
+            is LOPFilter -> return POPFilter(dictionary, optimizeInternal(node.filter, null) as POPExpression, node.children[0])
+            is LOPBind -> {
+                val variable = node.name
+                val child = node.children[0]
+                when (node.expression) {
+                    is LOPVariable ->
+                        if (child.resultSet.getVariableNames().contains(variable.name))
+                            return POPRename(dictionary, variable, node.expression, child)
+                        else
+                            return POPBindUndefined(dictionary, variable, child)
+                    else -> return POPBind(dictionary, variable, optimizeInternal(node.expression, null) as POPExpression, child)
+                }
+            }
+            is LOPJoin -> return POPJoinHashMap(dictionary, node.children[0], node.children[1], node.optional)
+            is LOPTriple -> {
+                val ts = optimizeTriple(node.s)
+                val tp = optimizeTriple(node.p)
+                val to = optimizeTriple(node.o)
+                return DistributedTripleStore.getNamedGraph(node.graph).getIterator(transactionID, dictionary, ts.first, tp.first, to.first, ts.second, tp.second, to.second, EIndexPattern.SPO)
+            }
+            is OPNothing -> return POPEmptyRow(dictionary)
+            else -> return node
         }
-    }
-
-    override fun visit(node: LOPJoin): OPBase {
-        return POPJoinHashMap(dictionary, optimize(node.children[0]), optimize(node.children[1]), node.optional)
     }
 
     fun optimizeTriple(param: OPBase): Pair<String, Boolean> {
         when (param) {
-            is LOPVariable -> {
-                return Pair(param.name, false)
-            }
+            is LOPVariable -> return Pair(param.name, false)
             is LOPExpression -> {
                 when (param.child) {
                     is ASTInteger -> return Pair("\"" + param.child.value + "\"^^<http://www.w3.org/2001/XMLSchema#integer>", true)
@@ -163,17 +128,5 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
             }
             else -> throw UnsupportedOperationException("${classNameToString(this)} , 2 ${classNameToString(param)}")
         }
-
-    }
-
-    override fun visit(node: LOPTriple): OPBase {
-        val ts = optimizeTriple(node.s)
-        val tp = optimizeTriple(node.p)
-        val to = optimizeTriple(node.o)
-        return DistributedTripleStore.getNamedGraph(node.graph).getIterator(transactionID, dictionary, ts.first, tp.first, to.first, ts.second, tp.second, to.second, EIndexPattern.SPO)
-    }
-
-    override fun visit(node: OPNothing): OPBase {
-        return POPEmptyRow(dictionary)
     }
 }
