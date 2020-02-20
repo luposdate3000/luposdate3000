@@ -171,14 +171,10 @@ class AOPBuiltInCall(var function: BuiltInFunctions, childs: List<AOPBase>) : AO
             BuiltInFunctions.isIRI ->
                 return AOPBooleanLiteral(a is AOPIri)
             BuiltInFunctions.LANGMATCHES -> {
-                if (a is AOPLanguageTaggedLiteral) {
-                    val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
-                    if (b is AOPSimpleLiteral)
-                        return AOPBooleanLiteral(a.language == b.content)
-                    else
-                        throw Exception("AOPBuiltInCall LANGMATCHES only works with simple language string input")
-                }
-                throw Exception("AOPBuiltInCall LANGMATCHES only works with language tagged base string input")
+                val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
+                if (a is AOPSimpleLiteral && b is AOPSimpleLiteral)
+                    return AOPBooleanLiteral(a.content == b.content)
+                throw Exception("AOPBuiltInCall LANGMATCHES only works with simple language string input")
             }
             BuiltInFunctions.STRENDS -> {
                 if (a is AOPConstantString) {
@@ -278,8 +274,11 @@ class AOPBuiltInCall(var function: BuiltInFunctions, childs: List<AOPBase>) : AO
                 throw Exception("AOPBuiltInCall DATATYPE only works with typed string input")
             }
             BuiltInFunctions.LANG -> {
-                if (a is AOPLanguageTaggedLiteral)
+                if (a is AOPLanguageTaggedLiteral) {
+                    println("LANG a :: ${a.language} ${a.content}")
                     return AOPSimpleLiteral(a.delimiter, a.language)
+                }
+                println("LANG b :: ?")
                 return AOPSimpleLiteral("\"", "")
             }
             BuiltInFunctions.STR -> {
