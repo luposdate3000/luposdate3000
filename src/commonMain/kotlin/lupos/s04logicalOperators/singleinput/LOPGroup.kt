@@ -2,12 +2,12 @@ package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.noinput.LOPVariable
+import lupos.s04ArithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPGroup(var by: List<LOPVariable>) : LOPBase() {
+class LOPGroup(var by: List<AOPVariable>) : LOPBase() {
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     override fun childrenToVerifyCount() = 1
     override fun getProvidedVariableNames(): List<String> {
@@ -39,11 +39,11 @@ class LOPGroup(var by: List<LOPVariable>) : LOPBase() {
         return mutableListOf<String>()
     }
 
-    constructor(by: List<LOPVariable>, child: OPBase) : this(by) {
+    constructor(by: List<AOPVariable>, child: OPBase) : this(by) {
         children[0] = child
     }
 
-    constructor(by: List<LOPVariable>, bindings: OPBase?, child: OPBase) : this(by) {
+    constructor(by: List<AOPVariable>, bindings: OPBase?, child: OPBase) : this(by) {
         if (bindings != null)
             children[1] = bindings
         children[0] = child

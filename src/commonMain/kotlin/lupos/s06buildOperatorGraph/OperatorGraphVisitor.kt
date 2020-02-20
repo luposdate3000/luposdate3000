@@ -101,7 +101,7 @@ import lupos.s04logicalOperators.noinput.LOPGraphOperation
 import lupos.s04logicalOperators.noinput.LOPModifyData
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
-import lupos.s04logicalOperators.noinput.LOPVariable
+import lupos.s04ArithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPBind
@@ -175,10 +175,10 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             for (sel in select) {
                 when (sel) {
                     is ASTVar -> {
-                        projection.variables.add(LOPVariable(sel.name))
+                        projection.variables.add(AOPVariable(sel.name))
                     }
                     is ASTAs -> {
-                        val v = LOPVariable(sel.variable.name)
+                        val v = AOPVariable(sel.variable.name)
                         projection.variables.add(v)
                         val tmp2 = LOPBind(v, sel.expression.visit(this))
                         bindIsAggregate = bindIsAggregate || containsAggregate(sel.expression)
@@ -198,7 +198,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         if (select.size == 0) {
             for (s in childNode.getProvidedVariableNames()) {
                 if (!s.startsWith("#"))
-                    projection.variables.add(LOPVariable(s))
+                    projection.variables.add(AOPVariable(s))
             }
         }
         return LOPSubGroup(result)
@@ -228,7 +228,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             val template = t.visit(this)
             var tmp: OPBase = LOPProjection()
             for (v in template.getProvidedVariableNames())
-                (tmp as LOPProjection).variables.add(LOPVariable(v))
+                (tmp as LOPProjection).variables.add(AOPVariable(v))
             (tmp as LOPProjection).setChild(LOPJoin(child, template, false))
             when {
                 t is ASTTriple -> {
@@ -236,17 +236,17 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     val p = t.children[1]
                     val o = t.children[2]
                     if (s is ASTVar)
-                        tmp = LOPRename(LOPVariable("s"), LOPVariable(s.name), tmp)
+                        tmp = LOPRename(AOPVariable("s"), AOPVariable(s.name), tmp)
                     else
-                        tmp = LOPBind(LOPVariable("s"), s.visit(this), tmp)
+                        tmp = LOPBind(AOPVariable("s"), s.visit(this), tmp)
                     if (p is ASTVar)
-                        tmp = LOPRename(LOPVariable("p"), LOPVariable(p.name), tmp)
+                        tmp = LOPRename(AOPVariable("p"), AOPVariable(p.name), tmp)
                     else
-                        tmp = LOPBind(LOPVariable("p"), p.visit(this), tmp)
+                        tmp = LOPBind(AOPVariable("p"), p.visit(this), tmp)
                     if (o is ASTVar)
-                        tmp = LOPRename(LOPVariable("o"), LOPVariable(o.name), tmp)
+                        tmp = LOPRename(AOPVariable("o"), AOPVariable(o.name), tmp)
                     else
-                        tmp = LOPBind(LOPVariable("o"), o.visit(this), tmp)
+                        tmp = LOPBind(AOPVariable("o"), o.visit(this), tmp)
                 }
                 else -> throw UnsupportedOperationException("${classNameToString(this)} template ${classNameToString(t)}")
             }
@@ -281,7 +281,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             if (node.existsHaving()) {
                 for (h in node.having) {
                     val expression = h.visit(this) as LOPExpression
-                    val tmpVar = LOPVariable("#f${expression.uuid}")
+                    val tmpVar = AOPVariable("#f${expression.uuid}")
                     val tmpBind = LOPBind(tmpVar, expression)
                     if (bind != null)
                         bind = mergeLOPBind(bind, tmpBind)
@@ -290,15 +290,15 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     result.getLatestChild().setChild(LOPFilter(LOPExpression(ASTVar(tmpVar.name))))
                 }
             }
-            val variables = mutableListOf<LOPVariable>()
+            val variables = mutableListOf<AOPVariable>()
             var child: LOPBind? = null
             for (b in node.groupBy) {
                 when (b) {
                     is ASTVar -> {
-                        variables.add(b.visit(this) as LOPVariable)
+                        variables.add(b.visit(this) as AOPVariable)
                     }
                     is ASTAs -> {
-                        val v = LOPVariable(b.variable.name)
+                        val v = AOPVariable(b.variable.name)
                         variables.add(v)
                         val tmp2 = LOPBind(v, b.expression.visit(this))
                         if (child != null)
@@ -319,7 +319,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             if (node.existsHaving()) {
                 for (h in node.having) {
                     val expression = h.visit(this) as LOPExpression
-                    val tmpVar = LOPVariable("#f${expression.uuid}")
+                    val tmpVar = AOPVariable("#f${expression.uuid}")
                     val tmpBind = LOPBind(tmpVar, expression)
                     if (bind != null)
                         bind = mergeLOPBind(bind, tmpBind)
@@ -327,10 +327,10 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         bind = tmpBind
                     result.getLatestChild().setChild(LOPFilter(LOPExpression(ASTVar(tmpVar.name))))
                 }
-                result.getLatestChild().setChild(LOPGroup(mutableListOf<LOPVariable>(), bind, LOPNOOP()))
+                result.getLatestChild().setChild(LOPGroup(mutableListOf<AOPVariable>(), bind, LOPNOOP()))
             } else {
                 if (bindIsAggregate) {
-                    result.getLatestChild().setChild(LOPGroup(mutableListOf<LOPVariable>(), bind, LOPNOOP()))
+                    result.getLatestChild().setChild(LOPGroup(mutableListOf<AOPVariable>(), bind, LOPNOOP()))
                 } else {
                     if (bind != null) {
                         result.getLatestChild().setChild(bind)
@@ -690,12 +690,12 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTAs, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        return LOPBind(node.variable.visit(this) as LOPVariable, node.expression.visit(this))
+        return LOPBind(node.variable.visit(this) as AOPVariable, node.expression.visit(this))
     }
 
     override fun visit(node: ASTBlankNode, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        return LOPVariable("#" + node.name)
+        return AOPVariable("#" + node.name)
     }
 
     override fun visit(node: ASTBuiltInCall, childrenValues: List<OPBase>): OPBase {
@@ -724,15 +724,15 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     override fun visit(node: ASTOrderCondition, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 1)
         val tmp = childrenValues.first()
-        if (tmp is LOPVariable)
+        if (tmp is AOPVariable)
             return LOPSort(node.asc, tmp)
-        val v = LOPVariable("#f${tmp.uuid}")
+        val v = AOPVariable("#f${tmp.uuid}")
         return LOPSort(node.asc, v, LOPBind(v, tmp))
     }
 
     override fun visit(node: ASTVar, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        return LOPVariable(node.name)
+        return AOPVariable(node.name)
     }
 
     override fun visit(node: ASTLiteral, childrenValues: List<OPBase>): OPBase {
@@ -761,10 +761,10 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         if (node.variables.isEmpty()) {
             return LOPNOOP()
         }
-        val variables = mutableListOf<LOPVariable>()
+        val variables = mutableListOf<AOPVariable>()
         val values = mutableListOf<LOPExpression>()
         for (v in node.variables) {
-            variables.add(v.visit(this) as LOPVariable)
+            variables.add(v.visit(this) as AOPVariable)
         }
         for (v in node.children) {
             values.add(LOPExpression(v))

@@ -3,11 +3,11 @@ package lupos.s04logicalOperators.noinput
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.LOPExpression
-import lupos.s04logicalOperators.noinput.LOPVariable
+import lupos.s04ArithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPValues(val variables: List<LOPVariable>, val values: List<LOPExpression>) : LOPBase() {
+class LOPValues(val variables: List<AOPVariable>, val values: List<LOPExpression>) : LOPBase() {
     override val children: Array<OPBase> = arrayOf()
     override fun getProvidedVariableNames(): List<String> {
         var res = mutableListOf<String>()

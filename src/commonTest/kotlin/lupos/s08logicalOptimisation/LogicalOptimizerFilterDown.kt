@@ -7,14 +7,15 @@ import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s08logicalOptimisation.OptimizerBase
+import lupos.s04ArithmetikOperators.noinput.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
 
 class LogicalOptimizerFilterDownTest {
-    var store1 = LOPTriple(LOPVariable("s"), LOPVariable("p"), LOPVariable("o"), "")
+    var store1 = LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), "")
     val astS = ASTVar("s")
-    val projectS = mutableListOf(LOPVariable("s"))
+    val projectS = mutableListOf(AOPVariable("s"))
     fun helper(input: OPBase, target: OPBase, transactionID: Long, dictionary: ResultSetDictionary, expectChanged: Int) {
         var changed = 0
         val output = LogicalOptimizerFilterDown(transactionID, dictionary).optimizeCall(input, { changed++ })

@@ -2,15 +2,15 @@ package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.noinput.LOPVariable
+import lupos.s04ArithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPProjection(val variables: MutableList<LOPVariable> = mutableListOf()) : LOPBase() {
+class LOPProjection(val variables: MutableList<AOPVariable> = mutableListOf()) : LOPBase() {
     override val children: Array<OPBase> = arrayOf(OPNothing())
 
-    constructor(variables: MutableList<LOPVariable> = mutableListOf(), child: OPBase) : this(variables) {
+    constructor(variables: MutableList<AOPVariable> = mutableListOf(), child: OPBase) : this(variables) {
         this.children[0] = child
     }
 

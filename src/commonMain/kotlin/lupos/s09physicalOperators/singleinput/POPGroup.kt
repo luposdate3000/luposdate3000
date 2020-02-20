@@ -10,7 +10,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.noinput.LOPVariable
+import lupos.s04ArithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPExpression
@@ -22,7 +22,7 @@ class POPGroup : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
-    var by: List<LOPVariable>
+    var by: List<AOPVariable>
     var bindings = mutableListOf<Pair<Variable, POPExpression>>()
 
     override fun equals(other: Any?): Boolean {
@@ -41,7 +41,7 @@ class POPGroup : POPBase {
         return true
     }
 
-    constructor(dictionary: ResultSetDictionary, by: List<LOPVariable>, bindings: POPBind?, child: OPBase) : super() {
+    constructor(dictionary: ResultSetDictionary, by: List<AOPVariable>, bindings: POPBind?, child: OPBase) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)
         children[0] = child

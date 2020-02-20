@@ -7,7 +7,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.noinput.LOPVariable
+import lupos.s04ArithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
@@ -18,7 +18,7 @@ class POPBindUndefined : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
-    val name: LOPVariable
+    val name: AOPVariable
     private val variablesOld: Array<Variable?>
     private val variablesNew: Array<Variable?>
     private val variableBound: Variable
@@ -36,7 +36,7 @@ class POPBindUndefined : POPBase {
         return true
     }
 
-    constructor(dictionary: ResultSetDictionary, name: LOPVariable, child: OPBase) : super() {
+    constructor(dictionary: ResultSetDictionary, name: AOPVariable, child: OPBase) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)
         children[0] = child

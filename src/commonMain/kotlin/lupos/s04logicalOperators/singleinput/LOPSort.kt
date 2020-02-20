@@ -2,15 +2,15 @@ package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.noinput.LOPVariable
+import lupos.s04ArithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPSort(val asc: Boolean, var by: LOPVariable) : LOPBase() {
+class LOPSort(val asc: Boolean, var by: AOPVariable) : LOPBase() {
     override val children: Array<OPBase> = arrayOf(OPNothing())
 
-    constructor(asc: Boolean, by: LOPVariable, child: OPBase) : this(asc, by) {
+    constructor(asc: Boolean, by: AOPVariable, child: OPBase) : this(asc, by) {
         this.children[0] = child
     }
 

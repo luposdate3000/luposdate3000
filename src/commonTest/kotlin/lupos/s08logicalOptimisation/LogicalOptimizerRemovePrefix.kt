@@ -1,4 +1,5 @@
 package lupos.s08logicalOptimisation
+import lupos.s04ArithmetikOperators.noinput.*
 
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.noinput.*
@@ -41,8 +42,8 @@ class LogicalOptimizerRemovePrefixTest {
     @Test
     fun test3() {
         helper(
-                LOPProjection(mutableListOf(LOPVariable("a")), LOPPrefix("c", "d")),
-                LOPProjection(mutableListOf(LOPVariable("a")), OPNothing()),
+                LOPProjection(mutableListOf(AOPVariable("a")), LOPPrefix("c", "d")),
+                LOPProjection(mutableListOf(AOPVariable("a")), OPNothing()),
                 0,
                 ResultSetDictionary()
         )

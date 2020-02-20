@@ -7,7 +7,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.noinput.LOPVariable
+import lupos.s04ArithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
@@ -17,8 +17,8 @@ class POPRename : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
-    var nameTo: LOPVariable
-    var nameFrom: LOPVariable
+    var nameTo: AOPVariable
+    var nameFrom: AOPVariable
     private val variablesOld: Array<Variable?>
     private val variablesNew: Array<Variable?>
     override fun equals(other: Any?): Boolean {
@@ -52,7 +52,7 @@ class POPRename : POPBase {
         }
     }
 
-    constructor(dictionary: ResultSetDictionary, nameTo: LOPVariable, nameFrom: LOPVariable, child: OPBase) : super() {
+    constructor(dictionary: ResultSetDictionary, nameTo: AOPVariable, nameFrom: AOPVariable, child: OPBase) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)
         children[0] = child

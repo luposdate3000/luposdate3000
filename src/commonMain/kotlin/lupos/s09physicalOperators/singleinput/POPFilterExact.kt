@@ -7,7 +7,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.noinput.LOPVariable
+import lupos.s04ArithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
@@ -17,7 +17,7 @@ class POPFilterExact : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
-    val variable: LOPVariable
+    val variable: AOPVariable
     val value: String
     val valueR: Value
     private val filterVariable: Variable
@@ -37,7 +37,7 @@ class POPFilterExact : POPBase {
         return true
     }
 
-    constructor(dictionary: ResultSetDictionary, variable: LOPVariable, value: String, child: OPBase) : super() {
+    constructor(dictionary: ResultSetDictionary, variable: AOPVariable, value: String, child: OPBase) : super() {
         this.dictionary = dictionary
         children[0] = child
         this.variable = variable

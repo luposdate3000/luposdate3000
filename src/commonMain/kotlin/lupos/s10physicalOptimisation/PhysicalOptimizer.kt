@@ -15,7 +15,7 @@ import lupos.s04logicalOperators.noinput.LOPGraphOperation
 import lupos.s04logicalOperators.noinput.LOPModifyData
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
-import lupos.s04logicalOperators.noinput.LOPVariable
+import lupos.s04ArithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPBind
@@ -84,9 +84,9 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
                     val variable = node.name
                     val child = node.children[0]
                     when (node.children[1]) {
-                        is LOPVariable ->
+                        is AOPVariable ->
                             if (child.resultSet.getVariableNames().contains(variable.name))
-                                return POPRename(dictionary, variable, node.children[1] as LOPVariable, child)
+                                return POPRename(dictionary, variable, node.children[1] as AOPVariable, child)
                             else
                                 return POPBindUndefined(dictionary, variable, child)
                         else -> return POPBind(dictionary, variable, node.children[1] as POPExpression, child)
@@ -113,7 +113,7 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
 
     fun optimizeTriple(param: OPBase): Pair<String, Boolean> {
         when (param) {
-            is LOPVariable -> return Pair(param.name, false)
+            is AOPVariable -> return Pair(param.name, false)
             is LOPExpression -> {
                 when (param.child) {
                     is ASTInteger -> return Pair("\"" + param.child.value + "\"^^<http://www.w3.org/2001/XMLSchema#integer>", true)

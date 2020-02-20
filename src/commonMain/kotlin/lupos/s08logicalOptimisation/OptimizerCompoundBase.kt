@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.noinput.LOPGraphOperation
 import lupos.s04logicalOperators.noinput.LOPModifyData
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
-import lupos.s04logicalOperators.noinput.LOPVariable
+import lupos.s04ArithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPBind

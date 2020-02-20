@@ -8,7 +8,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.noinput.LOPVariable
+import lupos.s04ArithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
@@ -39,7 +39,7 @@ class POPSort : POPBase {
         return true
     }
 
-    constructor(dictionary: ResultSetDictionary, sortBy: LOPVariable, sortOrder: Boolean, child: OPBase) : super() {
+    constructor(dictionary: ResultSetDictionary, sortBy: AOPVariable, sortOrder: Boolean, child: OPBase) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)
         children[0] = child

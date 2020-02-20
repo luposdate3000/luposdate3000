@@ -2,21 +2,21 @@ package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.noinput.LOPVariable
+import lupos.s04ArithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
 class LOPBind : LOPBase {
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
-    val name: LOPVariable
+    val name: AOPVariable
 
-    constructor(name: LOPVariable, expression: OPBase) : super() {
+    constructor(name: AOPVariable, expression: OPBase) : super() {
         this.name = name
         children[1] = expression
     }
 
-    constructor(name: LOPVariable, expression: OPBase, child: OPBase) : this(name, expression) {
+    constructor(name: AOPVariable, expression: OPBase, child: OPBase) : this(name, expression) {
         children[0] = child
     }
 
