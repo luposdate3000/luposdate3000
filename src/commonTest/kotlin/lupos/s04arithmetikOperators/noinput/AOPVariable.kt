@@ -16,9 +16,8 @@ import org.junit.jupiter.api.Assertions.*
 
 
 class AOPVariableTest {
-val timeNow=AOPDateTime()
-    @TestFactory
-    fun test1() = listOf(
+    val timeNow = AOPDateTime()
+val data=listOf(
             AOPInteger(0) to AOPInteger(0),
             AOPInteger(-1) to AOPInteger(-1),
             AOPInteger(1) to AOPInteger(1),
@@ -38,19 +37,21 @@ val timeNow=AOPDateTime()
             AOPDecimal(0.1) to AOPDecimal(0.1),
             AOPDecimal(Double.MAX_VALUE) to AOPDecimal(Double.MAX_VALUE),
             AOPDecimal(Double.MIN_VALUE) to AOPDecimal(Double.MIN_VALUE),
-		AOPBooleanLiteral(true) to AOPBooleanLiteral(true),
-		AOPBooleanLiteral(false) to AOPBooleanLiteral(false),
-	AOPBnode("0") to AOPBnode("0"),
-	AOPBnode("a") to AOPBnode("a"),
-	AOPBnode("abcde") to AOPBnode("abcde"),
-	AOPIri("a") to AOPIri("a"),
-	AOPIri("http://bla") to AOPIri("http://bla"),
-AOPSimpleLiteral("\"","a") to AOPSimpleLiteral("\"","a"),
-AOPTypedLiteral("\"","a","b") to AOPTypedLiteral("\"","a","b"),
-AOPLanguageTaggedLiteral("\"","a","b") to AOPLanguageTaggedLiteral("\"","a","b"),
-timeNow to timeNow,
-	AOPUndef() to AOPUndef()
-    ).map { (input, expected) ->
+            AOPBooleanLiteral(true) to AOPBooleanLiteral(true),
+            AOPBooleanLiteral(false) to AOPBooleanLiteral(false),
+            AOPBnode("0") to AOPBnode("0"),
+            AOPBnode("a") to AOPBnode("a"),
+            AOPBnode("abcde") to AOPBnode("abcde"),
+            AOPIri("a") to AOPIri("a"),
+            AOPIri("http://bla") to AOPIri("http://bla"),
+            AOPSimpleLiteral("\"", "a") to AOPSimpleLiteral("\"", "a"),
+            AOPTypedLiteral("\"", "a", "b") to AOPTypedLiteral("\"", "a", "b"),
+            AOPLanguageTaggedLiteral("\"", "a", "b") to AOPLanguageTaggedLiteral("\"", "a", "b"),
+            timeNow to timeNow,
+            AOPUndef() to AOPUndef()
+    )
+    @TestFactory
+    fun test1() = data.map { (input, expected) ->
         val tmp = input.valueToString()
         DynamicTest.dynamicTest("$tmp") {
             val output = AOPVariable.calculate(tmp)
