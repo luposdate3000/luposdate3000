@@ -11,40 +11,19 @@ import kotlin.math.roundToInt
 import lupos.s00misc.classNameToString
 import lupos.s00misc.ThreadSafeUuid
 import lupos.s00misc.XMLElement
-import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
-import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
-import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation
-import lupos.s02buildSyntaxTree.sparql1_1.ASTAnd
-import lupos.s02buildSyntaxTree.sparql1_1.ASTBinaryOperationFixedName
-import lupos.s02buildSyntaxTree.sparql1_1.ASTBooleanLiteral
-import lupos.s02buildSyntaxTree.sparql1_1.ASTBuiltInCall
-import lupos.s02buildSyntaxTree.sparql1_1.ASTDecimal
-import lupos.s02buildSyntaxTree.sparql1_1.ASTDivision
-import lupos.s02buildSyntaxTree.sparql1_1.ASTDouble
-import lupos.s02buildSyntaxTree.sparql1_1.ASTEQ
-import lupos.s02buildSyntaxTree.sparql1_1.ASTGEQ
-import lupos.s02buildSyntaxTree.sparql1_1.ASTGT
-import lupos.s02buildSyntaxTree.sparql1_1.ASTInteger
-import lupos.s02buildSyntaxTree.sparql1_1.ASTIri
-import lupos.s02buildSyntaxTree.sparql1_1.ASTLEQ
-import lupos.s02buildSyntaxTree.sparql1_1.ASTLiteral
-import lupos.s02buildSyntaxTree.sparql1_1.ASTLT
-import lupos.s02buildSyntaxTree.sparql1_1.ASTMultiplication
-import lupos.s02buildSyntaxTree.sparql1_1.ASTNEQ
-import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
-import lupos.s02buildSyntaxTree.sparql1_1.ASTNot
-import lupos.s02buildSyntaxTree.sparql1_1.ASTOr
-import lupos.s02buildSyntaxTree.sparql1_1.ASTUndef
-import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
-import lupos.s02buildSyntaxTree.sparql1_1.BuiltInFunctions
+import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.multiinput.*
+import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.parseFromASTNode
-import lupos.s04logicalOperators.toASTNode
+import lupos.s04logicalOperators.parseFromAOPBase
+import lupos.s04logicalOperators.toAOPBase
 
 
 val localbnode = ThreadSafeUuid()
@@ -261,7 +240,7 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         }
     }
 
-    fun evaluateChildTyped(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): T {
+    fun evaluateChildTyped(resultSet: ResultSet, resultRow: ResultRow, node: AOPBase): T {
         return when (expression.getResultType(resultSet, resultRow, node)) {
             TmpResultType.RSInteger -> helperToT(expression.evaluateInteger.evaluateHelper(resultSet, resultRow, node))
             TmpResultType.RSDecimal -> helperToT(expression.evaluateDecimal.evaluateHelper(resultSet, resultRow, node))
@@ -270,34 +249,34 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
         }
     }
 
-    fun evaluateHelper2(resultSet: ResultSet, resultRow: ResultRow, node: ASTBinaryOperationFixedName): T {
-        val a = evaluateChildTyped(resultSet, resultRow, node.children[0])
-        val b = evaluateChildTyped(resultSet, resultRow, node.children[1])
+    fun evaluateHelper2(resultSet: ResultSet, resultRow: ResultRow, node: AOPBinaryOperationFixedName): T {
+        val a = evaluateChildTyped(resultSet, resultRow, node.children[0] as AOPBase)
+        val b = evaluateChildTyped(resultSet, resultRow, node.children[1] as AOPBase)
         when (node) {
-            is ASTAddition -> return a + b
-            is ASTMultiplication -> return a * b
-            is ASTDivision -> return a / b
+            is AOPAddition -> return a + b
+            is AOPMultiplication -> return a * b
+            is AOPDivision -> return a / b
             else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelper2 ${classNameToString(node)}")
         }
     }
 
-    fun evaluateHelperBoolean(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): Boolean {
-        val a: T = evaluateChildTyped(resultSet, resultRow, node.children[0])
-        val b: T = evaluateChildTyped(resultSet, resultRow, node.children[1])
+    fun evaluateHelperBoolean(resultSet: ResultSet, resultRow: ResultRow, node: AOPBase): Boolean {
+        val a: T = evaluateChildTyped(resultSet, resultRow, node.children[0] as AOPBase)
+        val b: T = evaluateChildTyped(resultSet, resultRow, node.children[1] as AOPBase)
         when (node) {
-            is ASTEQ -> return a == b
-            is ASTNEQ -> return a == b
-            is ASTGEQ -> return a >= b
-            is ASTLEQ -> return a <= b
-            is ASTGT -> return a > b
-            is ASTLT -> return a < b
+            is AOPEQ -> return a == b
+            is AOPNEQ -> return a == b
+            is AOPGEQ -> return a >= b
+            is AOPLEQ -> return a <= b
+            is AOPGT -> return a > b
+            is AOPLT -> return a < b
             else -> throw ArithmeticException("the output of ${classNameToString(node)} is not a boolean")
         }
     }
 
-    fun evaluateHelper(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): T {
+    fun evaluateHelper(resultSet: ResultSet, resultRow: ResultRow, node: AOPBase): T {
         when (node) {
-            is ASTAggregation -> {
+            is AOPAggregation -> {
                 if (node.distinct)
                     throw UnsupportedOperationException("${classNameToString(this)} evaluateHelper ${classNameToString(node)} ${node.type} DISTINCT")
                 if (expression.aggregateTmpType[node.uuid] == null || expression.aggregateTmpType[node.uuid] == resultType)
@@ -312,12 +291,12 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                     return helperToT(expression.aggregateCount)
                 }
                 val childValue: T = if (expression.aggregateMode == TmpAggregateMode.AMCollect)
-                    evaluateChildTyped(resultSet, resultRow, node.children[0])
+                    evaluateChildTyped(resultSet, resultRow, node.children[0] as AOPBase)
                 else
                     helperNull()
                 if (node.type == Aggregation.SAMPLE) {
                     if (expression.aggregateTmp[node.uuid] == null && expression.aggregateMode == TmpAggregateMode.AMCollect) {
-                        expression.aggregateTmpTypeUsed[node.uuid] = expression.getResultType(resultSet, resultRow, node.children[0])
+                        expression.aggregateTmpTypeUsed[node.uuid] = expression.getResultType(resultSet, resultRow, node.children[0] as AOPBase)
                         expression.aggregateTmp[node.uuid] = childValue
                     }
                     val res: Number? = expression.aggregateTmp[node.uuid]
@@ -325,28 +304,28 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                         return helperNull()
                     return helperToT(res)
                 }
-                var last: T? = expression.aggregateTmp[node.uuid] as T?
-                if (last == null)
-                    last = helperNull()
+                var lAOP: T? = expression.aggregateTmp[node.uuid] as T?
+                if (lAOP == null)
+                    lAOP = helperNull()
                 if (expression.aggregateMode == TmpAggregateMode.AMCollect) {
                     when (node.type) {
                         Aggregation.AVG -> {
-                            expression.aggregateTmp[node.uuid] = last + childValue / helperToT(expression.aggregateCount)
+                            expression.aggregateTmp[node.uuid] = lAOP + childValue / helperToT(expression.aggregateCount)
                         }
                         Aggregation.MIN -> {
-                            if (expression.aggregateTmp[node.uuid] == null || childValue < last) {
+                            if (expression.aggregateTmp[node.uuid] == null || childValue < lAOP) {
                                 expression.aggregateTmp[node.uuid] = childValue
-                                expression.aggregateTmpTypeUsed[node.uuid] = expression.getResultType(resultSet, resultRow, node.children[0])
+                                expression.aggregateTmpTypeUsed[node.uuid] = expression.getResultType(resultSet, resultRow, node.children[0] as AOPBase)
                             }
                         }
                         Aggregation.MAX -> {
-                            if (expression.aggregateTmp[node.uuid] == null || childValue > last) {
+                            if (expression.aggregateTmp[node.uuid] == null || childValue > lAOP) {
                                 expression.aggregateTmp[node.uuid] = childValue
-                                expression.aggregateTmpTypeUsed[node.uuid] = expression.getResultType(resultSet, resultRow, node.children[0])
+                                expression.aggregateTmpTypeUsed[node.uuid] = expression.getResultType(resultSet, resultRow, node.children[0] as AOPBase)
                             }
                         }
                         Aggregation.SUM -> {
-                            expression.aggregateTmp[node.uuid] = last + childValue
+                            expression.aggregateTmp[node.uuid] = lAOP + childValue
                         }
                         else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelper ${classNameToString(node)} ${node.type}")
                     }
@@ -356,33 +335,33 @@ class EvaluateNumber<T : Number>(val expression: POPExpression, val resultType: 
                     return helperNull()
                 return helperToT(res)
             }
-            is ASTVar -> {
+            is AOPVariable -> {
                 val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])!!
                 val tmp2 = tmp.substring(1, tmp.length - 1 - dataType.length)
                 return fromString(tmp2)
             }
-            is ASTInteger -> return helperToT(node.value)
-            is ASTDecimal -> return helperToT(node.toDouble())
-            is ASTDouble -> return helperToT(node.toDouble())
-            is ASTBinaryOperationFixedName -> return evaluateHelper2(resultSet, resultRow, node)
-            is ASTBuiltInCall -> {
+            is AOPInteger -> return helperToT(node.value)
+            is AOPDecimal -> return helperToT(node.value)
+            is AOPDouble -> return helperToT(node.value)
+            is AOPBinaryOperationFixedName -> return evaluateHelper2(resultSet, resultRow, node)
+            is AOPBuiltInCall -> {
                 when (node.function) {
-                    BuiltInFunctions.ABS -> return myAbs(evaluateChildTyped(resultSet, resultRow, node.children[0]))
-                    BuiltInFunctions.CEIL -> return myCeil(evaluateChildTyped(resultSet, resultRow, node.children[0]))
-                    BuiltInFunctions.FLOOR -> return myFloor(evaluateChildTyped(resultSet, resultRow, node.children[0]))
-                    BuiltInFunctions.ROUND -> return myRound(evaluateChildTyped(resultSet, resultRow, node.children[0]))
-                    BuiltInFunctions.DAY -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).day)
-                    BuiltInFunctions.MONTH -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).month)
-                    BuiltInFunctions.YEAR -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).year)
-                    BuiltInFunctions.HOURS -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).hours)
-                    BuiltInFunctions.MINUTES -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).minutes)
-                    BuiltInFunctions.SECONDS -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0]).seconds)
-                    BuiltInFunctions.STRLEN -> return helperToT(expression.extractStringFromLiteral(expression.evaluateHelperString(resultSet, resultRow, node.children[0])!!).length)
+                    BuiltInFunctions.ABS -> return myAbs(evaluateChildTyped(resultSet, resultRow, node.children[0] as AOPBase))
+                    BuiltInFunctions.CEIL -> return myCeil(evaluateChildTyped(resultSet, resultRow, node.children[0] as AOPBase))
+                    BuiltInFunctions.FLOOR -> return myFloor(evaluateChildTyped(resultSet, resultRow, node.children[0] as AOPBase))
+                    BuiltInFunctions.ROUND -> return myRound(evaluateChildTyped(resultSet, resultRow, node.children[0] as AOPBase))
+                    BuiltInFunctions.DAY -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0] as AOPBase).day)
+                    BuiltInFunctions.MONTH -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0] as AOPBase).month)
+                    BuiltInFunctions.YEAR -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0] as AOPBase).year)
+                    BuiltInFunctions.HOURS -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0] as AOPBase).hours)
+                    BuiltInFunctions.MINUTES -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0] as AOPBase).minutes)
+                    BuiltInFunctions.SECONDS -> return helperToT(expression.evaluateHelperDateTime(resultSet, resultRow, node.children[0] as AOPBase).seconds)
+                    BuiltInFunctions.STRLEN -> return helperToT(expression.extractStringFromLiteral(expression.evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)!!).length)
                     BuiltInFunctions.IF -> {
                         if (expression.aggregateTmp[node.uuid] == 1)
-                            return evaluateHelper(resultSet, resultRow, node.children[1])
+                            return evaluateHelper(resultSet, resultRow, node.children[1] as AOPBase)
                         else
-                            return evaluateHelper(resultSet, resultRow, node.children[2])
+                            return evaluateHelper(resultSet, resultRow, node.children[2] as AOPBase)
                     }
                     else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelper ${classNameToString(node)} ${node.function}")
                 }
@@ -411,11 +390,11 @@ class POPExpression : LOPBase {
     val evaluateDouble = EvaluateNumber<Double>(this, TmpResultType.RSDouble, dataTypeDouble)
 
     var aggregateCount: Int = 0
-    val aggregateTmpTypeUsed = mutableMapOf<Long, TmpResultType>()//min and max should return the original type and not something casted
+    val aggregateTmpTypeUsed = mutableMapOf<Long, TmpResultType>()//min and max should return the original type and not something cAOPed
     val aggregateTmpType = mutableMapOf<Long, TmpResultType>()
     val aggregateTmp = mutableMapOf<Long, Number>()
     private val aggregateTmpString = mutableMapOf<Long, String>()
-    var child: ASTNode
+    var child: AOPBase
 
 
     override fun equals(other: Any?): Boolean {
@@ -428,7 +407,7 @@ class POPExpression : LOPBase {
         return true
     }
 
-    constructor(dictionary: ResultSetDictionary, child: ASTNode) {
+    constructor(dictionary: ResultSetDictionary, child: AOPBase) {
         this.dictionary = dictionary
         this.child = child
     }
@@ -463,15 +442,15 @@ class POPExpression : LOPBase {
         throw ArithmeticException("incompatible datatypes $aType $bType")
     }
 
-    private fun commonDatatype(resultSet: ResultSet, resultRow: ResultRow, nodeA: ASTNode, nodeB: ASTNode): TmpResultType {
+    private fun commonDatatype(resultSet: ResultSet, resultRow: ResultRow, nodeA: AOPBase, nodeB: AOPBase): TmpResultType {
         val aType = getResultType(resultSet, resultRow, nodeA)
         val bType = getResultType(resultSet, resultRow, nodeB)
         return commonDatatype(aType, bType)
     }
 
-    fun getResultType(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): TmpResultType {
+    fun getResultType(resultSet: ResultSet, resultRow: ResultRow, node: AOPBase): TmpResultType {
         when (node) {
-            is ASTAggregation -> {
+            is AOPAggregation -> {
                 if (aggregateMode == TmpAggregateMode.AMResult) {
                     val tmp = aggregateTmpType[node.uuid]
                     if (tmp == null)
@@ -483,7 +462,7 @@ class POPExpression : LOPBase {
                 }
                 if (node.type == Aggregation.COUNT)
                     return TmpResultType.RSInteger
-                var newType = getResultType(resultSet, resultRow, node.children[0])
+                var newType = getResultType(resultSet, resultRow, node.children[0] as AOPBase)
                 if (node.type == Aggregation.AVG)
                     newType = commonDatatype(newType, TmpResultType.RSDecimal)
                 val oldType = aggregateTmpType[node.uuid]
@@ -491,26 +470,26 @@ class POPExpression : LOPBase {
                     return newType
                 return commonDatatype(oldType, newType)
             }
-            is ASTUndef -> return TmpResultType.RSUndefined
-            is ASTLiteral -> return TmpResultType.RSString
-            is ASTBooleanLiteral -> return TmpResultType.RSBoolean
-            is ASTOr -> return TmpResultType.RSBoolean
-            is ASTAnd -> return TmpResultType.RSBoolean
-            is ASTEQ -> return TmpResultType.RSBoolean
-            is ASTNot -> return TmpResultType.RSBoolean
-            is ASTNEQ -> return TmpResultType.RSBoolean
-            is ASTGEQ -> return TmpResultType.RSBoolean
-            is ASTLEQ -> return TmpResultType.RSBoolean
-            is ASTGT -> return TmpResultType.RSBoolean
-            is ASTLT -> return TmpResultType.RSBoolean
-            is ASTIri -> return TmpResultType.RSString
-            is ASTInteger -> return TmpResultType.RSInteger
-            is ASTDecimal -> return TmpResultType.RSDecimal
-            is ASTDouble -> return TmpResultType.RSDouble
-            is ASTAddition -> return commonDatatype(resultSet, resultRow, node.children[0], node.children[1])
-            is ASTMultiplication -> return commonDatatype(resultSet, resultRow, node.children[0], node.children[1])
-            is ASTDivision -> return commonDatatype(commonDatatype(resultSet, resultRow, node.children[0], node.children[1]), TmpResultType.RSDecimal)
-            is ASTVar -> {
+            is AOPUndef -> return TmpResultType.RSUndefined
+            is AOPSimpleLiteral -> return TmpResultType.RSString
+            is AOPBooleanLiteral -> return TmpResultType.RSBoolean
+            is AOPOr -> return TmpResultType.RSBoolean
+            is AOPAnd -> return TmpResultType.RSBoolean
+            is AOPEQ -> return TmpResultType.RSBoolean
+            is AOPNot -> return TmpResultType.RSBoolean
+            is AOPNEQ -> return TmpResultType.RSBoolean
+            is AOPGEQ -> return TmpResultType.RSBoolean
+            is AOPLEQ -> return TmpResultType.RSBoolean
+            is AOPGT -> return TmpResultType.RSBoolean
+            is AOPLT -> return TmpResultType.RSBoolean
+            is AOPIri -> return TmpResultType.RSString
+            is AOPInteger -> return TmpResultType.RSInteger
+            is AOPDecimal -> return TmpResultType.RSDecimal
+            is AOPDouble -> return TmpResultType.RSDouble
+            is AOPAddition -> return commonDatatype(resultSet, resultRow, node.children[0] as AOPBase, node.children[1] as AOPBase)
+            is AOPMultiplication -> return commonDatatype(resultSet, resultRow, node.children[0] as AOPBase, node.children[1] as AOPBase)
+            is AOPDivision -> return commonDatatype(commonDatatype(resultSet, resultRow, node.children[0] as AOPBase, node.children[1] as AOPBase), TmpResultType.RSDecimal)
+            is AOPVariable -> {
                 if (!resultSet.getVariableNames().contains(node.name))
                     return TmpResultType.RSUndefined
                 val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])
@@ -528,16 +507,16 @@ class POPExpression : LOPBase {
                     }
                 }
             }
-            is ASTBuiltInCall -> {
+            is AOPBuiltInCall -> {
                 when (node.function) {
                     BuiltInFunctions.IF -> {
-                        val condition: Boolean = evaluateHelperBoolean(resultSet, resultRow, node.children[0])
+                        val condition: Boolean = evaluateHelperBoolean(resultSet, resultRow, node.children[0] as AOPBase)
                         if (condition) {
                             aggregateTmp[node.uuid] = 1
-                            return getResultType(resultSet, resultRow, node.children[1])
+                            return getResultType(resultSet, resultRow, node.children[1] as AOPBase)
                         } else {
                             aggregateTmp[node.uuid] = 0
-                            return getResultType(resultSet, resultRow, node.children[2])
+                            return getResultType(resultSet, resultRow, node.children[2] as AOPBase)
                         }
                     }
                     BuiltInFunctions.CONTAINS -> return TmpResultType.RSBoolean
@@ -546,10 +525,10 @@ class POPExpression : LOPBase {
                     BuiltInFunctions.LANGMATCHES -> return TmpResultType.RSBoolean
                     BuiltInFunctions.BOUND -> return TmpResultType.RSBoolean
                     BuiltInFunctions.RAND -> return TmpResultType.RSInteger
-                    BuiltInFunctions.ABS -> return getResultType(resultSet, resultRow, node.children[0])
-                    BuiltInFunctions.CEIL -> return getResultType(resultSet, resultRow, node.children[0])
-                    BuiltInFunctions.FLOOR -> return getResultType(resultSet, resultRow, node.children[0])
-                    BuiltInFunctions.ROUND -> return getResultType(resultSet, resultRow, node.children[0])
+                    BuiltInFunctions.ABS -> return getResultType(resultSet, resultRow, node.children[0] as AOPBase)
+                    BuiltInFunctions.CEIL -> return getResultType(resultSet, resultRow, node.children[0] as AOPBase)
+                    BuiltInFunctions.FLOOR -> return getResultType(resultSet, resultRow, node.children[0] as AOPBase)
+                    BuiltInFunctions.ROUND -> return getResultType(resultSet, resultRow, node.children[0] as AOPBase)
                     BuiltInFunctions.sameTerm -> return TmpResultType.RSBoolean
                     BuiltInFunctions.isIRI -> return TmpResultType.RSBoolean
                     BuiltInFunctions.isURI -> return TmpResultType.RSBoolean
@@ -573,12 +552,12 @@ class POPExpression : LOPBase {
         }
     }
 
-    fun evaluateHelperDateTime(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): DateTime {
+    fun evaluateHelperDateTime(resultSet: ResultSet, resultRow: ResultRow, node: AOPBase): DateTime {
         when (node) {
-            is ASTVar -> {
+            is AOPVariable -> {
                 return DateTime(resultSet.getValue(resultRow[resultSet.createVariable(node.name)])!!)
             }
-            is ASTBuiltInCall -> {
+            is AOPBuiltInCall -> {
                 when (node.function) {
                     BuiltInFunctions.NOW -> {
                         return DateTime()
@@ -590,9 +569,9 @@ class POPExpression : LOPBase {
         }
     }
 
-    private fun evaluateHelperBoolean2(resultSet: ResultSet, resultRow: ResultRow, node: ASTBinaryOperationFixedName): Boolean {
-        val left = node.children[0]
-        val right = node.children[1]
+    private fun evaluateHelperBoolean2(resultSet: ResultSet, resultRow: ResultRow, node: AOPBinaryOperationFixedName): Boolean {
+        val left = node.children[0] as AOPBase
+        val right = node.children[1] as AOPBase
         val typeA = getResultType(resultSet, resultRow, left)
         val typeB = getResultType(resultSet, resultRow, right)
         when {
@@ -601,9 +580,9 @@ class POPExpression : LOPBase {
                 val a = evaluateHelperBoolean(resultSet, resultRow, left)
                 val b = evaluateHelperBoolean(resultSet, resultRow, right)
                 when (node) {
-                    is ASTEQ -> return a == b
-                    is ASTNEQ -> return a != b
-                    is ASTDivision -> throw ArithmeticException("the output of ASTDivision is not a boolean")
+                    is AOPEQ -> return a == b
+                    is AOPNEQ -> return a != b
+                    is AOPDivision -> throw ArithmeticException("the output of AOPDivision is not a boolean")
                     else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperBoolean2 ${classNameToString(node)}")
                 }
             }
@@ -616,16 +595,16 @@ class POPExpression : LOPBase {
                 if (a == null || b == null)
                     return false
                 when (node) {
-                    is ASTEQ -> return a == b
-                    is ASTLT -> return a < b
-                    is ASTGT -> return a > b
-                    is ASTGEQ -> return a >= b
-                    is ASTLEQ -> return a <= b
-                    is ASTNEQ -> return a != b
+                    is AOPEQ -> return a == b
+                    is AOPLT -> return a < b
+                    is AOPGT -> return a > b
+                    is AOPGEQ -> return a >= b
+                    is AOPLEQ -> return a <= b
+                    is AOPNEQ -> return a != b
                     else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperBoolean2 ${classNameToString(node)}")
                 }
             }
-            node is ASTDivision -> throw ArithmeticException("the output of ASTDivision is not a boolean")
+            node is AOPDivision -> throw ArithmeticException("the output of AOPDivision is not a boolean")
             else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperBoolean2 ${classNameToString(node)} ${typeA} ${typeB}")
         }
     }
@@ -661,72 +640,72 @@ class POPExpression : LOPBase {
         }
     }
 
-    fun evaluateHelperBoolean(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): Boolean {
+    fun evaluateHelperBoolean(resultSet: ResultSet, resultRow: ResultRow, node: AOPBase): Boolean {
         when (node) {
-            is ASTBooleanLiteral -> return node.value
-            is ASTNot -> return !evaluateHelperBoolean(resultSet, resultRow, node.children[0])
-            is ASTOr -> {
+            is AOPBooleanLiteral -> return node.value
+            is AOPNot -> return !evaluateHelperBoolean(resultSet, resultRow, node.children[0] as AOPBase)
+            is AOPOr -> {
                 var res = false
                 for (n in node.children) {
-                    res = res || evaluateHelperBoolean(resultSet, resultRow, n)
+                    res = res || evaluateHelperBoolean(resultSet, resultRow, n as AOPBase)
                 }
                 return res
             }
-            is ASTVar -> {
+            is AOPVariable -> {
                 val tmp = resultSet.getValue(resultRow[resultSet.createVariable(node.name)])!!
                 val tmp2 = tmp.substring(1, tmp.length - 1 - dataTypeBoolean.length)
                 return tmp2.toBoolean()
             }
-            is ASTAnd -> {
+            is AOPAnd -> {
                 var res = true
                 for (n in node.children) {
-                    res = res && evaluateHelperBoolean(resultSet, resultRow, n)
+                    res = res && evaluateHelperBoolean(resultSet, resultRow, n as AOPBase)
                 }
                 return res
             }
-            is ASTBinaryOperationFixedName -> return evaluateHelperBoolean2(resultSet, resultRow, node)
-            is ASTBuiltInCall -> {
+            is AOPBinaryOperationFixedName -> return evaluateHelperBoolean2(resultSet, resultRow, node)
+            is AOPBuiltInCall -> {
                 when (node.function) {
                     BuiltInFunctions.BOUND -> {
-                        val name = (node.children[0] as ASTVar).name
+                        val name = (node.children[0] as AOPVariable).name
                         return resultSet.getVariableNames().contains(name) && (!resultSet.isUndefValue(resultRow, resultSet.createVariable(name)))
                     }
                     BuiltInFunctions.IF -> {
                         if (aggregateTmp[node.uuid] == 1)
-                            return evaluateHelperBoolean(resultSet, resultRow, node.children[1])
+                            return evaluateHelperBoolean(resultSet, resultRow, node.children[1] as AOPBase)
                         else
-                            return evaluateHelperBoolean(resultSet, resultRow, node.children[2])
+                            return evaluateHelperBoolean(resultSet, resultRow, node.children[2] as AOPBase)
                     }
                     BuiltInFunctions.isNUMERIC -> {
-                        val typeA = getResultType(resultSet, resultRow, node.children[0])
+                        val typeA = getResultType(resultSet, resultRow, node.children[0] as AOPBase)
                         return typeA == TmpResultType.RSInteger || typeA == TmpResultType.RSDecimal
                     }
                     BuiltInFunctions.LANGMATCHES -> {
-                        val a = extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
-                        val b = evaluateHelperString(resultSet, resultRow, node.children[1])
+                        val a = extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase))
+                        val b = evaluateHelperString(resultSet, resultRow, node.children[1] as AOPBase)
                         return a == b
                     }
                     BuiltInFunctions.STRENDS -> {
-                        val a = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!)
-                        val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1])!!)
+                        val a = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)!!)
+                        val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1] as AOPBase)!!)
                         return a.endsWith(b)
                     }
                     BuiltInFunctions.STRSTARTS -> {
-                        val a = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!)
-                        val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1])!!)
+                        val a = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)!!)
+                        val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1] as AOPBase)!!)
                         return a.startsWith(b)
                     }
                     BuiltInFunctions.CONTAINS -> {
-                        val a = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!)
-                        val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1])!!)
+                        val a = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)!!)
+                        val b = extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[1] as AOPBase)!!)
                         return a.contains(b)
                     }
                     BuiltInFunctions.isLITERAL -> {
-                        val tmp = evaluateHelperString(resultSet, resultRow, node.children[0])!!
+                        val tmp = evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)!!
                         return tmp.startsWith("\"") && tmp.endsWith("\"")
                     }
                     BuiltInFunctions.isIRI -> {
-                        val tmp = evaluateHelperString(resultSet, resultRow, node.children[0])!!
+                        val tmp = evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)!!
                         return tmp.startsWith("<") && tmp.endsWith(">")
                     }
                     else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperBoolean ${classNameToString(node)} ${node.function}")
@@ -736,7 +715,7 @@ class POPExpression : LOPBase {
         }
     }
 
-    fun evaluateHelperString(resultSet: ResultSet, resultRow: ResultRow, node: ASTNode): String? {
+    fun evaluateHelperString(resultSet: ResultSet, resultRow: ResultRow, node: AOPBase): String? {
         val type = getResultType(resultSet, resultRow, node)
         when (type) {
             TmpResultType.RSBoolean -> return "\"" + evaluateHelperBoolean(resultSet, resultRow, node) + "\"" + dataTypeBoolean
@@ -782,32 +761,32 @@ GlobalLogger.log(ELoggerType.TEST_DEBUG,(tmp2.toString().replace(".0",""))
             }
         }
         when (node) {
-            is ASTAggregation -> {
+            is AOPAggregation -> {
                 throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperString ${classNameToString(node)} ${node.type} ${node.distinct}")
             }
-            is ASTIri -> return "<" + node.iri + ">"
-            is ASTLiteral -> return node.delimiter + node.content + node.delimiter
-            is ASTVar -> return resultSet.getValue(resultRow[resultSet.createVariable(node.name)])!!
-            is ASTAddition -> throw ArithmeticException("ASTAddition can not be applied to String-Datatype")
-            is ASTBuiltInCall -> {
+            is AOPIri -> return "<" + node.iri + ">"
+            is AOPSimpleLiteral -> return node.delimiter + node.content + node.delimiter
+            is AOPVariable -> return resultSet.getValue(resultRow[resultSet.createVariable(node.name)])!!
+            is AOPAddition -> throw ArithmeticException("AOPAddition can not be applied to String-Datatype")
+            is AOPBuiltInCall -> {
                 when (node.function) {
                     BuiltInFunctions.BNODE -> {
                         if (node.children.size > 0) {
                             require(node.children.size == 1)
-                            return "_:POPExpressionC" + evaluateHelperString(resultSet, resultRow, node.children[0])
+                            return "_:POPExpressionC" + evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)
                         } else
                             return "_:POPExpression" + localbnode.next()
                     }
                     BuiltInFunctions.IF -> {
                         if (aggregateTmp[node.uuid] == 1)
-                            return evaluateHelperString(resultSet, resultRow, node.children[1])
+                            return evaluateHelperString(resultSet, resultRow, node.children[1] as AOPBase)
                         else
-                            return evaluateHelperString(resultSet, resultRow, node.children[2])
+                            return evaluateHelperString(resultSet, resultRow, node.children[2] as AOPBase)
                     }
-                    BuiltInFunctions.TZ -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).getTZ()
-                    BuiltInFunctions.TIMEZONE -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0]).getTimeZone()
+                    BuiltInFunctions.TZ -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0] as AOPBase).getTZ()
+                    BuiltInFunctions.TIMEZONE -> return evaluateHelperDateTime(resultSet, resultRow, node.children[0] as AOPBase).getTimeZone()
                     BuiltInFunctions.LCASE -> {
-                        var tmp = evaluateHelperString(resultSet, resultRow, node.children[0])!!
+                        var tmp = evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)!!
                         if (tmp.endsWith("\""))
                             return tmp.toLowerCase()
                         if (tmp.endsWith(dataTypeString)) {
@@ -817,7 +796,7 @@ GlobalLogger.log(ELoggerType.TEST_DEBUG,(tmp2.toString().replace(".0",""))
                         return tmp.substring(0, idx).toLowerCase() + tmp.substring(idx, tmp.length)
                     }
                     BuiltInFunctions.UCASE -> {
-                        var tmp = evaluateHelperString(resultSet, resultRow, node.children[0])!!
+                        var tmp = evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)!!
                         if (tmp.endsWith("\""))
                             return tmp.toUpperCase()
                         if (tmp.endsWith(dataTypeString)) {
@@ -827,8 +806,8 @@ GlobalLogger.log(ELoggerType.TEST_DEBUG,(tmp2.toString().replace(".0",""))
                         return tmp.substring(0, idx).toUpperCase() + tmp.substring(idx, tmp.length)
                     }
                     BuiltInFunctions.CONCAT -> {
-                        val a = evaluateHelperString(resultSet, resultRow, node.children[0])!!
-                        val b = evaluateHelperString(resultSet, resultRow, node.children[1])!!
+                        val a = evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)!!
+                        val b = evaluateHelperString(resultSet, resultRow, node.children[1] as AOPBase)!!
                         val aas = extractStringFromLiteral(a)
                         val bbs = extractStringFromLiteral(b)
                         if (a.endsWith(dataTypeString) && b.endsWith(dataTypeString))
@@ -847,35 +826,35 @@ GlobalLogger.log(ELoggerType.TEST_DEBUG,(tmp2.toString().replace(".0",""))
                     }
                     BuiltInFunctions.URI -> {
 //TODO evaluate base prefix and prepend to result
-                        val res = evaluateHelperString(resultSet, resultRow, node.children[0])!!
+                        val res = evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)!!
                         return "<" + extractStringFromLiteral(res) + ">"
                     }
                     BuiltInFunctions.IRI -> {
 //TODO evaluate base prefix and prepend to result
-                        val res = evaluateHelperString(resultSet, resultRow, node.children[0])!!
+                        val res = evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)!!
                         return "<" + extractStringFromLiteral(res) + ">"
                     }
 
                     BuiltInFunctions.STRDT -> {
-                        val value = evaluateHelperString(resultSet, resultRow, node.children[0])!!
-                        val type = evaluateHelperString(resultSet, resultRow, node.children[1])!!
+                        val value = evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)!!
+                        val type = evaluateHelperString(resultSet, resultRow, node.children[1] as AOPBase)!!
                         val res = "\"" + value + "\"^^<" + type + ">"
                         return res
                     }
                     BuiltInFunctions.STRLANG -> {
-                        val value = evaluateHelperString(resultSet, resultRow, node.children[0])!!
-                        val lang = evaluateHelperString(resultSet, resultRow, node.children[1])!!
+                        val value = evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)!!
+                        val lang = evaluateHelperString(resultSet, resultRow, node.children[1] as AOPBase)!!
                         val res = "\"" + value + "\"@" + lang
                         return res
                     }
                     BuiltInFunctions.UUID -> return "<urn:uuid:" + uuid4() + ">"
                     BuiltInFunctions.STRUUID -> return "" + uuid4()
-                    BuiltInFunctions.DATATYPE -> return extractDatatypeFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0]))
-                    BuiltInFunctions.LANG -> return "\"" + extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])) + "\""
-                    BuiltInFunctions.STR -> return evaluateHelperString(resultSet, resultRow, node.children[0])!!
-                    BuiltInFunctions.MD5 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!).encodeToByteArray().md5().toHexString() + "\""
-                    BuiltInFunctions.SHA1 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!).encodeToByteArray().sha1().toHexString() + "\""
-                    BuiltInFunctions.SHA256 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0])!!).encodeToByteArray().sha256().toHexString() + "\""
+                    BuiltInFunctions.DATATYPE -> return extractDatatypeFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase))
+                    BuiltInFunctions.LANG -> return "\"" + extractLanguageFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)) + "\""
+                    BuiltInFunctions.STR -> return evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)!!
+                    BuiltInFunctions.MD5 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)!!).encodeToByteArray().md5().toHexString() + "\""
+                    BuiltInFunctions.SHA1 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)!!).encodeToByteArray().sha1().toHexString() + "\""
+                    BuiltInFunctions.SHA256 -> return "\"" + extractStringFromLiteral(evaluateHelperString(resultSet, resultRow, node.children[0] as AOPBase)!!).encodeToByteArray().sha256().toHexString() + "\""
                     else -> throw UnsupportedOperationException("${classNameToString(this)} evaluateHelperString ${classNameToString(node)} ${node.function}")
                 }
             }
@@ -910,9 +889,9 @@ GlobalLogger.log(ELoggerType.TEST_DEBUG,(tmp2.toString().replace(".0",""))
         return res
     }
 
-    fun getAllVariablesInChildren(node: ASTNode): List<String> {
+    fun getAllVariablesInChildren(node: OPBase): List<String> {
         val res = mutableListOf<String>()
-        if (node is ASTVar)
+        if (node is AOPVariable)
             res.add(node.name)
         for (c in node.children)
             res.addAll(getAllVariablesInChildren(c))
@@ -929,13 +908,13 @@ GlobalLogger.log(ELoggerType.TEST_DEBUG,(tmp2.toString().replace(".0",""))
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPExpression")
-        res.addContent(XMLElement.parseFromASTNode(child))
+        res.addContent(XMLElement.parseFromAOPBase(child))
         return res
     }
 
     companion object {
         fun fromXMLElement(dictionary: ResultSetDictionary, xml: XMLElement): POPExpression {
-            return POPExpression(dictionary, XMLElement.toASTNode(xml.childs.first()))
+            return POPExpression(dictionary, XMLElement.toAOPBase(xml.childs.first()))
         }
     }
 }

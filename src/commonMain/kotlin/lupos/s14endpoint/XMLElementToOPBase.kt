@@ -3,9 +3,9 @@ package lupos.s14endpoint
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s04ArithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.toASTNode
+import lupos.s04logicalOperators.toAOPBase
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPJoinNestedLoop
 import lupos.s09physicalOperators.multiinput.POPUnion
@@ -107,7 +107,7 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
         "POPJoinNestedLoop" -> POPJoinNestedLoop(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         "POPJoinHashMap" -> POPJoinHashMap(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         "POPTemporaryStore" -> POPTemporaryStore(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping))
-        "POPExpression" -> POPExpression(dictionary, XMLElement.toASTNode(node.childs[0]))
+        "POPExpression" -> POPExpression(dictionary, XMLElement.toAOPBase(node.childs[0]))
         "TripleStoreIteratorLocal" -> {
             val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary, EIndexPattern.SPO)
             val olduuid = node.attributes["uuid"]

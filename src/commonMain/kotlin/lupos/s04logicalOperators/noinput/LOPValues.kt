@@ -1,14 +1,14 @@
 package lupos.s04logicalOperators.noinput
 
 import lupos.s00misc.XMLElement
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.LOPExpression
-import lupos.s04ArithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPValues(val variables: List<AOPVariable>, val values: List<LOPExpression>) : LOPBase() {
-    override val children: Array<OPBase> = arrayOf()
+class LOPValues(val variables: List<AOPVariable>, values: List<AOPValue>) : LOPBase() {
+    override val children: Array<OPBase> = Array(values.size) { values[it] }
     override fun getProvidedVariableNames(): List<String> {
         var res = mutableListOf<String>()
         for (v in variables)
@@ -28,11 +28,7 @@ class LOPValues(val variables: List<AOPVariable>, val values: List<LOPExpression
         res.addContent(bindings)
         for (v in variables)
             xmlvariables.addContent(XMLElement("LocalVariable").addAttribute("name", v.name))
-        for (v in values) {
-            val it = v.child.children.iterator()
-            for (v2 in variables)
-                bindings.addContent(XMLElement("LocalBinding").addAttribute("name", v2.name).addContent(LOPExpression(it.next()).toXMLElement()))
-        }
+        bindings.addContent(childrenToXML())
         return res
     }
 
@@ -41,8 +37,10 @@ class LOPValues(val variables: List<AOPVariable>, val values: List<LOPExpression
             return false
         if (!variables.equals(other.variables))
             return false
-        if (!values.equals(other.values))
-            return false
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
         return true
     }
 }

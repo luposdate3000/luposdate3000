@@ -1,7 +1,8 @@
-package lupos.s04ArithmetikOperators
+package lupos.s04arithmetikOperators
 
 import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.*
+
 
 abstract class AOPBase : OPBase() {
     override val resultSet = ResultSet(ResultSetDictionary())

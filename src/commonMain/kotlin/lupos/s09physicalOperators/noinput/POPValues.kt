@@ -8,6 +8,9 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.multiinput.*
+import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPExpression
@@ -64,13 +67,12 @@ class POPValues : POPBase {
             stringVars.add(name.name)
             variables.add(resultSet.createVariable(name.name))
         }
-        for (v in values.values) {
-            val it = v.child.children.iterator()
+        for (v in values.children) {
+            val it = v.children.iterator()
             val entry = mutableMapOf<Variable, Value>()
             data.add(entry)
             for (v2 in variables) {
-                val value = POPExpression(dictionary, it.next()).evaluate(rs, rr)
-                entry[v2] = resultSet.createValue(value)
+                entry[v2] = resultSet.createValue((it.next() as AOPConstant).valueToString())
             }
         }
         iterator = data.iterator()

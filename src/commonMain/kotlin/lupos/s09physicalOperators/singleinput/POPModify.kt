@@ -13,8 +13,10 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
-import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s04arithmetikOperators.*
+import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.singleinput.*
 import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
@@ -26,8 +28,8 @@ class POPModify : POPBase {
     override val dictionary: ResultSetDictionary
     val transactionID: Long
     val iri: String?
-    val insert: List<ASTNode>
-    val delete: List<ASTNode>
+    val insert: List<OPBase>
+    val delete: List<OPBase>
     override fun equals(other: Any?): Boolean {
         if (other !is POPModify)
             return false
@@ -48,7 +50,7 @@ class POPModify : POPBase {
         return true
     }
 
-    constructor(dictionary: ResultSetDictionary, transactionID: Long, iri: String?, insert: List<ASTNode>, delete: List<ASTNode>, child: OPBase) : super() {
+    constructor(dictionary: ResultSetDictionary, transactionID: Long, iri: String?, insert: List<AOPBase>, delete: List<AOPBase>, child: OPBase) : super() {
         this.dictionary = dictionary
         this.transactionID = transactionID
         this.iri = iri
@@ -59,8 +61,8 @@ class POPModify : POPBase {
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
     }
 
-    fun evaluateRow(node: ASTNode, row: ResultRow): String {
-        return POPExpression(dictionary, node).evaluate(children[0].resultSet, row)!!
+    fun evaluateRow(node: OPBase, row: ResultRow): String {
+        return POPExpression(dictionary, node as AOPBase).evaluate(children[0].resultSet, row)!!
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPModify.evaluate" }, {
@@ -71,26 +73,17 @@ class POPModify : POPBase {
                     for (i in insert) {
                         try {
                             when (i) {
-                                is ASTTriple -> {
-                                    val store = DistributedTripleStore.getDefaultGraph()
+                                is LOPTriple -> {
+                                    val store = if (i.graph == null)
+                                        DistributedTripleStore.getDefaultGraph()
+                                    else {
+                                        if (i.graphVar)
+                                            DistributedTripleStore.getNamedGraph(children[0].resultSet.getValue(row[children[0].resultSet.createVariable(i.graph)])!!, true)
+                                        else
+                                            DistributedTripleStore.getNamedGraph(i.graph, true)
+                                    }
                                     val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
                                     store.addData(transactionID, data)
-                                }
-                                is ASTGraph -> {
-                                    val name = if (i.iriOrVar is ASTIri)
-                                        i.iriOrVar.iri
-                                    else
-                                        children[0].resultSet.getValue(row[children[0].resultSet.createVariable((i.iriOrVar as ASTVar).name)])!!
-                                    val store = DistributedTripleStore.getNamedGraph(name, true)
-                                    for (c in i.children) {
-                                        when (c) {
-                                            is ASTTriple -> {
-                                                val data = listOf<String?>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
-                                                store.addData(transactionID, data)
-                                            }
-                                            else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
-                                        }
-                                    }
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
                             }
@@ -101,26 +94,17 @@ class POPModify : POPBase {
                     for (i in delete) {
                         try {
                             when (i) {
-                                is ASTTriple -> {
-                                    val store = DistributedTripleStore.getDefaultGraph()
+                                is LOPTriple -> {
+                                    val store = if (i.graph == null)
+                                        DistributedTripleStore.getDefaultGraph()
+                                    else {
+                                        if (i.graphVar)
+                                            DistributedTripleStore.getNamedGraph(children[0].resultSet.getValue(row[children[0].resultSet.createVariable(i.graph)])!!, true)
+                                        else
+                                            DistributedTripleStore.getNamedGraph(i.graph, false)
+                                    }
                                     val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
                                     store.deleteData(transactionID, data)
-                                }
-                                is ASTGraph -> {
-                                    val name = if (i.iriOrVar is ASTIri)
-                                        i.iriOrVar.iri
-                                    else
-                                        children[0].resultSet.getValue(row[children[0].resultSet.createVariable((i.iriOrVar as ASTVar).name)])!!
-                                    val store = DistributedTripleStore.getNamedGraph(name, false)
-                                    for (c in i.children) {
-                                        when (c) {
-                                            is ASTTriple -> {
-                                                val data = listOf<String?>(evaluateRow(c.children[0], row), evaluateRow(c.children[1], row), evaluateRow(c.children[2], row))
-                                                store.deleteData(transactionID, data)
-                                            }
-                                            else -> throw UnsupportedOperationException("${classNameToString(this)} insertGraph ${classNameToString(i)}")
-                                        }
-                                    }
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
                             }

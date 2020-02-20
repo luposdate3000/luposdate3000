@@ -2,17 +2,18 @@ package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
+import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.parseFromASTNode
+import lupos.s04logicalOperators.parseFromAOPBase
 
 
 class LOPModify() : LOPBase() {
     override val children: Array<OPBase> = arrayOf(OPNothing())
     var iri: String? = null
-    val insert = mutableListOf<ASTNode>()
-    val delete = mutableListOf<ASTNode>()
+    val insert = mutableListOf<AOPBase>()
+    val delete = mutableListOf<AOPBase>()
 
     constructor(child: OPBase) : this() {
         children[0] = child
@@ -32,11 +33,11 @@ class LOPModify() : LOPBase() {
         val xmlI = XMLElement("insert")
         res.addContent(xmlI)
         for (e in insert)
-            xmlI.addContent(XMLElement.parseFromASTNode(e))
+            xmlI.addContent(XMLElement.parseFromAOPBase(e))
         val xmlD = XMLElement("delete")
         res.addContent(xmlD)
         for (e in delete)
-            xmlD.addContent(XMLElement.parseFromASTNode(e))
+            xmlD.addContent(XMLElement.parseFromAOPBase(e))
         return res
     }
 

@@ -8,6 +8,7 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTSimpleLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTypedLiteral
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.LOPExpression
@@ -15,7 +16,6 @@ import lupos.s04logicalOperators.noinput.LOPGraphOperation
 import lupos.s04logicalOperators.noinput.LOPModifyData
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
-import lupos.s04ArithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPBind
@@ -97,7 +97,10 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
                     val ts = optimizeTriple(node.s)
                     val tp = optimizeTriple(node.p)
                     val to = optimizeTriple(node.o)
-                    return DistributedTripleStore.getNamedGraph(node.graph).getIterator(transactionID, dictionary, ts.first, tp.first, to.first, ts.second, tp.second, to.second, EIndexPattern.SPO)
+                    if (node.graph == null)
+                        return DistributedTripleStore.getDefaultGraph().getIterator(transactionID, dictionary, ts.first, tp.first, to.first, ts.second, tp.second, to.second, EIndexPattern.SPO)
+                    else
+                        return DistributedTripleStore.getNamedGraph(node.graph).getIterator(transactionID, dictionary, ts.first, tp.first, to.first, ts.second, tp.second, to.second, EIndexPattern.SPO)
                 }
                 is OPNothing -> return POPEmptyRow(dictionary)
                 else -> {
@@ -114,16 +117,7 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
     fun optimizeTriple(param: OPBase): Pair<String, Boolean> {
         when (param) {
             is AOPVariable -> return Pair(param.name, false)
-            is LOPExpression -> {
-                when (param.child) {
-                    is ASTInteger -> return Pair("\"" + param.child.value + "\"^^<http://www.w3.org/2001/XMLSchema#integer>", true)
-                    is ASTIri -> return Pair("<" + param.child.iri + ">", true)
-                    is ASTLanguageTaggedLiteral -> return Pair(param.child.delimiter + param.child.content + param.child.delimiter + "@" + param.child.language, true)
-                    is ASTTypedLiteral -> return Pair(param.child.delimiter + param.child.content + param.child.delimiter + "^^<" + param.child.type_iri + ">", true)
-                    is ASTSimpleLiteral -> return Pair(param.child.delimiter + param.child.content + param.child.delimiter, true)
-                    else -> throw UnsupportedOperationException("${classNameToString(this)}, 1 ${classNameToString(param.child)}")
-                }
-            }
+            is AOPConstant -> return Pair(param.valueToString(), true)
             else -> throw UnsupportedOperationException("${classNameToString(this)} , 2 ${classNameToString(param)}")
         }
     }

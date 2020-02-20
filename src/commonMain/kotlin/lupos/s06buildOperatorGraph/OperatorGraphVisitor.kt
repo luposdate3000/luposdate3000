@@ -93,6 +93,10 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTValue
 import lupos.s02buildSyntaxTree.sparql1_1.ASTValues
 import lupos.s02buildSyntaxTree.sparql1_1.ASTVar
 import lupos.s02buildSyntaxTree.sparql1_1.Visitor
+import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.multiinput.*
+import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
@@ -101,7 +105,6 @@ import lupos.s04logicalOperators.noinput.LOPGraphOperation
 import lupos.s04logicalOperators.noinput.LOPModifyData
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
-import lupos.s04ArithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.LOPBind
@@ -287,7 +290,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         bind = mergeLOPBind(bind, tmpBind)
                     else
                         bind = tmpBind
-                    result.getLatestChild().setChild(LOPFilter(LOPExpression(ASTVar(tmpVar.name))))
+                    result.getLatestChild().setChild(LOPFilter(LOPExpression(AOPVariable(tmpVar.name))))
                 }
             }
             val variables = mutableListOf<AOPVariable>()
@@ -325,7 +328,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         bind = mergeLOPBind(bind, tmpBind)
                     else
                         bind = tmpBind
-                    result.getLatestChild().setChild(LOPFilter(LOPExpression(ASTVar(tmpVar.name))))
+                    result.getLatestChild().setChild(LOPFilter(LOPExpression(AOPVariable(tmpVar.name))))
                 }
                 result.getLatestChild().setChild(LOPGroup(mutableListOf<AOPVariable>(), bind, LOPNOOP()))
             } else {
@@ -566,48 +569,44 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTUndef, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        return AOPUndef()
     }
 
     override fun visit(node: ASTSimpleLiteral, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        return AOPSimpleLiteral(node.delimiter, node.content)
     }
 
     override fun visit(node: ASTTypedLiteral, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        return AOPTypedLiteral(node.delimiter, node.content, node.type_iri)
     }
 
     override fun visit(node: ASTLanguageTaggedLiteral, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        return AOPLanguageTaggedLiteral(node.delimiter, node.content, node.language)
     }
 
     override fun visit(node: ASTBooleanLiteral, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
-    }
-
-    override fun visit(node: ASTNumericLiteral, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        return AOPBooleanLiteral(node.value)
     }
 
     override fun visit(node: ASTInteger, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        return AOPInteger(node.value)
     }
 
     override fun visit(node: ASTDouble, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        return AOPDouble(node.toDouble())
     }
 
     override fun visit(node: ASTDecimal, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        return AOPDecimal(node.toDouble())
     }
 
     override fun visit(node: ASTFunctionCall, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        return AOPFunctionCall(node.iri, node.distinct, childrenValues)
     }
 
     override fun visit(node: ASTTriple, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 3)
-        return LOPTriple(childrenValues[0], childrenValues[1], childrenValues[2], "")
+        return LOPTriple(childrenValues[0], childrenValues[1], childrenValues[2], null, false)
     }
 
     override fun visit(node: ASTOptional, childrenValues: List<OPBase>): OPBase {
@@ -615,67 +614,125 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTSet, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        val tmp = List(childrenValues.size) { it as AOPBase }
+        return AOPSet(tmp)
     }
 
     override fun visit(node: ASTOr, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        require(childrenValues.size > 1)
+        var res: AOPBase? = null
+        for (v in childrenValues) {
+            if (res == null)
+                res = v as AOPBase
+            else
+                res = AOPOr(v as AOPBase, res)
+        }
+        return res!!
     }
 
     override fun visit(node: ASTAnd, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        require(childrenValues.size > 1)
+        var res: AOPBase? = null
+        for (v in childrenValues) {
+            if (res == null)
+                res = v as AOPBase
+            else
+                res = AOPAnd(v as AOPBase, res)
+        }
+        return res!!
     }
 
     override fun visit(node: ASTEQ, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        require(childrenValues.size == 2)
+        return AOPEQ(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTNEQ, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        require(childrenValues.size == 2)
+        return AOPNEQ(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTLEQ, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        require(childrenValues.size == 2)
+        return AOPLEQ(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTGEQ, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        require(childrenValues.size == 2)
+        return AOPGEQ(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTLT, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        require(childrenValues.size == 2)
+        return AOPLT(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTGT, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        require(childrenValues.size == 2)
+        return AOPGT(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTIn, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        require(childrenValues.size == 2)
+        return AOPIn(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTNotIn, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        require(childrenValues.size == 2)
+        return AOPNotIn(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
     }
 
     override fun visit(node: ASTAddition, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        require(childrenValues.size > 1)
+        var res: AOPBase? = null
+        for (v in childrenValues) {
+            if (res == null)
+                res = v as AOPBase
+            else
+                res = AOPAddition(v as AOPBase, res)
+        }
+        return res!!
     }
 
     override fun visit(node: ASTSubtraction, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        require(childrenValues.size > 1)
+        var res: AOPBase? = null
+        for (v in childrenValues) {
+            if (res == null)
+                res = v as AOPBase
+            else
+                res = AOPSubtraction(v as AOPBase, res)
+        }
+        return res!!
     }
 
     override fun visit(node: ASTMultiplication, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        require(childrenValues.size > 1)
+        var res: AOPBase? = null
+        for (v in childrenValues) {
+            if (res == null)
+                res = v as AOPBase
+            else
+                res = AOPMultiplication(v as AOPBase, res)
+        }
+        return res!!
     }
 
     override fun visit(node: ASTDivision, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        require(childrenValues.size > 1)
+        var res: AOPBase? = null
+        for (v in childrenValues) {
+            if (res == null)
+                res = v as AOPBase
+            else
+                res = AOPDivision(v as AOPBase, res)
+        }
+        return res!!
     }
 
     override fun visit(node: ASTNot, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        require(childrenValues.size == 1)
+        return AOPNot(childrenValues[0] as AOPBase)
     }
 
     override fun visit(node: ASTBase, childrenValues: List<OPBase>): OPBase {
@@ -699,11 +756,12 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTBuiltInCall, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        val tmp = List(childrenValues.size) { childrenValues[it] as AOPBase }
+        return AOPBuiltInCall(node.function, tmp)
     }
 
     override fun visit(node: ASTAggregation, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        return AOPAggregation(node.type, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
     }
 
     override fun visit(node: ASTMinusGroup, childrenValues: List<OPBase>): OPBase {
@@ -735,14 +793,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         return AOPVariable(node.name)
     }
 
-    override fun visit(node: ASTLiteral, childrenValues: List<OPBase>): OPBase {
-        require(childrenValues.isEmpty())
-        return LOPExpression(node)
-    }
-
     override fun visit(node: ASTIri, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.isEmpty())
-        return LOPExpression(node)
+        return AOPIri(node.iri)
     }
 
     override fun visit(node: ASTGroup, childrenValues: List<OPBase>): OPBase {
@@ -758,22 +811,20 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTValues, childrenValues: List<OPBase>): OPBase {
-        if (node.variables.isEmpty()) {
+        if (node.variables.isEmpty())
             return LOPNOOP()
-        }
         val variables = mutableListOf<AOPVariable>()
-        val values = mutableListOf<LOPExpression>()
-        for (v in node.variables) {
+        val values = mutableListOf<AOPValue>()
+        for (v in node.variables)
             variables.add(v.visit(this) as AOPVariable)
-        }
-        for (v in node.children) {
-            values.add(LOPExpression(v))
-        }
+        for (v in node.children)
+            values.add(v.visit(this) as AOPValue)
         return LOPValues(variables, values)
     }
 
     override fun visit(node: ASTValue, childrenValues: List<OPBase>): OPBase {
-        return LOPExpression(node)
+        val tmp = List(childrenValues.size) { childrenValues[it] as AOPConstant }
+        return AOPValue(tmp)
     }
 
     fun setGraphNameForAllTriples(node: OPBase, name: ASTNode): OPBase {
@@ -784,7 +835,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         }
         when (node) {
             is OPNothing -> return node
-            is LOPTriple -> return LOPTriple(node.s, node.p, node.o, iri)
+            is LOPTriple -> return LOPTriple(node.s, node.p, node.o, iri, false)
             is LOPFilter -> node.children[0] = setGraphNameForAllTriples(node.children[0], name)
             is LOPJoin -> return LOPJoin(setGraphNameForAllTriples(node.children[0], name), setGraphNameForAllTriples(node.children[1], name), node.optional)
             else -> throw UnsupportedOperationException("${classNameToString(this)} setGraphNameForAllTriples 2 ${classNameToString(node)}")
@@ -930,9 +981,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         }
         val res = LOPModify(child)
         for (e in node.insert)
-            res.insert.add(e)
+            res.insert.add(e.visit(this) as AOPBase)
         for (e in node.delete)
-            res.delete.add(e)
+            res.delete.add(e.visit(this) as AOPBase)
         return res
     }
 
@@ -1035,4 +1086,13 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     override fun visit(node: ASTMinus, childrenValues: List<OPBase>): OPBase {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
+
+    override fun visit(node: ASTNumericLiteral, childrenValues: List<OPBase>): OPBase {
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun visit(node: ASTLiteral, childrenValues: List<OPBase>): OPBase {
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+    }
+
 }

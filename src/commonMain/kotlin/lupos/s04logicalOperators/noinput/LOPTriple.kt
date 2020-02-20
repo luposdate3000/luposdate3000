@@ -5,7 +5,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPTriple(val s: OPBase, val p: OPBase, val o: OPBase, val graph: String) : LOPBase() {
+class LOPTriple(val s: OPBase, val p: OPBase, val o: OPBase, val graph: String?, val graphVar: Boolean) : LOPBase() {
     override val children: Array<OPBase> = arrayOf()
     override fun getProvidedVariableNames(): List<String> {
         return s.getProvidedVariableNames() + p.getProvidedVariableNames() + o.getProvidedVariableNames()
@@ -29,6 +29,8 @@ class LOPTriple(val s: OPBase, val p: OPBase, val o: OPBase, val graph: String) 
         if (!p.equals(other.p))
             return false
         if (!o.equals(other.o))
+            return false
+        if (graphVar != other.graphVar)
             return false
         return true
     }

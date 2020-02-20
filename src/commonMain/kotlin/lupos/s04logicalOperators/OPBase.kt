@@ -8,8 +8,8 @@ import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.ASTUndef
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.noinput.LOPExpression
-import lupos.s04ArithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.singleinput.LOPBind
 
 
@@ -57,7 +57,7 @@ abstract class OPBase {
                 }
             }
             if (!found) {
-                children[0] = LOPBind(AOPVariable(req), LOPExpression(ASTUndef()), children[0])
+                children[0] = LOPBind(AOPVariable(req), LOPExpression(AOPUndef()), children[0])
             }
         }
     }
