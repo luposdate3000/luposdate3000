@@ -1,7 +1,7 @@
 package lupos.s04arithmetikOperators.noinput
-import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
@@ -29,7 +29,10 @@ class AOPDecimal(var value: Double) : AOPConstant() {
             return false
         return value == other.value
     }
-override fun toDouble():Double=value
-override fun toInt():Int=value.toInt()
-override fun toBoolean():Boolean{throw Exception("cannot cast AOPDecimal to Boolean")}
+
+    override fun toDouble(): Double = value
+    override fun toInt(): Int = value.toInt()
+    override fun toBoolean(): Boolean {
+        throw Exception("cannot cast AOPDecimal to Boolean")
+    }
 }

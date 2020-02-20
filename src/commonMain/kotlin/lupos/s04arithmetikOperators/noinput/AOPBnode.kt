@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPIri(var iri: String) : AOPConstant() {
+class AOPBnode(var value: String) : AOPConstant() {
     override val children: Array<OPBase> = arrayOf()
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()
@@ -18,27 +18,27 @@ class AOPIri(var iri: String) : AOPConstant() {
     }
 
     override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPIri")
-        res.addAttribute("iri", "" + iri)
+        val res = XMLElement("AOPBnode")
+        res.addAttribute("value", "" + value)
         return res
     }
 
-    override fun valueToString() = "<" + iri + ">"
+    override fun valueToString() = "_:" + value
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPIri)
+        if (other !is AOPBnode)
             return false
-        return iri == other.iri
+        return value == other.value
     }
 
     override fun toDouble(): Double {
-        throw Exception("cannot cast AOPIri to Double")
+        throw Exception("cannot cast AOPBnode to Double")
     }
 
     override fun toInt(): Int {
-        throw Exception("cannot cast AOPIri to Int")
+        throw Exception("cannot cast AOPBnode to Int")
     }
 
     override fun toBoolean(): Boolean {
-        throw Exception("cannot cast AOPIri to Boolean")
+        throw Exception("cannot cast AOPBnode to Boolean")
     }
 }

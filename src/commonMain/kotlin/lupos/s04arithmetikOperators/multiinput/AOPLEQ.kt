@@ -1,6 +1,7 @@
 package lupos.s04arithmetikOperators.multiinput
-import lupos.s03resultRepresentation.*
+
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.LOPBase
@@ -33,7 +34,15 @@ class AOPLEQ(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
         return true
     }
 
-override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant{
-    TODO("not implemented")
-}
+    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
+        val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
+        val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
+        if (a is AOPDouble || b is AOPDouble)
+            return AOPBooleanLiteral(a.toDouble() <= b.toDouble())
+        if (a is AOPDecimal || b is AOPDecimal)
+            return AOPBooleanLiteral(a.toDouble() <= b.toDouble())
+        if (a is AOPInteger || b is AOPInteger)
+            return AOPBooleanLiteral(a.toInt() <= b.toInt())
+        throw Exception("AOPLEQ only works with numeric input")
+    }
 }

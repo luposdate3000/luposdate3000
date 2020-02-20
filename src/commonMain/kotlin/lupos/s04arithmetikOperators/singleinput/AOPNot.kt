@@ -1,7 +1,7 @@
 package lupos.s04arithmetikOperators.noinput
-import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.LOPBase
@@ -33,7 +33,11 @@ class AOPNot(var child: AOPBase) : AOPBase() {
         }
         return true
     }
-override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant{
-    TODO("not implemented")
-}
+
+    override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
+        val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
+        if (a is AOPBooleanLiteral)
+            return AOPBooleanLiteral(!a.value)
+        throw Exception("AOPNot only works with boolean input")
+    }
 }

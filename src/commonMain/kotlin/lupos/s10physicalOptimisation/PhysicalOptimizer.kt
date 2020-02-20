@@ -117,7 +117,7 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
     fun optimizeTriple(param: OPBase): Pair<String, Boolean> {
         when (param) {
             is AOPVariable -> return Pair(param.name, false)
-            is AOPConstant -> return Pair(param.valueToString(), true)
+            is AOPConstant -> return Pair(param.valueToString()!!, true)
             else -> throw UnsupportedOperationException("${classNameToString(this)} , 2 ${classNameToString(param)}")
         }
     }

@@ -1,13 +1,13 @@
 package lupos.s04arithmetikOperators.noinput
-import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPTypedLiteral(var delimiter: String, var content: String, var type_iri: String) : AOPConstant() {
+class AOPTypedLiteral(override var delimiter: String, override var content: String, var type_iri: String) : AOPConstantString() {
     override val children: Array<OPBase> = arrayOf()
     override fun getProvidedVariableNames(): List<String> {
         return mutableListOf<String>()
@@ -35,7 +35,16 @@ class AOPTypedLiteral(var delimiter: String, var content: String, var type_iri: 
             return false
         return content == other.content
     }
-override fun toDouble():Double{throw Exception("cannot cast AOPTypedLiteral to Double")}
-override fun toInt():Int{throw Exception("cannot cast AOPTypedLiteral to Int")}
-override fun toBoolean():Boolean{throw Exception("cannot cast AOPTypedLiteral to Boolean")}
+
+    override fun toDouble(): Double {
+        throw Exception("cannot cast AOPTypedLiteral to Double")
+    }
+
+    override fun toInt(): Int {
+        throw Exception("cannot cast AOPTypedLiteral to Int")
+    }
+
+    override fun toBoolean(): Boolean {
+        throw Exception("cannot cast AOPTypedLiteral to Boolean")
+    }
 }
