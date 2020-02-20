@@ -11,7 +11,7 @@ import lupos.s04arithmetikOperators.singleinput.*
 fun XMLElement.Companion.parseFromAOPBase(node: AOPBase): XMLElement {
     when {
         node is AOPUndef -> return XMLElement("AOPUndef")
-        node is AOPVariable -> return XMLElement("AOPVar").addAttribute("name", node.name)
+        node is AOPVariable -> return XMLElement("AOPVariable").addAttribute("name", node.name)
         node is AOPAddition -> return XMLElement("AOPAddition").addContent(XMLElement("childA").addContent(parseFromAOPBase(node.children[0] as AOPBase))).addContent(XMLElement("childB").addContent(parseFromAOPBase(node.children[1] as AOPBase)))
         node is AOPAggregation -> {
             val res = XMLElement("AOPAggregation").addAttribute("type", "" + node.type).addAttribute("distinct", "" + node.distinct)

@@ -283,14 +283,14 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         if (node.existsGroupBy()) {
             if (node.existsHaving()) {
                 for (h in node.having) {
-                    val expression = h.visit(this) as LOPExpression
+                    val expression = h.visit(this) as AOPBase
                     val tmpVar = AOPVariable("#f${expression.uuid}")
                     val tmpBind = LOPBind(tmpVar, expression)
                     if (bind != null)
                         bind = mergeLOPBind(bind, tmpBind)
                     else
                         bind = tmpBind
-                    result.getLatestChild().setChild(LOPFilter(LOPExpression(AOPVariable(tmpVar.name))))
+                    result.getLatestChild().setChild(LOPFilter(AOPVariable(tmpVar.name)))
                 }
             }
             val variables = mutableListOf<AOPVariable>()
@@ -321,14 +321,14 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         } else {
             if (node.existsHaving()) {
                 for (h in node.having) {
-                    val expression = h.visit(this) as LOPExpression
+                    val expression = h.visit(this) as AOPBase
                     val tmpVar = AOPVariable("#f${expression.uuid}")
                     val tmpBind = LOPBind(tmpVar, expression)
                     if (bind != null)
                         bind = mergeLOPBind(bind, tmpBind)
                     else
                         bind = tmpBind
-                    result.getLatestChild().setChild(LOPFilter(LOPExpression(AOPVariable(tmpVar.name))))
+                    result.getLatestChild().setChild(LOPFilter(AOPVariable(tmpVar.name)))
                 }
                 result.getLatestChild().setChild(LOPGroup(mutableListOf<AOPVariable>(), bind, LOPNOOP()))
             } else {
@@ -614,7 +614,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTSet, childrenValues: List<OPBase>): OPBase {
-        val tmp = List(childrenValues.size) { it as AOPBase }
+        val tmp = List(childrenValues.size) { childrenValues[it] as AOPBase }
         return AOPSet(tmp)
     }
 
@@ -776,7 +776,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTFilter, childrenValues: List<OPBase>): OPBase {
         require(childrenValues.size == 1)
-        return LOPFilter(childrenValues.first() as LOPExpression)
+        return LOPFilter(childrenValues.first() as AOPBase)
     }
 
     override fun visit(node: ASTOrderCondition, childrenValues: List<OPBase>): OPBase {
@@ -981,9 +981,9 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         }
         val res = LOPModify(child)
         for (e in node.insert)
-            res.insert.add(e.visit(this) as AOPBase)
+            res.insert.add(e.visit(this))
         for (e in node.delete)
-            res.delete.add(e.visit(this) as AOPBase)
+            res.delete.add(e.visit(this))
         return res
     }
 

@@ -50,7 +50,7 @@ class POPModify : POPBase {
         return true
     }
 
-    constructor(dictionary: ResultSetDictionary, transactionID: Long, iri: String?, insert: List<AOPBase>, delete: List<AOPBase>, child: OPBase) : super() {
+    constructor(dictionary: ResultSetDictionary, transactionID: Long, iri: String?, insert: List<OPBase>, delete: List<OPBase>, child: OPBase) : super() {
         this.dictionary = dictionary
         this.transactionID = transactionID
         this.iri = iri

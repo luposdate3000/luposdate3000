@@ -12,8 +12,8 @@ import lupos.s04logicalOperators.parseFromAOPBase
 class LOPModify() : LOPBase() {
     override val children: Array<OPBase> = arrayOf(OPNothing())
     var iri: String? = null
-    val insert = mutableListOf<AOPBase>()
-    val delete = mutableListOf<AOPBase>()
+    val insert = mutableListOf<OPBase>()
+    val delete = mutableListOf<OPBase>()
 
     constructor(child: OPBase) : this() {
         children[0] = child
@@ -33,11 +33,11 @@ class LOPModify() : LOPBase() {
         val xmlI = XMLElement("insert")
         res.addContent(xmlI)
         for (e in insert)
-            xmlI.addContent(XMLElement.parseFromAOPBase(e))
+            xmlI.addContent(e.toXMLElement())
         val xmlD = XMLElement("delete")
         res.addContent(xmlD)
         for (e in delete)
-            xmlD.addContent(XMLElement.parseFromAOPBase(e))
+            xmlD.addContent(e.toXMLElement())
         return res
     }
 
