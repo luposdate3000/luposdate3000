@@ -31,14 +31,15 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 
-abstract class OptimizerCompoundBase(transactionID: Long, dictionary: ResultSetDictionary):OptimizerBase(transactionID,dictionary){
-	abstract val childrenOptimizers:Array<OptimizerBase>
 
-override  fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase{
-return node
-}
+abstract class OptimizerCompoundBase(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary) {
+    abstract val childrenOptimizers: Array<OptimizerBase>
 
-override fun optimizeCall(node: OPBase, onChange: () -> Unit): OPBase {
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+        return node
+    }
+
+    override fun optimizeCall(node: OPBase, onChange: () -> Unit): OPBase {
         node.syntaxVerifyAllVariableExists(listOf<String>(), true)
         var tmp = node
         for (o in childrenOptimizers) {

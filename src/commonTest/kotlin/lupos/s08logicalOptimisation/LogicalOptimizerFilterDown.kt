@@ -27,8 +27,10 @@ class LogicalOptimizerFilterDownTest {
     @Test
     fun test1() {
         helper(
-                LOPFilter(LOPExpression(astS), store1),
-                LOPFilter(LOPExpression(astS), store1),
+                LOPFilter(
+                        LOPExpression(astS), store1),
+                LOPFilter(
+                        LOPExpression(astS), store1),
                 0,
                 ResultSetDictionary(),
                 0
@@ -38,8 +40,14 @@ class LogicalOptimizerFilterDownTest {
     @Test
     fun test2() {
         helper(
-                LOPFilter(LOPExpression(astS), LOPProjection(projectS, store1)),
-                LOPProjection(projectS, LOPFilter(LOPExpression(astS), store1)),
+                LOPFilter(
+                        LOPExpression(astS),
+                        LOPProjection(projectS,
+                                store1)),
+                LOPProjection(projectS,
+                        LOPFilter(
+                                LOPExpression(astS),
+                                store1)),
                 0,
                 ResultSetDictionary(),
                 1
@@ -49,8 +57,16 @@ class LogicalOptimizerFilterDownTest {
     @Test
     fun test3() {
         helper(
-                LOPFilter(LOPExpression(astS), LOPProjection(projectS, LOPProjection(projectS, store1))),
-                LOPProjection(projectS, LOPFilter(LOPExpression(astS), LOPProjection(projectS, store1))),
+                LOPFilter(
+                        LOPExpression(astS),
+                        LOPProjection(projectS,
+                                LOPProjection(projectS,
+                                        store1))),
+                LOPProjection(projectS,
+                        LOPFilter(
+                                LOPExpression(astS),
+                                LOPProjection(projectS,
+                                        store1))),
                 0,
                 ResultSetDictionary(),
                 1
@@ -60,8 +76,16 @@ class LogicalOptimizerFilterDownTest {
     @Test
     fun test4() {
         helper(
-                LOPProjection(projectS, LOPFilter(LOPExpression(astS), LOPProjection(projectS, store1))),
-                LOPProjection(projectS, LOPProjection(projectS, LOPFilter(LOPExpression(astS), store1))),
+                LOPProjection(projectS,
+                        LOPFilter(
+                                LOPExpression(astS),
+                                LOPProjection(projectS,
+                                        store1))),
+                LOPProjection(projectS,
+                        LOPProjection(projectS,
+                                LOPFilter(
+                                        LOPExpression(astS),
+                                        store1))),
                 0,
                 ResultSetDictionary(),
                 1
