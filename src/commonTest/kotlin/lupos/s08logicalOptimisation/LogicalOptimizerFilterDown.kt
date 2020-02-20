@@ -29,9 +29,9 @@ class LogicalOptimizerFilterDownTest {
     fun test1() {
         helper(
                 LOPFilter(
-                        LOPExpression(astS), store1),
+                        astS, store1),
                 LOPFilter(
-                        LOPExpression(astS), store1),
+                        astS, store1),
                 0,
                 ResultSetDictionary(),
                 0
@@ -42,12 +42,12 @@ class LogicalOptimizerFilterDownTest {
     fun test2() {
         helper(
                 LOPFilter(
-                        LOPExpression(astS),
+                        astS,
                         LOPProjection(projectS,
                                 store1)),
                 LOPProjection(projectS,
                         LOPFilter(
-                                LOPExpression(astS),
+                                astS,
                                 store1)),
                 0,
                 ResultSetDictionary(),
@@ -59,13 +59,13 @@ class LogicalOptimizerFilterDownTest {
     fun test3() {
         helper(
                 LOPFilter(
-                        LOPExpression(astS),
+                        astS,
                         LOPProjection(projectS,
                                 LOPProjection(projectS,
                                         store1))),
                 LOPProjection(projectS,
                         LOPFilter(
-                                LOPExpression(astS),
+                                astS,
                                 LOPProjection(projectS,
                                         store1))),
                 0,
@@ -79,13 +79,13 @@ class LogicalOptimizerFilterDownTest {
         helper(
                 LOPProjection(projectS,
                         LOPFilter(
-                                LOPExpression(astS),
+                                astS,
                                 LOPProjection(projectS,
                                         store1))),
                 LOPProjection(projectS,
                         LOPProjection(projectS,
                                 LOPFilter(
-                                        LOPExpression(astS),
+                                        astS,
                                         store1))),
                 0,
                 ResultSetDictionary(),
