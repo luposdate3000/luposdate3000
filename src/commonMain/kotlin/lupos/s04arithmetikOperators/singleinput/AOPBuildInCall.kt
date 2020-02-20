@@ -280,7 +280,7 @@ class AOPBuiltInCall(var function: BuiltInFunctions, childs: List<AOPBase>) : AO
             BuiltInFunctions.LANG -> {
                 if (a is AOPLanguageTaggedLiteral)
                     return AOPSimpleLiteral(a.delimiter, a.language)
-                throw Exception("AOPBuiltInCall LANG only works with language tagged string input")
+                return AOPSimpleLiteral("\"", "")
             }
             BuiltInFunctions.STR -> {
                 if (a is AOPConstantString)

@@ -42,10 +42,12 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
     }
 
     var a: AOPConstant? = null
-    var count = 0//TODO set this
+    var count = 0
     var collectMode = true
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
+        if (type == Aggregation.COUNT)
+            return AOPInteger(count)
         if (!collectMode) {
             if (a == null)
                 return AOPUndef()
@@ -55,8 +57,6 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
         if (distinct)
             throw Exception("AOPAggregation does not support distinct")
         when (type) {
-            Aggregation.COUNT ->
-                a = AOPInteger(count)
             Aggregation.SAMPLE -> {
                 val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
                 a = b

@@ -38,12 +38,14 @@ class AOPVariable(var name: String) : AOPBase() {
         val tmp = resultSet.getValue(resultRow[variable])!!
         if (tmp.length == 0)
             return AOPUndef()
+        println("load variable $tmp")
         when {
+            tmp.startsWith("_:") -> return AOPBnode(tmp.substring(2, tmp.length))
             tmp.endsWith("^^<http://www.w3.org/2001/XMLSchema#integer>") -> return AOPInteger(tmp.substring(1, tmp.length - 1 - "^^<http://www.w3.org/2001/XMLSchema#integer>".length).toInt())
             tmp.endsWith("^^<http://www.w3.org/2001/XMLSchema#decimal>") -> return AOPDecimal(tmp.substring(1, tmp.length - 1 - "^^<http://www.w3.org/2001/XMLSchema#decimal>".length).toDouble())
             tmp.endsWith("^^<http://www.w3.org/2001/XMLSchema#double>") -> return AOPDouble(tmp.substring(1, tmp.length - 1 - "^^<http://www.w3.org/2001/XMLSchema#double>".length).toDouble())
-            tmp.endsWith("^^<http://www.w3.org/2001/XMLSchema#boolean>") -> return AOPBooleanLiteral(tmp.substring(1, tmp.length - 1 - "^^<http://www.w3.org/2001/XMLSchema#double>".length).toBoolean())
-            tmp.endsWith("^^<http://www.w3.org/2001/XMLSchema#dataTime>") -> return AOPDateTime(tmp.substring(1, tmp.length - 1 - "^^<http://www.w3.org/2001/XMLSchema#double>".length))
+            tmp.endsWith("^^<http://www.w3.org/2001/XMLSchema#boolean>") -> return AOPBooleanLiteral(tmp.substring(1, tmp.length - 1 - "^^<http://www.w3.org/2001/XMLSchema#boolean>".length).toBoolean())
+            tmp.endsWith("^^<http://www.w3.org/2001/XMLSchema#dateTime>") -> return AOPDateTime(tmp)
             !tmp.endsWith("" + tmp.get(0)) -> {
                 val typeIdx = tmp.lastIndexOf("" + tmp.get(0) + "^^<")
                 val langIdx = tmp.lastIndexOf("" + tmp.get(0) + "@")
@@ -52,7 +54,7 @@ class AOPVariable(var name: String) : AOPBase() {
                 else if (langIdx > 0)
                     return AOPLanguageTaggedLiteral("" + tmp.get(0), tmp.substring(1, langIdx), tmp.substring(langIdx + 2, tmp.length))
                 else
-                    throw Exception("AOPVariable cannot identify type")
+                    throw Exception("AOPVariable cannot identify type #${tmp}#")
             }
             else -> return AOPSimpleLiteral("" + tmp.get(0), tmp.substring(1, tmp.length - 1))
         }
