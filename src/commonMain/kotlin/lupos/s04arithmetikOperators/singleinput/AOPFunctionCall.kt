@@ -1,7 +1,9 @@
 package lupos.s04arithmetikOperators.noinput
+import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
@@ -37,4 +39,7 @@ class AOPFunctionCall(var iri: String, var distinct: Boolean, args: List<OPBase>
         }
         return true
     }
+override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant{
+    TODO("not implemented")
+}
 }

@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.noinput
+import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.*
@@ -34,4 +35,7 @@ class AOPTypedLiteral(var delimiter: String, var content: String, var type_iri: 
             return false
         return content == other.content
     }
+override fun toDouble():Double{throw Exception("cannot cast AOPTypedLiteral to Double")}
+override fun toInt():Int{throw Exception("cannot cast AOPTypedLiteral to Int")}
+override fun toBoolean():Boolean{throw Exception("cannot cast AOPTypedLiteral to Boolean")}
 }

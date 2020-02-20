@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.noinput
+import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.*
@@ -28,4 +29,7 @@ class AOPInteger(var value: Int) : AOPConstant() {
             return false
         return value == other.value
     }
+override fun toDouble():Double=value.toDouble()
+override fun toInt():Int=value
+override fun toBoolean():Boolean{throw Exception("cannot cast AOPInteger to Boolean")}
 }

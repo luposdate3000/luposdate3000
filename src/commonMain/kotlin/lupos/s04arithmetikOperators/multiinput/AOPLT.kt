@@ -1,4 +1,6 @@
 package lupos.s04arithmetikOperators.multiinput
+import lupos.s04arithmetikOperators.noinput.*
+import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.*
@@ -31,4 +33,7 @@ class AOPLT(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
         }
         return true
     }
+override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant{
+    TODO("not implemented")
+}
 }

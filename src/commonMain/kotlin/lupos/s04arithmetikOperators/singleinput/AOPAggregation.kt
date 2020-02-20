@@ -1,5 +1,7 @@
 package lupos.s04arithmetikOperators.noinput
+import lupos.s03resultRepresentation.*
 
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s04arithmetikOperators.*
@@ -38,4 +40,7 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
             return false
         return true
     }
+override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant{
+    TODO("not implemented")
+}
 }

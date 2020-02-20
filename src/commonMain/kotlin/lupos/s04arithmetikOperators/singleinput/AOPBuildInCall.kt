@@ -1,4 +1,6 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s03resultRepresentation.*
+import lupos.s04arithmetikOperators.noinput.*
 
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.*
@@ -35,4 +37,7 @@ class AOPBuiltInCall(var function: BuiltInFunctions, childs: List<AOPBase>) : AO
             return false
         return true
     }
+override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant{
+    TODO("not implemented")
+}
 }

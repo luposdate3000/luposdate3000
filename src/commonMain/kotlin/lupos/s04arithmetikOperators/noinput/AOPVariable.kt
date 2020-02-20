@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.noinput
+import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.*
@@ -27,4 +28,7 @@ class AOPVariable(var name: String) : AOPBase() {
             return false
         return true
     }
+override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant{
+    TODO("not implemented")
+}
 }

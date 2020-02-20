@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.noinput
+import lupos.s03resultRepresentation.*
 
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.*
@@ -24,4 +25,7 @@ class AOPUndef() : AOPConstant() {
     override fun equals(other: Any?): Boolean {
         return other is AOPUndef
     }
+override fun toDouble():Double{throw Exception("cannot cast AOPUndef to Double")}
+override fun toInt():Int{throw Exception("cannot cast AOPUndef to Int")}
+override fun toBoolean():Boolean{throw Exception("cannot cast AOPUndef to Boolean")}
 }

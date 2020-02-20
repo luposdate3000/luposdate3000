@@ -612,7 +612,7 @@ class POPExpression : LOPBase {
     fun extractStringFromLiteral(literal: String): String {
         when {
             literal.endsWith(dataTypeString) -> return literal.substring(1, literal.length - 1 - dataTypeString.length)
-            !literal.endsWith("\"") && !literal.endsWith(">") -> return literal.substring(1, literal.lastIndexOf("@") - 1)
+            !literal.endsWith("\"") && !literal.endsWith(">") && literal.contains("@") -> return literal.substring(1, literal.lastIndexOf("@") - 1)
             else -> return literal.substring(1, literal.length - 1)
         }
     }
