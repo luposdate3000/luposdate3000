@@ -31,23 +31,28 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 
+abstract class OptimizerCompoundBase(transactionID: Long, dictionary: ResultSetDictionary):OptimizerBase(transactionID,dictionary){
+	abstract val childrenOptimizers:Array<OptimizerBase>
 
-abstract class OptimizerBase(val transactionID: Long, val dictionary: ResultSetDictionary) {
+override  fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase{
+return node
+}
 
-    abstract fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase
-
-    fun optimizeInternal(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
-        for (i in node.children.indices) {
-            val tmp = optimizeInternal(node.children[i], node, onChange)
-            node.updateChildren(i, tmp)
-        }
-        return optimize(node, parent, onChange)
-    }
-
-open     fun optimizeCall(node: OPBase, onChange: () -> Unit = {}): OPBase {
+override fun optimizeCall(node: OPBase, onChange: () -> Unit): OPBase {
         node.syntaxVerifyAllVariableExists(listOf<String>(), true)
-        val res = optimizeInternal(node, null, onChange)
-        res.syntaxVerifyAllVariableExists(listOf<String>(), false)
-        return res
+        var tmp = node
+        for (o in childrenOptimizers) {
+            var c = true
+            while (c) {
+                c = false
+                tmp = o.optimizeInternal(tmp, null, {
+                    c = true
+                    onChange()
+                })
+                c = false
+            }
+        }
+        tmp.syntaxVerifyAllVariableExists(listOf<String>(), false)
+        return tmp
     }
 }

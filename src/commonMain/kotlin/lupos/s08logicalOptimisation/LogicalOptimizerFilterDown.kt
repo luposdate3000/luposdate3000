@@ -6,7 +6,6 @@ import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s08logicalOptimisation.OptimizerBase
 
-
 class LogicalOptimizerFilterDown(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary) {
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         if (node is LOPFilter) {
