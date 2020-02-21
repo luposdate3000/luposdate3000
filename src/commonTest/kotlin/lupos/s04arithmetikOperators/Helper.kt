@@ -62,15 +62,26 @@ object helperTest {
         }
         return res
     }
-
-    val numericList = listOf(
-            arrayOf<Double>(0.0, 1.0),
-            arrayOf<Double>(0.0, -1.0),
-            arrayOf<Double>(2.0, 3.0),
-            arrayOf<Double>(2.0, -4.0),
-            arrayOf<Double>(1.0, 1.0),
-            arrayOf<Double>(-1.0, -1.0)
-    )
-
+    fun forEachBooleanInput(expectAction: (a: Boolean, b: Boolean) -> Boolean, operatorAction: (a: AOPConstant, b: AOPConstant) -> AOPBase): List<DynamicTest> {
+        val res = mutableListOf<DynamicTest>()
+                for (a in 0 until 2) {
+val x = AOPBooleanLiteral(a == 0)
+                    for (b in 0 until 2) {
+val y = AOPBooleanLiteral(b == 0)
+val expected = AOPBooleanLiteral(expectAction(a==0,b==0))
+                        val list = mutableListOf<String>()
+                        list.add("" + x.valueToString())
+                        list.add("" + y.valueToString())
+                        val s = "calculate(${list} to ${expected.valueToString()})"
+                        res.add(DynamicTest.dynamicTest(s) {
+                            val resultSet = ResultSet(ResultSetDictionary())
+                            val output = operatorAction(x, y).calculate(resultSet, resultSet.createResultRow())
+                            assertTrue(expected.equals(output))
+                            assertTrue(output.equals(output))
+                        })
+                    }
+            }
+        return res
+    }
 
 }
