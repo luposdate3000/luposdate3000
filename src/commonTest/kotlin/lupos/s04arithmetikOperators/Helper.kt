@@ -31,7 +31,7 @@ object helperTest {
             b
     }
 
-    fun forEachNumericInput(expectAction: (a: Double, b: Double) -> Double, operatorAction: (a: AOPConstant, b: AOPConstant) -> AOPBase): List<DynamicTest> {
+    fun internalForEachNumeric(action: (a: AOPConstant, b: AOPConstant, ad: Double, bd: Double, at: Int, bt: Int) -> DynamicTest): List<DynamicTest> {
         val res = mutableListOf<DynamicTest>()
         listOf(
                 arrayOf<Double>(0.0, 1.0),
@@ -46,17 +46,7 @@ object helperTest {
                     val x = toConstant(input[i], a)
                     for (b in 0 until 3) {
                         val y = toConstant(input[1 - i], b)
-                        val expected = toConstant(expectAction(input[i], input[1 - i]), max(a, b))
-                        val list = mutableListOf<String>()
-                        list.add("" + x.valueToString())
-                        list.add("" + y.valueToString())
-                        val s = "calculate(${list} to ${expected.valueToString()})"
-                        res.add(DynamicTest.dynamicTest(s) {
-                            val resultSet = ResultSet(ResultSetDictionary())
-                            val output = operatorAction(x, y).calculate(resultSet, resultSet.createResultRow())
-                            assertTrue(expected.equals(output))
-                            assertTrue(output.equals(output))
-                        })
+                        res.add(action(x, y, input[i], input[1 - i], a, b))
                     }
                 }
             }
@@ -64,70 +54,46 @@ object helperTest {
         return res
     }
 
-    fun forEachNumericBooleanInput(expectAction: (a: Double, b: Double) -> Boolean, operatorAction: (a: AOPConstant, b: AOPConstant) -> AOPBase): List<DynamicTest> {
-        val res = mutableListOf<DynamicTest>()
-        listOf(
-                arrayOf<Double>(0.0, 1.0),
-                arrayOf<Double>(0.0, -1.0),
-                arrayOf<Double>(2.0, 3.0),
-                arrayOf<Double>(2.0, -4.0),
-                arrayOf<Double>(1.0, 1.0),
-                arrayOf<Double>(-1.0, -1.0)
-        ).forEach { input ->
-            for (i in 0 until 2) {
-                for (a in 0 until 3) {
-                    val x = toConstant(input[i], a)
-                    for (b in 0 until 3) {
-                        val y = toConstant(input[1 - i], b)
-                        val expected = AOPBoolean(expectAction(input[i], input[1 - i]))
-                        val list = mutableListOf<String>()
-                        list.add("" + x.valueToString())
-                        list.add("" + y.valueToString())
-                        val s = "calculate(${list} to ${expected.valueToString()})"
-                        res.add(DynamicTest.dynamicTest(s) {
-                            val resultSet = ResultSet(ResultSetDictionary())
-                            val output = operatorAction(x, y).calculate(resultSet, resultSet.createResultRow())
-                            assertTrue(expected.equals(output))
-                            assertTrue(output.equals(output))
-                        })
-                    }
-                }
-            }
+    fun forEachNumericInput(expectAction: (a: Double, b: Double) -> Double, operatorAction: (a: AOPConstant, b: AOPConstant) -> AOPBase) = internalForEachNumeric { x, y, av, bv, a, b ->
+        val expected = toConstant(expectAction(av, bv), max(a, b))
+        val list = mutableListOf<String>()
+        list.add("" + x.valueToString())
+        list.add("" + y.valueToString())
+        val s = "calculate(${list} to ${expected.valueToString()})"
+        DynamicTest.dynamicTest(s) {
+            val resultSet = ResultSet(ResultSetDictionary())
+            val output = operatorAction(x, y).calculate(resultSet, resultSet.createResultRow())
+            assertTrue(expected.equals(output))
+            assertTrue(output.equals(output))
         }
-        return res
     }
 
-    fun forEachNumericDataBooleanInput(expectAction: (a: AOPConstant, b: AOPConstant) -> Boolean, operatorAction: (a: AOPConstant, b: AOPConstant) -> AOPBase): List<DynamicTest> {
-        val res = mutableListOf<DynamicTest>()
-        listOf(
-                arrayOf<Double>(0.0, 1.0),
-                arrayOf<Double>(0.0, -1.0),
-                arrayOf<Double>(2.0, 3.0),
-                arrayOf<Double>(2.0, -4.0),
-                arrayOf<Double>(1.0, 1.0),
-                arrayOf<Double>(-1.0, -1.0)
-        ).forEach { input ->
-            for (i in 0 until 2) {
-                for (a in 0 until 3) {
-                    val x = toConstant(input[i], a)
-                    for (b in 0 until 3) {
-                        val y = toConstant(input[1 - i], b)
-                        val expected = AOPBoolean(expectAction(x, y))
-                        val list = mutableListOf<String>()
-                        list.add("" + x.valueToString())
-                        list.add("" + y.valueToString())
-                        val s = "calculate(${list} to ${expected.valueToString()})"
-                        res.add(DynamicTest.dynamicTest(s) {
-                            val resultSet = ResultSet(ResultSetDictionary())
-                            val output = operatorAction(x, y).calculate(resultSet, resultSet.createResultRow())
-                            assertTrue(expected.equals(output))
-                            assertTrue(output.equals(output))
-                        })
-                    }
-                }
-            }
+    fun forEachNumericBooleanInput(expectAction: (a: Double, b: Double) -> Boolean, operatorAction: (a: AOPConstant, b: AOPConstant) -> AOPBase) = internalForEachNumeric { x, y, av, bv, a, b ->
+        val expected = AOPBoolean(expectAction(av, bv))
+        val list = mutableListOf<String>()
+        list.add("" + x.valueToString())
+        list.add("" + y.valueToString())
+        val s = "calculate(${list} to ${expected.valueToString()})"
+        DynamicTest.dynamicTest(s) {
+            val resultSet = ResultSet(ResultSetDictionary())
+            val output = operatorAction(x, y).calculate(resultSet, resultSet.createResultRow())
+            assertTrue(expected.equals(output))
+            assertTrue(output.equals(output))
         }
-        return res
+    }
+
+    fun forEachNumericDataBooleanInput(expectAction: (a: AOPConstant, b: AOPConstant) -> Boolean, operatorAction: (a: AOPConstant, b: AOPConstant) -> AOPBase) = internalForEachNumeric { x, y, av, bv, a, b ->
+        val expected = AOPBoolean(expectAction(x, y))
+        val list = mutableListOf<String>()
+        list.add("" + x.valueToString())
+        list.add("" + y.valueToString())
+        val s = "calculate(${list} to ${expected.valueToString()})"
+        DynamicTest.dynamicTest(s) {
+            val resultSet = ResultSet(ResultSetDictionary())
+            val output = operatorAction(x, y).calculate(resultSet, resultSet.createResultRow())
+            assertTrue(expected.equals(output))
+            assertTrue(output.equals(output))
+        }
     }
 
     fun forEachBooleanInput(expectAction: (a: Boolean, b: Boolean) -> Boolean, operatorAction: (a: AOPConstant, b: AOPConstant) -> AOPBase): List<DynamicTest> {
