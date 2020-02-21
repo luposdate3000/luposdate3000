@@ -23,8 +23,6 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.parseFromAOPBase
-import lupos.s04logicalOperators.toAOPBase
 
 
 class AOPBuildInCallCEIL(child: AOPBase) : AOPBase() {
@@ -45,9 +43,9 @@ class AOPBuildInCallCEIL(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDouble)
-            return AOPInteger(ceil(a.toDouble()).toInt())
+            return AOPDouble(ceil(a.toDouble()))
         if (a is AOPDecimal)
-            return AOPInteger(ceil(a.toDouble()).toInt())
+            return AOPDecimal(ceil(a.toDouble()))
         if (a is AOPInteger)
             return a
         throw Exception("AOPBuiltInCall CEIL only works with numeric input")

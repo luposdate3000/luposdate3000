@@ -23,8 +23,6 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.parseFromAOPBase
-import lupos.s04logicalOperators.toAOPBase
 
 
 class AOPBuildInCallROUND(child: AOPBase) : AOPBase() {
@@ -45,9 +43,9 @@ class AOPBuildInCallROUND(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDouble)
-            return AOPInteger(a.toDouble().roundToInt())
+            return AOPDouble(a.toDouble().roundToInt().toDouble())
         if (a is AOPDecimal)
-            return AOPInteger(a.toDouble().roundToInt())
+            return AOPDecimal(a.toDouble().roundToInt().toDouble())
         if (a is AOPInteger)
             return a
         throw Exception("AOPBuiltInCall ROUND only works with numeric input")

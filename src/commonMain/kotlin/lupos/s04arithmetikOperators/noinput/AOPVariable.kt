@@ -40,7 +40,7 @@ class AOPVariable(var name: String) : AOPBase() {
     override fun getRequiredVariableNames() = listOf(name)
 
     override fun toXMLElement(): XMLElement {
-        return XMLElement("AOPVariable")
+        return XMLElement("AOPVariable").addAttribute("name",name)
     }
 
     override fun equals(other: Any?): Boolean {

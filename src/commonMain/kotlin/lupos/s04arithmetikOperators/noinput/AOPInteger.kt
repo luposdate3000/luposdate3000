@@ -11,9 +11,7 @@ class AOPInteger(var value: Int) : AOPConstant() {
     override val children: Array<OPBase> = arrayOf()
 
     override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPInteger")
-        res.addAttribute("value", "" + value)
-        return res
+        return XMLElement("AOPInteger").addAttribute("value", "" + value)
     }
 
     override fun valueToString() = "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#integer>"

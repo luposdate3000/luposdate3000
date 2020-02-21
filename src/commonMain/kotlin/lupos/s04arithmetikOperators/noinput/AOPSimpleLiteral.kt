@@ -12,8 +12,8 @@ class AOPSimpleLiteral(override var delimiter: String, override var content: Str
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPSimpleLiteral")
-        res.addAttribute("delimiter", "" + delimiter)
-        res.addAttribute("content", "" + content)
+        res.addAttribute("delimiter", delimiter)
+        res.addAttribute("content", content)
         return res
     }
 

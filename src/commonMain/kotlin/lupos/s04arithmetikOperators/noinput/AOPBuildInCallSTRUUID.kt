@@ -23,8 +23,6 @@ import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.parseFromAOPBase
-import lupos.s04logicalOperators.toAOPBase
 
 
 class AOPBuildInCallSTRUUID(child: AOPBase) : AOPBase() {

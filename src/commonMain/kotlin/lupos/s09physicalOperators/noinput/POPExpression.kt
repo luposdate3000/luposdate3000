@@ -23,8 +23,6 @@ import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.parseFromAOPBase
-import lupos.s04logicalOperators.toAOPBase
 
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
@@ -99,13 +97,7 @@ class POPExpression : LOPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPExpression")
-        res.addContent(XMLElement.parseFromAOPBase(children[0] as AOPBase))
+	res.addContent(childrenToXML())
         return res
-    }
-
-    companion object {
-        fun fromXMLElement(dictionary: ResultSetDictionary, xml: XMLElement): POPExpression {
-            return POPExpression(dictionary, XMLElement.toAOPBase(xml.childs.first()))
-        }
     }
 }

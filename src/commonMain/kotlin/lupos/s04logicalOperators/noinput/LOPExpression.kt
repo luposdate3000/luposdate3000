@@ -7,7 +7,6 @@ import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.parseFromAOPBase
 
 
 class LOPExpression(val child: AOPBase) : LOPBase() {
@@ -31,7 +30,7 @@ class LOPExpression(val child: AOPBase) : LOPBase() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPExpression")
-        res.addContent(XMLElement.parseFromAOPBase(child))
+        res.addContent(childrenToXML())
         return res
     }
 
