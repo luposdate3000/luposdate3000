@@ -73,11 +73,11 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
                 if (a == null)
                     flag = true
                 else if (a is AOPDouble || b is AOPDouble)
-                    flag = a!!.toDouble() < b.toDouble()
+                    flag = a!!.toDouble() > b.toDouble()
                 else if (a is AOPDecimal || b is AOPDecimal)
-                    flag = a!!.toDouble() < b.toDouble()
+                    flag = a!!.toDouble() > b.toDouble()
                 else if (a is AOPInteger || b is AOPInteger)
-                    flag = a!!.toInt() < b.toInt()
+                    flag = a!!.toInt() > b.toInt()
                 else
                     throw Exception("AOPAggregation avg only defined on numeric input")
                 if (flag)
@@ -89,11 +89,11 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
                 if (a == null)
                     flag = true
                 else if (a is AOPDouble || b is AOPDouble)
-                    flag = a!!.toDouble() > b.toDouble()
+                    flag = a!!.toDouble() < b.toDouble()
                 else if (a is AOPDecimal || b is AOPDecimal)
-                    flag = a!!.toDouble() > b.toDouble()
+                    flag = a!!.toDouble() < b.toDouble()
                 else if (a is AOPInteger || b is AOPInteger)
-                    flag = a!!.toInt() > b.toInt()
+                    flag = a!!.toInt() < b.toInt()
                 else
                     throw Exception("AOPAggregation avg only defined on numeric input")
                 if (flag)
