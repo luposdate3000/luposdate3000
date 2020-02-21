@@ -16,56 +16,54 @@ import org.junit.jupiter.api.Assertions.*
 
 
 class AOPAdditionTest {
-    @TestFactory
-    fun testCalculate() = listOf(
-            listOf(AOPInteger(0), AOPInteger(1)) to AOPInteger(1),
-            listOf(AOPInteger(1), AOPInteger(0)) to AOPInteger(1),
-            listOf(AOPInteger(0), AOPInteger(-1)) to AOPInteger(-1),
-            listOf(AOPInteger(-1), AOPInteger(0)) to AOPInteger(-1),
-            listOf(AOPDecimal(0.0), AOPDecimal(1.0)) to AOPDecimal(1.0),
-            listOf(AOPDecimal(1.0), AOPDecimal(0.0)) to AOPDecimal(1.0),
-            listOf(AOPDecimal(0.0), AOPDecimal(-1.0)) to AOPDecimal(-1.0),
-            listOf(AOPDecimal(-1.0), AOPDecimal(0.0)) to AOPDecimal(-1.0),
-            listOf(AOPDouble(0.0), AOPDouble(1.0)) to AOPDouble(1.0),
-            listOf(AOPDouble(1.0), AOPDouble(0.0)) to AOPDouble(1.0),
-            listOf(AOPDouble(0.0), AOPDouble(-1.0)) to AOPDouble(-1.0),
-            listOf(AOPDouble(-1.0), AOPDouble(0.0)) to AOPDouble(-1.0),
-            listOf(AOPInteger(0), AOPDecimal(1.0)) to AOPDecimal(1.0),
-            listOf(AOPInteger(1), AOPDecimal(0.0)) to AOPDecimal(1.0),
-            listOf(AOPInteger(0), AOPDecimal(-1.0)) to AOPDecimal(-1.0),
-            listOf(AOPInteger(-1), AOPDecimal(0.0)) to AOPDecimal(-1.0),
-            listOf(AOPInteger(0), AOPDouble(1.0)) to AOPDouble(1.0),
-            listOf(AOPInteger(1), AOPDouble(0.0)) to AOPDouble(1.0),
-            listOf(AOPInteger(0), AOPDouble(-1.0)) to AOPDouble(-1.0),
-            listOf(AOPInteger(-1), AOPDouble(0.0)) to AOPDouble(-1.0),
-            listOf(AOPDecimal(0.0), AOPDouble(1.0)) to AOPDouble(1.0),
-            listOf(AOPDecimal(1.0), AOPDouble(0.0)) to AOPDouble(1.0),
-            listOf(AOPDecimal(0.0), AOPDouble(-1.0)) to AOPDouble(-1.0),
-            listOf(AOPDecimal(-1.0), AOPDouble(0.0)) to AOPDouble(-1.0),
-            listOf(AOPDecimal(0.0), AOPInteger(1)) to AOPDecimal(1.0),
-            listOf(AOPDecimal(1.0), AOPInteger(0)) to AOPDecimal(1.0),
-            listOf(AOPDecimal(0.0), AOPInteger(-1)) to AOPDecimal(-1.0),
-            listOf(AOPDecimal(-1.0), AOPInteger(0)) to AOPDecimal(-1.0),
-            listOf(AOPDouble(0.0), AOPInteger(1)) to AOPDouble(1.0),
-            listOf(AOPDouble(1.0), AOPInteger(0)) to AOPDouble(1.0),
-            listOf(AOPDouble(0.0), AOPInteger(-1)) to AOPDouble(-1.0),
-            listOf(AOPDouble(-1.0), AOPInteger(0)) to AOPDouble(-1.0),
-            listOf(AOPDouble(0.0), AOPDecimal(1.0)) to AOPDouble(1.0),
-            listOf(AOPDouble(1.0), AOPDecimal(0.0)) to AOPDouble(1.0),
-            listOf(AOPDouble(0.0), AOPDecimal(-1.0)) to AOPDouble(-1.0),
-            listOf(AOPDouble(-1.0), AOPDecimal(0.0)) to AOPDouble(-1.0)
-    ).map { (input, expected) ->
-        val list = mutableListOf<String>()
-        for (i in input)
-            list.add("" + i.valueToString())
-        DynamicTest.dynamicTest("calculate(${list} to ${expected.valueToString()})") {
-            assertTrue(input.size == 2)
-            val resultSet = ResultSet(ResultSetDictionary())
-            val output = AOPAddition(input[0], input[1]).calculate(resultSet, resultSet.createResultRow())
-            assertTrue(expected.equals(output))
-            assertTrue(output.equals(output))
-            assertTrue(input.equals(input))
+
+    fun toConstant(d: Double, i: Int): AOPConstant {
+        when (i) {
+            0 -> return AOPInteger(d.toInt())
+            1 -> return AOPDecimal(d)
+            else -> return AOPDouble(d)
         }
+    }
+
+    fun max(a: Int, b: Int): Int {
+        return if (a > b)
+            a
+        else
+            b
+    }
+
+    @TestFactory
+    fun testCalculate2(): List<DynamicTest> {
+        val res = mutableListOf<DynamicTest>()
+        listOf(
+                arrayOf<Double>(0.0, 1.0),
+                arrayOf<Double>(0.0, -1.0),
+                arrayOf<Double>(2.0, 3.0),
+                arrayOf<Double>(2.0, -4.0),
+                arrayOf<Double>(1.0, 1.0),
+                arrayOf<Double>(-1.0, -1.0)
+        ).forEach { input ->
+            for (i in 0 until 2) {
+                for (a in 0 until 3) {
+                    val x = toConstant(input[i], a)
+                    for (b in 0 until 3) {
+                        val y = toConstant(input[1 - i], b)
+                        val expected = toConstant(input[i] + input[1 - i], max(a, b))
+                        val list = mutableListOf<String>()
+                        list.add("" + x.valueToString())
+                        list.add("" + y.valueToString())
+                        val s = "calculate(${list} to ${expected.valueToString()})"
+                        res.add(DynamicTest.dynamicTest(s) {
+                            val resultSet = ResultSet(ResultSetDictionary())
+                            val output = AOPAddition(x, y).calculate(resultSet, resultSet.createResultRow())
+                            assertTrue(expected.equals(output))
+                            assertTrue(output.equals(output))
+                        })
+                    }
+                }
+            }
+        }
+        return res
     }
 
     fun testInvalidInput() {

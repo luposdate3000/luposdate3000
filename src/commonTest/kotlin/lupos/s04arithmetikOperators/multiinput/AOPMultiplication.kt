@@ -15,7 +15,7 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
 
-class AOPSubtractionTest {
+class AOPMultiplicationTest {
 
     fun toConstant(d: Double, i: Int): AOPConstant {
         when (i) {
@@ -48,14 +48,14 @@ class AOPSubtractionTest {
                     val x = toConstant(input[i], a)
                     for (b in 0 until 3) {
                         val y = toConstant(input[1 - i], b)
-                        val expected = toConstant(input[i] - input[1 - i], max(a, b))
+                        val expected = toConstant(input[i] * input[1 - i], max(a, b))
                         val list = mutableListOf<String>()
                         list.add("" + x.valueToString())
                         list.add("" + y.valueToString())
                         val s = "calculate(${list} to ${expected.valueToString()})"
                         res.add(DynamicTest.dynamicTest(s) {
                             val resultSet = ResultSet(ResultSetDictionary())
-                            val output = AOPSubtraction(x, y).calculate(resultSet, resultSet.createResultRow())
+                            val output = AOPMultiplication(x, y).calculate(resultSet, resultSet.createResultRow())
                             assertTrue(expected.equals(output))
                             assertTrue(output.equals(output))
                         })
