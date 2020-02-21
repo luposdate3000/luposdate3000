@@ -15,10 +15,10 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
 
-class AOPAndTest {
+class AOPLEQTest {
 
     @TestFactory
-    fun testCalculate() = helperTest.forEachBooleanInput({ a, b -> a && b }, { a, b -> AOPAnd(a, b) })
+    fun testCalculate() = helperTest.forEachNumericBooleanInput({ a, b -> a <= b }, { a, b -> AOPLEQ(a, b) })
 
     fun testInvalidInput() {
         TODO("not implemented")

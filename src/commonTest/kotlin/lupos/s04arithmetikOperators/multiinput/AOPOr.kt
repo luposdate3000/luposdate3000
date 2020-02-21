@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Assertions.*
 
 class AOPOrTest {
 
- @TestFactory
+    @TestFactory
     fun testCalculate() = helperTest.forEachBooleanInput({ a, b -> a || b }, { a, b -> AOPOr(a, b) })
 
     fun testInvalidInput() {

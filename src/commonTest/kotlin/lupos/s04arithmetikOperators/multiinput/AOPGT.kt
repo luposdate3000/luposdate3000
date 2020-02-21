@@ -15,10 +15,10 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
 
-class AOPAndTest {
+class AOPGTTest {
 
     @TestFactory
-    fun testCalculate() = helperTest.forEachBooleanInput({ a, b -> a && b }, { a, b -> AOPAnd(a, b) })
+    fun testCalculate() = helperTest.forEachNumericBooleanInput({ a, b -> a > b }, { a, b -> AOPGT(a, b) })
 
     fun testInvalidInput() {
         TODO("not implemented")
