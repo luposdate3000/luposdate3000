@@ -97,7 +97,7 @@ class POPExpression : LOPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPExpression")
-	res.addContent(childrenToXML())
+        res.addContent(childrenToXML())
         return res
     }
 }

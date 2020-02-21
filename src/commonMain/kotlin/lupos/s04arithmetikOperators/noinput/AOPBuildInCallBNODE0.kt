@@ -45,7 +45,6 @@ class AOPBuildInCallBNODE0() : AOPBase() {
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
-        val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         return AOPBnode("" + uuid + localbnode.next())
     }
 }

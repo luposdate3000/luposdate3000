@@ -25,8 +25,8 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBuildInCallSTRUUID(child: AOPBase) : AOPBase() {
-    override val children: Array<OPBase> = arrayOf(child)
+class AOPBuildInCallSTRUUID() : AOPBase() {
+    override val children: Array<OPBase> = arrayOf()
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPBuildInCallSTRUUID")
@@ -37,11 +37,10 @@ class AOPBuildInCallSTRUUID(child: AOPBase) : AOPBase() {
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallSTRUUID)
             return false
-        return children[0].equals(other.children[0])
+        return true
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
-        val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         return AOPSimpleLiteral("\"", "" + uuid4())
     }
 }

@@ -3,10 +3,10 @@ package lupos.s14endpoint
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.singleinput.*
-import lupos.s04arithmetikOperators.multiinput.*
-import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPJoinNestedLoop
@@ -41,30 +41,33 @@ fun createAOPVariable(mapping: MutableMap<String, String>, name: String): AOPVar
 
 fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transactionID: Long, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): OPBase {
     return when (node.tag) {
-"AOPAddition" ->AOPAddition(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase,convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping)as AOPBase)
-"AOPBuildInCallCONTAINS" ->AOPBuildInCallCONTAINS(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase,convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping)as AOPBase)
-"AOPBuildInCallDAY" ->AOPBuildInCallDAY(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase)
-"AOPBuildInCallHOURS" ->AOPBuildInCallHOURS(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase)
-"AOPBuildInCallIF" ->AOPBuildInCallIF(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase,convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping)as AOPBase,convertToOPBase(dictionary, transactionID, node["children"]!!.childs[2], mapping)as AOPBase)
-"AOPBuildInCallLANGMATCHES" ->AOPBuildInCallLANGMATCHES(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase,convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping)as AOPBase)
-"AOPBuildInCallMD5" ->AOPBuildInCallMD5(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase)
-"AOPBuildInCallMINUTES" ->AOPBuildInCallMINUTES(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase)
-"AOPBuildInCallMONTH" ->AOPBuildInCallMONTH(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase)
-"AOPBuildInCallSHA1" ->AOPBuildInCallSHA1(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase)
-"AOPBuildInCallSHA256" ->AOPBuildInCallSHA256(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase)
-"AOPBuildInCallYEAR" ->AOPBuildInCallYEAR(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase)
-"AOPEQ" ->AOPEQ(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase,convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping)as AOPBase)
-"AOPUndef" ->AOPUndef()
-"AOPVariable" ->AOPVariable(node.attributes["name"]!!)
-"AOPBuildInCallDATATYPE"->AOPBuildInCallDATATYPE(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase)
-"AOPBuildInCallLANG"->AOPBuildInCallLANG(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase)
-"AOPDivision"->AOPDivision(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase,convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping)as AOPBase)
-"AOPInteger"->AOPInteger(node.attributes["value"]!!.toInt())
-"AOPMultiplication"->AOPMultiplication(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase,convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping)as AOPBase)
-"AOPSimpleLiteral"->AOPSimpleLiteral(node.attributes["delimiter"]!!,node.attributes["content"]!!)
-"AOPBoolean"->AOPBoolean(node.attributes["value"]!!.toBoolean())
-"AOPBuildInCallSTRDT"->AOPBuildInCallSTRDT(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase,convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping)as AOPBase)
-"AOPBuildInCallSTRLANG"->AOPBuildInCallSTRLANG(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase,convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping)as AOPBase)
+        "AOPAddition" -> AOPAddition(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
+        "AOPBuildInCallCONTAINS" -> AOPBuildInCallCONTAINS(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
+        "AOPBuildInCallDAY" -> AOPBuildInCallDAY(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallHOURS" -> AOPBuildInCallHOURS(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallIF" -> AOPBuildInCallIF(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[2], mapping) as AOPBase)
+        "AOPBuildInCallLANGMATCHES" -> AOPBuildInCallLANGMATCHES(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
+        "AOPBuildInCallMD5" -> AOPBuildInCallMD5(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallMINUTES" -> AOPBuildInCallMINUTES(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallMONTH" -> AOPBuildInCallMONTH(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallSHA1" -> AOPBuildInCallSHA1(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallSHA256" -> AOPBuildInCallSHA256(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallYEAR" -> AOPBuildInCallYEAR(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPEQ" -> AOPEQ(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
+        "AOPUndef" -> AOPUndef()
+        "AOPVariable" -> AOPVariable(node.attributes["name"]!!)
+        "AOPBuildInCallDATATYPE" -> AOPBuildInCallDATATYPE(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPBuildInCallLANG" -> AOPBuildInCallLANG(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPDivision" -> AOPDivision(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
+        "AOPInteger" -> AOPInteger(node.attributes["value"]!!.toInt())
+        "AOPMultiplication" -> AOPMultiplication(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
+        "AOPSimpleLiteral" -> AOPSimpleLiteral(node.attributes["delimiter"]!!, node.attributes["content"]!!)
+        "AOPBoolean" -> AOPBoolean(node.attributes["value"]!!.toBoolean())
+        "AOPBuildInCallSTRDT" -> AOPBuildInCallSTRDT(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
+        "AOPBuildInCallSTRLANG" -> AOPBuildInCallSTRLANG(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
+        "AOPBuildInCallBNODE0" -> AOPBuildInCallBNODE0()
+        "AOPBuildInCallSTR" -> AOPBuildInCallSTR(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
+        "AOPIri" -> AOPIri(node.attributes["value"]!!)
         "POPSort" -> {
             val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)
             POPSort(dictionary, createAOPVariable(mapping, node.attributes["by"]!!), node.attributes["order"] == "ASC", child)
@@ -90,13 +93,13 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
                 by.add(createAOPVariable(mapping, it.attributes["name"]!!))
             }
             node["bindings"]!!.childs.forEach {
-                bindings = POPBind(dictionary, createAOPVariable(mapping, it.attributes["name"]!!), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as POPExpression, bindings)
+                bindings = POPBind(dictionary, createAOPVariable(mapping, it.attributes["name"]!!), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as POPExpression, bindings)
             }
             if (bindings is POPEmptyRow)
                 return POPGroup(dictionary, by, null, child)
             return POPGroup(dictionary, by, bindings as POPBind, child)
         }
-        "POPFilter" -> POPFilter(dictionary,convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping)as POPExpression, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping))
+        "POPFilter" -> POPFilter(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as POPExpression, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping))
         "POPFilterExact" -> {
             val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)
             POPFilterExact(dictionary, createAOPVariable(mapping, node.attributes["name"]!!), node.attributes["value"]!!, child)
@@ -133,7 +136,7 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
         "POPJoinNestedLoop" -> POPJoinNestedLoop(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         "POPJoinHashMap" -> POPJoinHashMap(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         "POPTemporaryStore" -> POPTemporaryStore(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping))
-        "POPExpression" -> POPExpression(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase)
+        "POPExpression" -> POPExpression(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
         "TripleStoreIteratorLocal" -> {
             val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary, EIndexPattern.SPO)
             val olduuid = node.attributes["uuid"]

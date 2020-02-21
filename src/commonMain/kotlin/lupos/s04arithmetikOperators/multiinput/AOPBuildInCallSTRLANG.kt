@@ -8,8 +8,8 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBuildInCallSTRLANG(child: AOPBase,childB:AOPBase) : AOPBase() {
-    override val children: Array<OPBase> = arrayOf(child,childB)
+class AOPBuildInCallSTRLANG(child: AOPBase, childB: AOPBase) : AOPBase() {
+    override val children: Array<OPBase> = arrayOf(child, childB)
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPBuildInCallSTRLANG")
@@ -20,11 +20,11 @@ class AOPBuildInCallSTRLANG(child: AOPBase,childB:AOPBase) : AOPBase() {
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallSTRLANG)
             return false
- for (i in children.indices) {
+        for (i in children.indices) {
             if (!children[i].equals(other.children[i]))
                 return false
         }
-return true
+        return true
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {

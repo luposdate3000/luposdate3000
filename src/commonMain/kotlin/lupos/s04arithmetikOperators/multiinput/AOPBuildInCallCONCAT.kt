@@ -8,8 +8,8 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBuildInCallCONCAT(child: AOPBase) : AOPBase() {
-    override val children: Array<OPBase> = arrayOf(child)
+class AOPBuildInCallCONCAT(child: AOPBase, childB: AOPBase) : AOPBase() {
+    override val children: Array<OPBase> = arrayOf(child, childB)
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPBuildInCallCONCAT")
@@ -20,7 +20,11 @@ class AOPBuildInCallCONCAT(child: AOPBase) : AOPBase() {
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallCONCAT)
             return false
-        return children[0].equals(other.children[0])
+        for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+        return true
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
