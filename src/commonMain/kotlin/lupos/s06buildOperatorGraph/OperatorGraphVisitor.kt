@@ -757,7 +757,6 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTBuiltInCall, childrenValues: List<OPBase>): OPBase {
-        val tmp = List(childrenValues.size) { childrenValues[it] as AOPBase }
         when (node.function) {
             BuiltInFunctions.STR -> return AOPBuildInCallSTR(childrenValues[0] as AOPBase)
             BuiltInFunctions.LANG -> return AOPBuildInCallLANG(childrenValues[0] as AOPBase)
@@ -797,8 +796,8 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             BuiltInFunctions.SHA1 -> return AOPBuildInCallSHA1(childrenValues[0] as AOPBase)
             BuiltInFunctions.SHA256 -> return AOPBuildInCallSHA256(childrenValues[0] as AOPBase)
             BuiltInFunctions.IF -> return AOPBuildInCallIF(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase)
-            BuiltInFunctions.STRLANG -> return AOPBuildInCallSTRLANG(childrenValues[0] as AOPBase)
-            BuiltInFunctions.STRDT -> return AOPBuildInCallSTRDT(childrenValues[0] as AOPBase)
+            BuiltInFunctions.STRLANG -> return AOPBuildInCallSTRLANG(childrenValues[0] as AOPBase,childrenValues[1] as AOPBase)
+            BuiltInFunctions.STRDT -> return AOPBuildInCallSTRDT(childrenValues[0] as AOPBase,childrenValues[1] as AOPBase)
             BuiltInFunctions.isLITERAL -> return AOPBuildInCallIsLITERAL(childrenValues[0] as AOPBase)
             BuiltInFunctions.isNUMERIC -> return AOPBuildInCallIsNUMERIC(childrenValues[0] as AOPBase)
             else -> throw UnsupportedOperationException("${classNameToString(this)} ${node.function}")

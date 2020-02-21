@@ -8,26 +8,30 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBuildInCallSTRLANG(child: AOPBase) : AOPBase() {
-    override val children: Array<OPBase> = arrayOf(child)
+class AOPBuildInCallSTRDT(child: AOPBase,childB:AOPBase) : AOPBase() {
+    override val children: Array<OPBase> = arrayOf(child,childB)
 
     override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPBuildInCallSTRLANG")
+        val res = XMLElement("AOPBuildInCallSTRDT")
         res.addContent(childrenToXML())
         return res
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is AOPBuildInCallSTRLANG)
+        if (other !is AOPBuildInCallSTRDT)
             return false
-        return children[0].equals(other.children[0])
+ for (i in children.indices) {
+            if (!children[i].equals(other.children[i]))
+                return false
+        }
+return true
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPSimpleLiteral && b is AOPSimpleLiteral)
-            return AOPLanguageTaggedLiteral(a.delimiter, a.content, b.content)
-        throw Exception("AOPBuiltInCall STRLANG only works with simple string input")
+            return AOPTypedLiteral(a.delimiter, a.content, b.content)
+        throw Exception("AOPBuiltInCall STRDT only works with simple string input")
     }
 }

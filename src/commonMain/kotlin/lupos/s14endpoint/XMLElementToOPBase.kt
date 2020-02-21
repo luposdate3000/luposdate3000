@@ -63,8 +63,8 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
 "AOPMultiplication"->AOPMultiplication(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase,convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping)as AOPBase)
 "AOPSimpleLiteral"->AOPSimpleLiteral(node.attributes["delimiter"]!!,node.attributes["content"]!!)
 "AOPBoolean"->AOPBoolean(node.attributes["value"]!!.toBoolean())
-"AOPBuildInCallSTRDT"->AOPBuildInCallSTRDT(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase)
-"AOPBuildInCallSTRLANG"->AOPBuildInCallSTRLANG(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase)
+"AOPBuildInCallSTRDT"->AOPBuildInCallSTRDT(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase,convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping)as AOPBase)
+"AOPBuildInCallSTRLANG"->AOPBuildInCallSTRLANG(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)as AOPBase,convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping)as AOPBase)
         "POPSort" -> {
             val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)
             POPSort(dictionary, createAOPVariable(mapping, node.attributes["by"]!!), node.attributes["order"] == "ASC", child)
