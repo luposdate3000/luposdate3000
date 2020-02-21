@@ -17,8 +17,8 @@ import org.junit.jupiter.api.Assertions.*
 
 class AOPSubtractionTest {
 
-@TestFactory
-    fun testCalculate()=helperTest.forEachNumericInput({a,b-> a-b},{a,b->AOPSubtraction(a,b)})
+    @TestFactory
+    fun testCalculate() = helperTest.forEachNumericInput({ a, b -> a - b }, { a, b -> AOPSubtraction(a, b) })
 
     fun testInvalidInput() {
         TODO("not implemented")

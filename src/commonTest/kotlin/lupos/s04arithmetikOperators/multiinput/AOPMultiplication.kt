@@ -17,54 +17,8 @@ import org.junit.jupiter.api.Assertions.*
 
 class AOPMultiplicationTest {
 
-    fun toConstant(d: Double, i: Int): AOPConstant {
-        when (i) {
-            0 -> return AOPInteger(d.toInt())
-            1 -> return AOPDecimal(d)
-            else -> return AOPDouble(d)
-        }
-    }
-
-    fun max(a: Int, b: Int): Int {
-        return if (a > b)
-            a
-        else
-            b
-    }
-
     @TestFactory
-    fun testCalculate(): List<DynamicTest> {
-        val res = mutableListOf<DynamicTest>()
-        listOf(
-                arrayOf<Double>(0.0, 1.0),
-                arrayOf<Double>(0.0, -1.0),
-                arrayOf<Double>(2.0, 3.0),
-                arrayOf<Double>(2.0, -4.0),
-                arrayOf<Double>(1.0, 1.0),
-                arrayOf<Double>(-1.0, -1.0)
-        ).forEach { input ->
-            for (i in 0 until 2) {
-                for (a in 0 until 3) {
-                    val x = toConstant(input[i], a)
-                    for (b in 0 until 3) {
-                        val y = toConstant(input[1 - i], b)
-                        val expected = toConstant(input[i] * input[1 - i], max(a, b))
-                        val list = mutableListOf<String>()
-                        list.add("" + x.valueToString())
-                        list.add("" + y.valueToString())
-                        val s = "calculate(${list} to ${expected.valueToString()})"
-                        res.add(DynamicTest.dynamicTest(s) {
-                            val resultSet = ResultSet(ResultSetDictionary())
-                            val output = AOPMultiplication(x, y).calculate(resultSet, resultSet.createResultRow())
-                            assertTrue(expected.equals(output))
-                            assertTrue(output.equals(output))
-                        })
-                    }
-                }
-            }
-        }
-        return res
-    }
+    fun testCalculate() = helperTest.forEachNumericInput({ a, b -> a * b }, { a, b -> AOPMultiplication(a, b) })
 
     fun testInvalidInput() {
         TODO("not implemented")

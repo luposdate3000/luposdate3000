@@ -20,23 +20,23 @@ class AOPOrTest {
     @TestFactory
     fun testCalculate(): List<DynamicTest> {
         val res = mutableListOf<DynamicTest>()
-                for (a in 0 until 2) {
-                    val x = AOPBooleanLiteral(a==0)
-                    for (b in 0 until 2) {
-                        val y = AOPBooleanLiteral(b==0)
-                        val expected = AOPBooleanLiteral(x.value || y.value)
-                        val list = mutableListOf<String>()
-                        list.add("" + x.valueToString())
-                        list.add("" + y.valueToString())
-                        val s = "calculate(${list} to ${expected.valueToString()})"
-                        res.add(DynamicTest.dynamicTest(s) {
-                            val resultSet = ResultSet(ResultSetDictionary())
-                            val output = AOPOr(x, y).calculate(resultSet, resultSet.createResultRow())
-                            assertTrue(expected.equals(output))
-                            assertTrue(output.equals(output))
-                        })
-                    }
-                }
+        for (a in 0 until 2) {
+            val x = AOPBooleanLiteral(a == 0)
+            for (b in 0 until 2) {
+                val y = AOPBooleanLiteral(b == 0)
+                val expected = AOPBooleanLiteral(x.value || y.value)
+                val list = mutableListOf<String>()
+                list.add("" + x.valueToString())
+                list.add("" + y.valueToString())
+                val s = "calculate(${list} to ${expected.valueToString()})"
+                res.add(DynamicTest.dynamicTest(s) {
+                    val resultSet = ResultSet(ResultSetDictionary())
+                    val output = AOPOr(x, y).calculate(resultSet, resultSet.createResultRow())
+                    assertTrue(expected.equals(output))
+                    assertTrue(output.equals(output))
+                })
+            }
+        }
         return res
     }
 

@@ -17,8 +17,8 @@ import org.junit.jupiter.api.Assertions.*
 
 class AOPAdditionTest {
 
-@TestFactory
-    fun testCalculate()=helperTest.forEachNumericInput({a,b-> a+b},{a,b->AOPAddition(a,b)})
+    @TestFactory
+    fun testCalculate() = helperTest.forEachNumericInput({ a, b -> a + b }, { a, b -> AOPAddition(a, b) })
 
     fun testInvalidInput() {
         TODO("not implemented")

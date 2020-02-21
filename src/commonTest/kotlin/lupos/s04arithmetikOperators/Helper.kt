@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators
+
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -13,8 +14,8 @@ import lupos.s08logicalOptimisation.OptimizerBase
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
-object helperTest{
- fun toConstant(d: Double, i: Int): AOPConstant {
+object helperTest {
+    fun toConstant(d: Double, i: Int): AOPConstant {
         when (i) {
             0 -> return AOPInteger(d.toInt())
             1 -> return AOPDecimal(d)
@@ -29,9 +30,9 @@ object helperTest{
             b
     }
 
-fun forEachNumericInput(expectAction:(a:Double,b:Double)->Double,operatorAction:(a:AOPConstant,b:AOPConstant)->AOPBase):List<DynamicTest>{
-val res = mutableListOf<DynamicTest>()
-listOf(
+    fun forEachNumericInput(expectAction: (a: Double, b: Double) -> Double, operatorAction: (a: AOPConstant, b: AOPConstant) -> AOPBase): List<DynamicTest> {
+        val res = mutableListOf<DynamicTest>()
+        listOf(
                 arrayOf<Double>(0.0, 1.0),
                 arrayOf<Double>(0.0, -1.0),
                 arrayOf<Double>(2.0, 3.0),
@@ -44,7 +45,7 @@ listOf(
                     val x = toConstant(input[i], a)
                     for (b in 0 until 3) {
                         val y = toConstant(input[1 - i], b)
- val expected = toConstant(expectAction(input[i] , input[1 - i]), max(a, b))
+                        val expected = toConstant(expectAction(input[i], input[1 - i]), max(a, b))
                         val list = mutableListOf<String>()
                         list.add("" + x.valueToString())
                         list.add("" + y.valueToString())
@@ -55,21 +56,21 @@ listOf(
                             assertTrue(expected.equals(output))
                             assertTrue(output.equals(output))
                         })
-}
-}
-}
-}
-return res
-}
-val numericList=listOf(
-                arrayOf<Double>(0.0, 1.0),
-                arrayOf<Double>(0.0, -1.0),
-                arrayOf<Double>(2.0, 3.0),
-                arrayOf<Double>(2.0, -4.0),
-                arrayOf<Double>(1.0, 1.0),
-                arrayOf<Double>(-1.0, -1.0)
-        )
+                    }
+                }
+            }
+        }
+        return res
+    }
 
+    val numericList = listOf(
+            arrayOf<Double>(0.0, 1.0),
+            arrayOf<Double>(0.0, -1.0),
+            arrayOf<Double>(2.0, 3.0),
+            arrayOf<Double>(2.0, -4.0),
+            arrayOf<Double>(1.0, 1.0),
+            arrayOf<Double>(-1.0, -1.0)
+    )
 
 
 }
