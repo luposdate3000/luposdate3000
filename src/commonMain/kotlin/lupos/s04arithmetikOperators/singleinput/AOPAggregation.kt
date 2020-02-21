@@ -39,6 +39,7 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
     var collectMode = true
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
+println("calc $resultSet $resultRow")
         if (type == Aggregation.COUNT)
             return AOPInteger(count)
         if (!collectMode) {
@@ -47,6 +48,7 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
             else
                 return a!!
         }
+println("x")
         if (distinct)
             throw Exception("AOPAggregation does not support distinct")
         when (type) {
@@ -73,6 +75,7 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
             }
             Aggregation.MIN -> {
                 val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
+println("min a $a $b")
                 var flag = false
                 if (a == null)
                     flag = true
@@ -86,6 +89,7 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
                     throw Exception("AOPAggregation avg only defined on numeric input")
                 if (flag)
                     a = b
+println("min b $a $b")
             }
             Aggregation.MAX -> {
                 val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
@@ -118,6 +122,7 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
             }
             else -> throw Exception("AOPAggregation ${type} not implemented")
         }
+println("res $a")
         return a!!
     }
 }
