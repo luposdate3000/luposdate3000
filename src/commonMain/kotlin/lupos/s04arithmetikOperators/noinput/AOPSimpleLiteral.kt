@@ -9,13 +9,6 @@ import lupos.s04logicalOperators.OPBase
 
 class AOPSimpleLiteral(override var delimiter: String, override var content: String) : AOPConstantString() {
     override val children: Array<OPBase> = arrayOf()
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPSimpleLiteral")

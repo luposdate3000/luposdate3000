@@ -12,4 +12,11 @@ abstract class AOPBase : OPBase() {
     }
 
     abstract fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant
+    override fun getProvidedVariableNames() = listOf<String>()
+    override fun getRequiredVariableNames(): List<String> {
+        val res = mutableListOf<String>()
+        for (c in children)
+            res += c.getRequiredVariableNames()
+        return res
+    }
 }

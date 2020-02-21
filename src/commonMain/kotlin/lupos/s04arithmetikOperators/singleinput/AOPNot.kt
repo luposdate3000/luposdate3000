@@ -10,13 +10,6 @@ import lupos.s04logicalOperators.OPBase
 
 class AOPNot(var child: AOPBase) : AOPBase() {
     override val children: Array<OPBase> = arrayOf(child)
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPNot")

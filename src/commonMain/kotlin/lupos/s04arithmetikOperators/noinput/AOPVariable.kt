@@ -38,13 +38,7 @@ class AOPVariable(var name: String) : AOPBase() {
         }
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>(name)
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>(name)
-    }
+    override fun getRequiredVariableNames() = listOf(name)
 
     override fun toXMLElement(): XMLElement {
         return XMLElement("AOPVariable")
@@ -59,6 +53,7 @@ class AOPVariable(var name: String) : AOPBase() {
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
+        println("using $name")
         if (!resultSet.getVariableNames().contains(name))
             return AOPUndef()
         val variable = resultSet.createVariable(name)

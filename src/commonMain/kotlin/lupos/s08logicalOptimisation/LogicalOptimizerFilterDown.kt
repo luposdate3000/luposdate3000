@@ -1,5 +1,6 @@
 package lupos.s08logicalOptimisation
 
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.*
@@ -13,6 +14,8 @@ class LogicalOptimizerFilterDown(transactionID: Long, dictionary: ResultSetDicti
             val c = node.children[0]
             if (c.children.size == 1) {
                 val cc = c.children[0]
+                println("a:: ${classNameToString(cc)} ${cc.getProvidedVariableNames()}")
+                println("b:: ${classNameToString(node)} ${node.getRequiredVariableNames()}")
                 if (cc.getProvidedVariableNames().containsAll(node.getRequiredVariableNames())) {
                     c.children[0] = node
                     node.children[0] = cc

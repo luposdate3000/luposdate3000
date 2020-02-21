@@ -32,13 +32,6 @@ class AOPBuiltInCall(var function: BuiltInFunctions, childs: List<AOPBase>) : AO
     override val children: Array<OPBase> = Array(childs.size) { childs[it] }
     val localbnode = ThreadSafeUuid()
 
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPBuiltInCall")

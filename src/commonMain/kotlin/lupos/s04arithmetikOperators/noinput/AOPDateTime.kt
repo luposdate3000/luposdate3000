@@ -32,7 +32,6 @@ class AOPDateTime : AOPConstant {
     }
 
     constructor(str: String) : super() {
-        println("date from str $str")
         if (str.length >= 10) {
             year = str.substring(1, 5).toInt()
             month = str.substring(6, 8).toInt()
@@ -77,14 +76,6 @@ class AOPDateTime : AOPConstant {
         if (timezoneHours >= 0 && timezoneMinutes == 0)
             return "\"-PT${timezoneHours}H\"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>"
         return ""
-    }
-
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
     }
 
     override fun toXMLElement(): XMLElement {

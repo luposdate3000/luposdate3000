@@ -11,13 +11,6 @@ import lupos.s04logicalOperators.OPBase
 
 class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array<AOPBase>) : AOPBase() {
     override val children: Array<OPBase> = Array<OPBase>(childs.size) { childs[it] }
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPAggregation")

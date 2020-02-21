@@ -10,13 +10,6 @@ import lupos.s04logicalOperators.OPBase
 
 class AOPIn(childA: AOPBase, childB: AOPBase) : AOPBase() {
     override val children: Array<OPBase> = arrayOf(childA, childB)
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPIn")

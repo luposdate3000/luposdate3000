@@ -10,13 +10,6 @@ import lupos.s04logicalOperators.OPBase
 
 class AOPMultiplication(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
     override val children: Array<OPBase> = arrayOf(childA, childB)
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPMultiplication")

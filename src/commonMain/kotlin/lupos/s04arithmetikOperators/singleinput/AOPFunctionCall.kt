@@ -10,13 +10,6 @@ import lupos.s04logicalOperators.OPBase
 
 class AOPFunctionCall(var iri: String, var distinct: Boolean, args: List<OPBase>) : AOPBase() {
     override val children: Array<OPBase> = Array(args.size) { args[it] }
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPFunctionCall")

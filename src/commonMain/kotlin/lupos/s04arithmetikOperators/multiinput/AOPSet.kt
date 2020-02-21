@@ -10,13 +10,6 @@ import lupos.s04logicalOperators.OPBase
 
 class AOPSet(childs: List<AOPBase>) : AOPBase() {
     override val children: Array<OPBase> = Array(childs.size) { childs[it] }
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPSet")

@@ -1,7 +1,7 @@
 package lupos.s04arithmetikOperators.noinput
 
 import lupos.s02buildSyntaxTree.sparql1_1.*
-import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Assertions.*
 
 class AOPVariableTest {
     val timeNow = AOPDateTime()
-val data=listOf(
+    val data = listOf(
             AOPInteger(0) to AOPInteger(0),
             AOPInteger(-1) to AOPInteger(-1),
             AOPInteger(1) to AOPInteger(1),
@@ -50,14 +50,56 @@ val data=listOf(
             timeNow to timeNow,
             AOPUndef() to AOPUndef()
     )
+
     @TestFactory
     fun test1() = data.map { (input, expected) ->
         val tmp = input.valueToString()
-        DynamicTest.dynamicTest("$tmp") {
+        DynamicTest.dynamicTest("calculateStr($tmp)") {
             val output = AOPVariable.calculate(tmp)
             assertTrue(expected.equals(output))
             assertTrue(output.equals(output))
             assertTrue(input.equals(input))
+        }
+    }
+
+    @TestFactory
+    fun test2() = data.map { (input, expected) ->
+        val tmp = input.valueToString()
+        val resultSet = ResultSet(ResultSetDictionary())
+        val variable = resultSet.createVariable("a")
+        val resultRow = resultSet.createResultRow()
+        if (tmp == null) {
+            resultSet.setUndefValue(resultRow, variable)
+        } else {
+            val value = resultSet.createValue(tmp)
+            resultRow[variable] = value
+        }
+        DynamicTest.dynamicTest("calculateResultSet($tmp)") {
+            assertTrue(resultSet.getVariableNames().contains("a"))
+            val output = AOPVariable("a").calculate(resultSet, resultRow)
+            assertTrue(expected.equals(output))
+            assertTrue(output.equals(output))
+            assertTrue(input.equals(input))
+        }
+    }
+
+    @TestFactory
+    fun test3() = listOf(
+            AOPVariable("a") to listOf("a")
+    ).map { (input, expected) ->
+        DynamicTest.dynamicTest("getRequiredVariableNames($expected)") {
+            val output = input.getRequiredVariableNames()
+            assertTrue(output.equals(expected))
+        }
+    }
+
+    @TestFactory
+    fun test4() = listOf(
+            AOPVariable("a") to listOf<String>()
+    ).map { (input, expected) ->
+        DynamicTest.dynamicTest("getProvidedVariableNames($expected)") {
+            val output = input.getProvidedVariableNames()
+            assertTrue(output.equals(expected))
         }
     }
 }

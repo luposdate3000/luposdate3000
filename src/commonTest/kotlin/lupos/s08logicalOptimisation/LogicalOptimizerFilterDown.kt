@@ -18,10 +18,16 @@ class LogicalOptimizerFilterDownTest {
     val projectS = mutableListOf(AOPVariable("s"))
     fun helper(input: OPBase, target: OPBase, transactionID: Long, dictionary: ResultSetDictionary, expectChanged: Int) {
         var changed = 0
+        println(target.getRequiredVariableNames())
+        println(target.getProvidedVariableNames())
         val output = LogicalOptimizerFilterDown(transactionID, dictionary).optimizeCall(input, { changed++ })
+        println(output.getRequiredVariableNames())
+        println(output.getProvidedVariableNames())
         println(target.toXMLElement().toPrettyString())
         println(output.toXMLElement().toPrettyString())
-        assertEquals(expectChanged, changed)
+        println(expectChanged)
+        println(changed)
+        assertTrue(expectChanged == changed)
         assertTrue(target.equals(output))
     }
 
