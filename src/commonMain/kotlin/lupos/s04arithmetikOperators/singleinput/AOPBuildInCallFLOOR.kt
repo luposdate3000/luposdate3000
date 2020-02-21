@@ -45,9 +45,9 @@ class AOPBuildInCallFLOOR(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDouble)
-            return AOPInteger(floor(a.toDouble()).toInt())
+            return AOPDouble(floor(a.toDouble()))
         if (a is AOPDecimal)
-            return AOPInteger(floor(a.toDouble()).toInt())
+            return AOPDecimal(floor(a.toDouble()))
         if (a is AOPInteger)
             return a
         throw Exception("AOPBuiltInCall FLOOR only works with numeric input")
