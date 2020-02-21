@@ -30,12 +30,21 @@ class AOPDivision(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedNam
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
-        if (a is AOPDouble || b is AOPDouble)
+        if (a is AOPDouble || b is AOPDouble){
+		if(b.toDouble()==0.0)
+			throw Exception("AOPDivision by zero")
             return AOPDouble(a.toDouble() / b.toDouble())
-        if (a is AOPDecimal || b is AOPDecimal)
+	}
+        if (a is AOPDecimal || b is AOPDecimal){
+		if(b.toDouble()==0.0)
+			throw Exception("AOPDivision by zero")
             return AOPDecimal(a.toDouble() / b.toDouble())
-        if (a is AOPInteger || b is AOPInteger)
+	}
+        if (a is AOPInteger || b is AOPInteger){
+		if(b.toInt()==0)
+			throw Exception("AOPDivision by zero")
             return AOPInteger(a.toInt() / b.toInt())
+	}
         throw Exception("AOPDivision only works with numeric input")
     }
 }

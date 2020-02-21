@@ -33,7 +33,7 @@ class AOPMultiplicationTest {
     }
 
     @TestFactory
-    fun testCalculate2(): List<DynamicTest> {
+    fun testCalculate(): List<DynamicTest> {
         val res = mutableListOf<DynamicTest>()
         listOf(
                 arrayOf<Double>(0.0, 1.0),
