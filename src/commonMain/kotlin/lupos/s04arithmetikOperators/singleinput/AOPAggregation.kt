@@ -56,14 +56,18 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
             }
             Aggregation.AVG -> {
                 val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
-                if (a == null)
-                    a = b
+                if (a == null && b is AOPDouble)
+                    a = AOPDouble(b.toDouble() / (0.0 + count))
+                else if (a == null && b is AOPDecimal)
+                    a = AOPDecimal(b.toDouble() / (0.0 + count))
+                else if (a == null && b is AOPInteger)
+                    a = AOPDecimal(b.toDouble() / (0.0 + count))
                 else if (a is AOPDouble || b is AOPDouble)
-                    a = AOPDouble(a!!.toDouble() + b.toDouble() / count)
+                    a = AOPDouble(a!!.toDouble() + (b.toDouble() / (0.0 + count)))
                 else if (a is AOPDecimal || b is AOPDecimal)
-                    a = AOPDouble(a!!.toDouble() + b.toDouble() / count)
+                    a = AOPDecimal(a!!.toDouble() + (b.toDouble() / (0.0 + count)))
                 else if (a is AOPInteger || b is AOPInteger)
-                    a = AOPDecimal(a!!.toDouble() + b.toDouble() / count)
+                    a = AOPDecimal(a!!.toDouble() + (b.toDouble() / (0.0 + count)))
                 else
                     throw Exception("AOPAggregation avg only defined on numberic input")
             }

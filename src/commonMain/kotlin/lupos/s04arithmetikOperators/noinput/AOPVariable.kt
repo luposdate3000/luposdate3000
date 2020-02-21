@@ -14,7 +14,6 @@ class AOPVariable(var name: String) : AOPBase() {
         fun calculate(tmp: String?): AOPConstant {
             if (tmp == null || tmp.length == 0)
                 return AOPUndef()
-            println("load variable $tmp")
             when {
                 tmp.startsWith("_:") -> return AOPBnode(tmp.substring(2, tmp.length))
                 tmp.endsWith("^^<http://www.w3.org/2001/XMLSchema#integer>") -> return AOPInteger(tmp.substring(1, tmp.length - 1 - "^^<http://www.w3.org/2001/XMLSchema#integer>".length).toInt())
@@ -53,7 +52,6 @@ class AOPVariable(var name: String) : AOPBase() {
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
-        println("using $name")
         if (!resultSet.getVariableNames().contains(name))
             return AOPUndef()
         val variable = resultSet.createVariable(name)
