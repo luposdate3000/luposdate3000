@@ -19,7 +19,7 @@ class AOPVariable(var name: String) : AOPBase() {
                 tmp.endsWith("^^<http://www.w3.org/2001/XMLSchema#integer>") -> return AOPInteger(tmp.substring(1, tmp.length - 1 - "^^<http://www.w3.org/2001/XMLSchema#integer>".length).toInt())
                 tmp.endsWith("^^<http://www.w3.org/2001/XMLSchema#decimal>") -> return AOPDecimal(tmp.substring(1, tmp.length - 1 - "^^<http://www.w3.org/2001/XMLSchema#decimal>".length).toDouble())
                 tmp.endsWith("^^<http://www.w3.org/2001/XMLSchema#double>") -> return AOPDouble(tmp.substring(1, tmp.length - 1 - "^^<http://www.w3.org/2001/XMLSchema#double>".length).toDouble())
-                tmp.endsWith("^^<http://www.w3.org/2001/XMLSchema#boolean>") -> return AOPBooleanLiteral(tmp.substring(1, tmp.length - 1 - "^^<http://www.w3.org/2001/XMLSchema#boolean>".length).toBoolean())
+                tmp.endsWith("^^<http://www.w3.org/2001/XMLSchema#boolean>") -> return AOPBoolean(tmp.substring(1, tmp.length - 1 - "^^<http://www.w3.org/2001/XMLSchema#boolean>".length).toBoolean())
                 tmp.endsWith("^^<http://www.w3.org/2001/XMLSchema#dateTime>") -> return AOPDateTime(tmp)
                 tmp.startsWith("<") && tmp.endsWith(">") -> return AOPIri(tmp.substring(1, tmp.length - 1))
                 !tmp.endsWith("" + tmp.get(0)) -> {

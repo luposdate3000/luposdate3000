@@ -55,7 +55,7 @@ fun XMLElement.Companion.toAOPBase(node: XMLElement): AOPBase {
             }
             return AOPOr(childs[0], childs[1])
         }
-        "AOPBooleanLiteral" -> return AOPBooleanLiteral(node.attributes["value"]!!.toBoolean())
+        "AOPBoolean" -> return AOPBoolean(node.attributes["value"]!!.toBoolean())
         "AOPDecimal" -> return AOPDecimal(node.attributes["value"]!!.toDouble())
         "AOPNEQ" -> return AOPNEQ(toAOPBase(node["childA"]!!.childs.first()), toAOPBase(node["childB"]!!.childs.first()))
         "AOPSet" -> {

@@ -31,11 +31,11 @@ class AOPLEQ(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDouble || b is AOPDouble)
-            return AOPBooleanLiteral(a.toDouble() <= b.toDouble())
+            return AOPBoolean(a.toDouble() <= b.toDouble())
         if (a is AOPDecimal || b is AOPDecimal)
-            return AOPBooleanLiteral(a.toDouble() <= b.toDouble())
+            return AOPBoolean(a.toDouble() <= b.toDouble())
         if (a is AOPInteger || b is AOPInteger)
-            return AOPBooleanLiteral(a.toInt() <= b.toInt())
+            return AOPBoolean(a.toInt() <= b.toInt())
         throw Exception("AOPLEQ only works with numeric input")
     }
 }

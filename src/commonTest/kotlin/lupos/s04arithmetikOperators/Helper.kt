@@ -79,7 +79,7 @@ object helperTest {
                     val x = toConstant(input[i], a)
                     for (b in 0 until 3) {
                         val y = toConstant(input[1 - i], b)
-                        val expected = AOPBooleanLiteral(expectAction(input[i], input[1 - i]))
+                        val expected = AOPBoolean(expectAction(input[i], input[1 - i]))
                         val list = mutableListOf<String>()
                         list.add("" + x.valueToString())
                         list.add("" + y.valueToString())
@@ -96,6 +96,7 @@ object helperTest {
         }
         return res
     }
+
     fun forEachNumericDataBooleanInput(expectAction: (a: AOPConstant, b: AOPConstant) -> Boolean, operatorAction: (a: AOPConstant, b: AOPConstant) -> AOPBase): List<DynamicTest> {
         val res = mutableListOf<DynamicTest>()
         listOf(
@@ -111,7 +112,7 @@ object helperTest {
                     val x = toConstant(input[i], a)
                     for (b in 0 until 3) {
                         val y = toConstant(input[1 - i], b)
-                        val expected = AOPBooleanLiteral(expectAction(x,y))
+                        val expected = AOPBoolean(expectAction(x, y))
                         val list = mutableListOf<String>()
                         list.add("" + x.valueToString())
                         list.add("" + y.valueToString())
@@ -132,10 +133,10 @@ object helperTest {
     fun forEachBooleanInput(expectAction: (a: Boolean, b: Boolean) -> Boolean, operatorAction: (a: AOPConstant, b: AOPConstant) -> AOPBase): List<DynamicTest> {
         val res = mutableListOf<DynamicTest>()
         for (a in 0 until 2) {
-            val x = AOPBooleanLiteral(a == 0)
+            val x = AOPBoolean(a == 0)
             for (b in 0 until 2) {
-                val y = AOPBooleanLiteral(b == 0)
-                val expected = AOPBooleanLiteral(expectAction(a == 0, b == 0))
+                val y = AOPBoolean(b == 0)
+                val expected = AOPBoolean(expectAction(a == 0, b == 0))
                 val list = mutableListOf<String>()
                 list.add("" + x.valueToString())
                 list.add("" + y.valueToString())

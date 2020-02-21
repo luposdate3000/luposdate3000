@@ -57,7 +57,7 @@ fun XMLElement.Companion.parseFromAOPBase(node: AOPBase): XMLElement {
             }
             return res
         }
-        node is AOPBooleanLiteral -> return XMLElement("AOPBooleanLiteral").addAttribute("value", "" + node.value)
+        node is AOPBoolean -> return XMLElement("AOPBoolean").addAttribute("value", "" + node.value)
         node is AOPDecimal -> return XMLElement("AOPDecimal").addAttribute("value", "" + node.value)
         node is AOPNEQ -> return XMLElement("AOPNEQ").addContent(XMLElement("childA").addContent(parseFromAOPBase(node.children[0] as AOPBase))).addContent(XMLElement("childB").addContent(parseFromAOPBase(node.children[1] as AOPBase)))
         node is AOPSet -> {

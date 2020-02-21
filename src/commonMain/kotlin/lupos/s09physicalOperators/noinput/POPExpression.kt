@@ -51,7 +51,7 @@ class POPExpression : LOPBase {
 
     fun evaluateBoolean(resultSet: ResultSet, resultRow: ResultRow): Boolean {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
-        if (a is AOPBooleanLiteral)
+        if (a is AOPBoolean)
             return a.value
         throw Exception("POPExpression evaluateBoolean only works with boolean result")
     }

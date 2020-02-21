@@ -30,6 +30,6 @@ class AOPNEQ(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
-        return AOPBooleanLiteral(!a.equals(b))
+        return AOPBoolean(!a.equals(b))
     }
 }

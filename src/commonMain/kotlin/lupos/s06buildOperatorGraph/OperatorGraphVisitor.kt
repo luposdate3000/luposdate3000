@@ -585,7 +585,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTBooleanLiteral, childrenValues: List<OPBase>): OPBase {
-        return AOPBooleanLiteral(node.value)
+        return AOPBoolean(node.value)
     }
 
     override fun visit(node: ASTInteger, childrenValues: List<OPBase>): OPBase {

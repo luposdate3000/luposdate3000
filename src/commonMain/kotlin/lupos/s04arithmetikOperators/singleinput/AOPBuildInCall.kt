@@ -145,7 +145,7 @@ class AOPBuiltInCall(var function: BuiltInFunctions, childs: List<AOPBase>) : AO
                 throw Exception("AOPBuiltInCall STRLEN only works with string input")
             }
             BuiltInFunctions.IF -> {
-                if (a is AOPBooleanLiteral) {
+                if (a is AOPBoolean) {
                     if (a.value)
                         return (children[1] as AOPBase).calculate(resultSet, resultRow)
                     else
@@ -156,24 +156,24 @@ class AOPBuiltInCall(var function: BuiltInFunctions, childs: List<AOPBase>) : AO
             BuiltInFunctions.NOW ->
                 return AOPDateTime()
             BuiltInFunctions.BOUND ->
-                return AOPBooleanLiteral(a !is AOPUndef)
+                return AOPBoolean(a !is AOPUndef)
             BuiltInFunctions.isNUMERIC ->
-                return AOPBooleanLiteral(a is AOPDouble || a is AOPDecimal || a is AOPInteger)
+                return AOPBoolean(a is AOPDouble || a is AOPDecimal || a is AOPInteger)
             BuiltInFunctions.isLITERAL ->
-                return AOPBooleanLiteral(a is AOPSimpleLiteral)
+                return AOPBoolean(a is AOPSimpleLiteral)
             BuiltInFunctions.isIRI ->
-                return AOPBooleanLiteral(a is AOPIri)
+                return AOPBoolean(a is AOPIri)
             BuiltInFunctions.LANGMATCHES -> {
                 val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
                 if (a is AOPSimpleLiteral && b is AOPSimpleLiteral)
-                    return AOPBooleanLiteral(a.content == b.content)
+                    return AOPBoolean(a.content == b.content)
                 throw Exception("AOPBuiltInCall LANGMATCHES only works with simple language string input")
             }
             BuiltInFunctions.STRENDS -> {
                 if (a is AOPConstantString) {
                     val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
                     if (b is AOPSimpleLiteral)
-                        return AOPBooleanLiteral(a.content.endsWith(b.content))
+                        return AOPBoolean(a.content.endsWith(b.content))
                     else
                         throw Exception("AOPBuiltInCall STRENDS only works with simple compare string input")
                 }
@@ -183,7 +183,7 @@ class AOPBuiltInCall(var function: BuiltInFunctions, childs: List<AOPBase>) : AO
                 if (a is AOPConstantString) {
                     val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
                     if (b is AOPSimpleLiteral)
-                        return AOPBooleanLiteral(a.content.startsWith(b.content))
+                        return AOPBoolean(a.content.startsWith(b.content))
                     else
                         throw Exception("AOPBuiltInCall STRSTARTS only works with simple compare string input")
                 }
@@ -193,7 +193,7 @@ class AOPBuiltInCall(var function: BuiltInFunctions, childs: List<AOPBase>) : AO
                 if (a is AOPConstantString) {
                     val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
                     if (b is AOPSimpleLiteral)
-                        return AOPBooleanLiteral(a.content.contains(b.content))
+                        return AOPBoolean(a.content.contains(b.content))
                     else
                         throw Exception("AOPBuiltInCall CONTAINS only works with simple compare string input")
                 }

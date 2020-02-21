@@ -30,8 +30,8 @@ class AOPAnd(childA: AOPBase, childB: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
-        if (a is AOPBooleanLiteral && b is AOPBooleanLiteral)
-            return AOPBooleanLiteral(a.value && b.value)
+        if (a is AOPBoolean && b is AOPBoolean)
+            return AOPBoolean(a.value && b.value)
         throw Exception("AOPAnd only works with boolean input")
     }
 }
