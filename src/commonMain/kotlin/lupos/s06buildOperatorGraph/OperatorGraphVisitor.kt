@@ -4,6 +4,7 @@ import lupos.s00misc.classNameToString
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGroupMember
 import lupos.s00misc.EModifyType
+import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAdd
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation
@@ -757,7 +758,51 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTBuiltInCall, childrenValues: List<OPBase>): OPBase {
         val tmp = List(childrenValues.size) { childrenValues[it] as AOPBase }
-        return AOPBuiltInCall(node.function, tmp)
+        when (node.function) {
+            BuiltInFunctions.STR -> return AOPBuildInCallSTR(childrenValues[0] as AOPBase)
+            BuiltInFunctions.LANG -> return AOPBuildInCallLANG(childrenValues[0] as AOPBase)
+            BuiltInFunctions.LANGMATCHES -> return AOPBuildInCallLANGMATCHES(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+            BuiltInFunctions.DATATYPE -> return AOPBuildInCallDATATYPE(childrenValues[0] as AOPBase)
+            BuiltInFunctions.BOUND -> return AOPBuildInCallBOUND(childrenValues[0] as AOPBase)
+            BuiltInFunctions.IRI -> return AOPBuildInCallIRI(childrenValues[0] as AOPBase)
+            BuiltInFunctions.URI -> return AOPBuildInCallURI(childrenValues[0] as AOPBase)
+            BuiltInFunctions.BNODE -> {
+                if (childrenValues.size == 1)
+                    return AOPBuildInCallBNODE1(childrenValues[0] as AOPBase)
+                return AOPBuildInCallBNODE0()
+            }
+            BuiltInFunctions.ABS -> return AOPBuildInCallABS(childrenValues[0] as AOPBase)
+            BuiltInFunctions.CEIL -> return AOPBuildInCallCEIL(childrenValues[0] as AOPBase)
+            BuiltInFunctions.FLOOR -> return AOPBuildInCallFLOOR(childrenValues[0] as AOPBase)
+            BuiltInFunctions.ROUND -> return AOPBuildInCallROUND(childrenValues[0] as AOPBase)
+            BuiltInFunctions.CONCAT -> return AOPBuildInCallCONCAT(childrenValues[0] as AOPBase)
+            BuiltInFunctions.STRLEN -> return AOPBuildInCallSTRLEN(childrenValues[0] as AOPBase)
+            BuiltInFunctions.UCASE -> return AOPBuildInCallUCASE(childrenValues[0] as AOPBase)
+            BuiltInFunctions.LCASE -> return AOPBuildInCallLCASE(childrenValues[0] as AOPBase)
+            BuiltInFunctions.CONTAINS -> return AOPBuildInCallCONTAINS(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+            BuiltInFunctions.STRSTARTS -> return AOPBuildInCallSTRSTARTS(childrenValues[0] as AOPBase)
+            BuiltInFunctions.STRENDS -> return AOPBuildInCallSTRENDS(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+            BuiltInFunctions.YEAR -> return AOPBuildInCallYEAR(childrenValues[0] as AOPBase)
+            BuiltInFunctions.MONTH -> return AOPBuildInCallMONTH(childrenValues[0] as AOPBase)
+            BuiltInFunctions.DAY -> return AOPBuildInCallDAY(childrenValues[0] as AOPBase)
+            BuiltInFunctions.HOURS -> return AOPBuildInCallHOURS(childrenValues[0] as AOPBase)
+            BuiltInFunctions.MINUTES -> return AOPBuildInCallMINUTES(childrenValues[0] as AOPBase)
+            BuiltInFunctions.SECONDS -> return AOPBuildInCallSECONDS(childrenValues[0] as AOPBase)
+            BuiltInFunctions.TIMEZONE -> return AOPBuildInCallTIMEZONE(childrenValues[0] as AOPBase)
+            BuiltInFunctions.TZ -> return AOPBuildInCallTZ(childrenValues[0] as AOPBase)
+            BuiltInFunctions.NOW -> return AOPBuildInCallNOW()
+            BuiltInFunctions.UUID -> return AOPBuildInCallUUID()
+            BuiltInFunctions.STRUUID -> return AOPBuildInCallSTRUUID(childrenValues[0] as AOPBase)
+            BuiltInFunctions.MD5 -> return AOPBuildInCallMD5(childrenValues[0] as AOPBase)
+            BuiltInFunctions.SHA1 -> return AOPBuildInCallSHA1(childrenValues[0] as AOPBase)
+            BuiltInFunctions.SHA256 -> return AOPBuildInCallSHA256(childrenValues[0] as AOPBase)
+            BuiltInFunctions.IF -> return AOPBuildInCallIF(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase)
+            BuiltInFunctions.STRLANG -> return AOPBuildInCallSTRLANG(childrenValues[0] as AOPBase)
+            BuiltInFunctions.STRDT -> return AOPBuildInCallSTRDT(childrenValues[0] as AOPBase)
+            BuiltInFunctions.isLITERAL -> return AOPBuildInCallIsLITERAL(childrenValues[0] as AOPBase)
+            BuiltInFunctions.isNUMERIC -> return AOPBuildInCallIsNUMERIC(childrenValues[0] as AOPBase)
+            else -> throw UnsupportedOperationException("${classNameToString(this)} ${node.function}")
+        }
     }
 
     override fun visit(node: ASTAggregation, childrenValues: List<OPBase>): OPBase {

@@ -27,13 +27,6 @@ fun XMLElement.Companion.parseFromAOPBase(node: AOPBase): XMLElement {
             }
             return res
         }
-        node is AOPBuiltInCall -> {
-            val res = XMLElement("AOPBuiltInCall").addAttribute("function", "" + node.function)
-            node.children.forEach() {
-                res.addContent(parseFromAOPBase(it as AOPBase))
-            }
-            return res
-        }
         node is AOPDivision -> return XMLElement("AOPDivision").addContent(XMLElement("childA").addContent(parseFromAOPBase(node.children[0] as AOPBase))).addContent(XMLElement("childB").addContent(parseFromAOPBase(node.children[1] as AOPBase)))
         node is AOPEQ -> return XMLElement("AOPEQ").addContent(XMLElement("childA").addContent(parseFromAOPBase(node.children[0] as AOPBase))).addContent(XMLElement("childB").addContent(parseFromAOPBase(node.children[1] as AOPBase)))
         node is AOPFunctionCall -> {

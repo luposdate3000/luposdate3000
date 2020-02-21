@@ -21,14 +21,6 @@ fun XMLElement.Companion.toAOPBase(node: XMLElement): AOPBase {
             }
             return AOPAnd(childs[0], childs[1])
         }
-        "AOPBuiltInCall" -> {
-            val childs = mutableListOf<AOPBase>()
-            node.childs.forEach {
-                childs.add(toAOPBase(it))
-            }
-            return AOPBuiltInCall(BuiltInFunctions.valueOf(node.attributes["function"]!!), childs)
-        }
-
         "AOPDivision" -> return AOPDivision(toAOPBase(node["childA"]!!.childs.first()), toAOPBase(node["childB"]!!.childs.first()))
         "AOPEQ" -> return AOPEQ(toAOPBase(node["childA"]!!.childs.first()), toAOPBase(node["childB"]!!.childs.first()))
         "AOPFunctionCall" -> {
