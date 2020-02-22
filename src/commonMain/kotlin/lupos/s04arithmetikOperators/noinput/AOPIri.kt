@@ -7,23 +7,18 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPIri(var iri: String, var prefix: String = "") : AOPConstant() {
+class AOPIri(var iri: String) : AOPConstant() {
     override val children: Array<OPBase> = arrayOf()
 
-    override fun applyPrefix(prefix: String, iri: String) {
-        if (prefix == "")
-            this.prefix = iri
-    }
-
-    override fun toTestCaseInput() = "AOPIri(\"$iri\",\"$prefix\")"
+    override fun toTestCaseInput() = "AOPIri(\"$iri\")"
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPIri")
-        res.addAttribute("value", prefix+iri)
+        res.addAttribute("value", iri)
         return res
     }
 
-    override fun valueToString() = "<" + prefix + iri + ">"
+    override fun valueToString() = "<" + iri + ">"
     override fun equals(other: Any?): Boolean {
         if (other !is AOPIri)
             return false
