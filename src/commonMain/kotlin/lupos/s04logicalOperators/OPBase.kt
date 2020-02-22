@@ -19,6 +19,11 @@ abstract class OPBase {
 
     abstract val children: Array<OPBase>
 
+    open fun applyPrefix(prefix: String, iri: String) {
+        for (c in children)
+            c.applyPrefix(prefix, iri)
+    }
+
     open fun childrenToVerifyCount(): Int = children.size
 
     open fun updateChildren(i: Int, child: OPBase) {

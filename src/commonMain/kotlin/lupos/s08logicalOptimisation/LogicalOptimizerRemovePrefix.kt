@@ -12,6 +12,7 @@ class LogicalOptimizerRemovePrefix(transactionID: Long, dictionary: ResultSetDic
         when (node) {
             is LOPPrefix -> {
                 onChange()
+                node.children[0].applyPrefix(node.name, node.iri)
                 return node.children[0]
             }
             else -> return node
