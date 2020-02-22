@@ -34,7 +34,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -64,7 +64,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -101,7 +101,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -130,7 +130,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -160,7 +160,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -195,7 +195,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -232,7 +232,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -276,7 +276,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -305,7 +305,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -346,7 +346,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -375,7 +375,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -431,7 +431,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -460,7 +460,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -500,7 +500,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -537,7 +537,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -577,7 +577,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -611,7 +611,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -697,7 +697,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -736,7 +736,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -753,12 +753,12 @@ class AOPVariableTest {
                 val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPInteger(10), AOPVariable("o")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>");resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(11))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("z");resultSet.createVariable("s");resultSet.createVariable("p");resultSet.createVariable("o");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPInteger(100), AOPVariable("o")), { resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>");resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(101))
-            }(),
-            {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("p");resultSet.createVariable("o");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPInteger(10), AOPVariable("o")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>");resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(12))
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("z");resultSet.createVariable("s");resultSet.createVariable("p");resultSet.createVariable("o");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPInteger(100), AOPVariable("o")), { resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>");resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(101))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("p");resultSet.createVariable("o");
@@ -791,7 +791,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -830,7 +830,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -885,7 +885,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -924,7 +924,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -945,20 +945,20 @@ class AOPVariableTest {
                 val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPInteger(1), AOPVariable("o")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>");resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(3))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("p");resultSet.createVariable("o");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPInteger(1), AOPVariable("o")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>");resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(4))
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("p");resultSet.createVariable("o");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPInteger(1), AOPVariable("o")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>");resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(5))
-            }(),
-            {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("z");resultSet.createVariable("s");resultSet.createVariable("p");resultSet.createVariable("o");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("z"), AOPInteger(3)), { resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>");resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("p");resultSet.createVariable("o");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPInteger(1), AOPVariable("o")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>");resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(4))
+            }(),
+            {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("z");resultSet.createVariable("s");resultSet.createVariable("p");resultSet.createVariable("o");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("z"), AOPInteger(3)), { resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>");resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPBoolean(true))
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("p");resultSet.createVariable("o");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPInteger(1), AOPVariable("o")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>");resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(5))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("z");resultSet.createVariable("s");resultSet.createVariable("p");resultSet.createVariable("o");
@@ -979,7 +979,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -1034,7 +1034,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -1089,7 +1089,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -1128,7 +1128,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -1157,12 +1157,12 @@ class AOPVariableTest {
                 val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPInteger(100), AOPVariable("o")), { resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>");resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(101))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("z");resultSet.createVariable("s");resultSet.createVariable("p");resultSet.createVariable("o");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPInteger(100), AOPVariable("o")), { resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>");resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(102))
-            }(),
-            {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("p");resultSet.createVariable("o");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPInteger(10), AOPVariable("o")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>");resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(14))
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("z");resultSet.createVariable("s");resultSet.createVariable("p");resultSet.createVariable("o");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPInteger(100), AOPVariable("o")), { resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>");resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(102))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("z");resultSet.createVariable("s");resultSet.createVariable("p");resultSet.createVariable("o");
@@ -1183,7 +1183,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -1222,7 +1222,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -1293,7 +1293,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -1332,7 +1332,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -1403,7 +1403,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -1425,8 +1425,8 @@ class AOPVariableTest {
             /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21018");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")),AOPSimpleLiteral("\"","en")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p21018")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"食べ物\"");resultRow}(),resultSet,AOPBoolean(false))}()*/
             /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21018");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p21018")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"100%\"");resultRow}(),resultSet,AOPSimpleLiteral("\"",""))}()*/
             /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21018");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")),AOPSimpleLiteral("\"","en")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p21018")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"100%\"");resultRow}(),resultSet,AOPBoolean(false))}()*/
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21018");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSTRDT(AOPVariable("str"),AOPIri("http://www.w3.org/2001/XMLSchema#string")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p21018")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"bar\"@en");resultRow}(),resultSet,Exception("AOPBuiltInCall STRDT only works with simple string input"))}()*/
             /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21018");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p21018")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow}(),resultSet,AOPSimpleLiteral("\"",""))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21018");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSTRDT(AOPVariable("str"),AOPIri("http://www.w3.org/2001/XMLSchema#string")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p21018")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"bar\"@en");resultRow}(),resultSet,Exception("AOPBuiltInCall STRDT only works with simple string input"))}()*/
             /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21018");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")),AOPSimpleLiteral("\"","en")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p21018")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow}(),resultSet,AOPBoolean(false))}()*/
             /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21018");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p21018")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow}(),resultSet,AOPSimpleLiteral("\"",""))}()*/
             /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21018");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")),AOPSimpleLiteral("\"","en")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p21018")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow}(),resultSet,AOPBoolean(false))}()*/
@@ -1441,7 +1441,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -1464,11 +1464,11 @@ class AOPVariableTest {
             /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21219");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p21219")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"100%\"");resultRow}(),resultSet,AOPSimpleLiteral("\"",""))}()*/
             /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21219");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")),AOPSimpleLiteral("\"","en")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p21219")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"100%\"");resultRow}(),resultSet,AOPBoolean(false))}()*/
             /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21219");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p21219")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow}(),resultSet,AOPSimpleLiteral("\"",""))}()*/
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21219");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSTR(AOPVariable("str")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p21219")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"bar\"@en");resultRow}(),resultSet,AOPSimpleLiteral("\"","bar"))}()*/
             /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21219");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")),AOPSimpleLiteral("\"","en")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p21219")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow}(),resultSet,AOPBoolean(false))}()*/
             /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21219");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p21219")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow}(),resultSet,AOPSimpleLiteral("\"",""))}()*/
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21219");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSTRDT(AOPBuildInCallSTR(AOPVariable("str")),AOPIri("http://www.w3.org/2001/XMLSchema#string")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p21219")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"bar\"@en");resultRow}(),resultSet,Exception("AOPBuiltInCall STRDT only works with simple string input"))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21219");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSTR(AOPVariable("str")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p21219")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"bar\"@en");resultRow}(),resultSet,AOPSimpleLiteral("\"","bar"))}()*/
             /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21219");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")),AOPSimpleLiteral("\"","en")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p21219")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow}(),resultSet,AOPBoolean(false))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21219");resultSet.createVariable("str");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSTRDT(AOPBuildInCallSTR(AOPVariable("str")),AOPIri("http://www.w3.org/2001/XMLSchema#string")),{resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p21219")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")]=resultSet.createValue("\"bar\"@en");resultRow}(),resultSet,Exception("AOPBuiltInCall STRDT only works with simple string input"))}()*/
             {
                 val resultSet = ResultSet(ResultSetDictionary());
                 val resultRow = resultSet.createResultRow();MicroTest(AOPUndef(), resultRow, resultSet, AOPUndef())
@@ -1480,7 +1480,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -1519,7 +1519,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -1625,11 +1625,11 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21712");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSTRLANG(AOPVariable("str"), AOPSimpleLiteral("\"", "en-US")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p21712")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en");resultRow }(), resultSet, Exception("AOPBuiltInCall STRLANG only works with simple string input"))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p21712")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"");resultRow }(), resultSet, AOPSimpleLiteral("\"", ""))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21712");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p21712")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"");resultRow }(), resultSet, AOPSimpleLiteral("\"", ""))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSTRLANG(AOPVariable("str"), AOPSimpleLiteral("\"", "en-US")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p21712")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en");resultRow }(), resultSet, Exception("AOPBuiltInCall STRLANG only works with simple string input"))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21712");resultSet.createVariable("str");
@@ -1662,7 +1662,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -1675,68 +1675,68 @@ class AOPVariableTest {
     @TestFactory
     fun testresources_sparql11_test_suite_functions_strlang02_rq() = listOf(
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21901");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p21901")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPSimpleLiteral("\"", ""))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21902");resultSet.createVariable("str");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p21902")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPSimpleLiteral("\"", ""))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21901");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p21901")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21902");resultSet.createVariable("str");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p21902")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21901");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p21901")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en");resultRow }(), resultSet, AOPSimpleLiteral("\"", "en"))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21902");resultSet.createVariable("str");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p21902")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en");resultRow }(), resultSet, AOPSimpleLiteral("\"", "en"))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21901");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p21901")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en");resultRow }(), resultSet, AOPBoolean(true))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21902");resultSet.createVariable("str");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p21902")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en");resultRow }(), resultSet, AOPBoolean(true))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21901");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p21901")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPSimpleLiteral("\"", ""))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21902");resultSet.createVariable("str");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p21902")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPSimpleLiteral("\"", ""))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21901");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p21901")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21902");resultSet.createVariable("str");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p21902")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21901");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p21901")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"食べ物\"");resultRow }(), resultSet, AOPSimpleLiteral("\"", ""))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21902");resultSet.createVariable("str");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p21902")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"食べ物\"");resultRow }(), resultSet, AOPSimpleLiteral("\"", ""))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21901");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p21901")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"食べ物\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21902");resultSet.createVariable("str");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p21902")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"食べ物\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21901");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p21901")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"");resultRow }(), resultSet, AOPSimpleLiteral("\"", ""))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21902");resultSet.createVariable("str");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSTR(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p21902")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en");resultRow }(), resultSet, AOPSimpleLiteral("\"", "bar"))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21901");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p21901")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21902");resultSet.createVariable("str");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p21902")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"");resultRow }(), resultSet, AOPSimpleLiteral("\"", ""))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21901");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSTR(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p21901")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en");resultRow }(), resultSet, AOPSimpleLiteral("\"", "bar"))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21902");resultSet.createVariable("str");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p21902")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21901");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p21901")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow }(), resultSet, AOPSimpleLiteral("\"", ""))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21902");resultSet.createVariable("str");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p21902")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow }(), resultSet, AOPSimpleLiteral("\"", ""))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21901");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p21901")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow }(), resultSet, AOPBoolean(false))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21902");resultSet.createVariable("str");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSTRLANG(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "en-US")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p21902")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en");resultRow }(), resultSet, AOPLanguageTaggedLiteral("\"", "bar", "en-US"))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21901");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSTRLANG(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "en-US")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p21901")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en");resultRow }(), resultSet, AOPLanguageTaggedLiteral("\"", "bar", "en-US"))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21902");resultSet.createVariable("str");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p21902")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21901");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p21901")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow }(), resultSet, AOPSimpleLiteral("\"", ""))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21902");resultSet.createVariable("str");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANG(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p21902")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow }(), resultSet, AOPSimpleLiteral("\"", ""))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21901");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p21901")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow }(), resultSet, AOPBoolean(false))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p21902");resultSet.createVariable("str");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p21902")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p22042");resultSet.createVariable("str");
@@ -1768,10 +1768,6 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p22042");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSTR(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p22042")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en");resultRow }(), resultSet, AOPSimpleLiteral("\"", "bar"))
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p22042");resultSet.createVariable("str");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p22042")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"食べ物\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
@@ -1780,11 +1776,15 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p22042");resultSet.createVariable("str");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSTRLANG(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "en-US")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p22042")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en");resultRow }(), resultSet, AOPLanguageTaggedLiteral("\"", "bar", "en-US"))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSTR(AOPVariable("str")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p22042")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en");resultRow }(), resultSet, AOPSimpleLiteral("\"", "bar"))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p22042");resultSet.createVariable("str");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p22042")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"");resultRow }(), resultSet, AOPBoolean(false))
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p22042");resultSet.createVariable("str");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSTRLANG(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "en-US")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p22042")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en");resultRow }(), resultSet, AOPLanguageTaggedLiteral("\"", "bar", "en-US"))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p22042");resultSet.createVariable("str");
@@ -1813,7 +1813,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -1852,7 +1852,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -1939,7 +1939,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2002,7 +2002,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2045,7 +2045,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2080,7 +2080,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2123,7 +2123,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2147,7 +2147,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2219,7 +2219,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2270,7 +2270,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2321,7 +2321,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2372,7 +2372,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2451,7 +2451,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2475,7 +2475,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2499,7 +2499,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2546,7 +2546,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2625,7 +2625,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2656,7 +2656,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2687,7 +2687,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2718,7 +2718,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2749,7 +2749,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2780,7 +2780,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2811,7 +2811,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2866,7 +2866,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -2876,85 +2876,23 @@ class AOPVariableTest {
         }
     }
 
-    //marker XXX here
     @TestFactory
     fun testresources_sparql11_test_suite_functions_seconds_01_rq() = listOf(
-
             {
-                val resultSet = ResultSet(ResultSetDictionary());
-                resultSet.createVariable("s");
-                resultSet.createVariable("#p25614");
-                resultSet.createVariable("date");
-                val resultRow = resultSet.createResultRow();
-                MicroTest(
-                        AOPBuildInCallSECONDS(
-                                AOPVariable("date")
-                        ), {
-                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d1>");
-                    resultRow[resultSet.createVariable("#p25614")] = resultSet.createValue("<http://example.org/date>");
-                    resultRow[resultSet.createVariable("date")] = resultSet.createValue("\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>");
-                    resultRow
-                }(),
-                        resultSet,
-                        AOPDecimal(1.0)
-                )
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p25614");resultSet.createVariable("date");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSECONDS(AOPVariable("date")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d1>");resultRow[resultSet.createVariable("#p25614")] = resultSet.createValue("<http://example.org/date>");resultRow[resultSet.createVariable("date")] = resultSet.createValue("\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>");resultRow }(), resultSet, AOPDecimal(1.0))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());
-                resultSet.createVariable("s");
-                resultSet.createVariable("#p25614");
-                resultSet.createVariable("date");
-                val resultRow = resultSet.createResultRow();
-                MicroTest(
-                        AOPBuildInCallSECONDS(
-                                AOPVariable("date")
-                        ), {
-                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d2>");
-                    resultRow[resultSet.createVariable("#p25614")] = resultSet.createValue("<http://example.org/date>");
-                    resultRow[resultSet.createVariable("date")] = resultSet.createValue("\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>");
-                    resultRow
-                }(),
-                        resultSet,
-                        AOPDecimal(2.0)
-                )
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p25614");resultSet.createVariable("date");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSECONDS(AOPVariable("date")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d2>");resultRow[resultSet.createVariable("#p25614")] = resultSet.createValue("<http://example.org/date>");resultRow[resultSet.createVariable("date")] = resultSet.createValue("\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>");resultRow }(), resultSet, AOPDecimal(2.0))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());
-                resultSet.createVariable("s");
-                resultSet.createVariable("#p25614");
-                resultSet.createVariable("date");
-                val resultRow = resultSet.createResultRow();
-                MicroTest(
-                        AOPBuildInCallSECONDS(
-                                AOPVariable("date")
-                        ), {
-                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d3>");
-                    resultRow[resultSet.createVariable("#p25614")] = resultSet.createValue("<http://example.org/date>");
-                    resultRow[resultSet.createVariable("date")] = resultSet.createValue("\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>");
-                    resultRow
-                }(),
-                        resultSet,
-                        AOPDecimal(0.0)
-                )
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p25614");resultSet.createVariable("date");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSECONDS(AOPVariable("date")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d3>");resultRow[resultSet.createVariable("#p25614")] = resultSet.createValue("<http://example.org/date>");resultRow[resultSet.createVariable("date")] = resultSet.createValue("\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>");resultRow }(), resultSet, AOPDecimal(0.0))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());
-                resultSet.createVariable("s");
-                resultSet.createVariable("#p25614");
-                resultSet.createVariable("date");
-                val resultRow = resultSet.createResultRow();
-                MicroTest(
-                        AOPBuildInCallSECONDS(
-                                AOPVariable("date")
-                        ), {
-                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d4>");
-                    resultRow[resultSet.createVariable("#p25614")] = resultSet.createValue("<http://example.org/date>");
-                    resultRow[resultSet.createVariable("date")] = resultSet.createValue("\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>");
-                    resultRow
-                }(),
-                        resultSet,
-                        AOPDecimal(3.0)
-                )
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("s");resultSet.createVariable("#p25614");resultSet.createVariable("date");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallSECONDS(AOPVariable("date")), { resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d4>");resultRow[resultSet.createVariable("#p25614")] = resultSet.createValue("<http://example.org/date>");resultRow[resultSet.createVariable("date")] = resultSet.createValue("\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>");resultRow }(), resultSet, AOPDecimal(3.0))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());
@@ -2967,7 +2905,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -3022,7 +2960,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -3077,7 +3015,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -3132,7 +3070,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -3187,7 +3125,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -3214,7 +3152,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -3241,7 +3179,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -3271,19 +3209,19 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(true))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(true))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(true))
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(true))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3299,19 +3237,19 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(true))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3321,7 +3259,6 @@ class AOPVariableTest {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE1(AOPVariable("s2")),{resultRow[resultSet.createVariable("a")]=resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")]=resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")]=resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")]=resultSet.createValue("\"foo\"");resultRow}(),resultSet,AOPBnode("26410\"foo\""))}()*/
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(true))
@@ -3334,18 +3271,9 @@ class AOPVariableTest {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("b2");resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE1(AOPVariable("s1")),{resultRow[resultSet.createVariable("b2")]=resultSet.createValue("_:26410\"foo\"");resultRow[resultSet.createVariable("a")]=resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")]=resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")]=resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")]=resultSet.createValue("\"foo\"");resultRow}(),resultSet,AOPBnode("26404\"foo\""))}()*/
-            {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(true))
-            }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(true))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3353,7 +3281,7 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(true))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3361,21 +3289,43 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(true))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(true))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE1(AOPVariable("s2")),{resultRow[resultSet.createVariable("a")]=resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")]=resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")]=resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")]=resultSet.createValue("\"foo\"");resultRow}(),resultSet,AOPBnode("26410\"foo\""))}()*/
+            {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
+            }(),
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE1(AOPVariable("s2")),{resultRow[resultSet.createVariable("a")]=resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26455")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")]=resultSet.createValue("\"BAZ\"");resultRow[resultSet.createVariable("b")]=resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")]=resultSet.createValue("\"foo\"");resultRow}(),resultSet,AOPBnode("26410\"foo\""))}()*/
+            {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(true))
+            }(),
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("b2");resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE1(AOPVariable("s1")),{resultRow[resultSet.createVariable("b2")]=resultSet.createValue("_:26410\"foo\"");resultRow[resultSet.createVariable("a")]=resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")]=resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")]=resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")]=resultSet.createValue("\"foo\"");resultRow}(),resultSet,AOPBnode("26404\"foo\""))}()*/
+            {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
+            }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(true))
             }(),
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE1(AOPVariable("s2")),{resultRow[resultSet.createVariable("a")]=resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26455")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")]=resultSet.createValue("\"BAZ\"");resultRow[resultSet.createVariable("b")]=resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")]=resultSet.createValue("\"foo\"");resultRow}(),resultSet,AOPBnode("26410\"foo\""))}()*/
+            {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
+            }(),
             /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("b2");resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE1(AOPVariable("s1")),{resultRow[resultSet.createVariable("b2")]=resultSet.createValue("_:26410\"foo\"");resultRow[resultSet.createVariable("a")]=resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26455")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")]=resultSet.createValue("\"BAZ\"");resultRow[resultSet.createVariable("b")]=resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")]=resultSet.createValue("\"foo\"");resultRow}(),resultSet,AOPBnode("26404\"BAZ\""))}()*/
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3383,7 +3333,7 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3391,7 +3341,7 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3399,7 +3349,7 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3407,11 +3357,15 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3419,7 +3373,7 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3427,15 +3381,7 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en");resultRow }(), resultSet, AOPBoolean(false))
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3447,15 +3393,7 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en");resultRow }(), resultSet, AOPBoolean(false))
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3523,25 +3461,12 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(true))
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(true))
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(true))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE1(AOPVariable("s2")),{resultRow[resultSet.createVariable("a")]=resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")]=resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")]=resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")]=resultSet.createValue("\"BAZ\"");resultRow}(),resultSet,AOPBnode("26410\"BAZ\""))}()*/
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(true))
@@ -3550,10 +3475,9 @@ class AOPVariableTest {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(true))
             }(),
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("b2");resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE1(AOPVariable("s1")),{resultRow[resultSet.createVariable("b2")]=resultSet.createValue("_:26410\"BAZ\"");resultRow[resultSet.createVariable("a")]=resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")]=resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")]=resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")]=resultSet.createValue("\"BAZ\"");resultRow}(),resultSet,AOPBnode("26404\"foo\""))}()*/
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3561,7 +3485,7 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(true))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3569,11 +3493,15 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(true))
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(true))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3581,7 +3509,7 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(true))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3589,7 +3517,7 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3597,11 +3525,15 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(true))
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(true))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3609,11 +3541,21 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(true))
             }(),
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE1(AOPVariable("s2")),{resultRow[resultSet.createVariable("a")]=resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")]=resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")]=resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")]=resultSet.createValue("\"BAZ\"");resultRow}(),resultSet,AOPBnode("26410\"BAZ\""))}()*/
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(true))
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
+            }(),
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE1(AOPVariable("s2")),{resultRow[resultSet.createVariable("a")]=resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26455")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")]=resultSet.createValue("\"BAZ\"");resultRow[resultSet.createVariable("b")]=resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")]=resultSet.createValue("\"BAZ\"");resultRow}(),resultSet,AOPBnode("26410\"BAZ\""))}()*/
+            {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3621,33 +3563,25 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(true))
             }(),
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("b2");resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE1(AOPVariable("s1")),{resultRow[resultSet.createVariable("b2")]=resultSet.createValue("_:26410\"BAZ\"");resultRow[resultSet.createVariable("a")]=resultSet.createValue("<http://example.org/s1>");resultRow[resultSet.createVariable("#p26455")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")]=resultSet.createValue("\"foo\"");resultRow[resultSet.createVariable("b")]=resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")]=resultSet.createValue("\"BAZ\"");resultRow}(),resultSet,AOPBnode("26404\"foo\""))}()*/
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(true))
-            }(),
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE1(AOPVariable("s2")),{resultRow[resultSet.createVariable("a")]=resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26455")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")]=resultSet.createValue("\"BAZ\"");resultRow[resultSet.createVariable("b")]=resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")]=resultSet.createValue("\"BAZ\"");resultRow}(),resultSet,AOPBnode("26410\"BAZ\""))}()*/
-            {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(true))
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("b2");resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE1(AOPVariable("s1")),{resultRow[resultSet.createVariable("b2")]=resultSet.createValue("_:26410\"BAZ\"");resultRow[resultSet.createVariable("a")]=resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26455")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")]=resultSet.createValue("\"BAZ\"");resultRow[resultSet.createVariable("b")]=resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")]=resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")]=resultSet.createValue("\"BAZ\"");resultRow}(),resultSet,AOPBnode("26404\"BAZ\""))}()*/
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3655,7 +3589,7 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3663,7 +3597,7 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3675,7 +3609,7 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3683,7 +3617,7 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3691,11 +3625,11 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3703,7 +3637,7 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3711,7 +3645,7 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -3720,6 +3654,10 @@ class AOPVariableTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
                 val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"");resultRow }(), resultSet, AOPBoolean(false))
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))), { resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>");resultRow[resultSet.createVariable("#p26455")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>");resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>");resultRow[resultSet.createVariable("#p26456")] = resultSet.createValue("<http://example.org/str>");resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("a");resultSet.createVariable("#p26455");resultSet.createVariable("s1");resultSet.createVariable("b");resultSet.createVariable("#p26456");resultSet.createVariable("s2");
@@ -4028,7 +3966,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -4040,10 +3978,10 @@ class AOPVariableTest {
 
     @TestFactory
     fun testresources_sparql11_test_suite_functions_bnode02_rq() = listOf(
-            /*{val resultSet = ResultSet(ResultSetDictionary());val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE0(),{resultRow}(),resultSet,AOPBnode("2921429239"))}()*/
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("b2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE0(),{resultRow[resultSet.createVariable("b2")]=resultSet.createValue("_:2921429239");resultRow}(),resultSet,AOPBnode("2920929241"))}()*/
-            /*{val resultSet = ResultSet(ResultSetDictionary());val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE0(),{resultRow}(),resultSet,AOPBnode("2924729265"))}()*/
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("b2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE0(),{resultRow[resultSet.createVariable("b2")]=resultSet.createValue("_:2924729265");resultRow}(),resultSet,AOPBnode("2925429267"))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE0(),{resultRow}(),resultSet,AOPBnode("2921529240"))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("b2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE0(),{resultRow[resultSet.createVariable("b2")]=resultSet.createValue("_:2921529240");resultRow}(),resultSet,AOPBnode("2921029242"))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE0(),{resultRow}(),resultSet,AOPBnode("2924829266"))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("b2");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallBNODE0(),{resultRow[resultSet.createVariable("b2")]=resultSet.createValue("_:2924829266");resultRow}(),resultSet,AOPBnode("2925529268"))}()*/
             {
                 val resultSet = ResultSet(ResultSetDictionary());
                 val resultRow = resultSet.createResultRow();MicroTest(AOPUndef(), resultRow, resultSet, AOPUndef())
@@ -4055,7 +3993,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -4067,8 +4005,8 @@ class AOPVariableTest {
 
     @TestFactory
     fun testresources_sparql11_test_suite_functions_now01_rq() = listOf(
-            /*{val resultSet = ResultSet(ResultSetDictionary());val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallNOW(),{resultRow}(),resultSet,AOPDateTime(""2020-02-22T08:57:37Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))}()*/
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("n");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallDATATYPE(AOPVariable("n")),{resultRow[resultSet.createVariable("n")]=resultSet.createValue("\"2020-02-22T08:57:37Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>");resultRow}(),resultSet,Exception("AOPBuiltInCall DATATYPE only works with typed string input"))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallNOW(),{resultRow}(),resultSet,AOPDateTime(""2020-02-22T09:32:14Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("n");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallDATATYPE(AOPVariable("n")),{resultRow[resultSet.createVariable("n")]=resultSet.createValue("\"2020-02-22T09:32:14Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>");resultRow}(),resultSet,Exception("AOPBuiltInCall DATATYPE only works with typed string input"))}()*/
             {
                 val resultSet = ResultSet(ResultSetDictionary());
                 val resultRow = resultSet.createResultRow();MicroTest(AOPUndef(), resultRow, resultSet, AOPUndef())
@@ -4080,7 +4018,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -4105,7 +4043,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -4212,7 +4150,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -4243,7 +4181,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -4255,10 +4193,10 @@ class AOPVariableTest {
 
     @TestFactory
     fun testresources_sparql11_test_suite_grouping_group03_rq() = listOf(
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p30533");resultSet.createVariable("v");resultSet.createVariable("#p30534");resultSet.createVariable("w");resultSet.createVariable("s");val resultRow = resultSet.createResultRow();MicroTest(AOPAggregation(Aggregation.SAMPLE,false,arrayOf(AOPVariable("v"))),{resultRow[resultSet.createVariable("#p30533")]=resultSet.createValue("<http://example/p>");resultRow[resultSet.createVariable("v")]=resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p30534")]=resultSet.createValue("<http://example/q>");resultRow[resultSet.createVariable("w")]=resultSet.createValue("\"9\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example/s1>");resultRow}(),resultSet,AOPInteger(1))}()*/
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p30533");resultSet.createVariable("v");resultSet.createVariable("#p30534");resultSet.createVariable("w");resultSet.createVariable("s");val resultRow = resultSet.createResultRow();MicroTest(AOPAggregation(Aggregation.SAMPLE,false,arrayOf(AOPVariable("v"))),{resultSet.setUndefValue(resultRow,resultSet.createVariable("#p30533"));resultSet.setUndefValue(resultRow,resultSet.createVariable("v"));resultSet.setUndefValue(resultRow,resultSet.createVariable("#p30534"));resultSet.setUndefValue(resultRow,resultSet.createVariable("w"));resultSet.setUndefValue(resultRow,resultSet.createVariable("s"));resultRow}(),resultSet,AOPInteger(1))}()*/
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p30533");resultSet.createVariable("v");resultSet.createVariable("#p30534");resultSet.createVariable("w");resultSet.createVariable("s");val resultRow = resultSet.createResultRow();MicroTest(AOPAggregation(Aggregation.SAMPLE,false,arrayOf(AOPVariable("v"))),{resultRow[resultSet.createVariable("#p30533")]=resultSet.createValue("<http://example/p>");resultRow[resultSet.createVariable("v")]=resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultSet.setUndefValue(resultRow,resultSet.createVariable("#p30534"));resultSet.setUndefValue(resultRow,resultSet.createVariable("w"));resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example/s2>");resultRow}(),resultSet,AOPInteger(2))}()*/
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p30533");resultSet.createVariable("v");resultSet.createVariable("#p30534");resultSet.createVariable("w");resultSet.createVariable("s");val resultRow = resultSet.createResultRow();MicroTest(AOPAggregation(Aggregation.SAMPLE,false,arrayOf(AOPVariable("v"))),{resultSet.setUndefValue(resultRow,resultSet.createVariable("#p30533"));resultSet.setUndefValue(resultRow,resultSet.createVariable("v"));resultSet.setUndefValue(resultRow,resultSet.createVariable("#p30534"));resultSet.setUndefValue(resultRow,resultSet.createVariable("w"));resultSet.setUndefValue(resultRow,resultSet.createVariable("s"));resultRow}(),resultSet,AOPInteger(2))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p30534");resultSet.createVariable("v");resultSet.createVariable("#p30535");resultSet.createVariable("w");resultSet.createVariable("s");val resultRow = resultSet.createResultRow();MicroTest(AOPAggregation(Aggregation.SAMPLE,false,arrayOf(AOPVariable("v"))),{resultRow[resultSet.createVariable("#p30534")]=resultSet.createValue("<http://example/p>");resultRow[resultSet.createVariable("v")]=resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p30535")]=resultSet.createValue("<http://example/q>");resultRow[resultSet.createVariable("w")]=resultSet.createValue("\"9\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example/s1>");resultRow}(),resultSet,AOPInteger(1))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p30534");resultSet.createVariable("v");resultSet.createVariable("#p30535");resultSet.createVariable("w");resultSet.createVariable("s");val resultRow = resultSet.createResultRow();MicroTest(AOPAggregation(Aggregation.SAMPLE,false,arrayOf(AOPVariable("v"))),{resultSet.setUndefValue(resultRow,resultSet.createVariable("#p30534"));resultSet.setUndefValue(resultRow,resultSet.createVariable("v"));resultSet.setUndefValue(resultRow,resultSet.createVariable("#p30535"));resultSet.setUndefValue(resultRow,resultSet.createVariable("w"));resultSet.setUndefValue(resultRow,resultSet.createVariable("s"));resultRow}(),resultSet,AOPInteger(1))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p30534");resultSet.createVariable("v");resultSet.createVariable("#p30535");resultSet.createVariable("w");resultSet.createVariable("s");val resultRow = resultSet.createResultRow();MicroTest(AOPAggregation(Aggregation.SAMPLE,false,arrayOf(AOPVariable("v"))),{resultRow[resultSet.createVariable("#p30534")]=resultSet.createValue("<http://example/p>");resultRow[resultSet.createVariable("v")]=resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultSet.setUndefValue(resultRow,resultSet.createVariable("#p30535"));resultSet.setUndefValue(resultRow,resultSet.createVariable("w"));resultRow[resultSet.createVariable("s")]=resultSet.createValue("<http://example/s2>");resultRow}(),resultSet,AOPInteger(2))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p30534");resultSet.createVariable("v");resultSet.createVariable("#p30535");resultSet.createVariable("w");resultSet.createVariable("s");val resultRow = resultSet.createResultRow();MicroTest(AOPAggregation(Aggregation.SAMPLE,false,arrayOf(AOPVariable("v"))),{resultSet.setUndefValue(resultRow,resultSet.createVariable("#p30534"));resultSet.setUndefValue(resultRow,resultSet.createVariable("v"));resultSet.setUndefValue(resultRow,resultSet.createVariable("#p30535"));resultSet.setUndefValue(resultRow,resultSet.createVariable("w"));resultSet.setUndefValue(resultRow,resultSet.createVariable("s"));resultRow}(),resultSet,AOPInteger(2))}()*/
             {
                 val resultSet = ResultSet(ResultSetDictionary());
                 val resultRow = resultSet.createResultRow();MicroTest(AOPUndef(), resultRow, resultSet, AOPUndef())
@@ -4270,7 +4208,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -4283,20 +4221,20 @@ class AOPVariableTest {
     @TestFactory
     fun testresources_sparql11_test_suite_project_expression_projexp01_rq() = listOf(
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p32765");resultSet.createVariable("y");resultSet.createVariable("#p32766");resultSet.createVariable("z");resultSet.createVariable("x");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("y"), AOPVariable("z")), { resultRow[resultSet.createVariable("#p32765")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p32766")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPBoolean(true))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p32766");resultSet.createVariable("y");resultSet.createVariable("#p32767");resultSet.createVariable("z");resultSet.createVariable("x");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("y"), AOPVariable("z")), { resultRow[resultSet.createVariable("#p32766")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p32767")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPBoolean(true))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p32765");resultSet.createVariable("y");resultSet.createVariable("#p32766");resultSet.createVariable("z");resultSet.createVariable("x");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("y"), AOPVariable("z")), { resultRow[resultSet.createVariable("#p32765")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p32766")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPBoolean(false))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p32766");resultSet.createVariable("y");resultSet.createVariable("#p32767");resultSet.createVariable("z");resultSet.createVariable("x");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("y"), AOPVariable("z")), { resultRow[resultSet.createVariable("#p32766")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p32767")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p32804");resultSet.createVariable("y");resultSet.createVariable("#p32805");resultSet.createVariable("z");resultSet.createVariable("x");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("y"), AOPVariable("z")), { resultRow[resultSet.createVariable("#p32804")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p32805")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPBoolean(true))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p32805");resultSet.createVariable("y");resultSet.createVariable("#p32806");resultSet.createVariable("z");resultSet.createVariable("x");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("y"), AOPVariable("z")), { resultRow[resultSet.createVariable("#p32805")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p32806")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPBoolean(true))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p32804");resultSet.createVariable("y");resultSet.createVariable("#p32805");resultSet.createVariable("z");resultSet.createVariable("x");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("y"), AOPVariable("z")), { resultRow[resultSet.createVariable("#p32804")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p32805")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPBoolean(false))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p32805");resultSet.createVariable("y");resultSet.createVariable("#p32806");resultSet.createVariable("z");resultSet.createVariable("x");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPEQ(AOPVariable("y"), AOPVariable("z")), { resultRow[resultSet.createVariable("#p32805")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p32806")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPBoolean(false))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());
@@ -4309,7 +4247,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -4322,12 +4260,12 @@ class AOPVariableTest {
     @TestFactory
     fun testresources_sparql11_test_suite_project_expression_projexp02_rq() = listOf(
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p32913");resultSet.createVariable("y");resultSet.createVariable("#p32914");resultSet.createVariable("z");resultSet.createVariable("x");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPVariable("z"), AOPVariable("y")), { resultRow[resultSet.createVariable("#p32913")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p32914")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPInteger(2))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p32914");resultSet.createVariable("y");resultSet.createVariable("#p32915");resultSet.createVariable("z");resultSet.createVariable("x");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPVariable("z"), AOPVariable("y")), { resultRow[resultSet.createVariable("#p32914")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p32915")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPInteger(2))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p32941");resultSet.createVariable("y");resultSet.createVariable("#p32942");resultSet.createVariable("z");resultSet.createVariable("x");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPVariable("z"), AOPVariable("y")), { resultRow[resultSet.createVariable("#p32941")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p32942")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPInteger(2))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p32942");resultSet.createVariable("y");resultSet.createVariable("#p32943");resultSet.createVariable("z");resultSet.createVariable("x");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPVariable("z"), AOPVariable("y")), { resultRow[resultSet.createVariable("#p32942")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p32943")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPInteger(2))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());
@@ -4340,7 +4278,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -4353,20 +4291,20 @@ class AOPVariableTest {
     @TestFactory
     fun testresources_sparql11_test_suite_project_expression_projexp03_rq() = listOf(
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p33052");resultSet.createVariable("y");resultSet.createVariable("#p33053");resultSet.createVariable("z");resultSet.createVariable("x");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPVariable("z"), AOPVariable("y")), { resultRow[resultSet.createVariable("#p33052")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p33053")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPInteger(3))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p33053");resultSet.createVariable("y");resultSet.createVariable("#p33054");resultSet.createVariable("z");resultSet.createVariable("x");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPVariable("z"), AOPVariable("y")), { resultRow[resultSet.createVariable("#p33053")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p33054")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPInteger(3))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("sum");resultSet.createVariable("#p33052");resultSet.createVariable("y");resultSet.createVariable("#p33053");resultSet.createVariable("z");resultSet.createVariable("x");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPMultiplication(AOPVariable("sum"), AOPInteger(2)), { resultRow[resultSet.createVariable("sum")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p33052")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p33053")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPInteger(6))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("sum");resultSet.createVariable("#p33053");resultSet.createVariable("y");resultSet.createVariable("#p33054");resultSet.createVariable("z");resultSet.createVariable("x");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPMultiplication(AOPVariable("sum"), AOPInteger(2)), { resultRow[resultSet.createVariable("sum")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p33053")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p33054")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPInteger(6))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p33097");resultSet.createVariable("y");resultSet.createVariable("#p33098");resultSet.createVariable("z");resultSet.createVariable("x");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPVariable("z"), AOPVariable("y")), { resultRow[resultSet.createVariable("#p33097")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p33098")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPInteger(3))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p33098");resultSet.createVariable("y");resultSet.createVariable("#p33099");resultSet.createVariable("z");resultSet.createVariable("x");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPVariable("z"), AOPVariable("y")), { resultRow[resultSet.createVariable("#p33098")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p33099")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPInteger(3))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("sum");resultSet.createVariable("#p33097");resultSet.createVariable("y");resultSet.createVariable("#p33098");resultSet.createVariable("z");resultSet.createVariable("x");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPMultiplication(AOPVariable("sum"), AOPInteger(2)), { resultRow[resultSet.createVariable("sum")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p33097")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p33098")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPInteger(6))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("sum");resultSet.createVariable("#p33098");resultSet.createVariable("y");resultSet.createVariable("#p33099");resultSet.createVariable("z");resultSet.createVariable("x");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPMultiplication(AOPVariable("sum"), AOPInteger(2)), { resultRow[resultSet.createVariable("sum")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p33098")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p33099")] = resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow }(), resultSet, AOPInteger(6))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());
@@ -4379,7 +4317,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -4392,20 +4330,20 @@ class AOPVariableTest {
     @TestFactory
     fun testresources_sparql11_test_suite_project_expression_projexp04_rq() = listOf(
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("x");resultSet.createVariable("#p33209");resultSet.createVariable("y");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPVariable("y"), AOPVariable("y")), { resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow[resultSet.createVariable("#p33209")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(2))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("x");resultSet.createVariable("#p33210");resultSet.createVariable("y");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPVariable("y"), AOPVariable("y")), { resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow[resultSet.createVariable("#p33210")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(2))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("x");resultSet.createVariable("#p33209");resultSet.createVariable("y");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPVariable("y"), AOPVariable("y")), { resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow[resultSet.createVariable("#p33209")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(4))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("x");resultSet.createVariable("#p33210");resultSet.createVariable("y");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPVariable("y"), AOPVariable("y")), { resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow[resultSet.createVariable("#p33210")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(4))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("x");resultSet.createVariable("#p33239");resultSet.createVariable("y");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPVariable("y"), AOPVariable("y")), { resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow[resultSet.createVariable("#p33239")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(2))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("x");resultSet.createVariable("#p33240");resultSet.createVariable("y");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPVariable("y"), AOPVariable("y")), { resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow[resultSet.createVariable("#p33240")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(2))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("x");resultSet.createVariable("#p33239");resultSet.createVariable("y");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPVariable("y"), AOPVariable("y")), { resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow[resultSet.createVariable("#p33239")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(4))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("x");resultSet.createVariable("#p33240");resultSet.createVariable("y");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPAddition(AOPVariable("y"), AOPVariable("y")), { resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow[resultSet.createVariable("#p33240")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, AOPInteger(4))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());
@@ -4418,7 +4356,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -4430,8 +4368,8 @@ class AOPVariableTest {
 
     @TestFactory
     fun testresources_sparql11_test_suite_project_expression_projexp05_rq() = listOf(
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("x");resultSet.createVariable("#p33324");resultSet.createVariable("l");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallDATATYPE(AOPVariable("l")),{resultRow[resultSet.createVariable("x")]=resultSet.createValue("<http://www.example.org/instance#a>");resultRow[resultSet.createVariable("#p33324")]=resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("l")]=resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow}(),resultSet,Exception("AOPBuiltInCall DATATYPE only works with typed string input"))}()*/
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("x");resultSet.createVariable("#p33324");resultSet.createVariable("l");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallDATATYPE(AOPVariable("l")),{resultRow[resultSet.createVariable("x")]=resultSet.createValue("<http://www.example.org/instance#a>");resultRow[resultSet.createVariable("#p33324")]=resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("l")]=resultSet.createValue("<http://www.example.org/schema#a>");resultRow}(),resultSet,Exception("AOPBuiltInCall DATATYPE only works with typed string input"))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("x");resultSet.createVariable("#p33325");resultSet.createVariable("l");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallDATATYPE(AOPVariable("l")),{resultRow[resultSet.createVariable("x")]=resultSet.createValue("<http://www.example.org/instance#a>");resultRow[resultSet.createVariable("#p33325")]=resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("l")]=resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow}(),resultSet,Exception("AOPBuiltInCall DATATYPE only works with typed string input"))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("x");resultSet.createVariable("#p33325");resultSet.createVariable("l");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallDATATYPE(AOPVariable("l")),{resultRow[resultSet.createVariable("x")]=resultSet.createValue("<http://www.example.org/instance#a>");resultRow[resultSet.createVariable("#p33325")]=resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("l")]=resultSet.createValue("<http://www.example.org/schema#a>");resultRow}(),resultSet,Exception("AOPBuiltInCall DATATYPE only works with typed string input"))}()*/
             {
                 val resultSet = ResultSet(ResultSetDictionary());
                 val resultRow = resultSet.createResultRow();MicroTest(AOPUndef(), resultRow, resultSet, AOPUndef())
@@ -4443,7 +4381,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -4456,12 +4394,12 @@ class AOPVariableTest {
     @TestFactory
     fun testresources_sparql11_test_suite_project_expression_projexp06_rq() = listOf(
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("m");resultSet.createVariable("x");resultSet.createVariable("#p33401");resultSet.createVariable("l");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallDATATYPE(AOPVariable("m")), { resultSet.setUndefValue(resultRow, resultSet.createVariable("m"));resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow[resultSet.createVariable("#p33401")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("l")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, Exception("AOPBuiltInCall DATATYPE only works with typed string input"))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("m");resultSet.createVariable("x");resultSet.createVariable("#p33402");resultSet.createVariable("l");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallDATATYPE(AOPVariable("m")), { resultSet.setUndefValue(resultRow, resultSet.createVariable("m"));resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow[resultSet.createVariable("#p33402")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("l")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, Exception("AOPBuiltInCall DATATYPE only works with typed string input"))
             }(),
             {
-                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("m");resultSet.createVariable("x");resultSet.createVariable("#p33425");resultSet.createVariable("l");
-                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallDATATYPE(AOPVariable("m")), { resultSet.setUndefValue(resultRow, resultSet.createVariable("m"));resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow[resultSet.createVariable("#p33425")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("l")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, Exception("AOPBuiltInCall DATATYPE only works with typed string input"))
+                val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("m");resultSet.createVariable("x");resultSet.createVariable("#p33426");resultSet.createVariable("l");
+                val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallDATATYPE(AOPVariable("m")), { resultSet.setUndefValue(resultRow, resultSet.createVariable("m"));resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>");resultRow[resultSet.createVariable("#p33426")] = resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("l")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow }(), resultSet, Exception("AOPBuiltInCall DATATYPE only works with typed string input"))
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary());
@@ -4474,7 +4412,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -4486,8 +4424,8 @@ class AOPVariableTest {
 
     @TestFactory
     fun testresources_sparql11_test_suite_project_expression_projexp07_rq() = listOf(
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p33520");resultSet.createVariable("y");resultSet.createVariable("#p33521");resultSet.createVariable("l");resultSet.createVariable("x");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallDATATYPE(AOPVariable("l")),{resultRow[resultSet.createVariable("#p33520")]=resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")]=resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p33521")]=resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("l")]=resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")]=resultSet.createValue("<http://www.example.org/instance#a>");resultRow}(),resultSet,Exception("AOPBuiltInCall DATATYPE only works with typed string input"))}()*/
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p33520");resultSet.createVariable("y");resultSet.createVariable("#p33521");resultSet.createVariable("l");resultSet.createVariable("x");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallDATATYPE(AOPVariable("l")),{resultRow[resultSet.createVariable("#p33520")]=resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")]=resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultSet.setUndefValue(resultRow,resultSet.createVariable("#p33521"));resultSet.setUndefValue(resultRow,resultSet.createVariable("l"));resultRow[resultSet.createVariable("x")]=resultSet.createValue("<http://www.example.org/instance#b>");resultRow}(),resultSet,Exception("AOPBuiltInCall DATATYPE only works with typed string input"))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p33521");resultSet.createVariable("y");resultSet.createVariable("#p33522");resultSet.createVariable("l");resultSet.createVariable("x");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallDATATYPE(AOPVariable("l")),{resultRow[resultSet.createVariable("#p33521")]=resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")]=resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("#p33522")]=resultSet.createValue("<http://www.example.org/schema#q>");resultRow[resultSet.createVariable("l")]=resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultRow[resultSet.createVariable("x")]=resultSet.createValue("<http://www.example.org/instance#a>");resultRow}(),resultSet,Exception("AOPBuiltInCall DATATYPE only works with typed string input"))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p33521");resultSet.createVariable("y");resultSet.createVariable("#p33522");resultSet.createVariable("l");resultSet.createVariable("x");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallDATATYPE(AOPVariable("l")),{resultRow[resultSet.createVariable("#p33521")]=resultSet.createValue("<http://www.example.org/schema#p>");resultRow[resultSet.createVariable("y")]=resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>");resultSet.setUndefValue(resultRow,resultSet.createVariable("#p33522"));resultSet.setUndefValue(resultRow,resultSet.createVariable("l"));resultRow[resultSet.createVariable("x")]=resultSet.createValue("<http://www.example.org/instance#b>");resultRow}(),resultSet,Exception("AOPBuiltInCall DATATYPE only works with typed string input"))}()*/
             {
                 val resultSet = ResultSet(ResultSetDictionary());
                 val resultRow = resultSet.createResultRow();MicroTest(AOPUndef(), resultRow, resultSet, AOPUndef())
@@ -4499,7 +4437,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
@@ -4511,7 +4449,7 @@ class AOPVariableTest {
 
     @TestFactory
     fun testresources_sparql11_test_suite_subquery_sq12_rq() = listOf(
-            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p35052");resultSet.createVariable("F");resultSet.createVariable("#p35053");resultSet.createVariable("L");resultSet.createVariable("P");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallCONCAT(AOPVariable("F"),AOPSimpleLiteral("\""," ")),{resultRow[resultSet.createVariable("#p35052")]=resultSet.createValue("<http://xmlns.com/foaf/0.1/firstName>");resultRow[resultSet.createVariable("F")]=resultSet.createValue("\"John\"");resultRow[resultSet.createVariable("#p35053")]=resultSet.createValue("<http://xmlns.com/foaf/0.1/lastName>");resultRow[resultSet.createVariable("L")]=resultSet.createValue("\"Doe\"");resultRow[resultSet.createVariable("P")]=resultSet.createValue("<http://p1>");resultRow}(),resultSet,AOPSimpleLiteral("\"","John "))}()*/
+            /*{val resultSet = ResultSet(ResultSetDictionary());resultSet.createVariable("#p35053");resultSet.createVariable("F");resultSet.createVariable("#p35054");resultSet.createVariable("L");resultSet.createVariable("P");val resultRow = resultSet.createResultRow();MicroTest(AOPBuildInCallCONCAT(AOPVariable("F"),AOPSimpleLiteral("\""," ")),{resultRow[resultSet.createVariable("#p35053")]=resultSet.createValue("<http://xmlns.com/foaf/0.1/firstName>");resultRow[resultSet.createVariable("F")]=resultSet.createValue("\"John\"");resultRow[resultSet.createVariable("#p35054")]=resultSet.createValue("<http://xmlns.com/foaf/0.1/lastName>");resultRow[resultSet.createVariable("L")]=resultSet.createValue("\"Doe\"");resultRow[resultSet.createVariable("P")]=resultSet.createValue("<http://p1>");resultRow}(),resultSet,AOPSimpleLiteral("\"","John "))}()*/
             {
                 val resultSet = ResultSet(ResultSetDictionary());
                 val resultRow = resultSet.createResultRow();MicroTest(AOPUndef(), resultRow, resultSet, AOPUndef())
@@ -4523,7 +4461,7 @@ class AOPVariableTest {
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
                     println(data.resultRow)
-                    println((output as AOPConstant).valueToString())
+                    println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
                 }
                 assertTrue(data.expected.equals(output))
