@@ -14,22 +14,36 @@ data class MicroTest(val input: AOPBase, val resultRow: ResultRow, val resultSet
 }
 
 fun <T> addMicroTest(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, expected: T): T {
+val variableNames=mutableMapOf<String,String>()
     if (input is AOPVariable)
         return expected
     var res = "{"
     res += "val resultSet = ResultSet(ResultSetDictionary());"
-    for (v in resultSet.getVariableNames())
-        res += "resultSet.createVariable(\"$v\");"
+    for (v in resultSet.getVariableNames()){
+	val name=when{
+		variableNames[v]!=null->variableNames[v]!!
+		v.startsWith("#")->{
+			variableNames[v]="#"+variableNames.keys.size
+			variableNames[v]!!
+		}
+		else->{
+			variableNames[v]=v
+			variableNames[v]!!
+		}
+	}
+        res += "resultSet.createVariable(\"$name\");"
+    }
     res += "val resultRow = resultSet.createResultRow();"
     res += "MicroTest("
     res += input.toTestCaseInput() + ","
     res += "{"
     for (v in resultSet.getVariableNames()) {
-        val value = AOPVariable("$v").calculate(resultSet, resultRow).valueToString()
+	val name=variableNames[v]!!
+        val value = AOPVariable("$name").calculate(resultSet, resultRow).valueToString()
         if (value == null)
-            res += "resultSet.setUndefValue(resultRow,resultSet.createVariable(\"$v\"));"
+            res += "resultSet.setUndefValue(resultRow,resultSet.createVariable(\"$name\"));"
         else
-            res += "resultRow[resultSet.createVariable(\"$v\")]=resultSet.createValue(\"${value.replace("\"", "\\\"")}\");"
+            res += "resultRow[resultSet.createVariable(\"$name\")]=resultSet.createValue(\"${value.replace("\"", "\\\"")}\");"
     }
     res += "resultRow}(),"
     res += "resultSet,"
