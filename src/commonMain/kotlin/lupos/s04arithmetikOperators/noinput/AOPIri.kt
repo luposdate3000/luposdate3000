@@ -19,7 +19,7 @@ class AOPIri(var iri: String, var prefix: String = "") : AOPConstant() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPIri")
-        res.addAttribute("iri", "" + iri)
+        res.addAttribute("value", prefix+iri)
         return res
     }
 
