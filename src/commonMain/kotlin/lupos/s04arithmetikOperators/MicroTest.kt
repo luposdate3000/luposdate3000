@@ -18,7 +18,7 @@ fun <T> addMicroTest(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet,
     if (input is AOPVariable)
         return expected
     var res = "{\n"
-    res += "${prefix}        val resultSet = ResultSet(ResultSetDictionary())\n"
+    res += "${prefix}                val resultSet = ResultSet(ResultSetDictionary())\n"
     for (v in resultSet.getVariableNames()) {
         val name = when {
             variableNames[v] != null -> variableNames[v]!!
@@ -31,29 +31,29 @@ fun <T> addMicroTest(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet,
                 variableNames[v]!!
             }
         }
-        res += "${prefix}        resultSet.createVariable(\"$name\")\n"
+        res += "${prefix}                resultSet.createVariable(\"$name\")\n"
     }
-    res += "${prefix}        val resultRow = resultSet.createResultRow()\n"
-    res += "${prefix}        MicroTest(\n"
-    res += "${prefix}            " + input.toTestCaseInput() + ",\n"
-    res += "${prefix}            {\n"
+    res += "${prefix}                val resultRow = resultSet.createResultRow()\n"
+    res += "${prefix}                MicroTest(\n"
+    res += "${prefix}                            " + input.toTestCaseInput() + ",\n"
+    res += "${prefix}                            {\n"
     for (v in resultSet.getVariableNames()) {
         val name = variableNames[v]!!
         val value = AOPVariable("$name").calculate(resultSet, resultRow).valueToString()
         if (value == null)
-            res += "${prefix}                resultSet.setUndefValue(resultRow,resultSet.createVariable(\"$name\"))\n"
+            res += "${prefix}                                resultSet.setUndefValue(resultRow,resultSet.createVariable(\"$name\"))\n"
         else
-            res += "${prefix}                resultRow[resultSet.createVariable(\"$name\")]=resultSet.createValue(\"${value.replace("\"", "\\\"")}\")\n"
+            res += "${prefix}                                resultRow[resultSet.createVariable(\"$name\")]=resultSet.createValue(\"${value.replace("\"", "\\\"")}\")\n"
     }
-    res += "${prefix}                resultRow\n"
-    res += "${prefix}            }(),\n"
-    res += "${prefix}        resultSet,\n"
+    res += "${prefix}                                resultRow\n"
+    res += "${prefix}                            }(),\n"
+    res += "${prefix}                            resultSet,\n"
     if (expected is AOPBase)
-        res += "${prefix}            " + expected.toTestCaseInput() + "\n"
+        res += "${prefix}                            " + expected.toTestCaseInput() + "\n"
     else
-        res += "${prefix}            Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
-    res += "${prefix}        )\n"
-    res += "${prefix}    }()"
+        res += "${prefix}                            Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
+    res += "${prefix}                        )\n"
+    res += "${prefix}            }()"
     listOfMicroTests.add(res)
     return expected
 }
@@ -70,7 +70,7 @@ fun printAllMicroTest(testName: String, success: Boolean) {
                 if (it.contains("AOPAggregation") || it.contains("AOPBuildInCallBNODE1") || it.contains("AOPBuildInCallBNODE0"))
                     println("${prefix}            /*" + it + "*/")
                 else
-                    println("${prefix}            "+it + ",")
+                    println("${prefix}            " + it + ",")
             } else
                 println("${prefix}            /*" + it + "*/")
         }
@@ -79,7 +79,7 @@ fun printAllMicroTest(testName: String, success: Boolean) {
         println("${prefix}                val resultSet = ResultSet(ResultSetDictionary())")
         println("${prefix}                val resultRow = resultSet.createResultRow()")
         println("${prefix}                MicroTest(AOPUndef(), resultRow, resultSet, AOPUndef())")
-	println("${prefix}            }()")
+        println("${prefix}            }()")
         println("${prefix}    ).mapIndexed { index, data ->")
         println("${prefix}        DynamicTest.dynamicTest(\"test->${testName}<-\$index\") {")
         println("${prefix}            try {")
