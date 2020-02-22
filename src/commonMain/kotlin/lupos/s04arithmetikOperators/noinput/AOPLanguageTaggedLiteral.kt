@@ -11,11 +11,11 @@ class AOPLanguageTaggedLiteral(override var delimiter: String, override var cont
     override val children: Array<OPBase> = arrayOf()
 
 
-override fun toTestCaseInput() :String{
-if(delimiter=="\"")
-return "AOPLanguageTaggedLiteral(\"\\\"\",\"${content.replace("\"","\\\"")}\",\"${language.replace("\"","\\\"")}\")"
-return "AOPLanguageTaggedLiteral(\"$delimiter\",\"${content.replace("\"","\\\"")}\",\"${language.replace("\"","\\\"")}\")"
-}
+    override fun toTestCaseInput(): String {
+        if (delimiter == "\"")
+            return "AOPLanguageTaggedLiteral(\"\\\"\",\"${content.replace("\"", "\\\"")}\",\"${language.replace("\"", "\\\"")}\")"
+        return "AOPLanguageTaggedLiteral(\"$delimiter\",\"${content.replace("\"", "\\\"")}\",\"${language.replace("\"", "\\\"")}\")"
+    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPLanguageTaggedLiteral")

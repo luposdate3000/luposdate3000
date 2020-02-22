@@ -12,7 +12,7 @@ import lupos.s04logicalOperators.OPBase
 class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array<AOPBase>) : AOPBase() {
     override val children: Array<OPBase> = Array<OPBase>(childs.size) { childs[it] }
 
-override fun toTestCaseInput(): String {
+    override fun toTestCaseInput(): String {
         var res = "AOPAggregation(Aggregation.${type},$distinct,arrayOf("
         if (children.size > 0)
             res += (children[0] as AOPBase).toTestCaseInput()

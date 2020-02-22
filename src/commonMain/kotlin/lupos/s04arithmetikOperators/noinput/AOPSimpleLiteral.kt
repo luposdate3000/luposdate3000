@@ -10,11 +10,11 @@ import lupos.s04logicalOperators.OPBase
 class AOPSimpleLiteral(override var delimiter: String, override var content: String) : AOPConstantString() {
     override val children: Array<OPBase> = arrayOf()
 
-    override fun toTestCaseInput() :String{
-if(delimiter=="\"")
-return "AOPSimpleLiteral(\"\\\"\",\"${content.replace("\"","\\\"")}\")"
-return "AOPSimpleLiteral(\"$delimiter\",\"${content.replace("\"","\\\"")}\")"
-}
+    override fun toTestCaseInput(): String {
+        if (delimiter == "\"")
+            return "AOPSimpleLiteral(\"\\\"\",\"${content.replace("\"", "\\\"")}\")"
+        return "AOPSimpleLiteral(\"$delimiter\",\"${content.replace("\"", "\\\"")}\")"
+    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPSimpleLiteral")
