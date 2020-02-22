@@ -26,7 +26,7 @@ class AOPBuildInCallDATATYPE(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPTypedLiteral)
-            return AOPSimpleLiteral(a.delimiter, a.type_iri)
-        throw Exception("AOPBuiltInCall DATATYPE only works with typed string input")
+            return addMicroTest(this, resultRow, resultSet, AOPSimpleLiteral(a.delimiter, a.type_iri))
+        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall DATATYPE only works with typed string input"))
     }
 }

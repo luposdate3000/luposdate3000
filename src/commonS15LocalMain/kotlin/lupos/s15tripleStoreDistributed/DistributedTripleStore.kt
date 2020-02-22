@@ -28,12 +28,13 @@ class DistributedGraph(val name: String) {
 
     fun myHashCode(s: Int, p: Int, o: Int, d: Int, idx: EIndexPattern): Int {
         when (idx) {
+            EIndexPattern.S -> return myHashCode("" + s, d)
+            EIndexPattern.P -> return myHashCode("" + p, d)
+            EIndexPattern.O -> return myHashCode("" + o, d)
+            EIndexPattern.SP -> return myHashCode("" + s + "-" + p, d)
+            EIndexPattern.SO -> return myHashCode("" + s + "-" + o, d)
+            EIndexPattern.PO -> return myHashCode("" + p + "-" + o, d)
             EIndexPattern.SPO -> return myHashCode("" + s + "-" + p + "-" + o, d)
-            EIndexPattern.SOP -> return myHashCode("" + s + "-" + o + "-" + p, d)
-            EIndexPattern.PSO -> return myHashCode("" + p + "-" + s + "-" + o, d)
-            EIndexPattern.POS -> return myHashCode("" + p + "-" + o + "-" + s, d)
-            EIndexPattern.OPS -> return myHashCode("" + o + "-" + p + "-" + s, d)
-            EIndexPattern.OSP -> return myHashCode("" + o + "-" + s + "-" + p, d)
         }
     }
 

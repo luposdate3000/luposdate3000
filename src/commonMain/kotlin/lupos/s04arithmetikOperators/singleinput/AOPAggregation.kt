@@ -39,18 +39,16 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
     var collectMode = true
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
-println("calc $resultSet $resultRow")
         if (type == Aggregation.COUNT)
-            return AOPInteger(count)
+            return addMicroTest(this, resultRow, resultSet, AOPInteger(count))
         if (!collectMode) {
             if (a == null)
-                return AOPUndef()
+                return addMicroTest(this, resultRow, resultSet, AOPUndef())
             else
-                return a!!
+                return addMicroTest(this, resultRow, resultSet, a!!)
         }
-println("x")
         if (distinct)
-            throw Exception("AOPAggregation does not support distinct")
+            throw addMicroTest(this, resultRow, resultSet, Exception("AOPAggregation does not support distinct"))
         when (type) {
             Aggregation.SAMPLE -> {
                 val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
@@ -71,11 +69,10 @@ println("x")
                 else if (a is AOPInteger || b is AOPInteger)
                     a = AOPDecimal(a!!.toDouble() + (b.toDouble() / (0.0 + count)))
                 else
-                    throw Exception("AOPAggregation avg only defined on numberic input")
+                    throw addMicroTest(this, resultRow, resultSet, Exception("AOPAggregation avg only defined on numberic input"))
             }
             Aggregation.MIN -> {
                 val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
-println("min a $a $b")
                 var flag = false
                 if (a == null)
                     flag = true
@@ -86,10 +83,9 @@ println("min a $a $b")
                 else if (a is AOPInteger || b is AOPInteger)
                     flag = a!!.toInt() > b.toInt()
                 else
-                    throw Exception("AOPAggregation avg only defined on numeric input")
+                    throw addMicroTest(this, resultRow, resultSet, Exception("AOPAggregation avg only defined on numeric input"))
                 if (flag)
                     a = b
-println("min b $a $b")
             }
             Aggregation.MAX -> {
                 val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
@@ -103,7 +99,7 @@ println("min b $a $b")
                 else if (a is AOPInteger || b is AOPInteger)
                     flag = a!!.toInt() < b.toInt()
                 else
-                    throw Exception("AOPAggregation avg only defined on numeric input")
+                    throw addMicroTest(this, resultRow, resultSet, Exception("AOPAggregation avg only defined on numeric input"))
                 if (flag)
                     a = b
             }
@@ -118,11 +114,10 @@ println("min b $a $b")
                 else if (a is AOPInteger || b is AOPInteger)
                     a = AOPInteger(a!!.toInt() + b.toInt())
                 else
-                    throw Exception("AOPAggregation avg only defined on numeric input")
+                    throw addMicroTest(this, resultRow, resultSet, Exception("AOPAggregation avg only defined on numeric input"))
             }
-            else -> throw Exception("AOPAggregation ${type} not implemented")
+            else -> throw addMicroTest(this, resultRow, resultSet, Exception("AOPAggregation ${type} not implemented"))
         }
-println("res $a")
-        return a!!
+        return addMicroTest(this, resultRow, resultSet, a!!)
     }
 }

@@ -42,6 +42,6 @@ class AOPBuildInCallBNODE1(child: AOPBase) : AOPBase() {
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
-        return AOPBnode("" + uuid + a.valueToString())
+        return addMicroTest(this, resultRow, resultSet, AOPBnode("" + uuid + a.valueToString()))
     }
 }

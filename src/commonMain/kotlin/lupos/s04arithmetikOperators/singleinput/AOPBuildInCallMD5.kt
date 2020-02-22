@@ -44,8 +44,8 @@ class AOPBuildInCallMD5(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPConstantString)
-            return AOPSimpleLiteral(a.delimiter, a.content.encodeToByteArray().md5().toHexString1())
-        throw Exception("AOPBuiltInCall MD5 only works with string input")
+            return addMicroTest(this, resultRow, resultSet, AOPSimpleLiteral(a.delimiter, a.content.encodeToByteArray().md5().toHexString1()))
+        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall MD5 only works with string input"))
     }
 }
 

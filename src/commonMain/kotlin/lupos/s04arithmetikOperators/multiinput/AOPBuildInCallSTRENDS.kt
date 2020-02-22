@@ -28,10 +28,10 @@ class AOPBuildInCallSTRENDS(child: AOPBase, childB: AOPBase) : AOPBase() {
         if (a is AOPConstantString) {
             val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
             if (b is AOPSimpleLiteral)
-                return AOPBoolean(a.content.endsWith(b.content))
+                return addMicroTest(this, resultRow, resultSet, AOPBoolean(a.content.endsWith(b.content)))
             else
-                throw Exception("AOPBuiltInCall STRENDS only works with simple compare string input")
+                throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall STRENDS only works with simple compare string input"))
         }
-        throw Exception("AOPBuiltInCall STRENDS only works with string input")
+        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall STRENDS only works with string input"))
     }
 }

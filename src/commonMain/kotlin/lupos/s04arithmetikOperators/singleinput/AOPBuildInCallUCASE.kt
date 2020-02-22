@@ -27,8 +27,8 @@ class AOPBuildInCallUCASE(child: AOPBase) : AOPBase() {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPConstantString) {
             a.content = a.content.toUpperCase()
-            return a
+            return addMicroTest(this, resultRow, resultSet, a)
         }
-        throw Exception("AOPBuiltInCall UCASE only works with string input")
+        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall UCASE only works with string input"))
     }
 }

@@ -33,19 +33,19 @@ class AOPBuildInCallCONCAT(child: AOPBase, childB: AOPBase) : AOPBase() {
         if (a is AOPLanguageTaggedLiteral && b is AOPLanguageTaggedLiteral) {
             if (a.language == b.language) {
                 a.content += b.content
-                return a
+                return addMicroTest(this, resultRow, resultSet, a)
             } else
-                throw Exception("AOPBuiltInCall CONCAT only works with compatible languages input")
+                throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall CONCAT only works with compatible languages input"))
         } else if (a is AOPSimpleLiteral && b is AOPSimpleLiteral) {
             a.content += b.content
-            return a
+            return addMicroTest(this, resultRow, resultSet, a)
         } else if (a is AOPSimpleLiteral && b is AOPLanguageTaggedLiteral) {
             b.content += a.content
-            return b
+            return addMicroTest(this, resultRow, resultSet, b)
         } else if (a is AOPLanguageTaggedLiteral && b is AOPSimpleLiteral) {
             a.content += b.content
-            return a
+            return addMicroTest(this, resultRow, resultSet, a)
         }
-        throw Exception("AOPBuiltInCall CONCAT only works with compatible string input")
+        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall CONCAT only works with compatible string input"))
     }
 }

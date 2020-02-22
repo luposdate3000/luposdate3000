@@ -31,11 +31,11 @@ class AOPGT(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDouble || b is AOPDouble)
-            return AOPBoolean(a.toDouble() > b.toDouble())
+            return addMicroTest(this, resultRow, resultSet, AOPBoolean(a.toDouble() > b.toDouble()))
         if (a is AOPDecimal || b is AOPDecimal)
-            return AOPBoolean(a.toDouble() > b.toDouble())
+            return addMicroTest(this, resultRow, resultSet, AOPBoolean(a.toDouble() > b.toDouble()))
         if (a is AOPInteger || b is AOPInteger)
-            return AOPBoolean(a.toInt() > b.toInt())
-        throw Exception("AOPGT only works with numeric input")
+            return addMicroTest(this, resultRow, resultSet, AOPBoolean(a.toInt() > b.toInt()))
+        throw addMicroTest(this, resultRow, resultSet, Exception("AOPGT only works with numeric input"))
     }
 }

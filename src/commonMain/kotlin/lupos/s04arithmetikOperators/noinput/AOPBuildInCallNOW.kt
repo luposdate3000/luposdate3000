@@ -24,6 +24,6 @@ class AOPBuildInCallNOW() : AOPBase() {
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
-        return AOPDateTime()
+        return addMicroTest(this, resultRow, resultSet, AOPDateTime())
     }
 }

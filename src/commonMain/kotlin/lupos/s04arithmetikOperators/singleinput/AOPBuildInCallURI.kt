@@ -26,7 +26,7 @@ class AOPBuildInCallURI(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPSimpleLiteral)
-            return AOPIri(a.content)
-        throw Exception("AOPBuiltInCall URI only works with simple string input")
+            return addMicroTest(this, resultRow, resultSet, AOPIri(a.content))
+        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall URI only works with simple string input"))
     }
 }

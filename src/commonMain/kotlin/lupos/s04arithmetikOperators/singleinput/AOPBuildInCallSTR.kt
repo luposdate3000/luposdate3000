@@ -26,7 +26,7 @@ class AOPBuildInCallSTR(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPConstantString)
-            return AOPSimpleLiteral(a.delimiter, a.content)
-        throw Exception("AOPBuiltInCall STR only works with string input")
+            return addMicroTest(this, resultRow, resultSet, AOPSimpleLiteral(a.delimiter, a.content))
+        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall STR only works with string input"))
     }
 }

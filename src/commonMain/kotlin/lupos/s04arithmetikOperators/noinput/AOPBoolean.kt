@@ -10,6 +10,8 @@ import lupos.s04logicalOperators.OPBase
 class AOPBoolean(var value: Boolean) : AOPConstant() {
     override val children: Array<OPBase> = arrayOf()
 
+
+    override fun toTestCaseInput() = "AOPBoolean($value)"
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPBoolean")
         res.addAttribute("value", "" + value)

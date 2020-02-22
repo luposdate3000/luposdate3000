@@ -41,6 +41,6 @@ class AOPBuildInCallSTRUUID() : AOPBase() {
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
-        return AOPSimpleLiteral("\"", "" + uuid4())
+        return addMicroTest(this, resultRow, resultSet, AOPSimpleLiteral("\"", "" + uuid4()))
     }
 }

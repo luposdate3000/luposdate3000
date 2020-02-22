@@ -10,6 +10,8 @@ import lupos.s04logicalOperators.OPBase
 class AOPBnode(var value: String) : AOPConstant() {
     override val children: Array<OPBase> = arrayOf()
 
+    override fun toTestCaseInput() = "AOPBnode($value)"
+
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPBnode")
         res.addAttribute("value", "" + value)

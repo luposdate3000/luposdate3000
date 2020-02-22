@@ -27,8 +27,8 @@ class AOPBuildInCallLCASE(child: AOPBase) : AOPBase() {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPConstantString) {
             a.content = a.content.toLowerCase()
-            return a
+            return addMicroTest(this, resultRow, resultSet, a)
         }
-        throw Exception("AOPBuiltInCall LCASE only works with string input")
+        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall LCASE only works with string input"))
     }
 }

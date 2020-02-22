@@ -27,7 +27,7 @@ class AOPBuildInCallLANGMATCHES(child: AOPBase, childB: AOPBase) : AOPBase() {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPSimpleLiteral && b is AOPSimpleLiteral)
-            return AOPBoolean(a.content == b.content)
-        throw Exception("AOPBuiltInCall LANGMATCHES only works with simple language string input")
+            return addMicroTest(this, resultRow, resultSet, AOPBoolean(a.content == b.content))
+        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall LANGMATCHES only works with simple language string input"))
     }
 }

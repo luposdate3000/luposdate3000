@@ -30,7 +30,7 @@ class AOPNot(var child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPBoolean)
-            return AOPBoolean(!a.value)
-        throw Exception("AOPNot only works with boolean input")
+            return addMicroTest(this, resultRow, resultSet, AOPBoolean(!a.value))
+        throw addMicroTest(this, resultRow, resultSet, Exception("AOPNot only works with boolean input"))
     }
 }

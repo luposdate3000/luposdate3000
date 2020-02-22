@@ -10,6 +10,9 @@ import lupos.s04logicalOperators.OPBase
 class AOPDecimal(var value: Double) : AOPConstant() {
     override val children: Array<OPBase> = arrayOf()
 
+
+    override fun toTestCaseInput() = "AOPDecimal($value)"
+
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPDecimal")
         res.addAttribute("value", "" + value)

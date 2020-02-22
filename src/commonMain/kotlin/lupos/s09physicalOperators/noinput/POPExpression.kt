@@ -65,8 +65,8 @@ class POPExpression : LOPBase {
         if (node is AOPAggregation) {
             node.count = count
             node.collectMode = mode
-if(node.collectMode )
-            node.a = null
+            if (node.collectMode)
+                node.a = null
         }
     }
 
@@ -76,7 +76,7 @@ if(node.collectMode )
             (children[0] as AOPBase).calculate(resultSet, resultRow)
         setAggregationMode(children[0], false, resultRows.count())
         val a = (children[0] as AOPBase).calculate(resultSet, resultSet.createResultRow())
-println("return from evaluate ${a.valueToString()}")
+        println("return from evaluate ${a.valueToString()}")
         return a.valueToString()
     }
 

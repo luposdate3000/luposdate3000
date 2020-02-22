@@ -10,6 +10,8 @@ import lupos.s04logicalOperators.OPBase
 class AOPTypedLiteral(override var delimiter: String, override var content: String, var type_iri: String) : AOPConstantString() {
     override val children: Array<OPBase> = arrayOf()
 
+    override fun toTestCaseInput() = "AOPTypedLiteral($delimiter,$content,$type_iri)"
+
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPTypedLiteral")
         res.addAttribute("delimiter", "" + delimiter)

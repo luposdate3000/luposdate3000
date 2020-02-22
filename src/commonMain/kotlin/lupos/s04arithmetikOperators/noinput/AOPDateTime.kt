@@ -18,6 +18,7 @@ class AOPDateTime : AOPConstant {
     val timezoneHours: Int
     val timezoneMinutes: Int
 
+    override fun toTestCaseInput() = "AOPDateTime(\"${valueToString()}\")"
 
     constructor() : super() {
         val time = com.soywiz.klock.DateTime.now()

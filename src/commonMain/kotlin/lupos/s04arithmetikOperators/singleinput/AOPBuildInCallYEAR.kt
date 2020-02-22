@@ -26,7 +26,7 @@ class AOPBuildInCallYEAR(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDateTime)
-            return AOPInteger(a.year)
-        throw Exception("AOPBuiltInCall YEAR only works with dateTime input")
+            return addMicroTest(this, resultRow, resultSet, AOPInteger(a.year))
+        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall YEAR only works with dateTime input"))
     }
 }

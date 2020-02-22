@@ -10,6 +10,8 @@ import lupos.s04logicalOperators.OPBase
 class AOPIri(var iri: String) : AOPConstant() {
     override val children: Array<OPBase> = arrayOf()
 
+    override fun toTestCaseInput() = "AOPIri(\"$iri\")"
+
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPIri")
         res.addAttribute("iri", "" + iri)

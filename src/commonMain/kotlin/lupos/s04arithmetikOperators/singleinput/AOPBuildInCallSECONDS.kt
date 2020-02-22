@@ -26,7 +26,7 @@ class AOPBuildInCallSECONDS(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDateTime)
-            return AOPInteger(a.seconds)
-        throw Exception("AOPBuiltInCall SECONDS only works with dateTime input")
+            return addMicroTest(this, resultRow, resultSet, AOPInteger(a.seconds))
+        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall SECONDS only works with dateTime input"))
     }
 }

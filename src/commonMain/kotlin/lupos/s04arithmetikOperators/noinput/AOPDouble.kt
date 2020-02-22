@@ -10,6 +10,8 @@ import lupos.s04logicalOperators.OPBase
 class AOPDouble(var value: Double) : AOPConstant() {
     override val children: Array<OPBase> = arrayOf()
 
+    override fun toTestCaseInput() = "AOPDouble($value)"
+
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPDouble")
         res.addAttribute("value", "" + value)

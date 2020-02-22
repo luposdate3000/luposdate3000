@@ -10,6 +10,8 @@ import lupos.s04logicalOperators.OPBase
 class AOPInteger(var value: Int) : AOPConstant() {
     override val children: Array<OPBase> = arrayOf()
 
+    override fun toTestCaseInput() = "AOPInteger($value)"
+
     override fun toXMLElement(): XMLElement {
         return XMLElement("AOPInteger").addAttribute("value", "" + value)
     }
