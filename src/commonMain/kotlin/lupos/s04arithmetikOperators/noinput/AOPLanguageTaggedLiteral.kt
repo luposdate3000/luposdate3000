@@ -13,8 +13,8 @@ class AOPLanguageTaggedLiteral(override var delimiter: String, override var cont
 
     override fun toTestCaseInput(): String {
         if (delimiter == "\"")
-            return "AOPLanguageTaggedLiteral(\"\\\"\",\"${content.replace("\"", "\\\"")}\",\"${language.replace("\"", "\\\"")}\")"
-        return "AOPLanguageTaggedLiteral(\"$delimiter\",\"${content.replace("\"", "\\\"")}\",\"${language.replace("\"", "\\\"")}\")"
+            return "AOPLanguageTaggedLiteral(\"\\\"\", \"${content.replace("\"", "\\\"")}\", \"${language.replace("\"", "\\\"")}\")"
+        return "AOPLanguageTaggedLiteral(\"$delimiter\", \"${content.replace("\"", "\\\"")}\", \"${language.replace("\"", "\\\"")}\")"
     }
 
     override fun toXMLElement(): XMLElement {

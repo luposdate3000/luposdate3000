@@ -12,8 +12,8 @@ class AOPSimpleLiteral(override var delimiter: String, override var content: Str
 
     override fun toTestCaseInput(): String {
         if (delimiter == "\"")
-            return "AOPSimpleLiteral(\"\\\"\",\"${content.replace("\"", "\\\"")}\")"
-        return "AOPSimpleLiteral(\"$delimiter\",\"${content.replace("\"", "\\\"")}\")"
+            return "AOPSimpleLiteral(\"\\\"\", \"${content.replace("\"", "\\\"")}\")"
+        return "AOPSimpleLiteral(\"$delimiter\", \"${content.replace("\"", "\\\"")}\")"
     }
 
     override fun toXMLElement(): XMLElement {

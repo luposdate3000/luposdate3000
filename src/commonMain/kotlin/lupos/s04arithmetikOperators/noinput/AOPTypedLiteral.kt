@@ -12,8 +12,8 @@ class AOPTypedLiteral(override var delimiter: String, override var content: Stri
 
     override fun toTestCaseInput(): String {
         if (delimiter == "\"")
-            return "AOPTypedLiteral(\"\\\"\",\"${content.replace("\"", "\\\"")}\",\"${type_iri.replace("\"", "\\\"")}\")"
-        return "AOPTypedLiteral(\"$delimiter\",\"${content.replace("\"", "\\\"")}\",\"${type_iri.replace("\"", "\\\"")}\")"
+            return "AOPTypedLiteral(\"\\\"\", \"${content.replace("\"", "\\\"")}\", \"${type_iri.replace("\"", "\\\"")}\")"
+        return "AOPTypedLiteral(\"$delimiter\", \"${content.replace("\"", "\\\"")}\", \"${type_iri.replace("\"", "\\\"")}\")"
     }
 
     override fun toXMLElement(): XMLElement {

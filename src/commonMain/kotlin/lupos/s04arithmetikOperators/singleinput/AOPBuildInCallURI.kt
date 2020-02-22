@@ -16,7 +16,7 @@ class AOPBuildInCallURI(child: AOPBase, var prefix: String = "") : AOPBase() {
             this.prefix = iri
     }
 
-    override fun toTestCaseInput() = "AOPBuildInCallURI(${(children[0] as AOPBase).toTestCaseInput()},\"$prefix\")"
+    override fun toTestCaseInput() = "AOPBuildInCallURI(${(children[0] as AOPBase).toTestCaseInput()}, \"$prefix\")"
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPBuildInCallURI")
