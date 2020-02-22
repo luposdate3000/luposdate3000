@@ -32,6 +32,6 @@ class AOPBuildInCallSTRDT(child: AOPBase, childB: AOPBase) : AOPBase() {
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPSimpleLiteral && b is AOPIri)
             return addMicroTest(this, resultRow, resultSet, AOPTypedLiteral(a.delimiter, a.content, b.iri))
-	throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype"))
+        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype"))
     }
 }

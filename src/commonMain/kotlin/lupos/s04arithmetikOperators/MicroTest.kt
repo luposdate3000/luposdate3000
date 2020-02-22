@@ -8,50 +8,52 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-val prefix = "--MicroTest--    "
+val prefix = "--MicroTest--"
 
 data class MicroTest(val input: AOPBase, val resultRow: ResultRow, val resultSet: ResultSet, val expected: Any) {
 }
 
 fun <T> addMicroTest(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, expected: T): T {
-val variableNames=mutableMapOf<String,String>()
+    val variableNames = mutableMapOf<String, String>()
     if (input is AOPVariable)
         return expected
-    var res = "{"
-    res += "val resultSet = ResultSet(ResultSetDictionary());"
-    for (v in resultSet.getVariableNames()){
-	val name=when{
-		variableNames[v]!=null->variableNames[v]!!
-		v.startsWith("#")->{
-			variableNames[v]="#"+variableNames.keys.size
-			variableNames[v]!!
-		}
-		else->{
-			variableNames[v]=v
-			variableNames[v]!!
-		}
-	}
-        res += "resultSet.createVariable(\"$name\");"
-    }
-    res += "val resultRow = resultSet.createResultRow();"
-    res += "MicroTest("
-    res += input.toTestCaseInput() + ","
-    res += "{"
+    var res = "{\n"
+    res += "${prefix}        val resultSet = ResultSet(ResultSetDictionary())\n"
     for (v in resultSet.getVariableNames()) {
-	val name=variableNames[v]!!
+        val name = when {
+            variableNames[v] != null -> variableNames[v]!!
+            v.startsWith("#") -> {
+                variableNames[v] = "#" + variableNames.keys.size
+                variableNames[v]!!
+            }
+            else -> {
+                variableNames[v] = v
+                variableNames[v]!!
+            }
+        }
+        res += "${prefix}        resultSet.createVariable(\"$name\")\n"
+    }
+    res += "${prefix}        val resultRow = resultSet.createResultRow()\n"
+    res += "${prefix}        MicroTest(\n"
+    res += "${prefix}            " + input.toTestCaseInput() + ",\n"
+    res += "${prefix}            {\n"
+    for (v in resultSet.getVariableNames()) {
+        val name = variableNames[v]!!
         val value = AOPVariable("$name").calculate(resultSet, resultRow).valueToString()
         if (value == null)
-            res += "resultSet.setUndefValue(resultRow,resultSet.createVariable(\"$name\"));"
+            res += "${prefix}                resultSet.setUndefValue(resultRow,resultSet.createVariable(\"$name\"))\n"
         else
-            res += "resultRow[resultSet.createVariable(\"$name\")]=resultSet.createValue(\"${value.replace("\"", "\\\"")}\");"
+            res += "${prefix}                resultRow[resultSet.createVariable(\"$name\")]=resultSet.createValue(\"${value.replace("\"", "\\\"")}\")\n"
     }
-    res += "resultRow}(),"
-    res += "resultSet,"
+    res += "${prefix}                resultRow\n"
+    res += "${prefix}            }(),\n"
+    res += "${prefix}        resultSet,\n"
     if (expected is AOPBase)
-        res += expected.toTestCaseInput()
+        res += "${prefix}            " + expected.toTestCaseInput() + "\n"
     else
-        res += "Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")"
-    res += ")}()"
+        res += "${prefix}            Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
+    res += "${prefix}        )\n"
+    res += "${prefix}    }()"
     listOfMicroTests.add(res)
     return expected
 }
@@ -61,34 +63,39 @@ val listOfMicroTests = ThreadSafeMutableSet<String>()
 fun printAllMicroTest(testName: String, success: Boolean) {
     if (listOfMicroTests.size() > 0) {
         val name = testName.replace("/", "_").replace(".", "_").replace("-", "_")
-        println("${prefix}@TestFactory")
-        println("${prefix}fun test${name}()=listOf(")
+        println("${prefix}    @TestFactory")
+        println("${prefix}    fun test${name}() = listOf(")
         listOfMicroTests.forEach {
             if (success) {
                 if (it.contains("AOPAggregation") || it.contains("AOPBuildInCallBNODE1") || it.contains("AOPBuildInCallBNODE0"))
-                    println("${prefix}      /*" + it + "*/")
+                    println("${prefix}            /*" + it + "*/")
                 else
-                    println("${prefix}        " + it + ",")
+                    println("${prefix}            "+it + ",")
             } else
-                println("${prefix}      /*" + it + "*/")
+                println("${prefix}            /*" + it + "*/")
         }
         listOfMicroTests.clear()
-        println("${prefix}        {val resultSet = ResultSet(ResultSetDictionary());val resultRow = resultSet.createResultRow();MicroTest(AOPUndef(),resultRow,resultSet,AOPUndef())}()")
-        println("${prefix}    ).mapIndexed{index,data->")
+        println("${prefix}            {")
+        println("${prefix}                val resultSet = ResultSet(ResultSetDictionary())")
+        println("${prefix}                val resultRow = resultSet.createResultRow()")
+        println("${prefix}                MicroTest(AOPUndef(), resultRow, resultSet, AOPUndef())")
+	println("${prefix}            }()")
+        println("${prefix}    ).mapIndexed { index, data ->")
         println("${prefix}        DynamicTest.dynamicTest(\"test->${testName}<-\$index\") {")
-        println("${prefix}            try{")
+        println("${prefix}            try {")
         println("${prefix}                val output = data.input.calculate(data.resultSet, data.resultRow)")
         println("${prefix}                assertTrue(data.expected is AOPConstant)")
-        println("${prefix}                if(!data.expected.equals(output)){")
+        println("${prefix}                if (!data.expected.equals(output)) {")
         println("${prefix}                    println(data.resultRow)")
         println("${prefix}                    println(output.valueToString())")
         println("${prefix}                    println((data.expected as AOPConstant).valueToString())")
         println("${prefix}                }")
         println("${prefix}                assertTrue(data.expected.equals(output))")
-        println("${prefix}            }catch(e:Throwable){ ")
+        println("${prefix}            } catch (e: Throwable) {")
         println("${prefix}                assertTrue(data.expected is Throwable)")
         println("${prefix}            }")
         println("${prefix}        }")
         println("${prefix}    }")
+        println("${prefix}")
     }
 }
