@@ -10,7 +10,12 @@ import lupos.s04logicalOperators.OPBase
 class AOPLanguageTaggedLiteral(override var delimiter: String, override var content: String, var language: String) : AOPConstantString() {
     override val children: Array<OPBase> = arrayOf()
 
-    override fun toTestCaseInput() = "AOPLanguageTaggedLiteral($delimiter,$content,$language)"
+
+override fun toTestCaseInput() :String{
+if(delimiter=="\"")
+return "AOPLanguageTaggedLiteral(\"\\\"\",\"${content.replace("\"","\\\"")}\",\"${language.replace("\"","\\\"")}\")"
+return "AOPLanguageTaggedLiteral(\"$delimiter\",\"${content.replace("\"","\\\"")}\",\"${language.replace("\"","\\\"")}\")"
+}
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPLanguageTaggedLiteral")
