@@ -13,7 +13,7 @@ abstract class AOPBase : OPBase() {
         if (children.size > 0)
             res += (children[0] as AOPBase).toTestCaseInput()
         for (i in 1 until children.size)
-            res += "," + (children[i] as AOPBase).toTestCaseInput()
+            res += ", " + (children[i] as AOPBase).toTestCaseInput()
         return res + ")"
     }
 

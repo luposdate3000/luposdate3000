@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "package lupos" > src/commonTest/kotlin/lupos/GeneratedTest.kt
+echo "" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
 echo "import lupos.s02buildSyntaxTree.sparql1_1.*" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
 echo "import lupos.s03resultRepresentation.*" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
 echo "import lupos.s04arithmetikOperators.*" >> src/commonTest/kotlin/lupos/GeneratedTest.kt

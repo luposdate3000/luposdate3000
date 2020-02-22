@@ -35,24 +35,24 @@ fun <T> addMicroTest(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet,
     }
     res += "${prefix}                val resultRow = resultSet.createResultRow()\n"
     res += "${prefix}                MicroTest(\n"
-    res += "${prefix}                            " + input.toTestCaseInput() + ",\n"
-    res += "${prefix}                            {\n"
+    res += "${prefix}                        " + input.toTestCaseInput() + ",\n"
+    res += "${prefix}                        {\n"
     for (v in resultSet.getVariableNames()) {
         val name = variableNames[v]!!
         val value = AOPVariable("$name").calculate(resultSet, resultRow).valueToString()
         if (value == null)
-            res += "${prefix}                                resultSet.setUndefValue(resultRow,resultSet.createVariable(\"$name\"))\n"
+            res += "${prefix}                            resultSet.setUndefValue(resultRow, resultSet.createVariable(\"$name\"))\n"
         else
-            res += "${prefix}                                resultRow[resultSet.createVariable(\"$name\")]=resultSet.createValue(\"${value.replace("\"", "\\\"")}\")\n"
+            res += "${prefix}                            resultRow[resultSet.createVariable(\"$name\")] = resultSet.createValue(\"${value.replace("\"", "\\\"")}\")\n"
     }
-    res += "${prefix}                                resultRow\n"
-    res += "${prefix}                            }(),\n"
-    res += "${prefix}                            resultSet,\n"
+    res += "${prefix}                            resultRow\n"
+    res += "${prefix}                        }(),\n"
+    res += "${prefix}                        resultSet,\n"
     if (expected is AOPBase)
-        res += "${prefix}                            " + expected.toTestCaseInput() + "\n"
+        res += "${prefix}                        " + expected.toTestCaseInput() + "\n"
     else
-        res += "${prefix}                            Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
-    res += "${prefix}                        )\n"
+        res += "${prefix}                        Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
+    res += "${prefix}                )\n"
     res += "${prefix}            }()"
     listOfMicroTests.add(res)
     return expected
