@@ -1,6 +1,6 @@
 package lupos.s04arithmetikOperators.singleinput
 
-import lupos.s00misc.XMLElement
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*
@@ -30,8 +30,8 @@ class AOPBuildInCallSTRDT(child: AOPBase, childB: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
-        if (a is AOPSimpleLiteral && b is AOPSimpleLiteral)
-            return addMicroTest(this, resultRow, resultSet, AOPTypedLiteral(a.delimiter, a.content, b.content))
-        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall STRDT only works with simple string input"))
+        if (a is AOPSimpleLiteral && b is AOPIri)
+            return addMicroTest(this, resultRow, resultSet, AOPTypedLiteral(a.delimiter, a.content, b.iri))
+	throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype"))
     }
 }
