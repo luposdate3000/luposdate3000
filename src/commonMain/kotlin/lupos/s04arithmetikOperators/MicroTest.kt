@@ -1,17 +1,27 @@
 package lupos.s04arithmetikOperators
-
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIRI
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
+import lupos.s04arithmetikOperators.noinput.AOPAggregation
+import lupos.s04arithmetikOperators.noinput.AOPBnode
+import lupos.s04arithmetikOperators.noinput.AOPBoolean
+import lupos.s04arithmetikOperators.noinput.AOPDateTime
+import lupos.s04arithmetikOperators.noinput.AOPDecimal
+import lupos.s04arithmetikOperators.noinput.AOPDouble
+import lupos.s04arithmetikOperators.noinput.AOPInteger
+import lupos.s04arithmetikOperators.noinput.AOPIri
+import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
+import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
+import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
+import lupos.s04arithmetikOperators.noinput.AOPUndef
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s00misc.classNameToString
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeMutableSet
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s04arithmetikOperators.multiinput.*
-import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
-import lupos.s09physicalOperators.*
 
 
 val prefix = "--MicroTest--"
@@ -45,6 +55,14 @@ fun childContainsAggregation(input: OPBase): Boolean {
         return true
     for (c in input.children)
         if (childContainsAggregation(c))
+            return true
+    return false
+}
+fun childContainsVariable(input: OPBase): Boolean {
+    if (input is AOPVariable)
+        return true
+    for (c in input.children)
+        if (childContainsVariable(c))
             return true
     return false
 }
@@ -105,14 +123,7 @@ fun <T> resultFlow(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, a
         }
     } else if (childContainsAggregation(input)) {
         return expected
-    } else {
-        var hasVariable = false
-        for (c in input.children)
-            if (c is AOPVariable) {
-                hasVariable = true
-                break
-            }
-        if (hasVariable) {
+    } else         if (childContainsVariable(input)) {
             res += "${prefix}                val resultSet = ResultSet(ResultSetDictionary())\n"
             for (v in resultSet.getVariableNames()) {
                 val name = helperVariableName(v, variableNames)
@@ -137,7 +148,6 @@ fun <T> resultFlow(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, a
             res += "${prefix}                )\n"
 
         }
-    }
     res += "${prefix}            }()"
     var found = false
     listOfMicroTests.forEach {
@@ -242,19 +252,10 @@ fun testCaseFromAOPBase(input: AOPBase, resultRow: ResultRow, resultSet: ResultS
         else -> {
             var res = ""
             res += "${classNameToString(input)}("
-            if (input.children.size > 0) {
-                if (input.children[0] is AOPVariable)
+            if (input.children.size > 0)
                     res += testCaseFromAOPBase((input.children[0] as AOPBase), resultRow, resultSet)
-                else
-                    res += testCaseFromAOPBase((input.children[0] as AOPBase).calculate(resultSet, resultRow), resultRow, resultSet)
-            }
-            for (i in 1 until input.children.size) {
-                if (input.children[i] is AOPVariable)
+            for (i in 1 until input.children.size)
                     res += ", " + testCaseFromAOPBase((input.children[i] as AOPBase), resultRow, resultSet)
-                else
-                    res += ", " + testCaseFromAOPBase((input.children[i] as AOPBase).calculate(resultSet, resultRow), resultRow, resultSet)
-            }
-
             res += ")"
             return res
         }
