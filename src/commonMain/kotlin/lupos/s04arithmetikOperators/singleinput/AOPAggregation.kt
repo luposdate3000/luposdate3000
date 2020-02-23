@@ -49,15 +49,23 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         if (type == Aggregation.COUNT)
-            return addMicroTest(this, resultRow, resultSet, AOPInteger(count))
+            return addMicroTest(this, resultRow, resultSet) {
+                AOPInteger(count)
+            }
         if (!collectMode) {
             if (a == null)
-                return addMicroTest(this, resultRow, resultSet, AOPUndef())
+                return addMicroTest(this, resultRow, resultSet) {
+                    AOPUndef()
+                }
             else
-                return addMicroTest(this, resultRow, resultSet, a!!)
+                return addMicroTest(this, resultRow, resultSet) {
+                    a!!
+                }
         }
         if (distinct)
-            throw addMicroTest(this, resultRow, resultSet, Exception("AOPAggregation does not support distinct"))
+            throw addMicroTest(this, resultRow, resultSet) {
+                Exception("AOPAggregation does not support distinct")
+            }
         when (type) {
             Aggregation.SAMPLE -> {
                 val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
@@ -78,7 +86,9 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
                 else if (a is AOPInteger || b is AOPInteger)
                     a = AOPDecimal(a!!.toDouble() + (b.toDouble() / (0.0 + count)))
                 else
-                    throw addMicroTest(this, resultRow, resultSet, Exception("AOPAggregation avg only defined on numberic input"))
+                    throw addMicroTest(this, resultRow, resultSet) {
+                        Exception("AOPAggregation avg only defined on numberic input")
+                    }
             }
             Aggregation.MIN -> {
                 val b = (children[0] as AOPBase).calculate(resultSet, resultRow)
@@ -92,7 +102,9 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
                 else if (a is AOPInteger || b is AOPInteger)
                     flag = a!!.toInt() > b.toInt()
                 else
-                    throw addMicroTest(this, resultRow, resultSet, Exception("AOPAggregation avg only defined on numeric input"))
+                    throw addMicroTest(this, resultRow, resultSet) {
+                        Exception("AOPAggregation avg only defined on numeric input")
+                    }
                 if (flag)
                     a = b
             }
@@ -108,7 +120,9 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
                 else if (a is AOPInteger || b is AOPInteger)
                     flag = a!!.toInt() < b.toInt()
                 else
-                    throw addMicroTest(this, resultRow, resultSet, Exception("AOPAggregation avg only defined on numeric input"))
+                    throw addMicroTest(this, resultRow, resultSet) {
+                        Exception("AOPAggregation avg only defined on numeric input")
+                    }
                 if (flag)
                     a = b
             }
@@ -123,10 +137,16 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
                 else if (a is AOPInteger || b is AOPInteger)
                     a = AOPInteger(a!!.toInt() + b.toInt())
                 else
-                    throw addMicroTest(this, resultRow, resultSet, Exception("AOPAggregation avg only defined on numeric input"))
+                    throw addMicroTest(this, resultRow, resultSet) {
+                        Exception("AOPAggregation avg only defined on numeric input")
+                    }
             }
-            else -> throw addMicroTest(this, resultRow, resultSet, Exception("AOPAggregation ${type} not implemented"))
+            else -> throw addMicroTest(this, resultRow, resultSet) {
+                Exception("AOPAggregation ${type} not implemented")
+            }
         }
-        return addMicroTest(this, resultRow, resultSet, a!!)
+        return addMicroTest(this, resultRow, resultSet) {
+            a!!
+        }
     }
 }

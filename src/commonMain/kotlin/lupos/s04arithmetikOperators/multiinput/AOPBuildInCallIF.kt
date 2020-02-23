@@ -30,10 +30,16 @@ class AOPBuildInCallIF(child: AOPBase, childA: AOPBase, childB: AOPBase) : AOPBa
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPBoolean) {
             if (a.value)
-                return addMicroTest(this, resultRow, resultSet, (children[1] as AOPBase).calculate(resultSet, resultRow))
+                return addMicroTest(this, resultRow, resultSet) {
+                    (children[1] as AOPBase).calculate(resultSet, resultRow)
+                }
             else
-                return addMicroTest(this, resultRow, resultSet, (children[2] as AOPBase).calculate(resultSet, resultRow))
+                return addMicroTest(this, resultRow, resultSet) {
+                    (children[2] as AOPBase).calculate(resultSet, resultRow)
+                }
         }
-        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall IF only works with boolean condition"))
+        throw addMicroTest(this, resultRow, resultSet) {
+            Exception("AOPBuiltInCall IF only works with boolean condition")
+        }
     }
 }

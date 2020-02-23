@@ -44,8 +44,12 @@ class AOPBuildInCallSHA1(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPConstantString)
-            return addMicroTest(this, resultRow, resultSet, AOPSimpleLiteral(a.delimiter, a.content.encodeToByteArray().sha1().toHexString2()))
-        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall SHA1 only works with string input"))
+            return addMicroTest(this, resultRow, resultSet) {
+                AOPSimpleLiteral(a.delimiter, a.content.encodeToByteArray().sha1().toHexString2())
+            }
+        throw addMicroTest(this, resultRow, resultSet) {
+            Exception("AOPBuiltInCall SHA1 only works with string input")
+        }
     }
 }
 

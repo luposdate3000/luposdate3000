@@ -26,11 +26,19 @@ class AOPBuildInCallUCASE(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPLanguageTaggedLiteral)
-            return addMicroTest(this, resultRow, resultSet, AOPLanguageTaggedLiteral(a.delimiter, a.content.toUpperCase(), a.language))
+            return addMicroTest(this, resultRow, resultSet) {
+                AOPLanguageTaggedLiteral(a.delimiter, a.content.toUpperCase(), a.language)
+            }
         if (a is AOPTypedLiteral)
-            return addMicroTest(this, resultRow, resultSet, AOPTypedLiteral(a.delimiter, a.content.toUpperCase(), a.type_iri))
+            return addMicroTest(this, resultRow, resultSet) {
+                AOPTypedLiteral(a.delimiter, a.content.toUpperCase(), a.type_iri)
+            }
         if (a is AOPSimpleLiteral)
-            return addMicroTest(this, resultRow, resultSet, AOPSimpleLiteral(a.delimiter, a.content.toUpperCase()))
-        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall UCASE only works with string input"))
+            return addMicroTest(this, resultRow, resultSet) {
+                AOPSimpleLiteral(a.delimiter, a.content.toUpperCase())
+            }
+        throw addMicroTest(this, resultRow, resultSet) {
+            Exception("AOPBuiltInCall UCASE only works with string input")
+        }
     }
 }

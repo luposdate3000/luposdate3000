@@ -43,11 +43,19 @@ class AOPBuildInCallROUND(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDouble)
-            return addMicroTest(this, resultRow, resultSet, AOPDouble(a.toDouble().roundToInt().toDouble()))
+            return addMicroTest(this, resultRow, resultSet) {
+                AOPDouble(a.toDouble().roundToInt().toDouble())
+            }
         if (a is AOPDecimal)
-            return addMicroTest(this, resultRow, resultSet, AOPDecimal(a.toDouble().roundToInt().toDouble()))
+            return addMicroTest(this, resultRow, resultSet) {
+                AOPDecimal(a.toDouble().roundToInt().toDouble())
+            }
         if (a is AOPInteger)
-            return addMicroTest(this, resultRow, resultSet, a)
-        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall ROUND only works with numeric input"))
+            return addMicroTest(this, resultRow, resultSet) {
+                a
+            }
+        throw addMicroTest(this, resultRow, resultSet) {
+            Exception("AOPBuiltInCall ROUND only works with numeric input")
+        }
     }
 }

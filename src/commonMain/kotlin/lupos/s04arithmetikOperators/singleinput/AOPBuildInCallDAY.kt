@@ -26,7 +26,11 @@ class AOPBuildInCallDAY(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDateTime)
-            return addMicroTest(this, resultRow, resultSet, AOPInteger(a.day))
-        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall DAY only works with dateTime input"))
+            return addMicroTest(this, resultRow, resultSet) {
+                AOPInteger(a.day)
+            }
+        throw addMicroTest(this, resultRow, resultSet) {
+            Exception("AOPBuiltInCall DAY only works with dateTime input")
+        }
     }
 }

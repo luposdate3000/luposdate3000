@@ -45,6 +45,8 @@ class AOPBuildInCallBNODE0() : AOPBase() {
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
-        return addMicroTest(this, resultRow, resultSet, AOPBnode("" + uuid + localbnode.next()))
+        return addMicroTest(this, resultRow, resultSet) {
+            AOPBnode("" + uuid + localbnode.next())
+        }
     }
 }

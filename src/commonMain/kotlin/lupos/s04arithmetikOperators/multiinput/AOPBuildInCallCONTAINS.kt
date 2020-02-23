@@ -33,10 +33,16 @@ class AOPBuildInCallCONTAINS(child: AOPBase, childB: AOPBase) : AOPBase() {
         if (a is AOPConstantString) {
             val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
             if (b is AOPSimpleLiteral)
-                return addMicroTest(this, resultRow, resultSet, AOPBoolean(a.content.contains(b.content)))
+                return addMicroTest(this, resultRow, resultSet) {
+                    AOPBoolean(a.content.contains(b.content))
+                }
             else
-                throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall CONTAINS only works with simple compare string input"))
+                throw addMicroTest(this, resultRow, resultSet) {
+                    Exception("AOPBuiltInCall CONTAINS only works with simple compare string input")
+                }
         }
-        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall CONTAINS only works with string input"))
+        throw addMicroTest(this, resultRow, resultSet) {
+            Exception("AOPBuiltInCall CONTAINS only works with string input")
+        }
     }
 }

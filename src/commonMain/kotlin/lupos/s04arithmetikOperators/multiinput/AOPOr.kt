@@ -31,7 +31,11 @@ class AOPOr(childA: AOPBase, childB: AOPBase) : AOPBase() {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPBoolean && b is AOPBoolean)
-            return addMicroTest(this, resultRow, resultSet, AOPBoolean(a.value || b.value))
-        throw addMicroTest(this, resultRow, resultSet, Exception("AOPOr only works with boolean input"))
+            return addMicroTest(this, resultRow, resultSet) {
+                AOPBoolean(a.value || b.value)
+            }
+        throw addMicroTest(this, resultRow, resultSet) {
+            Exception("AOPOr only works with boolean input")
+        }
     }
 }

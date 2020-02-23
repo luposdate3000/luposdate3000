@@ -26,13 +26,27 @@ class AOPBuildInCallDATATYPE(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         when (a) {
-            is AOPTypedLiteral -> return addMicroTest(this, resultRow, resultSet, AOPIri(a.type_iri))
-            is AOPBoolean -> return addMicroTest(this, resultRow, resultSet, AOPIri("http://www.w3.org/2001/XMLSchema#boolean"))
-            is AOPDateTime -> return addMicroTest(this, resultRow, resultSet, AOPIri("http://www.w3.org/2001/XMLSchema#dateTime"))
-            is AOPDecimal -> return addMicroTest(this, resultRow, resultSet, AOPIri("http://www.w3.org/2001/XMLSchema#decimal"))
-            is AOPDouble -> return addMicroTest(this, resultRow, resultSet, AOPIri("http://www.w3.org/2001/XMLSchema#double"))
-            is AOPInteger -> return addMicroTest(this, resultRow, resultSet, AOPIri("http://www.w3.org/2001/XMLSchema#integer"))
+            is AOPTypedLiteral -> return addMicroTest(this, resultRow, resultSet) {
+                AOPIri(a.type_iri)
+            }
+            is AOPBoolean -> return addMicroTest(this, resultRow, resultSet) {
+                AOPIri("http://www.w3.org/2001/XMLSchema#boolean")
+            }
+            is AOPDateTime -> return addMicroTest(this, resultRow, resultSet) {
+                AOPIri("http://www.w3.org/2001/XMLSchema#dateTime")
+            }
+            is AOPDecimal -> return addMicroTest(this, resultRow, resultSet) {
+                AOPIri("http://www.w3.org/2001/XMLSchema#decimal")
+            }
+            is AOPDouble -> return addMicroTest(this, resultRow, resultSet) {
+                AOPIri("http://www.w3.org/2001/XMLSchema#double")
+            }
+            is AOPInteger -> return addMicroTest(this, resultRow, resultSet) {
+                AOPIri("http://www.w3.org/2001/XMLSchema#integer")
+            }
         }
-        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall DATATYPE only works with typed string input"))
+        throw addMicroTest(this, resultRow, resultSet) {
+            Exception("AOPBuiltInCall DATATYPE only works with typed string input")
+        }
     }
 }

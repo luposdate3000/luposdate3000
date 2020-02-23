@@ -55,15 +55,23 @@ class AOPVariable(var name: String) : AOPBase() {
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         if (!resultSet.getVariableNames().contains(name))
-            return addMicroTest(this, resultRow, resultSet, AOPUndef())
+            return addMicroTest(this, resultRow, resultSet) {
+                AOPUndef()
+            }
         val variable = resultSet.createVariable(name)
         if (resultSet.isUndefValue(resultRow, variable))
-            return addMicroTest(this, resultRow, resultSet, AOPUndef())
+            return addMicroTest(this, resultRow, resultSet) {
+                AOPUndef()
+            }
         val tmp = resultSet.getValue(resultRow[variable])!!
         try {
-            return addMicroTest(this, resultRow, resultSet, calculate(tmp))
+            return addMicroTest(this, resultRow, resultSet) {
+                calculate(tmp)
+            }
         } catch (e: Throwable) {
-            throw addMicroTest(this, resultRow, resultSet, e)
+            throw addMicroTest(this, resultRow, resultSet) {
+                e
+            }
         }
     }
 }

@@ -36,15 +36,27 @@ class AOPBuildInCallCONCAT(child: AOPBase, childB: AOPBase) : AOPBase() {
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPConstantString && b is AOPConstantString) {
             if (a is AOPLanguageTaggedLiteral && b is AOPLanguageTaggedLiteral && a.language == b.language)
-                return addMicroTest(this, resultRow, resultSet, AOPLanguageTaggedLiteral(a.delimiter, a.content + b.content, a.language))
+                return addMicroTest(this, resultRow, resultSet) {
+                    AOPLanguageTaggedLiteral(a.delimiter, a.content + b.content, a.language)
+                }
             if (a is AOPSimpleLiteral && b is AOPLanguageTaggedLiteral)
-                return addMicroTest(this, resultRow, resultSet, AOPLanguageTaggedLiteral(a.delimiter, a.content + b.content, b.language))
+                return addMicroTest(this, resultRow, resultSet) {
+                    AOPLanguageTaggedLiteral(a.delimiter, a.content + b.content, b.language)
+                }
             if (a is AOPLanguageTaggedLiteral && b is AOPSimpleLiteral)
-                return addMicroTest(this, resultRow, resultSet, AOPLanguageTaggedLiteral(a.delimiter, a.content + b.content, a.language))
+                return addMicroTest(this, resultRow, resultSet) {
+                    AOPLanguageTaggedLiteral(a.delimiter, a.content + b.content, a.language)
+                }
             if (a is AOPTypedLiteral && b is AOPTypedLiteral && a.type_iri == "http://www.w3.org/2001/XMLSchema#string" && a.type_iri == b.type_iri)
-                return addMicroTest(this, resultRow, resultSet, AOPTypedLiteral(a.delimiter, a.content + b.content, a.type_iri))
-            return addMicroTest(this, resultRow, resultSet, AOPSimpleLiteral(a.delimiter, a.content + b.content))
+                return addMicroTest(this, resultRow, resultSet) {
+                    AOPTypedLiteral(a.delimiter, a.content + b.content, a.type_iri)
+                }
+            return addMicroTest(this, resultRow, resultSet) {
+                AOPSimpleLiteral(a.delimiter, a.content + b.content)
+            }
         }
-        throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall CONCAT only works with compatible string input"))
+        throw addMicroTest(this, resultRow, resultSet) {
+            Exception("AOPBuiltInCall CONCAT only works with compatible string input")
+        }
     }
 }
