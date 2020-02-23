@@ -14,6 +14,7 @@ import lupos.s08logicalOptimisation.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
+
 class AOPVariableTest {
     @TestFactory
     fun testresources_sparql11_test_suite_aggregates_agg01_rq() = listOf(
@@ -71,17 +72,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -183,17 +184,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg02.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -445,17 +446,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg03.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -523,17 +524,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg04.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -635,17 +636,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg05.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -802,17 +803,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg06.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -1064,17 +1065,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg07.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -1642,17 +1643,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg08b.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -1720,17 +1721,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg-sum-01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -2109,17 +2110,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg-sum-02.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -2187,17 +2188,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg-avg-01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -3301,17 +3302,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg-avg-02.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -3379,17 +3380,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg-min-01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -3768,17 +3769,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg-min-02.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -3902,17 +3903,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg-max-01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -4291,17 +4292,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg-max-02.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -4423,17 +4424,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg-sample-01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -5572,17 +5573,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/aggregates/agg-err-01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -5674,17 +5675,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/bind/bind01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -5856,17 +5857,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/bind/bind02.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -5958,17 +5959,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/bind/bind03.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -6140,17 +6141,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/bind/bind05.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -6242,17 +6243,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/bind/bind06.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -6424,17 +6425,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/bind/bind08.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -6534,17 +6535,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/bind/bind10.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -6644,17 +6645,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/bind/bind11.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -6746,17 +6747,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/entailment/bind01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -6928,17 +6929,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/entailment/bind02.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -7030,17 +7031,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/entailment/bind03.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -7228,17 +7229,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/entailment/bind05.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -7330,17 +7331,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/entailment/bind06.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -7528,17 +7529,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/entailment/bind08.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -7714,17 +7715,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/strdt01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -7906,17 +7907,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/strdt02.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -8224,17 +8225,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/strdt03.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -8410,17 +8411,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/strlang01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -8602,17 +8603,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/strlang02.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -8920,17 +8921,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/strlang03.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -9238,17 +9239,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/isnumeric01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -9388,17 +9389,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/abs01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -9508,17 +9509,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/ceil01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -9592,17 +9593,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/floor01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -9712,17 +9713,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/round01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -9766,17 +9767,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/concat01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -10972,17 +10973,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/concat02.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -11128,17 +11129,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/length01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -11284,17 +11285,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/ucase01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -11440,17 +11441,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/lcase01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -11596,17 +11597,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/contains01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -11956,17 +11957,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/starts01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -12274,17 +12275,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/ends01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -12436,17 +12437,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/plus-1.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -12736,17 +12737,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/plus-2.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -12784,17 +12785,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/md5-01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -12832,17 +12833,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/md5-02.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -12880,17 +12881,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/sha1-01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -12928,17 +12929,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/sha1-02.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -12976,17 +12977,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/sha256-01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -13024,17 +13025,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/sha256-02.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -13126,17 +13127,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/minutes-01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -13228,17 +13229,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/seconds-01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -13330,17 +13331,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/hours-01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -13432,17 +13433,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/month-01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -13534,17 +13535,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/year-01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -13636,17 +13637,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/day-01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -13738,17 +13739,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/timezone-01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -13840,17 +13841,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/tz-01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -17112,17 +17113,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/bnode01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -17166,17 +17167,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/bnode02.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -17222,17 +17223,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/now01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -17264,17 +17265,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/iri01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -17456,17 +17457,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/if01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -17498,17 +17499,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/functions/if02.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -17585,17 +17586,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/grouping/group03.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -17659,17 +17660,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/project-expression/projexp01.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -17711,17 +17712,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/project-expression/projexp02.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -17787,17 +17788,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/project-expression/projexp03.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -17853,17 +17854,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/project-expression/projexp04.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -17919,17 +17920,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/project-expression/projexp05.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -17969,17 +17970,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/project-expression/projexp06.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -18043,17 +18044,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/project-expression/projexp07.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
@@ -18117,17 +18118,17 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->resources/sparql11-test-suite/subquery/sq12.rq<-$index") {
             try {
-                val output:AOPConstant
+                val output: AOPConstant
                 if (data is MicroTest1) {
                     output = data.input.calculate(data.resultSet, data.resultRow)
-                } else{
+                } else {
                     val resultSet = ResultSet(ResultSetDictionary())
                     val resultRow = resultSet.createResultRow()
                     output = data.input.calculate(resultSet, resultRow)
                 }
                 assertTrue(data.expected is AOPConstant)
                 if (!data.expected.equals(output)) {
-                    if(data is MicroTest1)
+                    if (data is MicroTest1)
                         println(data.resultRow)
                     println(output.valueToString())
                     println((data.expected as AOPConstant).valueToString())
