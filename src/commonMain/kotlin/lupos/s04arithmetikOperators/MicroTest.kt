@@ -1,18 +1,41 @@
 package lupos.s04arithmetikOperators
 import lupos.s00misc.ThreadSafeMutableList
-
+import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeMutableSet
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
+import lupos.s09physicalOperators.*
 
 
 val prefix = "--MicroTest--"
 val listOfMicroTests = ThreadSafeMutableList<String>()
 
 data class MicroTest(val input: AOPBase, val resultRow: ResultRow, val resultSet: ResultSet, val expected: Any) {
+}
+
+val mapOfResultRows=ThreadSafeMutableMap<Long,List<String>>()
+fun <T> resultFlow(input: POPBase, action: () -> T): T {
+return action()
+}
+
+fun resultRowToString(resultRow: ResultRow, resultSet: ResultSet,prefix:String,variableNames:Map<String, String>):String{
+    var res=""
+    res += "${prefix}{\n"
+    res += "${prefix}    val resultRow = resultSet.createResultRow()\n"
+    for (v in resultSet.getVariableNames()) {
+        val name = variableNames[v]!!
+        val value = AOPVariable("$name").calculate(resultSet, resultRow).valueToString()
+        if (value == null)
+            res += "${prefix}    resultSet.setUndefValue(resultRow, resultSet.createVariable(\"$name\"))\n"
+        else
+            res += "${prefix}    resultRow[resultSet.createVariable(\"$name\")] = resultSet.createValue(\"${value.replace("\"", "\\\"")}\")\n"
+    }
+    res += "${prefix}    resultRow\n"
+    res += "${prefix}}(),\n"
+    return res
 }
 
 fun <T> resultFlow(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, action: () -> T): T {
@@ -36,20 +59,9 @@ fun <T> resultFlow(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, a
         }
         res += "${prefix}                resultSet.createVariable(\"$name\")\n"
     }
-    res += "${prefix}                val resultRow = resultSet.createResultRow()\n"
     res += "${prefix}                MicroTest(\n"
     res += "${prefix}                        " + input.toTestCaseInput() + ",\n"
-    res += "${prefix}                        {\n"
-    for (v in resultSet.getVariableNames()) {
-        val name = variableNames[v]!!
-        val value = AOPVariable("$name").calculate(resultSet, resultRow).valueToString()
-        if (value == null)
-            res += "${prefix}                            resultSet.setUndefValue(resultRow, resultSet.createVariable(\"$name\"))\n"
-        else
-            res += "${prefix}                            resultRow[resultSet.createVariable(\"$name\")] = resultSet.createValue(\"${value.replace("\"", "\\\"")}\")\n"
-    }
-    res += "${prefix}                            resultRow\n"
-    res += "${prefix}                        }(),\n"
+    res += resultRowToString(resultRow,resultSet,"${prefix}                        ",variableNames)
     res += "${prefix}                        resultSet,\n"
     if (expected is AOPBase)
         res += "${prefix}                        " + expected.toTestCaseInput() + "\n"

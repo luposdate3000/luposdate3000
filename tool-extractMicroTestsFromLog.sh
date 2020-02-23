@@ -16,5 +16,5 @@ echo "import org.junit.jupiter.api.*" >> src/commonTest/kotlin/lupos/GeneratedTe
 echo "import org.junit.jupiter.api.Assertions.*" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
 echo "" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
 echo "class AOPVariableTest {" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
-cat log/x | grep MicroTest | sed "s/^--MicroTest--//g" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
+cat log/x | grep "^--MicroTest--" | sed "s/^--MicroTest--//g" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
 echo "}" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
