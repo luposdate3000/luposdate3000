@@ -708,50 +708,6 @@ class AOPVariableTest {
                         {
                             val resultRow = resultSet.createResultRow()
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPInteger(1)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("O1")
-                resultSet.createVariable("#2")
-                resultSet.createVariable("O2")
-                resultSet.createVariable("S")
-                MicroTest1(
-                        AOPAddition(AOPVariable("O2"), AOPVariable("O1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPInteger(2)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("O1")
-                resultSet.createVariable("#2")
-                resultSet.createVariable("O2")
-                resultSet.createVariable("S")
-                MicroTest1(
-                        AOPAddition(AOPVariable("O2"), AOPVariable("O1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
@@ -774,6 +730,50 @@ class AOPVariableTest {
                         {
                             val resultRow = resultSet.createResultRow()
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
+                            resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
+                            resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPInteger(2)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("#0")
+                resultSet.createVariable("O1")
+                resultSet.createVariable("#2")
+                resultSet.createVariable("O2")
+                resultSet.createVariable("S")
+                MicroTest1(
+                        AOPAddition(AOPVariable("O2"), AOPVariable("O1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
+                            resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
+                            resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPInteger(1)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("#0")
+                resultSet.createVariable("O1")
+                resultSet.createVariable("#2")
+                resultSet.createVariable("O2")
+                resultSet.createVariable("S")
+                MicroTest1(
+                        AOPAddition(AOPVariable("O2"), AOPVariable("O1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
@@ -796,9 +796,9 @@ class AOPVariableTest {
                         {
                             val resultRow = resultSet.createResultRow()
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                             resultRow
                         }(),
@@ -818,9 +818,9 @@ class AOPVariableTest {
                         {
                             val resultRow = resultSet.createResultRow()
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                             resultRow
                         }(),
@@ -840,9 +840,9 @@ class AOPVariableTest {
                         {
                             val resultRow = resultSet.createResultRow()
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                             resultRow
                         }(),
@@ -2299,7 +2299,7 @@ class AOPVariableTest {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("sample")
                 MicroTest1(
-                        AOPEQ(AOPVariable("sample"), AOPDecimal(3.5)),
+                        AOPEQ(AOPVariable("sample"), AOPDecimal(1.0)),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("sample")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
@@ -2327,7 +2327,7 @@ class AOPVariableTest {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("sample")
                 MicroTest1(
-                        AOPEQ(AOPVariable("sample"), AOPDecimal(1.0)),
+                        AOPEQ(AOPVariable("sample"), AOPDecimal(3.5)),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("sample")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
@@ -2408,88 +2408,6 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("p")
                 MicroTestN(
-                        AOPAggregation(Aggregation.MAX,false,arrayOf(AOPVariable("p"))),
-                        listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }()
-                        ),
-                        resultSet,
-                        AOPInteger(4)
-                )
-            }()*/
-            /*{
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("g")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("p")
-                MicroTestN(
-                        AOPAggregation(Aggregation.MIN,false,arrayOf(AOPVariable("p"))),
-                        listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }()
-                        ),
-                        resultSet,
-                        AOPInteger(1)
-                )
-            }()*/
-            /*{
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("g")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("p")
-                MicroTestN(
                         AOPAggregation(Aggregation.AVG,false,arrayOf(AOPVariable("p"))),
                         listOf(
                             {
@@ -2523,6 +2441,109 @@ class AOPVariableTest {
                         ),
                         resultSet,
                         AOPDecimal(2.5)
+                )
+            }()*/
+            /*{
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("g")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("p")
+                MicroTestN(
+                        AOPAggregation(Aggregation.AVG,false,arrayOf(AOPVariable("p"))),
+                        listOf(
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#y>")
+                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#y>")
+                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#y>")
+                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
+                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
+                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"2.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
+                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
+                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                resultRow
+                            }()
+                        ),
+                        resultSet,
+                        AOPDecimal(2.5)
+                )
+            }()*/
+            /*{
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("g")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("p")
+                MicroTestN(
+                        AOPAggregation(Aggregation.MAX,false,arrayOf(AOPVariable("p"))),
+                        listOf(
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
+                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
+                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
+                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
+                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                resultRow
+                            }()
+                        ),
+                        resultSet,
+                        AOPInteger(4)
                 )
             }()*/
             /*{
@@ -2585,6 +2606,47 @@ class AOPVariableTest {
                         ),
                         resultSet,
                         AOPInteger(4)
+                )
+            }()*/
+            /*{
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("g")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("p")
+                MicroTestN(
+                        AOPAggregation(Aggregation.MIN,false,arrayOf(AOPVariable("p"))),
+                        listOf(
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
+                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
+                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
+                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
+                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                resultRow
+                            }()
+                        ),
+                        resultSet,
+                        AOPInteger(1)
                 )
             }()*/
             /*{
@@ -2647,68 +2709,6 @@ class AOPVariableTest {
                         ),
                         resultSet,
                         AOPDecimal(1.0)
-                )
-            }()*/
-            /*{
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("g")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("p")
-                MicroTestN(
-                        AOPAggregation(Aggregation.AVG,false,arrayOf(AOPVariable("p"))),
-                        listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#y>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#y>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#y>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"2.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }()
-                        ),
-                        resultSet,
-                        AOPDecimal(2.5)
                 )
             }()*/
             {
@@ -2877,26 +2877,6 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("z")
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
-                        AOPAddition(AOPInteger(100), AOPVariable("o")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPInteger(101)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
@@ -2911,26 +2891,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPInteger(12)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("z")
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
-                        AOPAddition(AOPInteger(100), AOPVariable("o")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPInteger(102)
                 )
             }(),
             {
@@ -2967,6 +2927,46 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPInteger(14)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("z")
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPAddition(AOPInteger(100), AOPVariable("o")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPInteger(101)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("z")
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPAddition(AOPInteger(100), AOPVariable("o")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPInteger(102)
                 )
             }(),
             {
@@ -3211,6 +3211,24 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPAddition(AOPInteger(1), AOPVariable("o")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPInteger(5)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("z")
                 resultSet.createVariable("s")
                 resultSet.createVariable("p")
@@ -3227,24 +3245,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
-                        AOPAddition(AOPInteger(1), AOPVariable("o")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPInteger(5)
                 )
             }(),
             {
@@ -3491,6 +3491,42 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPAddition(AOPInteger(1), AOPVariable("o")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPInteger(4)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPAddition(AOPInteger(1), AOPVariable("o")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPInteger(5)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("z")
                 resultSet.createVariable("s")
                 resultSet.createVariable("p")
@@ -3511,24 +3547,6 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
-                        AOPAddition(AOPInteger(1), AOPVariable("o")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPInteger(4)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("z")
                 resultSet.createVariable("s")
                 resultSet.createVariable("p")
@@ -3545,24 +3563,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
-                        AOPAddition(AOPInteger(1), AOPVariable("o")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPInteger(5)
                 )
             }(),
             {
@@ -4023,6 +4023,42 @@ class AOPVariableTest {
             }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPAddition(AOPInteger(10), AOPVariable("o")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPInteger(13)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPAddition(AOPInteger(10), AOPVariable("o")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPInteger(14)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("z")
                 resultSet.createVariable("s")
                 resultSet.createVariable("p")
@@ -4059,42 +4095,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPInteger(102)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
-                        AOPAddition(AOPInteger(10), AOPVariable("o")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPInteger(13)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
-                        AOPAddition(AOPInteger(10), AOPVariable("o")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/p>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPInteger(14)
                 )
             }(),
             {
@@ -4826,16 +4826,16 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
+                        AOPBuildInCallLANG(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en")
                             resultRow
                         }(),
                         resultSet,
-                        AOPBoolean(false)
+                        AOPSimpleLiteral("\"", "en")
                 )
             }(),
             {
@@ -4847,13 +4847,103 @@ class AOPVariableTest {
                         AOPBuildInCallLANG(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"BAZ\"")
                             resultRow
                         }(),
                         resultSet,
-                        AOPSimpleLiteral("\"", "en")
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANG(AOPVariable("str")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANG(AOPVariable("str")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANG(AOPVariable("str")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANG(AOPVariable("str")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
                 )
             }(),
             {
@@ -4880,24 +4970,6 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
                         AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -4908,24 +4980,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
                 )
             }(),
             {
@@ -4952,24 +5006,6 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
                         AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -4980,24 +5016,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
                 )
             }(),
             {
@@ -5024,7 +5042,7 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
+                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
@@ -5033,7 +5051,7 @@ class AOPVariableTest {
                             resultRow
                         }(),
                         resultSet,
-                        AOPSimpleLiteral("\"", "")
+                        AOPBoolean(false)
                 )
             }(),
             {
@@ -5052,24 +5070,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
                 )
             }(),
             {
@@ -5133,16 +5133,16 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
+                        AOPBuildInCallLANG(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en")
                             resultRow
                         }(),
                         resultSet,
-                        AOPBoolean(false)
+                        AOPSimpleLiteral("\"", "en")
                 )
             }(),
             {
@@ -5154,13 +5154,103 @@ class AOPVariableTest {
                         AOPBuildInCallLANG(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"BAZ\"")
                             resultRow
                         }(),
                         resultSet,
-                        AOPSimpleLiteral("\"", "en")
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANG(AOPVariable("str")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANG(AOPVariable("str")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANG(AOPVariable("str")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANG(AOPVariable("str")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
                 )
             }(),
             {
@@ -5187,24 +5277,6 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
                         AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -5215,24 +5287,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
                 )
             }(),
             {
@@ -5259,24 +5313,6 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
                         AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -5295,24 +5331,6 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
                         AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -5323,24 +5341,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
                 )
             }(),
             {
@@ -5783,16 +5783,16 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
+                        AOPBuildInCallLANG(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en")
                             resultRow
                         }(),
                         resultSet,
-                        AOPBoolean(false)
+                        AOPSimpleLiteral("\"", "en")
                 )
             }(),
             {
@@ -5804,13 +5804,103 @@ class AOPVariableTest {
                         AOPBuildInCallLANG(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"BAZ\"")
                             resultRow
                         }(),
                         resultSet,
-                        AOPSimpleLiteral("\"", "en")
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANG(AOPVariable("str")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANG(AOPVariable("str")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANG(AOPVariable("str")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANG(AOPVariable("str")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
                 )
             }(),
             {
@@ -5837,24 +5927,6 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
                         AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -5865,24 +5937,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
                 )
             }(),
             {
@@ -5909,24 +5963,6 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
                         AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -5945,7 +5981,7 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
+                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
@@ -5954,7 +5990,7 @@ class AOPVariableTest {
                             resultRow
                         }(),
                         resultSet,
-                        AOPSimpleLiteral("\"", "")
+                        AOPBoolean(false)
                 )
             }(),
             {
@@ -5966,9 +6002,9 @@ class AOPVariableTest {
                         AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
                         resultSet,
@@ -5991,42 +6027,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         Exception("AOPBuiltInCall STRLANG only works with simple string input")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
                 )
             }(),
             {
@@ -6090,16 +6090,16 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
+                        AOPBuildInCallLANG(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en")
                             resultRow
                         }(),
                         resultSet,
-                        AOPBoolean(false)
+                        AOPSimpleLiteral("\"", "en")
                 )
             }(),
             {
@@ -6111,13 +6111,103 @@ class AOPVariableTest {
                         AOPBuildInCallLANG(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"BAZ\"")
                             resultRow
                         }(),
                         resultSet,
-                        AOPSimpleLiteral("\"", "en")
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANG(AOPVariable("str")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANG(AOPVariable("str")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANG(AOPVariable("str")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANG(AOPVariable("str")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
                 )
             }(),
             {
@@ -6144,24 +6234,6 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
                         AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -6180,7 +6252,7 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
+                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
@@ -6189,7 +6261,61 @@ class AOPVariableTest {
                             resultRow
                         }(),
                         resultSet,
-                        AOPSimpleLiteral("\"", "")
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
                 )
             }(),
             {
@@ -6208,132 +6334,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPSimpleLiteral("\"", "bar")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("str")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
                 )
             }(),
             {
@@ -7065,24 +7065,6 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("num")
                 MicroTest1(
-                        AOPGEQ(AOPBuildInCallABS(AOPVariable("num")), AOPInteger(2)),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("num")
-                MicroTest1(
                         AOPBuildInCallABS(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -7093,24 +7075,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPDecimal(1.6)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("num")
-                MicroTest1(
-                        AOPGEQ(AOPBuildInCallABS(AOPVariable("num")), AOPInteger(2)),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
                 )
             }(),
             {
@@ -7137,24 +7101,6 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("num")
                 MicroTest1(
-                        AOPGEQ(AOPBuildInCallABS(AOPVariable("num")), AOPInteger(2)),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("num")
-                MicroTest1(
                         AOPBuildInCallABS(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -7173,24 +7119,6 @@ class AOPVariableTest {
                 resultSet.createVariable("#1")
                 resultSet.createVariable("num")
                 MicroTest1(
-                        AOPGEQ(AOPBuildInCallABS(AOPVariable("num")), AOPInteger(2)),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("num")
-                MicroTest1(
                         AOPBuildInCallABS(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -7201,6 +7129,78 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPDecimal(2.5)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("num")
+                MicroTest1(
+                        AOPGEQ(AOPBuildInCallABS(AOPVariable("num")), AOPInteger(2)),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("num")
+                MicroTest1(
+                        AOPGEQ(AOPBuildInCallABS(AOPVariable("num")), AOPInteger(2)),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("num")
+                MicroTest1(
+                        AOPGEQ(AOPBuildInCallABS(AOPVariable("num")), AOPInteger(2)),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("num")
+                MicroTest1(
+                        AOPGEQ(AOPBuildInCallABS(AOPVariable("num")), AOPInteger(2)),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
                 )
             }(),
             {
@@ -7700,150 +7700,6 @@ class AOPVariableTest {
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "日本語123")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "english123")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "français123")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "abc123")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "def123")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s1>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"123\"")
@@ -7854,150 +7710,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPSimpleLiteral("\"", "123日本語")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPLanguageTaggedLiteral("\"", "日本語日本語", "ja")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "english日本語")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "français日本語")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "abc日本語")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "def日本語")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
-                            resultRow
-                        }(),
-                        resultSet,
-                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
                 )
             }(),
             {
@@ -8036,150 +7748,6 @@ class AOPVariableTest {
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "日本語english")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPLanguageTaggedLiteral("\"", "englishenglish", "en")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "françaisenglish")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "abcenglish")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "defenglish")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s1>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"123\"")
@@ -8190,150 +7758,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPSimpleLiteral("\"", "123français")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "日本語français")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "englishfrançais")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPLanguageTaggedLiteral("\"", "françaisfrançais", "fr")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "abcfrançais")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "deffrançais")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
-                            resultRow
-                        }(),
-                        resultSet,
-                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
                 )
             }(),
             {
@@ -8372,16 +7796,16 @@ class AOPVariableTest {
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s1>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"123\"")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s6>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
                         resultSet,
-                        AOPSimpleLiteral("\"", "日本語abc")
+                        AOPSimpleLiteral("\"", "123def")
                 )
             }(),
             {
@@ -8396,108 +7820,12 @@ class AOPVariableTest {
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s1>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"123\"")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "englishabc")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "françaisabc")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPTypedLiteral("\"", "abcabc", "http://www.w3.org/2001/XMLSchema#string")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPTypedLiteral("\"", "defabc", "http://www.w3.org/2001/XMLSchema#string")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow
                         }(),
                         resultSet,
@@ -8516,16 +7844,112 @@ class AOPVariableTest {
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s1>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"123\"")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s6>")
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
                             resultRow
                         }(),
                         resultSet,
-                        AOPSimpleLiteral("\"", "123def")
+                        AOPSimpleLiteral("\"", "日本語123")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPLanguageTaggedLiteral("\"", "日本語日本語", "ja")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "日本語english")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "日本語français")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "日本語abc")
                 )
             }(),
             {
@@ -8564,6 +7988,150 @@ class AOPVariableTest {
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "english123")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "english日本語")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPLanguageTaggedLiteral("\"", "englishenglish", "en")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "englishfrançais")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "englishabc")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
@@ -8574,6 +8142,150 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPSimpleLiteral("\"", "englishdef")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "français123")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "français日本語")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "françaisenglish")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPLanguageTaggedLiteral("\"", "françaisfrançais", "fr")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "françaisabc")
                 )
             }(),
             {
@@ -8612,6 +8324,150 @@ class AOPVariableTest {
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "abc123")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "abc日本語")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "abcenglish")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "abcfrançais")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPTypedLiteral("\"", "abcabc", "http://www.w3.org/2001/XMLSchema#string")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
@@ -8622,6 +8478,150 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPTypedLiteral("\"", "abcdef", "http://www.w3.org/2001/XMLSchema#string")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "def123")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "def日本語")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "defenglish")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "deffrançais")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPTypedLiteral("\"", "defabc", "http://www.w3.org/2001/XMLSchema#string")
                 )
             }(),
             {
@@ -8660,156 +8660,156 @@ class AOPVariableTest {
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"123\"")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("str1")
-                resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("str2")
-                MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
+                            resultRow
+                        }(),
+                        resultSet,
+                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
+                            resultRow
+                        }(),
+                        resultSet,
+                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        Exception("AOPBuiltInCall CONCAT only works with compatible string input")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s1")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("str1")
+                resultSet.createVariable("s2")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("str2")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
                         resultSet,
@@ -9553,24 +9553,6 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d1>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("str")
-                MicroTest1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -9581,24 +9563,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPSimpleLiteral("\"", "2010-12-21T15:38:02-08:00")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d2>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
                 )
             }(),
             {
@@ -9625,24 +9589,6 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d3>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("str")
-                MicroTest1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -9653,24 +9599,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPSimpleLiteral("\"", "2011-02-01T01:02:03")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d4>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
                 )
             }(),
             {
@@ -9697,24 +9625,6 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n1>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("str")
-                MicroTest1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -9725,24 +9635,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPSimpleLiteral("\"", "-1.6")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n2>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
                 )
             }(),
             {
@@ -9769,24 +9661,6 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n3>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("str")
-                MicroTest1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -9797,24 +9671,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPSimpleLiteral("\"", "-2")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n4>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
                 )
             }(),
             {
@@ -9841,24 +9697,6 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n5>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("str")
-                MicroTest1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -9869,24 +9707,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPSimpleLiteral("\"", "foo")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
                 )
             }(),
             {
@@ -9913,24 +9733,6 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("str")
-                MicroTest1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -9941,24 +9743,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPSimpleLiteral("\"", "BAZ")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
                 )
             }(),
             {
@@ -9985,24 +9769,6 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("str")
-                MicroTest1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -10013,24 +9779,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPSimpleLiteral("\"", "100%")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("str")
-                MicroTest1(
-                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
                 )
             }(),
             {
@@ -10057,12 +9805,30 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("str")
                 MicroTest1(
+                        AOPBuildInCallSTR(AOPVariable("str")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "DEF")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("str")
+                MicroTest1(
                         AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d1>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                             resultRow
                         }(),
                         resultSet,
@@ -10075,16 +9841,250 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("str")
                 MicroTest1(
-                        AOPBuildInCallSTR(AOPVariable("str")),
+                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d2>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                             resultRow
                         }(),
                         resultSet,
-                        AOPSimpleLiteral("\"", "DEF")
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d3>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d4>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n1>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n2>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n3>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n4>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n5>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("str")
+                MicroTest1(
+                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
                 )
             }(),
             {
@@ -10479,28 +10479,6 @@ class AOPVariableTest {
                         {
                             val resultRow = resultSet.createResultRow()
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("_:b")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x2>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        Exception("AOPAddition only works with numeric input")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("x")
-                resultSet.createVariable("#2")
-                resultSet.createVariable("y")
-                resultSet.createVariable("s")
-                MicroTest1(
-                        AOPAddition(AOPVariable("y"), AOPVariable("x")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://example/a>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"")
@@ -10509,28 +10487,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         Exception("AOPAddition only works with numeric input")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("x")
-                resultSet.createVariable("#2")
-                resultSet.createVariable("y")
-                resultSet.createVariable("s")
-                MicroTest1(
-                        AOPAddition(AOPVariable("y"), AOPVariable("x")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x4>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPInteger(3)
                 )
             }(),
             {
@@ -10589,10 +10545,54 @@ class AOPVariableTest {
                         {
                             val resultRow = resultSet.createResultRow()
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
+                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
+                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x4>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPInteger(3)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("#0")
+                resultSet.createVariable("x")
+                resultSet.createVariable("#2")
+                resultSet.createVariable("y")
+                resultSet.createVariable("s")
+                MicroTest1(
+                        AOPAddition(AOPVariable("y"), AOPVariable("x")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x7>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        Exception("AOPAddition only works with numeric input")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("#0")
+                resultSet.createVariable("x")
+                resultSet.createVariable("#2")
+                resultSet.createVariable("y")
+                resultSet.createVariable("s")
+                MicroTest1(
+                        AOPAddition(AOPVariable("y"), AOPVariable("x")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
+                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("_:b")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
+                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x2>")
                             resultRow
                         }(),
                         resultSet,
@@ -10644,18 +10644,18 @@ class AOPVariableTest {
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTest1(
-                        AOPBuildInCallSTR(AOPVariable("y")),
+                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"a\"")
+                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x1>")
+                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x5>")
                             resultRow
                         }(),
                         resultSet,
-                        AOPSimpleLiteral("\"", "1")
+                        Exception("AOPAddition only works with numeric input")
                 )
             }(),
             {
@@ -10666,18 +10666,84 @@ class AOPVariableTest {
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTest1(
-                        AOPBuildInCallSTR(AOPVariable("x")),
+                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"a\"")
+                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x1>")
+                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x6>")
                             resultRow
                         }(),
                         resultSet,
-                        AOPSimpleLiteral("\"", "a")
+                        Exception("AOPAddition only works with numeric input")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("#0")
+                resultSet.createVariable("x")
+                resultSet.createVariable("#2")
+                resultSet.createVariable("y")
+                resultSet.createVariable("s")
+                MicroTest1(
+                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
+                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
+                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x4>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        Exception("AOPAddition only works with numeric input")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("#0")
+                resultSet.createVariable("x")
+                resultSet.createVariable("#2")
+                resultSet.createVariable("y")
+                resultSet.createVariable("s")
+                MicroTest1(
+                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
+                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
+                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x7>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        Exception("AOPAddition only works with numeric input")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("#0")
+                resultSet.createVariable("x")
+                resultSet.createVariable("#2")
+                resultSet.createVariable("y")
+                resultSet.createVariable("s")
+                MicroTest1(
+                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
+                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
+                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x8>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        Exception("AOPAddition only works with numeric input")
                 )
             }(),
             {
@@ -10710,18 +10776,128 @@ class AOPVariableTest {
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTest1(
-                        AOPBuildInCallSTR(AOPVariable("y")),
+                        AOPBuildInCallSTR(AOPVariable("x")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("_:b")
+                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x2>")
+                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x5>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "1.0")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("#0")
+                resultSet.createVariable("x")
+                resultSet.createVariable("#2")
+                resultSet.createVariable("y")
+                resultSet.createVariable("s")
+                MicroTest1(
+                        AOPBuildInCallSTR(AOPVariable("x")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
+                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
+                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x6>")
                             resultRow
                         }(),
                         resultSet,
                         AOPSimpleLiteral("\"", "1")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("#0")
+                resultSet.createVariable("x")
+                resultSet.createVariable("#2")
+                resultSet.createVariable("y")
+                resultSet.createVariable("s")
+                MicroTest1(
+                        AOPBuildInCallSTR(AOPVariable("x")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
+                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
+                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x4>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "1")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("#0")
+                resultSet.createVariable("x")
+                resultSet.createVariable("#2")
+                resultSet.createVariable("y")
+                resultSet.createVariable("s")
+                MicroTest1(
+                        AOPBuildInCallSTR(AOPVariable("x")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
+                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
+                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x7>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "1")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("#0")
+                resultSet.createVariable("x")
+                resultSet.createVariable("#2")
+                resultSet.createVariable("y")
+                resultSet.createVariable("s")
+                MicroTest1(
+                        AOPBuildInCallSTR(AOPVariable("x")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
+                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
+                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x8>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "1")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("#0")
+                resultSet.createVariable("x")
+                resultSet.createVariable("#2")
+                resultSet.createVariable("y")
+                resultSet.createVariable("s")
+                MicroTest1(
+                        AOPBuildInCallSTR(AOPVariable("x")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
+                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"a\"")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
+                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x1>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "a")
                 )
             }(),
             {
@@ -10780,72 +10956,6 @@ class AOPVariableTest {
                         {
                             val resultRow = resultSet.createResultRow()
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x4>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "2")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("x")
-                resultSet.createVariable("#2")
-                resultSet.createVariable("y")
-                resultSet.createVariable("s")
-                MicroTest1(
-                        AOPBuildInCallSTR(AOPVariable("x")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x4>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "1")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("x")
-                resultSet.createVariable("#2")
-                resultSet.createVariable("y")
-                resultSet.createVariable("s")
-                MicroTest1(
-                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x4>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        Exception("AOPAddition only works with numeric input")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("x")
-                resultSet.createVariable("#2")
-                resultSet.createVariable("y")
-                resultSet.createVariable("s")
-                MicroTest1(
-                        AOPBuildInCallSTR(AOPVariable("y")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
@@ -10854,50 +10964,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPSimpleLiteral("\"", "2")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("x")
-                resultSet.createVariable("#2")
-                resultSet.createVariable("y")
-                resultSet.createVariable("s")
-                MicroTest1(
-                        AOPBuildInCallSTR(AOPVariable("x")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x5>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "1.0")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("x")
-                resultSet.createVariable("#2")
-                resultSet.createVariable("y")
-                resultSet.createVariable("s")
-                MicroTest1(
-                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x5>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        Exception("AOPAddition only works with numeric input")
                 )
             }(),
             {
@@ -10930,40 +10996,18 @@ class AOPVariableTest {
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTest1(
-                        AOPBuildInCallSTR(AOPVariable("x")),
+                        AOPBuildInCallSTR(AOPVariable("y")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"")
+                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x6>")
+                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x4>")
                             resultRow
                         }(),
                         resultSet,
-                        AOPSimpleLiteral("\"", "1")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("x")
-                resultSet.createVariable("#2")
-                resultSet.createVariable("y")
-                resultSet.createVariable("s")
-                MicroTest1(
-                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x6>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        Exception("AOPAddition only works with numeric input")
+                        AOPSimpleLiteral("\"", "2")
                 )
             }(),
             {
@@ -10996,50 +11040,6 @@ class AOPVariableTest {
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTest1(
-                        AOPBuildInCallSTR(AOPVariable("x")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x7>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "1")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("x")
-                resultSet.createVariable("#2")
-                resultSet.createVariable("y")
-                resultSet.createVariable("s")
-                MicroTest1(
-                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x7>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        Exception("AOPAddition only works with numeric input")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("x")
-                resultSet.createVariable("#2")
-                resultSet.createVariable("y")
-                resultSet.createVariable("s")
-                MicroTest1(
                         AOPBuildInCallSTR(AOPVariable("y")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -11062,14 +11062,14 @@ class AOPVariableTest {
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTest1(
-                        AOPBuildInCallSTR(AOPVariable("x")),
+                        AOPBuildInCallSTR(AOPVariable("y")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"a\"")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x8>")
+                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x1>")
                             resultRow
                         }(),
                         resultSet,
@@ -11084,18 +11084,18 @@ class AOPVariableTest {
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTest1(
-                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
+                        AOPBuildInCallSTR(AOPVariable("y")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("x")] = resultSet.createValue("_:b")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x8>")
+                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x2>")
                             resultRow
                         }(),
                         resultSet,
-                        Exception("AOPAddition only works with numeric input")
+                        AOPSimpleLiteral("\"", "1")
                 )
             }(),
             {
@@ -12337,318 +12337,6 @@ class AOPVariableTest {
 
     @TestFactory
     fun testresources_sparql11_test_suite_functions_bnode01_rq() = listOf(
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -12670,1693 +12358,9 @@ class AOPVariableTest {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28149\"foo\"")
+                        AOPBnode("28150\"foo\"")
                 )
             }()*/
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            /*{
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("b2")
-                resultSet.createVariable("a")
-                resultSet.createVariable("#2")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#5")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPBuildInCallBNODE1(AOPVariable("s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28149\"foo\"")
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#5"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBnode("28143\"foo\"")
-                )
-            }()*/
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            /*{
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPBuildInCallBNODE1(AOPVariable("s2")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBnode("28149\"foo\"")
-                )
-            }()*/
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            /*{
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("b2")
-                resultSet.createVariable("a")
-                resultSet.createVariable("#2")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#5")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPBuildInCallBNODE1(AOPVariable("s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28149\"foo\"")
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#5"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBnode("28143\"BAZ\"")
-                )
-            }()*/
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -14378,109 +12382,11 @@ class AOPVariableTest {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28149\"BAZ\"")
+                        AOPBnode("28150\"BAZ\"")
                 )
             }()*/
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("b2")
-                resultSet.createVariable("a")
-                resultSet.createVariable("#2")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#5")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPBuildInCallBNODE1(AOPVariable("s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28149\"BAZ\"")
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#5"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBnode("28143\"foo\"")
-                )
-            }()*/
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
                 resultSet.createVariable("#1")
                 resultSet.createVariable("s1")
@@ -14488,165 +12394,21 @@ class AOPVariableTest {
                 resultSet.createVariable("#4")
                 resultSet.createVariable("s2")
                 MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
+                        AOPBuildInCallBNODE1(AOPVariable("s2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
                             resultRow
                         }(),
                         resultSet,
-                        AOPBoolean(true)
+                        AOPBnode("28150\"foo\"")
                 )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
+            }()*/
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -14668,9 +12430,2745 @@ class AOPVariableTest {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28149\"BAZ\"")
+                        AOPBnode("28150\"BAZ\"")
                 )
             }()*/
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -14704,7 +15202,487 @@ class AOPVariableTest {
                 resultSet.createVariable("#4")
                 resultSet.createVariable("s2")
                 MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
@@ -14713,6 +15691,1278 @@ class AOPVariableTest {
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
                         resultSet,
@@ -14732,7 +16982,33 @@ class AOPVariableTest {
                         AOPBuildInCallBNODE1(AOPVariable("s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28149\"BAZ\"")
+                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28150\"BAZ\"")
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#5"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBnode("28144\"foo\"")
+                )
+            }()*/
+            /*{
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("b2")
+                resultSet.createVariable("a")
+                resultSet.createVariable("#2")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#5")
+                resultSet.createVariable("s2")
+                MicroTest1(
+                        AOPBuildInCallBNODE1(AOPVariable("s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28150\"BAZ\"")
                             resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
@@ -14742,2337 +17018,61 @@ class AOPVariableTest {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28143\"BAZ\"")
+                        AOPBnode("28144\"BAZ\"")
                 )
             }()*/
-            {
+            /*{
                 val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("b2")
                 resultSet.createVariable("a")
-                resultSet.createVariable("#1")
+                resultSet.createVariable("#2")
                 resultSet.createVariable("s1")
                 resultSet.createVariable("b")
-                resultSet.createVariable("#4")
+                resultSet.createVariable("#5")
                 resultSet.createVariable("s2")
                 MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        AOPBuildInCallBNODE1(AOPVariable("s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28150\"foo\"")
                             resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#5"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
                             resultRow
                         }(),
                         resultSet,
-                        AOPBoolean(false)
+                        AOPBnode("28144\"foo\"")
                 )
-            }(),
-            {
+            }()*/
+            /*{
                 val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("b2")
                 resultSet.createVariable("a")
-                resultSet.createVariable("#1")
+                resultSet.createVariable("#2")
                 resultSet.createVariable("s1")
                 resultSet.createVariable("b")
-                resultSet.createVariable("#4")
+                resultSet.createVariable("#5")
                 resultSet.createVariable("s2")
                 MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        AOPBuildInCallBNODE1(AOPVariable("s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28150\"foo\"")
                             resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#5"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
                             resultRow
                         }(),
                         resultSet,
-                        AOPBoolean(false)
+                        AOPBnode("28144\"BAZ\"")
                 )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"100%\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTest1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
+            }()*/
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -17113,25 +17113,25 @@ class AOPVariableTest {
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3095330978")
+                        AOPBnode("3095130983")
                 )
             }()*/
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3094830980")
+                        AOPBnode("3095630981")
                 )
             }()*/
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3098431002")
+                        AOPBnode("3098731005")
                 )
             }()*/
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3099131004")
+                        AOPBnode("3099431007")
                 )
             }()*/
             {
@@ -17174,7 +17174,7 @@ class AOPVariableTest {
             /*{
                 MicroTest0(
                         AOPBuildInCallNOW(),
-                        AOPDateTime("\"2020-02-23T18:49:33Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                        AOPDateTime("\"2020-02-23T18:54:03Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                 )
             }()*/
             {
@@ -17184,7 +17184,7 @@ class AOPVariableTest {
                         AOPBuildInCallDATATYPE(AOPVariable("n")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-23T18:49:33Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-23T18:54:03Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                             resultRow
                         }(),
                         resultSet,
@@ -17198,7 +17198,7 @@ class AOPVariableTest {
                         AOPEQ(AOPBuildInCallDATATYPE(AOPVariable("n")), AOPIri("http://www.w3.org/2001/XMLSchema#dateTime")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-23T18:49:33Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-23T18:54:03Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                             resultRow
                         }(),
                         resultSet,
@@ -17297,25 +17297,7 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTest1(
-                        AOPBuildInCallLANG(AOPVariable("o")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"123\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
-                        AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")),
+                        AOPBuildInCallIF(AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")), AOPBoolean(true), AOPBoolean(false)),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
@@ -17336,13 +17318,121 @@ class AOPVariableTest {
                         AOPBuildInCallIF(AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")), AOPBoolean(true), AOPBoolean(false)),
                         {
                             val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"日本語\"@ja")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPBuildInCallIF(AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")), AOPBoolean(true), AOPBoolean(false)),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"english\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPBuildInCallIF(AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")), AOPBoolean(true), AOPBoolean(false)),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"français\"@fr")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPBuildInCallIF(AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")), AOPBoolean(true), AOPBoolean(false)),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPBuildInCallIF(AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")), AOPBoolean(true), AOPBoolean(false)),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPBuildInCallIF(AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")), AOPBoolean(true), AOPBoolean(false)),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPBuildInCallLANG(AOPVariable("o")),
+                        {
+                            val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
                             resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"123\"")
                             resultRow
                         }(),
                         resultSet,
-                        AOPBoolean(false)
+                        AOPSimpleLiteral("\"", "")
                 )
             }(),
             {
@@ -17369,42 +17459,6 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTest1(
-                        AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"日本語\"@ja")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
-                        AOPBuildInCallIF(AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")), AOPBoolean(true), AOPBoolean(false)),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"日本語\"@ja")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
                         AOPBuildInCallLANG(AOPVariable("o")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -17415,42 +17469,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPSimpleLiteral("\"", "en")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
-                        AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"english\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
-                        AOPBuildInCallIF(AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")), AOPBoolean(true), AOPBoolean(false)),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"english\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
                 )
             }(),
             {
@@ -17477,42 +17495,6 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTest1(
-                        AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"français\"@fr")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
-                        AOPBuildInCallIF(AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")), AOPBoolean(true), AOPBoolean(false)),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"français\"@fr")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
                         AOPBuildInCallLANG(AOPVariable("o")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -17531,42 +17513,6 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTest1(
-                        AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
-                        AOPBuildInCallIF(AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")), AOPBoolean(true), AOPBoolean(false)),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
                         AOPBuildInCallLANG(AOPVariable("o")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -17577,42 +17523,6 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPSimpleLiteral("\"", "")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
-                        AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("p")
-                resultSet.createVariable("o")
-                MicroTest1(
-                        AOPBuildInCallIF(AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")), AOPBoolean(true), AOPBoolean(false)),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
                 )
             }(),
             {
@@ -17642,9 +17552,9 @@ class AOPVariableTest {
                         AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
                             resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
-                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"123\"")
                             resultRow
                         }(),
                         resultSet,
@@ -17657,7 +17567,97 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTest1(
-                        AOPBuildInCallIF(AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")), AOPBoolean(true), AOPBoolean(false)),
+                        AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"日本語\"@ja")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"english\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"français\"@fr")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
+                            resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("s")
+                resultSet.createVariable("p")
+                resultSet.createVariable("o")
+                MicroTest1(
+                        AOPEQ(AOPBuildInCallLANG(AOPVariable("o")), AOPSimpleLiteral("\"", "ja")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
@@ -17708,14 +17708,14 @@ class AOPVariableTest {
     fun testresources_sparql11_test_suite_functions_if02_rq() = listOf(
             {
                 MicroTest0(
-                        AOPDivision(AOPInteger(0), AOPInteger(1)),
-                        AOPInteger(0)
+                        AOPBuildInCallIF(AOPDivision(AOPInteger(0), AOPInteger(1)), AOPBoolean(false), AOPBoolean(true)),
+                        Exception("AOPBuiltInCall IF only works with boolean condition")
                 )
             }(),
             {
                 MicroTest0(
-                        AOPBuildInCallIF(AOPDivision(AOPInteger(0), AOPInteger(1)), AOPBoolean(false), AOPBoolean(true)),
-                        Exception("AOPBuiltInCall IF only works with boolean condition")
+                        AOPDivision(AOPInteger(0), AOPInteger(1)),
+                        AOPInteger(0)
                 )
             }(),
             {
@@ -18147,11 +18147,11 @@ class AOPVariableTest {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("l")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("l")] = resultSet.createValue("<http://www.example.org/schema#a>")
                             resultRow
                         }(),
                         resultSet,
-                        AOPIri("http://www.w3.org/2001/XMLSchema#integer")
+                        Exception("AOPBuiltInCall DATATYPE only works with typed string input")
                 )
             }(),
             {
@@ -18165,11 +18165,11 @@ class AOPVariableTest {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("l")] = resultSet.createValue("<http://www.example.org/schema#a>")
+                            resultRow[resultSet.createVariable("l")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow
                         }(),
                         resultSet,
-                        Exception("AOPBuiltInCall DATATYPE only works with typed string input")
+                        AOPIri("http://www.w3.org/2001/XMLSchema#integer")
                 )
             }(),
             {
@@ -18355,28 +18355,6 @@ class AOPVariableTest {
                 resultSet.createVariable("L")
                 resultSet.createVariable("P")
                 MicroTest1(
-                        AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultRow[resultSet.createVariable("F")] = resultSet.createValue("\"John\"")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                            resultRow[resultSet.createVariable("L")] = resultSet.createValue("\"Doe\"")
-                            resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://p1>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "John ")
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("F")
-                resultSet.createVariable("#2")
-                resultSet.createVariable("L")
-                resultSet.createVariable("P")
-                MicroTest1(
                         AOPBuildInCallCONCAT(AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")), AOPVariable("L")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -18389,6 +18367,28 @@ class AOPVariableTest {
                         }(),
                         resultSet,
                         AOPSimpleLiteral("\"", "John Doe")
+                )
+            }(),
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("#0")
+                resultSet.createVariable("F")
+                resultSet.createVariable("#2")
+                resultSet.createVariable("L")
+                resultSet.createVariable("P")
+                MicroTest1(
+                        AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
+                            resultRow[resultSet.createVariable("F")] = resultSet.createValue("\"John\"")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
+                            resultRow[resultSet.createVariable("L")] = resultSet.createValue("\"Doe\"")
+                            resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://p1>")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPSimpleLiteral("\"", "John ")
                 )
             }(),
             {

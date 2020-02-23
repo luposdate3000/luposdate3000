@@ -164,7 +164,11 @@ fun printAllMicroTest(testName: String, success: Boolean) {
         val name = testName.replace("/", "_").replace(".", "_").replace("-", "_")
         println("${prefix}    @TestFactory")
         println("${prefix}    fun test${name}() = listOf(")
+val tmp=mutableListOf<String>()
         listOfMicroTests.forEach {
+		tmp.add(it)
+	}
+	tmp.sorted().forEach{
             if (success) {
                 if (it.contains("AOPBuildInCallBNODE1") || it.contains("AOPBuildInCallBNODE0") || it.contains("AOPBuildInCallNOW"))
                     println("${prefix}            /*" + it + "*/")
