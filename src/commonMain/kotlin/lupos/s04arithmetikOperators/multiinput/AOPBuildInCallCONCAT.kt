@@ -35,21 +35,17 @@ class AOPBuildInCallCONCAT(child: AOPBase, childB: AOPBase) : AOPBase() {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPLanguageTaggedLiteral && b is AOPLanguageTaggedLiteral) {
-            if (a.language == b.language) {
-                a.content += b.content
-                return addMicroTest(this, resultRow, resultSet, a)
-            } else
+            if (a.language == b.language) 
+                return addMicroTest(this, resultRow, resultSet, AOPLanguageTaggedLiteral(a.delimiter,a.content+b.content,a.language))
+             else
                 throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall CONCAT only works with compatible languages input"))
-        } else if (a is AOPSimpleLiteral && b is AOPSimpleLiteral) {
-            a.content += b.content
-            return addMicroTest(this, resultRow, resultSet, a)
-        } else if (a is AOPSimpleLiteral && b is AOPLanguageTaggedLiteral) {
-            b.content += a.content
-            return addMicroTest(this, resultRow, resultSet, b)
-        } else if (a is AOPLanguageTaggedLiteral && b is AOPSimpleLiteral) {
-            a.content += b.content
-            return addMicroTest(this, resultRow, resultSet, a)
         }
+ if (a is AOPSimpleLiteral && b is AOPSimpleLiteral) 
+            return addMicroTest(this, resultRow, resultSet, AOPSimpleLiteral(a.delimiter,a.content+b.content))
+          if (a is AOPSimpleLiteral && b is AOPLanguageTaggedLiteral) 
+            return addMicroTest(this, resultRow, resultSet, AOPLanguageTaggedLiteral(a.delimiter,a.content+b.content,b.language))
+          if (a is AOPLanguageTaggedLiteral && b is AOPSimpleLiteral) 
+            return addMicroTest(this, resultRow, resultSet, AOPLanguageTaggedLiteral(a.delimiter,a.content+b.content,a.language))
         throw addMicroTest(this, resultRow, resultSet, Exception("AOPBuiltInCall CONCAT only works with compatible string input"))
     }
 }

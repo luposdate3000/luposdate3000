@@ -5,6 +5,6 @@ import lupos.s04arithmetikOperators.*
 
 
 abstract class AOPConstantString() : AOPConstant() {
-    abstract var content: String
-    abstract var delimiter: String
+    abstract val content: String
+    abstract val delimiter: String
 }

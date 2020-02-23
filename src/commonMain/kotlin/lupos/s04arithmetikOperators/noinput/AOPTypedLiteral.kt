@@ -7,8 +7,17 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPTypedLiteral(override var delimiter: String, override var content: String, var type_iri: String) : AOPConstantString() {
+class AOPTypedLiteral : AOPConstantString {
     override val children: Array<OPBase> = arrayOf()
+override val  delimiter: String
+ override val content: String
+ val type_iri: String
+
+constructor( delimiter: String,  content: String,  type_iri: String):super(){
+this.delimiter=delimiter
+this.content=content
+this.type_iri=type_iri
+}
 
     override fun toTestCaseInput(): String {
         if (delimiter == "\"")

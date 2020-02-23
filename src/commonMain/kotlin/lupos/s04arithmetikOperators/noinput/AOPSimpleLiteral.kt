@@ -7,8 +7,14 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPSimpleLiteral(override var delimiter: String, override var content: String) : AOPConstantString() {
+class AOPSimpleLiteral : AOPConstantString {
     override val children: Array<OPBase> = arrayOf()
+override val delimiter: String
+override val content: String
+constructor( delimiter: String,  content: String):super(){
+this.delimiter=delimiter
+this.content=content
+}
 
     override fun toTestCaseInput(): String {
         if (delimiter == "\"")
