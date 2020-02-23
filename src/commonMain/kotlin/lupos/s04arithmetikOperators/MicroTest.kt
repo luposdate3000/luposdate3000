@@ -39,6 +39,17 @@ fun resultFlow(input: POPBase, action: () -> ResultRow): ResultRow {
 }
 */
 
+
+fun childContainsAggregation(input:OPBase) : Boolean{
+    if (input is AOPAggregation)
+        return true
+    for (c in input.children)
+        if (childContainsAggregation(c))
+            return true
+    return false
+}
+
+
 fun helperVariableName(v: String, variableNames: MutableMap<String, String>): String {
     return when {
         variableNames[v] != null -> variableNames[v]!!
@@ -92,6 +103,8 @@ fun <T> resultFlow(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, a
             res += "${prefix}                )\n"
             mapOfAggregationChilds.remove(input.uuid)
         }
+    } else if (childContainsAggregation(input)){
+	return expected
     } else {
         var hasVariable = false
         for (c in input.children)
