@@ -1,5 +1,5 @@
 package lupos.s14endpoint
-
+import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -71,6 +71,12 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
         "AOPBuildInCallSTRENDS" -> AOPBuildInCallSTRENDS(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPBuildInCallSTRSTARTS" -> AOPBuildInCallSTRSTARTS(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPBuildInCallCONCAT" -> AOPBuildInCallCONCAT(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
+"AOPAggregation"-> {
+val childs= mutableListOf<AOPBase>()
+for(c in node["children"]!!.childs)
+	childs.add(convertToOPBase(dictionary, transactionID, c, mapping) as AOPBase)
+AOPAggregation(Aggregation.valueOf(node.attributes["type"]!!),node.attributes["distinct"]!!.toBoolean(),Array(childs.size){childs[it]})
+}
         "POPSort" -> {
             val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)
             POPSort(dictionary, createAOPVariable(mapping, node.attributes["by"]!!), node.attributes["order"] == "ASC", child)
@@ -96,7 +102,7 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
                 by.add(createAOPVariable(mapping, it.attributes["name"]!!))
             }
             node["bindings"]!!.childs.forEach {
-                bindings = POPBind(dictionary, createAOPVariable(mapping, it.attributes["name"]!!), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as POPExpression, bindings)
+                bindings = POPBind(dictionary, createAOPVariable(mapping, it.attributes["name"]!!), convertToOPBase(dictionary, transactionID, it.childs[0], mapping) as POPExpression, bindings)
             }
             if (bindings is POPEmptyRow)
                 return POPGroup(dictionary, by, null, child)
