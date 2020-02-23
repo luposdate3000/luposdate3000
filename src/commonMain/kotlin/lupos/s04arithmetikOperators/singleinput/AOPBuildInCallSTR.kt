@@ -27,7 +27,7 @@ class AOPBuildInCallSTR(child: AOPBase) : AOPBase() {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPConstantString)
             return resultFlow(this, resultRow, resultSet) {
-                a
+                AOPSimpleLiteral(a.delimiter,a.content)
             }
         if (a !is AOPBnode && a !is AOPUndef)
             return resultFlow(this, resultRow, resultSet) {
