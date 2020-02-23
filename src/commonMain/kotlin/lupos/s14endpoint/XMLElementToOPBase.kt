@@ -77,6 +77,11 @@ for(c in node["children"]!!.childs)
 	childs.add(convertToOPBase(dictionary, transactionID, c, mapping) as AOPBase)
 AOPAggregation(Aggregation.valueOf(node.attributes["type"]!!),node.attributes["distinct"]!!.toBoolean(),Array(childs.size){childs[it]})
 }
+"AOPGT"->return AOPGT(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
+"AOPBuildInCallNOW"->AOPBuildInCallNOW()
+"AOPIn"->AOPIn(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
+"AOPNotIn"->AOPNotIn(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
+"AOPOr"->AOPOr(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "POPSort" -> {
             val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)
             POPSort(dictionary, createAOPVariable(mapping, node.attributes["by"]!!), node.attributes["order"] == "ASC", child)

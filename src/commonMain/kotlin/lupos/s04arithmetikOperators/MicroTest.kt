@@ -156,7 +156,7 @@ fun printAllMicroTest(testName: String, success: Boolean) {
         println("${prefix}    fun test${name}() = listOf(")
         listOfMicroTests.forEach {
             if (success) {
-                if (it.contains("AOPBuildInCallBNODE1") || it.contains("AOPBuildInCallBNODE0"))
+                if (it.contains("AOPBuildInCallBNODE1") || it.contains("AOPBuildInCallBNODE0") || it.contains("AOPBuildInCallNOW"))
                     println("${prefix}            /*" + it + "*/")
                 else
                     println("${prefix}            " + it + ",")
