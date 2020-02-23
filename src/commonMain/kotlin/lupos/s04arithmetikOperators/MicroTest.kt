@@ -13,10 +13,14 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.*
 
+
 val prefix = "--MicroTest--"
 val listOfMicroTests = ThreadSafeMutableList<String>()
 
-data class MicroTest(val input: AOPBase, val resultRow: ResultRow, val resultSet: ResultSet, val expected: Any) {
+open class MicroTest0(val input: AOPBase, val expected: Any) {
+}
+
+class MicroTest1(input: AOPBase, val resultRow: ResultRow, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
 }
 
 val mapOfResultRows = ThreadSafeMutableMap<Long, MutableList<String>>()
@@ -35,30 +39,48 @@ fun <T> resultFlow(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, a
     if (input is AOPVariable)
         return expected
     var res = "{\n"
-    res += "${prefix}                val resultSet = ResultSet(ResultSetDictionary())\n"
-    for (v in resultSet.getVariableNames()) {
-        val name = when {
-            variableNames[v] != null -> variableNames[v]!!
-            v.startsWith("#") -> {
-                variableNames[v] = "#" + variableNames.keys.size
-                variableNames[v]!!
-            }
-            else -> {
-                variableNames[v] = v
-                variableNames[v]!!
-            }
+
+    var hasVariable = false
+    for (c in input.children)
+        if (c is AOPVariable) {
+            hasVariable = true
+            break
         }
-        res += "${prefix}                resultSet.createVariable(\"$name\")\n"
+    if (hasVariable) {
+        res += "${prefix}                val resultSet = ResultSet(ResultSetDictionary())\n"
+        for (v in resultSet.getVariableNames()) {
+            val name = when {
+                variableNames[v] != null -> variableNames[v]!!
+                v.startsWith("#") -> {
+                    variableNames[v] = "#" + variableNames.keys.size
+                    variableNames[v]!!
+                }
+                else -> {
+                    variableNames[v] = v
+                    variableNames[v]!!
+                }
+            }
+            res += "${prefix}                resultSet.createVariable(\"$name\")\n"
+        }
+        res += "${prefix}                MicroTest1(\n"
+        res += "${prefix}                        " + testCaseFromAOPBase(input, resultRow, resultSet) + ",\n"
+        res += testCaseFromResultRow(resultRow, resultSet, "${prefix}                        ", variableNames)
+        res += "${prefix}                        resultSet,\n"
+        if (expected is AOPBase)
+            res += "${prefix}                        " + testCaseFromAOPBase(expected, resultRow, resultSet) + "\n"
+        else
+            res += "${prefix}                        Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
+        res += "${prefix}                )\n"
+    } else {
+        res += "${prefix}                MicroTest0(\n"
+        res += "${prefix}                        " + testCaseFromAOPBase(input, resultRow, resultSet) + ",\n"
+        if (expected is AOPBase)
+            res += "${prefix}                        " + testCaseFromAOPBase(expected, resultRow, resultSet) + "\n"
+        else
+            res += "${prefix}                        Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
+        res += "${prefix}                )\n"
+
     }
-    res += "${prefix}                MicroTest(\n"
-    res += "${prefix}                        " + testCaseFromAOPBase(input, resultRow, resultSet) + ",\n"
-    res += testCaseFromResultRow(resultRow, resultSet, "${prefix}                        ", variableNames)
-    res += "${prefix}                        resultSet,\n"
-    if (expected is AOPBase)
-        res += "${prefix}                        " + testCaseFromAOPBase(expected, resultRow, resultSet) + "\n"
-    else
-        res += "${prefix}                        Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
-    res += "${prefix}                )\n"
     res += "${prefix}            }()"
     var found = false
     listOfMicroTests.forEach {
@@ -86,17 +108,24 @@ fun printAllMicroTest(testName: String, success: Boolean) {
         }
         listOfMicroTests.clear()
         println("${prefix}            {")
-        println("${prefix}                val resultSet = ResultSet(ResultSetDictionary())")
-        println("${prefix}                val resultRow = resultSet.createResultRow()")
-        println("${prefix}                MicroTest(AOPUndef(), resultRow, resultSet, AOPUndef())")
+        println("${prefix}                MicroTest0(AOPUndef(), AOPUndef())")
         println("${prefix}            }()")
         println("${prefix}    ).mapIndexed { index, data ->")
         println("${prefix}        DynamicTest.dynamicTest(\"test->${testName}<-\$index\") {")
         println("${prefix}            try {")
-        println("${prefix}                val output = data.input.calculate(data.resultSet, data.resultRow)")
+        println("${prefix}                val output:AOPConstant")
+        println("${prefix}                if (data is MicroTest0) {")
+        println("${prefix}                    val resultSet = ResultSet(ResultSetDictionary())")
+        println("${prefix}                    val resultRow = resultSet.createResultRow()")
+        println("${prefix}                    output = data.input.calculate(resultSet, resultRow)")
+        println("${prefix}                } else if (data is MicroTest1) {")
+        println("${prefix}                    output = data.input.calculate(data.resultSet, data.resultRow)")
+        println("${prefix}                } else")
+        println("${prefix}                    output = AOPUndef()")
         println("${prefix}                assertTrue(data.expected is AOPConstant)")
         println("${prefix}                if (!data.expected.equals(output)) {")
-        println("${prefix}                    println(data.resultRow)")
+        println("${prefix}                    if(data is MicroTest1)")
+        println("${prefix}                        println(data.resultRow)")
         println("${prefix}                    println(output.valueToString())")
         println("${prefix}                    println((data.expected as AOPConstant).valueToString())")
         println("${prefix}                }")
@@ -109,7 +138,6 @@ fun printAllMicroTest(testName: String, success: Boolean) {
         println("${prefix}")
     }
 }
-
 
 fun testCaseFromAOPBase(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet): String {
     when (input) {
