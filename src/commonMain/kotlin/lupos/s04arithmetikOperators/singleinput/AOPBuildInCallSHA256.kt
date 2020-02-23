@@ -44,12 +44,12 @@ class AOPBuildInCallSHA256(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPConstantString)
-            return resultFlow(this, resultRow, resultSet) {
+            return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPSimpleLiteral(a.delimiter, a.content.encodeToByteArray().sha256().toHexString3())
-            }
-        throw resultFlow(this, resultRow, resultSet) {
+            })
+        throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall SHA256 only works with string input")
-        }
+        })
     }
 }
 

@@ -25,8 +25,8 @@ class AOPBuildInCallIsLITERAL(child: AOPBase) : AOPBase() {
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
-        return resultFlow(this, resultRow, resultSet) {
+        return resultFlow({ this }, { resultRow }, { resultSet }, {
             AOPBoolean(a is AOPSimpleLiteral)
-        }
+        })
     }
 }

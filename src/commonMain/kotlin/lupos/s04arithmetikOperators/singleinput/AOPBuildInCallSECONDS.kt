@@ -26,11 +26,11 @@ class AOPBuildInCallSECONDS(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDateTime)
-            return resultFlow(this, resultRow, resultSet) {
+            return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPDecimal(0.0 + a.seconds)
-            }
-        throw resultFlow(this, resultRow, resultSet) {
+            })
+        throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall SECONDS only works with dateTime input")
-        }
+        })
     }
 }

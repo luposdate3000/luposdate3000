@@ -31,11 +31,11 @@ class AOPBuildInCallSTRLANG(child: AOPBase, childB: AOPBase) : AOPBase() {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPSimpleLiteral && b is AOPSimpleLiteral)
-            return resultFlow(this, resultRow, resultSet) {
+            return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPLanguageTaggedLiteral(a.delimiter, a.content, b.content)
-            }
-        throw resultFlow(this, resultRow, resultSet) {
+            })
+        throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall STRLANG only works with simple string input")
-        }
+        })
     }
 }

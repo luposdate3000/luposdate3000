@@ -43,19 +43,19 @@ class AOPBuildInCallCEIL(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDouble)
-            return resultFlow(this, resultRow, resultSet) {
+            return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPDouble(ceil(a.toDouble()))
-            }
+            })
         if (a is AOPDecimal)
-            return resultFlow(this, resultRow, resultSet) {
+            return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPDecimal(ceil(a.toDouble()))
-            }
+            })
         if (a is AOPInteger)
-            return resultFlow(this, resultRow, resultSet) {
+            return resultFlow({ this }, { resultRow }, { resultSet }, {
                 a
-            }
-        throw resultFlow(this, resultRow, resultSet) {
+            })
+        throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall CEIL only works with numeric input")
-        }
+        })
     }
 }

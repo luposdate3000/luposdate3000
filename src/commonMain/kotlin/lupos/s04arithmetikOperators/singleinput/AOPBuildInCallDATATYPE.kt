@@ -26,27 +26,27 @@ class AOPBuildInCallDATATYPE(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         when (a) {
-            is AOPTypedLiteral -> return resultFlow(this, resultRow, resultSet) {
+            is AOPTypedLiteral -> return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPIri(a.type_iri)
-            }
-            is AOPBoolean -> return resultFlow(this, resultRow, resultSet) {
+            })
+            is AOPBoolean -> return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPIri("http://www.w3.org/2001/XMLSchema#boolean")
-            }
-            is AOPDateTime -> return resultFlow(this, resultRow, resultSet) {
+            })
+            is AOPDateTime -> return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPIri("http://www.w3.org/2001/XMLSchema#dateTime")
-            }
-            is AOPDecimal -> return resultFlow(this, resultRow, resultSet) {
+            })
+            is AOPDecimal -> return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPIri("http://www.w3.org/2001/XMLSchema#decimal")
-            }
-            is AOPDouble -> return resultFlow(this, resultRow, resultSet) {
+            })
+            is AOPDouble -> return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPIri("http://www.w3.org/2001/XMLSchema#double")
-            }
-            is AOPInteger -> return resultFlow(this, resultRow, resultSet) {
+            })
+            is AOPInteger -> return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPIri("http://www.w3.org/2001/XMLSchema#integer")
-            }
+            })
         }
-        throw resultFlow(this, resultRow, resultSet) {
+        throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall DATATYPE only works with typed string input")
-        }
+        })
     }
 }

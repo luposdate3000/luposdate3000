@@ -41,8 +41,8 @@ class AOPBuildInCallSTRUUID() : AOPBase() {
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
-        return resultFlow(this, resultRow, resultSet) {
+        return resultFlow({ this }, { resultRow }, { resultSet }, {
             AOPSimpleLiteral("\"", "" + uuid4())
-        }
+        })
     }
 }

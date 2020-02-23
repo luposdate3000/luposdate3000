@@ -30,16 +30,16 @@ class AOPBuildInCallIF(child: AOPBase, childA: AOPBase, childB: AOPBase) : AOPBa
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPBoolean) {
             if (a.value)
-                return resultFlow(this, resultRow, resultSet) {
+                return resultFlow({ this }, { resultRow }, { resultSet }, {
                     (children[1] as AOPBase).calculate(resultSet, resultRow)
-                }
+                })
             else
-                return resultFlow(this, resultRow, resultSet) {
+                return resultFlow({ this }, { resultRow }, { resultSet }, {
                     (children[2] as AOPBase).calculate(resultSet, resultRow)
-                }
+                })
         }
-        throw resultFlow(this, resultRow, resultSet) {
+        throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall IF only works with boolean condition")
-        }
+        })
     }
 }

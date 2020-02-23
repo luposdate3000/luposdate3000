@@ -26,19 +26,19 @@ class AOPBuildInCallSTRLEN(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPSimpleLiteral)
-            return resultFlow(this, resultRow, resultSet) {
+            return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPInteger(a.content.length)
-            }
+            })
         if (a is AOPTypedLiteral)
-            return resultFlow(this, resultRow, resultSet) {
+            return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPInteger(a.content.length)
-            }
+            })
         if (a is AOPLanguageTaggedLiteral)
-            return resultFlow(this, resultRow, resultSet) {
+            return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPInteger(a.content.length)
-            }
-        throw resultFlow(this, resultRow, resultSet) {
+            })
+        throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall STRLEN only works with string input")
-        }
+        })
     }
 }
