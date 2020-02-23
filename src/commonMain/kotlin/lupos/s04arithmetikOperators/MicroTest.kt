@@ -1,6 +1,6 @@
 package lupos.s04arithmetikOperators
+import lupos.s00misc.ThreadSafeMutableList
 
-import lupos.s00misc.*
 import lupos.s00misc.ThreadSafeMutableSet
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
