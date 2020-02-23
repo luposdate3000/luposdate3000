@@ -4,11 +4,11 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPConstantString
 import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
-import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
 import lupos.s04arithmetikOperators.resultFlow
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
@@ -36,27 +36,26 @@ class AOPBuildInCallCONCAT(child: AOPBase, childB: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
-        if (a is AOPConstantString && b is AOPConstantString) {
-            if (a is AOPLanguageTaggedLiteral && b is AOPLanguageTaggedLiteral && a.language == b.language)
-                return resultFlow(this, resultRow, resultSet) {
-                    AOPLanguageTaggedLiteral(a.delimiter, a.content + b.content, a.language)
-                }
-            if (a is AOPSimpleLiteral && b is AOPLanguageTaggedLiteral)
-                return resultFlow(this, resultRow, resultSet) {
-                    AOPLanguageTaggedLiteral(a.delimiter, a.content + b.content, b.language)
-                }
-            if (a is AOPLanguageTaggedLiteral && b is AOPSimpleLiteral)
-                return resultFlow(this, resultRow, resultSet) {
-                    AOPLanguageTaggedLiteral(a.delimiter, a.content + b.content, a.language)
-                }
-            if (a is AOPTypedLiteral && b is AOPTypedLiteral && a.type_iri == "http://www.w3.org/2001/XMLSchema#string" && a.type_iri == b.type_iri)
-                return resultFlow(this, resultRow, resultSet) {
-                    AOPTypedLiteral(a.delimiter, a.content + b.content, a.type_iri)
-                }
+        if (a is AOPLanguageTaggedLiteral && b is AOPLanguageTaggedLiteral && a.language == b.language)
+            return resultFlow(this, resultRow, resultSet) {
+                AOPLanguageTaggedLiteral(a.delimiter, a.content + b.content, a.language)
+            }
+        if (a is AOPTypedLiteral && b is AOPTypedLiteral && a.type_iri == "http://www.w3.org/2001/XMLSchema#string" && a.type_iri == b.type_iri)
+            return resultFlow(this, resultRow, resultSet) {
+                AOPTypedLiteral(a.delimiter, a.content + b.content, a.type_iri)
+            }
+        if (a is AOPConstantString && b is AOPConstantString)
             return resultFlow(this, resultRow, resultSet) {
                 AOPSimpleLiteral(a.delimiter, a.content + b.content)
             }
-        }
+/*
+	    if(a !is AOPBnode && b!is AOPBnode)
+            return resultFlow(this, resultRow, resultSet) {
+		val tmpa = a.valueToString()!!
+		val tmpb = b.valueToString()!!
+                AOPSimpleLiteral(""+tmpa.get(0),tmpa.substring(1, tmpa.lastIndexOf(tmpa.get(0)))+tmpb.substring(1, tmpb.lastIndexOf(tmpb.get(0))))
+            }
+*/
         throw resultFlow(this, resultRow, resultSet) {
             Exception("AOPBuiltInCall CONCAT only works with compatible string input")
         }

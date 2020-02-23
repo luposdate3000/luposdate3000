@@ -40,7 +40,7 @@ fun resultFlow(input: POPBase, action: () -> ResultRow): ResultRow {
 */
 
 
-fun childContainsAggregation(input:OPBase) : Boolean{
+fun childContainsAggregation(input: OPBase): Boolean {
     if (input is AOPAggregation)
         return true
     for (c in input.children)
@@ -103,8 +103,8 @@ fun <T> resultFlow(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, a
             res += "${prefix}                )\n"
             mapOfAggregationChilds.remove(input.uuid)
         }
-    } else if (childContainsAggregation(input)){
-	return expected
+    } else if (childContainsAggregation(input)) {
+        return expected
     } else {
         var hasVariable = false
         for (c in input.children)
