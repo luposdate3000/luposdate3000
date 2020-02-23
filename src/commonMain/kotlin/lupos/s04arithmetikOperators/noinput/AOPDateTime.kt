@@ -64,10 +64,10 @@ class AOPDateTime : AOPConstant {
 
     fun getTZ(): String {
         if (timezoneHours == 0 && timezoneMinutes == 0)
-            return "\"Z\""
+            return "Z"
         if (timezoneHours == -1 && timezoneMinutes == -1)
-            return "\"\""
-        return "\"-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}\""
+            return ""
+        return "-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}"
     }
 
     fun getTimeZone(): String {
