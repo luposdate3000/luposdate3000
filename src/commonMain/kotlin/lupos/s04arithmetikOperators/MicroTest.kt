@@ -1,14 +1,16 @@
 package lupos.s04arithmetikOperators
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+
+import lupos.s00misc.*
+import lupos.s00misc.ThreadSafeMutableSet
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s00misc.ThreadSafeMutableSet
-
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
 val prefix = "--MicroTest--"
+val listOfMicroTests = ThreadSafeMutableList<String>()
 
 data class MicroTest(val input: AOPBase, val resultRow: ResultRow, val resultSet: ResultSet, val expected: Any) {
 }
@@ -54,11 +56,17 @@ fun <T> addMicroTest(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet,
         res += "${prefix}                        Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
     res += "${prefix}                )\n"
     res += "${prefix}            }()"
-    listOfMicroTests.add(res)
+    var found = false
+    listOfMicroTests.forEach {
+        if (it == res) {
+            found = true
+            break
+        }
+    }
+    if (!found)
+        listOfMicroTests.add(res)
     return expected
 }
-
-val listOfMicroTests = ThreadSafeMutableSet<String>()
 
 fun printAllMicroTest(testName: String, success: Boolean) {
     if (listOfMicroTests.size() > 0) {

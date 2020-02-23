@@ -21,17 +21,17 @@ fun XMLElement.Companion.parseFromXml(xml: String): List<XMLElement>? {
                 nodeAttributes = child.groups[8]!!.value
             """([^\s]*?)="(([^\\"]*(\\"|\\)*)*)"""".toRegex().findAll(nodeAttributes).forEach() { attrMatch ->
                 if (attrMatch.groups[1] != null && attrMatch.groups[2] != null)
-if(attrMatch.groups[1]!!.value=="xml:lang")
-                    childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value.toLowerCase())
-else
-                    childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
+                    if (attrMatch.groups[1]!!.value == "xml:lang")
+                        childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value.toLowerCase())
+                    else
+                        childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
             }
             """([^\s]*?)='([^']*)'""".toRegex().findAll(nodeAttributes).forEach() { attrMatch ->
                 if (attrMatch.groups[1] != null && attrMatch.groups[2] != null)
-if(attrMatch.groups[1]!!.value=="xml:lang")
-                    childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value.toLowerCase())
-else
-                    childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
+                    if (attrMatch.groups[1]!!.value == "xml:lang")
+                        childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value.toLowerCase())
+                    else
+                        childNode.addAttribute(attrMatch.groups[1]!!.value, attrMatch.groups[2]!!.value)
             }
             var content = ""
             if (child.groups[5] != null)

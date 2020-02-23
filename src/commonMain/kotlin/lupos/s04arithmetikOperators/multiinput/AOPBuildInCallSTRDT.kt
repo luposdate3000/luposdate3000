@@ -1,6 +1,6 @@
 package lupos.s04arithmetikOperators.singleinput
-import lupos.s00misc.XMLElement
 
+import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*

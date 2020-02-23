@@ -9,15 +9,15 @@ import lupos.s04logicalOperators.OPBase
 
 class AOPTypedLiteral : AOPConstantString {
     override val children: Array<OPBase> = arrayOf()
-override val  delimiter: String
- override val content: String
- val type_iri: String
+    override val delimiter: String
+    override val content: String
+    val type_iri: String
 
-constructor( delimiter: String,  content: String,  type_iri: String):super(){
-this.delimiter=delimiter
-this.content=content
-this.type_iri=type_iri
-}
+    constructor(delimiter: String, content: String, type_iri: String) : super() {
+        this.delimiter = delimiter
+        this.content = content
+        this.type_iri = type_iri
+    }
 
     override fun toTestCaseInput(): String {
         if (delimiter == "\"")
