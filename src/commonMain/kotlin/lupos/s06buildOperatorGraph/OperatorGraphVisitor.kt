@@ -230,30 +230,26 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         var result: OPBase? = null
         for (t in template) {
             val template = t.visit(this)
-            var tmp: OPBase = LOPProjection()
-            for (v in template.getProvidedVariableNames())
-                (tmp as LOPProjection).variables.add(AOPVariable(v))
-            (tmp as LOPProjection).setChild(LOPJoin(child, template, false))
-            when {
-                t is ASTTriple -> {
-                    val s = t.children[0]
-                    val p = t.children[1]
-                    val o = t.children[2]
-                    if (s is ASTVar)
-                        tmp = LOPRename(AOPVariable("s"), AOPVariable(s.name), tmp)
-                    else
-                        tmp = LOPBind(AOPVariable("s"), s.visit(this), tmp)
-                    if (p is ASTVar)
-                        tmp = LOPRename(AOPVariable("p"), AOPVariable(p.name), tmp)
-                    else
-                        tmp = LOPBind(AOPVariable("p"), p.visit(this), tmp)
-                    if (o is ASTVar)
-                        tmp = LOPRename(AOPVariable("o"), AOPVariable(o.name), tmp)
-                    else
-                        tmp = LOPBind(AOPVariable("o"), o.visit(this), tmp)
-                }
-                else -> throw UnsupportedOperationException("${classNameToString(this)} template ${classNameToString(t)}")
-            }
+            var tmp: OPBase = child
+            if (template is LOPTriple) {
+                val s = template.s
+                val p = template.p
+                val o = template.o
+                if (s is AOPVariable)
+                    tmp = LOPRename(AOPVariable("s"), AOPVariable(s.name), tmp)
+                else
+                    tmp = LOPBind(AOPVariable("s"), s, tmp)
+                if (p is AOPVariable)
+                    tmp = LOPRename(AOPVariable("p"), AOPVariable(p.name), tmp)
+                else
+                    tmp = LOPBind(AOPVariable("p"), p, tmp)
+                if (o is AOPVariable)
+                    tmp = LOPRename(AOPVariable("o"), AOPVariable(o.name), tmp)
+                else
+                    tmp = LOPBind(AOPVariable("o"), o, tmp)
+            } else
+                throw UnsupportedOperationException("${classNameToString(this)} template ${classNameToString(t)}")
+            tmp = LOPProjection(mutableListOf(AOPVariable("s"), AOPVariable("p"), AOPVariable("o")), tmp)
             if (result == null)
                 result = tmp
             else
@@ -758,48 +754,161 @@ class OperatorGraphVisitor : Visitor<OPBase> {
 
     override fun visit(node: ASTBuiltInCall, childrenValues: List<OPBase>): OPBase {
         when (node.function) {
-            BuiltInFunctions.STR -> return AOPBuildInCallSTR(childrenValues[0] as AOPBase)
-            BuiltInFunctions.LANG -> return AOPBuildInCallLANG(childrenValues[0] as AOPBase)
-            BuiltInFunctions.LANGMATCHES -> return AOPBuildInCallLANGMATCHES(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
-            BuiltInFunctions.DATATYPE -> return AOPBuildInCallDATATYPE(childrenValues[0] as AOPBase)
-            BuiltInFunctions.BOUND -> return AOPBuildInCallBOUND(childrenValues[0] as AOPBase)
-            BuiltInFunctions.IRI -> return AOPBuildInCallIRI(childrenValues[0] as AOPBase)
-            BuiltInFunctions.URI -> return AOPBuildInCallURI(childrenValues[0] as AOPBase)
+            BuiltInFunctions.STR -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallSTR(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.LANG -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallLANG(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.LANGMATCHES -> {
+                require(childrenValues.size == 2)
+                return AOPBuildInCallLANGMATCHES(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+            }
+            BuiltInFunctions.DATATYPE -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallDATATYPE(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.BOUND -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallBOUND(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.IRI -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallIRI(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.URI -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallURI(childrenValues[0] as AOPBase)
+            }
             BuiltInFunctions.BNODE -> {
                 if (childrenValues.size == 1)
                     return AOPBuildInCallBNODE1(childrenValues[0] as AOPBase)
                 return AOPBuildInCallBNODE0()
             }
-            BuiltInFunctions.ABS -> return AOPBuildInCallABS(childrenValues[0] as AOPBase)
-            BuiltInFunctions.CEIL -> return AOPBuildInCallCEIL(childrenValues[0] as AOPBase)
-            BuiltInFunctions.FLOOR -> return AOPBuildInCallFLOOR(childrenValues[0] as AOPBase)
-            BuiltInFunctions.ROUND -> return AOPBuildInCallROUND(childrenValues[0] as AOPBase)
-            BuiltInFunctions.CONCAT -> return AOPBuildInCallCONCAT(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
-            BuiltInFunctions.STRLEN -> return AOPBuildInCallSTRLEN(childrenValues[0] as AOPBase)
-            BuiltInFunctions.UCASE -> return AOPBuildInCallUCASE(childrenValues[0] as AOPBase)
-            BuiltInFunctions.LCASE -> return AOPBuildInCallLCASE(childrenValues[0] as AOPBase)
-            BuiltInFunctions.CONTAINS -> return AOPBuildInCallCONTAINS(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
-            BuiltInFunctions.STRSTARTS -> return AOPBuildInCallSTRSTARTS(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
-            BuiltInFunctions.STRENDS -> return AOPBuildInCallSTRENDS(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
-            BuiltInFunctions.YEAR -> return AOPBuildInCallYEAR(childrenValues[0] as AOPBase)
-            BuiltInFunctions.MONTH -> return AOPBuildInCallMONTH(childrenValues[0] as AOPBase)
-            BuiltInFunctions.DAY -> return AOPBuildInCallDAY(childrenValues[0] as AOPBase)
-            BuiltInFunctions.HOURS -> return AOPBuildInCallHOURS(childrenValues[0] as AOPBase)
-            BuiltInFunctions.MINUTES -> return AOPBuildInCallMINUTES(childrenValues[0] as AOPBase)
-            BuiltInFunctions.SECONDS -> return AOPBuildInCallSECONDS(childrenValues[0] as AOPBase)
-            BuiltInFunctions.TIMEZONE -> return AOPBuildInCallTIMEZONE(childrenValues[0] as AOPBase)
-            BuiltInFunctions.TZ -> return AOPBuildInCallTZ(childrenValues[0] as AOPBase)
-            BuiltInFunctions.NOW -> return AOPBuildInCallNOW()
-            BuiltInFunctions.UUID -> return AOPBuildInCallUUID()
-            BuiltInFunctions.STRUUID -> return AOPBuildInCallSTRUUID()
-            BuiltInFunctions.MD5 -> return AOPBuildInCallMD5(childrenValues[0] as AOPBase)
-            BuiltInFunctions.SHA1 -> return AOPBuildInCallSHA1(childrenValues[0] as AOPBase)
-            BuiltInFunctions.SHA256 -> return AOPBuildInCallSHA256(childrenValues[0] as AOPBase)
-            BuiltInFunctions.IF -> return AOPBuildInCallIF(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase)
-            BuiltInFunctions.STRLANG -> return AOPBuildInCallSTRLANG(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
-            BuiltInFunctions.STRDT -> return AOPBuildInCallSTRDT(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
-            BuiltInFunctions.isLITERAL -> return AOPBuildInCallIsLITERAL(childrenValues[0] as AOPBase)
-            BuiltInFunctions.isNUMERIC -> return AOPBuildInCallIsNUMERIC(childrenValues[0] as AOPBase)
+            BuiltInFunctions.ABS -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallABS(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.CEIL -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallCEIL(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.FLOOR -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallFLOOR(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.ROUND -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallROUND(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.CONCAT -> {
+                require(childrenValues.size > 0)
+                var res = childrenValues[0] as AOPBase
+                for (i in 1 until childrenValues.size)
+                    res = AOPBuildInCallCONCAT(res, childrenValues[i] as AOPBase)
+                return res
+            }
+            BuiltInFunctions.STRLEN -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallSTRLEN(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.UCASE -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallUCASE(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.LCASE -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallLCASE(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.CONTAINS -> {
+                require(childrenValues.size == 2)
+                return AOPBuildInCallCONTAINS(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+            }
+            BuiltInFunctions.STRSTARTS -> {
+                require(childrenValues.size == 2)
+                return AOPBuildInCallSTRSTARTS(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+            }
+            BuiltInFunctions.STRENDS -> {
+                require(childrenValues.size == 2)
+                return AOPBuildInCallSTRENDS(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+            }
+            BuiltInFunctions.YEAR -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallYEAR(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.MONTH -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallMONTH(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.DAY -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallDAY(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.HOURS -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallHOURS(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.MINUTES -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallMINUTES(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.SECONDS -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallSECONDS(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.TIMEZONE -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallTIMEZONE(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.TZ -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallTZ(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.NOW -> {
+                require(childrenValues.size == 0)
+                return AOPBuildInCallNOW()
+            }
+            BuiltInFunctions.UUID -> {
+                require(childrenValues.size == 0)
+                return AOPBuildInCallUUID()
+            }
+            BuiltInFunctions.STRUUID -> {
+                return AOPBuildInCallSTRUUID()
+            }
+            BuiltInFunctions.MD5 -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallMD5(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.SHA1 -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallSHA1(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.SHA256 -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallSHA256(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.IF -> {
+                require(childrenValues.size == 3)
+                return AOPBuildInCallIF(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase)
+            }
+            BuiltInFunctions.STRLANG -> {
+                require(childrenValues.size == 2)
+                return AOPBuildInCallSTRLANG(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+            }
+            BuiltInFunctions.STRDT -> {
+                require(childrenValues.size == 2)
+                return AOPBuildInCallSTRDT(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
+            }
+            BuiltInFunctions.isLITERAL -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallIsLITERAL(childrenValues[0] as AOPBase)
+            }
+            BuiltInFunctions.isNUMERIC -> {
+                require(childrenValues.size == 1)
+                return AOPBuildInCallIsNUMERIC(childrenValues[0] as AOPBase)
+            }
             else -> throw UnsupportedOperationException("${classNameToString(this)} ${node.function}")
         }
     }
