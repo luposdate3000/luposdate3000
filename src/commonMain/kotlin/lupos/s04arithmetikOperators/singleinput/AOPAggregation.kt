@@ -49,21 +49,21 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         if (type == Aggregation.COUNT)
-            return addMicroTest(this, resultRow, resultSet) {
+            return resultFlow(this, resultRow, resultSet) {
                 AOPInteger(count)
             }
         if (!collectMode) {
             if (a == null)
-                return addMicroTest(this, resultRow, resultSet) {
+                return resultFlow(this, resultRow, resultSet) {
                     AOPUndef()
                 }
             else
-                return addMicroTest(this, resultRow, resultSet) {
+                return resultFlow(this, resultRow, resultSet) {
                     a!!
                 }
         }
         if (distinct)
-            throw addMicroTest(this, resultRow, resultSet) {
+            throw resultFlow(this, resultRow, resultSet) {
                 Exception("AOPAggregation does not support distinct")
             }
         when (type) {
@@ -86,7 +86,7 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
                 else if (a is AOPInteger || b is AOPInteger)
                     a = AOPDecimal(a!!.toDouble() + (b.toDouble() / (0.0 + count)))
                 else
-                    throw addMicroTest(this, resultRow, resultSet) {
+                    throw resultFlow(this, resultRow, resultSet) {
                         Exception("AOPAggregation avg only defined on numberic input")
                     }
             }
@@ -102,7 +102,7 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
                 else if (a is AOPInteger || b is AOPInteger)
                     flag = a!!.toInt() > b.toInt()
                 else
-                    throw addMicroTest(this, resultRow, resultSet) {
+                    throw resultFlow(this, resultRow, resultSet) {
                         Exception("AOPAggregation avg only defined on numeric input")
                     }
                 if (flag)
@@ -120,7 +120,7 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
                 else if (a is AOPInteger || b is AOPInteger)
                     flag = a!!.toInt() < b.toInt()
                 else
-                    throw addMicroTest(this, resultRow, resultSet) {
+                    throw resultFlow(this, resultRow, resultSet) {
                         Exception("AOPAggregation avg only defined on numeric input")
                     }
                 if (flag)
@@ -137,15 +137,15 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
                 else if (a is AOPInteger || b is AOPInteger)
                     a = AOPInteger(a!!.toInt() + b.toInt())
                 else
-                    throw addMicroTest(this, resultRow, resultSet) {
+                    throw resultFlow(this, resultRow, resultSet) {
                         Exception("AOPAggregation avg only defined on numeric input")
                     }
             }
-            else -> throw addMicroTest(this, resultRow, resultSet) {
+            else -> throw resultFlow(this, resultRow, resultSet) {
                 Exception("AOPAggregation ${type} not implemented")
             }
         }
-        return addMicroTest(this, resultRow, resultSet) {
+        return resultFlow(this, resultRow, resultSet) {
             a!!
         }
     }

@@ -3,7 +3,7 @@ package lupos.s04arithmetikOperators.multiinput
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s04arithmetikOperators.addMicroTest
+import lupos.s04arithmetikOperators.resultFlow
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -34,10 +34,10 @@ class AOPAnd(childA: AOPBase, childB: AOPBase) : AOPBase() {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPBoolean && b is AOPBoolean)
-            return addMicroTest(this, resultRow, resultSet) {
+            return resultFlow(this, resultRow, resultSet) {
                 AOPBoolean(a.value && b.value)
             }
-        throw addMicroTest(this, resultRow, resultSet) {
+        throw resultFlow(this, resultRow, resultSet) {
             Exception("AOPAnd only works with boolean input")
         }
     }

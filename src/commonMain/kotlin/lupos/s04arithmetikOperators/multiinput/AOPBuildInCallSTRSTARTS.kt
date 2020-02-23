@@ -28,15 +28,15 @@ class AOPBuildInCallSTRSTARTS(child: AOPBase, childB: AOPBase) : AOPBase() {
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPConstantString) {
             if (b is AOPSimpleLiteral)
-                return addMicroTest(this, resultRow, resultSet) {
+                return resultFlow(this, resultRow, resultSet) {
                     AOPBoolean(a.content.startsWith(b.content))
                 }
             else
-                throw addMicroTest(this, resultRow, resultSet) {
+                throw resultFlow(this, resultRow, resultSet) {
                     Exception("AOPBuiltInCall STRSTARTS only works with simple compare string input")
                 }
         }
-        throw addMicroTest(this, resultRow, resultSet) {
+        throw resultFlow(this, resultRow, resultSet) {
             Exception("AOPBuiltInCall STRSTARTS only works with string input")
         }
     }

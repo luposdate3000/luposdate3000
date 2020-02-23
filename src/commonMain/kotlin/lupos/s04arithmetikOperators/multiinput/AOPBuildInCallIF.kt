@@ -3,7 +3,7 @@ package lupos.s04arithmetikOperators.singleinput
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s04arithmetikOperators.addMicroTest
+import lupos.s04arithmetikOperators.resultFlow
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -30,15 +30,15 @@ class AOPBuildInCallIF(child: AOPBase, childA: AOPBase, childB: AOPBase) : AOPBa
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPBoolean) {
             if (a.value)
-                return addMicroTest(this, resultRow, resultSet) {
+                return resultFlow(this, resultRow, resultSet) {
                     (children[1] as AOPBase).calculate(resultSet, resultRow)
                 }
             else
-                return addMicroTest(this, resultRow, resultSet) {
+                return resultFlow(this, resultRow, resultSet) {
                     (children[2] as AOPBase).calculate(resultSet, resultRow)
                 }
         }
-        throw addMicroTest(this, resultRow, resultSet) {
+        throw resultFlow(this, resultRow, resultSet) {
             Exception("AOPBuiltInCall IF only works with boolean condition")
         }
     }

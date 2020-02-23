@@ -32,32 +32,32 @@ class AOPDivision(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedNam
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDouble || b is AOPDouble) {
             if (b.toDouble() == 0.0)
-                throw addMicroTest(this, resultRow, resultSet) {
+                throw resultFlow(this, resultRow, resultSet) {
                     Exception("AOPDivision by zero")
                 }
-            return addMicroTest(this, resultRow, resultSet) {
+            return resultFlow(this, resultRow, resultSet) {
                 AOPDouble(a.toDouble() / b.toDouble())
             }
         }
         if (a is AOPDecimal || b is AOPDecimal) {
             if (b.toDouble() == 0.0)
-                throw addMicroTest(this, resultRow, resultSet) {
+                throw resultFlow(this, resultRow, resultSet) {
                     Exception("AOPDivision by zero")
                 }
-            return addMicroTest(this, resultRow, resultSet) {
+            return resultFlow(this, resultRow, resultSet) {
                 AOPDecimal(a.toDouble() / b.toDouble())
             }
         }
         if (a is AOPInteger || b is AOPInteger) {
             if (b.toInt() == 0)
-                throw addMicroTest(this, resultRow, resultSet) {
+                throw resultFlow(this, resultRow, resultSet) {
                     Exception("AOPDivision by zero")
                 }
-            return addMicroTest(this, resultRow, resultSet) {
+            return resultFlow(this, resultRow, resultSet) {
                 AOPInteger(a.toInt() / b.toInt())
             }
         }
-        throw addMicroTest(this, resultRow, resultSet) {
+        throw resultFlow(this, resultRow, resultSet) {
             Exception("AOPDivision only works with numeric input")
         }
     }

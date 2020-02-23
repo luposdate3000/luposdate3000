@@ -43,18 +43,18 @@ class AOPBuildInCallABS(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDouble)
-            return addMicroTest(this, resultRow, resultSet) {
+            return resultFlow(this, resultRow, resultSet) {
                 AOPDouble(abs(a.value))
             }
         if (a is AOPDecimal)
-            return addMicroTest(this, resultRow, resultSet) {
+            return resultFlow(this, resultRow, resultSet) {
                 AOPDecimal(abs(a.value))
             }
         if (a is AOPInteger)
-            return addMicroTest(this, resultRow, resultSet) {
+            return resultFlow(this, resultRow, resultSet) {
                 AOPInteger(abs(a.value).toInt())
             }
-        throw addMicroTest(this, resultRow, resultSet) {
+        throw resultFlow(this, resultRow, resultSet) {
             Exception("AOPBuiltInCall ABS only works with numeric input")
         }
     }

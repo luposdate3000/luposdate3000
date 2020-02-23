@@ -15,7 +15,7 @@ val listOfMicroTests = ThreadSafeMutableList<String>()
 data class MicroTest(val input: AOPBase, val resultRow: ResultRow, val resultSet: ResultSet, val expected: Any) {
 }
 
-fun <T> addMicroTest(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, action: () -> T): T {
+fun <T> resultFlow(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, action: () -> T): T {
     val expected = action()
     val variableNames = mutableMapOf<String, String>()
     if (input is AOPVariable)

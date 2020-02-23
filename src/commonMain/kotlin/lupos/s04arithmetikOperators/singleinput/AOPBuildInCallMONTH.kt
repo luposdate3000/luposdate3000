@@ -26,10 +26,10 @@ class AOPBuildInCallMONTH(child: AOPBase) : AOPBase() {
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPDateTime)
-            return addMicroTest(this, resultRow, resultSet) {
+            return resultFlow(this, resultRow, resultSet) {
                 AOPInteger(a.month)
             }
-        throw addMicroTest(this, resultRow, resultSet) {
+        throw resultFlow(this, resultRow, resultSet) {
             Exception("AOPBuiltInCall MONTH only works with dateTime input")
         }
     }

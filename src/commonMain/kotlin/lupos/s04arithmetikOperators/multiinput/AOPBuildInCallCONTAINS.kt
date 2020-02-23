@@ -3,7 +3,7 @@ package lupos.s04arithmetikOperators.singleinput
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s04arithmetikOperators.addMicroTest
+import lupos.s04arithmetikOperators.resultFlow
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -33,15 +33,15 @@ class AOPBuildInCallCONTAINS(child: AOPBase, childB: AOPBase) : AOPBase() {
         if (a is AOPConstantString) {
             val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
             if (b is AOPSimpleLiteral)
-                return addMicroTest(this, resultRow, resultSet) {
+                return resultFlow(this, resultRow, resultSet) {
                     AOPBoolean(a.content.contains(b.content))
                 }
             else
-                throw addMicroTest(this, resultRow, resultSet) {
+                throw resultFlow(this, resultRow, resultSet) {
                     Exception("AOPBuiltInCall CONTAINS only works with simple compare string input")
                 }
         }
-        throw addMicroTest(this, resultRow, resultSet) {
+        throw resultFlow(this, resultRow, resultSet) {
             Exception("AOPBuiltInCall CONTAINS only works with string input")
         }
     }
