@@ -14,6 +14,7 @@ import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s09physicalOperators.*
 import lupos.s00misc.classNameToString
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
@@ -37,18 +38,12 @@ class MicroTest1(input: AOPBase, val resultRow: ResultRow, val resultSet: Result
 class MicroTestN(input: AOPBase, val resultRows: List<ResultRow>, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
 }
 
-/*
 val mapOfResultRows = ThreadSafeMutableMap<Long, MutableList<String>>()
 
-fun resultFlow(input: POPBase, action: () -> ResultRow): ResultRow {
-    val expected = action()
-    val variableNames = mutableMapOf<String, String>()
-    val resultRowString = testCaseFromResultRow(expected, input.resultSet, prefix, variableNames)
-
-    return expected
+fun resultFlow(consumer:()-> POPBase, producer: ()->POPBase, action: () -> ResultRow): ResultRow {
+    val res = action()
+    return res
 }
-*/
-
 
 fun childContainsAggregation(input: OPBase): Boolean {
     if (input is AOPAggregation)
