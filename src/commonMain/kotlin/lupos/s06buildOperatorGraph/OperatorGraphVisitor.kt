@@ -779,7 +779,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             BuiltInFunctions.UCASE -> return AOPBuildInCallUCASE(childrenValues[0] as AOPBase)
             BuiltInFunctions.LCASE -> return AOPBuildInCallLCASE(childrenValues[0] as AOPBase)
             BuiltInFunctions.CONTAINS -> return AOPBuildInCallCONTAINS(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
-            BuiltInFunctions.STRSTARTS -> return AOPBuildInCallSTRSTARTS(childrenValues[0] as AOPBase)
+            BuiltInFunctions.STRSTARTS -> return AOPBuildInCallSTRSTARTS(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             BuiltInFunctions.STRENDS -> return AOPBuildInCallSTRENDS(childrenValues[0] as AOPBase, childrenValues[1] as AOPBase)
             BuiltInFunctions.YEAR -> return AOPBuildInCallYEAR(childrenValues[0] as AOPBase)
             BuiltInFunctions.MONTH -> return AOPBuildInCallMONTH(childrenValues[0] as AOPBase)

@@ -62,4 +62,10 @@ class ThreadSafeMutableList<T> {
         }
         return value
     }
+
+    fun clear() = mutex.withWriteLock {
+        val values = global_values.value.toMutableSet()
+        values.clear()
+        global_values.value = values.freeze()
+    }
 }

@@ -68,6 +68,8 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
         "AOPBuildInCallBNODE0" -> AOPBuildInCallBNODE0()
         "AOPBuildInCallSTR" -> AOPBuildInCallSTR(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
         "AOPIri" -> AOPIri(node.attributes["value"]!!)
+        "AOPBuildInCallSTRENDS" -> AOPBuildInCallSTRENDS(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
+        "AOPBuildInCallSTRSTARTS" -> AOPBuildInCallSTRSTARTS(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "POPSort" -> {
             val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)
             POPSort(dictionary, createAOPVariable(mapping, node.attributes["by"]!!), node.attributes["order"] == "ASC", child)

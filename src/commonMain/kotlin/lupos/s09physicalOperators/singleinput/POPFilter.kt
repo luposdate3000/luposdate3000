@@ -1,6 +1,8 @@
 package lupos.s09physicalOperators.singleinput
 
 import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.ELoggerType
+import lupos.s00misc.GlobalLogger
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSet
@@ -50,8 +52,13 @@ class POPFilter : POPBase {
         CoroutinesHelper.run {
             try {
                 for (nextRow in children[0].channel)
-                    if ((children[1] as POPExpression).evaluateBoolean(resultSet, nextRow))
-                        channel.send(nextRow)
+                    try {
+                        if ((children[1] as POPExpression).evaluateBoolean(resultSet, nextRow))
+                            channel.send(nextRow)
+                    } catch (e: Throwable) {
+                        GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
+                        GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
+                    }
                 channel.close()
                 children[0].channel.close()
             } catch (e: Throwable) {

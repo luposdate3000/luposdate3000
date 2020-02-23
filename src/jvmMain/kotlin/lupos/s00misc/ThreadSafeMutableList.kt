@@ -46,4 +46,8 @@ class ThreadSafeMutableList<T>() {
         }
         return res
     }
+
+    fun clear() = mutex.withWriteLock {
+        values.clear()
+    }
 }

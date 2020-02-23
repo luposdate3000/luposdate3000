@@ -1,6 +1,6 @@
 package lupos.s04arithmetikOperators.singleinput
 
-import lupos.s00misc.XMLElement
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*
@@ -25,8 +25,8 @@ class AOPBuildInCallSTRENDS(child: AOPBase, childB: AOPBase) : AOPBase() {
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
+        val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPConstantString) {
-            val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
             if (b is AOPSimpleLiteral)
                 return addMicroTest(this, resultRow, resultSet, AOPBoolean(a.content.endsWith(b.content)))
             else

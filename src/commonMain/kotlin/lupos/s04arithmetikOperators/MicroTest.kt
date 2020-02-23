@@ -58,10 +58,8 @@ fun <T> addMicroTest(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet,
     res += "${prefix}            }()"
     var found = false
     listOfMicroTests.forEach {
-        if (it == res) {
+        if (it == res)
             found = true
-            break
-        }
     }
     if (!found)
         listOfMicroTests.add(res)

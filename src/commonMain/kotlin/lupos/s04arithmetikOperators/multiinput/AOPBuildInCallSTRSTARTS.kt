@@ -8,8 +8,8 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
-class AOPBuildInCallSTRSTARTS(child: AOPBase) : AOPBase() {
-    override val children: Array<OPBase> = arrayOf(child)
+class AOPBuildInCallSTRSTARTS(child: AOPBase, childB: AOPBase) : AOPBase() {
+    override val children: Array<OPBase> = arrayOf(child, childB)
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPBuildInCallSTRSTARTS")
@@ -25,8 +25,8 @@ class AOPBuildInCallSTRSTARTS(child: AOPBase) : AOPBase() {
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
+        val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPConstantString) {
-            val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
             if (b is AOPSimpleLiteral)
                 return addMicroTest(this, resultRow, resultSet, AOPBoolean(a.content.startsWith(b.content)))
             else
