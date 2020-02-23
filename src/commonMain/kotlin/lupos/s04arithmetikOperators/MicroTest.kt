@@ -114,14 +114,13 @@ fun printAllMicroTest(testName: String, success: Boolean) {
         println("${prefix}        DynamicTest.dynamicTest(\"test->${testName}<-\$index\") {")
         println("${prefix}            try {")
         println("${prefix}                val output:AOPConstant")
-        println("${prefix}                if (data is MicroTest0) {")
+        println("${prefix}                if (data is MicroTest1) {")
+        println("${prefix}                    output = data.input.calculate(data.resultSet, data.resultRow)")
+        println("${prefix}                } else{")
         println("${prefix}                    val resultSet = ResultSet(ResultSetDictionary())")
         println("${prefix}                    val resultRow = resultSet.createResultRow()")
         println("${prefix}                    output = data.input.calculate(resultSet, resultRow)")
-        println("${prefix}                } else if (data is MicroTest1) {")
-        println("${prefix}                    output = data.input.calculate(data.resultSet, data.resultRow)")
-        println("${prefix}                } else")
-        println("${prefix}                    output = AOPUndef()")
+        println("${prefix}                }")
         println("${prefix}                assertTrue(data.expected is AOPConstant)")
         println("${prefix}                if (!data.expected.equals(output)) {")
         println("${prefix}                    if(data is MicroTest1)")
@@ -178,10 +177,18 @@ fun testCaseFromAOPBase(input: AOPBase, resultRow: ResultRow, resultSet: ResultS
         else -> {
             var res = ""
             res += "${classNameToString(input)}("
-            if (input.children.size > 0)
-                res += testCaseFromAOPBase((input.children[0] as AOPBase).calculate(resultSet, resultRow), resultRow, resultSet)
-            for (i in 1 until input.children.size)
-                res += ", " + testCaseFromAOPBase((input.children[i] as AOPBase).calculate(resultSet, resultRow), resultRow, resultSet)
+            if (input.children.size > 0){
+		if(input.children[0] is AOPVariable)
+			res += testCaseFromAOPBase((input.children[0] as AOPBase), resultRow, resultSet) 
+		else
+	                res += testCaseFromAOPBase((input.children[0] as AOPBase).calculate(resultSet, resultRow), resultRow, resultSet)
+	    }
+            for (i in 1 until input.children.size){
+		if(input.children[i] is AOPVariable)
+	                res += ", " + testCaseFromAOPBase((input.children[i] as AOPBase), resultRow, resultSet)
+		else
+        	        res += ", " + testCaseFromAOPBase((input.children[i] as AOPBase).calculate(resultSet, resultRow), resultRow, resultSet)
+	    }
 
             res += ")"
             return res
