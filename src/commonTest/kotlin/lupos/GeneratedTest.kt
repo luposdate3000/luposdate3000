@@ -14,6 +14,7 @@ import lupos.s08logicalOptimisation.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
+
 class AOPVariableTest {
     @TestFactory
     fun testresources_sparql11_test_suite_aggregates_agg01_rq() = listOf(
