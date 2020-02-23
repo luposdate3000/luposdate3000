@@ -4,11 +4,13 @@ import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeMutableSet
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.singleinput.*
+import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.*
-
+import lupos.s00misc.classNameToString
 
 val prefix = "--MicroTest--"
 val listOfMicroTests = ThreadSafeMutableList<String>()
@@ -16,26 +18,14 @@ val listOfMicroTests = ThreadSafeMutableList<String>()
 data class MicroTest(val input: AOPBase, val resultRow: ResultRow, val resultSet: ResultSet, val expected: Any) {
 }
 
-val mapOfResultRows=ThreadSafeMutableMap<Long,List<String>>()
-fun <T> resultFlow(input: POPBase, action: () -> T): T {
-return action()
-}
+val mapOfResultRows=ThreadSafeMutableMap<Long,MutableList<String>>()
 
-fun resultRowToString(resultRow: ResultRow, resultSet: ResultSet,prefix:String,variableNames:Map<String, String>):String{
-    var res=""
-    res += "${prefix}{\n"
-    res += "${prefix}    val resultRow = resultSet.createResultRow()\n"
-    for (v in resultSet.getVariableNames()) {
-        val name = variableNames[v]!!
-        val value = AOPVariable("$name").calculate(resultSet, resultRow).valueToString()
-        if (value == null)
-            res += "${prefix}    resultSet.setUndefValue(resultRow, resultSet.createVariable(\"$name\"))\n"
-        else
-            res += "${prefix}    resultRow[resultSet.createVariable(\"$name\")] = resultSet.createValue(\"${value.replace("\"", "\\\"")}\")\n"
-    }
-    res += "${prefix}    resultRow\n"
-    res += "${prefix}}(),\n"
-    return res
+fun resultFlow(input: POPBase, action: () -> ResultRow): ResultRow {
+	val expected= action()
+	val variableNames = mutableMapOf<String, String>()
+	val resultRowString=testCaseFromResultRow(expected,input.resultSet,prefix,variableNames)
+	
+	return expected
 }
 
 fun <T> resultFlow(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, action: () -> T): T {
@@ -60,11 +50,11 @@ fun <T> resultFlow(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, a
         res += "${prefix}                resultSet.createVariable(\"$name\")\n"
     }
     res += "${prefix}                MicroTest(\n"
-    res += "${prefix}                        " + input.toTestCaseInput() + ",\n"
-    res += resultRowToString(resultRow,resultSet,"${prefix}                        ",variableNames)
+    res += "${prefix}                        " + testCaseFromAOPBase(input,resultRow,resultSet) + ",\n"
+    res += testCaseFromResultRow(resultRow,resultSet,"${prefix}                        ",variableNames)
     res += "${prefix}                        resultSet,\n"
     if (expected is AOPBase)
-        res += "${prefix}                        " + expected.toTestCaseInput() + "\n"
+        res += "${prefix}                        " + testCaseFromAOPBase(expected,resultRow,resultSet) + "\n"
     else
         res += "${prefix}                        Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
     res += "${prefix}                )\n"
@@ -118,3 +108,73 @@ fun printAllMicroTest(testName: String, success: Boolean) {
         println("${prefix}")
     }
 }
+
+
+
+fun testCaseFromAOPBase(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet):String{
+when (input){
+is AOPBuildInCallURI -> return "AOPBuildInCallURI(${testCaseFromAOPBase(input.children[0] as AOPBase,resultRow,resultSet)}, \"${input.prefix}\")"
+is AOPBuildInCallIRI -> return "AOPBuildInCallIRI(${testCaseFromAOPBase(input.children[0] as AOPBase,resultRow,resultSet)}, \"${input.prefix}\")"
+is AOPDecimal-> return "AOPDecimal(${input.value})"
+is AOPBoolean-> return "AOPBoolean(${input.value})"
+is AOPDateTime-> return "AOPDateTime(\"${input.valueToString().replace("\"", "\\\"")}\")"
+is AOPVariable-> return "AOPVariable(\"${input.name}\")"
+is AOPUndef-> return "AOPUndef()"
+is AOPInteger-> return "AOPInteger(${input.value})"
+is AOPLanguageTaggedLiteral->{
+if (input.delimiter == "\"")
+            return "AOPLanguageTaggedLiteral(\"\\\"\", \"${input.content.replace("\"", "\\\"")}\", \"${input.language.replace("\"", "\\\"")}\")"
+        return "AOPLanguageTaggedLiteral(\"${input.delimiter}\", \"${input.content.replace("\"", "\\\"")}\", \"${input.language.replace("\"", "\\\"")}\")"
+}
+is AOPSimpleLiteral->{
+ if (input.delimiter == "\"")
+            return "AOPSimpleLiteral(\"\\\"\", \"${input.content.replace("\"", "\\\"")}\")"
+        return "AOPSimpleLiteral(\"${input.delimiter}\", \"${input.content.replace("\"", "\\\"")}\")"
+}
+is AOPDouble -> return "AOPDouble(${input.value})"
+is AOPIri-> return "AOPIri(\"${input.iri}\")"
+is AOPTypedLiteral->{
+ if (input.delimiter == "\"")
+            return "AOPTypedLiteral(\"\\\"\", \"${input.content.replace("\"", "\\\"")}\", \"${input.type_iri.replace("\"", "\\\"")}\")"
+        return "AOPTypedLiteral(\"${input.delimiter}\", \"${input.content.replace("\"", "\\\"")}\", \"${input.type_iri.replace("\"", "\\\"")}\")"
+}
+is AOPBnode -> return "AOPBnode(\"${input.value.replace("\"", "\\\"")}\")"
+is AOPAggregation->{
+var res = "AOPAggregation(Aggregation.${input.type},${input.distinct},arrayOf("
+        if (input.children.size > 0)
+            res += testCaseFromAOPBase(input.children[0] as AOPBase,resultRow,resultSet)
+        for (i in 1 until input.children.size)
+            res += "," + testCaseFromAOPBase(input.children[i] as AOPBase,resultRow,resultSet)
+        return res + "))"
+}
+else->{
+	var res=""
+	res+="${classNameToString(input)}("
+if (input.children.size > 0)
+            res += testCaseFromAOPBase((input.children[0] as AOPBase).calculate(resultSet,resultRow),resultRow,resultSet)
+        for (i in 1 until input.children.size)
+            res += ", " + testCaseFromAOPBase((input.children[i] as AOPBase).calculate(resultSet,resultRow),resultRow,resultSet)
+        
+	res+=")"
+	return res
+}
+}
+}
+
+fun testCaseFromResultRow(resultRow: ResultRow, resultSet: ResultSet,prefix:String,variableNames:Map<String, String>):String{
+    var res=""
+    res += "${prefix}{\n"
+    res += "${prefix}    val resultRow = resultSet.createResultRow()\n"
+    for (v in resultSet.getVariableNames()) {
+        val name = variableNames[v]!!
+        val value = AOPVariable("$name").calculate(resultSet, resultRow).valueToString()
+        if (value == null)
+            res += "${prefix}    resultSet.setUndefValue(resultRow, resultSet.createVariable(\"$name\"))\n"
+        else
+            res += "${prefix}    resultRow[resultSet.createVariable(\"$name\")] = resultSet.createValue(\"${value.replace("\"", "\\\"")}\")\n"
+    }
+    res += "${prefix}    resultRow\n"
+    res += "${prefix}}(),\n"
+    return res
+}
+

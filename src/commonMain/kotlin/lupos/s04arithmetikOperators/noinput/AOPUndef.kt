@@ -10,7 +10,6 @@ import lupos.s04logicalOperators.OPBase
 class AOPUndef() : AOPConstant() {
     override val children: Array<OPBase> = arrayOf()
 
-    override fun toTestCaseInput() = "AOPUndef()"
 
     override fun toXMLElement(): XMLElement {
         return XMLElement("AOPUndef")

@@ -17,12 +17,6 @@ class AOPSimpleLiteral : AOPConstantString {
         this.content = content
     }
 
-    override fun toTestCaseInput(): String {
-        if (delimiter == "\"")
-            return "AOPSimpleLiteral(\"\\\"\", \"${content.replace("\"", "\\\"")}\")"
-        return "AOPSimpleLiteral(\"$delimiter\", \"${content.replace("\"", "\\\"")}\")"
-    }
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPSimpleLiteral")
         res.addAttribute("delimiter", delimiter)

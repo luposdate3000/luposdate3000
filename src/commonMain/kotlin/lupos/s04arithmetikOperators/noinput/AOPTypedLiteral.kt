@@ -19,12 +19,6 @@ class AOPTypedLiteral : AOPConstantString {
         this.type_iri = type_iri
     }
 
-    override fun toTestCaseInput(): String {
-        if (delimiter == "\"")
-            return "AOPTypedLiteral(\"\\\"\", \"${content.replace("\"", "\\\"")}\", \"${type_iri.replace("\"", "\\\"")}\")"
-        return "AOPTypedLiteral(\"$delimiter\", \"${content.replace("\"", "\\\"")}\", \"${type_iri.replace("\"", "\\\"")}\")"
-    }
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPTypedLiteral")
         res.addAttribute("delimiter", "" + delimiter)

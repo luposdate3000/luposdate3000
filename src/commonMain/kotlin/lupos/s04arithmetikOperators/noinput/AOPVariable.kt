@@ -10,7 +10,6 @@ import lupos.s04logicalOperators.OPBase
 class AOPVariable(var name: String) : AOPBase() {
     override val children: Array<OPBase> = arrayOf()
 
-    override fun toTestCaseInput() = "AOPVariable(\"$name\")"
 
     companion object {
         fun calculate(tmp: String?): AOPConstant {

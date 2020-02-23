@@ -10,15 +10,6 @@ import lupos.s04logicalOperators.OPBase
 
 abstract class AOPBase : OPBase() {
 
-    open fun toTestCaseInput(): String {
-        var res = "${classNameToString(this)}("
-        if (children.size > 0)
-            res += (children[0] as AOPBase).toTestCaseInput()
-        for (i in 1 until children.size)
-            res += ", " + (children[i] as AOPBase).toTestCaseInput()
-        return res + ")"
-    }
-
     override val resultSet = ResultSet(ResultSetDictionary())
     override fun evaluate() {
         throw Exception("this should not be called")
