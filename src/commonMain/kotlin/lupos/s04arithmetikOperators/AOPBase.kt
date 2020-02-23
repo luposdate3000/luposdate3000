@@ -1,9 +1,11 @@
 package lupos.s04arithmetikOperators
+import lupos.s04logicalOperators.OPBase
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s03resultRepresentation.ResultRow
+import lupos.s03resultRepresentation.ResultSet
+import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s00misc.classNameToString
 
-import lupos.s00misc.*
-import lupos.s03resultRepresentation.*
-import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04logicalOperators.*
 
 
 abstract class AOPBase : OPBase() {

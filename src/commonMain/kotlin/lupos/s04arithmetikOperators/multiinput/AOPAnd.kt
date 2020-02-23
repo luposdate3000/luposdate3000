@@ -1,9 +1,12 @@
 package lupos.s04arithmetikOperators.multiinput
+import lupos.s04arithmetikOperators.noinput.AOPBoolean
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.addMicroTest
+import lupos.s04arithmetikOperators.AOPBase
+import lupos.s03resultRepresentation.ResultRow
+import lupos.s03resultRepresentation.ResultSet
 
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.*
-import lupos.s04arithmetikOperators.*
-import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 

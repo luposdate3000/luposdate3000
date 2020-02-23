@@ -18,11 +18,32 @@ do
 				cat $f | grep -v -F "import $i" > tmp2
 				mv tmp2 $f
 				grep "^package " $f > tmp2
-				for e in $(./tool-gradle-build-without-tests-jvm-all.sh 2>&1 | grep "^e: " | grep "Unresolved reference" | sed "s/.*Unresolved reference: //g" | sort | uniq)
-				do
-					echo "import ${i::-1}$e" >> tmp2
-					echo $e
-				done
+				if [[ "$f" == *commonMain* ]]
+				then
+					echo "using tool-gradle-build-without-tests-jvm.sh"
+					for e in $(./tool-gradle-build-without-tests-jvm.sh 2>&1 | grep "^e: " | grep "Unresolved reference" | sed "s/.*Unresolved reference: //g" | sort | uniq)
+					do
+						echo "import ${i::-1}$e" >> tmp2
+						echo $e
+					done
+				else
+					if [[ "$f" == *commonTest* ]]
+					then
+						echo "using tool-gradle-build-with-tests-jvm.sh"
+						for e in $(./tool-gradle-build-without-tests-jvm.sh 2>&1 | grep "^e: " | grep "Unresolved reference" | sed "s/.*Unresolved reference: //g" | sort | uniq)
+						do
+							echo "import ${i::-1}$e" >> tmp2
+							echo $e
+						done
+					else
+						echo "using tool-gradle-build-without-tests-jvm-all.sh"
+						for e in $(./tool-gradle-build-without-tests-jvm-all.sh 2>&1 | grep "^e: " | grep "Unresolved reference" | sed "s/.*Unresolved reference: //g" | sort | uniq)
+						do
+							echo "import ${i::-1}$e" >> tmp2
+							echo $e
+						done
+					fi
+				fi
 				grep -v "^package " $f >> tmp2
 				mv tmp2 $f
 				changed=1

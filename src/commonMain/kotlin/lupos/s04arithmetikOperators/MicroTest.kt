@@ -1,9 +1,9 @@
 package lupos.s04arithmetikOperators
+import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s03resultRepresentation.ResultRow
+import lupos.s03resultRepresentation.ResultSet
+import lupos.s00misc.ThreadSafeMutableSet
 
-import lupos.s00misc.*
-import lupos.s03resultRepresentation.*
-import lupos.s04arithmetikOperators.*
-import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
