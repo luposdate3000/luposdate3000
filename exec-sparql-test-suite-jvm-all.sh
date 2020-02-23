@@ -20,7 +20,7 @@ then
 fi
 if [ "$chooseS12" == "commonS12LocalMain" ]
 then
-if [ "$chooseS15" == "commonS15DistributedMain" ]
+if [ "$chooseS15" == "commonS15DistributedMain" ] || [ "$chooseS14" == "jvmS14KorioMain" ]
 then
 # if there is just one node, there is no distribution
 	continue
