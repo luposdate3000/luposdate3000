@@ -24,7 +24,7 @@ open class MicroTest0(val input: AOPBase, val expected: Any) {
 class MicroTest1(input: AOPBase, val resultRow: ResultRow, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
 }
 
-class MicroTestN(input: AOPBase, val resultRow: List<ResultRow>, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
+class MicroTestN(input: AOPBase, val resultRows: List<ResultRow>, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
 }
 
 /*
@@ -68,8 +68,6 @@ fun <T> resultFlow(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, a
                 tmp.add(testCaseFromResultRow(resultRow, resultSet, "${prefix}                            ", variableNames))
             return expected
         } else {
-
-
             res += "${prefix}                val resultSet = ResultSet(ResultSetDictionary())\n"
             for (v in resultSet.getVariableNames()) {
                 val name = helperVariableName(v, variableNames)
@@ -92,8 +90,7 @@ fun <T> resultFlow(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, a
             else
                 res += "${prefix}                        Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
             res += "${prefix}                )\n"
-
-
+            mapOfAggregationChilds.remove(input.uuid)
         }
     } else {
         var hasVariable = false
@@ -146,7 +143,7 @@ fun printAllMicroTest(testName: String, success: Boolean) {
         println("${prefix}    fun test${name}() = listOf(")
         listOfMicroTests.forEach {
             if (success) {
-                if (it.contains("AOPAggregation") || it.contains("AOPBuildInCallBNODE1") || it.contains("AOPBuildInCallBNODE0"))
+                if (it.contains("AOPBuildInCallBNODE1") || it.contains("AOPBuildInCallBNODE0"))
                     println("${prefix}            /*" + it + "*/")
                 else
                     println("${prefix}            " + it + ",")
@@ -162,10 +159,17 @@ fun printAllMicroTest(testName: String, success: Boolean) {
         println("${prefix}                val output:AOPConstant")
         println("${prefix}                if (data is MicroTest1) {")
         println("${prefix}                    output = data.input.calculate(data.resultSet, data.resultRow)")
-        println("${prefix}                } else{")
+        println("${prefix}                } else if (data is MicroTestN) {")
+        println("${prefix}                    if(data.input is AOPBase)")
+        println("${prefix}                        setAggregationMode(data.input, true, data.resultRows.count())")
+        println("${prefix}                    for (resultRow in data.resultRows)")
+        println("${prefix}                        data.input.calculate(data.resultSet, resultRow)")
+        println("${prefix}                    if(data.input is AOPBase)")
+        println("${prefix}                        setAggregationMode(data.input, false, data.resultRows.count())")
+        println("${prefix}                    output = data.input.calculate(data.resultSet, data.resultSet.createResultRow())")
+        println("${prefix}                } else {")
         println("${prefix}                    val resultSet = ResultSet(ResultSetDictionary())")
-        println("${prefix}                    val resultRow = resultSet.createResultRow()")
-        println("${prefix}                    output = data.input.calculate(resultSet, resultRow)")
+        println("${prefix}                    output = data.input.calculate(resultSet, resultSet.createResultRow())")
         println("${prefix}                }")
         println("${prefix}                assertTrue(data.expected is AOPConstant)")
         println("${prefix}                if (!data.expected.equals(output)) {")

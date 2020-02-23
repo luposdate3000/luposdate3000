@@ -16,5 +16,15 @@ echo "import org.junit.jupiter.api.*" >> src/commonTest/kotlin/lupos/GeneratedTe
 echo "import org.junit.jupiter.api.Assertions.*" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
 echo "" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
 echo "class AOPVariableTest {" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
+echo "    fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
+echo "        for (n in node.children)" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
+echo "            setAggregationMode(n, mode, count)" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
+echo "        if (node is AOPAggregation) {" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
+echo "            node.count = count" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
+echo "            node.collectMode = mode" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
+echo "            if (node.collectMode)" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
+echo "                node.a = null" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
+echo "        }" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
+echo "    }" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
 cat log/x | grep "^--MicroTest--" | sed "s/^--MicroTest--//g" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
 echo "}" >> src/commonTest/kotlin/lupos/GeneratedTest.kt
