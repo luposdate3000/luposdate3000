@@ -16,13 +16,16 @@ import lupos.s09physicalOperators.*
 
 val prefix = "--MicroTest--"
 val listOfMicroTests = ThreadSafeMutableList<String>()
-
+val mapOfAggregationChilds = ThreadSafeMutableMap<Long, MutableList<String>>()
 open class MicroTest0(val input: AOPBase, val expected: Any) {
 }
 
 class MicroTest1(input: AOPBase, val resultRow: ResultRow, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
 }
+class MicroTestN(input: AOPBase, val resultRow: List<ResultRow>, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
+}
 
+/*
 val mapOfResultRows = ThreadSafeMutableMap<Long, MutableList<String>>()
 
 fun resultFlow(input: POPBase, action: () -> ResultRow): ResultRow {
@@ -32,24 +35,10 @@ fun resultFlow(input: POPBase, action: () -> ResultRow): ResultRow {
 
     return expected
 }
+*/
 
-fun <T> resultFlow(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, action: () -> T): T {
-    val expected = action()
-    val variableNames = mutableMapOf<String, String>()
-    if (input is AOPVariable)
-        return expected
-    var res = "{\n"
-
-    var hasVariable = false
-    for (c in input.children)
-        if (c is AOPVariable) {
-            hasVariable = true
-            break
-        }
-    if (hasVariable) {
-        res += "${prefix}                val resultSet = ResultSet(ResultSetDictionary())\n"
-        for (v in resultSet.getVariableNames()) {
-            val name = when {
+fun helperVariableName(v:String,variableNames:MutableMap<String, String>):String{
+return when {
                 variableNames[v] != null -> variableNames[v]!!
                 v.startsWith("#") -> {
                     variableNames[v] = "#" + variableNames.keys.size
@@ -59,7 +48,63 @@ fun <T> resultFlow(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, a
                     variableNames[v] = v
                     variableNames[v]!!
                 }
-            }
+}
+}
+
+fun <T> resultFlow(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, action: () -> T): T {
+    val expected = action()
+    val variableNames = mutableMapOf<String, String>()
+    if (input is AOPVariable)
+        return expected
+    var res = "{\n"
+    if(input is AOPAggregation){
+        if(input.collectMode){
+		val tmp=mapOfAggregationChilds[input.uuid]
+		if(tmp==null)
+			mapOfAggregationChilds[input.uuid]=mutableListOf(testCaseFromResultRow(resultRow,resultSet,"${prefix}                            ",variableNames))
+		else		
+			tmp.add(testCaseFromResultRow(resultRow,resultSet,"${prefix}                            ",variableNames))
+return expected
+	}else{
+
+
+        res += "${prefix}                val resultSet = ResultSet(ResultSetDictionary())\n"
+        for (v in resultSet.getVariableNames()) {
+            val name = helperVariableName(v,variableNames)
+            res += "${prefix}                resultSet.createVariable(\"$name\")\n"
+        }
+        res += "${prefix}                MicroTestN(\n"
+        res += "${prefix}                        " + testCaseFromAOPBase(input, resultRow, resultSet) + ",\n"
+
+	res+="${prefix}                        listOf(\n"
+	val tmp=mapOfAggregationChilds[input.uuid]
+	if(tmp!=null){
+		for(x in tmp)
+			res+=x
+		res=res.substring(0,res.length-2)+"\n"
+	}
+	res+="${prefix}                        ),\n"
+        res += "${prefix}                        resultSet,\n"
+        if (expected is AOPBase)
+            res += "${prefix}                        " + testCaseFromAOPBase(expected, resultRow, resultSet) + "\n"
+        else
+            res += "${prefix}                        Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
+        res += "${prefix}                )\n"
+
+
+
+	}
+    }else{
+    var hasVariable = false
+    for (c in input.children)
+        if (c is AOPVariable) {
+            hasVariable = true
+            break
+        }
+    if (hasVariable) {
+        res += "${prefix}                val resultSet = ResultSet(ResultSetDictionary())\n"
+        for (v in resultSet.getVariableNames()) {
+            val name = helperVariableName(v,variableNames)
             res += "${prefix}                resultSet.createVariable(\"$name\")\n"
         }
         res += "${prefix}                MicroTest1(\n"
@@ -81,6 +126,7 @@ fun <T> resultFlow(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet, a
         res += "${prefix}                )\n"
 
     }
+}
     res += "${prefix}            }()"
     var found = false
     listOfMicroTests.forEach {
@@ -106,7 +152,6 @@ fun printAllMicroTest(testName: String, success: Boolean) {
             } else
                 println("${prefix}            /*" + it + "*/")
         }
-        listOfMicroTests.clear()
         println("${prefix}            {")
         println("${prefix}                MicroTest0(AOPUndef(), AOPUndef())")
         println("${prefix}            }()")
@@ -136,6 +181,8 @@ fun printAllMicroTest(testName: String, success: Boolean) {
         println("${prefix}    }")
         println("${prefix}")
     }
+    listOfMicroTests.clear()
+    mapOfAggregationChilds.clear()
 }
 
 fun testCaseFromAOPBase(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet): String {
@@ -177,18 +224,18 @@ fun testCaseFromAOPBase(input: AOPBase, resultRow: ResultRow, resultSet: ResultS
         else -> {
             var res = ""
             res += "${classNameToString(input)}("
-            if (input.children.size > 0){
-		if(input.children[0] is AOPVariable)
-			res += testCaseFromAOPBase((input.children[0] as AOPBase), resultRow, resultSet) 
-		else
-	                res += testCaseFromAOPBase((input.children[0] as AOPBase).calculate(resultSet, resultRow), resultRow, resultSet)
-	    }
-            for (i in 1 until input.children.size){
-		if(input.children[i] is AOPVariable)
-	                res += ", " + testCaseFromAOPBase((input.children[i] as AOPBase), resultRow, resultSet)
-		else
-        	        res += ", " + testCaseFromAOPBase((input.children[i] as AOPBase).calculate(resultSet, resultRow), resultRow, resultSet)
-	    }
+            if (input.children.size > 0) {
+                if (input.children[0] is AOPVariable)
+                    res += testCaseFromAOPBase((input.children[0] as AOPBase), resultRow, resultSet)
+                else
+                    res += testCaseFromAOPBase((input.children[0] as AOPBase).calculate(resultSet, resultRow), resultRow, resultSet)
+            }
+            for (i in 1 until input.children.size) {
+                if (input.children[i] is AOPVariable)
+                    res += ", " + testCaseFromAOPBase((input.children[i] as AOPBase), resultRow, resultSet)
+                else
+                    res += ", " + testCaseFromAOPBase((input.children[i] as AOPBase).calculate(resultSet, resultRow), resultRow, resultSet)
+            }
 
             res += ")"
             return res
@@ -196,12 +243,12 @@ fun testCaseFromAOPBase(input: AOPBase, resultRow: ResultRow, resultSet: ResultS
     }
 }
 
-fun testCaseFromResultRow(resultRow: ResultRow, resultSet: ResultSet, prefix: String, variableNames: Map<String, String>): String {
+fun testCaseFromResultRow(resultRow: ResultRow, resultSet: ResultSet, prefix: String, variableNames: MutableMap<String, String>): String {
     var res = ""
     res += "${prefix}{\n"
     res += "${prefix}    val resultRow = resultSet.createResultRow()\n"
     for (v in resultSet.getVariableNames()) {
-        val name = variableNames[v]!!
+        val name = helperVariableName(v,variableNames)
         val value = AOPVariable("$name").calculate(resultSet, resultRow).valueToString()
         if (value == null)
             res += "${prefix}    resultSet.setUndefValue(resultRow, resultSet.createVariable(\"$name\"))\n"
