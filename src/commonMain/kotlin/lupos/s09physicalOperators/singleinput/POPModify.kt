@@ -82,7 +82,7 @@ class POPModify : POPBase {
                                         else
                                             DistributedTripleStore.getNamedGraph(i.graph, true)
                                     }
-                                    val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
+                                    val data = listOf<String?>(evaluateRow(i.s, row), evaluateRow(i.p, row), evaluateRow(i.o, row))
                                     store.addData(transactionID, data)
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
@@ -103,7 +103,7 @@ class POPModify : POPBase {
                                         else
                                             DistributedTripleStore.getNamedGraph(i.graph, false)
                                     }
-                                    val data = listOf<String?>(evaluateRow(i.children[0], row), evaluateRow(i.children[1], row), evaluateRow(i.children[2], row))
+                                    val data = listOf<String?>(evaluateRow(i.s, row), evaluateRow(i.p, row), evaluateRow(i.o, row))
                                     store.deleteData(transactionID, data)
                                 }
                                 else -> throw UnsupportedOperationException("${classNameToString(this)} insert ${classNameToString(i)}")
