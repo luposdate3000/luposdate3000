@@ -354,6 +354,7 @@ fun printAllMicroTest() {
                 out.println("")
                 out.println("class Generated${operator}Test {")
                 out.println("    constructor(){")
+                out.println("        P2P.knownClients.clear()")
                 out.println("        P2P.knownClients.add(EndpointImpl.fullname)")
                 out.println("    }")
                 out.println("    fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {")

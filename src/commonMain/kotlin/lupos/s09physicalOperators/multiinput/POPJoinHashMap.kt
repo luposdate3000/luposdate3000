@@ -62,8 +62,6 @@ class POPJoinHashMap : POPBase {
         val variablesB2 = variablesB.minus(joinVariables)
         variables = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf<Pair<Variable, Variable>>())
         variablesJ = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf<Pair<Variable, Variable>>())
-println("aaa"+childA.toXMLElement().toPrettyString()+childA.getProvidedVariableNames())
-println("bbb"+childB.toXMLElement().toPrettyString()+childB.getProvidedVariableNames())
         for (name in variablesA2)
             variables[0].add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
         for (name in variablesB2)

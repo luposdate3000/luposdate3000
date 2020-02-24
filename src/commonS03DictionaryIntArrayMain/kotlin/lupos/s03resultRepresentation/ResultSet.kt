@@ -10,17 +10,9 @@ class ResultSet {
     val dictionary: ResultSetDictionary
     val variablesSTL = mutableMapOf<String, Variable>()
     val variablesLTS = mutableListOf<String>()
-    val location: String
 
     constructor(dictionary: ResultSetDictionary) {
         this.dictionary = dictionary
-        try {
-            throw Exception("e-set")
-        } catch (e: Throwable) {
-            val stringWriter = StringWriter()
-            e.printStackTrace(PrintWriter(stringWriter))
-            location = stringWriter.toString()
-        }
     }
 
 
@@ -33,8 +25,6 @@ class ResultSet {
     }
 
     fun createVariable(variable: String): Variable {
-if(variable=="#p2396")
-throw Exception(variable)
         val o = variablesSTL[variable]
         if (o != null)
             return o
@@ -73,20 +63,10 @@ throw Exception(variable)
     }
 
     fun isUndefValue(r: ResultRow, v: Variable): Boolean {
-        if (r.resultSet != this) {
-            println(location)
-            println(r.location)
-        }
-        require(r.resultSet == this)
         return r[v] == dictionary.undefValue
     }
 
     fun setUndefValue(r: ResultRow, v: Variable) {
-        if (r.resultSet != this) {
-            println(location)
-            println(r.location)
-        }
-        require(r.resultSet == this)
         r[v] = dictionary.undefValue
     }
 }

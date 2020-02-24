@@ -1,9 +1,6 @@
 package lupos
 
-import lupos.s12p2p.P2P
-import lupos.s14endpoint.EndpointImpl
 import lupos.s00misc.*
-import lupos.s15tripleStoreDistributed.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -21,14 +18,19 @@ import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.*
 import lupos.s11outputResult.*
+import lupos.s12p2p.P2P
+import lupos.s14endpoint.EndpointImpl
+import lupos.s15tripleStoreDistributed.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
 
 class GeneratedAOPBuildInCallTZTest {
-    constructor(){
+    constructor() {
+        P2P.knownClients.clear()
         P2P.knownClients.add(EndpointImpl.fullname)
     }
+
     fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
         for (n in node.children)
             setAggregationMode(n, mode, count)
@@ -57,7 +59,7 @@ class GeneratedAOPBuildInCallTZTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "Z")
                 )
-            }() /* resources/sparql11-test-suite/functions/tz-01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/tz-01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -73,7 +75,7 @@ class GeneratedAOPBuildInCallTZTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "-08:00")
                 )
-            }() /* resources/sparql11-test-suite/functions/tz-01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/tz-01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -89,7 +91,7 @@ class GeneratedAOPBuildInCallTZTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "Z")
                 )
-            }() /* resources/sparql11-test-suite/functions/tz-01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/tz-01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -105,7 +107,7 @@ class GeneratedAOPBuildInCallTZTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "")
                 )
-            }() /* resources/sparql11-test-suite/functions/tz-01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/tz-01.rq */,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -140,7 +142,7 @@ class GeneratedAOPBuildInCallTZTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
+                    if (!expected.myEquals(output)) {
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

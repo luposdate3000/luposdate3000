@@ -69,7 +69,6 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
         val sNew: Variable?
         val pNew: Variable?
         val oNew: Variable?
-        println("xxx" + resultSet.getVariableNames() + ".." + uuid)
         if (sFilter == null)
             sNew = resultSet.createVariable(nameS)
         else
@@ -82,8 +81,6 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
             oNew = resultSet.createVariable(nameO)
         else
             oNew = null
-        println("yyy" + resultSet.getVariableNames())
-        println("zzz" + getProvidedVariableNames())
         CoroutinesHelper.run {
             try {
                 store.forEach(sFilter, pFilter, oFilter, { sv, pv, ov ->

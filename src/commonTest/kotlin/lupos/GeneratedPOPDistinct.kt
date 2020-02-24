@@ -1,9 +1,6 @@
 package lupos
 
-import lupos.s12p2p.P2P
-import lupos.s14endpoint.EndpointImpl
 import lupos.s00misc.*
-import lupos.s15tripleStoreDistributed.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -21,14 +18,19 @@ import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.*
 import lupos.s11outputResult.*
+import lupos.s12p2p.P2P
+import lupos.s14endpoint.EndpointImpl
+import lupos.s15tripleStoreDistributed.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
 
 class GeneratedPOPDistinctTest {
-    constructor(){
+    constructor() {
+        P2P.knownClients.clear()
         P2P.knownClients.add(EndpointImpl.fullname)
     }
+
     fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
         for (n in node.children)
             setAggregationMode(n, mode, count)
@@ -43,129 +45,129 @@ class GeneratedPOPDistinctTest {
     @TestFactory
     fun test() = listOf(
             {
-                val dictionary=ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 MicroTestPN(
-                    POPDistinct(
-                        dictionary,
+                        POPDistinct(
+                                dictionary,
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o"
+                                ), listOf(
+                                        mutableMapOf(
+                                                "s" to "<http://example.org/s1>",
+                                                "p" to "<http://example.org/p>",
+                                                "o" to "<http://example.org/o1>"
+                                        ),
+                                        mutableMapOf(
+                                                "s" to "<http://example.org/s2>",
+                                                "p" to "<http://example.org/p>",
+                                                "o" to "<http://example.org/o1>"
+                                        ),
+                                        mutableMapOf(
+                                                "s" to "<http://example.org/s2>",
+                                                "p" to "<http://example.org/p>",
+                                                "o" to "<http://example.org/o2>"
+                                        ),
+                                        mutableMapOf(
+                                                "s" to "<http://example.org/s3>",
+                                                "p" to "<http://example.org/p>",
+                                                "o" to "<http://example.org/o3>"
+                                        )
+                                )
+                                )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o"
-                            ), listOf(
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s1>",
-                                    "p" to "<http://example.org/p>",
-                                    "o" to "<http://example.org/o1>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s2>",
-                                    "p" to "<http://example.org/p>",
-                                    "o" to "<http://example.org/o1>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s2>",
-                                    "p" to "<http://example.org/p>",
-                                    "o" to "<http://example.org/o2>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s3>",
-                                    "p" to "<http://example.org/p>",
-                                    "o" to "<http://example.org/o3>"
-                                )
-                            )
-                        )
-                    ),
-                    POPValues(dictionary, listOf(
-                            "s",
-                            "p",
-                            "o"
                         ), listOf(
-                            mutableMapOf(
-                                "s" to "<http://example.org/s1>",
-                                "p" to "<http://example.org/p>",
-                                "o" to "<http://example.org/o1>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s2>",
-                                "p" to "<http://example.org/p>",
-                                "o" to "<http://example.org/o1>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s2>",
-                                "p" to "<http://example.org/p>",
-                                "o" to "<http://example.org/o2>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s3>",
-                                "p" to "<http://example.org/p>",
-                                "o" to "<http://example.org/o3>"
-                            )
+                                mutableMapOf(
+                                        "s" to "<http://example.org/s1>",
+                                        "p" to "<http://example.org/p>",
+                                        "o" to "<http://example.org/o1>"
+                                ),
+                                mutableMapOf(
+                                        "s" to "<http://example.org/s2>",
+                                        "p" to "<http://example.org/p>",
+                                        "o" to "<http://example.org/o1>"
+                                ),
+                                mutableMapOf(
+                                        "s" to "<http://example.org/s2>",
+                                        "p" to "<http://example.org/p>",
+                                        "o" to "<http://example.org/o2>"
+                                ),
+                                mutableMapOf(
+                                        "s" to "<http://example.org/s3>",
+                                        "p" to "<http://example.org/p>",
+                                        "o" to "<http://example.org/o3>"
+                                )
                         )
-                    )
+                        )
                 )
-            }() /* resources/sparql11-test-suite/construct/constructwhere01.rq */ ,
+            }() /* resources/sparql11-test-suite/construct/constructwhere01.rq */,
             {
-                val dictionary=ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 MicroTestPN(
-                    POPDistinct(
-                        dictionary,
+                        POPDistinct(
+                                dictionary,
+                                POPValues(dictionary, listOf(
+                                        "O"
+                                ), listOf(
+                                        mutableMapOf(
+                                                "O" to "<http://www.example.orgorder1>"
+                                        ),
+                                        mutableMapOf(
+                                                "O" to "<http://www.example.orgorder2>"
+                                        )
+                                )
+                                )
+                        ),
                         POPValues(dictionary, listOf(
                                 "O"
-                            ), listOf(
+                        ), listOf(
                                 mutableMapOf(
-                                    "O" to "<http://www.example.orgorder1>"
+                                        "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "O" to "<http://www.example.orgorder2>"
+                                        "O" to "<http://www.example.orgorder2>"
                                 )
-                            )
                         )
-                    ),
-                    POPValues(dictionary, listOf(
-                            "O"
-                        ), listOf(
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder1>"
-                            ),
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder2>"
-                            )
                         )
-                    )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
             {
-                val dictionary=ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 MicroTestPN(
-                    POPDistinct(
-                        dictionary,
+                        POPDistinct(
+                                dictionary,
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o"
+                                ), listOf(
+                                        mutableMapOf(
+                                                "s" to "<http://p1>",
+                                                "p" to "<http://xmlns.com/foaf/0.1/name>",
+                                                "o" to "\"John Doe\""
+                                        )
+                                )
+                                )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o"
-                            ), listOf(
-                                mutableMapOf(
-                                    "s" to "<http://p1>",
-                                    "p" to "<http://xmlns.com/foaf/0.1/name>",
-                                    "o" to "\"John Doe\""
-                                )
-                            )
-                        )
-                    ),
-                    POPValues(dictionary, listOf(
-                            "s",
-                            "p",
-                            "o"
                         ), listOf(
-                            mutableMapOf(
-                                "s" to "<http://p1>",
-                                "p" to "<http://xmlns.com/foaf/0.1/name>",
-                                "o" to "\"John Doe\""
-                            )
+                                mutableMapOf(
+                                        "s" to "<http://p1>",
+                                        "p" to "<http://xmlns.com/foaf/0.1/name>",
+                                        "o" to "\"John Doe\""
+                                )
                         )
-                    )
+                        )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq12.rq */ ,
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -200,7 +202,7 @@ class GeneratedPOPDistinctTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
+                    if (!expected.myEquals(output)) {
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

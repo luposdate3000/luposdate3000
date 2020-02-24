@@ -57,7 +57,6 @@ class AOPVariable(var name: String) : AOPBase() {
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPUndef()
             })
-        println("ppp" + name)
         val variable = resultSet.createVariable(name)
         if (resultSet.isUndefValue(resultRow, variable))
             return resultFlow({ this }, { resultRow }, { resultSet }, {
