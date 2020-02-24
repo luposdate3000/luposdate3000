@@ -9,8 +9,8 @@ import lupos.s04logicalOperators.OPBase
 
 class LOPValues(val variables: List<AOPVariable>, values: List<AOPValue>) : LOPBase() {
     override val children: Array<OPBase> = Array(values.size) { values[it] }
-    
-override fun getProvidedVariableNames()=MutableList(variables.size){variables[it].name}.distinct()
+
+    override fun getProvidedVariableNames() = MutableList(variables.size) { variables[it].name }.distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf<String>()

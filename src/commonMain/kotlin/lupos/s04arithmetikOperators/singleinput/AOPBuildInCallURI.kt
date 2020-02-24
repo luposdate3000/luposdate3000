@@ -18,6 +18,7 @@ class AOPBuildInCallURI(child: AOPBase, var prefix: String = "") : AOPBase() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPBuildInCallURI")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("prefix", prefix)
         res.addContent(childrenToXML())
         return res

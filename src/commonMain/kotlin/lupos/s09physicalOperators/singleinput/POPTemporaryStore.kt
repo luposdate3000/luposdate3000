@@ -42,7 +42,7 @@ class POPTemporaryStore : POPBase {
         }
     }
 
-    override fun getProvidedVariableNames()=children[0].getProvidedVariableNames().distinct()
+    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return children[0].getRequiredVariableNames()
@@ -74,6 +74,7 @@ class POPTemporaryStore : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPTemporaryStore")
+        res.addAttribute("uuid", "" + uuid)
         res.addContent(childrenToXML())
         return res
     }

@@ -19,6 +19,7 @@ class AOPSimpleLiteral : AOPConstantString {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPSimpleLiteral")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("delimiter", delimiter)
         res.addAttribute("content", content)
         return res

@@ -18,6 +18,7 @@ class AOPAddition(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedNam
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPAddition")
+        res.addAttribute("uuid", "" + uuid)
         res.addContent(childrenToXML())
         return res
     }

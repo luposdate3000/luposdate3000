@@ -13,6 +13,7 @@ class AOPGT(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPGT")
+        res.addAttribute("uuid", "" + uuid)
         res.addContent(childrenToXML())
         return res
     }

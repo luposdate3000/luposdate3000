@@ -22,6 +22,7 @@ class AOPLanguageTaggedLiteral : AOPConstantString {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPLanguageTaggedLiteral")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("delimiter", "" + delimiter)
         res.addAttribute("content", "" + content)
         res.addAttribute("language", "" + language)

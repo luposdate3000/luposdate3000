@@ -61,7 +61,7 @@ class POPBind : POPBase {
     }
 
     override fun childrenToVerifyCount(): Int = 1
-    override fun getProvidedVariableNames()=(children[0].getProvidedVariableNames()+name.name).distinct()
+    override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + name.name).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return children[1].getRequiredVariableNames()
@@ -100,6 +100,7 @@ class POPBind : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPBind")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("name", name.name)
         res.addContent(childrenToXML())
         return res

@@ -45,7 +45,7 @@ class POPLimit : POPBase {
             variables.add(Pair(resultSet.createVariable(v), children[0].resultSet.createVariable(v)))
     }
 
-    override fun getProvidedVariableNames()=children[0].getProvidedVariableNames().distinct()
+    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return children[0].getRequiredVariableNames()
@@ -77,6 +77,7 @@ class POPLimit : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPLimit")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("limit", "" + limit)
         res.addContent(childrenToXML())
         return res

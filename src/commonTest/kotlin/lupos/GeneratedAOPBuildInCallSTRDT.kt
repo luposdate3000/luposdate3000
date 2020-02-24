@@ -45,14 +45,12 @@ class GeneratedAOPBuildInCallSTRDTTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTestA1(
                         AOPBuildInCallSTRDT(AOPVariable("str"), AOPIri("http://www.w3.org/2001/XMLSchema#string")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en")
                             resultRow
                         }(),
@@ -63,14 +61,12 @@ class GeneratedAOPBuildInCallSTRDTTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTestA1(
                         AOPBuildInCallSTRDT(AOPBuildInCallSTR(AOPVariable("str")), AOPIri("http://www.w3.org/2001/XMLSchema#string")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en")
                             resultRow
                         }(),

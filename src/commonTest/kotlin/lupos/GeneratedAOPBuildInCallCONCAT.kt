@@ -44,21 +44,13 @@ class GeneratedAOPBuildInCallCONCATTest {
     fun test() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
-                resultSet.createVariable("#3")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
@@ -69,20 +61,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"123\"")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
                             resultRow
                         }(),
@@ -93,20 +81,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
                             resultRow
                         }(),
@@ -117,20 +101,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
                             resultRow
                         }(),
@@ -141,20 +121,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
                             resultRow
                         }(),
@@ -165,20 +141,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
                             resultRow
                         }(),
@@ -189,20 +161,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
                             resultRow
                         }(),
@@ -213,20 +181,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"123\"")
                             resultRow
                         }(),
@@ -237,20 +201,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"123\"")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
                             resultRow
                         }(),
@@ -261,20 +221,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
                             resultRow
                         }(),
@@ -285,20 +241,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
                             resultRow
                         }(),
@@ -309,20 +261,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
                             resultRow
                         }(),
@@ -333,20 +281,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
                             resultRow
                         }(),
@@ -357,20 +301,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
                             resultRow
                         }(),
@@ -381,20 +321,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"日本語\"@ja")
                             resultRow
                         }(),
@@ -405,20 +341,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"123\"")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
                             resultRow
                         }(),
@@ -429,20 +361,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
                             resultRow
                         }(),
@@ -453,20 +381,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
                             resultRow
                         }(),
@@ -477,20 +401,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
                             resultRow
                         }(),
@@ -501,20 +421,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
                             resultRow
                         }(),
@@ -525,20 +441,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
                             resultRow
                         }(),
@@ -549,20 +461,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"english\"@en")
                             resultRow
                         }(),
@@ -573,20 +481,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"123\"")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
                             resultRow
                         }(),
@@ -597,20 +501,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
                             resultRow
                         }(),
@@ -621,20 +521,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
                             resultRow
                         }(),
@@ -645,20 +541,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
                             resultRow
                         }(),
@@ -669,20 +561,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
                             resultRow
                         }(),
@@ -693,20 +581,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
                             resultRow
                         }(),
@@ -717,20 +601,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"français\"@fr")
                             resultRow
                         }(),
@@ -741,20 +621,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"123\"")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
@@ -765,20 +641,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
@@ -789,20 +661,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
@@ -813,20 +681,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
@@ -837,20 +701,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
@@ -861,20 +721,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
@@ -885,20 +741,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
@@ -909,20 +761,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"123\"")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
@@ -933,20 +781,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
@@ -957,20 +801,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
@@ -981,20 +821,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
@@ -1005,20 +841,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
@@ -1029,20 +861,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
@@ -1053,20 +881,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow
                         }(),
@@ -1077,20 +901,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"123\"")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow
                         }(),
@@ -1101,20 +921,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"日本語\"@ja")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow
                         }(),
@@ -1125,20 +941,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"english\"@en")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow
                         }(),
@@ -1149,20 +961,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"français\"@fr")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow
                         }(),
@@ -1173,20 +981,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s5>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow
                         }(),
@@ -1197,20 +1001,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s6>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"def\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow
                         }(),
@@ -1221,20 +1021,16 @@ class GeneratedAOPBuildInCallCONCATTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str1")
                 resultSet.createVariable("s2")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("str2")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("str1"), AOPVariable("str2")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str1")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("<http://example.org/s7>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("str2")] = resultSet.createValue("\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow
                         }(),
@@ -1244,18 +1040,14 @@ class GeneratedAOPBuildInCallCONCATTest {
             }() /* resources/sparql11-test-suite/functions/concat02.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("F")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("L")
                 resultSet.createVariable("P")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("F")] = resultSet.createValue("\"John\"")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("L")] = resultSet.createValue("\"Doe\"")
                             resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://p1>")
                             resultRow
@@ -1266,18 +1058,14 @@ class GeneratedAOPBuildInCallCONCATTest {
             }() /* resources/sparql11-test-suite/subquery/sq12.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("F")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("L")
                 resultSet.createVariable("P")
                 MicroTestA1(
                         AOPBuildInCallCONCAT(AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")), AOPVariable("L")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("F")] = resultSet.createValue("\"John\"")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("L")] = resultSet.createValue("\"Doe\"")
                             resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://p1>")
                             resultRow

@@ -41,7 +41,7 @@ class AOPVariable(var name: String) : AOPBase() {
     override fun getRequiredVariableNames() = listOf(name)
 
     override fun toXMLElement(): XMLElement {
-        return XMLElement("AOPVariable").addAttribute("name", name)
+        return XMLElement("AOPVariable").addAttribute("name", name).addAttribute("uuid", "" + uuid)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -57,7 +57,7 @@ class AOPVariable(var name: String) : AOPBase() {
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPUndef()
             })
-println("ppp"+name)
+        println("ppp" + name)
         val variable = resultSet.createVariable(name)
         if (resultSet.isUndefValue(resultRow, variable))
             return resultFlow({ this }, { resultRow }, { resultSet }, {

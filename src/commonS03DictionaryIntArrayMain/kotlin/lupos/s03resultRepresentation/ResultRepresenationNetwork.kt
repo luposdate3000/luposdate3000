@@ -9,6 +9,7 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
+
 object ResultRepresenationNetwork {
     fun toNetworkPackage(query: POPBase): ByteArray {
         query.evaluate()
@@ -110,7 +111,7 @@ object ResultRepresenationNetwork {
             return XMLElement("POPImportFromNetworkPackage")
         }
 
-        constructor(resultSet:ResultSet, data: DynamicByteArray) {
+        constructor(resultSet: ResultSet, data: DynamicByteArray) {
             this.dictionary = resultSet.dictionary
             this.resultSet = resultSet
             this.data = data
@@ -123,7 +124,7 @@ object ResultRepresenationNetwork {
             }
         }
 
-        override fun getProvidedVariableNames()=resultSet.getVariableNames().toList().distinct()
+        override fun getProvidedVariableNames() = resultSet.getVariableNames().toList().distinct()
 
         override fun getRequiredVariableNames(): List<String> {
             return mutableListOf<String>()

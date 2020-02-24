@@ -45,14 +45,12 @@ class GeneratedAOPBuildInCallSTRTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("str")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en")
                             resultRow
                         }(),
@@ -63,15 +61,15 @@ class GeneratedAOPBuildInCallSTRTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("str")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d1>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
                             resultRow
                         }(),
                         resultSet,
@@ -81,15 +79,15 @@ class GeneratedAOPBuildInCallSTRTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("str")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d2>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
                             resultRow
                         }(),
                         resultSet,
@@ -99,15 +97,15 @@ class GeneratedAOPBuildInCallSTRTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("str")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d3>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
                             resultRow
                         }(),
                         resultSet,
@@ -117,15 +115,15 @@ class GeneratedAOPBuildInCallSTRTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("str")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d4>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
                             resultRow
                         }(),
                         resultSet,
@@ -135,15 +133,15 @@ class GeneratedAOPBuildInCallSTRTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("str")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n1>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow
                         }(),
                         resultSet,
@@ -153,15 +151,15 @@ class GeneratedAOPBuildInCallSTRTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("str")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n2>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow
                         }(),
                         resultSet,
@@ -171,15 +169,15 @@ class GeneratedAOPBuildInCallSTRTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("str")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n3>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow
                         }(),
                         resultSet,
@@ -189,15 +187,15 @@ class GeneratedAOPBuildInCallSTRTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("str")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n4>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow
                         }(),
                         resultSet,
@@ -207,15 +205,15 @@ class GeneratedAOPBuildInCallSTRTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("str")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n5>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow
                         }(),
                         resultSet,
@@ -225,15 +223,15 @@ class GeneratedAOPBuildInCallSTRTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("str")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow
                         }(),
                         resultSet,
@@ -243,15 +241,15 @@ class GeneratedAOPBuildInCallSTRTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("str")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow
                         }(),
                         resultSet,
@@ -261,15 +259,15 @@ class GeneratedAOPBuildInCallSTRTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("str")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow
                         }(),
                         resultSet,
@@ -279,15 +277,15 @@ class GeneratedAOPBuildInCallSTRTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("str")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow
                         }(),
                         resultSet,
@@ -297,15 +295,15 @@ class GeneratedAOPBuildInCallSTRTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("str")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow
                         }(),
                         resultSet,
@@ -315,15 +313,15 @@ class GeneratedAOPBuildInCallSTRTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("str")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow
                         }(),
                         resultSet,
@@ -333,15 +331,15 @@ class GeneratedAOPBuildInCallSTRTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("str")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("str")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow[resultSet.createVariable("str")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow
                         }(),
                         resultSet,
@@ -350,18 +348,14 @@ class GeneratedAOPBuildInCallSTRTest {
             }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("y")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"a\"")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x1>")
                             resultRow
@@ -372,18 +366,14 @@ class GeneratedAOPBuildInCallSTRTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("x")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"a\"")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x1>")
                             resultRow
@@ -394,18 +384,14 @@ class GeneratedAOPBuildInCallSTRTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("y")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("_:b")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x2>")
                             resultRow
@@ -416,18 +402,14 @@ class GeneratedAOPBuildInCallSTRTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("x")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("_:b")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x2>")
                             resultRow
@@ -438,18 +420,14 @@ class GeneratedAOPBuildInCallSTRTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("y")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://example/a>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x3>")
                             resultRow
@@ -460,18 +438,14 @@ class GeneratedAOPBuildInCallSTRTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("y")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x4>")
                             resultRow
@@ -482,18 +456,14 @@ class GeneratedAOPBuildInCallSTRTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("x")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x4>")
                             resultRow
@@ -504,18 +474,14 @@ class GeneratedAOPBuildInCallSTRTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("y")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x5>")
                             resultRow
@@ -526,18 +492,14 @@ class GeneratedAOPBuildInCallSTRTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("x")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x5>")
                             resultRow
@@ -548,18 +510,14 @@ class GeneratedAOPBuildInCallSTRTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("y")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x6>")
                             resultRow
@@ -570,18 +528,14 @@ class GeneratedAOPBuildInCallSTRTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("x")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x6>")
                             resultRow
@@ -592,18 +546,14 @@ class GeneratedAOPBuildInCallSTRTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("y")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x7>")
                             resultRow
@@ -614,18 +564,14 @@ class GeneratedAOPBuildInCallSTRTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("x")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x7>")
                             resultRow
@@ -636,18 +582,14 @@ class GeneratedAOPBuildInCallSTRTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("y")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x8>")
                             resultRow
@@ -658,18 +600,14 @@ class GeneratedAOPBuildInCallSTRTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPBuildInCallSTR(AOPVariable("x")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x8>")
                             resultRow

@@ -13,6 +13,7 @@ class AOPBoolean(var value: Boolean) : AOPConstant() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPBoolean")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("value", "" + value)
         return res
     }

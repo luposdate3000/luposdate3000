@@ -44,18 +44,14 @@ class GeneratedAOPAdditionTest {
     fun test() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("O1")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("O2")
                 resultSet.createVariable("S")
                 MicroTestA1(
                         AOPAddition(AOPVariable("O2"), AOPVariable("O1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                             resultRow
@@ -66,18 +62,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("O1")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("O2")
                 resultSet.createVariable("S")
                 MicroTestA1(
                         AOPAddition(AOPVariable("O2"), AOPVariable("O1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                             resultRow
@@ -88,18 +80,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("O1")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("O2")
                 resultSet.createVariable("S")
                 MicroTestA1(
                         AOPAddition(AOPVariable("O2"), AOPVariable("O1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                             resultRow
@@ -110,18 +98,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("O1")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("O2")
                 resultSet.createVariable("S")
                 MicroTestA1(
                         AOPAddition(AOPVariable("O2"), AOPVariable("O1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                             resultRow
@@ -132,18 +116,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("O1")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("O2")
                 resultSet.createVariable("S")
                 MicroTestA1(
                         AOPAddition(AOPVariable("O2"), AOPVariable("O1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                             resultRow
@@ -154,18 +134,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("O1")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("O2")
                 resultSet.createVariable("S")
                 MicroTestA1(
                         AOPAddition(AOPVariable("O2"), AOPVariable("O1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                             resultRow
@@ -176,18 +152,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("O1")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("O2")
                 resultSet.createVariable("S")
                 MicroTestA1(
                         AOPAddition(AOPVariable("O2"), AOPVariable("O1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                             resultRow
@@ -198,18 +170,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("O1")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("O2")
                 resultSet.createVariable("S")
                 MicroTestA1(
                         AOPAddition(AOPVariable("O2"), AOPVariable("O1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                             resultRow
@@ -220,18 +188,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("O1")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("O2")
                 resultSet.createVariable("S")
                 MicroTestA1(
                         AOPAddition(AOPVariable("O2"), AOPVariable("O1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                             resultRow
@@ -466,18 +430,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/entailment/bind08.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPAddition(AOPVariable("y"), AOPVariable("x")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("_:b")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x2>")
                             resultRow
@@ -488,18 +448,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPAddition(AOPVariable("y"), AOPVariable("x")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://example/a>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x3>")
                             resultRow
@@ -510,18 +466,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPAddition(AOPVariable("y"), AOPVariable("x")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x4>")
                             resultRow
@@ -532,18 +484,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPAddition(AOPVariable("y"), AOPVariable("x")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x5>")
                             resultRow
@@ -554,18 +502,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPAddition(AOPVariable("y"), AOPVariable("x")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x6>")
                             resultRow
@@ -576,18 +520,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPAddition(AOPVariable("y"), AOPVariable("x")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x7>")
                             resultRow
@@ -598,18 +538,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"a\"")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x1>")
                             resultRow
@@ -620,18 +556,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x4>")
                             resultRow
@@ -642,18 +574,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x5>")
                             resultRow
@@ -664,18 +592,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x6>")
                             resultRow
@@ -686,18 +610,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x7>")
                             resultRow
@@ -708,18 +628,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("y")
                 resultSet.createVariable("s")
                 MicroTestA1(
                         AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/x8>")
                             resultRow
@@ -730,18 +646,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("y")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("z")
                 resultSet.createVariable("x")
                 MicroTestA1(
                         AOPAddition(AOPVariable("z"), AOPVariable("y")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>")
                             resultRow
@@ -752,18 +664,14 @@ class GeneratedAOPAdditionTest {
             }() /* resources/sparql11-test-suite/project-expression/projexp02.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("y")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("z")
                 resultSet.createVariable("x")
                 MicroTestA1(
                         AOPAddition(AOPVariable("z"), AOPVariable("y")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>")
                             resultRow
@@ -775,14 +683,12 @@ class GeneratedAOPAdditionTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("y")
                 MicroTestA1(
                         AOPAddition(AOPVariable("y"), AOPVariable("y")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow
                         }(),
@@ -793,14 +699,12 @@ class GeneratedAOPAdditionTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("y")
                 MicroTestA1(
                         AOPAddition(AOPVariable("y"), AOPVariable("y")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow
                         }(),

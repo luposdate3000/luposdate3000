@@ -13,7 +13,7 @@ class LOPSubGroup() : LOPBase() {
         this.children[0] = child
     }
 
-    override fun getProvidedVariableNames()=children[0].getProvidedVariableNames().distinct()
+    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return children[0].getRequiredVariableNames()

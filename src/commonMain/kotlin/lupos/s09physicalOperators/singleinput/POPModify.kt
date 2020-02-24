@@ -124,7 +124,7 @@ class POPModify : POPBase {
         }
     })
 
-    override fun getProvidedVariableNames()=mutableListOf<String>()
+    override fun getProvidedVariableNames() = mutableListOf<String>()
 
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf<String>()
@@ -132,6 +132,7 @@ class POPModify : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPModify")
+        res.addAttribute("uuid", "" + uuid)
         return res
     }
 }

@@ -44,15 +44,11 @@ class GeneratedAOPBuildInCallSHA256Test {
     fun test() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("l")
                 MicroTestA1(
                         AOPBuildInCallSHA256(AOPVariable("l")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("l")] = resultSet.createValue("\"foo\"")
                             resultRow
                         }(),
@@ -62,15 +58,11 @@ class GeneratedAOPBuildInCallSHA256Test {
             }() /* resources/sparql11-test-suite/functions/sha256-01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("l")
                 MicroTestA1(
                         AOPBuildInCallSHA256(AOPVariable("l")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("l")] = resultSet.createValue("\"食\"")
                             resultRow
                         }(),

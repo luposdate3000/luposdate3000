@@ -15,7 +15,7 @@ class LOPSort(val asc: Boolean, var by: AOPVariable) : LOPBase() {
     }
 
 
-    override fun getProvidedVariableNames()=children[0].getProvidedVariableNames().distinct()
+    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return getProvidedVariableNames()

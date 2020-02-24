@@ -16,6 +16,7 @@ class AOPBuildInCallIF(child: AOPBase, childA: AOPBase, childB: AOPBase) : AOPBa
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPBuildInCallIF")
+        res.addAttribute("uuid", "" + uuid)
         res.addContent(childrenToXML())
         return res
     }

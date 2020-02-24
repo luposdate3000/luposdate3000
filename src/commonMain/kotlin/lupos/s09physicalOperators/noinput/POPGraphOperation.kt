@@ -229,7 +229,7 @@ class POPGraphOperation : POPBase {
         }
     })
 
-    override fun getProvidedVariableNames()=mutableListOf<String>()
+    override fun getProvidedVariableNames() = mutableListOf<String>()
 
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf<String>()
@@ -237,6 +237,7 @@ class POPGraphOperation : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPGraphOperation")
+        res.addAttribute("uuid", "" + uuid)
         return res
     }
 }

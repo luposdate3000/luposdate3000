@@ -13,6 +13,7 @@ class AOPBuildInCallLCASE(child: AOPBase) : AOPBase() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPBuildInCallLCASE")
+        res.addAttribute("uuid", "" + uuid)
         res.addContent(childrenToXML())
         return res
     }

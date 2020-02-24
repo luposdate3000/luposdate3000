@@ -13,6 +13,7 @@ class AOPFunctionCall(var iri: String, var distinct: Boolean, args: List<OPBase>
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPFunctionCall")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("iri", iri)
         res.addAttribute("distinct", "" + distinct)
         res.addContent(childrenToXML())

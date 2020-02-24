@@ -12,7 +12,7 @@ class AOPUndef() : AOPConstant() {
 
 
     override fun toXMLElement(): XMLElement {
-        return XMLElement("AOPUndef")
+        return XMLElement("AOPUndef").addAttribute("uuid", "" + uuid)
     }
 
     override fun valueToString(): String? = null

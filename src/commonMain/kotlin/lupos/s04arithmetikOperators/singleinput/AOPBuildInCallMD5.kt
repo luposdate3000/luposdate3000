@@ -31,6 +31,7 @@ class AOPBuildInCallMD5(child: AOPBase) : AOPBase() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPBuildInCallMD5")
+        res.addAttribute("uuid", "" + uuid)
         res.addContent(childrenToXML())
         return res
     }

@@ -80,6 +80,7 @@ class AOPDateTime : AOPConstant {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPDateTime")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("value", valueToString())
         return res
     }

@@ -13,6 +13,7 @@ class AOPBuildInCallSECONDS(child: AOPBase) : AOPBase() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPBuildInCallSECONDS")
+        res.addAttribute("uuid", "" + uuid)
         res.addContent(childrenToXML())
         return res
     }

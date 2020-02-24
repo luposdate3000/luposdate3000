@@ -74,7 +74,7 @@ class POPRename : POPBase {
         }
     }
 
-    override fun getProvidedVariableNames()=(children[0].getProvidedVariableNames()-nameFrom.name+nameTo.name).distinct()
+    override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() - nameFrom.name + nameTo.name).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return listOf<String>(nameFrom.name)
@@ -102,6 +102,7 @@ class POPRename : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPRename")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("nameTo", nameTo.name)
         res.addAttribute("nameFrom", nameFrom.name)
         res.addContent(childrenToXML())

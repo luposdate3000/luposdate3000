@@ -13,6 +13,7 @@ class AOPBuildInCallLANG(child: AOPBase) : AOPBase() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPBuildInCallLANG")
+        res.addAttribute("uuid", "" + uuid)
         res.addContent(childrenToXML())
         return res
     }

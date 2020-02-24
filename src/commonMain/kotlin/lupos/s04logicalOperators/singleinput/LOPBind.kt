@@ -22,7 +22,7 @@ class LOPBind : LOPBase {
 
     override fun childrenToVerifyCount(): Int = 1
 
-    override fun getProvidedVariableNames()=(children[0].getProvidedVariableNames()+name.name).distinct()
+    override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + name.name).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return children[1].getRequiredVariableNames() + children[0].getRequiredVariableNames()

@@ -23,10 +23,7 @@ val uuid = ThreadSafeUuid()
 class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
-    var sNew: Variable
-    var pNew: Variable
     override val resultSet: ResultSet
-    var oNew: Variable
     val nodeNameIterator: Iterator<String>
     var remoteIterator: Iterator<ResultRow>? = null
     val transactionID: Long
@@ -45,9 +42,6 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
         this.dictionary = dictionary
         this.transactionID = transactionID
         resultSet = ResultSet(dictionary)
-        sNew = resultSet.createVariable(nameS)
-        pNew = resultSet.createVariable(nameP)
-        oNew = resultSet.createVariable(nameO)
         nodeNameIterator = P2P.getKnownClientsCopy().iterator()
         if (sv)
             sFilter = s
@@ -93,7 +87,16 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
         return graphNameL
     })
 
-    override fun getProvidedVariableNames()=mutableListOf(nameS, nameP, nameO).distinct()
+override fun getProvidedVariableNames(): List<String> {
+        val tmp = mutableListOf<String>()
+        if (sFilter == null)
+            tmp += nameS
+        if (pFilter == null)
+            tmp += nameP
+        if (oFilter == null)
+            tmp += nameO
+        return tmp.distinct()
+    }
 
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf<String>()
@@ -137,17 +140,14 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     })
 
     override fun setMNameS(n: String) {
-        sNew = resultSet.renameVariable(nameS, n)
         nameS = n
     }
 
     override fun setMNameP(n: String) {
-        pNew = resultSet.renameVariable(nameP, n)
         nameP = n
     }
 
     override fun setMNameO(n: String) {
-        oNew = resultSet.renameVariable(nameO, n)
         nameO = n
     }
 

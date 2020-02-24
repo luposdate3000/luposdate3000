@@ -21,7 +21,7 @@ class LOPServiceVAR : LOPBase {
         this.children[0] = child
     }
 
-    override fun getProvidedVariableNames()=(children[0].getProvidedVariableNames()+children[1].getProvidedVariableNames()).distinct()
+    override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return getProvidedVariableNames()

@@ -49,7 +49,7 @@ class POPFilterExact : POPBase {
         filterVariable = resultSet.createVariable(variable.name)
     }
 
-    override fun getProvidedVariableNames()=children[0].getProvidedVariableNames().distinct()
+    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return listOf(variable.name)
@@ -75,6 +75,7 @@ class POPFilterExact : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPFilterExact")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("name", variable.name)
         res.addAttribute("value", value)
         res.addContent(childrenToXML())

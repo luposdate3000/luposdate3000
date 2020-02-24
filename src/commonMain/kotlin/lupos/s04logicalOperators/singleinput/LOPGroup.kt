@@ -11,7 +11,7 @@ class LOPGroup(var by: List<AOPVariable>) : LOPBase() {
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     override fun childrenToVerifyCount() = 1
 
-    override fun getProvidedVariableNames()=(children[1].getProvidedVariableNames()+Array(by.size){by[it].name}).distinct()
+    override fun getProvidedVariableNames() = (children[1].getProvidedVariableNames() + Array(by.size) { by[it].name }).distinct()
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         require(additionalProvided.isEmpty())

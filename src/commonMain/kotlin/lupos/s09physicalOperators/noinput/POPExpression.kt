@@ -89,7 +89,7 @@ class POPExpression : LOPBase {
         return res
     }
 
-    override fun getProvidedVariableNames()=mutableListOf<String>()
+    override fun getProvidedVariableNames() = mutableListOf<String>()
 
     override fun getRequiredVariableNames(): List<String> {
         return getAllVariablesInChildren(children[0])
@@ -97,6 +97,7 @@ class POPExpression : LOPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPExpression")
+        res.addAttribute("uuid", "" + uuid)
         res.addContent(childrenToXML())
         return res
     }

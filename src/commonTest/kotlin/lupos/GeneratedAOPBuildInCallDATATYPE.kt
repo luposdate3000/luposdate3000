@@ -49,7 +49,7 @@ class GeneratedAOPBuildInCallDATATYPETest {
                         AOPBuildInCallDATATYPE(AOPVariable("n")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-24T19:33:13Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-24T21:01:42Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                             resultRow
                         }(),
                         resultSet,
@@ -59,14 +59,12 @@ class GeneratedAOPBuildInCallDATATYPETest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("l")
                 MicroTestA1(
                         AOPBuildInCallDATATYPE(AOPVariable("l")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("l")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow
                         }(),
@@ -77,14 +75,12 @@ class GeneratedAOPBuildInCallDATATYPETest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("l")
                 MicroTestA1(
                         AOPBuildInCallDATATYPE(AOPVariable("l")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("l")] = resultSet.createValue("<http://www.example.org/schema#a>")
                             resultRow
                         }(),
@@ -96,7 +92,6 @@ class GeneratedAOPBuildInCallDATATYPETest {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("m")
                 resultSet.createVariable("x")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("l")
                 MicroTestA1(
                         AOPBuildInCallDATATYPE(AOPVariable("m")),
@@ -104,7 +99,6 @@ class GeneratedAOPBuildInCallDATATYPETest {
                             val resultRow = resultSet.createResultRow()
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("m"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("l")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow
                         }(),
@@ -114,18 +108,14 @@ class GeneratedAOPBuildInCallDATATYPETest {
             }() /* resources/sparql11-test-suite/project-expression/projexp06.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("y")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("l")
                 resultSet.createVariable("x")
                 MicroTestA1(
                         AOPBuildInCallDATATYPE(AOPVariable("l")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("l")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>")
                             resultRow
@@ -136,18 +126,14 @@ class GeneratedAOPBuildInCallDATATYPETest {
             }() /* resources/sparql11-test-suite/project-expression/projexp07.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("y")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("l")
                 resultSet.createVariable("x")
                 MicroTestA1(
                         AOPBuildInCallDATATYPE(AOPVariable("l")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                             resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("l"))
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#b>")
                             resultRow

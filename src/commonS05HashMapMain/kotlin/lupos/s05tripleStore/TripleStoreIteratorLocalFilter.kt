@@ -38,9 +38,9 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
         return res
     }
 
-    constructor(resultSet:ResultSet, store: TripleStoreLocal, index: EIndexPattern) : super(resultSet, store, index){
+    constructor(resultSet: ResultSet, store: TripleStoreLocal, index: EIndexPattern) : super(resultSet, store, index) {
 
-}
+    }
 
     fun setSFilterV(s: String) {
         sFilter = store.resultSet.createValue(s)
@@ -54,46 +54,46 @@ class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
         oFilter = store.resultSet.createValue(o)
     }
 
-override fun getProvidedVariableNames(): List<String> {
-        val tmp= mutableListOf<String>()
-if(sFilter==null)
-tmp+=nameS
-if(pFilter==null)
-tmp+=nameP
-if(oFilter==null)
-tmp+=nameO
-return tmp.distinct()
+    override fun getProvidedVariableNames(): List<String> {
+        val tmp = mutableListOf<String>()
+        if (sFilter == null)
+            tmp += nameS
+        if (pFilter == null)
+            tmp += nameP
+        if (oFilter == null)
+            tmp += nameO
+        return tmp.distinct()
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "TripleStoreIteratorLocalFilter.evaluate" }, {
-val        sNew :Variable?
-val        pNew :Variable?
-val        oNew :Variable?
-println("xxx"+resultSet.getVariableNames())
-if(sFilter==null)
-sNew= resultSet.createVariable(nameS)
-else
-sNew=null
-if(pFilter==null)
-pNew= resultSet.createVariable(nameP)
-else
-pNew=null
-if(oFilter==null)
-oNew= resultSet.createVariable(nameO)
-else
-oNew=null
-println("yyy"+resultSet.getVariableNames())
-println("zzz"+getProvidedVariableNames())
+        val sNew: Variable?
+        val pNew: Variable?
+        val oNew: Variable?
+        println("xxx" + resultSet.getVariableNames() + ".." + uuid)
+        if (sFilter == null)
+            sNew = resultSet.createVariable(nameS)
+        else
+            sNew = null
+        if (pFilter == null)
+            pNew = resultSet.createVariable(nameP)
+        else
+            pNew = null
+        if (oFilter == null)
+            oNew = resultSet.createVariable(nameO)
+        else
+            oNew = null
+        println("yyy" + resultSet.getVariableNames())
+        println("zzz" + getProvidedVariableNames())
         CoroutinesHelper.run {
             try {
                 store.forEach(sFilter, pFilter, oFilter, { sv, pv, ov ->
                     val result = resultSet.createResultRow()
-if(sNew!=null)
-                    result[sNew] = resultSet.createValue(store.resultSet.getValue(sv))
-if(pNew!=null)
-                    result[pNew] = resultSet.createValue(store.resultSet.getValue(pv))
-if(oNew!=null)
-                    result[oNew] = resultSet.createValue(store.resultSet.getValue(ov))
+                    if (sNew != null)
+                        result[sNew] = resultSet.createValue(store.resultSet.getValue(sv))
+                    if (pNew != null)
+                        result[pNew] = resultSet.createValue(store.resultSet.getValue(pv))
+                    if (oNew != null)
+                        result[oNew] = resultSet.createValue(store.resultSet.getValue(ov))
                     channel.send(result)
                 }, index)
                 channel.close()

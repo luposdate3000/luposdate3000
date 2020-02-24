@@ -15,8 +15,8 @@ import lupos.s00misc.GlobalLogger
 import lupos.s00misc.parseFromXml
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
-import lupos.s03resultRepresentation.ResultRepresenationNetwork
 import lupos.s03resultRepresentation.*
+import lupos.s03resultRepresentation.ResultRepresenationNetwork
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPImportFromXml

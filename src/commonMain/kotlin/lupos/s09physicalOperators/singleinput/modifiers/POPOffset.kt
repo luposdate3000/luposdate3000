@@ -44,7 +44,7 @@ class POPOffset : POPBase {
             variables.add(Pair(resultSet.createVariable(v), children[0].resultSet.createVariable(v)))
     }
 
-    override fun getProvidedVariableNames()=children[0].getProvidedVariableNames().distinct()
+    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return children[0].getRequiredVariableNames()
@@ -76,6 +76,7 @@ class POPOffset : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPOffset")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("offset", "" + offset)
         res.addContent(childrenToXML())
         return res

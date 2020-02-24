@@ -12,6 +12,7 @@ class AOPBnode(var value: String) : AOPConstant() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPBnode")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("value", "" + value)
         return res
     }

@@ -20,7 +20,7 @@ class LOPFilter : LOPBase {
         children[0] = child
     }
 
-    override fun getProvidedVariableNames()=children[0].getProvidedVariableNames().distinct()
+    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return children[0].getRequiredVariableNames() + children[1].getRequiredVariableNames()

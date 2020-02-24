@@ -13,6 +13,7 @@ class AOPDecimal(var value: Double) : AOPConstant() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPDecimal")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("value", "" + value)
         return res
     }

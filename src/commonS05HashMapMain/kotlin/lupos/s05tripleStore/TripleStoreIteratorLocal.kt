@@ -17,7 +17,7 @@ import lupos.s05tripleStore.POPTripleStoreIteratorBase
 
 
 open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
-    override val dictionary:ResultSetDictionary
+    override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     override val resultSet: ResultSet
     val store: TripleStoreLocal
@@ -42,25 +42,25 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
         nameO = n
     }
 
-    constructor(resultSet:ResultSet, store: TripleStoreLocal, index: EIndexPattern) {
+    constructor(resultSet: ResultSet, store: TripleStoreLocal, index: EIndexPattern) {
         this.dictionary = resultSet.dictionary
-this.        resultSet = resultSet
+        this.resultSet = resultSet
         this.store = store
         this.index = index
     }
 
-    constructor(resultSet:ResultSet, store: TripleStoreLocal) : this(resultSet, store, EIndexPattern.SPO)
+    constructor(resultSet: ResultSet, store: TripleStoreLocal) : this(resultSet, store, EIndexPattern.SPO)
 
-    override fun getProvidedVariableNames()=mutableListOf(nameS, nameP, nameO).distinct()
+    override fun getProvidedVariableNames() = mutableListOf(nameS, nameP, nameO).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf<String>()
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "TripleStoreIteratorLocal.evaluate" }, {
-val        sNew = resultSet.createVariable(nameS)
-val        pNew = resultSet.createVariable(nameP)
-val        oNew = resultSet.createVariable(nameO)
+        val sNew = resultSet.createVariable(nameS)
+        val pNew = resultSet.createVariable(nameP)
+        val oNew = resultSet.createVariable(nameO)
         CoroutinesHelper.run {
             try {
                 store.forEach(null, null, null, { sv, pv, ov ->

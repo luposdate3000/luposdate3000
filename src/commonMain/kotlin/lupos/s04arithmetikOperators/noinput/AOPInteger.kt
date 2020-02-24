@@ -12,7 +12,7 @@ class AOPInteger(var value: Int) : AOPConstant() {
 
 
     override fun toXMLElement(): XMLElement {
-        return XMLElement("AOPInteger").addAttribute("value", "" + value)
+        return XMLElement("AOPInteger").addAttribute("value", "" + value).addAttribute("uuid", "" + uuid)
     }
 
     override fun valueToString() = "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#integer>"

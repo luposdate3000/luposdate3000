@@ -97,22 +97,22 @@ class GeneratedPOPUnionTest {
                     POPUnion(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "z",
-                                "o"
+                                "o",
+                                "z"
                             ), listOf(
                                 mutableMapOf(
-                                    "z" to null,
-                                    "o" to null
+                                    "o" to null,
+                                    "z" to null
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "z",
-                                "o"
+                                "o",
+                                "z"
                             ), listOf(
                                 mutableMapOf(
-                                    "z" to null,
-                                    "o" to null
+                                    "o" to null,
+                                    "z" to null
                                 )
                             )
                         )

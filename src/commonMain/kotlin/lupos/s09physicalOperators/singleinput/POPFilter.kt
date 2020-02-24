@@ -40,7 +40,7 @@ class POPFilter : POPBase {
         resultSet = children[0].resultSet
     }
 
-    override fun getProvidedVariableNames()=children[0].getProvidedVariableNames().distinct()
+    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return children[1].getRequiredVariableNames()
@@ -71,6 +71,7 @@ class POPFilter : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPFilter")
+        res.addAttribute("uuid", "" + uuid)
         res.addContent(childrenToXML())
         return res
     }

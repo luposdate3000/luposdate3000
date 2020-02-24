@@ -32,7 +32,7 @@ class POPUnion : POPBase {
         return true
     }
 
-    override fun getProvidedVariableNames()=(children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()).distinct()
+    override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
@@ -91,6 +91,7 @@ class POPUnion : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPUnion")
+        res.addAttribute("uuid", "" + uuid)
         res.addContent(childrenToXML())
         return res
     }

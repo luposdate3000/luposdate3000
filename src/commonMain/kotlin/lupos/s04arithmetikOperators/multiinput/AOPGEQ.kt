@@ -13,6 +13,7 @@ class AOPGEQ(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPGEQ")
+        res.addAttribute("uuid", "" + uuid)
         res.addContent(childrenToXML())
         return res
     }

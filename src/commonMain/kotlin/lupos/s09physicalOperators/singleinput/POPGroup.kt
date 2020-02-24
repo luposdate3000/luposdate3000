@@ -59,7 +59,7 @@ class POPGroup : POPBase {
             resultSet.createVariable(v.name)
     }
 
-    override fun getProvidedVariableNames()=(MutableList(by.size){by[it].name}+MutableList(bindings.size){resultSet.getVariable(bindings[it].first)}).distinct()
+    override fun getProvidedVariableNames() = (MutableList(by.size) { by[it].name } + MutableList(bindings.size) { resultSet.getVariable(bindings[it].first) }).distinct()
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         require(additionalProvided.isEmpty())
@@ -144,6 +144,7 @@ class POPGroup : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPGroup")
+        res.addAttribute("uuid", "" + uuid)
         val byxml = XMLElement("by")
         res.addContent(byxml)
         for (b in by)

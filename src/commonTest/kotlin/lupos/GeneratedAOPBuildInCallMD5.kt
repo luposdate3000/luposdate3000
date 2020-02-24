@@ -44,15 +44,11 @@ class GeneratedAOPBuildInCallMD5Test {
     fun test() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("l")
                 MicroTestA1(
                         AOPBuildInCallMD5(AOPVariable("l")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("l")] = resultSet.createValue("\"foo\"")
                             resultRow
                         }(),
@@ -62,15 +58,11 @@ class GeneratedAOPBuildInCallMD5Test {
             }() /* resources/sparql11-test-suite/functions/md5-01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("l")
                 MicroTestA1(
                         AOPBuildInCallMD5(AOPVariable("l")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("l")] = resultSet.createValue("\"食べ物\"")
                             resultRow
                         }(),

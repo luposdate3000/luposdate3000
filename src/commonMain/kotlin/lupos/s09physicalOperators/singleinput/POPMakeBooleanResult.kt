@@ -38,7 +38,7 @@ class POPMakeBooleanResult : POPBase {
         this.variableNew = resultSet.createVariable("?boolean")
     }
 
-    override fun getProvidedVariableNames()=mutableListOf("?boolean")
+    override fun getProvidedVariableNames() = mutableListOf("?boolean")
 
     override fun getRequiredVariableNames(): List<String> {
         return listOf<String>()
@@ -67,6 +67,7 @@ class POPMakeBooleanResult : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPMakeBooleanResult")
+        res.addAttribute("uuid", "" + uuid)
         res.addContent(childrenToXML())
         return res
     }

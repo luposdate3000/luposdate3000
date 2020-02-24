@@ -45,15 +45,15 @@ class GeneratedAOPBuildInCallIsNUMERICTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("num")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallIsNUMERIC(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d1>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
                             resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
                             resultRow
                         }(),
                         resultSet,
@@ -63,15 +63,15 @@ class GeneratedAOPBuildInCallIsNUMERICTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("num")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallIsNUMERIC(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d2>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
                             resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
                             resultRow
                         }(),
                         resultSet,
@@ -81,15 +81,15 @@ class GeneratedAOPBuildInCallIsNUMERICTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("num")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallIsNUMERIC(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d3>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
                             resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
                             resultRow
                         }(),
                         resultSet,
@@ -99,15 +99,15 @@ class GeneratedAOPBuildInCallIsNUMERICTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("num")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallIsNUMERIC(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d4>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
                             resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/date>")
                             resultRow
                         }(),
                         resultSet,
@@ -117,15 +117,15 @@ class GeneratedAOPBuildInCallIsNUMERICTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("num")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallIsNUMERIC(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n1>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow
                         }(),
                         resultSet,
@@ -135,15 +135,15 @@ class GeneratedAOPBuildInCallIsNUMERICTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("num")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallIsNUMERIC(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n2>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow
                         }(),
                         resultSet,
@@ -153,15 +153,15 @@ class GeneratedAOPBuildInCallIsNUMERICTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("num")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallIsNUMERIC(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n3>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow
                         }(),
                         resultSet,
@@ -171,15 +171,15 @@ class GeneratedAOPBuildInCallIsNUMERICTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("num")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallIsNUMERIC(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n4>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow
                         }(),
                         resultSet,
@@ -189,15 +189,15 @@ class GeneratedAOPBuildInCallIsNUMERICTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("num")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallIsNUMERIC(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/n5>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/num>")
                             resultRow
                         }(),
                         resultSet,
@@ -207,15 +207,15 @@ class GeneratedAOPBuildInCallIsNUMERICTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("num")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallIsNUMERIC(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s1>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow
                         }(),
                         resultSet,
@@ -225,15 +225,15 @@ class GeneratedAOPBuildInCallIsNUMERICTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("num")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallIsNUMERIC(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s2>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow
                         }(),
                         resultSet,
@@ -243,15 +243,15 @@ class GeneratedAOPBuildInCallIsNUMERICTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("num")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallIsNUMERIC(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s3>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow
                         }(),
                         resultSet,
@@ -261,15 +261,15 @@ class GeneratedAOPBuildInCallIsNUMERICTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("num")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallIsNUMERIC(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s4>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow
                         }(),
                         resultSet,
@@ -279,15 +279,15 @@ class GeneratedAOPBuildInCallIsNUMERICTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("num")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallIsNUMERIC(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s5>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow
                         }(),
                         resultSet,
@@ -297,15 +297,15 @@ class GeneratedAOPBuildInCallIsNUMERICTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("num")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallIsNUMERIC(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s6>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow
                         }(),
                         resultSet,
@@ -315,15 +315,15 @@ class GeneratedAOPBuildInCallIsNUMERICTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("p")
                 resultSet.createVariable("num")
+                resultSet.createVariable("p")
                 MicroTestA1(
                         AOPBuildInCallIsNUMERIC(AOPVariable("num")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/s7>")
-                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow[resultSet.createVariable("num")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://example.org/str>")
                             resultRow
                         }(),
                         resultSet,

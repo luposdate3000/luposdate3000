@@ -5,20 +5,21 @@ import java.io.StringWriter
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 
+
 class ResultRow : Comparable<ResultRow> {
     val values: Array<Value>
-val location:String
-var resultSet:ResultSet?=null
+    val location: String
+    var resultSet: ResultSet? = null
 
     constructor(columns: Int, undefValue: Value) {
         values = Array<Value>(columns, { undefValue })
-try{
-throw Exception("e-row")
-}catch(e:Throwable){
-	val stringWriter = StringWriter()
-        e.printStackTrace(PrintWriter(stringWriter))
-        location= stringWriter.toString()
-}
+        try {
+            throw Exception("e-row")
+        } catch (e: Throwable) {
+            val stringWriter = StringWriter()
+            e.printStackTrace(PrintWriter(stringWriter))
+            location = stringWriter.toString()
+        }
     }
 
     operator fun set(name: Variable, value: Value) {
@@ -26,8 +27,8 @@ throw Exception("e-row")
     }
 
     operator fun get(name: Variable): Value {
-	if(name.toInt()>=values.size)
-		println(location)
+        if (name.toInt() >= values.size)
+            println(location)
         return values[name.toInt()]
     }
 

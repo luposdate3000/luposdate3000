@@ -12,6 +12,7 @@ class AOPDouble(var value: Double) : AOPConstant() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPDouble")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("value", "" + value)
         return res
     }

@@ -13,6 +13,7 @@ class AOPEQ(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPEQ")
+        res.addAttribute("uuid", "" + uuid)
         res.addContent(childrenToXML())
         return res
     }

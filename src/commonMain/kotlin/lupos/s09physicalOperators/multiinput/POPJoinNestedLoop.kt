@@ -40,7 +40,7 @@ class POPJoinNestedLoop : POPBase {
         return true
     }
 
-    override fun getProvidedVariableNames()=(children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()).distinct()
+    override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return getProvidedVariableNames()
@@ -124,6 +124,7 @@ class POPJoinNestedLoop : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPJoinNestedLoop")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("optional", "" + optional)
         res.addContent(childrenToXML())
         return res

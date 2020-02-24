@@ -49,186 +49,28 @@ class GeneratedPOPLimitTest {
                         dictionary,
                         2,
                         POPValues(dictionary, listOf(
-                                "O",
-                                "#p37037",
-                                "#o37037"
+                                "O"
                             ), listOf(
                                 mutableMapOf(
-                                    "O" to "<http://www.example.orgorder1>",
-                                    "#p37037" to null,
-                                    "#o37037" to null
+                                    "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "O" to "<http://www.example.orgorder2>",
-                                    "#p37037" to null,
-                                    "#o37037" to null
+                                    "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "O" to "<http://www.example.orgorder3>",
-                                    "#p37037" to null,
-                                    "#o37037" to null
+                                    "O" to "<http://www.example.orgorder3>"
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
-                            "O",
-                            "#p37037",
-                            "#o37037"
+                            "O"
                         ), listOf(
                             mutableMapOf(
-                                "O" to "<http://www.example.orgorder1>",
-                                "#p37037" to null,
-                                "#o37037" to null
+                                "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "O" to "<http://www.example.orgorder2>",
-                                "#p37037" to null,
-                                "#o37037" to null
-                            )
-                        )
-                    )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
-            {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    POPLimit(
-                        dictionary,
-                        2,
-                        POPValues(dictionary, listOf(
-                                "O",
-                                "#p37058",
-                                "#o37058"
-                            ), listOf(
-                                mutableMapOf(
-                                    "O" to "<http://www.example.orgorder1>",
-                                    "#p37058" to null,
-                                    "#o37058" to null
-                                ),
-                                mutableMapOf(
-                                    "O" to "<http://www.example.orgorder2>",
-                                    "#p37058" to null,
-                                    "#o37058" to null
-                                ),
-                                mutableMapOf(
-                                    "O" to "<http://www.example.orgorder3>",
-                                    "#p37058" to null,
-                                    "#o37058" to null
-                                )
-                            )
-                        )
-                    ),
-                    POPValues(dictionary, listOf(
-                            "O",
-                            "#p37058",
-                            "#o37058"
-                        ), listOf(
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder1>",
-                                "#p37058" to null,
-                                "#o37058" to null
-                            ),
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder2>",
-                                "#p37058" to null,
-                                "#o37058" to null
-                            )
-                        )
-                    )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
-            {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    POPLimit(
-                        dictionary,
-                        2,
-                        POPValues(dictionary, listOf(
-                                "O",
-                                "#p37402",
-                                "#o37402"
-                            ), listOf(
-                                mutableMapOf(
-                                    "O" to "<http://www.example.orgorder1>",
-                                    "#p37402" to null,
-                                    "#o37402" to null
-                                ),
-                                mutableMapOf(
-                                    "O" to "<http://www.example.orgorder2>",
-                                    "#p37402" to null,
-                                    "#o37402" to null
-                                ),
-                                mutableMapOf(
-                                    "O" to "<http://www.example.orgorder3>",
-                                    "#p37402" to null,
-                                    "#o37402" to null
-                                )
-                            )
-                        )
-                    ),
-                    POPValues(dictionary, listOf(
-                            "O",
-                            "#p37402",
-                            "#o37402"
-                        ), listOf(
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder1>",
-                                "#p37402" to null,
-                                "#o37402" to null
-                            ),
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder2>",
-                                "#p37402" to null,
-                                "#o37402" to null
-                            )
-                        )
-                    )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
-            {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    POPLimit(
-                        dictionary,
-                        2,
-                        POPValues(dictionary, listOf(
-                                "O",
-                                "#p37423",
-                                "#o37423"
-                            ), listOf(
-                                mutableMapOf(
-                                    "O" to "<http://www.example.orgorder1>",
-                                    "#p37423" to null,
-                                    "#o37423" to null
-                                ),
-                                mutableMapOf(
-                                    "O" to "<http://www.example.orgorder2>",
-                                    "#p37423" to null,
-                                    "#o37423" to null
-                                ),
-                                mutableMapOf(
-                                    "O" to "<http://www.example.orgorder3>",
-                                    "#p37423" to null,
-                                    "#o37423" to null
-                                )
-                            )
-                        )
-                    ),
-                    POPValues(dictionary, listOf(
-                            "O",
-                            "#p37423",
-                            "#o37423"
-                        ), listOf(
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder1>",
-                                "#p37423" to null,
-                                "#o37423" to null
-                            ),
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder2>",
-                                "#p37423" to null,
-                                "#o37423" to null
+                                "O" to "<http://www.example.orgorder2>"
                             )
                         )
                     )

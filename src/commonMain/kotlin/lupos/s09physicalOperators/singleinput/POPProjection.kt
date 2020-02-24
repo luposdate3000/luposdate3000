@@ -45,7 +45,7 @@ class POPProjection : POPBase {
         this.variablesNew = Array<Variable>(variables.size, init = fun(it: Int) = resultSet.createVariable(variables[it].name))
     }
 
-    override fun getProvidedVariableNames()=MutableList(variables.size){variables[it].name}.distinct()
+    override fun getProvidedVariableNames() = MutableList(variables.size) { variables[it].name }.distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         val res = mutableListOf<String>()
@@ -76,6 +76,7 @@ class POPProjection : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPProjection")
+        res.addAttribute("uuid", "" + uuid)
         val vars = XMLElement("variables")
         res.addContent(vars)
         for (v in variables)

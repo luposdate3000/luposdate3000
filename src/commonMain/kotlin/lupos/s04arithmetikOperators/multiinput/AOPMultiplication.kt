@@ -13,6 +13,7 @@ class AOPMultiplication(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFi
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPMultiplication")
+        res.addAttribute("uuid", "" + uuid)
         res.addContent(childrenToXML())
         return res
     }

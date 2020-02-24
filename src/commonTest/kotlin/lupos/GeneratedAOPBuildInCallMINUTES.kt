@@ -45,14 +45,12 @@ class GeneratedAOPBuildInCallMINUTESTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("date")
                 MicroTestA1(
                         AOPBuildInCallMINUTES(AOPVariable("date")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d1>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("date")] = resultSet.createValue("\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                             resultRow
                         }(),
@@ -63,14 +61,12 @@ class GeneratedAOPBuildInCallMINUTESTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("date")
                 MicroTestA1(
                         AOPBuildInCallMINUTES(AOPVariable("date")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("date")] = resultSet.createValue("\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                             resultRow
                         }(),
@@ -81,14 +77,12 @@ class GeneratedAOPBuildInCallMINUTESTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("date")
                 MicroTestA1(
                         AOPBuildInCallMINUTES(AOPVariable("date")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("date")] = resultSet.createValue("\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                             resultRow
                         }(),
@@ -99,14 +93,12 @@ class GeneratedAOPBuildInCallMINUTESTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("date")
                 MicroTestA1(
                         AOPBuildInCallMINUTES(AOPVariable("date")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                             resultRow[resultSet.createVariable("date")] = resultSet.createValue("\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                             resultRow
                         }(),

@@ -36,7 +36,7 @@ class POPJoinHashMap : POPBase {
         return true
     }
 
-    override fun getProvidedVariableNames()=(children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()).distinct()
+    override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return getProvidedVariableNames()
@@ -62,6 +62,8 @@ class POPJoinHashMap : POPBase {
         val variablesB2 = variablesB.minus(joinVariables)
         variables = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf<Pair<Variable, Variable>>())
         variablesJ = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf<Pair<Variable, Variable>>())
+println("aaa"+childA.toXMLElement().toPrettyString()+childA.getProvidedVariableNames())
+println("bbb"+childB.toXMLElement().toPrettyString()+childB.getProvidedVariableNames())
         for (name in variablesA2)
             variables[0].add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
         for (name in variablesB2)
@@ -173,6 +175,7 @@ class POPJoinHashMap : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPJoinHashMap")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("optional", "" + optional)
         res.addContent(childrenToXML())
         return res

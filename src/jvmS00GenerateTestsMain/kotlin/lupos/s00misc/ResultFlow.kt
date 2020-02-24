@@ -81,11 +81,11 @@ fun resultFlowProduce(producerv: () -> OPBase, action: () -> ResultRow): ResultR
     return res
 }
 
-fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, resultSet: ResultSet, prefix: String): String {
+fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, o: OPBase, prefix: String): String {
     var res = "${prefix}POPValues(dictionary, listOf(\n"
-    val tmp = resultSet.getVariableNames()
-    if (tmp.size > 0) {
-        for (v in tmp) {
+    val variables = o.getProvidedVariableNames()
+    if (variables.size > 0) {
+        for (v in variables) {
             res += "${prefix}        \"$v\",\n"
         }
         res = res.substring(0, res.length - 2) + "\n"
@@ -94,9 +94,9 @@ fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, resultSet: 
     if (rows != null) {
         for (row in rows) {
             res += "${prefix}        mutableMapOf(\n"
-            if (resultSet.getVariableNames().size > 0) {
-                for (k in resultSet.getVariableNames()) {
-                    val v = resultSet.getValue(row[resultSet.createVariable(k)])?.replace("\"", "\\\"")
+            if (variables.size > 0) {
+                for (k in variables) {
+                    val v = o.resultSet.getValue(row[o.resultSet.createVariable(k)])?.replace("\"", "\\\"")
                     if (v == null)
                         res += "${prefix}            \"${k}\" to null,\n"
                     else
@@ -139,81 +139,81 @@ fun testCaseFromPOPBaseSimple(op: POPBase): String {
         res += "${prefix}                    {\n"
         res += "${prefix}                        val graphName = \"graph\" + DistributedTripleStore.getGraphNames().size\n"
         res += "${prefix}                        val graph=DistributedTripleStore.createGraph(graphName)\n"
-val tmp=rowMapProduced[op.uuid]
-if(tmp!=null){
+        val tmp = rowMapProduced[op.uuid]
+        if (tmp != null) {
             for (r in tmp) {
                 res += "${prefix}                        graph.addData(1L,listOf(\""
                 if (sv)
-                    res += s?.replace("\"","\\\"")
+                    res += s?.replace("\"", "\\\"")
                 else
-                    res += op.resultSet.getValue(r[op.resultSet.createVariable(s!!)]!!)!!.replace("\"","\\\"")
+                    res += op.resultSet.getValue(r[op.resultSet.createVariable(s!!)]!!)!!.replace("\"", "\\\"")
                 res += "\",\""
                 if (pv)
-                    res += p?.replace("\"","\\\"")
+                    res += p?.replace("\"", "\\\"")
                 else
-                    res += op.resultSet.getValue(r[op.resultSet.createVariable(p!!)]!!)!!.replace("\"","\\\"")
+                    res += op.resultSet.getValue(r[op.resultSet.createVariable(p!!)]!!)!!.replace("\"", "\\\"")
                 res += "\",\""
                 if (ov)
-                    res += o?.replace("\"","\\\"")
+                    res += o?.replace("\"", "\\\"")
                 else
-                    res += op.resultSet.getValue(r[op.resultSet.createVariable(o!!)]!!)!!.replace("\"","\\\"")
+                    res += op.resultSet.getValue(r[op.resultSet.createVariable(o!!)]!!)!!.replace("\"", "\\\"")
                 res += "\"))\n"
             }
         }
-	    res += "${prefix}                        DistributedTripleStore.commit(1L)\n"
-            res += "${prefix}                        TripleStoreIteratorGlobal(1L,dictionary,graphName,\"${s?.replace("\"","\\\"")}\",\"${p?.replace("\"","\\\"")}\",\"${o?.replace("\"","\\\"")}\",$sv,$pv,$ov,EIndexPattern.${op.idx})\n"
-            res += "${prefix}                    }(),\n"
+        res += "${prefix}                        DistributedTripleStore.commit(1L)\n"
+        res += "${prefix}                        TripleStoreIteratorGlobal(1L,dictionary,graphName,\"${s?.replace("\"", "\\\"")}\",\"${p?.replace("\"", "\\\"")}\",\"${o?.replace("\"", "\\\"")}\",$sv,$pv,$ov,EIndexPattern.${op.idx})\n"
+        res += "${prefix}                    }(),\n"
     } else {
         res += "${prefix}                    ${classNameToString(op)}(\n"
         res += "${prefix}                        dictionary,\n"
         when (op) {
             is POPUnion -> {
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + ",\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1].resultSet, "${prefix}                        ") + "\n"
+                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + ",\n"
+                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1], "${prefix}                        ") + "\n"
             }
             is POPJoinHashMap -> {
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + ",\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1].resultSet, "${prefix}                        ") + ",\n"
+                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + ",\n"
+                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1], "${prefix}                        ") + ",\n"
                 res += "${prefix}                        ${op.optional}"
             }
             is POPJoinNestedLoop -> {
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + ",\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1].resultSet, "${prefix}                        ") + ",\n"
+                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + ",\n"
+                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1], "${prefix}                        ") + ",\n"
                 res += "${prefix}                        ${op.optional}"
             }
             is POPRename -> {
                 res += "${prefix}                        AOPVariable(\"${op.nameTo.name}\"),\n"
                 res += "${prefix}                        AOPVariable(\"${op.nameFrom.name}\"),\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
+                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
             }
             is POPFilter -> {
                 res += "${prefix}                        POPExpression(dictionary, ${testCaseFromAOPBase(op.children[1].children[0] as AOPBase)}),\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
+                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
             }
             is POPDistinct -> {
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
+                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
             }
             is POPOffset -> {
                 res += "${prefix}                        ${op.offset},\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
+                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
             }
             is POPLimit -> {
                 res += "${prefix}                        ${op.limit},\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
+                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
             }
             is POPSort -> {
                 res += "${prefix}                        AOPVariable(\"${op.resultSet.getVariable(op.sortBy)}\"),\n"
                 res += "${prefix}                        ${op.sortOrder},\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
+                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
             }
             is POPBindUndefined -> {
                 res += "${prefix}                        AOPVariable(\"${op.name.name}\"),\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
+                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
             }
             is POPBind -> {
                 res += "${prefix}                        AOPVariable(\"${op.name.name}\"),\n"
                 res += "${prefix}                        POPExpression(dictionary, ${testCaseFromAOPBase(op.children[1].children[0] as AOPBase)}),\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
+                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
             }
             is POPProjection -> {
                 res += "${prefix}                        mutableListOf(\n"
@@ -222,18 +222,18 @@ if(tmp!=null){
                 if (op.variables.size > 0)
                     res += "${prefix}                            AOPVariable(\"${op.variables[op.variables.size - 1].name}\")\n"
                 res += "${prefix}                        ),\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
+                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
             }
             is POPFilterExact -> {
                 res += "${prefix}                        AOPVariable(\"${op.variable.name}\"),\n"
                 res += "${prefix}                        \"${op.value}\",\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
+                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
             }
             else -> throw Exception("not implemented testCaseFromPOPBaseSimple(${classNameToString(op)})")
         }
         res += "${prefix}                    ),\n"
     }
-    res += testCaseFromResultRowsAsPOPValues(rowMapProduced[op.uuid], op.resultSet, "${prefix}                    ") + "\n"
+    res += testCaseFromResultRowsAsPOPValues(rowMapProduced[op.uuid], op, "${prefix}                    ") + "\n"
     res += "${prefix}                )\n"
     return res + "${prefix}            }()"
 }

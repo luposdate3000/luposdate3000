@@ -56,7 +56,7 @@ class POPBindUndefined : POPBase {
         variablesNew[i] = variableBound
     }
 
-    override fun getProvidedVariableNames()=(children[0].getRequiredVariableNames()+name.name).distinct()
+    override fun getProvidedVariableNames() = (children[0].getRequiredVariableNames() + name.name).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return children[0].getRequiredVariableNames()
@@ -85,6 +85,7 @@ class POPBindUndefined : POPBase {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPBindUndefined")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("name", name.name)
         res.addContent(childrenToXML())
         return res

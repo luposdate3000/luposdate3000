@@ -92,30 +92,30 @@ class GeneratedAOPAggregationTest {
             }() /* resources/sparql11-test-suite/aggregates/agg01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("S")
                 resultSet.createVariable("P")
+                resultSet.createVariable("S")
                 resultSet.createVariable("O")
                 MicroTestAN(
                         AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O"))),
                         listOf(
                             {
                                 val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
                                 resultRow
                             }()
@@ -126,23 +126,23 @@ class GeneratedAOPAggregationTest {
             }() /* resources/sparql11-test-suite/aggregates/agg03.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("S")
                 resultSet.createVariable("P")
+                resultSet.createVariable("S")
                 resultSet.createVariable("O")
                 MicroTestAN(
                         AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O"))),
                         listOf(
                             {
                                 val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
                                 resultRow
                             }()
@@ -201,30 +201,30 @@ class GeneratedAOPAggregationTest {
             }() /* resources/sparql11-test-suite/aggregates/agg06.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("S")
                 resultSet.createVariable("P")
+                resultSet.createVariable("S")
                 resultSet.createVariable("O")
                 MicroTestAN(
                         AOPAggregation(Aggregation.COUNT, false, arrayOf()),
                         listOf(
                             {
                                 val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
                                 resultRow
                             }()
@@ -235,23 +235,23 @@ class GeneratedAOPAggregationTest {
             }() /* resources/sparql11-test-suite/aggregates/agg07.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("S")
                 resultSet.createVariable("P")
+                resultSet.createVariable("S")
                 resultSet.createVariable("O")
                 MicroTestAN(
                         AOPAggregation(Aggregation.COUNT, false, arrayOf()),
                         listOf(
                             {
                                 val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
                                 resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
                                 resultRow
                             }()
@@ -264,9 +264,7 @@ class GeneratedAOPAggregationTest {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("O12")
                 resultSet.createVariable("S")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("O1")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("O2")
                 MicroTestAN(
                         AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O1"))),
@@ -275,9 +273,7 @@ class GeneratedAOPAggregationTest {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                                 resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                                 resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }()
@@ -290,9 +286,7 @@ class GeneratedAOPAggregationTest {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("O12")
                 resultSet.createVariable("S")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("O1")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("O2")
                 MicroTestAN(
                         AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O1"))),
@@ -301,9 +295,7 @@ class GeneratedAOPAggregationTest {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                                 resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                                 resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
@@ -311,9 +303,7 @@ class GeneratedAOPAggregationTest {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                                 resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                                 resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }()
@@ -326,9 +316,7 @@ class GeneratedAOPAggregationTest {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("O12")
                 resultSet.createVariable("S")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("O1")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("O2")
                 MicroTestAN(
                         AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O1"))),
@@ -337,9 +325,7 @@ class GeneratedAOPAggregationTest {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                                 resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                                 resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
@@ -347,9 +333,7 @@ class GeneratedAOPAggregationTest {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                                 resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                                 resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
@@ -357,9 +341,7 @@ class GeneratedAOPAggregationTest {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                                 resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                                 resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }()
@@ -372,9 +354,7 @@ class GeneratedAOPAggregationTest {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("O12")
                 resultSet.createVariable("S")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("O1")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("O2")
                 MicroTestAN(
                         AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O1"))),
@@ -383,9 +363,7 @@ class GeneratedAOPAggregationTest {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                                 resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                                 resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
@@ -393,9 +371,7 @@ class GeneratedAOPAggregationTest {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                                 resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                                 resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }()
@@ -408,9 +384,7 @@ class GeneratedAOPAggregationTest {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("O12")
                 resultSet.createVariable("S")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("O1")
-                resultSet.createVariable("#4")
                 resultSet.createVariable("O2")
                 MicroTestAN(
                         AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O1"))),
@@ -419,9 +393,7 @@ class GeneratedAOPAggregationTest {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                                 resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                                 resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }()
@@ -433,7 +405,6 @@ class GeneratedAOPAggregationTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("o")
                 MicroTestAN(
                         AOPAggregation(Aggregation.SUM, false, arrayOf(AOPVariable("o"))),
@@ -441,35 +412,30 @@ class GeneratedAOPAggregationTest {
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }()
@@ -637,7 +603,6 @@ class GeneratedAOPAggregationTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("o")
                 MicroTestAN(
                         AOPAggregation(Aggregation.AVG, false, arrayOf(AOPVariable("o"))),
@@ -645,35 +610,30 @@ class GeneratedAOPAggregationTest {
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }()
@@ -841,7 +801,6 @@ class GeneratedAOPAggregationTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("o")
                 MicroTestAN(
                         AOPAggregation(Aggregation.MIN, false, arrayOf(AOPVariable("o"))),
@@ -849,35 +808,30 @@ class GeneratedAOPAggregationTest {
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }()
@@ -1305,7 +1259,6 @@ class GeneratedAOPAggregationTest {
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("o")
                 MicroTestAN(
                         AOPAggregation(Aggregation.SAMPLE, false, arrayOf(AOPVariable("o"))),
@@ -1313,35 +1266,30 @@ class GeneratedAOPAggregationTest {
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }()
@@ -1353,7 +1301,6 @@ class GeneratedAOPAggregationTest {
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("g")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("p")
                 MicroTestAN(
                         AOPAggregation(Aggregation.MAX, false, arrayOf(AOPVariable("p"))),
@@ -1361,28 +1308,24 @@ class GeneratedAOPAggregationTest {
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }()
@@ -1394,7 +1337,6 @@ class GeneratedAOPAggregationTest {
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("g")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("p")
                 MicroTestAN(
                         AOPAggregation(Aggregation.MIN, false, arrayOf(AOPVariable("p"))),
@@ -1402,28 +1344,24 @@ class GeneratedAOPAggregationTest {
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }()
@@ -1435,7 +1373,6 @@ class GeneratedAOPAggregationTest {
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("g")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("p")
                 MicroTestAN(
                         AOPAggregation(Aggregation.AVG, false, arrayOf(AOPVariable("p"))),
@@ -1443,28 +1380,24 @@ class GeneratedAOPAggregationTest {
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#x>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }()
@@ -1476,7 +1409,6 @@ class GeneratedAOPAggregationTest {
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("g")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("p")
                 MicroTestAN(
                         AOPAggregation(Aggregation.MAX, false, arrayOf(AOPVariable("p"))),
@@ -1484,49 +1416,42 @@ class GeneratedAOPAggregationTest {
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#y>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#y>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#y>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"2.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }()
@@ -1538,7 +1463,6 @@ class GeneratedAOPAggregationTest {
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("g")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("p")
                 MicroTestAN(
                         AOPAggregation(Aggregation.MIN, false, arrayOf(AOPVariable("p"))),
@@ -1546,49 +1470,42 @@ class GeneratedAOPAggregationTest {
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#y>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#y>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#y>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"2.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }()
@@ -1600,7 +1517,6 @@ class GeneratedAOPAggregationTest {
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("g")
-                resultSet.createVariable("#1")
                 resultSet.createVariable("p")
                 MicroTestAN(
                         AOPAggregation(Aggregation.AVG, false, arrayOf(AOPVariable("p"))),
@@ -1608,49 +1524,42 @@ class GeneratedAOPAggregationTest {
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#y>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#y>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#y>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"2.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
                                 resultRow
                             }(),
                             {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("g")] = resultSet.createValue("<http://example.com/data/#z>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
                                 resultRow[resultSet.createVariable("p")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow
                             }()
@@ -1661,9 +1570,7 @@ class GeneratedAOPAggregationTest {
             }()*/ /* resources/sparql11-test-suite/aggregates/agg-err-01.rq */
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("v")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("w")
                 resultSet.createVariable("s")
                 MicroTestAN(
@@ -1671,9 +1578,7 @@ class GeneratedAOPAggregationTest {
                         listOf(
                             {
                                 val resultRow = resultSet.createResultRow()
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                                 resultRow[resultSet.createVariable("v")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                                 resultRow[resultSet.createVariable("w")] = resultSet.createValue("\"9\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/s1>")
                                 resultRow
@@ -1685,9 +1590,7 @@ class GeneratedAOPAggregationTest {
             }() /* resources/sparql11-test-suite/grouping/group03.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("#0")
                 resultSet.createVariable("v")
-                resultSet.createVariable("#2")
                 resultSet.createVariable("w")
                 resultSet.createVariable("s")
                 MicroTestAN(
@@ -1695,9 +1598,7 @@ class GeneratedAOPAggregationTest {
                         listOf(
                             {
                                 val resultRow = resultSet.createResultRow()
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
                                 resultRow[resultSet.createVariable("v")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                                 resultSet.setUndefValue(resultRow, resultSet.createVariable("w"))
                                 resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/s2>")
                                 resultRow

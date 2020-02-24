@@ -12,6 +12,7 @@ class AOPValue(childs: List<AOPConstant>) : AOPBase() {
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPValue")
+        res.addAttribute("uuid", "" + uuid)
         res.addContent(childrenToXML())
         return res
     }

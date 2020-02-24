@@ -14,6 +14,7 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("AOPAggregation")
+        res.addAttribute("uuid", "" + uuid)
         res.addAttribute("type", "" + type)
         res.addAttribute("distinct", "" + distinct)
         res.addContent(childrenToXML())

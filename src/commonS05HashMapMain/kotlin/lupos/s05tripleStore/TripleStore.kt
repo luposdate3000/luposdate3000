@@ -409,11 +409,11 @@ class TripleStoreLocal {
         }
     })
 
-    fun getIterator(transactionID: Long, resultSet:ResultSet, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator a" }, {
+    fun getIterator(transactionID: Long, resultSet: ResultSet, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator a" }, {
         return TripleStoreIteratorLocal(resultSet, this, index)
     })
 
-    fun getIterator(transactionID: Long, resultSet:ResultSet, s: String, p: String, o: String, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator b" }, {
+    fun getIterator(transactionID: Long, resultSet: ResultSet, s: String, p: String, o: String, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator b" }, {
         val res = TripleStoreIteratorLocal(resultSet, this, index)
         res.setMNameS(s)
         res.setMNameP(p)
@@ -421,7 +421,7 @@ class TripleStoreLocal {
         return res
     })
 
-    fun getIterator(transactionID: Long, resultSet:ResultSet, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator c" }, {
+    fun getIterator(transactionID: Long, resultSet: ResultSet, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "TripleStoreLocal.getIterator c" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "local get iterator :: $s $p $o $sv $pv $ov" })
         val res = TripleStoreIteratorLocalFilter(resultSet, this, index)
         if (sv)
