@@ -81,6 +81,14 @@ fun resultFlowProduce(producerv: () -> OPBase, action: () -> ResultRow): ResultR
 
 fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, resultSet: ResultSet, prefix: String): String {
     var res = "${prefix}POPValues(dictionary, listOf(\n"
+    val tmp = resultSet.getVariableNames()
+    if (tmp.size > 0) {
+        for (v in tmp) {
+            res += "${prefix}        \"$v\",\n"
+        }
+        res = res.substring(0, res.length - 2) + "\n"
+    }
+    res += "${prefix}    ), listOf(\n"
     if (rows != null) {
         for (row in rows) {
             res += "${prefix}        mutableMapOf(\n"
@@ -217,9 +225,9 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
     return expected
 }
 
-fun printAllMicroTest(testName: String,queryFile:String, success: Boolean) {
+fun printAllMicroTest(testName: String, queryFile: String, success: Boolean) {
     if (listOfMicroTests.size() > 0 || popMap.keySize() > 0) {
-        val name = (testName+"_"+queryFile).replace("[^a-zA-Z0-9]".toRegex(), "_")
+        val name = ("" + testName.hashCode() + "_" + queryFile).replace("[^a-zA-Z0-9]".toRegex(), "_")
         println("${prefix}    @TestFactory")
         println("${prefix}    fun test${name}() = listOf(")
         if (listOfMicroTests.size() > 0) {

@@ -1,5 +1,7 @@
 #!/bin/bash
 mkdir log
+for chooseS00ResultFlow in "jvmS00GenerateTestsMain"
+do
 for chooseS00Execution in "commonS00ExecutionSequentialMain" "commonS00ExecutionParallelMain"
 do
 for chooseS00Trace in "commonS00TraceOnMain" "commonS00TraceOffMain"
@@ -131,6 +133,7 @@ sourceSets {
     main.kotlin.srcDirs += 'src/commonS01BufferMainmemoryMain/kotlin'
     main.kotlin.srcDirs += 'src/$chooseS00Execution/kotlin'
     main.kotlin.srcDirs += 'src/$chooseS00Trace/kotlin'
+    main.kotlin.srcDirs += 'src/$chooseS00ResultFlow/kotlin'
     main.kotlin.srcDirs += 'src/$chooseS03/kotlin'
     main.kotlin.srcDirs += 'src/$chooseS05/kotlin'
     main.kotlin.srcDirs += 'src/$chooseS12/kotlin'
@@ -154,6 +157,7 @@ EOF
 	chmod +x ./luposdate3000/bin/luposdate3000-p2p
 ) > log/compile-$buildName.log 2>&1
 )
+done
 done
 done
 done

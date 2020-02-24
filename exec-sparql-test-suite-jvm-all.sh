@@ -1,5 +1,7 @@
 ./tool-gradle-build-without-tests-jvm-all.sh
 
+for chooseS00ResultFlow in "jvmS00GenerateTestsMain"
+do
 for chooseS00Execution in "commonS00ExecutionSequentialMain" "commonS00ExecutionParallelMain"
 do
 for chooseS00Trace in "commonS00TraceOnMain" "commonS00TraceOffMain"
@@ -52,6 +54,7 @@ echo "diff a c-$buildName"
 diff a c-$buildName
 )
 
+done
 done
 done
 done

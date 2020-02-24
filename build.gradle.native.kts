@@ -62,6 +62,7 @@ kotlin {
     sourceSets["linuxX64Main"].kotlin.srcDir("src/commonMain/kotlin")
     sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS00ExecutionSequentialMain/kotlin")
     sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS00TraceOnMain/kotlin")
+    sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS00FastMain/kotlin")
     sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS01HeapMain/kotlin")
     sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS01BufferMainmemoryMain/kotlin")
     sourceSets["linuxX64Main"].kotlin.srcDir("src/commonS03DictionaryIntArrayMain/kotlin")

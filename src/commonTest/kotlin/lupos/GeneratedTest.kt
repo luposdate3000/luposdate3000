@@ -20,6 +20,7 @@ import lupos.s11outputResult.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
+
 class AOPVariableTest {
     fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
         for (n in node.children)
@@ -31,17 +32,18 @@ class AOPVariableTest {
                 node.a = null
         }
     }
+
     @TestFactory
-    fun testADD_1_resources_sparql11_test_suite_add_add_01_ru() = listOf(
+    fun test62121042_resources_sparql11_test_suite_add_add_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->ADD 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -56,18 +58,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -78,16 +80,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testADD_2_resources_sparql11_test_suite_add_add_01_ru() = listOf(
+    fun test62121043_resources_sparql11_test_suite_add_add_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->ADD 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -102,18 +104,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -124,16 +126,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testADD_3_resources_sparql11_test_suite_add_add_03_ru() = listOf(
+    fun test62121044_resources_sparql11_test_suite_add_add_03_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->ADD 3<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -148,18 +150,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -170,16 +172,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testADD_4_resources_sparql11_test_suite_add_add_03_ru() = listOf(
+    fun test62121045_resources_sparql11_test_suite_add_add_03_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->ADD 4<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -194,18 +196,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -216,16 +218,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testADD_5_resources_sparql11_test_suite_add_add_05_ru() = listOf(
+    fun test62121046_resources_sparql11_test_suite_add_add_05_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->ADD 5<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -240,18 +242,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -262,16 +264,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testADD_6_resources_sparql11_test_suite_add_add_06_ru() = listOf(
+    fun test62121047_resources_sparql11_test_suite_add_add_06_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->ADD 6<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -286,18 +288,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -308,16 +310,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testADD_7_resources_sparql11_test_suite_add_add_07_ru() = listOf(
+    fun test62121048_resources_sparql11_test_suite_add_add_07_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->ADD 7<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -332,18 +334,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -354,16 +356,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testADD_8_resources_sparql11_test_suite_add_add_08_ru() = listOf(
+    fun test62121049_resources_sparql11_test_suite_add_add_08_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->ADD 8<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -378,18 +380,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -400,50 +402,50 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCOUNT_1_resources_sparql11_test_suite_aggregates_agg01_rq() = listOf(
+    fun test1675812160_resources_sparql11_test_suite_aggregates_agg01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("S")
                 resultSet.createVariable("P")
                 resultSet.createVariable("O")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.COUNT,false,arrayOf(AOPVariable("O"))),
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(5)
@@ -455,9 +457,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->COUNT 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -472,18 +474,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -494,36 +496,36 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCOUNT_2_resources_sparql11_test_suite_aggregates_agg02_rq() = listOf(
+    fun test1675812161_resources_sparql11_test_suite_aggregates_agg02_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("S")
                 resultSet.createVariable("P")
                 resultSet.createVariable("O")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.COUNT,false,arrayOf(AOPVariable("O"))),
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(3)
@@ -535,22 +537,22 @@ class AOPVariableTest {
                 resultSet.createVariable("P")
                 resultSet.createVariable("O")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.COUNT,false,arrayOf(AOPVariable("O"))),
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(2)
@@ -562,9 +564,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->COUNT 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -579,18 +581,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -601,36 +603,36 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCOUNT_3_resources_sparql11_test_suite_aggregates_agg03_rq() = listOf(
+    fun test1675812162_resources_sparql11_test_suite_aggregates_agg03_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("S")
                 resultSet.createVariable("P")
                 resultSet.createVariable("O")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.COUNT,false,arrayOf(AOPVariable("O"))),
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(3)
@@ -642,22 +644,22 @@ class AOPVariableTest {
                 resultSet.createVariable("P")
                 resultSet.createVariable("O")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.COUNT,false,arrayOf(AOPVariable("O"))),
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(2)
@@ -669,9 +671,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->COUNT 3<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -686,18 +688,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -708,50 +710,50 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCOUNT_4_resources_sparql11_test_suite_aggregates_agg04_rq() = listOf(
+    fun test1675812163_resources_sparql11_test_suite_aggregates_agg04_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("S")
                 resultSet.createVariable("P")
                 resultSet.createVariable("O")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.COUNT,false,arrayOf()),
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf()),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(5)
@@ -763,9 +765,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->COUNT 4<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -780,18 +782,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -802,36 +804,36 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCOUNT_5_resources_sparql11_test_suite_aggregates_agg05_rq() = listOf(
+    fun test1675812164_resources_sparql11_test_suite_aggregates_agg05_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("S")
                 resultSet.createVariable("P")
                 resultSet.createVariable("O")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.COUNT,false,arrayOf()),
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf()),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(3)
@@ -843,22 +845,22 @@ class AOPVariableTest {
                 resultSet.createVariable("P")
                 resultSet.createVariable("O")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.COUNT,false,arrayOf()),
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf()),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(2)
@@ -870,9 +872,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->COUNT 5<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -887,18 +889,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -909,50 +911,50 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCOUNT_6_resources_sparql11_test_suite_aggregates_agg06_rq() = listOf(
+    fun test1675812165_resources_sparql11_test_suite_aggregates_agg06_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("S")
                 resultSet.createVariable("P")
                 resultSet.createVariable("O")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.COUNT,false,arrayOf()),
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf()),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(5)
@@ -964,9 +966,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->COUNT 6<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -981,18 +983,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -1003,36 +1005,36 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCOUNT_7_resources_sparql11_test_suite_aggregates_agg07_rq() = listOf(
+    fun test1675812166_resources_sparql11_test_suite_aggregates_agg07_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("S")
                 resultSet.createVariable("P")
                 resultSet.createVariable("O")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.COUNT,false,arrayOf()),
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf()),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(3)
@@ -1044,22 +1046,22 @@ class AOPVariableTest {
                 resultSet.createVariable("P")
                 resultSet.createVariable("O")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.COUNT,false,arrayOf()),
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf()),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
-                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                    resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(2)
@@ -1071,9 +1073,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->COUNT 7<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -1088,18 +1090,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -1110,7 +1112,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCOUNT_8b_resources_sparql11_test_suite_aggregates_agg08b_rq() = listOf(
+    fun test410569723_resources_sparql11_test_suite_aggregates_agg08b_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -1318,18 +1320,18 @@ class AOPVariableTest {
                 resultSet.createVariable("O2")
                 resultSet.createVariable("S")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.COUNT,false,arrayOf(AOPVariable("O1"))),
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O1"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
-                                resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
+                                    resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(1)
@@ -1344,28 +1346,28 @@ class AOPVariableTest {
                 resultSet.createVariable("O2")
                 resultSet.createVariable("S")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.COUNT,false,arrayOf(AOPVariable("O1"))),
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O1"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
-                                resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
-                                resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
+                                    resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
+                                    resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(2)
@@ -1380,38 +1382,38 @@ class AOPVariableTest {
                 resultSet.createVariable("O2")
                 resultSet.createVariable("S")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.COUNT,false,arrayOf(AOPVariable("O1"))),
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O1"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
-                                resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
-                                resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
-                                resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
+                                    resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
+                                    resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
+                                    resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(3)
@@ -1426,28 +1428,28 @@ class AOPVariableTest {
                 resultSet.createVariable("O2")
                 resultSet.createVariable("S")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.COUNT,false,arrayOf(AOPVariable("O1"))),
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O1"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
-                                resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
-                                resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
+                                    resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
+                                    resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(2)
@@ -1462,18 +1464,18 @@ class AOPVariableTest {
                 resultSet.createVariable("O2")
                 resultSet.createVariable("S")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.COUNT,false,arrayOf(AOPVariable("O1"))),
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O1"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
-                                resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("O12")] = resultSet.createValue("\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("O1")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
+                                    resultRow[resultSet.createVariable("O2")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(1)
@@ -1485,9 +1487,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->COUNT 8b<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -1502,18 +1504,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -1524,16 +1526,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testGROUP_CONCAT_1_resources_sparql11_test_suite_aggregates_agg_groupconcat_1_rq() = listOf(
+    fun test1115219973_resources_sparql11_test_suite_aggregates_agg_groupconcat_1_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->GROUP_CONCAT 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -1548,18 +1550,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -1570,16 +1572,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testGROUP_CONCAT_2_resources_sparql11_test_suite_aggregates_agg_groupconcat_2_rq() = listOf(
+    fun test1115219974_resources_sparql11_test_suite_aggregates_agg_groupconcat_2_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->GROUP_CONCAT 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -1594,18 +1596,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -1616,16 +1618,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testGROUP_CONCAT_with_SEPARATOR_resources_sparql11_test_suite_aggregates_agg_groupconcat_3_rq() = listOf(
+    fun test250509463_resources_sparql11_test_suite_aggregates_agg_groupconcat_3_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->GROUP_CONCAT with SEPARATOR<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -1640,18 +1642,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -1662,50 +1664,50 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSUM_resources_sparql11_test_suite_aggregates_agg_sum_01_rq() = listOf(
+    fun test82475_resources_sparql11_test_suite_aggregates_agg_sum_01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
                 resultSet.createVariable("#1")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.SUM,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.SUM, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDecimal(11.100000000000001)
@@ -1717,9 +1719,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->SUM<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -1734,18 +1736,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -1756,36 +1758,36 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSUM_with_GROUP_BY_resources_sparql11_test_suite_aggregates_agg_sum_02_rq() = listOf(
+    fun test_522752355_resources_sparql11_test_suite_aggregates_agg_sum_02_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.SUM,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.SUM, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDecimal(6.7)
@@ -1797,29 +1799,29 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.SUM,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.SUM, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"100.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"30000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"100.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"30000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDouble(32100.0)
@@ -1831,29 +1833,29 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.SUM,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.SUM, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(6)
@@ -1865,22 +1867,22 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.SUM,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.SUM, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDecimal(3.2)
@@ -1892,22 +1894,22 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.SUM,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.SUM, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"0.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"0.2\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"0.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"0.2\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDouble(0.4)
@@ -1919,9 +1921,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->SUM with GROUP BY<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -1936,18 +1938,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -1958,50 +1960,50 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testAVG_resources_sparql11_test_suite_aggregates_agg_avg_01_rq() = listOf(
+    fun test65202_resources_sparql11_test_suite_aggregates_agg_avg_01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
                 resultSet.createVariable("#1")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.AVG,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.AVG, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDecimal(2.22)
@@ -2013,9 +2015,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->AVG<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -2030,18 +2032,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -2052,36 +2054,36 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testAVG_with_GROUP_BY_resources_sparql11_test_suite_aggregates_agg_avg_02_rq() = listOf(
+    fun test_78433564_resources_sparql11_test_suite_aggregates_agg_avg_02_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.AVG,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.AVG, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDecimal(2.2333333333333334)
@@ -2093,29 +2095,29 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.AVG,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.AVG, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"100.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"30000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"100.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"30000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDouble(10700.0)
@@ -2127,29 +2129,29 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.AVG,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.AVG, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDecimal(2.0)
@@ -2161,22 +2163,22 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.AVG,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.AVG, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDecimal(1.6)
@@ -2188,22 +2190,22 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.AVG,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.AVG, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"0.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"0.2\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"0.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"0.2\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDouble(0.2)
@@ -2215,9 +2217,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->AVG with GROUP BY<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -2232,18 +2234,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -2254,50 +2256,50 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testMIN_resources_sparql11_test_suite_aggregates_agg_min_01_rq() = listOf(
+    fun test76338_resources_sparql11_test_suite_aggregates_agg_min_01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
                 resultSet.createVariable("#1")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.MIN,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.MIN, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDecimal(1.0)
@@ -2309,9 +2311,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->MIN<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -2326,18 +2328,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -2348,36 +2350,36 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testMIN_with_GROUP_BY_resources_sparql11_test_suite_aggregates_agg_min_02_rq() = listOf(
+    fun test_1008648604_resources_sparql11_test_suite_aggregates_agg_min_02_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.MIN,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.MIN, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDecimal(1.0)
@@ -2389,29 +2391,29 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.MIN,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.MIN, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"100.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"30000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"100.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"30000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDouble(100.0)
@@ -2423,29 +2425,29 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.MIN,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.MIN, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(1)
@@ -2457,22 +2459,22 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.MIN,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.MIN, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(1)
@@ -2484,22 +2486,22 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.MIN,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.MIN, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"0.2\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"0.2\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDouble(0.2)
@@ -2511,9 +2513,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->MIN with GROUP BY<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -2528,18 +2530,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -2550,106 +2552,106 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testMAX_resources_sparql11_test_suite_aggregates_agg_max_01_rq() = listOf(
+    fun test76100_resources_sparql11_test_suite_aggregates_agg_max_01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.MAX,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.MAX, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"100.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"30000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"0.2\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"100.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"30000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"0.2\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDouble(30000.0)
@@ -2661,9 +2663,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->MAX<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -2678,18 +2680,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -2700,36 +2702,36 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testMAX_with_GROUP_BY_resources_sparql11_test_suite_aggregates_agg_max_02_rq() = listOf(
+    fun test971273718_resources_sparql11_test_suite_aggregates_agg_max_02_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.MAX,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.MAX, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/decimals>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDecimal(3.5)
@@ -2741,29 +2743,29 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.MAX,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.MAX, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"100.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"30000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"100.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/doubles>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"30000.0\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDouble(30000.0)
@@ -2775,29 +2777,29 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.MAX,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.MAX, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/ints>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(3)
@@ -2809,22 +2811,22 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.MAX,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.MAX, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed1>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/int>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDecimal(2.2)
@@ -2836,22 +2838,22 @@ class AOPVariableTest {
                 resultSet.createVariable("p")
                 resultSet.createVariable("o")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.MAX,false,arrayOf(AOPVariable("o"))),
+                        AOPAggregation(Aggregation.MAX, false, arrayOf(AOPVariable("o"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-                                resultRow
-                            }(),
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
-                                resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
-                                resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"0.2\"^^<http://www.w3.org/2001/XMLSchema#double>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/dec>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+                                    resultRow
+                                }(),
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://www.example.org/mixed2>")
+                                    resultRow[resultSet.createVariable("p")] = resultSet.createValue("<http://www.example.org/double>")
+                                    resultRow[resultSet.createVariable("o")] = resultSet.createValue("\"0.2\"^^<http://www.w3.org/2001/XMLSchema#double>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPDecimal(2.2)
@@ -2863,9 +2865,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->MAX with GROUP BY<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -2880,18 +2882,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -2902,7 +2904,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSAMPLE_resources_sparql11_test_suite_aggregates_agg_sample_01_rq() = listOf(
+    fun test_1856345686_resources_sparql11_test_suite_aggregates_agg_sample_01_rq() = listOf(
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -3027,9 +3029,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->SAMPLE<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -3044,18 +3046,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -3066,7 +3068,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testError_in_AVG_resources_sparql11_test_suite_aggregates_agg_err_01_rq() = listOf(
+    fun test191991407_resources_sparql11_test_suite_aggregates_agg_err_01_rq() = listOf(
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("g")
@@ -3382,9 +3384,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Error in AVG<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -3399,18 +3401,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -3421,16 +3423,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testProtect_from_error_in_AVG_resources_sparql11_test_suite_aggregates_agg_err_02_rq() = listOf(
+    fun test_2122368044_resources_sparql11_test_suite_aggregates_agg_err_02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Protect from error in AVG<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -3445,18 +3447,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -3467,16 +3469,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testagg_empty_group_resources_sparql11_test_suite_aggregates_agg_empty_group_rq() = listOf(
+    fun test_938324659_resources_sparql11_test_suite_aggregates_agg_empty_group_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->agg empty group<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -3491,18 +3493,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -3513,16 +3515,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_insert_data_1_resources_sparql11_test_suite_basic_update_insert_data_spo1_ru() = listOf(
+    fun test350240436_resources_sparql11_test_suite_basic_update_insert_data_spo1_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple insert data 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -3537,18 +3539,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -3559,16 +3561,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_insert_data_named_1_resources_sparql11_test_suite_basic_update_insert_data_named1_ru() = listOf(
+    fun test665649485_resources_sparql11_test_suite_basic_update_insert_data_named1_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple insert data named 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -3583,18 +3585,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -3605,16 +3607,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_insert_data_named_2_resources_sparql11_test_suite_basic_update_insert_data_named2_ru() = listOf(
+    fun test665649486_resources_sparql11_test_suite_basic_update_insert_data_named2_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple insert data named 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -3629,18 +3631,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -3651,16 +3653,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_insert_data_named_3_resources_sparql11_test_suite_basic_update_insert_data_named1_ru() = listOf(
+    fun test665649487_resources_sparql11_test_suite_basic_update_insert_data_named1_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple insert data named 3<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -3675,18 +3677,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -3697,16 +3699,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testINSERT_01_resources_sparql11_test_suite_basic_update_insert_01_ru() = listOf(
+    fun test_1892867896_resources_sparql11_test_suite_basic_update_insert_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->INSERT 01<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -3721,18 +3723,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -3743,16 +3745,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testINSERT_02_resources_sparql11_test_suite_basic_update_insert_02_ru() = listOf(
+    fun test_1892867895_resources_sparql11_test_suite_basic_update_insert_02_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->INSERT 02<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -3767,18 +3769,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -3789,16 +3791,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testINSERT_03_resources_sparql11_test_suite_basic_update_insert_03_ru() = listOf(
+    fun test_1892867894_resources_sparql11_test_suite_basic_update_insert_03_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->INSERT 03<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -3813,18 +3815,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -3835,16 +3837,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testINSERT_04_resources_sparql11_test_suite_basic_update_insert_04_ru() = listOf(
+    fun test_1892867893_resources_sparql11_test_suite_basic_update_insert_04_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->INSERT 04<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -3859,18 +3861,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -3881,42 +3883,54 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testINSERT_USING_01_resources_sparql11_test_suite_basic_update_insert_using_01_ru() = listOf(
+    fun test1607497924_resources_sparql11_test_suite_basic_update_insert_using_01_ru() = listOf(
             {
-                val dictionary=ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 MicroTestPN(
-                    POPUnion(
-                        dictionary,
-                        POPValues(dictionary, listOf(
-                                mutableMapOf(
-                                    "s" to "<http://example.org/g1>",
-                                    "p" to "<http://example.org/p>",
-                                    "o" to "\"y\""
+                        POPUnion(
+                                dictionary,
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o"
+                                ), listOf(
+                                        mutableMapOf(
+                                                "s" to "<http://example.org/g1>",
+                                                "p" to "<http://example.org/p>",
+                                                "o" to "\"y\""
+                                        )
                                 )
-                            )
+                                ),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o"
+                                ), listOf(
+                                        mutableMapOf(
+                                                "s" to "<http://example.org/g2>",
+                                                "p" to "<http://example.org/p>",
+                                                "o" to "\"z\""
+                                        )
+                                )
+                                )
                         ),
                         POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
                                 mutableMapOf(
-                                    "s" to "<http://example.org/g2>",
-                                    "p" to "<http://example.org/p>",
-                                    "o" to "\"z\""
+                                        "s" to "<http://example.org/g1>",
+                                        "p" to "<http://example.org/p>",
+                                        "o" to "\"y\""
+                                ),
+                                mutableMapOf(
+                                        "s" to "<http://example.org/g2>",
+                                        "p" to "<http://example.org/p>",
+                                        "o" to "\"z\""
                                 )
-                            )
                         )
-                    ),
-                    POPValues(dictionary, listOf(
-                            mutableMapOf(
-                                "s" to "<http://example.org/g1>",
-                                "p" to "<http://example.org/p>",
-                                "o" to "\"y\""
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/g2>",
-                                "p" to "<http://example.org/p>",
-                                "o" to "\"z\""
-                            )
                         )
-                    )
                 )
             }(),
             {
@@ -3925,9 +3939,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->INSERT USING 01<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -3942,18 +3956,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -3964,16 +3978,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testINSERT_same_bnode_twice_resources_sparql11_test_suite_basic_update_insert_05a_ru() = listOf(
+    fun test_1416777415_resources_sparql11_test_suite_basic_update_insert_05a_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->INSERT same bnode twice<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -3988,18 +4002,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -4010,16 +4024,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testINSERTing_the_same_bnode_with_two_INSERT_WHERE_statement_within_one_request_is_NOT_the_same_bnode_resources_sparql11_test_suite_basic_update_insert_where_same_bnode_ru() = listOf(
+    fun test_1850805041_resources_sparql11_test_suite_basic_update_insert_where_same_bnode_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -4034,18 +4048,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -4056,16 +4070,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testINSERTing_the_same_bnode_with_two_INSERT_WHERE_statement_within_one_request_is_NOT_the_same_bnode_even_if_both_WHERE_clauses_have_the_empty_solution_mapping_as_the_only_solution__resources_sparql11_test_suite_basic_update_insert_where_same_bnode2_ru() = listOf(
+    fun test_280082567_resources_sparql11_test_suite_basic_update_insert_where_same_bnode2_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution.<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -4080,18 +4094,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -4102,7 +4116,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind01___BIND_resources_sparql11_test_suite_bind_bind01_rq() = listOf(
+    fun test2002534322_resources_sparql11_test_suite_bind_bind01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -4181,9 +4195,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind01 - BIND<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -4198,18 +4212,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -4220,7 +4234,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind02___BIND_resources_sparql11_test_suite_bind_bind02_rq() = listOf(
+    fun test_549622639_resources_sparql11_test_suite_bind_bind02_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -4379,9 +4393,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind02 - BIND<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -4396,18 +4410,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -4418,7 +4432,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind03___BIND_resources_sparql11_test_suite_bind_bind03_rq() = listOf(
+    fun test1193187696_resources_sparql11_test_suite_bind_bind03_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -4497,9 +4511,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind03 - BIND<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -4514,18 +4528,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -4536,16 +4550,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind04___BIND_resources_sparql11_test_suite_bind_bind04_rq() = listOf(
+    fun test_1358969265_resources_sparql11_test_suite_bind_bind04_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind04 - BIND<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -4560,18 +4574,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -4582,7 +4596,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind05___BIND_resources_sparql11_test_suite_bind_bind05_rq() = listOf(
+    fun test383841070_resources_sparql11_test_suite_bind_bind05_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -4741,9 +4755,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind05 - BIND<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -4758,18 +4772,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -4780,7 +4794,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind06___BIND_resources_sparql11_test_suite_bind_bind06_rq() = listOf(
+    fun test2126651405_resources_sparql11_test_suite_bind_bind06_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -4859,9 +4873,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind06 - BIND<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -4876,18 +4890,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -4898,16 +4912,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind07___BIND_resources_sparql11_test_suite_bind_bind07_rq() = listOf(
+    fun test_425505556_resources_sparql11_test_suite_bind_bind07_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind07 - BIND<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -4922,18 +4936,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -4944,7 +4958,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind08___BIND_resources_sparql11_test_suite_bind_bind08_rq() = listOf(
+    fun test1317304779_resources_sparql11_test_suite_bind_bind08_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -5103,9 +5117,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind08 - BIND<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -5120,18 +5134,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -5142,7 +5156,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind10___BIND_scoping___Variable_in_filter_not_in_scope_resources_sparql11_test_suite_bind_bind10_rq() = listOf(
+    fun test1050729193_resources_sparql11_test_suite_bind_bind10_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("z")
@@ -5229,9 +5243,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind10 - BIND scoping - Variable in filter not in scope<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -5246,18 +5260,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -5268,7 +5282,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind11___BIND_scoping___Variable_in_filter_in_scope_resources_sparql11_test_suite_bind_bind11_rq() = listOf(
+    fun test_1383563429_resources_sparql11_test_suite_bind_bind11_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("z")
@@ -5355,9 +5369,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind11 - BIND scoping - Variable in filter in scope<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -5372,18 +5386,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -5394,16 +5408,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testPost_query_VALUES_with_subj_var__1_row_resources_sparql11_test_suite_bindings_values01_rq() = listOf(
+    fun test_99089742_resources_sparql11_test_suite_bindings_values01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Post-query VALUES with subj-var, 1 row<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -5418,18 +5432,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -5440,16 +5454,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testPost_query_VALUES_with_obj_var__1_row_resources_sparql11_test_suite_bindings_values02_rq() = listOf(
+    fun test1790052967_resources_sparql11_test_suite_bindings_values02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Post-query VALUES with obj-var, 1 row<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -5464,18 +5478,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -5486,16 +5500,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testPost_query_VALUES_with_2_obj_vars__1_row_resources_sparql11_test_suite_bindings_values03_rq() = listOf(
+    fun test_1027895034_resources_sparql11_test_suite_bindings_values03_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Post-query VALUES with 2 obj-vars, 1 row<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -5510,18 +5524,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -5532,16 +5546,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testPost_query_VALUES_with_2_obj_vars__1_row_with_UNDEF_resources_sparql11_test_suite_bindings_values04_rq() = listOf(
+    fun test1560472108_resources_sparql11_test_suite_bindings_values04_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Post-query VALUES with 2 obj-vars, 1 row with UNDEF<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -5556,18 +5570,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -5578,16 +5592,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testPost_query_VALUES_with_2_obj_vars__2_rows_with_UNDEF_resources_sparql11_test_suite_bindings_values05_rq() = listOf(
+    fun test_616785242_resources_sparql11_test_suite_bindings_values05_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Post-query VALUES with 2 obj-vars, 2 rows with UNDEF<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -5602,18 +5616,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -5624,16 +5638,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testPost_query_VALUES_with_pred_var__1_row_resources_sparql11_test_suite_bindings_values06_rq() = listOf(
+    fun test_464807333_resources_sparql11_test_suite_bindings_values06_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Post-query VALUES with pred-var, 1 row<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -5648,18 +5662,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -5670,16 +5684,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testPost_query_VALUES_with__OPTIONAL__obj_var__1_row_resources_sparql11_test_suite_bindings_values07_rq() = listOf(
+    fun test_669221020_resources_sparql11_test_suite_bindings_values07_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Post-query VALUES with (OPTIONAL) obj-var, 1 row<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -5694,18 +5708,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -5716,16 +5730,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testPost_query_VALUES_with_subj_obj_vars__2_rows_with_UNDEF_resources_sparql11_test_suite_bindings_values08_rq() = listOf(
+    fun test_338202671_resources_sparql11_test_suite_bindings_values08_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Post-query VALUES with subj/obj-vars, 2 rows with UNDEF<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -5740,18 +5754,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -5762,16 +5776,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testInline_VALUES_graph_pattern_resources_sparql11_test_suite_bindings_inline01_rq() = listOf(
+    fun test_643761337_resources_sparql11_test_suite_bindings_inline01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Inline VALUES graph pattern<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -5786,18 +5800,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -5808,16 +5822,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testPost_subquery_VALUES_resources_sparql11_test_suite_bindings_inline02_rq() = listOf(
+    fun test482335405_resources_sparql11_test_suite_bindings_inline02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Post-subquery VALUES<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -5832,18 +5846,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -5854,16 +5868,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCLEAR_DEFAULT_resources_sparql11_test_suite_clear_clear_default_01_ru() = listOf(
+    fun test_566083794_resources_sparql11_test_suite_clear_clear_default_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->CLEAR DEFAULT<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -5878,18 +5892,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -5900,16 +5914,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCLEAR_GRAPH_resources_sparql11_test_suite_clear_clear_graph_01_ru() = listOf(
+    fun test11502971_resources_sparql11_test_suite_clear_clear_graph_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->CLEAR GRAPH<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -5924,18 +5938,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -5946,16 +5960,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCLEAR_NAMED_resources_sparql11_test_suite_clear_clear_named_01_ru() = listOf(
+    fun test17472358_resources_sparql11_test_suite_clear_clear_named_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->CLEAR NAMED<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -5970,18 +5984,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -5992,16 +6006,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCLEAR_ALL_resources_sparql11_test_suite_clear_clear_all_01_ru() = listOf(
+    fun test1515088142_resources_sparql11_test_suite_clear_clear_all_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->CLEAR ALL<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6016,18 +6030,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6038,16 +6052,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testconstructwhere01___CONSTRUCT_WHERE_resources_sparql11_test_suite_construct_constructwhere01_rq() = listOf(
+    fun test382821436_resources_sparql11_test_suite_construct_constructwhere01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->constructwhere01 - CONSTRUCT WHERE<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6062,18 +6076,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6084,16 +6098,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testconstructwhere02___CONSTRUCT_WHERE_resources_sparql11_test_suite_construct_constructwhere02_rq() = listOf(
+    fun test_461650435_resources_sparql11_test_suite_construct_constructwhere02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->constructwhere02 - CONSTRUCT WHERE<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6108,18 +6122,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6130,16 +6144,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testconstructwhere03___CONSTRUCT_WHERE_resources_sparql11_test_suite_construct_constructwhere03_rq() = listOf(
+    fun test_1306122306_resources_sparql11_test_suite_construct_constructwhere03_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->constructwhere03 - CONSTRUCT WHERE<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6154,18 +6168,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6176,16 +6190,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCOPY_1_resources_sparql11_test_suite_copy_copy_01_ru() = listOf(
+    fun test1993581126_resources_sparql11_test_suite_copy_copy_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->COPY 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6200,18 +6214,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6222,16 +6236,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCOPY_2_resources_sparql11_test_suite_copy_copy_01_ru() = listOf(
+    fun test1993581127_resources_sparql11_test_suite_copy_copy_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->COPY 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6246,18 +6260,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6268,16 +6282,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCOPY_3_resources_sparql11_test_suite_copy_copy_03_ru() = listOf(
+    fun test1993581128_resources_sparql11_test_suite_copy_copy_03_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->COPY 3<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6292,18 +6306,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6314,16 +6328,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCOPY_4_resources_sparql11_test_suite_copy_copy_03_ru() = listOf(
+    fun test1993581129_resources_sparql11_test_suite_copy_copy_03_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->COPY 4<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6338,18 +6352,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6360,16 +6374,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCOPY_6_resources_sparql11_test_suite_copy_copy_06_ru() = listOf(
+    fun test1993581131_resources_sparql11_test_suite_copy_copy_06_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->COPY 6<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6384,18 +6398,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6406,16 +6420,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCOPY_7_resources_sparql11_test_suite_copy_copy_07_ru() = listOf(
+    fun test1993581132_resources_sparql11_test_suite_copy_copy_07_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->COPY 7<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6430,18 +6444,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6452,16 +6466,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testcsv01___CSV_Result_Format_resources_sparql11_test_suite_csv_tsv_res_csvtsv01_rq() = listOf(
+    fun test822053972_resources_sparql11_test_suite_csv_tsv_res_csvtsv01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->csv01 - CSV Result Format<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6476,18 +6490,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6498,16 +6512,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testtsv01___TSV_Result_Format_resources_sparql11_test_suite_csv_tsv_res_csvtsv01_rq() = listOf(
+    fun test1400661878_resources_sparql11_test_suite_csv_tsv_res_csvtsv01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->tsv01 - TSV Result Format<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6522,18 +6536,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6544,16 +6558,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testcvs02___CSV_Result_Format_resources_sparql11_test_suite_csv_tsv_res_csvtsv02_rq() = listOf(
+    fun test1393058479_resources_sparql11_test_suite_csv_tsv_res_csvtsv02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->cvs02 - CSV Result Format<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6568,18 +6582,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6590,16 +6604,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testtvs02___TSV_Result_Format_resources_sparql11_test_suite_csv_tsv_res_csvtsv02_rq() = listOf(
+    fun test1971666385_resources_sparql11_test_suite_csv_tsv_res_csvtsv02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->tvs02 - TSV Result Format<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6614,18 +6628,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6636,16 +6650,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testcsv03___CSV_Result_Format_resources_sparql11_test_suite_csv_tsv_res_csvtsv01_rq() = listOf(
+    fun test1244755798_resources_sparql11_test_suite_csv_tsv_res_csvtsv01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->csv03 - CSV Result Format<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6660,18 +6674,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6682,16 +6696,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testtsv03___TSV_Result_Format_resources_sparql11_test_suite_csv_tsv_res_csvtsv01_rq() = listOf(
+    fun test1823363704_resources_sparql11_test_suite_csv_tsv_res_csvtsv01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->tsv03 - TSV Result Format<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6706,18 +6720,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6728,16 +6742,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_DATA_1_resources_sparql11_test_suite_delete_data_delete_data_01_ru() = listOf(
+    fun test2108566402_resources_sparql11_test_suite_delete_data_delete_data_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE DATA 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6752,18 +6766,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6774,16 +6788,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_DATA_2_resources_sparql11_test_suite_delete_data_delete_data_02_ru() = listOf(
+    fun test2108566403_resources_sparql11_test_suite_delete_data_delete_data_02_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE DATA 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6798,18 +6812,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6820,16 +6834,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_DATA_3_resources_sparql11_test_suite_delete_data_delete_data_03_ru() = listOf(
+    fun test2108566404_resources_sparql11_test_suite_delete_data_delete_data_03_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE DATA 3<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6844,18 +6858,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6866,16 +6880,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_DATA_4_resources_sparql11_test_suite_delete_data_delete_data_04_ru() = listOf(
+    fun test2108566405_resources_sparql11_test_suite_delete_data_delete_data_04_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE DATA 4<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6890,18 +6904,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6912,16 +6926,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testGraph_specific_DELETE_DATA_1_resources_sparql11_test_suite_delete_data_delete_data_05_ru() = listOf(
+    fun test_1734395295_resources_sparql11_test_suite_delete_data_delete_data_05_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Graph-specific DELETE DATA 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6936,18 +6950,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -6958,16 +6972,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testGraph_specific_DELETE_DATA_2_resources_sparql11_test_suite_delete_data_delete_data_06_ru() = listOf(
+    fun test_1734395294_resources_sparql11_test_suite_delete_data_delete_data_06_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Graph-specific DELETE DATA 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -6982,18 +6996,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7004,16 +7018,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testDELETE_INSERT_1_resources_sparql11_test_suite_delete_insert_delete_insert_01_ru() = listOf(
+    fun test724305759_resources_sparql11_test_suite_delete_insert_delete_insert_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->DELETE INSERT 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7028,18 +7042,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7050,16 +7064,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testDELETE_INSERT_1b_resources_sparql11_test_suite_delete_insert_delete_insert_01b_ru() = listOf(
+    fun test978642147_resources_sparql11_test_suite_delete_insert_delete_insert_01b_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->DELETE INSERT 1b<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7074,18 +7088,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7096,16 +7110,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testDELETE_INSERT_1c_resources_sparql11_test_suite_delete_insert_delete_insert_01c_ru() = listOf(
+    fun test978642148_resources_sparql11_test_suite_delete_insert_delete_insert_01c_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->DELETE INSERT 1c<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7120,18 +7134,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7142,16 +7156,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testDELETE_INSERT_2_resources_sparql11_test_suite_delete_insert_delete_insert_02_ru() = listOf(
+    fun test724305760_resources_sparql11_test_suite_delete_insert_delete_insert_02_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->DELETE INSERT 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7166,18 +7180,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7188,16 +7202,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testDELETE_INSERT_4_resources_sparql11_test_suite_delete_insert_delete_insert_04_ru() = listOf(
+    fun test724305762_resources_sparql11_test_suite_delete_insert_delete_insert_04_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->DELETE INSERT 4<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7212,18 +7226,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7234,16 +7248,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testDELETE_INSERT_4b_resources_sparql11_test_suite_delete_insert_delete_insert_04b_ru() = listOf(
+    fun test978642240_resources_sparql11_test_suite_delete_insert_delete_insert_04b_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->DELETE INSERT 4b<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7258,18 +7272,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7280,16 +7294,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testDELETE_INSERT_5b_resources_sparql11_test_suite_delete_insert_delete_insert_05b_ru() = listOf(
+    fun test978642271_resources_sparql11_test_suite_delete_insert_delete_insert_05b_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->DELETE INSERT 5b<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7304,18 +7318,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7326,16 +7340,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testDELETE_INSERT_6b_resources_sparql11_test_suite_delete_insert_delete_insert_05b_ru() = listOf(
+    fun test978642302_resources_sparql11_test_suite_delete_insert_delete_insert_05b_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->DELETE INSERT 6b<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7350,18 +7364,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7372,16 +7386,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_WHERE_1_resources_sparql11_test_suite_delete_where_delete_where_01_ru() = listOf(
+    fun test810842545_resources_sparql11_test_suite_delete_where_delete_where_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE WHERE 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7396,18 +7410,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7418,16 +7432,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_WHERE_2_resources_sparql11_test_suite_delete_where_delete_where_02_ru() = listOf(
+    fun test810842546_resources_sparql11_test_suite_delete_where_delete_where_02_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE WHERE 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7442,18 +7456,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7464,16 +7478,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_WHERE_3_resources_sparql11_test_suite_delete_where_delete_where_03_ru() = listOf(
+    fun test810842547_resources_sparql11_test_suite_delete_where_delete_where_03_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE WHERE 3<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7488,18 +7502,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7510,16 +7524,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_WHERE_4_resources_sparql11_test_suite_delete_where_delete_where_04_ru() = listOf(
+    fun test810842548_resources_sparql11_test_suite_delete_where_delete_where_04_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE WHERE 4<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7534,18 +7548,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7556,16 +7570,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testGraph_specific_DELETE_WHERE_1_resources_sparql11_test_suite_delete_where_delete_where_05_ru() = listOf(
+    fun test1938114226_resources_sparql11_test_suite_delete_where_delete_where_05_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Graph-specific DELETE WHERE 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7580,18 +7594,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7602,16 +7616,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testGraph_specific_DELETE_WHERE_2_resources_sparql11_test_suite_delete_where_delete_where_06_ru() = listOf(
+    fun test1938114227_resources_sparql11_test_suite_delete_where_delete_where_06_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Graph-specific DELETE WHERE 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7626,18 +7640,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7648,16 +7662,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_1_resources_sparql11_test_suite_delete_delete_01_ru() = listOf(
+    fun test_886968950_resources_sparql11_test_suite_delete_delete_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7672,18 +7686,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7694,16 +7708,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_2_resources_sparql11_test_suite_delete_delete_02_ru() = listOf(
+    fun test_886968949_resources_sparql11_test_suite_delete_delete_02_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7718,18 +7732,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7740,16 +7754,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_3_resources_sparql11_test_suite_delete_delete_03_ru() = listOf(
+    fun test_886968948_resources_sparql11_test_suite_delete_delete_03_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE 3<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7764,18 +7778,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7786,16 +7800,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_4_resources_sparql11_test_suite_delete_delete_04_ru() = listOf(
+    fun test_886968947_resources_sparql11_test_suite_delete_delete_04_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE 4<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7810,18 +7824,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7832,16 +7846,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testGraph_specific_DELETE_1_resources_sparql11_test_suite_delete_delete_05_ru() = listOf(
+    fun test_1037250741_resources_sparql11_test_suite_delete_delete_05_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Graph-specific DELETE 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7856,18 +7870,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7878,16 +7892,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testGraph_specific_DELETE_2_resources_sparql11_test_suite_delete_delete_06_ru() = listOf(
+    fun test_1037250740_resources_sparql11_test_suite_delete_delete_06_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Graph-specific DELETE 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7902,18 +7916,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7924,16 +7938,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_7_resources_sparql11_test_suite_delete_delete_07_ru() = listOf(
+    fun test_886968944_resources_sparql11_test_suite_delete_delete_07_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE 7<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7948,18 +7962,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -7970,16 +7984,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_1__WITH__resources_sparql11_test_suite_delete_delete_with_01_ru() = listOf(
+    fun test_106867631_resources_sparql11_test_suite_delete_delete_with_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE 1 (WITH)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -7994,18 +8008,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8016,16 +8030,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_2__WITH__resources_sparql11_test_suite_delete_delete_with_02_ru() = listOf(
+    fun test1635942704_resources_sparql11_test_suite_delete_delete_with_02_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE 2 (WITH)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8040,18 +8054,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8062,16 +8076,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_3__WITH__resources_sparql11_test_suite_delete_delete_with_03_ru() = listOf(
+    fun test_916214257_resources_sparql11_test_suite_delete_delete_with_03_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE 3 (WITH)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8086,18 +8100,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8108,16 +8122,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_4__WITH__resources_sparql11_test_suite_delete_delete_with_04_ru() = listOf(
+    fun test826596078_resources_sparql11_test_suite_delete_delete_with_04_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE 4 (WITH)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8132,18 +8146,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8154,16 +8168,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testGraph_specific_DELETE_1__WITH__resources_sparql11_test_suite_delete_delete_with_05_ru() = listOf(
+    fun test478816112_resources_sparql11_test_suite_delete_delete_with_05_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Graph-specific DELETE 1 (WITH)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8178,18 +8192,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8200,16 +8214,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testGraph_specific_DELETE_2__WITH__resources_sparql11_test_suite_delete_delete_with_06_ru() = listOf(
+    fun test_2073340849_resources_sparql11_test_suite_delete_delete_with_06_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Graph-specific DELETE 2 (WITH)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8224,18 +8238,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8246,16 +8260,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_1__USING__resources_sparql11_test_suite_delete_delete_using_01_ru() = listOf(
+    fun test933726679_resources_sparql11_test_suite_delete_delete_using_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE 1 (USING)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8270,18 +8284,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8292,16 +8306,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_2__USING__resources_sparql11_test_suite_delete_delete_using_02_ru() = listOf(
+    fun test_873727784_resources_sparql11_test_suite_delete_delete_using_02_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE 2 (USING)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8316,18 +8330,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8338,16 +8352,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_3__USING__resources_sparql11_test_suite_delete_delete_using_03_ru() = listOf(
+    fun test1613785049_resources_sparql11_test_suite_delete_delete_using_03_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE 3 (USING)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8362,18 +8376,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8384,16 +8398,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSimple_DELETE_4__USING__resources_sparql11_test_suite_delete_delete_using_04_ru() = listOf(
+    fun test_193669414_resources_sparql11_test_suite_delete_delete_using_04_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Simple DELETE 4 (USING)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8408,18 +8422,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8430,16 +8444,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testGraph_specific_DELETE_1__USING__resources_sparql11_test_suite_delete_delete_using_05_ru() = listOf(
+    fun test1910053528_resources_sparql11_test_suite_delete_delete_using_05_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Graph-specific DELETE 1 (USING)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8454,18 +8468,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8476,16 +8490,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testGraph_specific_DELETE_2__USING__resources_sparql11_test_suite_delete_delete_using_06_ru() = listOf(
+    fun test102599065_resources_sparql11_test_suite_delete_delete_using_06_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Graph-specific DELETE 2 (USING)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8500,18 +8514,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8522,16 +8536,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testDROP_DEFAULT_resources_sparql11_test_suite_drop_drop_default_01_ru() = listOf(
+    fun test_142424592_resources_sparql11_test_suite_drop_drop_default_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->DROP DEFAULT<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8546,18 +8560,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8568,16 +8582,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testDROP_GRAPH_resources_sparql11_test_suite_drop_drop_graph_01_ru() = listOf(
+    fun test847697085_resources_sparql11_test_suite_drop_drop_graph_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->DROP GRAPH<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8592,18 +8606,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8614,16 +8628,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testDROP_NAMED_resources_sparql11_test_suite_drop_drop_named_01_ru() = listOf(
+    fun test853666472_resources_sparql11_test_suite_drop_drop_named_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->DROP NAMED<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8638,18 +8652,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8660,16 +8674,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testDROP_ALL_resources_sparql11_test_suite_drop_drop_all_01_ru() = listOf(
+    fun test349479120_resources_sparql11_test_suite_drop_drop_all_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->DROP ALL<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8684,18 +8698,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8706,16 +8720,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testRDF_inference_test_resources_sparql11_test_suite_entailment_rdf01_rq() = listOf(
+    fun test1245792645_resources_sparql11_test_suite_entailment_rdf01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->RDF inference test<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8730,18 +8744,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8752,16 +8766,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testRDF_inference_test_resources_sparql11_test_suite_entailment_rdf02_rq() = listOf(
+    fun test1245792645_resources_sparql11_test_suite_entailment_rdf02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->RDF inference test<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8776,18 +8790,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8798,16 +8812,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testRDF_test_for_blank_node_cardinalities_resources_sparql11_test_suite_entailment_rdf03_rq() = listOf(
+    fun test_1141745965_resources_sparql11_test_suite_entailment_rdf03_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->RDF test for blank node cardinalities<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8822,18 +8836,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8844,16 +8858,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsimple_triple_pattern_match_resources_sparql11_test_suite_entailment_rdf04_rq() = listOf(
+    fun test1901138593_resources_sparql11_test_suite_entailment_rdf04_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->simple triple pattern match<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8868,18 +8882,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8890,16 +8904,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testRDFS_inference_test_rdfs_subPropertyOf_resources_sparql11_test_suite_entailment_rdfs01_rq() = listOf(
+    fun test_1360903913_resources_sparql11_test_suite_entailment_rdfs01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->RDFS inference test rdfs:subPropertyOf<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8914,18 +8928,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8936,16 +8950,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testRDFS_inference_test_rdfs_subPropertyOf_resources_sparql11_test_suite_entailment_rdfs02_rq() = listOf(
+    fun test_1360903913_resources_sparql11_test_suite_entailment_rdfs02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->RDFS inference test rdfs:subPropertyOf<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -8960,18 +8974,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -8982,16 +8996,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testRDFS_inference_test_combining_subPropertyOf_and_domain_resources_sparql11_test_suite_entailment_rdfs03_rq() = listOf(
+    fun test1799261739_resources_sparql11_test_suite_entailment_rdfs03_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->RDFS inference test combining subPropertyOf and domain<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9006,18 +9020,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9028,16 +9042,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testRDFS_inference_test_subClassOf_resources_sparql11_test_suite_entailment_rdfs04_rq() = listOf(
+    fun test1365918453_resources_sparql11_test_suite_entailment_rdfs04_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->RDFS inference test subClassOf<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9052,18 +9066,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9074,16 +9088,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testRDFS_inference_test_subClassOf_resources_sparql11_test_suite_entailment_rdfs05_rq() = listOf(
+    fun test1365918453_resources_sparql11_test_suite_entailment_rdfs05_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->RDFS inference test subClassOf<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9098,18 +9112,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9120,16 +9134,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testRDFS_inference_test_domain_resources_sparql11_test_suite_entailment_rdfs06_rq() = listOf(
+    fun test1872917418_resources_sparql11_test_suite_entailment_rdfs06_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->RDFS inference test domain<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9144,18 +9158,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9166,16 +9180,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testRDFS_inference_test_range_resources_sparql11_test_suite_entailment_rdfs07_rq() = listOf(
+    fun test765666711_resources_sparql11_test_suite_entailment_rdfs07_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->RDFS inference test range<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9190,18 +9204,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9212,16 +9226,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testRDFS_inference_test_rdf_XMLLiteral_resources_sparql11_test_suite_entailment_rdfs08_rq() = listOf(
+    fun test100491364_resources_sparql11_test_suite_entailment_rdfs08_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->RDFS inference test rdf:XMLLiteral<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9236,18 +9250,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9258,16 +9272,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testRDFS_inference_test_transitivity_of_subClassOf_resources_sparql11_test_suite_entailment_rdfs09_rq() = listOf(
+    fun test_574966100_resources_sparql11_test_suite_entailment_rdfs09_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->RDFS inference test transitivity of subClassOf<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9282,18 +9296,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9304,16 +9318,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testRDFS_inference_test_transitivity_of_subPropertyOf_resources_sparql11_test_suite_entailment_rdfs10_rq() = listOf(
+    fun test_1105960913_resources_sparql11_test_suite_entailment_rdfs10_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->RDFS inference test transitivity of subPropertyOf<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9328,18 +9342,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9350,16 +9364,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testRDFS_inference_test_subProperty_and_instances_resources_sparql11_test_suite_entailment_rdfs11_rq() = listOf(
+    fun test_12604892_resources_sparql11_test_suite_entailment_rdfs11_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->RDFS inference test subProperty and instances<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9374,18 +9388,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9396,16 +9410,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testRDFS_inference_test_containers_resources_sparql11_test_suite_entailment_rdfs12_rq() = listOf(
+    fun test2139160568_resources_sparql11_test_suite_entailment_rdfs12_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->RDFS inference test containers<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9420,18 +9434,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9442,16 +9456,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testRDFS_inference_test_to_show_that_neither_literals_in_subject_position_nor_newly_introduced_surrogate_blank_nodes_are_to_be_returned_in_query_answers_resources_sparql11_test_suite_entailment_rdfs13_rq() = listOf(
+    fun test666835317_resources_sparql11_test_suite_entailment_rdfs13_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9466,18 +9480,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9488,16 +9502,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testD_Entailment_test_to_show_that__neither_literals_in_subject_position_nor_newly_introduced_surrogate_blank_nodes_are_to_be_returned_in_query_answers_resources_sparql11_test_suite_entailment_d_ent_01_rq() = listOf(
+    fun test_392846793_resources_sparql11_test_suite_entailment_d_ent_01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->D-Entailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9512,18 +9526,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9534,16 +9548,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbnodes_are_not_existentials_resources_sparql11_test_suite_entailment_owlds01_rq() = listOf(
+    fun test565480861_resources_sparql11_test_suite_entailment_owlds01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bnodes are not existentials<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9558,18 +9572,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9580,16 +9594,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbnodes_are_not_existentials_with_answer_resources_sparql11_test_suite_entailment_owlds02_rq() = listOf(
+    fun test_1370135979_resources_sparql11_test_suite_entailment_owlds02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bnodes are not existentials with answer<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9604,18 +9618,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9626,16 +9640,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testpaper_sparqldl_Q1_resources_sparql11_test_suite_entailment_paper_sparqldl_Q1_rq() = listOf(
+    fun test173574747_resources_sparql11_test_suite_entailment_paper_sparqldl_Q1_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->paper-sparqldl-Q1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9650,18 +9664,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9672,16 +9686,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testpaper_sparqldl_Q1_rdfs_resources_sparql11_test_suite_entailment_paper_sparqldl_Q1_rq() = listOf(
+    fun test_949604687_resources_sparql11_test_suite_entailment_paper_sparqldl_Q1_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->paper-sparqldl-Q1-rdfs<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9696,18 +9710,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9718,16 +9732,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testpaper_sparqldl_Q2_resources_sparql11_test_suite_entailment_paper_sparqldl_Q2_rq() = listOf(
+    fun test173574748_resources_sparql11_test_suite_entailment_paper_sparqldl_Q2_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->paper-sparqldl-Q2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9742,18 +9756,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9764,16 +9778,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testpaper_sparqldl_Q3_resources_sparql11_test_suite_entailment_paper_sparqldl_Q3_rq() = listOf(
+    fun test173574749_resources_sparql11_test_suite_entailment_paper_sparqldl_Q3_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->paper-sparqldl-Q3<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9788,18 +9802,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9810,16 +9824,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testpaper_sparqldl_Q4_resources_sparql11_test_suite_entailment_paper_sparqldl_Q4_rq() = listOf(
+    fun test173574750_resources_sparql11_test_suite_entailment_paper_sparqldl_Q4_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->paper-sparqldl-Q4<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9834,18 +9848,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9856,16 +9870,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testpaper_sparqldl_Q5_resources_sparql11_test_suite_entailment_paper_sparqldl_Q5_rq() = listOf(
+    fun test173574751_resources_sparql11_test_suite_entailment_paper_sparqldl_Q5_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->paper-sparqldl-Q5<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9880,18 +9894,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9902,16 +9916,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testPlain_literals_with_language_tag_are_not_the_same_as_the_same_literal_without_resources_sparql11_test_suite_entailment_plainLit_rq() = listOf(
+    fun test_1538687262_resources_sparql11_test_suite_entailment_plainLit_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Plain literals with language tag are not the same as the same literal without<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -9926,18 +9940,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -9948,7 +9962,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind01___BIND_fixed_data_for_OWL_DL_resources_sparql11_test_suite_entailment_bind01_rq() = listOf(
+    fun test_380079721_resources_sparql11_test_suite_entailment_bind01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -10027,9 +10041,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind01 - BIND fixed data for OWL DL<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -10044,18 +10058,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -10066,7 +10080,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind02___BIND_fixed_data_for_OWL_DL_resources_sparql11_test_suite_entailment_bind02_rq() = listOf(
+    fun test_368763594_resources_sparql11_test_suite_entailment_bind02_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -10225,9 +10239,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind02 - BIND fixed data for OWL DL<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -10242,18 +10256,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -10264,7 +10278,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind03___BIND_fixed_data_for_OWL_DL_resources_sparql11_test_suite_entailment_bind03_rq() = listOf(
+    fun test_357447467_resources_sparql11_test_suite_entailment_bind03_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -10343,9 +10357,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind03 - BIND fixed data for OWL DL<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -10360,18 +10374,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -10382,16 +10396,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind04___BIND_fixed_data_for_OWL_DL_resources_sparql11_test_suite_entailment_bind04_rq() = listOf(
+    fun test_346131340_resources_sparql11_test_suite_entailment_bind04_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind04 - BIND fixed data for OWL DL<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -10406,18 +10420,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -10428,7 +10442,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind05___BIND_fixed_data_for_OWL_DL_resources_sparql11_test_suite_entailment_bind05_rq() = listOf(
+    fun test_334815213_resources_sparql11_test_suite_entailment_bind05_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -10603,9 +10617,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind05 - BIND fixed data for OWL DL<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -10620,18 +10634,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -10642,7 +10656,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind06___BIND_fixed_data_for_OWL_DL_resources_sparql11_test_suite_entailment_bind06_rq() = listOf(
+    fun test_323499086_resources_sparql11_test_suite_entailment_bind06_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -10721,9 +10735,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind06 - BIND fixed data for OWL DL<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -10738,18 +10752,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -10760,16 +10774,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind07___BIND_fixed_data_for_OWL_DL_resources_sparql11_test_suite_entailment_bind07_rq() = listOf(
+    fun test_312182959_resources_sparql11_test_suite_entailment_bind07_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind07 - BIND fixed data for OWL DL<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -10784,18 +10798,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -10806,7 +10820,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testbind08___BIND_fixed_data_for_OWL_DL_resources_sparql11_test_suite_entailment_bind08_rq() = listOf(
+    fun test_300866832_resources_sparql11_test_suite_entailment_bind08_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -10981,9 +10995,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->bind08 - BIND fixed data for OWL DL<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -10998,18 +11012,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11020,16 +11034,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsparqldl_01_rq__triple_pattern_resources_sparql11_test_suite_entailment_sparqldl_01_rq() = listOf(
+    fun test1972959012_resources_sparql11_test_suite_entailment_sparqldl_01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->sparqldl-01.rq: triple pattern<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11044,18 +11058,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11066,16 +11080,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsparqldl_02_rq__simple_combined_query_resources_sparql11_test_suite_entailment_sparqldl_02_rq() = listOf(
+    fun test1361600198_resources_sparql11_test_suite_entailment_sparqldl_02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->sparqldl-02.rq: simple combined query<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11090,18 +11104,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11112,16 +11126,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsparqldl_03_rq__combined_query_with_complex_class_description_resources_sparql11_test_suite_entailment_sparqldl_03_rq() = listOf(
+    fun test935380233_resources_sparql11_test_suite_entailment_sparqldl_03_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->sparqldl-03.rq: combined query with complex class description<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11136,18 +11150,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11158,16 +11172,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsparqldl_04_rq__bug_fixing_test_resources_sparql11_test_suite_entailment_sparqldl_04_rq() = listOf(
+    fun test2080597862_resources_sparql11_test_suite_entailment_sparqldl_04_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->sparqldl-04.rq: bug fixing test<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11182,18 +11196,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11204,16 +11218,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsparqldl_05_rq__simple_undistinguished_variable_test__resources_sparql11_test_suite_entailment_sparqldl_05_rq() = listOf(
+    fun test_258927287_resources_sparql11_test_suite_entailment_sparqldl_05_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->sparqldl-05.rq: simple undistinguished variable test.<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11228,18 +11242,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11250,16 +11264,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsparqldl_06_rq__cycle_of_undistinguished_variables_resources_sparql11_test_suite_entailment_sparqldl_06_rq() = listOf(
+    fun test791584260_resources_sparql11_test_suite_entailment_sparqldl_06_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->sparqldl-06.rq: cycle of undistinguished variables<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11274,18 +11288,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11296,16 +11310,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsparqldl_07_rq__two_distinguished_variables___undist__resources_sparql11_test_suite_entailment_sparqldl_07_rq() = listOf(
+    fun test_105093327_resources_sparql11_test_suite_entailment_sparqldl_07_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->sparqldl-07.rq: two distinguished variables + undist.<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11320,18 +11334,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11342,16 +11356,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsparqldl_08_rq__two_distinguished_variables___undist__resources_sparql11_test_suite_entailment_sparqldl_08_rq() = listOf(
+    fun test_553789966_resources_sparql11_test_suite_entailment_sparqldl_08_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->sparqldl-08.rq: two distinguished variables + undist.<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11366,18 +11380,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11388,16 +11402,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsparqldl_09_rq__undist_vars_test_resources_sparql11_test_suite_entailment_sparqldl_09_rq() = listOf(
+    fun test741307315_resources_sparql11_test_suite_entailment_sparqldl_09_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->sparqldl-09.rq: undist vars test<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11412,18 +11426,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11434,16 +11448,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsparqldl_10_rq__undist_vars_test_resources_sparql11_test_suite_entailment_sparqldl_10_rq() = listOf(
+    fun test_1146258083_resources_sparql11_test_suite_entailment_sparqldl_10_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->sparqldl-10.rq: undist vars test<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11458,18 +11472,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11480,16 +11494,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsparqldl_11_rq__domain_test_resources_sparql11_test_suite_entailment_sparqldl_11_rq() = listOf(
+    fun test2058054391_resources_sparql11_test_suite_entailment_sparqldl_11_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->sparqldl-11.rq: domain test<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11504,18 +11518,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11526,16 +11540,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsparqldl_12_rq__range_test_resources_sparql11_test_suite_entailment_sparqldl_12_rq() = listOf(
+    fun test452047307_resources_sparql11_test_suite_entailment_sparqldl_12_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->sparqldl-12.rq: range test<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11550,18 +11564,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11572,16 +11586,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsparqldl_13_rq__sameAs_resources_sparql11_test_suite_entailment_sparqldl_13_rq() = listOf(
+    fun test_338497587_resources_sparql11_test_suite_entailment_sparqldl_13_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->sparqldl-13.rq: sameAs<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11596,18 +11610,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11618,16 +11632,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testLiteral_with_language_tag_test_resources_sparql11_test_suite_entailment_lang_rq() = listOf(
+    fun test_1316322569_resources_sparql11_test_suite_entailment_lang_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Literal with language tag test<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11642,18 +11656,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11664,16 +11678,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testparent_query_with_distinguished_variable_resources_sparql11_test_suite_entailment_parent2_rq() = listOf(
+    fun test_555106140_resources_sparql11_test_suite_entailment_parent2_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->parent query with distinguished variable<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11688,18 +11702,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11710,16 +11724,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testparent_query_with__hasChild_some_Thing__restriction_resources_sparql11_test_suite_entailment_parent3_rq() = listOf(
+    fun test379443409_resources_sparql11_test_suite_entailment_parent3_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->parent query with (hasChild some Thing) restriction<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11734,18 +11748,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11756,16 +11770,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testparent_query_with__hasChild_min_1__restriction_resources_sparql11_test_suite_entailment_parent4_rq() = listOf(
+    fun test_1067985740_resources_sparql11_test_suite_entailment_parent4_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->parent query with (hasChild min 1) restriction<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11780,18 +11794,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11802,16 +11816,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testparent_query_with__hasChild_some_Female__restriction_resources_sparql11_test_suite_entailment_parent5_rq() = listOf(
+    fun test_271622369_resources_sparql11_test_suite_entailment_parent5_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->parent query with (hasChild some Female) restriction<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11826,18 +11840,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11848,16 +11862,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testparent_query_with__hasChild_min_1_Female__restriction_resources_sparql11_test_suite_entailment_parent6_rq() = listOf(
+    fun test887872266_resources_sparql11_test_suite_entailment_parent6_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->parent query with (hasChild min 1 Female) restriction<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11872,18 +11886,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11894,16 +11908,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testparent_query_with__hasChild_max_1_Female__restriction_resources_sparql11_test_suite_entailment_parent7_rq() = listOf(
+    fun test986669212_resources_sparql11_test_suite_entailment_parent7_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->parent query with (hasChild max 1 Female) restriction<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11918,18 +11932,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11940,16 +11954,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testparent_query_with__hasChild_exactly_1_Female__restriction_resources_sparql11_test_suite_entailment_parent8_rq() = listOf(
+    fun test1119679236_resources_sparql11_test_suite_entailment_parent8_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->parent query with (hasChild exactly 1 Female) restriction<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -11964,18 +11978,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -11986,16 +12000,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsubclass_query_with__hasChild_some_Thing__restriction_resources_sparql11_test_suite_entailment_parent9_rq() = listOf(
+    fun test1530453251_resources_sparql11_test_suite_entailment_parent9_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->subclass query with (hasChild some Thing) restriction<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -12010,18 +12024,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -12032,16 +12046,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testfiltered_subclass_query_with__hasChild_some_Thing__restriction_resources_sparql11_test_suite_entailment_parent10_rq() = listOf(
+    fun test983086010_resources_sparql11_test_suite_entailment_parent10_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->filtered subclass query with (hasChild some Thing) restriction<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -12056,18 +12070,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -12078,16 +12092,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsimple_1_resources_sparql11_test_suite_entailment_simple1_rq() = listOf(
+    fun test485658947_resources_sparql11_test_suite_entailment_simple1_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->simple 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -12102,18 +12116,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -12124,16 +12138,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsimple_2_resources_sparql11_test_suite_entailment_simple2_rq() = listOf(
+    fun test485658948_resources_sparql11_test_suite_entailment_simple2_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->simple 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -12148,18 +12162,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -12170,16 +12184,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsimple_3_resources_sparql11_test_suite_entailment_simple3_rq() = listOf(
+    fun test485658949_resources_sparql11_test_suite_entailment_simple3_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->simple 3<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -12194,18 +12208,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -12216,16 +12230,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsimple_4_resources_sparql11_test_suite_entailment_simple4_rq() = listOf(
+    fun test485658950_resources_sparql11_test_suite_entailment_simple4_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->simple 4<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -12240,18 +12254,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -12262,16 +12276,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsimple_5_resources_sparql11_test_suite_entailment_simple5_rq() = listOf(
+    fun test485658951_resources_sparql11_test_suite_entailment_simple5_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->simple 5<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -12286,18 +12300,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -12308,16 +12322,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsimple_6_resources_sparql11_test_suite_entailment_simple6_rq() = listOf(
+    fun test485658952_resources_sparql11_test_suite_entailment_simple6_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->simple 6<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -12332,18 +12346,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -12354,16 +12368,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsimple_7_resources_sparql11_test_suite_entailment_simple7_rq() = listOf(
+    fun test485658953_resources_sparql11_test_suite_entailment_simple7_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->simple 7<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -12378,18 +12392,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -12400,16 +12414,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsimple_8_resources_sparql11_test_suite_entailment_simple8_rq() = listOf(
+    fun test485658954_resources_sparql11_test_suite_entailment_simple8_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->simple 8<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -12424,18 +12438,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -12446,16 +12460,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testExists_with_one_constant_resources_sparql11_test_suite_exists_exists01_rq() = listOf(
+    fun test_637372780_resources_sparql11_test_suite_exists_exists01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Exists with one constant<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -12470,18 +12484,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -12492,16 +12506,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testExists_with_ground_triple_resources_sparql11_test_suite_exists_exists02_rq() = listOf(
+    fun test_905550495_resources_sparql11_test_suite_exists_exists02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Exists with ground triple<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -12516,18 +12530,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -12538,16 +12552,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testExists_within_graph_pattern_resources_sparql11_test_suite_exists_exists03_rq() = listOf(
+    fun test1331466477_resources_sparql11_test_suite_exists_exists03_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Exists within graph pattern<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -12562,18 +12576,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -12584,16 +12598,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testNested_positive_exists_resources_sparql11_test_suite_exists_exists04_rq() = listOf(
+    fun test1326793562_resources_sparql11_test_suite_exists_exists04_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Nested positive exists<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -12608,18 +12622,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -12630,16 +12644,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testNested_negative_exists_in_positive_exists_resources_sparql11_test_suite_exists_exists05_rq() = listOf(
+    fun test1273067818_resources_sparql11_test_suite_exists_exists05_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Nested negative exists in positive exists<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -12654,18 +12668,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -12676,7 +12690,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSTRDT___resources_sparql11_test_suite_functions_strdt01_rq() = listOf(
+    fun test_1163920606_resources_sparql11_test_suite_functions_strdt01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -12953,9 +12967,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->STRDT()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -12970,18 +12984,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -12992,7 +13006,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSTRDT_STR____resources_sparql11_test_suite_functions_strdt02_rq() = listOf(
+    fun test_409285570_resources_sparql11_test_suite_functions_strdt02_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -13287,9 +13301,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->STRDT(STR())<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -13304,18 +13318,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -13326,7 +13340,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSTRDT___TypeErrors_resources_sparql11_test_suite_functions_strdt03_rq() = listOf(
+    fun test_1789368541_resources_sparql11_test_suite_functions_strdt03_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -13621,9 +13635,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->STRDT() TypeErrors<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -13638,18 +13652,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -13660,7 +13674,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSTRLANG___resources_sparql11_test_suite_functions_strlang01_rq() = listOf(
+    fun test_1623556928_resources_sparql11_test_suite_functions_strlang01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -13937,9 +13951,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->STRLANG()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -13954,18 +13968,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -13976,7 +13990,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSTRLANG_STR____resources_sparql11_test_suite_functions_strlang02_rq() = listOf(
+    fun test33987936_resources_sparql11_test_suite_functions_strlang02_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -14271,9 +14285,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->STRLANG(STR())<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -14288,18 +14302,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -14310,7 +14324,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSTRLANG___TypeErrors_resources_sparql11_test_suite_functions_strlang03_rq() = listOf(
+    fun test_260614459_resources_sparql11_test_suite_functions_strlang03_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -14605,9 +14619,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->STRLANG() TypeErrors<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -14622,18 +14636,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -14644,7 +14658,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testisNumeric___resources_sparql11_test_suite_functions_isnumeric01_rq() = listOf(
+    fun test_1368993084_resources_sparql11_test_suite_functions_isnumeric01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -14939,9 +14953,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->isNumeric()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -14956,18 +14970,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -14978,7 +14992,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testABS___resources_sparql11_test_suite_functions_abs01_rq() = listOf(
+    fun test62076115_resources_sparql11_test_suite_functions_abs01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -15165,9 +15179,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->ABS()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -15182,18 +15196,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -15204,7 +15218,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCEIL___resources_sparql11_test_suite_functions_ceil01_rq() = listOf(
+    fun test1984125126_resources_sparql11_test_suite_functions_ceil01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -15301,9 +15315,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->CEIL()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -15318,18 +15332,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -15340,7 +15354,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testFLOOR___resources_sparql11_test_suite_functions_floor01_rq() = listOf(
+    fun test_48044563_resources_sparql11_test_suite_functions_floor01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -15437,9 +15451,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->FLOOR()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -15454,18 +15468,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -15476,7 +15490,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testROUND___resources_sparql11_test_suite_functions_round01_rq() = listOf(
+    fun test2103450351_resources_sparql11_test_suite_functions_round01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -15573,9 +15587,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->ROUND()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -15590,18 +15604,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -15612,7 +15626,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCONCAT___resources_sparql11_test_suite_functions_concat01_rq() = listOf(
+    fun test199490325_resources_sparql11_test_suite_functions_concat01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -15643,9 +15657,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->CONCAT()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -15660,18 +15674,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -15682,7 +15696,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCONCAT___2_resources_sparql11_test_suite_functions_concat02_rq() = listOf(
+    fun test_1563324953_resources_sparql11_test_suite_functions_concat02_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -16865,9 +16879,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->CONCAT() 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -16882,18 +16896,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -16904,16 +16918,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSUBSTR____3_argument__resources_sparql11_test_suite_functions_substring01_rq() = listOf(
+    fun test_736577672_resources_sparql11_test_suite_functions_substring01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->SUBSTR() (3-argument)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -16928,18 +16942,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -16950,16 +16964,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSUBSTR____2_argument__resources_sparql11_test_suite_functions_substring02_rq() = listOf(
+    fun test1060373687_resources_sparql11_test_suite_functions_substring02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->SUBSTR() (2-argument)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -16974,18 +16988,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -16996,7 +17010,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSTRLEN___resources_sparql11_test_suite_functions_length01_rq() = listOf(
+    fun test_1714822587_resources_sparql11_test_suite_functions_length01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -17129,9 +17143,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->STRLEN()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -17146,18 +17160,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -17168,7 +17182,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testUCASE___resources_sparql11_test_suite_functions_ucase01_rq() = listOf(
+    fun test109123782_resources_sparql11_test_suite_functions_ucase01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -17301,9 +17315,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->UCASE()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -17318,18 +17332,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -17340,7 +17354,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testLCASE___resources_sparql11_test_suite_functions_lcase01_rq() = listOf(
+    fun test711525245_resources_sparql11_test_suite_functions_lcase01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -17473,9 +17487,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->LCASE()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -17490,18 +17504,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -17512,16 +17526,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testENCODE_FOR_URI___resources_sparql11_test_suite_functions_encode01_rq() = listOf(
+    fun test_358759090_resources_sparql11_test_suite_functions_encode01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->ENCODE_FOR_URI()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -17536,18 +17550,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -17558,7 +17572,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCONTAINS___resources_sparql11_test_suite_functions_contains01_rq() = listOf(
+    fun test630349664_resources_sparql11_test_suite_functions_contains01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -17691,9 +17705,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->CONTAINS()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -17708,18 +17722,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -17730,7 +17744,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSTRSTARTS___resources_sparql11_test_suite_functions_starts01_rq() = listOf(
+    fun test1766691363_resources_sparql11_test_suite_functions_starts01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -18313,9 +18327,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->STRSTARTS()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -18330,18 +18344,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -18352,7 +18366,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSTRENDS___resources_sparql11_test_suite_functions_ends01_rq() = listOf(
+    fun test_1812241590_resources_sparql11_test_suite_functions_ends01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -18647,9 +18661,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->STRENDS()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -18664,18 +18678,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -18686,7 +18700,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testplus_1_resources_sparql11_test_suite_functions_plus_1_rq() = listOf(
+    fun test_985164610_resources_sparql11_test_suite_functions_plus_1_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -18825,9 +18839,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->plus-1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -18842,18 +18856,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -18864,7 +18878,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testplus_2_resources_sparql11_test_suite_functions_plus_2_rq() = listOf(
+    fun test_985164609_resources_sparql11_test_suite_functions_plus_2_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -19333,9 +19347,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->plus-2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -19350,18 +19364,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -19372,7 +19386,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testMD5___resources_sparql11_test_suite_functions_md5_01_rq() = listOf(
+    fun test73189119_resources_sparql11_test_suite_functions_md5_01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -19397,9 +19411,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->MD5()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -19414,18 +19428,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -19436,7 +19450,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testMD5___over_Unicode_data_resources_sparql11_test_suite_functions_md5_02_rq() = listOf(
+    fun test_1690832872_resources_sparql11_test_suite_functions_md5_02_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -19461,9 +19475,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->MD5() over Unicode data<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -19478,18 +19492,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -19500,7 +19514,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSHA1___resources_sparql11_test_suite_functions_sha1_01_rq() = listOf(
+    fun test_1850269466_resources_sparql11_test_suite_functions_sha1_01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -19525,9 +19539,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->SHA1()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -19542,18 +19556,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -19564,7 +19578,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSHA1___on_Unicode_data_resources_sparql11_test_suite_functions_sha1_02_rq() = listOf(
+    fun test1909772436_resources_sparql11_test_suite_functions_sha1_02_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -19589,9 +19603,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->SHA1() on Unicode data<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -19606,18 +19620,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -19628,7 +19642,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSHA256___resources_sparql11_test_suite_functions_sha256_01_rq() = listOf(
+    fun test8828296_resources_sparql11_test_suite_functions_sha256_01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -19653,9 +19667,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->SHA256()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -19670,18 +19684,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -19692,7 +19706,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSHA256___on_Unicode_data_resources_sparql11_test_suite_functions_sha256_02_rq() = listOf(
+    fun test_1569005258_resources_sparql11_test_suite_functions_sha256_02_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -19717,9 +19731,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->SHA256() on Unicode data<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -19734,18 +19748,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -19756,16 +19770,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSHA512___resources_sparql11_test_suite_functions_sha512_01_rq() = listOf(
+    fun test11475851_resources_sparql11_test_suite_functions_sha512_01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->SHA512()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -19780,18 +19794,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -19802,16 +19816,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSHA512___on_Unicode_data_resources_sparql11_test_suite_functions_sha512_02_rq() = listOf(
+    fun test_216735431_resources_sparql11_test_suite_functions_sha512_02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->SHA512() on Unicode data<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -19826,18 +19840,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -19848,7 +19862,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testMINUTES___resources_sparql11_test_suite_functions_minutes_01_rq() = listOf(
+    fun test_339904000_resources_sparql11_test_suite_functions_minutes_01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -19927,9 +19941,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->MINUTES()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -19944,18 +19958,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -19966,7 +19980,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSECONDS___resources_sparql11_test_suite_functions_seconds_01_rq() = listOf(
+    fun test1969012640_resources_sparql11_test_suite_functions_seconds_01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -20045,9 +20059,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->SECONDS()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -20062,18 +20076,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -20084,7 +20098,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testHOURS___resources_sparql11_test_suite_functions_hours_01_rq() = listOf(
+    fun test1818481712_resources_sparql11_test_suite_functions_hours_01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -20163,9 +20177,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->HOURS()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -20180,18 +20194,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -20202,7 +20216,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testMONTH___resources_sparql11_test_suite_functions_month_01_rq() = listOf(
+    fun test1954617185_resources_sparql11_test_suite_functions_month_01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -20281,9 +20295,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->MONTH()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -20298,18 +20312,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -20320,7 +20334,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testYEAR___resources_sparql11_test_suite_functions_year_01_rq() = listOf(
+    fun test_1681233410_resources_sparql11_test_suite_functions_year_01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -20399,9 +20413,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->YEAR()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -20416,18 +20430,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -20438,7 +20452,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testDAY___resources_sparql11_test_suite_functions_day_01_rq() = listOf(
+    fun test64822653_resources_sparql11_test_suite_functions_day_01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -20517,9 +20531,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->DAY()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -20534,18 +20548,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -20556,7 +20570,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testTIMEZONE___resources_sparql11_test_suite_functions_timezone_01_rq() = listOf(
+    fun test_1904794950_resources_sparql11_test_suite_functions_timezone_01_rq() = listOf(
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -20635,9 +20649,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->TIMEZONE()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -20652,18 +20666,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -20674,7 +20688,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testTZ___resources_sparql11_test_suite_functions_tz_01_rq() = listOf(
+    fun test2590215_resources_sparql11_test_suite_functions_tz_01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -20753,9 +20767,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->TZ()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -20770,18 +20784,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -20792,7 +20806,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testBNODE_str__resources_sparql11_test_suite_functions_bnode01_rq() = listOf(
+    fun test_1147819652_resources_sparql11_test_suite_functions_bnode01_rq() = listOf(
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -25535,9 +25549,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->BNODE(str)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -25552,18 +25566,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -25574,7 +25588,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testBNODE___resources_sparql11_test_suite_functions_bnode02_rq() = listOf(
+    fun test753826117_resources_sparql11_test_suite_functions_bnode02_rq() = listOf(
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
@@ -25605,9 +25619,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->BNODE()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -25622,18 +25636,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -25644,16 +25658,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testIN_1_resources_sparql11_test_suite_functions_in01_rq() = listOf(
+    fun test2250742_resources_sparql11_test_suite_functions_in01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->IN 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -25668,18 +25682,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -25690,16 +25704,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testIN_2_resources_sparql11_test_suite_functions_in02_rq() = listOf(
+    fun test2250743_resources_sparql11_test_suite_functions_in02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->IN 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -25714,18 +25728,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -25736,16 +25750,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testNOT_IN_1_resources_sparql11_test_suite_functions_notin01_rq() = listOf(
+    fun test_1964748477_resources_sparql11_test_suite_functions_notin01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->NOT IN 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -25760,18 +25774,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -25782,16 +25796,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testNOT_IN_2_resources_sparql11_test_suite_functions_notin02_rq() = listOf(
+    fun test_1964748476_resources_sparql11_test_suite_functions_notin02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->NOT IN 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -25806,18 +25820,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -25828,11 +25842,11 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testNOW___resources_sparql11_test_suite_functions_now01_rq() = listOf(
+    fun test74473015_resources_sparql11_test_suite_functions_now01_rq() = listOf(
             /*{
                 MicroTest0(
                         AOPBuildInCallNOW(),
-                        AOPDateTime("\"2020-02-24T09:19:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                        AOPDateTime("\"2020-02-24T09:25:25Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                 )
             }()*/
             {
@@ -25842,7 +25856,7 @@ class AOPVariableTest {
                         AOPBuildInCallDATATYPE(AOPVariable("n")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-24T09:19:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-24T09:25:25Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                             resultRow
                         }(),
                         resultSet,
@@ -25856,7 +25870,7 @@ class AOPVariableTest {
                         AOPEQ(AOPBuildInCallDATATYPE(AOPVariable("n")), AOPIri("http://www.w3.org/2001/XMLSchema#dateTime")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-24T09:19:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-24T09:25:25Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                             resultRow
                         }(),
                         resultSet,
@@ -25869,9 +25883,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->NOW()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -25886,18 +25900,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -25908,16 +25922,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testRAND___resources_sparql11_test_suite_functions_rand01_rq() = listOf(
+    fun test_1884957722_resources_sparql11_test_suite_functions_rand01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->RAND()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -25932,18 +25946,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -25954,7 +25968,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testIRI___URI___resources_sparql11_test_suite_functions_iri01_rq() = listOf(
+    fun test89607423_resources_sparql11_test_suite_functions_iri01_rq() = listOf(
             {
                 MicroTest0(
                         AOPBuildInCallIRI(AOPSimpleLiteral("\"", "iri"), "http://example.org/"),
@@ -25973,9 +25987,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->IRI()/URI()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -25990,18 +26004,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -26012,7 +26026,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testIF___resources_sparql11_test_suite_functions_if01_rq() = listOf(
+    fun test2243294_resources_sparql11_test_suite_functions_if01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -26397,9 +26411,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->IF()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -26414,18 +26428,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -26436,7 +26450,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testIF___error_propogation_resources_sparql11_test_suite_functions_if02_rq() = listOf(
+    fun test893509760_resources_sparql11_test_suite_functions_if02_rq() = listOf(
             {
                 MicroTest0(
                         AOPBuildInCallIF(AOPDivision(AOPInteger(0), AOPInteger(1)), AOPBoolean(false), AOPBoolean(true)),
@@ -26455,9 +26469,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->IF() error propogation<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -26472,18 +26486,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -26494,16 +26508,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCOALESCE___resources_sparql11_test_suite_functions_coalesce01_rq() = listOf(
+    fun test1061967592_resources_sparql11_test_suite_functions_coalesce01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->COALESCE()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -26518,18 +26532,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -26540,16 +26554,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSTRBEFORE___resources_sparql11_test_suite_functions_strbefore01_rq() = listOf(
+    fun test1916335569_resources_sparql11_test_suite_functions_strbefore01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->STRBEFORE()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -26564,18 +26578,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -26586,16 +26600,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSTRBEFORE___datatyping_resources_sparql11_test_suite_functions_strbefore02_rq() = listOf(
+    fun test_413330608_resources_sparql11_test_suite_functions_strbefore02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->STRBEFORE() datatyping<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -26610,18 +26624,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -26632,16 +26646,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSTRAFTER___resources_sparql11_test_suite_functions_strafter01_rq() = listOf(
+    fun test185404556_resources_sparql11_test_suite_functions_strafter01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->STRAFTER()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -26656,18 +26670,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -26678,16 +26692,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSTRAFTER___datatyping_resources_sparql11_test_suite_functions_strafter02_rq() = listOf(
+    fun test620956085_resources_sparql11_test_suite_functions_strafter02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->STRAFTER() datatyping<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -26702,18 +26716,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -26724,16 +26738,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testREPLACE___resources_sparql11_test_suite_functions_replace01_rq() = listOf(
+    fun test_1963790699_resources_sparql11_test_suite_functions_replace01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->REPLACE()<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -26748,18 +26762,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -26770,16 +26784,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testREPLACE___with_overlapping_pattern_resources_sparql11_test_suite_functions_replace02_rq() = listOf(
+    fun test1220852090_resources_sparql11_test_suite_functions_replace02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->REPLACE() with overlapping pattern<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -26794,18 +26808,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -26816,16 +26830,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testREPLACE___with_captured_substring_resources_sparql11_test_suite_functions_replace03_rq() = listOf(
+    fun test588146590_resources_sparql11_test_suite_functions_replace03_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->REPLACE() with captured substring<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -26840,18 +26854,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -26862,16 +26876,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testGroup_1_resources_sparql11_test_suite_grouping_group01_rq() = listOf(
+    fun test1958080579_resources_sparql11_test_suite_grouping_group01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Group-1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -26886,18 +26900,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -26908,7 +26922,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testGroup_3_resources_sparql11_test_suite_grouping_group03_rq() = listOf(
+    fun test1958080581_resources_sparql11_test_suite_grouping_group03_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -26917,17 +26931,17 @@ class AOPVariableTest {
                 resultSet.createVariable("w")
                 resultSet.createVariable("s")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.SAMPLE,false,arrayOf(AOPVariable("v"))),
+                        AOPAggregation(Aggregation.SAMPLE, false, arrayOf(AOPVariable("v"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                                resultRow[resultSet.createVariable("v")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                                resultRow[resultSet.createVariable("w")] = resultSet.createValue("\"9\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/s1>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
+                                    resultRow[resultSet.createVariable("v")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
+                                    resultRow[resultSet.createVariable("w")] = resultSet.createValue("\"9\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/s1>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(1)
@@ -26941,17 +26955,17 @@ class AOPVariableTest {
                 resultSet.createVariable("w")
                 resultSet.createVariable("s")
                 MicroTestAN(
-                        AOPAggregation(Aggregation.SAMPLE,false,arrayOf(AOPVariable("v"))),
+                        AOPAggregation(Aggregation.SAMPLE, false, arrayOf(AOPVariable("v"))),
                         listOf(
-                            {
-                                val resultRow = resultSet.createResultRow()
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
-                                resultRow[resultSet.createVariable("v")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
-                                resultSet.setUndefValue(resultRow, resultSet.createVariable("w"))
-                                resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/s2>")
-                                resultRow
-                            }()
+                                {
+                                    val resultRow = resultSet.createResultRow()
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#0"))
+                                    resultRow[resultSet.createVariable("v")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
+                                    resultSet.setUndefValue(resultRow, resultSet.createVariable("w"))
+                                    resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example/s2>")
+                                    resultRow
+                                }()
                         ),
                         resultSet,
                         AOPInteger(2)
@@ -26963,9 +26977,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Group-3<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -26980,18 +26994,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27002,16 +27016,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testGroup_4_resources_sparql11_test_suite_grouping_group04_rq() = listOf(
+    fun test1958080582_resources_sparql11_test_suite_grouping_group04_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Group-4<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27026,18 +27040,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27048,16 +27062,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testGroup_5_resources_sparql11_test_suite_grouping_group05_rq() = listOf(
+    fun test1958080583_resources_sparql11_test_suite_grouping_group05_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Group-5<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27072,18 +27086,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27094,16 +27108,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testjsonres01___JSON_Result_Format_resources_sparql11_test_suite_json_res_jsonres01_rq() = listOf(
+    fun test_1681267204_resources_sparql11_test_suite_json_res_jsonres01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->jsonres01 - JSON Result Format<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27118,18 +27132,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27140,16 +27154,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testjsonres02___JSON_Result_Format_resources_sparql11_test_suite_json_res_jsonres02_rq() = listOf(
+    fun test575643803_resources_sparql11_test_suite_json_res_jsonres02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->jsonres02 - JSON Result Format<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27164,18 +27178,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27186,16 +27200,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testjsonres03___JSON_Result_Format_resources_sparql11_test_suite_json_res_jsonres03_rq() = listOf(
+    fun test_1462412486_resources_sparql11_test_suite_json_res_jsonres03_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->jsonres03 - JSON Result Format<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27210,18 +27224,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27232,16 +27246,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testjsonres04___JSON_Result_Format_resources_sparql11_test_suite_json_res_jsonres04_rq() = listOf(
+    fun test794498521_resources_sparql11_test_suite_json_res_jsonres04_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->jsonres04 - JSON Result Format<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27256,18 +27270,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27278,16 +27292,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testMOVE_1_resources_sparql11_test_suite_move_move_01_ru() = listOf(
+    fun test_2014935134_resources_sparql11_test_suite_move_move_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->MOVE 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27302,18 +27316,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27324,16 +27338,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testMOVE_2_resources_sparql11_test_suite_move_move_01_ru() = listOf(
+    fun test_2014935133_resources_sparql11_test_suite_move_move_01_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->MOVE 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27348,18 +27362,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27370,16 +27384,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testMOVE_3_resources_sparql11_test_suite_move_move_03_ru() = listOf(
+    fun test_2014935132_resources_sparql11_test_suite_move_move_03_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->MOVE 3<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27394,18 +27408,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27416,16 +27430,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testMOVE_4_resources_sparql11_test_suite_move_move_03_ru() = listOf(
+    fun test_2014935131_resources_sparql11_test_suite_move_move_03_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->MOVE 4<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27440,18 +27454,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27462,16 +27476,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testMOVE_6_resources_sparql11_test_suite_move_move_06_ru() = listOf(
+    fun test_2014935129_resources_sparql11_test_suite_move_move_06_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->MOVE 6<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27486,18 +27500,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27508,16 +27522,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testMOVE_7_resources_sparql11_test_suite_move_move_07_ru() = listOf(
+    fun test_2014935128_resources_sparql11_test_suite_move_move_07_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->MOVE 7<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27532,18 +27546,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27554,16 +27568,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSubsets_by_exclusion__NOT_EXISTS__resources_sparql11_test_suite_negation_subsetByExcl01_rq() = listOf(
+    fun test_309310524_resources_sparql11_test_suite_negation_subsetByExcl01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Subsets by exclusion (NOT EXISTS)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27578,18 +27592,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27600,16 +27614,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSubsets_by_exclusion__MINUS__resources_sparql11_test_suite_negation_subsetByExcl02_rq() = listOf(
+    fun test1727060597_resources_sparql11_test_suite_negation_subsetByExcl02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Subsets by exclusion (MINUS)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27624,18 +27638,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27646,16 +27660,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testMedical__temporal_proximity_by_exclusion__NOT_EXISTS__resources_sparql11_test_suite_negation_temporalProximity01_rq() = listOf(
+    fun test132384377_resources_sparql11_test_suite_negation_temporalProximity01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Medical, temporal proximity by exclusion (NOT EXISTS)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27670,18 +27684,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27692,16 +27706,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCalculate_which_sets_are_subsets_of_others__include_A_subsetOf_A__resources_sparql11_test_suite_negation_subset_01_rq() = listOf(
+    fun test_656355823_resources_sparql11_test_suite_negation_subset_01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Calculate which sets are subsets of others (include A subsetOf A)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27716,18 +27730,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27738,16 +27752,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCalculate_which_sets_are_subsets_of_others__exclude_A_subsetOf_A__resources_sparql11_test_suite_negation_subset_02_rq() = listOf(
+    fun test_1295034429_resources_sparql11_test_suite_negation_subset_02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Calculate which sets are subsets of others (exclude A subsetOf A)<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27762,18 +27776,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27784,16 +27798,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCalculate_which_sets_have_the_same_elements_resources_sparql11_test_suite_negation_set_equals_1_rq() = listOf(
+    fun test_1615018980_resources_sparql11_test_suite_negation_set_equals_1_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Calculate which sets have the same elements<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27808,18 +27822,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27830,16 +27844,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCalculate_proper_subset_resources_sparql11_test_suite_negation_subset_03_rq() = listOf(
+    fun test143730072_resources_sparql11_test_suite_negation_subset_03_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Calculate proper subset<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27854,18 +27868,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27876,16 +27890,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testPositive_EXISTS_1_resources_sparql11_test_suite_negation_exists_01_rq() = listOf(
+    fun test2066412436_resources_sparql11_test_suite_negation_exists_01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Positive EXISTS 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27900,18 +27914,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27922,16 +27936,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testPositive_EXISTS_2_resources_sparql11_test_suite_negation_exists_02_rq() = listOf(
+    fun test2066412437_resources_sparql11_test_suite_negation_exists_02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Positive EXISTS 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27946,18 +27960,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -27968,16 +27982,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSubtraction_with_MINUS_from_a_fully_bound_minuend_resources_sparql11_test_suite_negation_full_minuend_rq() = listOf(
+    fun test_1955094519_resources_sparql11_test_suite_negation_full_minuend_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Subtraction with MINUS from a fully bound minuend<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -27992,18 +28006,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -28014,16 +28028,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testSubtraction_with_MINUS_from_a_partially_bound_minuend_resources_sparql11_test_suite_negation_part_minuend_rq() = listOf(
+    fun test533837709_resources_sparql11_test_suite_negation_part_minuend_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Subtraction with MINUS from a partially bound minuend<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -28038,18 +28052,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -28060,7 +28074,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testExpression_is_equality_resources_sparql11_test_suite_project_expression_projexp01_rq() = listOf(
+    fun test_344310328_resources_sparql11_test_suite_project_expression_projexp01_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -28111,9 +28125,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Expression is equality<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -28128,18 +28142,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -28150,7 +28164,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testExpression_raise_an_error_resources_sparql11_test_suite_project_expression_projexp02_rq() = listOf(
+    fun test_2041130895_resources_sparql11_test_suite_project_expression_projexp02_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -28179,9 +28193,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Expression raise an error<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -28196,18 +28210,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -28218,7 +28232,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testReuse_a_project_expression_variable_in_select_resources_sparql11_test_suite_project_expression_projexp03_rq() = listOf(
+    fun test_1060248279_resources_sparql11_test_suite_project_expression_projexp03_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -28271,9 +28285,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Reuse a project expression variable in select<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -28288,18 +28302,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -28310,7 +28324,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testReuse_a_project_expression_variable_in_order_by_resources_sparql11_test_suite_project_expression_projexp04_rq() = listOf(
+    fun test_948671658_resources_sparql11_test_suite_project_expression_projexp04_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -28353,9 +28367,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Reuse a project expression variable in order by<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -28370,18 +28384,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -28392,7 +28406,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testExpression_may_return_no_value_resources_sparql11_test_suite_project_expression_projexp05_rq() = listOf(
+    fun test_1813791457_resources_sparql11_test_suite_project_expression_projexp05_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -28435,9 +28449,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Expression may return no value<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -28452,18 +28466,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -28474,7 +28488,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testExpression_has_undefined_variable_resources_sparql11_test_suite_project_expression_projexp06_rq() = listOf(
+    fun test_650850054_resources_sparql11_test_suite_project_expression_projexp06_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("m")
@@ -28501,9 +28515,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Expression has undefined variable<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -28518,18 +28532,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -28540,7 +28554,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testExpression_has_variable_that_may_be_unbound_resources_sparql11_test_suite_project_expression_projexp07_rq() = listOf(
+    fun test_2092905114_resources_sparql11_test_suite_project_expression_projexp07_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -28591,9 +28605,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->Expression has variable that may be unbound<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -28608,18 +28622,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -28630,16 +28644,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp01__Simple_path_resources_sparql11_test_suite_property_path_pp01_rq() = listOf(
+    fun test_99366221_resources_sparql11_test_suite_property_path_pp01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp01) Simple path<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -28654,18 +28668,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -28676,16 +28690,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp02__Star_path_resources_sparql11_test_suite_property_path_pp02_rq() = listOf(
+    fun test_287819918_resources_sparql11_test_suite_property_path_pp02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp02) Star path<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -28700,18 +28714,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -28722,16 +28736,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp03__Simple_path_with_loop_resources_sparql11_test_suite_property_path_pp03_rq() = listOf(
+    fun test56957519_resources_sparql11_test_suite_property_path_pp03_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp03) Simple path with loop<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -28746,18 +28760,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -28768,16 +28782,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp06__Path_with_two_graphs_resources_sparql11_test_suite_property_path_pp06_rq() = listOf(
+    fun test729053245_resources_sparql11_test_suite_property_path_pp06_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp06) Path with two graphs<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -28792,18 +28806,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -28814,16 +28828,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp07__Path_with_one_graph_resources_sparql11_test_suite_property_path_pp06_rq() = listOf(
+    fun test_1327558097_resources_sparql11_test_suite_property_path_pp06_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp07) Path with one graph<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -28838,18 +28852,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -28860,16 +28874,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp08__Reverse_path_resources_sparql11_test_suite_property_path_pp08_rq() = listOf(
+    fun test1593907594_resources_sparql11_test_suite_property_path_pp08_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp08) Reverse path<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -28884,18 +28898,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -28906,16 +28920,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp09__Reverse_sequence_path_resources_sparql11_test_suite_property_path_pp09_rq() = listOf(
+    fun test_1573214146_resources_sparql11_test_suite_property_path_pp09_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp09) Reverse sequence path<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -28930,18 +28944,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -28952,16 +28966,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp10__Path_with_negation_resources_sparql11_test_suite_property_path_pp10_rq() = listOf(
+    fun test_1257943806_resources_sparql11_test_suite_property_path_pp10_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp10) Path with negation<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -28976,18 +28990,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -28998,16 +29012,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp11__Simple_path_and_two_paths_to_same_target_node_resources_sparql11_test_suite_property_path_pp11_rq() = listOf(
+    fun test1305098689_resources_sparql11_test_suite_property_path_pp11_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp11) Simple path and two paths to same target node<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29022,18 +29036,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29044,16 +29058,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp12__Variable_length_path_and_two_paths_to_same_target_node_resources_sparql11_test_suite_property_path_pp12_rq() = listOf(
+    fun test1945676744_resources_sparql11_test_suite_property_path_pp12_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp12) Variable length path and two paths to same target node<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29068,18 +29082,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29090,16 +29104,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp14__Star_path_over_foaf_knows_resources_sparql11_test_suite_property_path_pp14_rq() = listOf(
+    fun test_1809073959_resources_sparql11_test_suite_property_path_pp14_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp14) Star path over foaf:knows<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29114,18 +29128,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29136,16 +29150,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp16__Duplicate_paths_and_cycles_through_foaf_knows__resources_sparql11_test_suite_property_path_pp14_rq() = listOf(
+    fun test2118185364_resources_sparql11_test_suite_property_path_pp14_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp16) Duplicate paths and cycles through foaf:knows*<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29160,18 +29174,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29182,16 +29196,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp21__Diamond_____p__resources_sparql11_test_suite_property_path_path_2_2_rq() = listOf(
+    fun test_1112426337_resources_sparql11_test_suite_property_path_path_2_2_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp21) Diamond -- :p+<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29206,18 +29220,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29228,16 +29242,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp23__Diamond__with_tail_____p__resources_sparql11_test_suite_property_path_path_2_2_rq() = listOf(
+    fun test_1113943853_resources_sparql11_test_suite_property_path_path_2_2_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp23) Diamond, with tail -- :p+<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29252,18 +29266,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29274,16 +29288,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp25__Diamond__with_loop_____p__resources_sparql11_test_suite_property_path_path_2_2_rq() = listOf(
+    fun test1832552125_resources_sparql11_test_suite_property_path_path_2_2_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp25) Diamond, with loop -- :p+<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29298,18 +29312,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29320,16 +29334,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp28a__Diamond__with_loop______p__p___resources_sparql11_test_suite_property_path_path_3_3_rq() = listOf(
+    fun test_1737971715_resources_sparql11_test_suite_property_path_path_3_3_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp28a) Diamond, with loop -- (:p/:p)?<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29344,18 +29358,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29366,16 +29380,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp30__Operator_precedence_1_resources_sparql11_test_suite_property_path_path_p1_rq() = listOf(
+    fun test_1877842277_resources_sparql11_test_suite_property_path_path_p1_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp30) Operator precedence 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29390,18 +29404,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29412,16 +29426,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp31__Operator_precedence_2_resources_sparql11_test_suite_property_path_path_p2_rq() = listOf(
+    fun test_1944849029_resources_sparql11_test_suite_property_path_path_p2_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp31) Operator precedence 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29436,18 +29450,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29458,16 +29472,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp32__Operator_precedence_3_resources_sparql11_test_suite_property_path_path_p3_rq() = listOf(
+    fun test_2011855781_resources_sparql11_test_suite_property_path_path_p3_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp32) Operator precedence 3<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29482,18 +29496,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29504,16 +29518,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp33__Operator_precedence_4_resources_sparql11_test_suite_property_path_path_p4_rq() = listOf(
+    fun test_2078862533_resources_sparql11_test_suite_property_path_path_p4_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp33) Operator precedence 4<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29528,18 +29542,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29550,16 +29564,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp34__Named_Graph_1_resources_sparql11_test_suite_property_path_path_ng_01_rq() = listOf(
+    fun test1717653592_resources_sparql11_test_suite_property_path_path_ng_01_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp34) Named Graph 1<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29574,18 +29588,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29596,16 +29610,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp35__Named_Graph_2_resources_sparql11_test_suite_property_path_path_ng_02_rq() = listOf(
+    fun test1207119416_resources_sparql11_test_suite_property_path_path_ng_02_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp35) Named Graph 2<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29620,18 +29634,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29642,16 +29656,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp36__Arbitrary_path_with_bound_endpoints_resources_sparql11_test_suite_property_path_pp36_rq() = listOf(
+    fun test_1992241107_resources_sparql11_test_suite_property_path_pp36_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp36) Arbitrary path with bound endpoints<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29666,18 +29680,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29688,16 +29702,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun test_pp37__Nested______resources_sparql11_test_suite_property_path_pp37_rq() = listOf(
+    fun test1043907721_resources_sparql11_test_suite_property_path_pp37_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->(pp37) Nested (*)*<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29712,18 +29726,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29734,16 +29748,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsq11___Subquery_limit_per_resource_resources_sparql11_test_suite_subquery_sq11_rq() = listOf(
+    fun test_29606055_resources_sparql11_test_suite_subquery_sq11_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->sq11 - Subquery limit per resource<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29758,18 +29772,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29780,7 +29794,7 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsq12___Subquery_in_CONSTRUCT_with_built_ins_resources_sparql11_test_suite_subquery_sq12_rq() = listOf(
+    fun test840933445_resources_sparql11_test_suite_subquery_sq12_rq() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -29831,9 +29845,9 @@ class AOPVariableTest {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->sq12 - Subquery in CONSTRUCT with built-ins<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29848,18 +29862,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29870,16 +29884,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsq13___Subqueries_don_t_inject_bindings_resources_sparql11_test_suite_subquery_sq11_rq() = listOf(
+    fun test601944870_resources_sparql11_test_suite_subquery_sq11_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->sq13 - Subqueries don't inject bindings<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29894,18 +29908,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29916,16 +29930,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testsq14___limit_by_resource_resources_sparql11_test_suite_subquery_sq14_rq() = listOf(
+    fun test1469999616_resources_sparql11_test_suite_subquery_sq14_rq() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->sq14 - limit by resource<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29940,18 +29954,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -29962,16 +29976,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCLEAR_SILENT_GRAPH_iri_resources_sparql11_test_suite_update_silent_clear_silent_ru() = listOf(
+    fun test_625398282_resources_sparql11_test_suite_update_silent_clear_silent_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->CLEAR SILENT GRAPH iri<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -29986,18 +30000,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -30008,16 +30022,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCREATE_SILENT_iri_resources_sparql11_test_suite_update_silent_create_silent_ru() = listOf(
+    fun test_14907463_resources_sparql11_test_suite_update_silent_create_silent_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->CREATE SILENT iri<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -30032,18 +30046,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -30054,16 +30068,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testDROP_SILENT_GRAPH_iri_resources_sparql11_test_suite_update_silent_drop_silent_ru() = listOf(
+    fun test_1168694924_resources_sparql11_test_suite_update_silent_drop_silent_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->DROP SILENT GRAPH iri<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -30078,18 +30092,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -30100,16 +30114,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testCOPY_SILENT_resources_sparql11_test_suite_update_silent_copy_silent_ru() = listOf(
+    fun test_71177376_resources_sparql11_test_suite_update_silent_copy_silent_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->COPY SILENT<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -30124,18 +30138,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -30146,16 +30160,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testMOVE_SILENT_resources_sparql11_test_suite_update_silent_move_silent_ru() = listOf(
+    fun test682884996_resources_sparql11_test_suite_update_silent_move_silent_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->MOVE SILENT<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -30170,18 +30184,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
@@ -30192,16 +30206,16 @@ class AOPVariableTest {
     }
 
     @TestFactory
-    fun testADD_SILENT_resources_sparql11_test_suite_update_silent_add_silent_ru() = listOf(
+    fun test792006868_resources_sparql11_test_suite_update_silent_add_silent_ru() = listOf(
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("test->ADD SILENT<-$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -30216,18 +30230,18 @@ class AOPVariableTest {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }
