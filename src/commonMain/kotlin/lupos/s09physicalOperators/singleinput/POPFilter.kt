@@ -56,7 +56,7 @@ class POPFilter : POPBase {
 resultFlowConsume({this@POPFilter},{children[0]},{nextRow})
                     try {
                         if ((children[1] as POPExpression).evaluateBoolean(resultSet, nextRow))
-                            channel.send(nextRow)
+                            channel.send(resultFlowProduce({this@POPFilter},{nextRow}))
                     } catch (e: Throwable) {
                         GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
                         GlobalLogger.stacktrace(ELoggerType.DEBUG, e)

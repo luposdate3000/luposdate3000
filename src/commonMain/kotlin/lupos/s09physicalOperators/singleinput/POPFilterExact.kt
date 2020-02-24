@@ -64,7 +64,7 @@ class POPFilterExact : POPBase {
                 for (nextRow in children[0].channel){
 		resultFlowConsume({this@POPFilterExact},{children[0]},{nextRow})
                     if (nextRow[filterVariable] == valueR)
-                        channel.send(nextRow)
+                        channel.send(resultFlowProduce({this@POPFilterExact},{nextRow}))
 		}
                 channel.close()
                 children[0].channel.close()

@@ -74,7 +74,7 @@ resultFlowConsume({this@POPBindUndefined},{children[0]},{rsOld})
                     for (i in variablesOld.indices)
                         rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
                     resultSet.setUndefValue(rsNew, variableBound)
-                    channel.send(rsNew)
+                    channel.send(resultFlowProduce({this@POPBindUndefined},{rsNew}))
                 }
                 channel.close()
                 children[0].channel.close()

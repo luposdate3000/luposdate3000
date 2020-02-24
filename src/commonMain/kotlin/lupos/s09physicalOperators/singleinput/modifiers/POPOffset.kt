@@ -63,7 +63,7 @@ resultFlowConsume({this@POPOffset},{children[0]},{rsOld})
                         var rsNew = resultSet.createResultRow()
                         for (v in variables)
                             rsNew[v.first] = rsOld[v.second]
-                        channel.send(rsNew)
+                        channel.send(resultFlowProduce({this@POPOffset},{rsNew}))
                     }
 		    count++
                 }

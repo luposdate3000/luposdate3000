@@ -114,7 +114,7 @@ resultFlowConsume({this@POPModify},{children[0]},{row})
 //ignore unbound variables
                         }
                     }
-                    channel.send(resultSet.createResultRow())
+                    channel.send(resultFlowProduce({this@POPModify},{resultSet.createResultRow()}))
                 }
                 channel.close()
                 children[0].channel.close()

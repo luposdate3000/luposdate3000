@@ -47,7 +47,7 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
                         store.deleteDataVar(transactionID, t)
                     }
                 }
-                channel.send(resultSet.createResultRow())
+                channel.send(resultFlowProduce({this@POPModifyData},{resultSet.createResultRow()}))
                 channel.close()
             } catch (e: Throwable) {
                 channel.close(e)

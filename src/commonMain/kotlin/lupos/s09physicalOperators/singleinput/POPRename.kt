@@ -99,7 +99,7 @@ resultFlowConsume({this@POPRename},{children[0]},{rsOld})
                     var rsNew = resultSet.createResultRow()
                     for (i in variablesNew.indices) 
                         rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
-                    channel.send(rsNew)
+                    channel.send(resultFlowProduce({this@POPRename},{rsNew}))
                 }
                 channel.close()
                 children[0].channel.close()

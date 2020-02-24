@@ -89,7 +89,7 @@ resultFlowConsume({this@POPBind},{children[0]},{rsOld})
                         GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
                         GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
                     }
-                    channel.send(rsNew)
+                    channel.send(resultFlowProduce({this@POPBind},{rsNew}))
                 }
                 channel.close()
                 children[0].channel.close()

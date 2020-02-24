@@ -95,7 +95,7 @@ resultFlowConsume({this@POPSort},{children[0]},{rsOld})
                 allKeys.sort()
                 for (k in allKeys)
                     for (c in tmpMutableMap[k]!!)
-                        channel.send(c)
+                        channel.send(resultFlowProduce({this@POPSort},{c}))
                 channel.close()
                 children[0].channel.close()
             } catch (e: Throwable) {

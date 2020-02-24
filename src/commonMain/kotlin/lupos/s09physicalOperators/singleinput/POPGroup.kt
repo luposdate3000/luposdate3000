@@ -118,7 +118,7 @@ resultFlowConsume({this@POPGroup},{children[0]},{rsOld})
                         resultSet.setUndefValue(rsNew, b.first)
                     for (b in bindings)
                         resultSet.setUndefValue(rsNew, b.first)
-                    channel.send(rsNew)
+                    channel.send(resultFlowProduce({this@POPGroup},{rsNew}))
                 }
                 for (k in tmpMutableMap.keys) {
                     val rsOld = tmpMutableMap[k]!!.first()
@@ -138,7 +138,7 @@ resultFlowConsume({this@POPGroup},{children[0]},{rsOld})
                             GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
                         }
                     }
-                    channel.send(rsNew)
+                    channel.send(resultFlowProduce({this@POPGroup},{rsNew}))
                 }
                 channel.close()
                 children[0].channel.close()

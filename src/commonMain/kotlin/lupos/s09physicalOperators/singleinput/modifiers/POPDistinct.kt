@@ -65,7 +65,7 @@ resultFlowConsume({this@POPDistinct},{children[0]},{rsOld})
                     tmpMutableMap[key] = rsNew
                 }
                 for (k in tmpMutableMap.keys)
-                    channel.send(tmpMutableMap[k]!!)
+                    channel.send(resultFlowProduce({this@POPDistinct},{tmpMutableMap[k]!!}))
                 channel.close()
                 children[0].channel.close()
             } catch (e: Throwable) {

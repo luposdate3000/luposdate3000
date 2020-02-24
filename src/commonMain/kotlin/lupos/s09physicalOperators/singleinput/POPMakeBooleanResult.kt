@@ -61,7 +61,7 @@ class POPMakeBooleanResult : POPBase {
                 }
                 var rsNew = resultSet.createResultRow()
                 rsNew[variableNew] = resultSet.createValue("\"" + (!first) + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
-                channel.send(rsNew)
+                channel.send(resultFlowProduce({this@POPMakeBooleanResult},{rsNew}))
                 channel.close()
             } catch (e: Throwable) {
                 channel.close(e)

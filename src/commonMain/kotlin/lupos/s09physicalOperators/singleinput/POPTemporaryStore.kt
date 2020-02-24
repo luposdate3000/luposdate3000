@@ -60,7 +60,7 @@ resultFlowConsume({this@POPTemporaryStore},{children[0]},{rsOld})
                     for (variable in variables)
                         rsNew[variable.first] = rsOld[variable.second]
                     data.add(rsNew)
-                    channel.send(rsNew)
+                    channel.send(resultFlowProduce({this@POPTemporaryStore},{rsNew}))
                 }
             } catch (e: Throwable) {
                 channel.close(e)
@@ -70,7 +70,7 @@ resultFlowConsume({this@POPTemporaryStore},{children[0]},{rsOld})
 
     suspend fun reset() {
         for (c in data) {
-            channel.send(c)
+            channel.send(resultFlowProduce({this@POPTemporaryStore},{c}))
         }
     }
 

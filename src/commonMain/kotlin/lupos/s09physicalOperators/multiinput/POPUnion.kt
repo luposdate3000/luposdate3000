@@ -76,7 +76,7 @@ resultFlowConsume({this@POPUnion},{c},{rsOld})
                             resultSet.setUndefValue(rsNew, p)
                         for (p in variablesOld[idx])
                             rsNew[p.second] = rsOld[p.first]
-                        channel.send(rsNew)
+                        channel.send(resultFlowProduce({this@POPUnion},{rsNew}))
                     }
                 }
                 channel.close()

@@ -66,7 +66,7 @@ resultFlowConsume({this@POPLimit},{children[0]},{rsOld})
                     for (v in variables)
                         rsNew[v.first] = rsOld[v.second]
                     count++
-                    channel.send(rsNew)
+                    channel.send(resultFlowProduce({this@POPLimit},{rsNew}))
                 }
                 channel.close()
                 children[0].channel.close()

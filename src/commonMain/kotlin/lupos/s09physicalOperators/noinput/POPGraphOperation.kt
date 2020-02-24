@@ -221,7 +221,7 @@ class POPGraphOperation : POPBase {
                     throw e
             }
             try {
-                channel.send(resultSet.createResultRow())
+                channel.send(resultFlowProduce({this@POPGraphOperation},{resultSet.createResultRow()}))
                 channel.close()
             } catch (e: Throwable) {
                 channel.close(e)

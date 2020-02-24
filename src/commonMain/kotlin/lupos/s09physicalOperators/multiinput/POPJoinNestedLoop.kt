@@ -108,7 +108,7 @@ resultFlowConsume({this@POPJoinNestedLoop},{children[1]},{resultRowB})
                         if (!joinVariableOk)
                             continue
                         hadMatchForA = true
-                        channel.send(rsNew)
+                        channel.send(resultFlowProduce({this@POPJoinNestedLoop},{rsNew}))
                     }
                     (children[1] as POPTemporaryStore).reset()
                 }

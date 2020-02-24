@@ -92,7 +92,7 @@ class POPImportFromXml : POPBase {
                         }
                         result[variables[name]!!] = resultSet.createValue(value)
                     }
-                    channel.send(result)
+                    channel.send(resultFlowProduce({this@POPImportFromXml},{result}))
                 }
                 channel.close()
             } catch (e: Throwable) {

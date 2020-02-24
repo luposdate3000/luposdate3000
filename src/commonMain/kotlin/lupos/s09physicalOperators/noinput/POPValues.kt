@@ -96,7 +96,7 @@ class POPValues : POPBase {
                     var rsNew = resultSet.createResultRow()
                     for ((variable, value) in rsOld)
                         rsNew[variable] = value
-                    channel.send(rsNew)
+                    channel.send(resultFlowProduce({this@POPValues},{rsNew}))
                 }
                 channel.close()
             } catch (e: Throwable) {

@@ -87,7 +87,7 @@ class POPJoinHashMap : POPBase {
                 if (!children[1 - idx].resultSet.isUndefValue(rowB, p.first))
                     row[p.second] = rowB[p.first]
             }
-            channel.send(row)
+            channel.send(resultFlowProduce({this@POPJoinHashMap},{row}))
         }
     }
 
@@ -157,7 +157,7 @@ resultFlowConsume({this@POPJoinHashMap},{children[idx]},{rowA})
                                     row[p.second] = rowA[p.first]
                                 for (p in variablesJ[0])
                                     row[p.second] = rowA[p.first]
-                                channel.send(row)
+                                channel.send(resultFlowProduce({this@POPJoinHashMap},{row}))
                             }
                         }
                     }
