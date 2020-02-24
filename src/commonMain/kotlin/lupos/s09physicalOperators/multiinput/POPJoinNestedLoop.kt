@@ -19,7 +19,7 @@ class POPJoinNestedLoop : POPBase {
     override val resultSet: ResultSet
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     val optional: Boolean
-    val joinVariables=mutableListOf<String>()
+    val joinVariables = mutableListOf<String>()
     private val variablesOldA = mutableListOf<Pair<Variable, Variable>>()//not joined
     private val variablesOldB = mutableListOf<Pair<Variable, Variable>>()//not joined
     private val variablesOldJ = mutableListOf<Pair<Pair<Variable, Variable>, Variable>>()//joined
@@ -58,19 +58,19 @@ class POPJoinNestedLoop : POPBase {
         require(children[1].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         val variablesAt = children[0].resultSet.getVariableNames()
         val variablesBt = children[1].resultSet.getVariableNames()
-        val variablesA = MutableList(variablesAt.size){variablesAt[it]}
-        val variablesB = MutableList(variablesBt.size){variablesBt[it]}
-	variablesA.forEach{
-		if(variablesB.contains(it))
-			joinVariables.add(it)
-	}
+        val variablesA = MutableList(variablesAt.size) { variablesAt[it] }
+        val variablesB = MutableList(variablesBt.size) { variablesBt[it] }
+        variablesA.forEach {
+            if (variablesB.contains(it))
+                joinVariables.add(it)
+        }
         val variablesA2 = variablesA.minus(joinVariables)
         val variablesB2 = variablesB.minus(joinVariables)
-        for (name in variablesA2) 
+        for (name in variablesA2)
             variablesOldA.add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
-        for (name in variablesB2) 
+        for (name in variablesB2)
             variablesOldB.add(Pair(children[1].resultSet.createVariable(name), resultSet.createVariable(name)))
-        for (name in joinVariables) 
+        for (name in joinVariables)
             variablesOldJ.add(Pair(Pair(children[0].resultSet.createVariable(name), children[1].resultSet.createVariable(name)), resultSet.createVariable(name)))
     }
 

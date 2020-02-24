@@ -48,7 +48,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }()*/
+            }()*/ /* resources/sparql11-test-suite/aggregates/agg-sample-01.rq */
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("sample")
@@ -62,7 +62,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }()*/
+            }()*/ /* resources/sparql11-test-suite/aggregates/agg-sample-01.rq */
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -86,7 +86,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -110,7 +110,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -134,7 +134,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -158,7 +158,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -182,7 +182,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -206,7 +206,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -230,7 +230,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -254,7 +254,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -278,7 +278,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -302,7 +302,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -326,7 +326,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -350,7 +350,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -374,7 +374,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -398,7 +398,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -422,7 +422,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -446,7 +446,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -470,7 +470,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -494,7 +494,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -518,7 +518,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -542,7 +542,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -566,7 +566,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -590,7 +590,55 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTestA1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTestA1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(true)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -614,79 +662,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTestA1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTestA1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTestA1(
-                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -710,7 +686,31 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTestA1(
+                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -734,7 +734,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -758,7 +758,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -782,7 +782,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -806,7 +806,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -830,7 +830,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -854,7 +854,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -878,31 +878,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTestA1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -926,7 +902,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -939,9 +915,9 @@ class GeneratedAOPOrTest {
                         AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
@@ -950,31 +926,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("#4")
-                resultSet.createVariable("s2")
-                MicroTestA1(
-                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -998,7 +950,55 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTestA1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("#1")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("s2")
+                MicroTestA1(
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1022,7 +1022,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1046,7 +1046,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1070,7 +1070,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1094,7 +1094,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1118,7 +1118,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1142,7 +1142,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1166,7 +1166,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1190,7 +1190,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1214,7 +1214,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1238,7 +1238,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1262,7 +1262,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1286,7 +1286,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1310,7 +1310,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1334,7 +1334,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1358,7 +1358,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1382,7 +1382,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1406,7 +1406,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1430,7 +1430,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1454,7 +1454,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1478,7 +1478,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1502,7 +1502,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1526,7 +1526,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1550,7 +1550,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1574,7 +1574,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -1609,7 +1609,7 @@ class GeneratedAOPOrTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
+                    if (!expected.myEquals(output)) {
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

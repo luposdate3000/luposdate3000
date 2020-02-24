@@ -93,13 +93,13 @@ fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, resultSet: 
     if (rows != null) {
         for (row in rows) {
             res += "${prefix}        mutableMapOf(\n"
-            for (k in resultSet.getVariableNames()){
-		val v=resultSet.getValue(row[resultSet.createVariable(k)])?.replace("\"", "\\\"")
-		if(v==null)
-	                res += "${prefix}            \"${k}\" to null,\n"
-		else
-        	        res += "${prefix}            \"${k}\" to \"${v}\",\n"
-		}
+            for (k in resultSet.getVariableNames()) {
+                val v = resultSet.getValue(row[resultSet.createVariable(k)])?.replace("\"", "\\\"")
+                if (v == null)
+                    res += "${prefix}            \"${k}\" to null,\n"
+                else
+                    res += "${prefix}            \"${k}\" to \"${v}\",\n"
+            }
             res = res.substring(0, res.length - 2) + "\n"
             res += "${prefix}        ),\n"
         }
@@ -110,8 +110,8 @@ fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, resultSet: 
     return res
 }
 
-fun testCaseFromPOPBaseSimple(op: POPBase,queryFile:String): String {
-    var res = "{ // ${queryFile}\n"
+fun testCaseFromPOPBaseSimple(op: POPBase): String {
+    var res = "{\n"
     res += "${prefix}                val dictionary=ResultSetDictionary()\n"
     res += "${prefix}                MicroTestPN(\n"
     res += "${prefix}                    ${classNameToString(op)}(\n"
@@ -121,31 +121,31 @@ fun testCaseFromPOPBaseSimple(op: POPBase,queryFile:String): String {
             res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + ",\n"
             res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1].resultSet, "${prefix}                        ") + "\n"
         }
-is POPJoinHashMap -> {
+        is POPJoinHashMap -> {
             res += "${prefix}                        dictionary,\n"
             res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + ",\n"
             res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1].resultSet, "${prefix}                        ") + ",\n"
-	    res+="${prefix}                        ${op.optional}"
-}
-is POPJoinNestedLoop -> {
+            res += "${prefix}                        ${op.optional}"
+        }
+        is POPJoinNestedLoop -> {
             res += "${prefix}                        dictionary,\n"
             res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + ",\n"
             res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1].resultSet, "${prefix}                        ") + ",\n"
-	    res+="${prefix}                        ${op.optional}"
-}
-is POPRename -> {
+            res += "${prefix}                        ${op.optional}"
+        }
+        is POPRename -> {
             res += "${prefix}                        dictionary,\n"
-	    res += "${prefix}                        AOPVariable(\"${op.nameTo.name}\"),\n"
-	    res += "${prefix}                        AOPVariable(\"${op.nameFrom.name}\"),\n"
+            res += "${prefix}                        AOPVariable(\"${op.nameTo.name}\"),\n"
+            res += "${prefix}                        AOPVariable(\"${op.nameFrom.name}\"),\n"
             res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
-}
-is POPFilter -> {
-println("xxx")
+        }
+        is POPFilter -> {
+            println("xxx")
             res += "${prefix}                        dictionary,\n"
-	    res += "${prefix}                        POPExpression(dictionary, ${testCaseFromAOPBase(op.children[1].children[0] as AOPBase)}),\n"
+            res += "${prefix}                        POPExpression(dictionary, ${testCaseFromAOPBase(op.children[1].children[0] as AOPBase)}),\n"
             res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
-println("xxx"+res)
-}
+            println("xxx" + res)
+        }
         else -> throw Exception("not implemented testCaseFromPOPBaseSimple(${classNameToString(op)})")
 /*
 is POPModify -> {}
@@ -252,11 +252,11 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
     return expected
 }
 
-val mapOfTestCases = ThreadSafeMutableMap</*mainoperator*/String, MutableSet<String/*query*/>>()
+val mapOfTestCases = ThreadSafeMutableMap</*mainoperator*/String, MutableMap<String/*query*/, String/*file*/>>()
 
 fun printAllMicroTest() {
     mapOfTestCases.forEach { operator, testcases ->
-        if (testcases.size > 0) {
+        if (testcases.keys.size > 0) {
             val fileName = "src/commonTest/kotlin/lupos/Generated${operator}.kt"
             val myfile = File(fileName)
             myfile.printWriter().use { out ->
@@ -297,11 +297,11 @@ fun printAllMicroTest() {
                 out.println("")
                 out.println("${prefix}    @TestFactory")
                 out.println("${prefix}    fun test() = listOf(")
-                testcases.forEach {
-                    if (it.endsWith("*/"))
-                        out.println("${prefix}$it")
+                for ((k, v) in testcases) {
+                    if (k.endsWith("*/"))
+                        out.println("${prefix}$k /* $v */")
                     else
-                        out.println("${prefix}$it,")
+                        out.println("${prefix}$k /* $v */ ,")
                 }
                 out.println("${prefix}            {")
                 out.println("${prefix}                MicroTest0(AOPUndef(), AOPUndef())")
@@ -364,38 +364,38 @@ fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
                 val b = it.indexOf("(", a + 1)
                 val name = it.substring(a, b).replace(".* ".toRegex(), "")
                 val x = mapOfTestCases[name]
-                val tmp: MutableSet<String>
+                val tmp: MutableMap<String, String>
                 if (x == null) {
-                    mapOfTestCases[name] = mutableSetOf<String>()
+                    mapOfTestCases[name] = mutableMapOf<String, String>()
                     tmp = mapOfTestCases[name]!!
                 } else
                     tmp = x
                 if (success) {
                     if (it.contains("AOPBuildInCallBNODE1") || it.contains("AOPBuildInCallBNODE0") || it.contains("AOPBuildInCallNOW"))
-                        tmp.add("${prefix}            /*" + it + "*/")
+                        tmp["${prefix}            /*" + it + "*/"] = queryFile
                     else
-                        tmp.add("${prefix}            " + it)
+                        tmp["${prefix}            " + it] = queryFile
                 } else
-                    tmp.add("${prefix}            /*" + it + "*/")
+                    tmp["${prefix}            /*" + it + "*/"] = queryFile
             }
         }
         if (popMap.keySize() > 0) {
             popMap.forEachValue {
                 val name = classNameToString(it)
                 val x = mapOfTestCases[name]
-                val tmp: MutableSet<String>
+                val tmp: MutableMap<String, String>
                 if (x == null) {
-                    mapOfTestCases[name] = mutableSetOf<String>()
+                    mapOfTestCases[name] = mutableMapOf<String, String>()
                     tmp = mapOfTestCases[name]!!
                 } else
                     tmp = x
                 try {
                     if (success)
-                        tmp.add("${prefix}            " + testCaseFromPOPBaseSimple(it,queryFile))
+                        tmp["${prefix}            " + testCaseFromPOPBaseSimple(it)] = queryFile
                     else
-                        tmp.add("${prefix}            /*" + testCaseFromPOPBaseSimple(it,queryFile) + "*/")
+                        tmp["${prefix}            /*" + testCaseFromPOPBaseSimple(it) + "*/"] = queryFile
                 } catch (e: Throwable) {
-e.printStackTrace()
+                    e.printStackTrace()
                 }
             }
         }

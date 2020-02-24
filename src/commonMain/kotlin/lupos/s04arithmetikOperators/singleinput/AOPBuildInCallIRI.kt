@@ -33,10 +33,10 @@ class AOPBuildInCallIRI(child: AOPBase, var prefix: String = "") : AOPBase() {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         if (a is AOPSimpleLiteral)
             return resultFlow({ this }, { resultRow }, { resultSet }, {
-if(prefix!="" && !prefix.endsWith("/"))
-                AOPIri(prefix +"/"+ a.content)
-else
-                AOPIri(prefix + a.content)
+                if (prefix != "" && !prefix.endsWith("/"))
+                    AOPIri(prefix + "/" + a.content)
+                else
+                    AOPIri(prefix + a.content)
             })
         throw resultFlow({ this }, { resultRow }, { resultSet }, {
             Exception("AOPBuiltInCall IRI only works with simple string input")

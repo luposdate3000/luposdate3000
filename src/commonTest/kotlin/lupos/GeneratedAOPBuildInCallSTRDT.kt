@@ -52,7 +52,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -70,7 +70,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         AOPTypedLiteral("\"", "bar", "http://www.w3.org/2001/XMLSchema#string")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -88,7 +88,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt03.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -106,7 +106,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt03.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -124,7 +124,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt03.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -142,7 +142,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt03.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -160,7 +160,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt03.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -178,7 +178,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt03.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -196,7 +196,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt03.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -214,7 +214,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt03.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -232,7 +232,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt03.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -250,7 +250,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         AOPTypedLiteral("\"", "foo", "http://www.w3.org/2001/XMLSchema#string")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt03.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -268,7 +268,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt03.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -286,7 +286,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         AOPTypedLiteral("\"", "BAZ", "http://www.w3.org/2001/XMLSchema#string")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt03.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -304,7 +304,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         AOPTypedLiteral("\"", "食べ物", "http://www.w3.org/2001/XMLSchema#string")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt03.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -322,7 +322,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         AOPTypedLiteral("\"", "100%", "http://www.w3.org/2001/XMLSchema#string")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt03.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -340,7 +340,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt03.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -358,7 +358,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRDT only works with simple string input and iri datatype")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/strdt03.rq */,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -393,7 +393,7 @@ class GeneratedAOPBuildInCallSTRDTTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
+                    if (!expected.myEquals(output)) {
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

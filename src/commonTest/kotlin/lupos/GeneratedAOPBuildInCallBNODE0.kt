@@ -38,27 +38,27 @@ class GeneratedAOPBuildInCallBNODE0Test {
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3096430989")
+                        AOPBnode("3096830993")
                 )
-            }()*/
+            }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3095930991")
+                        AOPBnode("3096330995")
                 )
-            }()*/
+            }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3099531013")
+                        AOPBnode("3099931017")
                 )
-            }()*/
+            }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3100231015")
+                        AOPBnode("3100631019")
                 )
-            }()*/
+            }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -93,7 +93,7 @@ class GeneratedAOPBuildInCallBNODE0Test {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
+                    if (!expected.myEquals(output)) {
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

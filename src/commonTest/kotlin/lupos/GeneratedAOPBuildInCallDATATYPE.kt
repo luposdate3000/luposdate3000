@@ -42,13 +42,13 @@ class GeneratedAOPBuildInCallDATATYPETest {
                         AOPBuildInCallDATATYPE(AOPVariable("n")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-24T12:42:53Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-24T12:50:30Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                             resultRow
                         }(),
                         resultSet,
                         AOPIri("http://www.w3.org/2001/XMLSchema#dateTime")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/now01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -66,7 +66,7 @@ class GeneratedAOPBuildInCallDATATYPETest {
                         resultSet,
                         AOPIri("http://www.w3.org/2001/XMLSchema#integer")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/project-expression/projexp05.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -84,7 +84,7 @@ class GeneratedAOPBuildInCallDATATYPETest {
                         resultSet,
                         Exception("AOPBuiltInCall DATATYPE only works with typed string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/project-expression/projexp05.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("m")
@@ -104,7 +104,7 @@ class GeneratedAOPBuildInCallDATATYPETest {
                         resultSet,
                         Exception("AOPBuiltInCall DATATYPE only works with typed string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/project-expression/projexp06.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -126,7 +126,7 @@ class GeneratedAOPBuildInCallDATATYPETest {
                         resultSet,
                         AOPIri("http://www.w3.org/2001/XMLSchema#integer")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/project-expression/projexp07.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -148,7 +148,7 @@ class GeneratedAOPBuildInCallDATATYPETest {
                         resultSet,
                         Exception("AOPBuiltInCall DATATYPE only works with typed string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/project-expression/projexp07.rq */,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -183,7 +183,7 @@ class GeneratedAOPBuildInCallDATATYPETest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
+                    if (!expected.myEquals(output)) {
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

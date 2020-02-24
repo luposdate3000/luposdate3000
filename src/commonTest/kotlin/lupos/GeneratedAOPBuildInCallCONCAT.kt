@@ -58,7 +58,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPTypedLiteral("\"", "abcDEF", "http://www.w3.org/2001/XMLSchema#string")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -82,7 +82,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "123123")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -106,7 +106,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "日本語123")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -130,7 +130,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "english123")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -154,7 +154,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "français123")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -178,7 +178,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "abc123")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -202,7 +202,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "def123")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -226,7 +226,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         Exception("AOPBuiltInCall CONCAT only works with compatible string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -250,7 +250,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "123日本語")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -274,7 +274,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPLanguageTaggedLiteral("\"", "日本語日本語", "ja")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -298,7 +298,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "english日本語")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -322,7 +322,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "français日本語")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -346,7 +346,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "abc日本語")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -370,7 +370,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "def日本語")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -394,7 +394,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         Exception("AOPBuiltInCall CONCAT only works with compatible string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -418,7 +418,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "123english")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -442,7 +442,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "日本語english")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -466,7 +466,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPLanguageTaggedLiteral("\"", "englishenglish", "en")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -490,7 +490,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "françaisenglish")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -514,7 +514,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "abcenglish")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -538,7 +538,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "defenglish")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -562,7 +562,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         Exception("AOPBuiltInCall CONCAT only works with compatible string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -586,7 +586,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "123français")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -610,7 +610,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "日本語français")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -634,7 +634,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "englishfrançais")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -658,7 +658,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPLanguageTaggedLiteral("\"", "françaisfrançais", "fr")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -682,7 +682,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "abcfrançais")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -706,7 +706,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "deffrançais")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -730,7 +730,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         Exception("AOPBuiltInCall CONCAT only works with compatible string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -754,7 +754,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "123abc")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -778,7 +778,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "日本語abc")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -802,7 +802,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "englishabc")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -826,7 +826,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "françaisabc")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -850,7 +850,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPTypedLiteral("\"", "abcabc", "http://www.w3.org/2001/XMLSchema#string")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -874,7 +874,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPTypedLiteral("\"", "defabc", "http://www.w3.org/2001/XMLSchema#string")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -898,7 +898,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         Exception("AOPBuiltInCall CONCAT only works with compatible string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -922,7 +922,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "123def")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -946,7 +946,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "日本語def")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -970,7 +970,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "englishdef")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -994,7 +994,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "françaisdef")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -1018,7 +1018,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPTypedLiteral("\"", "abcdef", "http://www.w3.org/2001/XMLSchema#string")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -1042,7 +1042,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPTypedLiteral("\"", "defdef", "http://www.w3.org/2001/XMLSchema#string")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -1066,7 +1066,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         Exception("AOPBuiltInCall CONCAT only works with compatible string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -1090,7 +1090,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         Exception("AOPBuiltInCall CONCAT only works with compatible string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -1114,7 +1114,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         Exception("AOPBuiltInCall CONCAT only works with compatible string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -1138,7 +1138,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         Exception("AOPBuiltInCall CONCAT only works with compatible string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -1162,7 +1162,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         Exception("AOPBuiltInCall CONCAT only works with compatible string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -1186,7 +1186,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         Exception("AOPBuiltInCall CONCAT only works with compatible string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -1210,7 +1210,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         Exception("AOPBuiltInCall CONCAT only works with compatible string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s1")
@@ -1234,7 +1234,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         Exception("AOPBuiltInCall CONCAT only works with compatible string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -1256,7 +1256,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "John ")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -1278,7 +1278,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "John Doe")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -1313,7 +1313,7 @@ class GeneratedAOPBuildInCallCONCATTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
+                    if (!expected.myEquals(output)) {
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

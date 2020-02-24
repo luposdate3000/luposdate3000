@@ -27,7 +27,7 @@ object QueryResultToXML {
                 }
             }
         } else {
-val bnodeMap=mutableMapOf<String,String>()
+            val bnodeMap = mutableMapOf<String, String>()
             val nodeResults = XMLElement("results")
             nodeSparql.addContent(nodeResults)
             for (variableName in variableNames) {
@@ -60,12 +60,12 @@ val bnodeMap=mutableMapOf<String,String>()
                                     }
                                 } else if (value.startsWith("<") && value.endsWith(">"))
                                     nodeBinding.addContent(XMLElement("uri").addContent(value.substring(1, value.length - 1)))
-                                else if (value.startsWith("_:")){
-					if(bnodeMap[value]==null)
-						bnodeMap[value]=""+bnodeMap.keys.size
-					val name=bnodeMap[value]!!
+                                else if (value.startsWith("_:")) {
+                                    if (bnodeMap[value] == null)
+                                        bnodeMap[value] = "" + bnodeMap.keys.size
+                                    val name = bnodeMap[value]!!
                                     nodeBinding.addContent(XMLElement("bnode").addContent(name))
-                                }else
+                                } else
                                     nodeBinding.addContent(XMLElement("literal").addContent(value.substring(1, value.length - 1)))
                             }
                             nodeResult.addContent(nodeBinding)

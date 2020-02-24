@@ -53,10 +53,10 @@ class POPValues : POPBase {
             val entry = mutableMapOf<Variable, Value>()
             data.add(entry)
             for ((k, v) in it) {
-		if(v==null)
-			resultSet.dictionary.undefValue
-		else
-        	        entry[resultSet.createVariable(k)] = resultSet.createValue(v)
+                if (v == null)
+                    resultSet.dictionary.undefValue
+                else
+                    entry[resultSet.createVariable(k)] = resultSet.createValue(v)
             }
         }
         iterator = data.iterator()

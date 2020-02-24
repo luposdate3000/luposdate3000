@@ -58,7 +58,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                         resultSet,
                         AOPBnode("28162\"foo\"")
                 )
-            }()*/
+            }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -82,7 +82,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                         resultSet,
                         AOPBnode("28162\"foo\"")
                 )
-            }()*/
+            }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("b2")
@@ -108,7 +108,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                         resultSet,
                         AOPBnode("28156\"foo\"")
                 )
-            }()*/
+            }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("b2")
@@ -134,7 +134,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                         resultSet,
                         AOPBnode("28156\"BAZ\"")
                 )
-            }()*/
+            }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -158,7 +158,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                         resultSet,
                         AOPBnode("28162\"BAZ\"")
                 )
-            }()*/
+            }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("b2")
@@ -184,7 +184,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                         resultSet,
                         AOPBnode("28156\"foo\"")
                 )
-            }()*/
+            }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -208,7 +208,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                         resultSet,
                         AOPBnode("28162\"BAZ\"")
                 )
-            }()*/
+            }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("b2")
@@ -234,7 +234,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                         resultSet,
                         AOPBnode("28156\"BAZ\"")
                 )
-            }()*/
+            }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -269,7 +269,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
+                    if (!expected.myEquals(output)) {
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

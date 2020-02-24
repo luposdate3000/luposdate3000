@@ -40,7 +40,7 @@ class GeneratedAOPBuildInCallURITest {
                         AOPBuildInCallURI(AOPSimpleLiteral("\"", "uri"), "http://example.org/"),
                         AOPIri("http://example.org/uri")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/iri01.rq */,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -75,7 +75,7 @@ class GeneratedAOPBuildInCallURITest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
+                    if (!expected.myEquals(output)) {
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

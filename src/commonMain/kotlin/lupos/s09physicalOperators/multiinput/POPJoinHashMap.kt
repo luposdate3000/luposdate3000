@@ -17,7 +17,7 @@ class POPJoinHashMap : POPBase {
     override val resultSet: ResultSet
     override val children: Array<OPBase>
     val optional: Boolean
-    val joinVariables= mutableListOf<String>()
+    val joinVariables = mutableListOf<String>()
     val map: Array<MutableMap<String, MutableList<ResultRow>>>
     val variables: Array<MutableList<Pair<Variable, Variable>>>
     val variablesJ: Array<MutableList<Pair<Variable, Variable>>>
@@ -52,13 +52,13 @@ class POPJoinHashMap : POPBase {
         this.optional = optional
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         require(children[1].resultSet.dictionary == dictionary || (!(this.children[1] is POPBase)))
-val variablesAt = children[0].resultSet.getVariableNames()
+        val variablesAt = children[0].resultSet.getVariableNames()
         val variablesBt = children[1].resultSet.getVariableNames()
-        val variablesA = MutableList(variablesAt.size){variablesAt[it]}
-        val variablesB = MutableList(variablesBt.size){variablesBt[it]}
-        variablesA.forEach{
-                if(variablesB.contains(it))
-                        joinVariables.add(it)
+        val variablesA = MutableList(variablesAt.size) { variablesAt[it] }
+        val variablesB = MutableList(variablesBt.size) { variablesBt[it] }
+        variablesA.forEach {
+            if (variablesB.contains(it))
+                joinVariables.add(it)
         }
         val variablesA2 = variablesA.minus(joinVariables)
         val variablesB2 = variablesB.minus(joinVariables)

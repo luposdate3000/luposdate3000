@@ -52,7 +52,7 @@ class GeneratedAOPBuildInCallSTRENDSTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRENDS only works with string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -70,7 +70,7 @@ class GeneratedAOPBuildInCallSTRENDSTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRENDS only works with string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -88,7 +88,7 @@ class GeneratedAOPBuildInCallSTRENDSTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRENDS only works with string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -106,7 +106,7 @@ class GeneratedAOPBuildInCallSTRENDSTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRENDS only works with string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -124,7 +124,7 @@ class GeneratedAOPBuildInCallSTRENDSTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRENDS only works with string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -142,7 +142,7 @@ class GeneratedAOPBuildInCallSTRENDSTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRENDS only works with string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -160,7 +160,7 @@ class GeneratedAOPBuildInCallSTRENDSTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRENDS only works with string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -178,7 +178,7 @@ class GeneratedAOPBuildInCallSTRENDSTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRENDS only works with string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -196,7 +196,7 @@ class GeneratedAOPBuildInCallSTRENDSTest {
                         resultSet,
                         Exception("AOPBuiltInCall STRENDS only works with string input")
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -214,7 +214,7 @@ class GeneratedAOPBuildInCallSTRENDSTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -232,7 +232,7 @@ class GeneratedAOPBuildInCallSTRENDSTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -250,7 +250,7 @@ class GeneratedAOPBuildInCallSTRENDSTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -268,7 +268,7 @@ class GeneratedAOPBuildInCallSTRENDSTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -286,7 +286,7 @@ class GeneratedAOPBuildInCallSTRENDSTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -304,7 +304,7 @@ class GeneratedAOPBuildInCallSTRENDSTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -322,7 +322,7 @@ class GeneratedAOPBuildInCallSTRENDSTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }(),
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -357,7 +357,7 @@ class GeneratedAOPBuildInCallSTRENDSTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
+                    if (!expected.myEquals(output)) {
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }
