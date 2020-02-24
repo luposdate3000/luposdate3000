@@ -146,6 +146,20 @@ fun testCaseFromPOPBaseSimple(op: POPBase): String {
             res += "${prefix}                        POPExpression(dictionary, ${testCaseFromAOPBase(op.children[1].children[0] as AOPBase)}),\n"
             res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
         }
+        is POPDistinct -> {
+            res += "${prefix}                        dictionary,\n"
+            res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
+        }
+        is POPOffset -> {
+            res += "${prefix}                        dictionary,\n"
+            res += "${prefix}                        ${op.offset},\n"
+            res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
+        }
+        is POPLimit -> {
+            res += "${prefix}                        dictionary,\n"
+            res += "${prefix}                        ${op.limit},\n"
+            res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
+        }
 	is POPBindUndefined -> {
             res += "${prefix}                        dictionary,\n"
             res += "${prefix}                        AOPVariable(\"${op.name.name}\"),\n"
@@ -161,9 +175,6 @@ fun testCaseFromPOPBaseSimple(op: POPBase): String {
 /*
 is POPModify -> {}
 is POPTemporaryStore -> {}
-is POPLimit -> {}
-is POPOffset -> {}
-is POPDistinct -> {}
 is POPProjection -> {}
 is POPFilterExact -> {}
 is POPMakeBooleanResult -> {}

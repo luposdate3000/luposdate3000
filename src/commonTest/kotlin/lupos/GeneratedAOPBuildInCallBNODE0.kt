@@ -38,25 +38,25 @@ class GeneratedAOPBuildInCallBNODE0Test {
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3121931244")
+                        AOPBnode("3122031245")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3121431246")
+                        AOPBnode("3121531247")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3125031268")
+                        AOPBnode("3125131269")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3125731270")
+                        AOPBnode("3125831271")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             {
