@@ -1,5 +1,7 @@
 package lupos
 
+import lupos.s00misc.*
+import lupos.s15tripleStoreDistributed.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -2606,7 +2608,7 @@ class GeneratedPOPFilterTest {
                                 "n"
                             ), listOf(
                                 mutableMapOf(
-                                    "n" to "\"2020-02-24T17:01:06Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                    "n" to "\"2020-02-24T17:22:52Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
                         )
@@ -2615,7 +2617,7 @@ class GeneratedPOPFilterTest {
                             "n"
                         ), listOf(
                             mutableMapOf(
-                                "n" to "\"2020-02-24T17:01:06Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                "n" to "\"2020-02-24T17:22:52Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                             )
                         )
                     )

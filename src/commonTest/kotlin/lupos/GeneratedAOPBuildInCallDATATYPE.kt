@@ -1,5 +1,7 @@
 package lupos
 
+import lupos.s00misc.*
+import lupos.s15tripleStoreDistributed.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -42,7 +44,7 @@ class GeneratedAOPBuildInCallDATATYPETest {
                         AOPBuildInCallDATATYPE(AOPVariable("n")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-24T17:01:06Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-24T17:22:52Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                             resultRow
                         }(),
                         resultSet,

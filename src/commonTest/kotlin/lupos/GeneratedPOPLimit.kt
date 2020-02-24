@@ -1,5 +1,7 @@
 package lupos
 
+import lupos.s00misc.*
+import lupos.s15tripleStoreDistributed.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -43,41 +45,41 @@ class GeneratedPOPLimitTest {
                         2,
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#p37067",
-                                "#o37067"
+                                "#p37065",
+                                "#o37065"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#p37067" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37067" to "<http://www.example.orgOrder>"
+                                    "#p37065" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37065" to "<http://www.example.orgOrder>"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#p37067" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37067" to "<http://www.example.orgOrder>"
+                                    "#p37065" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37065" to "<http://www.example.orgOrder>"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder3>",
-                                    "#p37067" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37067" to "<http://www.example.orgOrder>"
+                                    "#p37065" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37065" to "<http://www.example.orgOrder>"
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
                             "O",
-                            "#p37067",
-                            "#o37067"
+                            "#p37065",
+                            "#o37065"
                         ), listOf(
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder1>",
-                                "#p37067" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37067" to "<http://www.example.orgOrder>"
+                                "#p37065" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37065" to "<http://www.example.orgOrder>"
                             ),
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder2>",
-                                "#p37067" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37067" to "<http://www.example.orgOrder>"
+                                "#p37065" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37065" to "<http://www.example.orgOrder>"
                             )
                         )
                     )
@@ -91,41 +93,41 @@ class GeneratedPOPLimitTest {
                         2,
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#p37088",
-                                "#o37088"
+                                "#p37086",
+                                "#o37086"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#p37088" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37088" to "<http://www.example.orgOrder>"
+                                    "#p37086" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37086" to "<http://www.example.orgOrder>"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#p37088" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37088" to "<http://www.example.orgOrder>"
+                                    "#p37086" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37086" to "<http://www.example.orgOrder>"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder3>",
-                                    "#p37088" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37088" to "<http://www.example.orgOrder>"
+                                    "#p37086" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37086" to "<http://www.example.orgOrder>"
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
                             "O",
-                            "#p37088",
-                            "#o37088"
+                            "#p37086",
+                            "#o37086"
                         ), listOf(
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder1>",
-                                "#p37088" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37088" to "<http://www.example.orgOrder>"
+                                "#p37086" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37086" to "<http://www.example.orgOrder>"
                             ),
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder2>",
-                                "#p37088" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37088" to "<http://www.example.orgOrder>"
+                                "#p37086" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37086" to "<http://www.example.orgOrder>"
                             )
                         )
                     )
@@ -139,41 +141,41 @@ class GeneratedPOPLimitTest {
                         2,
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#p37432",
-                                "#o37432"
+                                "#p37430",
+                                "#o37430"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#p37432" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37432" to "<http://www.example.orgOrder>"
+                                    "#p37430" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37430" to "<http://www.example.orgOrder>"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#p37432" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37432" to "<http://www.example.orgOrder>"
+                                    "#p37430" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37430" to "<http://www.example.orgOrder>"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder3>",
-                                    "#p37432" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37432" to "<http://www.example.orgOrder>"
+                                    "#p37430" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37430" to "<http://www.example.orgOrder>"
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
                             "O",
-                            "#p37432",
-                            "#o37432"
+                            "#p37430",
+                            "#o37430"
                         ), listOf(
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder1>",
-                                "#p37432" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37432" to "<http://www.example.orgOrder>"
+                                "#p37430" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37430" to "<http://www.example.orgOrder>"
                             ),
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder2>",
-                                "#p37432" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37432" to "<http://www.example.orgOrder>"
+                                "#p37430" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37430" to "<http://www.example.orgOrder>"
                             )
                         )
                     )
@@ -187,41 +189,41 @@ class GeneratedPOPLimitTest {
                         2,
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#p37453",
-                                "#o37453"
+                                "#p37451",
+                                "#o37451"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#p37453" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37453" to "<http://www.example.orgOrder>"
+                                    "#p37451" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37451" to "<http://www.example.orgOrder>"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#p37453" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37453" to "<http://www.example.orgOrder>"
+                                    "#p37451" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37451" to "<http://www.example.orgOrder>"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder3>",
-                                    "#p37453" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37453" to "<http://www.example.orgOrder>"
+                                    "#p37451" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37451" to "<http://www.example.orgOrder>"
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
                             "O",
-                            "#p37453",
-                            "#o37453"
+                            "#p37451",
+                            "#o37451"
                         ), listOf(
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder1>",
-                                "#p37453" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37453" to "<http://www.example.orgOrder>"
+                                "#p37451" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37451" to "<http://www.example.orgOrder>"
                             ),
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder2>",
-                                "#p37453" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37453" to "<http://www.example.orgOrder>"
+                                "#p37451" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37451" to "<http://www.example.orgOrder>"
                             )
                         )
                     )

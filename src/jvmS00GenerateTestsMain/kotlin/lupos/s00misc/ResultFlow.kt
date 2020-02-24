@@ -136,32 +136,33 @@ fun testCaseFromPOPBaseSimple(op: POPBase): String {
             o = op.oFilter
         else
             o = op.nameO
-        res += "${prefix}                        val graphName = \"graph\" + DistributedTripleStore.getGraphNames().size"
-        res += "${prefix}                        {\n"
+        res += "${prefix}                    {\n"
+        res += "${prefix}                        val graphName = \"graph\" + DistributedTripleStore.getGraphNames().size\n"
         res += "${prefix}                        val graph=DistributedTripleStore.createGraph(graphName)\n"
 val tmp=rowMapProduced[op.uuid]
 if(tmp!=null){
             for (r in tmp) {
                 res += "${prefix}                        graph.addData(1L,listOf(\""
                 if (sv)
-                    res += s
+                    res += s?.replace("\"","\\\"")
                 else
-                    res += op.resultSet.getValue(r[op.resultSet.createVariable(s!!)]!!)!!
+                    res += op.resultSet.getValue(r[op.resultSet.createVariable(s!!)]!!)!!.replace("\"","\\\"")
                 res += "\",\""
                 if (pv)
-                    res += p
+                    res += p?.replace("\"","\\\"")
                 else
-                    res += op.resultSet.getValue(r[op.resultSet.createVariable(p!!)]!!)!!
+                    res += op.resultSet.getValue(r[op.resultSet.createVariable(p!!)]!!)!!.replace("\"","\\\"")
                 res += "\",\""
                 if (ov)
-                    res += o
+                    res += o?.replace("\"","\\\"")
                 else
-                    res += op.resultSet.getValue(r[op.resultSet.createVariable(o!!)]!!)!!
+                    res += op.resultSet.getValue(r[op.resultSet.createVariable(o!!)]!!)!!.replace("\"","\\\"")
                 res += "\"))\n"
             }
         }
-            res += "${prefix}                        TripleStoreIteratorGlobal(1L,dictionary,graphName,$s,$p,$o,$sv,$pv,$ov,${op.idx})\n"
-            res += "${prefix}                        }()\n"
+	    res += "${prefix}                        DistributedTripleStore.commit(1L)\n"
+            res += "${prefix}                        TripleStoreIteratorGlobal(1L,dictionary,graphName,\"${s?.replace("\"","\\\"")}\",\"${p?.replace("\"","\\\"")}\",\"${o?.replace("\"","\\\"")}\",$sv,$pv,$ov,EIndexPattern.${op.idx})\n"
+            res += "${prefix}                    }(),\n"
     } else {
         res += "${prefix}                    ${classNameToString(op)}(\n"
         res += "${prefix}                        dictionary,\n"
@@ -220,7 +221,7 @@ if(tmp!=null){
                     res += "${prefix}                            AOPVariable(\"${op.variables[i].name}\"),\n"
                 if (op.variables.size > 0)
                     res += "${prefix}                            AOPVariable(\"${op.variables[op.variables.size - 1].name}\")\n"
-                res += "${prefix}                        )\n"
+                res += "${prefix}                        ),\n"
                 res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
             }
             is POPFilterExact -> {
@@ -326,6 +327,8 @@ fun printAllMicroTest() {
             myfile.printWriter().use { out ->
                 out.println("package lupos")
                 out.println("")
+                out.println("import lupos.s00misc.*")
+                out.println("import lupos.s15tripleStoreDistributed.*")
                 out.println("import lupos.s02buildSyntaxTree.sparql1_1.*")
                 out.println("import lupos.s03resultRepresentation.*")
                 out.println("import lupos.s04arithmetikOperators.*")

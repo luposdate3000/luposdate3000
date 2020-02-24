@@ -1,5 +1,7 @@
 package lupos
 
+import lupos.s00misc.*
+import lupos.s15tripleStoreDistributed.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -42,7 +44,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("C")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "C"
                             ), listOf(
@@ -70,7 +72,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("P"),
                             AOPVariable("C")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "C",
                                 "P"
@@ -110,7 +112,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("P"),
                             AOPVariable("C")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "C",
                                 "#f1162",
@@ -143,7 +145,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("C")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "C",
                                 "#f1745"
@@ -173,7 +175,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("P"),
                             AOPVariable("C")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "C",
                                 "#f2020",
@@ -207,7 +209,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("O12"),
                             AOPVariable("C")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "C",
                                 "O12"
@@ -270,7 +272,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("sum")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "sum"
                             ), listOf(
@@ -298,7 +300,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("sum")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "sum",
                                 "s"
@@ -361,7 +363,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("avg")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "avg"
                             ), listOf(
@@ -389,7 +391,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("avg")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "avg",
                                 "#f3807",
@@ -440,7 +442,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("min")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "min"
                             ), listOf(
@@ -468,7 +470,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("min")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "min",
                                 "s"
@@ -531,7 +533,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("max")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "max"
                             ), listOf(
@@ -559,7 +561,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("max")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "max",
                                 "s"
@@ -622,7 +624,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("sample")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "sample"
                             ), listOf(
@@ -651,7 +653,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("g"),
                             AOPVariable("avg"),
                             AOPVariable("c")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "avg",
                                 "c",
@@ -707,7 +709,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("x"),
                             AOPVariable("max")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "max",
                                 "x"
@@ -738,7 +740,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("z")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "s",
@@ -800,7 +802,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("o"),
                             AOPVariable("z"),
                             AOPVariable("z2")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "z2",
                                 "z",
@@ -876,7 +878,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("z"),
                             AOPVariable("s1")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
@@ -942,7 +944,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("p"),
                             AOPVariable("o")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "nova",
@@ -1025,7 +1027,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("p"),
                             AOPVariable("o"),
                             AOPVariable("z")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "s",
@@ -1067,7 +1069,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("p"),
                             AOPVariable("o")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "s",
@@ -1145,7 +1147,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("p"),
                             AOPVariable("o"),
                             AOPVariable("z")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
@@ -1270,7 +1272,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("v"),
                             AOPVariable("z")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "s",
@@ -1309,7 +1311,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("v"),
                             AOPVariable("z")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "s",
@@ -1348,7 +1350,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("book"),
                             AOPVariable("title"),
                             AOPVariable("price")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "#p8341",
                                 "title",
@@ -1400,7 +1402,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("o")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
@@ -1471,7 +1473,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("o1"),
                             AOPVariable("o2")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "p1",
                                 "o1",
@@ -1656,7 +1658,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("p1"),
                             AOPVariable("o1")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p1",
@@ -1733,7 +1735,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("o1"),
                             AOPVariable("o2")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "p1",
                                 "o1",
@@ -1858,7 +1860,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("o1"),
                             AOPVariable("o2")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "p1",
                                 "o1",
@@ -1983,7 +1985,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("book"),
                             AOPVariable("title"),
                             AOPVariable("price")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "#p8905",
                                 "title",
@@ -2036,7 +2038,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("book"),
                             AOPVariable("title"),
                             AOPVariable("price")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "#p8980",
                                 "title",
@@ -2077,7 +2079,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("book"),
                             AOPVariable("title"),
                             AOPVariable("price")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "#p8990",
                                 "title",
@@ -2118,7 +2120,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("p"),
                             AOPVariable("o")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
@@ -2185,7 +2187,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("p"),
                             AOPVariable("o")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
@@ -2272,7 +2274,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("p"),
                             AOPVariable("o")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
@@ -2362,7 +2364,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("o"),
                             AOPVariable("p2"),
                             AOPVariable("o2")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
@@ -2480,7 +2482,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("o"),
                             AOPVariable("p2"),
                             AOPVariable("o2")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
@@ -2595,7 +2597,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("p"),
                             AOPVariable("o")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
@@ -2692,7 +2694,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("p"),
                             AOPVariable("o")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
@@ -2787,7 +2789,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "#p15363",
@@ -2818,7 +2820,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "#p15400",
@@ -2857,7 +2859,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "#p15440",
@@ -2888,7 +2890,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "#s15477",
                                 "x",
@@ -2920,7 +2922,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("x"),
                             AOPVariable("c")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "#p15650",
@@ -2957,7 +2959,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "#s15773",
                                 "#p15773",
@@ -2988,7 +2990,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "#s15909",
                                 "#o15909",
@@ -3023,7 +3025,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("f")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "#s15955",
                                 "#p15955",
@@ -3055,7 +3057,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("x"),
                             AOPVariable("y")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "#p16159",
@@ -3103,7 +3105,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("c")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "c",
                                 "#p16203",
@@ -3134,7 +3136,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("c")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "c",
                                 "#p16244",
@@ -3166,7 +3168,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("p"),
                             AOPVariable("v")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "#p16632",
                                 "#o16632",
@@ -3203,7 +3205,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "#p16675",
@@ -3234,7 +3236,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("z")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "s",
@@ -3306,7 +3308,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("o"),
                             AOPVariable("z"),
                             AOPVariable("z2")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "z2",
                                 "z",
@@ -3392,7 +3394,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("z"),
                             AOPVariable("s1")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "o",
@@ -3475,7 +3477,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("p"),
                             AOPVariable("o"),
                             AOPVariable("p")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "nova",
@@ -3568,7 +3570,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("p"),
                             AOPVariable("o"),
                             AOPVariable("z")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "s",
@@ -3614,7 +3616,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("p"),
                             AOPVariable("o"),
                             AOPVariable("z")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "s",
@@ -3661,7 +3663,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("p"),
                             AOPVariable("o"),
                             AOPVariable("p")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "s",
@@ -3749,7 +3751,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("p"),
                             AOPVariable("o"),
                             AOPVariable("z")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "#p17701",
@@ -3893,7 +3895,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("p"),
                             AOPVariable("o"),
                             AOPVariable("z")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "s",
@@ -3939,7 +3941,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("p"),
                             AOPVariable("o"),
                             AOPVariable("z")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "s",
@@ -3982,7 +3984,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "#p18076",
@@ -4015,7 +4017,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("X"),
                             AOPVariable("Y1"),
                             AOPVariable("Y2")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "#p18274",
                                 "#o18274",
@@ -4071,7 +4073,7 @@ class GeneratedPOPProjectionTest {
                     POPProjection(
                         dictionary,
                         mutableListOf(
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "#a",
                                 "#p18320",
@@ -4117,7 +4119,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("Y"),
                             AOPVariable("Y"),
                             AOPVariable("Z")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "#s18481",
                                 "#p18481",
@@ -4165,7 +4167,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("X"),
                             AOPVariable("Y")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "X",
                                 "#p18541",
@@ -4203,7 +4205,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("X"),
                             AOPVariable("Y")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "X",
                                 "#p18598",
@@ -4262,7 +4264,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("C")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "#s18776",
                                 "#p18776",
@@ -4295,7 +4297,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("a"),
                             AOPVariable("b"),
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "a",
                                 "#p18845",
@@ -4336,7 +4338,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "#p18891",
@@ -4367,7 +4369,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("parent")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "parent",
                                 "#p18938",
@@ -4407,7 +4409,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("str1")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "str1",
                                 "s",
@@ -4443,7 +4445,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("str1")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "str1",
                                 "s",
@@ -4479,7 +4481,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("str1")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "str1",
                                 "s",
@@ -4515,7 +4517,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("str1")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "str1",
                                 "s",
@@ -4551,7 +4553,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("str1")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "str1",
                                 "s",
@@ -4737,7 +4739,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("s2")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s2",
                                 "s",
@@ -4773,7 +4775,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("s2")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s2",
                                 "s",
@@ -4809,7 +4811,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("s2")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s2",
                                 "s",
@@ -4845,7 +4847,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("s2")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s2",
                                 "s",
@@ -4881,7 +4883,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("str1")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "str1",
                                 "s",
@@ -5067,7 +5069,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("num")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
@@ -5137,7 +5139,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("num")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "#p23587",
@@ -5181,7 +5183,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("num"),
                             AOPVariable("ceil")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "ceil",
                                 "s",
@@ -5264,7 +5266,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("num"),
                             AOPVariable("floor")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "floor",
                                 "s",
@@ -5347,7 +5349,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("num"),
                             AOPVariable("round")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "round",
                                 "s",
@@ -5428,7 +5430,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("str")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "str",
                                 "#s24014",
@@ -5467,7 +5469,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("str")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "str",
                                 "#s24042",
@@ -5506,7 +5508,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("str")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "str",
                                 "s1",
@@ -6122,7 +6124,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("str"),
                             AOPVariable("len")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "len",
                                 "s",
@@ -6218,7 +6220,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("ustr")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "ustr",
                                 "s",
@@ -6314,7 +6316,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("lstr")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "lstr",
                                 "s",
@@ -6410,7 +6412,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("str")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "#p25341",
@@ -6453,7 +6455,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("str")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "#p25412",
@@ -6496,7 +6498,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("str")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
@@ -6539,7 +6541,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("str")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
@@ -6574,7 +6576,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("x"),
                             AOPVariable("y"),
                             AOPVariable("sum")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "sum",
                                 "#p26417",
@@ -6708,7 +6710,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("x"),
                             AOPVariable("y"),
                             AOPVariable("sum")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "sum",
                                 "#p26590",
@@ -6840,7 +6842,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("hash")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "hash",
                                 "#s26890",
@@ -6873,7 +6875,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("hash")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "hash",
                                 "#s26908",
@@ -6906,7 +6908,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("hash")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "hash",
                                 "#s26971",
@@ -6939,7 +6941,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("hash")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "hash",
                                 "#s26989",
@@ -6972,7 +6974,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("hash")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "hash",
                                 "#s27052",
@@ -7005,7 +7007,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("hash")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "hash",
                                 "#s27070",
@@ -7038,7 +7040,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("hash")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "hash",
                                 "#s27133",
@@ -7071,7 +7073,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("hash")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "hash",
                                 "#s27151",
@@ -7104,7 +7106,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("hash")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "hash",
                                 "#s27214",
@@ -7137,7 +7139,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("hash")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "hash",
                                 "#s27232",
@@ -7170,7 +7172,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("hash")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "hash",
                                 "#s27295",
@@ -7203,7 +7205,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("hash")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "hash",
                                 "#s27313",
@@ -7237,7 +7239,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
@@ -7303,7 +7305,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
@@ -7369,7 +7371,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
@@ -7435,7 +7437,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
@@ -7501,7 +7503,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
@@ -7567,7 +7569,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
@@ -7633,7 +7635,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
@@ -7699,7 +7701,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
@@ -7765,7 +7767,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
@@ -7831,7 +7833,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
@@ -7897,7 +7899,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
@@ -7963,7 +7965,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
@@ -8029,7 +8031,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
@@ -8095,7 +8097,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("x")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
@@ -8163,7 +8165,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s2"),
                             AOPVariable("b1"),
                             AOPVariable("b2")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "b1",
                                 "b2",
@@ -8259,14 +8261,14 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("b1"),
                             AOPVariable("b2")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "b1",
                                 "b2"
                             ), listOf(
                                 mutableMapOf(
-                                    "b1" to "_:3121631248",
-                                    "b2" to "_:3122131246"
+                                    "b1" to "_:3121431246",
+                                    "b2" to "_:3121931244"
                                 )
                             )
                         )
@@ -8276,8 +8278,8 @@ class GeneratedPOPProjectionTest {
                             "b2"
                         ), listOf(
                             mutableMapOf(
-                                "b1" to "_:3121631248",
-                                "b2" to "_:3122131246"
+                                "b1" to "_:3121431246",
+                                "b2" to "_:3121931244"
                             )
                         )
                     )
@@ -8291,14 +8293,14 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("b1"),
                             AOPVariable("b2")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "b1",
                                 "b2"
                             ), listOf(
                                 mutableMapOf(
-                                    "b1" to "_:3125931272",
-                                    "b2" to "_:3125231270"
+                                    "b1" to "_:3125731270",
+                                    "b2" to "_:3125031268"
                                 )
                             )
                         )
@@ -8308,8 +8310,8 @@ class GeneratedPOPProjectionTest {
                             "b2"
                         ), listOf(
                             mutableMapOf(
-                                "b1" to "_:3125931272",
-                                "b2" to "_:3125231270"
+                                "b1" to "_:3125731270",
+                                "b2" to "_:3125031268"
                             )
                         )
                     )
@@ -8322,12 +8324,12 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("n")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "n"
                             ), listOf(
                                 mutableMapOf(
-                                    "n" to "\"2020-02-24T17:01:06Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                    "n" to "\"2020-02-24T17:22:52Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
                         )
@@ -8336,7 +8338,7 @@ class GeneratedPOPProjectionTest {
                             "n"
                         ), listOf(
                             mutableMapOf(
-                                "n" to "\"2020-02-24T17:01:06Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                "n" to "\"2020-02-24T17:22:52Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                             )
                         )
                     )
@@ -8350,7 +8352,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("uri"),
                             AOPVariable("iri")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "uri",
                                 "iri"
@@ -8382,7 +8384,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("o"),
                             AOPVariable("integer")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "integer",
                                 "s",
@@ -8477,7 +8479,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("error")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "error"
                             ), listOf(
@@ -8504,7 +8506,7 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("s")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s"
                             ), listOf(
@@ -8538,7 +8540,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("w"),
                             AOPVariable("S")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "S",
                                 "w"
@@ -8578,7 +8580,7 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("w")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "w"
@@ -8627,7 +8629,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("p"),
                             AOPVariable("o")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
@@ -8717,7 +8719,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("o"),
                             AOPVariable("p2"),
                             AOPVariable("o2")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
@@ -8829,16 +8831,16 @@ class GeneratedPOPProjectionTest {
                     POPProjection(
                         dictionary,
                         mutableListOf(
-                        )
+                        ),
                         POPValues(dictionary, listOf(
-                                "#s33242",
-                                "#p33242",
-                                "#o33242"
+                                "#s33240",
+                                "#p33240",
+                                "#o33240"
                             ), listOf(
                                 mutableMapOf(
-                                    "#s33242" to "<http://example.org/s1>",
-                                    "#p33242" to "<http://example.org/p1>",
-                                    "#o33242" to "<http://example.org/s2>"
+                                    "#s33240" to "<http://example.org/s1>",
+                                    "#p33240" to "<http://example.org/p1>",
+                                    "#o33240" to "<http://example.org/s2>"
                                 )
                             )
                         )
@@ -8857,16 +8859,16 @@ class GeneratedPOPProjectionTest {
                     POPProjection(
                         dictionary,
                         mutableListOf(
-                        )
+                        ),
                         POPValues(dictionary, listOf(
-                                "#s33249",
-                                "#p33249",
-                                "#o33249"
+                                "#s33247",
+                                "#p33247",
+                                "#o33247"
                             ), listOf(
                                 mutableMapOf(
-                                    "#s33249" to "<http://example.org/s1>",
-                                    "#p33249" to "<http://example.org/p1>",
-                                    "#o33249" to "<http://example.org/s2>"
+                                    "#s33247" to "<http://example.org/s1>",
+                                    "#p33247" to "<http://example.org/p1>",
+                                    "#o33247" to "<http://example.org/s2>"
                                 )
                             )
                         )
@@ -8889,28 +8891,28 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("y"),
                             AOPVariable("z"),
                             AOPVariable("eq")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "eq",
-                                "#p34863",
+                                "#p34861",
                                 "y",
-                                "#p34864",
+                                "#p34862",
                                 "z",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
                                     "eq" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                    "#p34863" to "<http://www.example.org/schema#p>",
+                                    "#p34861" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p34864" to "<http://www.example.org/schema#q>",
+                                    "#p34862" to "<http://www.example.org/schema#q>",
                                     "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 ),
                                 mutableMapOf(
                                     "eq" to "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                    "#p34863" to "<http://www.example.org/schema#p>",
+                                    "#p34861" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p34864" to "<http://www.example.org/schema#q>",
+                                    "#p34862" to "<http://www.example.org/schema#q>",
                                     "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 )
@@ -8949,28 +8951,28 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("y"),
                             AOPVariable("z"),
                             AOPVariable("eq")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "eq",
-                                "#p34902",
+                                "#p34900",
                                 "y",
-                                "#p34903",
+                                "#p34901",
                                 "z",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
                                     "eq" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                    "#p34902" to "<http://www.example.org/schema#p>",
+                                    "#p34900" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p34903" to "<http://www.example.org/schema#q>",
+                                    "#p34901" to "<http://www.example.org/schema#q>",
                                     "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 ),
                                 mutableMapOf(
                                     "eq" to "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                    "#p34902" to "<http://www.example.org/schema#p>",
+                                    "#p34900" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p34903" to "<http://www.example.org/schema#q>",
+                                    "#p34901" to "<http://www.example.org/schema#q>",
                                     "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 )
@@ -9009,28 +9011,28 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("y"),
                             AOPVariable("z"),
                             AOPVariable("sum")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "sum",
-                                "#p35012",
+                                "#p35010",
                                 "y",
-                                "#p35013",
+                                "#p35011",
                                 "z",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
                                     "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35012" to "<http://www.example.org/schema#p>",
+                                    "#p35010" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35013" to "<http://www.example.org/schema#q>",
+                                    "#p35011" to "<http://www.example.org/schema#q>",
                                     "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 ),
                                 mutableMapOf(
                                     "sum" to null,
-                                    "#p35012" to "<http://www.example.org/schema#p>",
+                                    "#p35010" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35013" to "<http://www.example.org/schema#q>",
+                                    "#p35011" to "<http://www.example.org/schema#q>",
                                     "z" to "\"foobar\"",
                                     "x" to "<http://www.example.org/instance#a>"
                                 )
@@ -9069,28 +9071,28 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("y"),
                             AOPVariable("z"),
                             AOPVariable("sum")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "sum",
-                                "#p35040",
+                                "#p35038",
                                 "y",
-                                "#p35041",
+                                "#p35039",
                                 "z",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
                                     "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35040" to "<http://www.example.org/schema#p>",
+                                    "#p35038" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35041" to "<http://www.example.org/schema#q>",
+                                    "#p35039" to "<http://www.example.org/schema#q>",
                                     "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 ),
                                 mutableMapOf(
                                     "sum" to null,
-                                    "#p35040" to "<http://www.example.org/schema#p>",
+                                    "#p35038" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35041" to "<http://www.example.org/schema#q>",
+                                    "#p35039" to "<http://www.example.org/schema#q>",
                                     "z" to "\"foobar\"",
                                     "x" to "<http://www.example.org/instance#a>"
                                 )
@@ -9130,22 +9132,22 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("z"),
                             AOPVariable("sum"),
                             AOPVariable("twice")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "twice",
                                 "sum",
-                                "#p35152",
+                                "#p35150",
                                 "y",
-                                "#p35153",
+                                "#p35151",
                                 "z",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
                                     "twice" to "\"6\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35152" to "<http://www.example.org/schema#p>",
+                                    "#p35150" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35153" to "<http://www.example.org/schema#q>",
+                                    "#p35151" to "<http://www.example.org/schema#q>",
                                     "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 )
@@ -9181,22 +9183,22 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("z"),
                             AOPVariable("sum"),
                             AOPVariable("twice")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "twice",
                                 "sum",
-                                "#p35197",
+                                "#p35195",
                                 "y",
-                                "#p35198",
+                                "#p35196",
                                 "z",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
                                     "twice" to "\"6\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35197" to "<http://www.example.org/schema#p>",
+                                    "#p35195" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35198" to "<http://www.example.org/schema#q>",
+                                    "#p35196" to "<http://www.example.org/schema#q>",
                                     "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 )
@@ -9230,23 +9232,23 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("x"),
                             AOPVariable("y"),
                             AOPVariable("sum")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "sum",
                                 "x",
-                                "#p35310",
+                                "#p35308",
                                 "y"
                             ), listOf(
                                 mutableMapOf(
                                     "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35310" to "<http://www.example.org/schema#p>",
+                                    "#p35308" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "sum" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35310" to "<http://www.example.org/schema#p>",
+                                    "#p35308" to "<http://www.example.org/schema#p>",
                                     "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
@@ -9280,23 +9282,23 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("x"),
                             AOPVariable("y"),
                             AOPVariable("sum")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "sum",
                                 "x",
-                                "#p35340",
+                                "#p35338",
                                 "y"
                             ), listOf(
                                 mutableMapOf(
                                     "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35340" to "<http://www.example.org/schema#p>",
+                                    "#p35338" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "sum" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35340" to "<http://www.example.org/schema#p>",
+                                    "#p35338" to "<http://www.example.org/schema#p>",
                                     "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
@@ -9330,23 +9332,23 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("x"),
                             AOPVariable("l"),
                             AOPVariable("dt")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "dt",
                                 "x",
-                                "#p35426",
+                                "#p35424",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "dt" to "<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35426" to "<http://www.example.org/schema#p>",
+                                    "#p35424" to "<http://www.example.org/schema#p>",
                                     "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "dt" to null,
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35426" to "<http://www.example.org/schema#p>",
+                                    "#p35424" to "<http://www.example.org/schema#p>",
                                     "l" to "<http://www.example.org/schema#a>"
                                 )
                             )
@@ -9380,23 +9382,23 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("x"),
                             AOPVariable("l"),
                             AOPVariable("dt")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "dt",
                                 "x",
-                                "#p35451",
+                                "#p35449",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "dt" to "<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35451" to "<http://www.example.org/schema#p>",
+                                    "#p35449" to "<http://www.example.org/schema#p>",
                                     "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "dt" to null,
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35451" to "<http://www.example.org/schema#p>",
+                                    "#p35449" to "<http://www.example.org/schema#p>",
                                     "l" to "<http://www.example.org/schema#a>"
                                 )
                             )
@@ -9430,19 +9432,19 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("x"),
                             AOPVariable("l"),
                             AOPVariable("dt")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "dt",
                                 "m",
                                 "x",
-                                "#p35536",
+                                "#p35534",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "dt" to null,
                                     "m" to null,
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35536" to "<http://www.example.org/schema#p>",
+                                    "#p35534" to "<http://www.example.org/schema#p>",
                                     "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
@@ -9471,19 +9473,19 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("x"),
                             AOPVariable("l"),
                             AOPVariable("dt")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "dt",
                                 "m",
                                 "x",
-                                "#p35560",
+                                "#p35558",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "dt" to null,
                                     "m" to null,
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35560" to "<http://www.example.org/schema#p>",
+                                    "#p35558" to "<http://www.example.org/schema#p>",
                                     "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
@@ -9511,28 +9513,28 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("x"),
                             AOPVariable("dt")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "dt",
-                                "#p35656",
+                                "#p35654",
                                 "y",
-                                "#p35657",
+                                "#p35655",
                                 "l",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
                                     "dt" to "<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35656" to "<http://www.example.org/schema#p>",
+                                    "#p35654" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35657" to "<http://www.example.org/schema#q>",
+                                    "#p35655" to "<http://www.example.org/schema#q>",
                                     "l" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 ),
                                 mutableMapOf(
                                     "dt" to null,
-                                    "#p35656" to "<http://www.example.org/schema#p>",
+                                    "#p35654" to "<http://www.example.org/schema#p>",
                                     "y" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35657" to null,
+                                    "#p35655" to null,
                                     "l" to null,
                                     "x" to "<http://www.example.org/instance#b>"
                                 )
@@ -9562,21 +9564,21 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("O")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#p37067",
-                                "#o37067"
+                                "#p37065",
+                                "#o37065"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#p37067" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37067" to "<http://www.example.orgOrder>"
+                                    "#p37065" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37065" to "<http://www.example.orgOrder>"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#p37067" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37067" to "<http://www.example.orgOrder>"
+                                    "#p37065" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37065" to "<http://www.example.orgOrder>"
                                 )
                             )
                         )
@@ -9601,54 +9603,54 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("L")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
-                                "#p37064",
+                                "#p37062",
                                 "L",
-                                "#p37065",
-                                "#_36993",
+                                "#p37063",
+                                "#_36991",
                                 "O"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37062" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Ice Cream\"",
-                                    "#p37065" to "<http://www.example.orghasItem>",
-                                    "#_36993" to "_:_36970",
+                                    "#p37063" to "<http://www.example.orghasItem>",
+                                    "#_36991" to "_:_36968",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37062" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Ice Cream\"",
-                                    "#p37065" to "<http://www.example.orghasItem>",
-                                    "#_36993" to "_:_36973",
+                                    "#p37063" to "<http://www.example.orghasItem>",
+                                    "#_36991" to "_:_36971",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37062" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Pasta\"",
-                                    "#p37065" to "<http://www.example.orghasItem>",
-                                    "#_36993" to "_:_36974",
+                                    "#p37063" to "<http://www.example.orghasItem>",
+                                    "#_36991" to "_:_36972",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37062" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Pizza\"",
-                                    "#p37065" to "<http://www.example.orghasItem>",
-                                    "#_36993" to "_:_36971",
+                                    "#p37063" to "<http://www.example.orghasItem>",
+                                    "#_36991" to "_:_36969",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37062" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Soft Drink\"",
-                                    "#p37065" to "<http://www.example.orghasItem>",
-                                    "#_36993" to "_:_36975",
+                                    "#p37063" to "<http://www.example.orghasItem>",
+                                    "#_36991" to "_:_36973",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37062" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Wine\"",
-                                    "#p37065" to "<http://www.example.orghasItem>",
-                                    "#_36993" to "_:_36972",
+                                    "#p37063" to "<http://www.example.orghasItem>",
+                                    "#_36991" to "_:_36970",
                                     "O" to "<http://www.example.orgorder1>"
                                 )
                             )
@@ -9686,21 +9688,21 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("O")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#p37088",
-                                "#o37088"
+                                "#p37086",
+                                "#o37086"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#p37088" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37088" to "<http://www.example.orgOrder>"
+                                    "#p37086" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37086" to "<http://www.example.orgOrder>"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#p37088" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37088" to "<http://www.example.orgOrder>"
+                                    "#p37086" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37086" to "<http://www.example.orgOrder>"
                                 )
                             )
                         )
@@ -9725,54 +9727,54 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("L")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
-                                "#p37085",
+                                "#p37083",
                                 "L",
-                                "#p37086",
-                                "#_36993",
+                                "#p37084",
+                                "#_36991",
                                 "O"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37083" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Ice Cream\"",
-                                    "#p37086" to "<http://www.example.orghasItem>",
-                                    "#_36993" to "_:_36970",
+                                    "#p37084" to "<http://www.example.orghasItem>",
+                                    "#_36991" to "_:_36968",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37083" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Ice Cream\"",
-                                    "#p37086" to "<http://www.example.orghasItem>",
-                                    "#_36993" to "_:_36973",
+                                    "#p37084" to "<http://www.example.orghasItem>",
+                                    "#_36991" to "_:_36971",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37083" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Pasta\"",
-                                    "#p37086" to "<http://www.example.orghasItem>",
-                                    "#_36993" to "_:_36974",
+                                    "#p37084" to "<http://www.example.orghasItem>",
+                                    "#_36991" to "_:_36972",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37083" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Pizza\"",
-                                    "#p37086" to "<http://www.example.orghasItem>",
-                                    "#_36993" to "_:_36971",
+                                    "#p37084" to "<http://www.example.orghasItem>",
+                                    "#_36991" to "_:_36969",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37083" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Soft Drink\"",
-                                    "#p37086" to "<http://www.example.orghasItem>",
-                                    "#_36993" to "_:_36975",
+                                    "#p37084" to "<http://www.example.orghasItem>",
+                                    "#_36991" to "_:_36973",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37083" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Wine\"",
-                                    "#p37086" to "<http://www.example.orghasItem>",
-                                    "#_36993" to "_:_36972",
+                                    "#p37084" to "<http://www.example.orghasItem>",
+                                    "#_36991" to "_:_36970",
                                     "O" to "<http://www.example.orgorder1>"
                                 )
                             )
@@ -9811,20 +9813,20 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("P"),
                             AOPVariable("FullName")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "FullName",
-                                "#p37207",
+                                "#p37205",
                                 "F",
-                                "#p37208",
+                                "#p37206",
                                 "L",
                                 "P"
                             ), listOf(
                                 mutableMapOf(
                                     "FullName" to "\"John Doe\"",
-                                    "#p37207" to "<http://xmlns.com/foaf/0.1/firstName>",
+                                    "#p37205" to "<http://xmlns.com/foaf/0.1/firstName>",
                                     "F" to "\"John\"",
-                                    "#p37208" to "<http://xmlns.com/foaf/0.1/lastName>",
+                                    "#p37206" to "<http://xmlns.com/foaf/0.1/lastName>",
                                     "L" to "\"Doe\"",
                                     "P" to "<http://p1>"
                                 )
@@ -9852,7 +9854,7 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("p"),
                             AOPVariable("o")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "p",
                                 "P",
@@ -9890,20 +9892,20 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("P"),
                             AOPVariable("FullName")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "FullName",
-                                "#p37262",
+                                "#p37260",
                                 "F",
-                                "#p37263",
+                                "#p37261",
                                 "L",
                                 "P"
                             ), listOf(
                                 mutableMapOf(
                                     "FullName" to "\"John Doe\"",
-                                    "#p37262" to "<http://xmlns.com/foaf/0.1/firstName>",
+                                    "#p37260" to "<http://xmlns.com/foaf/0.1/firstName>",
                                     "F" to "\"John\"",
-                                    "#p37263" to "<http://xmlns.com/foaf/0.1/lastName>",
+                                    "#p37261" to "<http://xmlns.com/foaf/0.1/lastName>",
                                     "L" to "\"Doe\"",
                                     "P" to "<http://p1>"
                                 )
@@ -9929,21 +9931,21 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("O")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#p37432",
-                                "#o37432"
+                                "#p37430",
+                                "#o37430"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#p37432" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37432" to "<http://www.example.orgOrder>"
+                                    "#p37430" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37430" to "<http://www.example.orgOrder>"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#p37432" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37432" to "<http://www.example.orgOrder>"
+                                    "#p37430" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37430" to "<http://www.example.orgOrder>"
                                 )
                             )
                         )
@@ -9968,54 +9970,54 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("L")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
-                                "#p37429",
+                                "#p37427",
                                 "L",
-                                "#p37430",
-                                "#_37358",
+                                "#p37428",
+                                "#_37356",
                                 "O"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37427" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Ice Cream\"",
-                                    "#p37430" to "<http://www.example.orghasItem>",
-                                    "#_37358" to "_:_37335",
+                                    "#p37428" to "<http://www.example.orghasItem>",
+                                    "#_37356" to "_:_37333",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37427" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Ice Cream\"",
-                                    "#p37430" to "<http://www.example.orghasItem>",
-                                    "#_37358" to "_:_37338",
+                                    "#p37428" to "<http://www.example.orghasItem>",
+                                    "#_37356" to "_:_37336",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37427" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Pasta\"",
-                                    "#p37430" to "<http://www.example.orghasItem>",
-                                    "#_37358" to "_:_37339",
+                                    "#p37428" to "<http://www.example.orghasItem>",
+                                    "#_37356" to "_:_37337",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37427" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Pizza\"",
-                                    "#p37430" to "<http://www.example.orghasItem>",
-                                    "#_37358" to "_:_37336",
+                                    "#p37428" to "<http://www.example.orghasItem>",
+                                    "#_37356" to "_:_37334",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37427" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Soft Drink\"",
-                                    "#p37430" to "<http://www.example.orghasItem>",
-                                    "#_37358" to "_:_37340",
+                                    "#p37428" to "<http://www.example.orghasItem>",
+                                    "#_37356" to "_:_37338",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37427" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Wine\"",
-                                    "#p37430" to "<http://www.example.orghasItem>",
-                                    "#_37358" to "_:_37337",
+                                    "#p37428" to "<http://www.example.orghasItem>",
+                                    "#_37356" to "_:_37335",
                                     "O" to "<http://www.example.orgorder1>"
                                 )
                             )
@@ -10053,21 +10055,21 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("O")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#p37453",
-                                "#o37453"
+                                "#p37451",
+                                "#o37451"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#p37453" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37453" to "<http://www.example.orgOrder>"
+                                    "#p37451" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37451" to "<http://www.example.orgOrder>"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#p37453" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37453" to "<http://www.example.orgOrder>"
+                                    "#p37451" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37451" to "<http://www.example.orgOrder>"
                                 )
                             )
                         )
@@ -10092,54 +10094,54 @@ class GeneratedPOPProjectionTest {
                         dictionary,
                         mutableListOf(
                             AOPVariable("L")
-                        )
+                        ),
                         POPValues(dictionary, listOf(
-                                "#p37450",
+                                "#p37448",
                                 "L",
-                                "#p37451",
-                                "#_37358",
+                                "#p37449",
+                                "#_37356",
                                 "O"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37448" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Ice Cream\"",
-                                    "#p37451" to "<http://www.example.orghasItem>",
-                                    "#_37358" to "_:_37335",
+                                    "#p37449" to "<http://www.example.orghasItem>",
+                                    "#_37356" to "_:_37333",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37448" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Ice Cream\"",
-                                    "#p37451" to "<http://www.example.orghasItem>",
-                                    "#_37358" to "_:_37338",
+                                    "#p37449" to "<http://www.example.orghasItem>",
+                                    "#_37356" to "_:_37336",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37448" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Pasta\"",
-                                    "#p37451" to "<http://www.example.orghasItem>",
-                                    "#_37358" to "_:_37339",
+                                    "#p37449" to "<http://www.example.orghasItem>",
+                                    "#_37356" to "_:_37337",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37448" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Pizza\"",
-                                    "#p37451" to "<http://www.example.orghasItem>",
-                                    "#_37358" to "_:_37336",
+                                    "#p37449" to "<http://www.example.orghasItem>",
+                                    "#_37356" to "_:_37334",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37448" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Soft Drink\"",
-                                    "#p37451" to "<http://www.example.orghasItem>",
-                                    "#_37358" to "_:_37340",
+                                    "#p37449" to "<http://www.example.orghasItem>",
+                                    "#_37356" to "_:_37338",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37448" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Wine\"",
-                                    "#p37451" to "<http://www.example.orghasItem>",
-                                    "#_37358" to "_:_37337",
+                                    "#p37449" to "<http://www.example.orghasItem>",
+                                    "#_37356" to "_:_37335",
                                     "O" to "<http://www.example.orgorder1>"
                                 )
                             )

@@ -1,5 +1,7 @@
 package lupos
 
+import lupos.s00misc.*
+import lupos.s15tripleStoreDistributed.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -38,25 +40,25 @@ class GeneratedAOPBuildInCallBNODE0Test {
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3122131246")
+                        AOPBnode("3121931244")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3121631248")
+                        AOPBnode("3121431246")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3125231270")
+                        AOPBnode("3125031268")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3125931272")
+                        AOPBnode("3125731270")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             {
