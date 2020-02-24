@@ -9,9 +9,8 @@ import lupos.s04logicalOperators.OPBase
 class LOPModifyData(val type: EModifyType) : LOPBase() {
     override val children: Array<OPBase> = arrayOf()
     val data = mutableListOf<List<Pair<String, Boolean>>>()
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
+    
+override fun getProvidedVariableNames()=mutableListOf<String>()
 
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf<String>()

@@ -50,41 +50,41 @@ class GeneratedPOPLimitTest {
                         2,
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#p37065",
-                                "#o37065"
+                                "#p37037",
+                                "#o37037"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#p37065" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37065" to "<http://www.example.orgOrder>"
+                                    "#p37037" to null,
+                                    "#o37037" to null
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#p37065" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37065" to "<http://www.example.orgOrder>"
+                                    "#p37037" to null,
+                                    "#o37037" to null
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder3>",
-                                    "#p37065" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37065" to "<http://www.example.orgOrder>"
+                                    "#p37037" to null,
+                                    "#o37037" to null
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
                             "O",
-                            "#p37065",
-                            "#o37065"
+                            "#p37037",
+                            "#o37037"
                         ), listOf(
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder1>",
-                                "#p37065" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37065" to "<http://www.example.orgOrder>"
+                                "#p37037" to null,
+                                "#o37037" to null
                             ),
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder2>",
-                                "#p37065" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37065" to "<http://www.example.orgOrder>"
+                                "#p37037" to null,
+                                "#o37037" to null
                             )
                         )
                     )
@@ -98,41 +98,41 @@ class GeneratedPOPLimitTest {
                         2,
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#p37086",
-                                "#o37086"
+                                "#p37058",
+                                "#o37058"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#p37086" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37086" to "<http://www.example.orgOrder>"
+                                    "#p37058" to null,
+                                    "#o37058" to null
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#p37086" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37086" to "<http://www.example.orgOrder>"
+                                    "#p37058" to null,
+                                    "#o37058" to null
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder3>",
-                                    "#p37086" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37086" to "<http://www.example.orgOrder>"
+                                    "#p37058" to null,
+                                    "#o37058" to null
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
                             "O",
-                            "#p37086",
-                            "#o37086"
+                            "#p37058",
+                            "#o37058"
                         ), listOf(
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder1>",
-                                "#p37086" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37086" to "<http://www.example.orgOrder>"
+                                "#p37058" to null,
+                                "#o37058" to null
                             ),
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder2>",
-                                "#p37086" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37086" to "<http://www.example.orgOrder>"
+                                "#p37058" to null,
+                                "#o37058" to null
                             )
                         )
                     )
@@ -146,41 +146,41 @@ class GeneratedPOPLimitTest {
                         2,
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#p37430",
-                                "#o37430"
+                                "#p37402",
+                                "#o37402"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#p37430" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37430" to "<http://www.example.orgOrder>"
+                                    "#p37402" to null,
+                                    "#o37402" to null
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#p37430" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37430" to "<http://www.example.orgOrder>"
+                                    "#p37402" to null,
+                                    "#o37402" to null
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder3>",
-                                    "#p37430" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37430" to "<http://www.example.orgOrder>"
+                                    "#p37402" to null,
+                                    "#o37402" to null
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
                             "O",
-                            "#p37430",
-                            "#o37430"
+                            "#p37402",
+                            "#o37402"
                         ), listOf(
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder1>",
-                                "#p37430" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37430" to "<http://www.example.orgOrder>"
+                                "#p37402" to null,
+                                "#o37402" to null
                             ),
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder2>",
-                                "#p37430" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37430" to "<http://www.example.orgOrder>"
+                                "#p37402" to null,
+                                "#o37402" to null
                             )
                         )
                     )
@@ -194,41 +194,41 @@ class GeneratedPOPLimitTest {
                         2,
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#p37451",
-                                "#o37451"
+                                "#p37423",
+                                "#o37423"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#p37451" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37451" to "<http://www.example.orgOrder>"
+                                    "#p37423" to null,
+                                    "#o37423" to null
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#p37451" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37451" to "<http://www.example.orgOrder>"
+                                    "#p37423" to null,
+                                    "#o37423" to null
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder3>",
-                                    "#p37451" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37451" to "<http://www.example.orgOrder>"
+                                    "#p37423" to null,
+                                    "#o37423" to null
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
                             "O",
-                            "#p37451",
-                            "#o37451"
+                            "#p37423",
+                            "#o37423"
                         ), listOf(
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder1>",
-                                "#p37451" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37451" to "<http://www.example.orgOrder>"
+                                "#p37423" to null,
+                                "#o37423" to null
                             ),
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder2>",
-                                "#p37451" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37451" to "<http://www.example.orgOrder>"
+                                "#p37423" to null,
+                                "#o37423" to null
                             )
                         )
                     )
@@ -275,6 +275,7 @@ class GeneratedPOPLimitTest {
                     assertTrue(expected.myEquals(output))
                 }
             } catch (e: Throwable) {
+                e.printStackTrace()
                 assertTrue(data.expected is Throwable)
             }
         }

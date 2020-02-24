@@ -60,7 +60,7 @@ class POPRename : POPBase {
         this.nameTo = nameTo
         this.nameFrom = nameFrom
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        val variableNames = children[0].resultSet.getVariableNames()
+        val variableNames = children[0].getProvidedVariableNames()
         variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
         variablesNew = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
         var i = 0
@@ -74,17 +74,7 @@ class POPRename : POPBase {
         }
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        val res = mutableListOf<String>()
-        val variables = children[0].getProvidedVariableNames()
-        for (v in variables) {
-            if (v == nameFrom.name)
-                res.add(nameTo.name)
-            else
-                res.add(v)
-        }
-        return res
-    }
+    override fun getProvidedVariableNames()=(children[0].getProvidedVariableNames()-nameFrom.name+nameTo.name).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return listOf<String>(nameFrom.name)

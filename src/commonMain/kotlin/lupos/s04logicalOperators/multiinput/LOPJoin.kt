@@ -16,9 +16,7 @@ class LOPJoin : LOPBase {
         this.optional = optional
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
-    }
+    override fun getProvidedVariableNames()=(children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return getProvidedVariableNames()

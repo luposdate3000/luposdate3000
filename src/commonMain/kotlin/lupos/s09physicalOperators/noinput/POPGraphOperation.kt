@@ -229,9 +229,7 @@ class POPGraphOperation : POPBase {
         }
     })
 
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
+    override fun getProvidedVariableNames()=mutableListOf<String>()
 
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf<String>()

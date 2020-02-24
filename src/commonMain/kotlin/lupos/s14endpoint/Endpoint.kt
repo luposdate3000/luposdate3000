@@ -76,9 +76,7 @@ class TripleInsertIterator : POPBase {
         result!![resultSet.createVariable("o")] = resultSet.createValue(cleanString(Dictionary[triple.o]!!.toN3String()))
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
+    override fun getProvidedVariableNames()=mutableListOf<String>()
 
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf<String>()
@@ -121,10 +119,10 @@ object Endpoint {
         return XMLElement("success")
     })
 
-    fun process_local_triple_get(graphName: String, dictionary: ResultSetDictionary, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): POPBase = Trace.trace({ "Endpoint.process_local_triple_get" }, {
+    fun process_local_triple_get(graphName: String, resultSet: ResultSet, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): POPBase = Trace.trace({ "Endpoint.process_local_triple_get" }, {
         println("${EndpointImpl.fullname} process_local_triple_get $graphName $transactionID")
         val g = DistributedTripleStore.localStore.getNamedGraph(graphName)
-        return g.getIterator(transactionID, dictionary, s, p, o, sv, pv, ov, idx)
+        return g.getIterator(transactionID, resultSet, s, p, o, sv, pv, ov, idx)
     })
 
     fun process_local_graph_clear_all(): XMLElement = Trace.trace({ "Endpoint.process_local_graph_clear_all" }, {

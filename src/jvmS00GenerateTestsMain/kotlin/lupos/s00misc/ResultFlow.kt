@@ -416,6 +416,7 @@ fun printAllMicroTest() {
                 out.println("${prefix}                    assertTrue(expected.myEquals(output))")
                 out.println("${prefix}                }")
                 out.println("${prefix}            } catch (e: Throwable) {")
+                out.println("${prefix}                e.printStackTrace()")
                 out.println("${prefix}                assertTrue(data.expected is Throwable)")
                 out.println("${prefix}            }")
                 out.println("${prefix}        }")

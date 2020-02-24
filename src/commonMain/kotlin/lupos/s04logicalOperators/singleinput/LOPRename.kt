@@ -29,17 +29,7 @@ class LOPRename(val nameTo: AOPVariable, val nameFrom: AOPVariable) : LOPBase() 
         }
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        val res = mutableListOf<String>()
-        val variables = children[0].getProvidedVariableNames()
-        for (v in variables) {
-            if (v == nameFrom.name)
-                res.add(nameTo.name)
-            else
-                res.add(v)
-        }
-        return res
-    }
+    override fun getProvidedVariableNames()=(children[0].getProvidedVariableNames()-nameFrom.name+nameTo.name).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return listOf<String>(nameFrom.name)

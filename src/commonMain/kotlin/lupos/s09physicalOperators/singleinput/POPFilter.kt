@@ -40,9 +40,7 @@ class POPFilter : POPBase {
         resultSet = children[0].resultSet
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        return children[0].getProvidedVariableNames()
-    }
+    override fun getProvidedVariableNames()=children[0].getProvidedVariableNames().distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return children[1].getRequiredVariableNames()

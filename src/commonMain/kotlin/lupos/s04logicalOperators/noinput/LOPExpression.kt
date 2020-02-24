@@ -20,9 +20,7 @@ class LOPExpression(val child: AOPBase) : LOPBase() {
         return res
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
+    override fun getProvidedVariableNames()=mutableListOf<String>()
 
     override fun getRequiredVariableNames(): List<String> {
         return getAllVariablesInChildren(child)

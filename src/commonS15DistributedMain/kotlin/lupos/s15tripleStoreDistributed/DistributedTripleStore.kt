@@ -93,9 +93,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
         return graphNameL
     })
 
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>(nameS, nameP, nameO)
-    }
+    override fun getProvidedVariableNames()=mutableListOf(nameS, nameP, nameO).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf<String>()
@@ -106,15 +104,15 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
             try {
                 for (nodeName in nodeNameIterator) {
                     val s = if (sFilter == null)
-                        "s"
+                        nameS
                     else
                         sFilter
                     val p = if (pFilter == null)
-                        "p"
+                        nameP
                     else
                         pFilter
                     val o = if (oFilter == null)
-                        "o"
+                        nameO
                     else
                         oFilter
                     val sv = sFilter != null
@@ -122,7 +120,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
                     val ov = oFilter != null
                     var remoteNode: OPBase? = null
                     try {
-                        remoteNode = P2P.execTripleGet(nodeName, graphNameL, dictionary, transactionID, s, p, o, sv, pv, ov, idx)
+                        remoteNode = P2P.execTripleGet(nodeName, graphNameL, resultSet, transactionID, s, p, o, sv, pv, ov, idx)
                         remoteNode.evaluate()
                         for (c in remoteNode.channel)
                             channel.send(resultFlowProduce({ this@TripleStoreIteratorGlobal }, { c }))

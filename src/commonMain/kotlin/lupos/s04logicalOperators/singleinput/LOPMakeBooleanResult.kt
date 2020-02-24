@@ -13,9 +13,7 @@ class LOPMakeBooleanResult() : LOPBase() {
         children[0] = child
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        return listOf("?boolean")
-    }
+    override fun getProvidedVariableNames()=mutableListOf("?boolean")
 
     override fun getRequiredVariableNames(): List<String> {
         return listOf<String>()

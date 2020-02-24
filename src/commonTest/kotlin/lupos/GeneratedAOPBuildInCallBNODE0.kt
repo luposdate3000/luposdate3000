@@ -45,25 +45,25 @@ class GeneratedAOPBuildInCallBNODE0Test {
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3121931244")
+                        AOPBnode("3119331218")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3121431246")
+                        AOPBnode("3118831220")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3125031268")
+                        AOPBnode("3122431242")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3125731270")
+                        AOPBnode("3123131244")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode02.rq */
             {
@@ -107,6 +107,7 @@ class GeneratedAOPBuildInCallBNODE0Test {
                     assertTrue(expected.myEquals(output))
                 }
             } catch (e: Throwable) {
+                e.printStackTrace()
                 assertTrue(data.expected is Throwable)
             }
         }

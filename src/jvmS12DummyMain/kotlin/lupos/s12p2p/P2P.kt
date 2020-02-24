@@ -16,7 +16,7 @@ import lupos.s00misc.parseFromXml
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
 import lupos.s03resultRepresentation.ResultRepresenationNetwork
-import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPImportFromXml
@@ -141,11 +141,11 @@ object P2P {
         GlobalLogger.log(ELoggerType.DEBUG, { "execGraphOperation $name $type P2P c" })
     })
 
-    fun execTripleGet(node: String, graphName: String, dictionary: ResultSetDictionary, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
+    fun execTripleGet(node: String, graphName: String, resultSet: ResultSet, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleGet start $node $graphName $transactionID" })
         var res: POPBase? = null
         if (node == EndpointImpl.fullname)
-            res = Endpoint.process_local_triple_get(graphName, dictionary, transactionID, s, p, o, sv, pv, ov, idx)
+            res = Endpoint.process_local_triple_get(graphName, resultSet, transactionID, s, p, o, sv, pv, ov, idx)
         else {
             val req = "${EndpointImpl.REQUEST_TRIPLE_GET[0]}" +//
                     "?${EndpointImpl.REQUEST_TRIPLE_GET[1]}=${URL.encodeComponent(graphName)}" +//
@@ -160,7 +160,7 @@ object P2P {
             CoroutinesHelper.runBlock {
                 val response = retryRequestGet("http://${resolveNodeName(node)}$req")
                 var responseBytes = response.readAllBytes()
-                res = ResultRepresenationNetwork.fromNetworkPackage(dictionary, responseBytes)
+                res = ResultRepresenationNetwork.fromNetworkPackage(resultSet, responseBytes)
             }
         }
         GlobalLogger.log(ELoggerType.DEBUG, { "execTripleGet end" })

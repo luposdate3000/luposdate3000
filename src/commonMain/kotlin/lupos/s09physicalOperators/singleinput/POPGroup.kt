@@ -59,14 +59,7 @@ class POPGroup : POPBase {
             resultSet.createVariable(v.name)
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        val tmp = mutableListOf<String>()
-        for (v in by)
-            tmp.add(v.name)
-        for (v in bindings)
-            tmp.add(resultSet.getVariable(v.first))
-        return tmp
-    }
+    override fun getProvidedVariableNames()=(MutableList(by.size){by[it].name}+MutableList(bindings.size){resultSet.getVariable(bindings[it].first)}).distinct()
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         require(additionalProvided.isEmpty())

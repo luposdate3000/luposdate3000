@@ -53,10 +53,11 @@ class AOPVariable(var name: String) : AOPBase() {
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {
-        if (!resultSet.getVariableNames().contains(name))
+        if (!resultSet.hasVariable(name))
             return resultFlow({ this }, { resultRow }, { resultSet }, {
                 AOPUndef()
             })
+println("ppp"+name)
         val variable = resultSet.createVariable(name)
         if (resultSet.isUndefValue(resultRow, variable))
             return resultFlow({ this }, { resultRow }, { resultSet }, {

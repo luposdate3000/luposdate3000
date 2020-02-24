@@ -40,13 +40,11 @@ class POPOffset : POPBase {
         children[0] = child
         this.offset = offset
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        for (v in children[0].resultSet.getVariableNames())
+        for (v in children[0].getProvidedVariableNames())
             variables.add(Pair(resultSet.createVariable(v), children[0].resultSet.createVariable(v)))
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        return children[0].getProvidedVariableNames()
-    }
+    override fun getProvidedVariableNames()=children[0].getProvidedVariableNames().distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return children[0].getRequiredVariableNames()

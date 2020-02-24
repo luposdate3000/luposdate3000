@@ -55,9 +55,7 @@ class POPImportFromXml : POPBase {
         return XMLElement("POPImportFromXML").addContent(data)
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>("s", "p", "o")
-    }
+    override fun getProvidedVariableNames()=mutableListOf<String>("s", "p", "o")
 
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf<String>()

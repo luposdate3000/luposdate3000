@@ -84,9 +84,7 @@ class POPValues : POPBase {
         iterator = data.iterator()
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        return stringVars
-    }
+    override fun getProvidedVariableNames()=stringVars.distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf<String>()

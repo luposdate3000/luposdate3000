@@ -85,7 +85,7 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
                     val child = node.children[0]
                     when (node.children[1]) {
                         is AOPVariable ->
-                            if (child.resultSet.getVariableNames().contains(variable.name))
+                            if (child.getProvidedVariableNames().contains(variable.name))
                                 return POPRename(dictionary, variable, node.children[1] as AOPVariable, child)
                             else
                                 return POPBindUndefined(dictionary, variable, child)

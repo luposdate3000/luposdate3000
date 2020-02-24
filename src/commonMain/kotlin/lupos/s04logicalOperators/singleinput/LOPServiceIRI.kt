@@ -8,9 +8,7 @@ import lupos.s04logicalOperators.OPBase
 class LOPServiceIRI(val name: String, val silent: Boolean, child: OPBase) : LOPBase() {
     override val children: Array<OPBase> = arrayOf(child)
 
-    override fun getProvidedVariableNames(): List<String> {
-        return children[0].getProvidedVariableNames()
-    }
+    override fun getProvidedVariableNames()=children[0].getProvidedVariableNames().distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return getProvidedVariableNames()

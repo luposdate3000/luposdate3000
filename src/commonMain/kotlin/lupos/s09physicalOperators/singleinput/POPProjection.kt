@@ -45,12 +45,7 @@ class POPProjection : POPBase {
         this.variablesNew = Array<Variable>(variables.size, init = fun(it: Int) = resultSet.createVariable(variables[it].name))
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        val res = mutableListOf<String>()
-        for (v in variables)
-            res.add(v.name)
-        return res
-    }
+    override fun getProvidedVariableNames()=MutableList(variables.size){variables[it].name}.distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         val res = mutableListOf<String>()

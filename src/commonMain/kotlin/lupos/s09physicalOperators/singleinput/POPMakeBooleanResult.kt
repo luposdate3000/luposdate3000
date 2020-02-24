@@ -38,11 +38,7 @@ class POPMakeBooleanResult : POPBase {
         this.variableNew = resultSet.createVariable("?boolean")
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        val res = mutableListOf<String>()
-        res.add("?boolean")
-        return res
-    }
+    override fun getProvidedVariableNames()=mutableListOf("?boolean")
 
     override fun getRequiredVariableNames(): List<String> {
         return listOf<String>()

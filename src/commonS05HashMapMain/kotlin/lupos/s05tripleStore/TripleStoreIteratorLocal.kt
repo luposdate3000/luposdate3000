@@ -17,12 +17,9 @@ import lupos.s05tripleStore.POPTripleStoreIteratorBase
 
 
 open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
-    override val dictionary: ResultSetDictionary
+    override val dictionary:ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     override val resultSet: ResultSet
-    var sNew: Variable
-    var pNew: Variable
-    var oNew: Variable
     val store: TripleStoreLocal
     var index: EIndexPattern = EIndexPattern.SPO
     override fun getGraphName(): String {
@@ -34,41 +31,36 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
     }
 
     override fun setMNameS(n: String) {
-        sNew = resultSet.renameVariable(nameS, n)
         nameS = n
     }
 
     override fun setMNameP(n: String) {
-        pNew = resultSet.renameVariable(nameP, n)
         nameP = n
     }
 
     override fun setMNameO(n: String) {
-        oNew = resultSet.renameVariable(nameO, n)
         nameO = n
     }
 
-    constructor(dictionary: ResultSetDictionary, store: TripleStoreLocal, index: EIndexPattern) {
-        this.dictionary = dictionary
-        resultSet = ResultSet(dictionary)
-        sNew = resultSet.createVariable(nameS)
-        pNew = resultSet.createVariable(nameP)
-        oNew = resultSet.createVariable(nameO)
+    constructor(resultSet:ResultSet, store: TripleStoreLocal, index: EIndexPattern) {
+        this.dictionary = resultSet.dictionary
+this.        resultSet = resultSet
         this.store = store
         this.index = index
     }
 
-    constructor(dictionary: ResultSetDictionary, store: TripleStoreLocal) : this(dictionary, store, EIndexPattern.SPO)
+    constructor(resultSet:ResultSet, store: TripleStoreLocal) : this(resultSet, store, EIndexPattern.SPO)
 
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>(nameS, nameP, nameO)
-    }
+    override fun getProvidedVariableNames()=mutableListOf(nameS, nameP, nameO).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf<String>()
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "TripleStoreIteratorLocal.evaluate" }, {
+val        sNew = resultSet.createVariable(nameS)
+val        pNew = resultSet.createVariable(nameP)
+val        oNew = resultSet.createVariable(nameO)
         CoroutinesHelper.run {
             try {
                 store.forEach(null, null, null, { sv, pv, ov ->

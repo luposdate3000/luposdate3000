@@ -32,9 +32,7 @@ class POPUnion : POPBase {
         return true
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
-    }
+    override fun getProvidedVariableNames()=(children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
@@ -47,8 +45,8 @@ class POPUnion : POPBase {
         this.children[1] = childB
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         require(children[1].resultSet.dictionary == dictionary || (!(this.children[1] is POPBase)))
-        var variablesA = children[0].resultSet.getVariableNames()
-        var variablesB = children[1].resultSet.getVariableNames()
+        var variablesA = children[0].getProvidedVariableNames()
+        var variablesB = children[1].getProvidedVariableNames()
 
         for (name in variablesA) {
             variablesOld[0].add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))

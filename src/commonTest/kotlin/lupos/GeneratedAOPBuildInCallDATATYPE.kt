@@ -49,7 +49,7 @@ class GeneratedAOPBuildInCallDATATYPETest {
                         AOPBuildInCallDATATYPE(AOPVariable("n")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-24T17:30:04Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-24T19:33:13Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                             resultRow
                         }(),
                         resultSet,
@@ -197,6 +197,7 @@ class GeneratedAOPBuildInCallDATATYPETest {
                     assertTrue(expected.myEquals(output))
                 }
             } catch (e: Throwable) {
+                e.printStackTrace()
                 assertTrue(data.expected is Throwable)
             }
         }

@@ -9,12 +9,11 @@ import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
-
 object ResultRepresenationNetwork {
     fun toNetworkPackage(query: POPBase): ByteArray {
         query.evaluate()
         val res = DynamicByteArray()
-        val variableNames = query.resultSet.getVariableNames().toTypedArray()
+        val variableNames = query.getProvidedVariableNames().toTypedArray()
         val variablesCount = variableNames.size
         val variables = arrayOfNulls<Variable>(variablesCount)
         GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "write variablecount $variablesCount" })
@@ -81,9 +80,9 @@ object ResultRepresenationNetwork {
         return res.finish()
     }
 
-    fun fromNetworkPackage(dictionary: ResultSetDictionary, data: ByteArray): POPBase {
+    fun fromNetworkPackage(resultSet: ResultSet, data: ByteArray): POPBase {
         val d = DynamicByteArray(data)
-        return POPImportFromNetworkPackage(dictionary, d)
+        return POPImportFromNetworkPackage(resultSet, d)
     }
 
     class POPImportFromNetworkPackage : POPBase {
@@ -111,9 +110,9 @@ object ResultRepresenationNetwork {
             return XMLElement("POPImportFromNetworkPackage")
         }
 
-        constructor(dictionary: ResultSetDictionary, data: DynamicByteArray) {
-            this.dictionary = dictionary
-            resultSet = ResultSet(dictionary)
+        constructor(resultSet:ResultSet, data: DynamicByteArray) {
+            this.dictionary = resultSet.dictionary
+            this.resultSet = resultSet
             this.data = data
             val variablesCount = data.getNextInt()
             GlobalLogger.log(ELoggerType.BINARY_ENCODING, { "read variablecount $variablesCount" })
@@ -124,9 +123,7 @@ object ResultRepresenationNetwork {
             }
         }
 
-        override fun getProvidedVariableNames(): List<String> {
-            return resultSet.getVariableNames().toList()
-        }
+        override fun getProvidedVariableNames()=resultSet.getVariableNames().toList().distinct()
 
         override fun getRequiredVariableNames(): List<String> {
             return mutableListOf<String>()

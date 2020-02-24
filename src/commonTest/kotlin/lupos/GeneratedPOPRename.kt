@@ -142,29 +142,29 @@ class GeneratedPOPRenameTest {
                         )
                     ),
                     POPValues(dictionary, listOf(
-                            "s",
                             "p",
-                            "o"
+                            "o",
+                            "s"
                         ), listOf(
                             mutableMapOf(
-                                "s" to "<http://example.org/s1>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "<http://example.org/o1>"
+                                "o" to "<http://example.org/o1>",
+                                "s" to "<http://example.org/s1>"
                             ),
                             mutableMapOf(
-                                "s" to "<http://example.org/s2>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "<http://example.org/o1>"
+                                "o" to "<http://example.org/o1>",
+                                "s" to "<http://example.org/s2>"
                             ),
                             mutableMapOf(
-                                "s" to "<http://example.org/s2>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "<http://example.org/o2>"
+                                "o" to "<http://example.org/o2>",
+                                "s" to "<http://example.org/s2>"
                             ),
                             mutableMapOf(
-                                "s" to "<http://example.org/s3>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "<http://example.org/o3>"
+                                "o" to "<http://example.org/o3>",
+                                "s" to "<http://example.org/s3>"
                             )
                         )
                     )
@@ -178,57 +178,57 @@ class GeneratedPOPRenameTest {
                         AOPVariable("o"),
                         AOPVariable("o"),
                         POPValues(dictionary, listOf(
-                                "s",
                                 "p",
-                                "o"
+                                "o",
+                                "s"
                             ), listOf(
                                 mutableMapOf(
-                                    "s" to "<http://example.org/s1>",
                                     "p" to "<http://example.org/p>",
-                                    "o" to "<http://example.org/o1>"
+                                    "o" to "<http://example.org/o1>",
+                                    "s" to "<http://example.org/s1>"
                                 ),
                                 mutableMapOf(
-                                    "s" to "<http://example.org/s2>",
                                     "p" to "<http://example.org/p>",
-                                    "o" to "<http://example.org/o1>"
+                                    "o" to "<http://example.org/o1>",
+                                    "s" to "<http://example.org/s2>"
                                 ),
                                 mutableMapOf(
-                                    "s" to "<http://example.org/s2>",
                                     "p" to "<http://example.org/p>",
-                                    "o" to "<http://example.org/o2>"
+                                    "o" to "<http://example.org/o2>",
+                                    "s" to "<http://example.org/s2>"
                                 ),
                                 mutableMapOf(
-                                    "s" to "<http://example.org/s3>",
                                     "p" to "<http://example.org/p>",
-                                    "o" to "<http://example.org/o3>"
+                                    "o" to "<http://example.org/o3>",
+                                    "s" to "<http://example.org/s3>"
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
+                            "o",
                             "s",
-                            "p",
-                            "o"
+                            "p"
                         ), listOf(
                             mutableMapOf(
+                                "o" to "<http://example.org/o1>",
                                 "s" to "<http://example.org/s1>",
-                                "p" to "<http://example.org/p>",
-                                "o" to "<http://example.org/o1>"
+                                "p" to "<http://example.org/p>"
                             ),
                             mutableMapOf(
+                                "o" to "<http://example.org/o1>",
                                 "s" to "<http://example.org/s2>",
-                                "p" to "<http://example.org/p>",
-                                "o" to "<http://example.org/o1>"
+                                "p" to "<http://example.org/p>"
                             ),
                             mutableMapOf(
+                                "o" to "<http://example.org/o2>",
                                 "s" to "<http://example.org/s2>",
-                                "p" to "<http://example.org/p>",
-                                "o" to "<http://example.org/o2>"
+                                "p" to "<http://example.org/p>"
                             ),
                             mutableMapOf(
+                                "o" to "<http://example.org/o3>",
                                 "s" to "<http://example.org/s3>",
-                                "p" to "<http://example.org/p>",
-                                "o" to "<http://example.org/o3>"
+                                "p" to "<http://example.org/p>"
                             )
                         )
                     )
@@ -273,30 +273,30 @@ class GeneratedPOPRenameTest {
                         AOPVariable("FullName"),
                         POPValues(dictionary, listOf(
                                 "p",
-                                "P",
+                                "FullName",
                                 "s",
-                                "FullName"
+                                "P"
                             ), listOf(
                                 mutableMapOf(
                                     "p" to "<http://xmlns.com/foaf/0.1/name>",
-                                    "P" to null,
+                                    "FullName" to "\"John Doe\"",
                                     "s" to "<http://p1>",
-                                    "FullName" to "\"John Doe\""
+                                    "P" to null
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
-                            "p",
-                            "P",
+                            "o",
                             "s",
-                            "o"
+                            "P",
+                            "p"
                         ), listOf(
                             mutableMapOf(
-                                "p" to "<http://xmlns.com/foaf/0.1/name>",
-                                "P" to null,
+                                "o" to "\"John Doe\"",
                                 "s" to "<http://p1>",
-                                "o" to "\"John Doe\""
+                                "P" to null,
+                                "p" to "<http://xmlns.com/foaf/0.1/name>"
                             )
                         )
                     )
@@ -343,6 +343,7 @@ class GeneratedPOPRenameTest {
                     assertTrue(expected.myEquals(output))
                 }
             } catch (e: Throwable) {
+                e.printStackTrace()
                 assertTrue(data.expected is Throwable)
             }
         }

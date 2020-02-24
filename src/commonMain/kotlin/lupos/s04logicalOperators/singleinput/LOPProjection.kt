@@ -14,12 +14,7 @@ class LOPProjection(val variables: MutableList<AOPVariable> = mutableListOf()) :
         this.children[0] = child
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        val res = mutableListOf<String>()
-        for (v in variables)
-            res.add(v.name)
-        return res
-    }
+    override fun getProvidedVariableNames()=MutableList(variables.size){variables[it].name}.distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         val res = mutableListOf<String>()

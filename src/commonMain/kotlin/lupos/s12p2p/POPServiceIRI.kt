@@ -60,9 +60,7 @@ class POPServiceIRI : POPBase {
         }
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        return originalConstraint.getProvidedVariableNames()
-    }
+    override fun getProvidedVariableNames()=originalConstraint.getProvidedVariableNames().distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return originalConstraint.getProvidedVariableNames()

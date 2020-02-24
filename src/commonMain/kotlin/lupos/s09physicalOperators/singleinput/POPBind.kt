@@ -47,7 +47,7 @@ class POPBind : POPBase {
         children[0] = child
         children[1] = expression
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        val variableNames = children[0].resultSet.getVariableNames()
+        val variableNames = children[0].getProvidedVariableNames()
         variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
         variablesNew = Array<Variable?>(variableNames.size + 1, init = fun(_: Int) = (null as Variable?))
         var i = 0
@@ -61,9 +61,7 @@ class POPBind : POPBase {
     }
 
     override fun childrenToVerifyCount(): Int = 1
-    override fun getProvidedVariableNames(): List<String> {
-        return mutableListOf<String>(name.name) + children[0].getProvidedVariableNames()
-    }
+    override fun getProvidedVariableNames()=(children[0].getProvidedVariableNames()+name.name).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return children[1].getRequiredVariableNames()

@@ -118,16 +118,16 @@ class GeneratedPOPUnionTest {
                         )
                     ),
                     POPValues(dictionary, listOf(
-                            "z",
-                            "o"
+                            "o",
+                            "z"
                         ), listOf(
                             mutableMapOf(
-                                "z" to null,
-                                "o" to null
+                                "o" to null,
+                                "z" to null
                             ),
                             mutableMapOf(
-                                "z" to null,
-                                "o" to null
+                                "o" to null,
+                                "z" to null
                             )
                         )
                     )
@@ -174,6 +174,7 @@ class GeneratedPOPUnionTest {
                     assertTrue(expected.myEquals(output))
                 }
             } catch (e: Throwable) {
+                e.printStackTrace()
                 assertTrue(data.expected is Throwable)
             }
         }

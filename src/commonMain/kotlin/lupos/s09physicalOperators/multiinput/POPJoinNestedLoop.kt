@@ -40,9 +40,7 @@ class POPJoinNestedLoop : POPBase {
         return true
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
-    }
+    override fun getProvidedVariableNames()=(children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()).distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return getProvidedVariableNames()
@@ -56,8 +54,8 @@ class POPJoinNestedLoop : POPBase {
         this.optional = optional
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         require(children[1].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        val variablesAt = children[0].resultSet.getVariableNames()
-        val variablesBt = children[1].resultSet.getVariableNames()
+        val variablesAt = children[0].getProvidedVariableNames()
+        val variablesBt = children[1].getProvidedVariableNames()
         val variablesA = MutableList(variablesAt.size) { variablesAt[it] }
         val variablesB = MutableList(variablesBt.size) { variablesBt[it] }
         variablesA.forEach {

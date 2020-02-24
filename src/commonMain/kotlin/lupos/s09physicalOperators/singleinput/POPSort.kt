@@ -52,9 +52,7 @@ class POPSort : POPBase {
         this.sortBy = resultSet.createVariable(sortBy.name)
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        return children[0].getProvidedVariableNames()
-    }
+    override fun getProvidedVariableNames()=children[0].getProvidedVariableNames().distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return getProvidedVariableNames()

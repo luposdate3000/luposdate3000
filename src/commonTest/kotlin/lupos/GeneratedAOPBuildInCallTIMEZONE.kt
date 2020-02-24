@@ -155,6 +155,7 @@ class GeneratedAOPBuildInCallTIMEZONETest {
                     assertTrue(expected.myEquals(output))
                 }
             } catch (e: Throwable) {
+                e.printStackTrace()
                 assertTrue(data.expected is Throwable)
             }
         }

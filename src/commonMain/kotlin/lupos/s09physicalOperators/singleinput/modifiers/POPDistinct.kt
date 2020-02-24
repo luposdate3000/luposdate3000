@@ -36,14 +36,11 @@ class POPDistinct : POPBase {
         resultSet = ResultSet(dictionary)
         children[0] = child
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        for (name in children[0].resultSet.getVariableNames()) {
+        for (name in children[0].getProvidedVariableNames()) 
             variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
-        }
     }
 
-    override fun getProvidedVariableNames(): List<String> {
-        return children[0].getProvidedVariableNames()
-    }
+    override fun getProvidedVariableNames()=children[0].getProvidedVariableNames().distinct()
 
     override fun getRequiredVariableNames(): List<String> {
         return children[0].getRequiredVariableNames()

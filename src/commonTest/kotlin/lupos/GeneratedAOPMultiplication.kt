@@ -45,21 +45,21 @@ class GeneratedAOPMultiplicationTest {
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("sum")
-                resultSet.createVariable("#1")
-                resultSet.createVariable("y")
-                resultSet.createVariable("#3")
-                resultSet.createVariable("z")
                 resultSet.createVariable("x")
+                resultSet.createVariable("#2")
+                resultSet.createVariable("y")
+                resultSet.createVariable("#4")
+                resultSet.createVariable("z")
                 MicroTestA1(
                         AOPMultiplication(AOPVariable("sum"), AOPInteger(2)),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("sum")] = resultSet.createValue("\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#1"))
-                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#3"))
-                            resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow[resultSet.createVariable("x")] = resultSet.createValue("<http://www.example.org/instance#a>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
+                            resultRow[resultSet.createVariable("y")] = resultSet.createValue("\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+                            resultSet.setUndefValue(resultRow, resultSet.createVariable("#4"))
+                            resultRow[resultSet.createVariable("z")] = resultSet.createValue("\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>")
                             resultRow
                         }(),
                         resultSet,
@@ -107,6 +107,7 @@ class GeneratedAOPMultiplicationTest {
                     assertTrue(expected.myEquals(output))
                 }
             } catch (e: Throwable) {
+                e.printStackTrace()
                 assertTrue(data.expected is Throwable)
             }
         }

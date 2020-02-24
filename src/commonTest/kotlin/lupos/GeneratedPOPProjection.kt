@@ -810,38 +810,38 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "z2",
-                                "z",
                                 "s",
                                 "p",
-                                "o"
+                                "o",
+                                "z"
                             ), listOf(
                                 mutableMapOf(
                                     "z2" to "\"101\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "z" to "\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s1>",
                                     "p" to "<http://example.org/p>",
-                                    "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                    "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "z" to "\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "z2" to "\"102\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "z" to "\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s2>",
                                     "p" to "<http://example.org/p>",
-                                    "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                    "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "z" to "\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "z2" to "\"103\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "z" to "\"13\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s3>",
                                     "p" to "<http://example.org/p>",
-                                    "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                    "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "z" to "\"13\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "z2" to "\"104\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "z" to "\"14\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s4>",
                                     "p" to "<http://example.org/p>",
-                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "z" to "\"14\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
                         )
@@ -945,78 +945,78 @@ class GeneratedPOPProjectionTest {
                     POPProjection(
                         dictionary,
                         mutableListOf(
-                            AOPVariable("z"),
                             AOPVariable("s"),
                             AOPVariable("p"),
-                            AOPVariable("o")
+                            AOPVariable("o"),
+                            AOPVariable("z")
                         ),
                         POPValues(dictionary, listOf(
                                 "z",
-                                "nova",
                                 "s",
                                 "p",
-                                "o"
+                                "o",
+                                "nova"
                             ), listOf(
                                 mutableMapOf(
                                     "z" to null,
-                                    "nova" to null,
                                     "s" to "<http://example.org/s1>",
                                     "p" to "<http://example.org/p>",
-                                    "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                    "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "nova" to null
                                 ),
                                 mutableMapOf(
                                     "z" to null,
-                                    "nova" to null,
                                     "s" to "<http://example.org/s2>",
                                     "p" to "<http://example.org/p>",
-                                    "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                    "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "nova" to null
                                 ),
                                 mutableMapOf(
                                     "z" to null,
-                                    "nova" to null,
                                     "s" to "<http://example.org/s3>",
                                     "p" to "<http://example.org/p>",
-                                    "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                    "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "nova" to null
                                 ),
                                 mutableMapOf(
                                     "z" to null,
-                                    "nova" to null,
                                     "s" to "<http://example.org/s4>",
                                     "p" to "<http://example.org/p>",
-                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "nova" to null
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
-                            "z",
                             "s",
                             "p",
-                            "o"
+                            "o",
+                            "z"
                         ), listOf(
                             mutableMapOf(
-                                "z" to null,
                                 "s" to "<http://example.org/s1>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
                             ),
                             mutableMapOf(
-                                "z" to null,
                                 "s" to "<http://example.org/s2>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
                             ),
                             mutableMapOf(
-                                "z" to null,
                                 "s" to "<http://example.org/s3>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
                             ),
                             mutableMapOf(
-                                "z" to null,
                                 "s" to "<http://example.org/s4>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
                             )
                         )
                     )
@@ -1070,10 +1070,10 @@ class GeneratedPOPProjectionTest {
                     POPProjection(
                         dictionary,
                         mutableListOf(
-                            AOPVariable("z"),
                             AOPVariable("s"),
                             AOPVariable("p"),
-                            AOPVariable("o")
+                            AOPVariable("o"),
+                            AOPVariable("z")
                         ),
                         POPValues(dictionary, listOf(
                                 "z",
@@ -1109,34 +1109,34 @@ class GeneratedPOPProjectionTest {
                         )
                     ),
                     POPValues(dictionary, listOf(
-                            "z",
                             "s",
                             "p",
-                            "o"
+                            "o",
+                            "z"
                         ), listOf(
                             mutableMapOf(
-                                "z" to "\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "s" to "<http://example.org/s1>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to "\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             ),
                             mutableMapOf(
-                                "z" to "\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "s" to "<http://example.org/s2>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to "\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             ),
                             mutableMapOf(
-                                "z" to "\"13\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "s" to "<http://example.org/s3>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to "\"13\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             ),
                             mutableMapOf(
-                                "z" to "\"14\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "s" to "<http://example.org/s4>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to "\"14\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             )
                         )
                     )
@@ -1287,7 +1287,7 @@ class GeneratedPOPProjectionTest {
                                 mutableMapOf(
                                     "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s4>",
-                                    "#p8059" to "<http://example.org/p>",
+                                    "#p8059" to null,
                                     "v" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
@@ -1326,7 +1326,7 @@ class GeneratedPOPProjectionTest {
                                 mutableMapOf(
                                     "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s4>",
-                                    "#p8123" to "<http://example.org/p>",
+                                    "#p8123" to null,
                                     "v" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
@@ -1364,16 +1364,69 @@ class GeneratedPOPProjectionTest {
                                 "book"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p8341" to "<http://purl.org/dc/elements/1.1/title>",
+                                    "#p8341" to null,
                                     "title" to "\"SPARQL Tutorial\"",
-                                    "#p8342" to "<http://example.org/ns#price>",
+                                    "#p8342" to null,
                                     "price" to "\"42\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "book" to "<http://example.org/book/book1>"
                                 ),
                                 mutableMapOf(
-                                    "#p8341" to "<http://purl.org/dc/elements/1.1/title>",
+                                    "#p8341" to null,
                                     "title" to "\"The Semantic Web\"",
-                                    "#p8342" to "<http://example.org/ns#price>",
+                                    "#p8342" to null,
+                                    "price" to "\"23\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "book" to "<http://example.org/book/book2>"
+                                )
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "book",
+                            "title",
+                            "price"
+                        ), listOf(
+                            mutableMapOf(
+                                "book" to "<http://example.org/book/book1>",
+                                "title" to "\"SPARQL Tutorial\"",
+                                "price" to "\"42\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "book" to "<http://example.org/book/book2>",
+                                "title" to "\"The Semantic Web\"",
+                                "price" to "\"23\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/bindings/values01.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPProjection(
+                        dictionary,
+                        mutableListOf(
+                            AOPVariable("book"),
+                            AOPVariable("title"),
+                            AOPVariable("price")
+                        ),
+                        POPValues(dictionary, listOf(
+                                "#p8351",
+                                "title",
+                                "#p8352",
+                                "price",
+                                "book"
+                            ), listOf(
+                                mutableMapOf(
+                                    "#p8351" to null,
+                                    "title" to "\"SPARQL Tutorial\"",
+                                    "#p8352" to null,
+                                    "price" to "\"42\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "book" to "<http://example.org/book/book1>"
+                                ),
+                                mutableMapOf(
+                                    "#p8351" to null,
+                                    "title" to "\"The Semantic Web\"",
+                                    "#p8352" to null,
                                     "price" to "\"23\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "book" to "<http://example.org/book/book2>"
                                 )
@@ -1744,188 +1797,63 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "p1",
                                 "o1",
-                                "#p8804",
+                                "#p8782",
                                 "o2",
                                 "s"
                             ), listOf(
                                 mutableMapOf(
                                     "p1" to "<http://xmlns.com/foaf/0.1/knows>",
                                     "o1" to "<http://example.org/b>",
-                                    "#p8804" to "<http://xmlns.com/foaf/0.1/knows>",
+                                    "#p8782" to null,
                                     "o2" to "<http://example.org/b>",
                                     "s" to "<http://example.org/a>"
                                 ),
                                 mutableMapOf(
                                     "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
                                     "o1" to "\"alan@example.org\"",
-                                    "#p8804" to "<http://xmlns.com/foaf/0.1/knows>",
+                                    "#p8782" to null,
                                     "o2" to "<http://example.org/b>",
                                     "s" to "<http://example.org/a>"
                                 ),
                                 mutableMapOf(
                                     "p1" to "<http://xmlns.com/foaf/0.1/name>",
                                     "o1" to "\"Alan\"",
-                                    "#p8804" to "<http://xmlns.com/foaf/0.1/knows>",
+                                    "#p8782" to null,
                                     "o2" to "<http://example.org/b>",
                                     "s" to "<http://example.org/a>"
                                 ),
                                 mutableMapOf(
                                     "p1" to "<http://xmlns.com/foaf/0.1/knows>",
                                     "o1" to "<http://example.org/c>",
-                                    "#p8804" to "<http://xmlns.com/foaf/0.1/knows>",
+                                    "#p8782" to null,
                                     "o2" to "<http://example.org/c>",
                                     "s" to "<http://example.org/b>"
                                 ),
                                 mutableMapOf(
                                     "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
                                     "o1" to "\"bob@example.org\"",
-                                    "#p8804" to "<http://xmlns.com/foaf/0.1/knows>",
+                                    "#p8782" to null,
                                     "o2" to "<http://example.org/c>",
                                     "s" to "<http://example.org/b>"
                                 ),
                                 mutableMapOf(
                                     "p1" to "<http://xmlns.com/foaf/0.1/name>",
                                     "o1" to "\"Bob\"",
-                                    "#p8804" to "<http://xmlns.com/foaf/0.1/knows>",
+                                    "#p8782" to null,
                                     "o2" to "<http://example.org/c>",
                                     "s" to "<http://example.org/b>"
                                 ),
                                 mutableMapOf(
                                     "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
                                     "o1" to "\"alice@example.org\"",
-                                    "#p8804" to null,
+                                    "#p8782" to null,
                                     "o2" to null,
                                     "s" to "<http://example.org/c>"
                                 ),
                                 mutableMapOf(
                                     "p1" to "<http://xmlns.com/foaf/0.1/name>",
                                     "o1" to "\"Alice\"",
-                                    "#p8804" to null,
-                                    "o2" to null,
-                                    "s" to "<http://example.org/c>"
-                                )
-                            )
-                        )
-                    ),
-                    POPValues(dictionary, listOf(
-                            "s",
-                            "o1",
-                            "o2"
-                        ), listOf(
-                            mutableMapOf(
-                                "s" to "<http://example.org/a>",
-                                "o1" to "<http://example.org/b>",
-                                "o2" to "<http://example.org/b>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/a>",
-                                "o1" to "\"alan@example.org\"",
-                                "o2" to "<http://example.org/b>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/a>",
-                                "o1" to "\"Alan\"",
-                                "o2" to "<http://example.org/b>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/b>",
-                                "o1" to "<http://example.org/c>",
-                                "o2" to "<http://example.org/c>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/b>",
-                                "o1" to "\"bob@example.org\"",
-                                "o2" to "<http://example.org/c>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/b>",
-                                "o1" to "\"Bob\"",
-                                "o2" to "<http://example.org/c>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/c>",
-                                "o1" to "\"alice@example.org\"",
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/c>",
-                                "o1" to "\"Alice\"",
-                                "o2" to null
-                            )
-                        )
-                    )
-                )
-            }() /* resources/sparql11-test-suite/bindings/values07.rq */ ,
-            {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    POPProjection(
-                        dictionary,
-                        mutableListOf(
-                            AOPVariable("s"),
-                            AOPVariable("o1"),
-                            AOPVariable("o2")
-                        ),
-                        POPValues(dictionary, listOf(
-                                "p1",
-                                "o1",
-                                "#p8814",
-                                "o2",
-                                "s"
-                            ), listOf(
-                                mutableMapOf(
-                                    "p1" to "<http://xmlns.com/foaf/0.1/knows>",
-                                    "o1" to "<http://example.org/b>",
-                                    "#p8814" to "<http://xmlns.com/foaf/0.1/knows>",
-                                    "o2" to "<http://example.org/b>",
-                                    "s" to "<http://example.org/a>"
-                                ),
-                                mutableMapOf(
-                                    "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
-                                    "o1" to "\"alan@example.org\"",
-                                    "#p8814" to "<http://xmlns.com/foaf/0.1/knows>",
-                                    "o2" to "<http://example.org/b>",
-                                    "s" to "<http://example.org/a>"
-                                ),
-                                mutableMapOf(
-                                    "p1" to "<http://xmlns.com/foaf/0.1/name>",
-                                    "o1" to "\"Alan\"",
-                                    "#p8814" to "<http://xmlns.com/foaf/0.1/knows>",
-                                    "o2" to "<http://example.org/b>",
-                                    "s" to "<http://example.org/a>"
-                                ),
-                                mutableMapOf(
-                                    "p1" to "<http://xmlns.com/foaf/0.1/knows>",
-                                    "o1" to "<http://example.org/c>",
-                                    "#p8814" to "<http://xmlns.com/foaf/0.1/knows>",
-                                    "o2" to "<http://example.org/c>",
-                                    "s" to "<http://example.org/b>"
-                                ),
-                                mutableMapOf(
-                                    "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
-                                    "o1" to "\"bob@example.org\"",
-                                    "#p8814" to "<http://xmlns.com/foaf/0.1/knows>",
-                                    "o2" to "<http://example.org/c>",
-                                    "s" to "<http://example.org/b>"
-                                ),
-                                mutableMapOf(
-                                    "p1" to "<http://xmlns.com/foaf/0.1/name>",
-                                    "o1" to "\"Bob\"",
-                                    "#p8814" to "<http://xmlns.com/foaf/0.1/knows>",
-                                    "o2" to "<http://example.org/c>",
-                                    "s" to "<http://example.org/b>"
-                                ),
-                                mutableMapOf(
-                                    "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
-                                    "o1" to "\"alice@example.org\"",
-                                    "#p8814" to null,
-                                    "o2" to null,
-                                    "s" to "<http://example.org/c>"
-                                ),
-                                mutableMapOf(
-                                    "p1" to "<http://xmlns.com/foaf/0.1/name>",
-                                    "o1" to "\"Alice\"",
-                                    "#p8814" to null,
+                                    "#p8782" to null,
                                     "o2" to null,
                                     "s" to "<http://example.org/c>"
                                 )
@@ -1992,23 +1920,23 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("price")
                         ),
                         POPValues(dictionary, listOf(
-                                "#p8905",
+                                "#p8870",
                                 "title",
-                                "#p8906",
+                                "#p8871",
                                 "price",
                                 "book"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p8905" to "<http://purl.org/dc/elements/1.1/title>",
+                                    "#p8870" to null,
                                     "title" to "\"SPARQL Tutorial\"",
-                                    "#p8906" to "<http://example.org/ns#price>",
+                                    "#p8871" to null,
                                     "price" to "\"42\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "book" to "<http://example.org/book/book1>"
                                 ),
                                 mutableMapOf(
-                                    "#p8905" to "<http://purl.org/dc/elements/1.1/title>",
+                                    "#p8870" to null,
                                     "title" to "\"The Semantic Web\"",
-                                    "#p8906" to "<http://example.org/ns#price>",
+                                    "#p8871" to null,
                                     "price" to "\"23\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "book" to "<http://example.org/book/book2>"
                                 )
@@ -2045,16 +1973,69 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("price")
                         ),
                         POPValues(dictionary, listOf(
-                                "#p8980",
+                                "#p8880",
                                 "title",
-                                "#p8982",
+                                "#p8881",
                                 "price",
                                 "book"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p8980" to "<http://purl.org/dc/elements/1.1/title>",
+                                    "#p8880" to null,
                                     "title" to "\"SPARQL Tutorial\"",
-                                    "#p8982" to "<http://example.org/ns#price>",
+                                    "#p8881" to null,
+                                    "price" to "\"42\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "book" to "<http://example.org/book/book1>"
+                                ),
+                                mutableMapOf(
+                                    "#p8880" to null,
+                                    "title" to "\"The Semantic Web\"",
+                                    "#p8881" to null,
+                                    "price" to "\"23\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "book" to "<http://example.org/book/book2>"
+                                )
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "book",
+                            "title",
+                            "price"
+                        ), listOf(
+                            mutableMapOf(
+                                "book" to "<http://example.org/book/book1>",
+                                "title" to "\"SPARQL Tutorial\"",
+                                "price" to "\"42\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "book" to "<http://example.org/book/book2>",
+                                "title" to "\"The Semantic Web\"",
+                                "price" to "\"23\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/bindings/values08.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPProjection(
+                        dictionary,
+                        mutableListOf(
+                            AOPVariable("book"),
+                            AOPVariable("title"),
+                            AOPVariable("price")
+                        ),
+                        POPValues(dictionary, listOf(
+                                "#p8958",
+                                "title",
+                                "#p8960",
+                                "price",
+                                "book"
+                            ), listOf(
+                                mutableMapOf(
+                                    "#p8958" to null,
+                                    "title" to "\"SPARQL Tutorial\"",
+                                    "#p8960" to null,
                                     "price" to "\"42\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "book" to "<http://example.org/book/book1>"
                                 )
@@ -2086,16 +2067,16 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("price")
                         ),
                         POPValues(dictionary, listOf(
-                                "#p8990",
+                                "#p8968",
                                 "title",
-                                "#p8992",
+                                "#p8970",
                                 "price",
                                 "book"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p8990" to "<http://purl.org/dc/elements/1.1/title>",
+                                    "#p8968" to null,
                                     "title" to "\"SPARQL Tutorial\"",
-                                    "#p8992" to "<http://example.org/ns#price>",
+                                    "#p8970" to null,
                                     "price" to "\"42\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "book" to "<http://example.org/book/book1>"
                                 )
@@ -2127,29 +2108,29 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("o")
                         ),
                         POPValues(dictionary, listOf(
+                                "o",
                                 "s",
-                                "p",
-                                "o"
+                                "p"
                             ), listOf(
                                 mutableMapOf(
+                                    "o" to "<http://example.org/o1>",
                                     "s" to "<http://example.org/s1>",
-                                    "p" to "<http://example.org/p>",
-                                    "o" to "<http://example.org/o1>"
+                                    "p" to "<http://example.org/p>"
                                 ),
                                 mutableMapOf(
+                                    "o" to "<http://example.org/o1>",
                                     "s" to "<http://example.org/s2>",
-                                    "p" to "<http://example.org/p>",
-                                    "o" to "<http://example.org/o1>"
+                                    "p" to "<http://example.org/p>"
                                 ),
                                 mutableMapOf(
+                                    "o" to "<http://example.org/o2>",
                                     "s" to "<http://example.org/s2>",
-                                    "p" to "<http://example.org/p>",
-                                    "o" to "<http://example.org/o2>"
+                                    "p" to "<http://example.org/p>"
                                 ),
                                 mutableMapOf(
+                                    "o" to "<http://example.org/o3>",
                                     "s" to "<http://example.org/s3>",
-                                    "p" to "<http://example.org/p>",
-                                    "o" to "<http://example.org/o3>"
+                                    "p" to "<http://example.org/p>"
                                 )
                             )
                         )
@@ -2366,7 +2347,6 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("p"),
                             AOPVariable("o"),
-                            AOPVariable("o"),
                             AOPVariable("p2"),
                             AOPVariable("o2")
                         ),
@@ -2483,7 +2463,6 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("s"),
                             AOPVariable("p"),
-                            AOPVariable("o"),
                             AOPVariable("o"),
                             AOPVariable("p2"),
                             AOPVariable("o2")
@@ -2797,13 +2776,13 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#p15363",
-                                "#o15363"
+                                "#p15338",
+                                "#o15338"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/ns#myBanana>",
-                                    "#p15363" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o15363" to "<http://example.org/ns#banana>"
+                                    "#p15338" to null,
+                                    "#o15338" to null
                                 )
                             )
                         )
@@ -2828,17 +2807,17 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#p15400",
+                                "#p15375",
                                 "#c"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/ns#a1>",
-                                    "#p15400" to "<http://example.org/ns#b1>",
+                                    "#p15375" to null,
                                     "#c" to "_:c1"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/ns#a1>",
-                                    "#p15400" to "<http://example.org/ns#b1>",
+                                    "#p15375" to null,
                                     "#c" to "_:c2"
                                 )
                             )
@@ -2867,13 +2846,13 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#p15440",
-                                "#o15440"
+                                "#p15415",
+                                "#o15415"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/x/x>",
-                                    "#p15440" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o15440" to "<http://example.org/x/c>"
+                                    "#p15415" to null,
+                                    "#o15415" to null
                                 )
                             )
                         )
@@ -2897,14 +2876,14 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("x")
                         ),
                         POPValues(dictionary, listOf(
-                                "#s15477",
+                                "#s15452",
                                 "x",
-                                "#o15477"
+                                "#o15452"
                             ), listOf(
                                 mutableMapOf(
-                                    "#s15477" to "<http://example.org/ns#a>",
+                                    "#s15452" to null,
                                     "x" to "<http://example.org/ns#b1>",
-                                    "#o15477" to "<http://example.org/ns#c>"
+                                    "#o15452" to null
                                 )
                             )
                         )
@@ -2930,16 +2909,16 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#p15650",
-                                "#p15651",
-                                "#o15651",
+                                "#p15625",
+                                "#p15626",
+                                "#o15626",
                                 "c"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/x/x>",
-                                    "#p15650" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#p15651" to "<http://www.w3.org/2000/01/rdf-schema#subClassOf>",
-                                    "#o15651" to "<http://example.org/x/d>",
+                                    "#p15625" to null,
+                                    "#p15626" to null,
+                                    "#o15626" to null,
                                     "c" to "<http://example.org/x/c>"
                                 )
                             )
@@ -2966,13 +2945,13 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("x")
                         ),
                         POPValues(dictionary, listOf(
-                                "#s15773",
-                                "#p15773",
+                                "#s15748",
+                                "#p15748",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
-                                    "#s15773" to "<http://example.org/ns#d>",
-                                    "#p15773" to "<http://www.w3.org/2000/01/rdf-schema#range>",
+                                    "#s15748" to null,
+                                    "#p15748" to null,
                                     "x" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral>"
                                 )
                             )
@@ -2997,17 +2976,17 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("x")
                         ),
                         POPValues(dictionary, listOf(
-                                "#s15909",
-                                "#o15909",
-                                "#p15910",
-                                "#o15910",
+                                "#s15884",
+                                "#o15884",
+                                "#p15885",
+                                "#o15885",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
-                                    "#s15909" to "<http://example.org/ns#a>",
-                                    "#o15909" to "<http://example.org/ns#c>",
-                                    "#p15910" to "<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>",
-                                    "#o15910" to "<http://example.org/ns#p>",
+                                    "#s15884" to null,
+                                    "#o15884" to null,
+                                    "#p15885" to null,
+                                    "#o15885" to null,
                                     "x" to "<http://example.org/ns#b>"
                                 )
                             )
@@ -3032,13 +3011,13 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("f")
                         ),
                         POPValues(dictionary, listOf(
-                                "#s15955",
-                                "#p15955",
+                                "#s15930",
+                                "#p15930",
                                 "f"
                             ), listOf(
                                 mutableMapOf(
-                                    "#s15955" to "<http://example.org/ns#favourite-fruit>",
-                                    "#p15955" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#_2>",
+                                    "#s15930" to null,
+                                    "#p15930" to null,
                                     "f" to "<http://example.org/ns#apple>"
                                 )
                             )
@@ -3065,23 +3044,23 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#p16159",
-                                "#p16160",
-                                "#o16160",
+                                "#p16134",
+                                "#p16135",
+                                "#o16135",
                                 "y"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/x/x>",
-                                    "#p16159" to "<http://example.org/x/p>",
-                                    "#p16160" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o16160" to "<http://example.org/x/c>",
+                                    "#p16134" to null,
+                                    "#p16135" to null,
+                                    "#o16135" to null,
                                     "y" to "<http://example.org/x/y>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/x/x>",
-                                    "#p16159" to "<http://example.org/x/p>",
-                                    "#p16160" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o16160" to "<http://example.org/x/c>",
+                                    "#p16134" to null,
+                                    "#p16135" to null,
+                                    "#o16135" to null,
                                     "y" to "_:y"
                                 )
                             )
@@ -3113,13 +3092,13 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "c",
-                                "#p16203",
-                                "#o16203"
+                                "#p16178",
+                                "#o16178"
                             ), listOf(
                                 mutableMapOf(
                                     "c" to "<http://example.org/GraduateAssistant>",
-                                    "#p16203" to "<http://www.w3.org/2000/01/rdf-schema#subClassOf>",
-                                    "#o16203" to "<http://example.org/Student>"
+                                    "#p16178" to null,
+                                    "#o16178" to null
                                 )
                             )
                         )
@@ -3144,13 +3123,13 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "c",
-                                "#p16244",
-                                "#o16244"
+                                "#p16219",
+                                "#o16219"
                             ), listOf(
                                 mutableMapOf(
                                     "c" to "<http://example.org/GraduateAssistant>",
-                                    "#p16244" to "<http://www.w3.org/2000/01/rdf-schema#subClassOf>",
-                                    "#o16244" to "<http://example.org/Student>"
+                                    "#p16219" to null,
+                                    "#o16219" to null
                                 )
                             )
                         )
@@ -3175,16 +3154,16 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("v")
                         ),
                         POPValues(dictionary, listOf(
-                                "#p16632",
-                                "#o16632",
-                                "#s16633",
+                                "#p16607",
+                                "#o16607",
+                                "#s16608",
                                 "v",
                                 "p"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p16632" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o16632" to "<http://www.w3.org/2002/07/owl#ObjectProperty>",
-                                    "#s16633" to "<http://example.org/John>",
+                                    "#p16607" to null,
+                                    "#o16607" to null,
+                                    "#s16608" to null,
                                     "v" to "<http://example.org/paper1>",
                                     "p" to "<http://example.org/hasPublication>"
                                 )
@@ -3213,13 +3192,13 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#p16675",
-                                "#o16675"
+                                "#p16650",
+                                "#o16650"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#b>",
-                                    "#p16675" to "<http://xmlns.com/foaf/0.1/name>",
-                                    "#o16675" to "\"name\"@en"
+                                    "#p16650" to null,
+                                    "#o16650" to null
                                 )
                             )
                         )
@@ -3243,43 +3222,43 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("z")
                         ),
                         POPValues(dictionary, listOf(
-                                "z",
                                 "s",
                                 "o",
-                                "#p16747",
-                                "#o16747",
+                                "z",
+                                "#p16722",
+                                "#o16722",
                                 "p"
                             ), listOf(
                                 mutableMapOf(
-                                    "z" to "\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s1>",
                                     "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p16747" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o16747" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "z" to "\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p16722" to null,
+                                    "#o16722" to null,
                                     "p" to "<http://example.org/p>"
                                 ),
                                 mutableMapOf(
-                                    "z" to "\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s2>",
                                     "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p16747" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o16747" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "z" to "\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p16722" to null,
+                                    "#o16722" to null,
                                     "p" to "<http://example.org/p>"
                                 ),
                                 mutableMapOf(
-                                    "z" to "\"13\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s3>",
                                     "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p16747" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o16747" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "z" to "\"13\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p16722" to null,
+                                    "#o16722" to null,
                                     "p" to "<http://example.org/p>"
                                 ),
                                 mutableMapOf(
-                                    "z" to "\"14\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s4>",
                                     "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p16747" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o16747" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "z" to "\"14\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p16722" to null,
+                                    "#o16722" to null,
                                     "p" to "<http://example.org/p>"
                                 )
                             )
@@ -3315,48 +3294,48 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("z2")
                         ),
                         POPValues(dictionary, listOf(
-                                "z2",
-                                "z",
                                 "s",
                                 "o",
-                                "#p16877",
-                                "#o16877",
+                                "z",
+                                "z2",
+                                "#p16852",
+                                "#o16852",
                                 "p"
                             ), listOf(
                                 mutableMapOf(
-                                    "z2" to "\"101\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "z" to "\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s1>",
                                     "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p16877" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o16877" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "z" to "\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "z2" to "\"101\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p16852" to null,
+                                    "#o16852" to null,
                                     "p" to "<http://example.org/p>"
                                 ),
                                 mutableMapOf(
-                                    "z2" to "\"102\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "z" to "\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s2>",
                                     "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p16877" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o16877" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "z" to "\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "z2" to "\"102\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p16852" to null,
+                                    "#o16852" to null,
                                     "p" to "<http://example.org/p>"
                                 ),
                                 mutableMapOf(
-                                    "z2" to "\"103\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "z" to "\"13\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s3>",
                                     "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p16877" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o16877" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "z" to "\"13\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "z2" to "\"103\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p16852" to null,
+                                    "#o16852" to null,
                                     "p" to "<http://example.org/p>"
                                 ),
                                 mutableMapOf(
-                                    "z2" to "\"104\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "z" to "\"14\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s4>",
                                     "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p16877" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o16877" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "z" to "\"14\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "z2" to "\"104\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p16852" to null,
+                                    "#o16852" to null,
                                     "p" to "<http://example.org/p>"
                                 )
                             )
@@ -3402,50 +3381,50 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "s",
-                                "o",
-                                "#p17050",
-                                "#o17050",
                                 "p",
-                                "s1",
+                                "o",
                                 "z",
-                                "#p17054",
-                                "#o17054",
+                                "#p17025",
+                                "#o17025",
+                                "s1",
+                                "#p17029",
+                                "#o17029",
                                 "p1"
                             ), listOf(
                                 mutableMapOf(
                                     "s" to "<http://example.org/s1>",
-                                    "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17050" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17050" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
                                     "p" to "<http://example.org/p>",
-                                    "s1" to "<http://example.org/s2>",
+                                    "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17054" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17054" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "#p17025" to null,
+                                    "#o17025" to null,
+                                    "s1" to "<http://example.org/s2>",
+                                    "#p17029" to null,
+                                    "#o17029" to null,
                                     "p1" to "<http://example.org/p>"
                                 ),
                                 mutableMapOf(
                                     "s" to "<http://example.org/s2>",
-                                    "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17050" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17050" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
                                     "p" to "<http://example.org/p>",
-                                    "s1" to "<http://example.org/s3>",
+                                    "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17054" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17054" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "#p17025" to null,
+                                    "#o17025" to null,
+                                    "s1" to "<http://example.org/s3>",
+                                    "#p17029" to null,
+                                    "#o17029" to null,
                                     "p1" to "<http://example.org/p>"
                                 ),
                                 mutableMapOf(
                                     "s" to "<http://example.org/s3>",
-                                    "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17050" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17050" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
                                     "p" to "<http://example.org/p>",
-                                    "s1" to "<http://example.org/s4>",
+                                    "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17054" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17054" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "#p17025" to null,
+                                    "#o17025" to null,
+                                    "s1" to "<http://example.org/s4>",
+                                    "#p17029" to null,
+                                    "#o17029" to null,
                                     "p1" to "<http://example.org/p>"
                                 )
                             )
@@ -3477,89 +3456,88 @@ class GeneratedPOPProjectionTest {
                     POPProjection(
                         dictionary,
                         mutableListOf(
-                            AOPVariable("z"),
                             AOPVariable("s"),
                             AOPVariable("p"),
                             AOPVariable("o"),
-                            AOPVariable("p")
+                            AOPVariable("z")
                         ),
                         POPValues(dictionary, listOf(
                                 "z",
-                                "nova",
                                 "s",
+                                "p",
                                 "o",
-                                "#p17164",
-                                "#o17164",
-                                "p"
+                                "#p17138",
+                                "#o17138",
+                                "nova"
                             ), listOf(
                                 mutableMapOf(
                                     "z" to null,
-                                    "nova" to null,
                                     "s" to "<http://example.org/s1>",
+                                    "p" to "<http://example.org/p>",
                                     "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17164" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17164" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                    "p" to "<http://example.org/p>"
+                                    "#p17138" to null,
+                                    "#o17138" to null,
+                                    "nova" to null
                                 ),
                                 mutableMapOf(
                                     "z" to null,
-                                    "nova" to null,
                                     "s" to "<http://example.org/s2>",
+                                    "p" to "<http://example.org/p>",
                                     "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17164" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17164" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                    "p" to "<http://example.org/p>"
+                                    "#p17138" to null,
+                                    "#o17138" to null,
+                                    "nova" to null
                                 ),
                                 mutableMapOf(
                                     "z" to null,
-                                    "nova" to null,
                                     "s" to "<http://example.org/s3>",
+                                    "p" to "<http://example.org/p>",
                                     "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17164" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17164" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                    "p" to "<http://example.org/p>"
+                                    "#p17138" to null,
+                                    "#o17138" to null,
+                                    "nova" to null
                                 ),
                                 mutableMapOf(
                                     "z" to null,
-                                    "nova" to null,
                                     "s" to "<http://example.org/s4>",
+                                    "p" to "<http://example.org/p>",
                                     "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17164" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17164" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                    "p" to "<http://example.org/p>"
+                                    "#p17138" to null,
+                                    "#o17138" to null,
+                                    "nova" to null
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
-                            "z",
                             "s",
                             "p",
-                            "o"
+                            "o",
+                            "z"
                         ), listOf(
                             mutableMapOf(
-                                "z" to null,
                                 "s" to "<http://example.org/s1>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
                             ),
                             mutableMapOf(
-                                "z" to null,
                                 "s" to "<http://example.org/s2>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
                             ),
                             mutableMapOf(
-                                "z" to null,
                                 "s" to "<http://example.org/s3>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
                             ),
                             mutableMapOf(
-                                "z" to null,
                                 "s" to "<http://example.org/s4>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
                             )
                         )
                     )
@@ -3577,19 +3555,19 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("z")
                         ),
                         POPValues(dictionary, listOf(
-                                "z",
                                 "s",
                                 "o",
-                                "#p17269",
-                                "#o17269",
+                                "z",
+                                "#p17243",
+                                "#o17243",
                                 "p"
                             ), listOf(
                                 mutableMapOf(
-                                    "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s2>",
                                     "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17269" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17269" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17243" to null,
+                                    "#o17243" to null,
                                     "p" to "<http://example.org/p>"
                                 )
                             )
@@ -3623,19 +3601,19 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("z")
                         ),
                         POPValues(dictionary, listOf(
-                                "z",
                                 "s",
                                 "o",
-                                "#p17386",
-                                "#o17386",
+                                "z",
+                                "#p17360",
+                                "#o17360",
                                 "p"
                             ), listOf(
                                 mutableMapOf(
-                                    "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s2>",
                                     "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17386" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17386" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17360" to null,
+                                    "#o17360" to null,
                                     "p" to "<http://example.org/p>"
                                 )
                             )
@@ -3663,84 +3641,83 @@ class GeneratedPOPProjectionTest {
                     POPProjection(
                         dictionary,
                         mutableListOf(
-                            AOPVariable("z"),
                             AOPVariable("s"),
                             AOPVariable("p"),
                             AOPVariable("o"),
-                            AOPVariable("p")
+                            AOPVariable("z")
                         ),
                         POPValues(dictionary, listOf(
-                                "z",
                                 "s",
                                 "o",
-                                "#p17560",
-                                "#o17560",
+                                "z",
+                                "#p17533",
+                                "#o17533",
                                 "p"
                             ), listOf(
                                 mutableMapOf(
-                                    "z" to "\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s1>",
                                     "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17560" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17560" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "z" to "\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17533" to null,
+                                    "#o17533" to null,
                                     "p" to "<http://example.org/p>"
                                 ),
                                 mutableMapOf(
-                                    "z" to "\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s2>",
                                     "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17560" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17560" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "z" to "\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17533" to null,
+                                    "#o17533" to null,
                                     "p" to "<http://example.org/p>"
                                 ),
                                 mutableMapOf(
-                                    "z" to "\"13\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s3>",
                                     "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17560" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17560" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "z" to "\"13\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17533" to null,
+                                    "#o17533" to null,
                                     "p" to "<http://example.org/p>"
                                 ),
                                 mutableMapOf(
-                                    "z" to "\"14\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s4>",
                                     "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17560" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17560" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "z" to "\"14\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17533" to null,
+                                    "#o17533" to null,
                                     "p" to "<http://example.org/p>"
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
-                            "z",
                             "s",
                             "p",
-                            "o"
+                            "o",
+                            "z"
                         ), listOf(
                             mutableMapOf(
-                                "z" to "\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "s" to "<http://example.org/s1>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to "\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             ),
                             mutableMapOf(
-                                "z" to "\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "s" to "<http://example.org/s2>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to "\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             ),
                             mutableMapOf(
-                                "z" to "\"13\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "s" to "<http://example.org/s3>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to "\"13\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             ),
                             mutableMapOf(
-                                "z" to "\"14\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "s" to "<http://example.org/s4>",
                                 "p" to "<http://example.org/p>",
-                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to "\"14\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             )
                         )
                     )
@@ -3759,73 +3736,73 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "s",
-                                "#p17701",
-                                "#o17701",
                                 "p",
+                                "#p17674",
+                                "#o17674",
                                 "z",
                                 "o"
                             ), listOf(
                                 mutableMapOf(
                                     "s" to "<http://example.org/s1>",
-                                    "#p17701" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17701" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
                                     "p" to "<http://example.org/p>",
+                                    "#p17674" to null,
+                                    "#o17674" to null,
                                     "z" to null,
                                     "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "s" to "<http://example.org/s2>",
-                                    "#p17701" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17701" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
                                     "p" to "<http://example.org/p>",
+                                    "#p17674" to null,
+                                    "#o17674" to null,
                                     "z" to null,
                                     "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "s" to "<http://example.org/s3>",
-                                    "#p17701" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17701" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
                                     "p" to "<http://example.org/p>",
+                                    "#p17674" to null,
+                                    "#o17674" to null,
                                     "z" to null,
                                     "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "s" to "<http://example.org/s4>",
-                                    "#p17701" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17701" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
                                     "p" to "<http://example.org/p>",
+                                    "#p17674" to null,
+                                    "#o17674" to null,
                                     "z" to null,
                                     "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "s" to "<http://example.org/s1>",
-                                    "#p17701" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17701" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
                                     "p" to "<http://example.org/p>",
+                                    "#p17674" to null,
+                                    "#o17674" to null,
                                     "z" to null,
                                     "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "s" to "<http://example.org/s2>",
-                                    "#p17701" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17701" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
                                     "p" to "<http://example.org/p>",
+                                    "#p17674" to null,
+                                    "#o17674" to null,
                                     "z" to null,
                                     "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "s" to "<http://example.org/s3>",
-                                    "#p17701" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17701" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
                                     "p" to "<http://example.org/p>",
+                                    "#p17674" to null,
+                                    "#o17674" to null,
                                     "z" to null,
                                     "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "s" to "<http://example.org/s4>",
-                                    "#p17701" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17701" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
                                     "p" to "<http://example.org/p>",
+                                    "#p17674" to null,
+                                    "#o17674" to null,
                                     "z" to null,
                                     "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
@@ -3902,19 +3879,19 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("z")
                         ),
                         POPValues(dictionary, listOf(
-                                "z",
                                 "s",
                                 "o",
-                                "#p17820",
-                                "#o17820",
+                                "z",
+                                "#p17793",
+                                "#o17793",
                                 "p"
                             ), listOf(
                                 mutableMapOf(
-                                    "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s2>",
                                     "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17820" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17820" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17793" to null,
+                                    "#o17793" to null,
                                     "p" to "<http://example.org/p>"
                                 )
                             )
@@ -3948,19 +3925,19 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("z")
                         ),
                         POPValues(dictionary, listOf(
-                                "z",
                                 "s",
                                 "o",
-                                "#p17937",
-                                "#o17937",
+                                "z",
+                                "#p17910",
+                                "#o17910",
                                 "p"
                             ), listOf(
                                 mutableMapOf(
-                                    "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s2>",
                                     "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p17937" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o17937" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17910" to null,
+                                    "#o17910" to null,
                                     "p" to "<http://example.org/p>"
                                 )
                             )
@@ -3992,13 +3969,13 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#p18076",
-                                "#o18076"
+                                "#p18049",
+                                "#o18049"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/x/x>",
-                                    "#p18076" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o18076" to "<http://example.org/x/c>"
+                                    "#p18049" to null,
+                                    "#o18049" to null
                                 )
                             )
                         )
@@ -4024,29 +4001,29 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("Y2")
                         ),
                         POPValues(dictionary, listOf(
-                                "#p18274",
-                                "#o18274",
-                                "#p18275",
+                                "#p18247",
+                                "#o18247",
+                                "#p18248",
                                 "Y1",
-                                "#p18277",
+                                "#p18250",
                                 "Y2",
                                 "X"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p18274" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o18274" to "<http://example.org/test#Person>",
-                                    "#p18275" to "<http://example.org/test#name>",
+                                    "#p18247" to null,
+                                    "#o18247" to null,
+                                    "#p18248" to null,
                                     "Y1" to "\"A\"",
-                                    "#p18277" to "<http://example.org/test#nick>",
+                                    "#p18250" to null,
                                     "Y2" to "\"Anick\"",
                                     "X" to "<http://example.org/test#a>"
                                 ),
                                 mutableMapOf(
-                                    "#p18274" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o18274" to "<http://example.org/test#Person>",
-                                    "#p18275" to "<http://example.org/test#name>",
+                                    "#p18247" to null,
+                                    "#o18247" to null,
+                                    "#p18248" to null,
                                     "Y1" to "\"B\"",
-                                    "#p18277" to "<http://example.org/test#nick>",
+                                    "#p18250" to null,
                                     "Y2" to "\"Bnick\"",
                                     "X" to "<http://example.org/test#b>"
                                 )
@@ -4081,23 +4058,23 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "#a",
-                                "#p18320",
-                                "#o18320"
+                                "#p18293",
+                                "#o18293"
                             ), listOf(
                                 mutableMapOf(
                                     "#a" to "<http://example.org/test#a>",
-                                    "#p18320" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o18320" to "<http://example.org/test#Person>"
+                                    "#p18293" to null,
+                                    "#o18293" to null
                                 ),
                                 mutableMapOf(
                                     "#a" to "<http://example.org/test#b>",
-                                    "#p18320" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o18320" to "<http://example.org/test#Person>"
+                                    "#p18293" to null,
+                                    "#o18293" to null
                                 ),
                                 mutableMapOf(
                                     "#a" to "<http://example.org/test#c>",
-                                    "#p18320" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o18320" to "<http://example.org/test#Person>"
+                                    "#p18293" to null,
+                                    "#o18293" to null
                                 )
                             )
                         )
@@ -4122,28 +4099,27 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                             AOPVariable("X"),
                             AOPVariable("Y"),
-                            AOPVariable("Y"),
                             AOPVariable("Z")
                         ),
                         POPValues(dictionary, listOf(
-                                "#s18481",
-                                "#p18481",
+                                "#s18453",
+                                "#p18453",
                                 "X",
-                                "#p18482",
-                                "#p18484",
+                                "#p18454",
                                 "Y",
-                                "#p18486",
+                                "#p18456",
+                                "#p18458",
                                 "Z",
                                 "#aa"
                             ), listOf(
                                 mutableMapOf(
-                                    "#s18481" to "<http://example.org/test#a>",
-                                    "#p18481" to "<http://example.org/test#p>",
+                                    "#s18453" to null,
+                                    "#p18453" to null,
                                     "X" to "<http://example.org/test#dd>",
-                                    "#p18482" to "<http://example.org/test#t>",
-                                    "#p18484" to "<http://example.org/test#s>",
+                                    "#p18454" to null,
                                     "Y" to "<http://example.org/test#bb>",
-                                    "#p18486" to "<http://example.org/test#r>",
+                                    "#p18456" to null,
+                                    "#p18458" to null,
                                     "Z" to "<http://example.org/test#ee>",
                                     "#aa" to "<http://example.org/test#aa>"
                                 )
@@ -4175,15 +4151,15 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "X",
-                                "#p18541",
-                                "#p18542",
+                                "#p18513",
+                                "#p18514",
                                 "Y",
                                 "#a"
                             ), listOf(
                                 mutableMapOf(
                                     "X" to "<http://example.org/test#a>",
-                                    "#p18541" to "<http://example.org/test#p>",
-                                    "#p18542" to "<http://example.org/test#r>",
+                                    "#p18513" to null,
+                                    "#p18514" to null,
                                     "Y" to "<http://example.org/test#ee>",
                                     "#a" to "<http://example.org/test#aa>"
                                 )
@@ -4213,29 +4189,29 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "X",
-                                "#p18598",
-                                "#p18599",
+                                "#p18570",
+                                "#p18571",
                                 "Y",
                                 "#a"
                             ), listOf(
                                 mutableMapOf(
                                     "X" to "<http://example.org/test#a>",
-                                    "#p18598" to "<http://example.org/test#p>",
-                                    "#p18599" to "<http://example.org/test#q>",
+                                    "#p18570" to null,
+                                    "#p18571" to null,
                                     "Y" to "<http://example.org/test#c>",
                                     "#a" to "<http://example.org/test#b>"
                                 ),
                                 mutableMapOf(
                                     "X" to "<http://example.org/test#a>",
-                                    "#p18598" to "<http://example.org/test#p>",
-                                    "#p18599" to "<http://example.org/test#q>",
+                                    "#p18570" to null,
+                                    "#p18571" to null,
                                     "Y" to "<http://example.org/test#h>",
                                     "#a" to "<http://example.org/test#b>"
                                 ),
                                 mutableMapOf(
                                     "X" to "<http://example.org/test#a>",
-                                    "#p18598" to "<http://example.org/test#p>",
-                                    "#p18599" to "<http://example.org/test#q>",
+                                    "#p18570" to null,
+                                    "#p18571" to null,
                                     "Y" to "<http://example.org/test#i>",
                                     "#a" to "<http://example.org/test#b>"
                                 )
@@ -4271,13 +4247,13 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("C")
                         ),
                         POPValues(dictionary, listOf(
-                                "#s18776",
-                                "#p18776",
+                                "#s18748",
+                                "#p18748",
                                 "C"
                             ), listOf(
                                 mutableMapOf(
-                                    "#s18776" to "<foo://bla/names#child>",
-                                    "#p18776" to "<http://www.w3.org/2000/01/rdf-schema#domain>",
+                                    "#s18748" to null,
+                                    "#p18748" to null,
                                     "C" to "<foo://bla/names#Parent>"
                                 )
                             )
@@ -4305,18 +4281,18 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "a",
-                                "#p18845",
-                                "#p18846",
+                                "#p18817",
                                 "b",
-                                "#p18848",
+                                "#p18818",
+                                "#p18820",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
                                     "a" to "<http://example.org/test#a>",
-                                    "#p18845" to "<http://example.org/test#p>",
-                                    "#p18846" to "<http://www.w3.org/2002/07/owl#sameAs>",
+                                    "#p18817" to null,
                                     "b" to "<http://example.org/test#b>",
-                                    "#p18848" to "<http://example.org/test#q>",
+                                    "#p18818" to null,
+                                    "#p18820" to null,
                                     "x" to "<http://example.org/test#x>"
                                 )
                             )
@@ -4346,13 +4322,13 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#p18891",
-                                "#o18891"
+                                "#p18863",
+                                "#o18863"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#b>",
-                                    "#p18891" to "<http://xmlns.com/foaf/0.1/name>",
-                                    "#o18891" to "\"name\"@en"
+                                    "#p18863" to null,
+                                    "#o18863" to null
                                 )
                             )
                         )
@@ -4377,17 +4353,17 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "parent",
-                                "#p18938",
+                                "#p18910",
                                 "child"
                             ), listOf(
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Bob>",
-                                    "#p18938" to "<http://example.org/test#hasChild>",
+                                    "#p18910" to null,
                                     "child" to "<http://example.org/test#Charlie>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Dudley>",
-                                    "#p18938" to "<http://example.org/test#hasChild>",
+                                    "#p18910" to null,
                                     "child" to "<http://example.org/test#Alice>"
                                 )
                             )
@@ -4418,13 +4394,13 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "str1",
                                 "s",
-                                "#p21745",
+                                "#p21717",
                                 "str"
                             ), listOf(
                                 mutableMapOf(
                                     "str1" to null,
                                     "s" to "<http://example.org/s2>",
-                                    "#p21745" to "<http://example.org/str>",
+                                    "#p21717" to null,
                                     "str" to "\"bar\"@en"
                                 )
                             )
@@ -4454,13 +4430,13 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "str1",
                                 "s",
-                                "#p21878",
+                                "#p21850",
                                 "str"
                             ), listOf(
                                 mutableMapOf(
                                     "str1" to null,
                                     "s" to "<http://example.org/s2>",
-                                    "#p21878" to "<http://example.org/str>",
+                                    "#p21850" to null,
                                     "str" to "\"bar\"@en"
                                 )
                             )
@@ -4490,13 +4466,13 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "str1",
                                 "s",
-                                "#p22072",
+                                "#p22044",
                                 "str"
                             ), listOf(
                                 mutableMapOf(
                                     "str1" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s" to "<http://example.org/s2>",
-                                    "#p22072" to "<http://example.org/str>",
+                                    "#p22044" to null,
                                     "str" to "\"bar\"@en"
                                 )
                             )
@@ -4526,13 +4502,13 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "str1",
                                 "s",
-                                "#p22213",
+                                "#p22185",
                                 "str"
                             ), listOf(
                                 mutableMapOf(
                                     "str1" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s" to "<http://example.org/s2>",
-                                    "#p22213" to "<http://example.org/str>",
+                                    "#p22185" to null,
                                     "str" to "\"bar\"@en"
                                 )
                             )
@@ -4748,13 +4724,13 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "s2",
                                 "s",
-                                "#p22584",
+                                "#p22557",
                                 "str"
                             ), listOf(
                                 mutableMapOf(
                                     "s2" to null,
                                     "s" to "<http://example.org/s2>",
-                                    "#p22584" to "<http://example.org/str>",
+                                    "#p22557" to null,
                                     "str" to "\"bar\"@en"
                                 )
                             )
@@ -4784,13 +4760,13 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "s2",
                                 "s",
-                                "#p22717",
+                                "#p22690",
                                 "str"
                             ), listOf(
                                 mutableMapOf(
                                     "s2" to null,
                                     "s" to "<http://example.org/s2>",
-                                    "#p22717" to "<http://example.org/str>",
+                                    "#p22690" to null,
                                     "str" to "\"bar\"@en"
                                 )
                             )
@@ -4820,13 +4796,13 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "s2",
                                 "s",
-                                "#p22908",
+                                "#p22881",
                                 "str"
                             ), listOf(
                                 mutableMapOf(
                                     "s2" to "\"bar\"@en-us",
                                     "s" to "<http://example.org/s2>",
-                                    "#p22908" to "<http://example.org/str>",
+                                    "#p22881" to null,
                                     "str" to "\"bar\"@en"
                                 )
                             )
@@ -4856,13 +4832,13 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "s2",
                                 "s",
-                                "#p23049",
+                                "#p23022",
                                 "str"
                             ), listOf(
                                 mutableMapOf(
                                     "s2" to "\"bar\"@en-us",
                                     "s" to "<http://example.org/s2>",
-                                    "#p23049" to "<http://example.org/str>",
+                                    "#p23022" to null,
                                     "str" to "\"bar\"@en"
                                 )
                             )
@@ -5147,17 +5123,17 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "s",
-                                "#p23586",
+                                "#p23559",
                                 "num"
                             ), listOf(
                                 mutableMapOf(
                                     "s" to "<http://example.org/n4>",
-                                    "#p23586" to "<http://example.org/num>",
+                                    "#p23559" to null,
                                     "num" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "s" to "<http://example.org/n5>",
-                                    "#p23586" to "<http://example.org/num>",
+                                    "#p23559" to null,
                                     "num" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
                                 )
                             )
@@ -5192,37 +5168,37 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "ceil",
                                 "s",
-                                "#p23719",
+                                "#p23692",
                                 "num"
                             ), listOf(
                                 mutableMapOf(
                                     "ceil" to "\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/n1>",
-                                    "#p23719" to "<http://example.org/num>",
+                                    "#p23692" to null,
                                     "num" to "\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "ceil" to "\"-1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
                                     "s" to "<http://example.org/n2>",
-                                    "#p23719" to "<http://example.org/num>",
+                                    "#p23692" to null,
                                     "num" to "\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
                                 ),
                                 mutableMapOf(
                                     "ceil" to "\"2.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
                                     "s" to "<http://example.org/n3>",
-                                    "#p23719" to "<http://example.org/num>",
+                                    "#p23692" to null,
                                     "num" to "\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
                                 ),
                                 mutableMapOf(
                                     "ceil" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/n4>",
-                                    "#p23719" to "<http://example.org/num>",
+                                    "#p23692" to null,
                                     "num" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "ceil" to "\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
                                     "s" to "<http://example.org/n5>",
-                                    "#p23719" to "<http://example.org/num>",
+                                    "#p23692" to null,
                                     "num" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
                                 )
                             )
@@ -5275,37 +5251,37 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "floor",
                                 "s",
-                                "#p23815",
+                                "#p23788",
                                 "num"
                             ), listOf(
                                 mutableMapOf(
                                     "floor" to "\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/n1>",
-                                    "#p23815" to "<http://example.org/num>",
+                                    "#p23788" to null,
                                     "num" to "\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "floor" to "\"-2.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
                                     "s" to "<http://example.org/n2>",
-                                    "#p23815" to "<http://example.org/num>",
+                                    "#p23788" to null,
                                     "num" to "\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
                                 ),
                                 mutableMapOf(
                                     "floor" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
                                     "s" to "<http://example.org/n3>",
-                                    "#p23815" to "<http://example.org/num>",
+                                    "#p23788" to null,
                                     "num" to "\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
                                 ),
                                 mutableMapOf(
                                     "floor" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/n4>",
-                                    "#p23815" to "<http://example.org/num>",
+                                    "#p23788" to null,
                                     "num" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "floor" to "\"2.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
                                     "s" to "<http://example.org/n5>",
-                                    "#p23815" to "<http://example.org/num>",
+                                    "#p23788" to null,
                                     "num" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
                                 )
                             )
@@ -5358,37 +5334,37 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "round",
                                 "s",
-                                "#p23911",
+                                "#p23884",
                                 "num"
                             ), listOf(
                                 mutableMapOf(
                                     "round" to "\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/n1>",
-                                    "#p23911" to "<http://example.org/num>",
+                                    "#p23884" to null,
                                     "num" to "\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "round" to "\"-2.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
                                     "s" to "<http://example.org/n2>",
-                                    "#p23911" to "<http://example.org/num>",
+                                    "#p23884" to null,
                                     "num" to "\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
                                 ),
                                 mutableMapOf(
                                     "round" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
                                     "s" to "<http://example.org/n3>",
-                                    "#p23911" to "<http://example.org/num>",
+                                    "#p23884" to null,
                                     "num" to "\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
                                 ),
                                 mutableMapOf(
                                     "round" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/n4>",
-                                    "#p23911" to "<http://example.org/num>",
+                                    "#p23884" to null,
                                     "num" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "round" to "\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
                                     "s" to "<http://example.org/n5>",
-                                    "#p23911" to "<http://example.org/num>",
+                                    "#p23884" to null,
                                     "num" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
                                 )
                             )
@@ -5438,20 +5414,20 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "str",
-                                "#s24013",
-                                "#p24013",
+                                "#s23986",
+                                "#p23986",
                                 "str1",
-                                "#s24014",
-                                "#p24014",
+                                "#s23987",
+                                "#p23987",
                                 "str2"
                             ), listOf(
                                 mutableMapOf(
                                     "str" to "\"abcDEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                    "#s24013" to "<http://example.org/s6>",
-                                    "#p24013" to "<http://example.org/str>",
+                                    "#s23986" to null,
+                                    "#p23986" to null,
                                     "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                    "#s24014" to "<http://example.org/s7>",
-                                    "#p24014" to "<http://example.org/str>",
+                                    "#s23987" to null,
+                                    "#p23987" to null,
                                     "str2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
                             )
@@ -5477,20 +5453,20 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "str",
-                                "#s24041",
-                                "#p24041",
+                                "#s24014",
+                                "#p24014",
                                 "str1",
-                                "#s24042",
-                                "#p24042",
+                                "#s24015",
+                                "#p24015",
                                 "str2"
                             ), listOf(
                                 mutableMapOf(
                                     "str" to "\"abcDEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                    "#s24041" to "<http://example.org/s6>",
-                                    "#p24041" to "<http://example.org/str>",
+                                    "#s24014" to null,
+                                    "#p24014" to null,
                                     "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                    "#s24042" to "<http://example.org/s7>",
-                                    "#p24042" to "<http://example.org/str>",
+                                    "#s24015" to null,
+                                    "#p24015" to null,
                                     "str2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
                             )
@@ -5517,451 +5493,451 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "str",
                                 "s1",
-                                "#p24128",
+                                "#p24101",
                                 "str1",
                                 "s2",
-                                "#p24129",
+                                "#p24102",
                                 "str2"
                             ), listOf(
                                 mutableMapOf(
                                     "str" to "\"123123\"",
                                     "s1" to "<http://example.org/s1>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"123\"",
                                     "s2" to "<http://example.org/s1>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"123\""
                                 ),
                                 mutableMapOf(
                                     "str" to "\"日本語123\"",
                                     "s1" to "<http://example.org/s2>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"日本語\"@ja",
                                     "s2" to "<http://example.org/s1>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"123\""
                                 ),
                                 mutableMapOf(
                                     "str" to "\"english123\"",
                                     "s1" to "<http://example.org/s3>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"english\"@en",
                                     "s2" to "<http://example.org/s1>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"123\""
                                 ),
                                 mutableMapOf(
                                     "str" to "\"français123\"",
                                     "s1" to "<http://example.org/s4>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"français\"@fr",
                                     "s2" to "<http://example.org/s1>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"123\""
                                 ),
                                 mutableMapOf(
                                     "str" to "\"abc123\"",
                                     "s1" to "<http://example.org/s5>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s2" to "<http://example.org/s1>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"123\""
                                 ),
                                 mutableMapOf(
                                     "str" to "\"def123\"",
                                     "s1" to "<http://example.org/s6>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s2" to "<http://example.org/s1>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"123\""
                                 ),
                                 mutableMapOf(
                                     "str" to null,
                                     "s1" to "<http://example.org/s7>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s2" to "<http://example.org/s1>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"123\""
                                 ),
                                 mutableMapOf(
                                     "str" to "\"123日本語\"",
                                     "s1" to "<http://example.org/s1>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"123\"",
                                     "s2" to "<http://example.org/s2>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"日本語\"@ja"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"日本語日本語\"@ja",
                                     "s1" to "<http://example.org/s2>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"日本語\"@ja",
                                     "s2" to "<http://example.org/s2>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"日本語\"@ja"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"english日本語\"",
                                     "s1" to "<http://example.org/s3>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"english\"@en",
                                     "s2" to "<http://example.org/s2>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"日本語\"@ja"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"français日本語\"",
                                     "s1" to "<http://example.org/s4>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"français\"@fr",
                                     "s2" to "<http://example.org/s2>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"日本語\"@ja"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"abc日本語\"",
                                     "s1" to "<http://example.org/s5>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s2" to "<http://example.org/s2>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"日本語\"@ja"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"def日本語\"",
                                     "s1" to "<http://example.org/s6>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s2" to "<http://example.org/s2>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"日本語\"@ja"
                                 ),
                                 mutableMapOf(
                                     "str" to null,
                                     "s1" to "<http://example.org/s7>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s2" to "<http://example.org/s2>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"日本語\"@ja"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"123english\"",
                                     "s1" to "<http://example.org/s1>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"123\"",
                                     "s2" to "<http://example.org/s3>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"english\"@en"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"日本語english\"",
                                     "s1" to "<http://example.org/s2>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"日本語\"@ja",
                                     "s2" to "<http://example.org/s3>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"english\"@en"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"englishenglish\"@en",
                                     "s1" to "<http://example.org/s3>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"english\"@en",
                                     "s2" to "<http://example.org/s3>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"english\"@en"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"françaisenglish\"",
                                     "s1" to "<http://example.org/s4>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"français\"@fr",
                                     "s2" to "<http://example.org/s3>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"english\"@en"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"abcenglish\"",
                                     "s1" to "<http://example.org/s5>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s2" to "<http://example.org/s3>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"english\"@en"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"defenglish\"",
                                     "s1" to "<http://example.org/s6>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s2" to "<http://example.org/s3>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"english\"@en"
                                 ),
                                 mutableMapOf(
                                     "str" to null,
                                     "s1" to "<http://example.org/s7>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s2" to "<http://example.org/s3>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"english\"@en"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"123français\"",
                                     "s1" to "<http://example.org/s1>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"123\"",
                                     "s2" to "<http://example.org/s4>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"français\"@fr"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"日本語français\"",
                                     "s1" to "<http://example.org/s2>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"日本語\"@ja",
                                     "s2" to "<http://example.org/s4>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"français\"@fr"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"englishfrançais\"",
                                     "s1" to "<http://example.org/s3>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"english\"@en",
                                     "s2" to "<http://example.org/s4>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"français\"@fr"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"françaisfrançais\"@fr",
                                     "s1" to "<http://example.org/s4>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"français\"@fr",
                                     "s2" to "<http://example.org/s4>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"français\"@fr"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"abcfrançais\"",
                                     "s1" to "<http://example.org/s5>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s2" to "<http://example.org/s4>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"français\"@fr"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"deffrançais\"",
                                     "s1" to "<http://example.org/s6>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s2" to "<http://example.org/s4>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"français\"@fr"
                                 ),
                                 mutableMapOf(
                                     "str" to null,
                                     "s1" to "<http://example.org/s7>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s2" to "<http://example.org/s4>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"français\"@fr"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"123abc\"",
                                     "s1" to "<http://example.org/s1>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"123\"",
                                     "s2" to "<http://example.org/s5>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"日本語abc\"",
                                     "s1" to "<http://example.org/s2>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"日本語\"@ja",
                                     "s2" to "<http://example.org/s5>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"englishabc\"",
                                     "s1" to "<http://example.org/s3>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"english\"@en",
                                     "s2" to "<http://example.org/s5>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"françaisabc\"",
                                     "s1" to "<http://example.org/s4>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"français\"@fr",
                                     "s2" to "<http://example.org/s5>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"abcabc\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s1" to "<http://example.org/s5>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s2" to "<http://example.org/s5>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"defabc\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s1" to "<http://example.org/s6>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s2" to "<http://example.org/s5>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 ),
                                 mutableMapOf(
                                     "str" to null,
                                     "s1" to "<http://example.org/s7>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s2" to "<http://example.org/s5>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"123def\"",
                                     "s1" to "<http://example.org/s1>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"123\"",
                                     "s2" to "<http://example.org/s6>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"日本語def\"",
                                     "s1" to "<http://example.org/s2>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"日本語\"@ja",
                                     "s2" to "<http://example.org/s6>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"englishdef\"",
                                     "s1" to "<http://example.org/s3>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"english\"@en",
                                     "s2" to "<http://example.org/s6>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"françaisdef\"",
                                     "s1" to "<http://example.org/s4>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"français\"@fr",
                                     "s2" to "<http://example.org/s6>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"abcdef\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s1" to "<http://example.org/s5>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s2" to "<http://example.org/s6>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 ),
                                 mutableMapOf(
                                     "str" to "\"defdef\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s1" to "<http://example.org/s6>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s2" to "<http://example.org/s6>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 ),
                                 mutableMapOf(
                                     "str" to null,
                                     "s1" to "<http://example.org/s7>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s2" to "<http://example.org/s6>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 ),
                                 mutableMapOf(
                                     "str" to null,
                                     "s1" to "<http://example.org/s1>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"123\"",
                                     "s2" to "<http://example.org/s7>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "str" to null,
                                     "s1" to "<http://example.org/s2>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"日本語\"@ja",
                                     "s2" to "<http://example.org/s7>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "str" to null,
                                     "s1" to "<http://example.org/s3>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"english\"@en",
                                     "s2" to "<http://example.org/s7>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "str" to null,
                                     "s1" to "<http://example.org/s4>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"français\"@fr",
                                     "s2" to "<http://example.org/s7>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "str" to null,
                                     "s1" to "<http://example.org/s5>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s2" to "<http://example.org/s7>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "str" to null,
                                     "s1" to "<http://example.org/s6>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s2" to "<http://example.org/s7>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "str" to null,
                                     "s1" to "<http://example.org/s7>",
-                                    "#p24128" to "<http://example.org/str>",
+                                    "#p24101" to null,
                                     "str1" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s2" to "<http://example.org/s7>",
-                                    "#p24129" to "<http://example.org/str>",
+                                    "#p24102" to null,
                                     "str2" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
@@ -6133,49 +6109,49 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "len",
                                 "s",
-                                "#p24974",
+                                "#p24947",
                                 "str"
                             ), listOf(
                                 mutableMapOf(
                                     "len" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s1>",
-                                    "#p24974" to "<http://example.org/str>",
+                                    "#p24947" to null,
                                     "str" to "\"foo\""
                                 ),
                                 mutableMapOf(
                                     "len" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s2>",
-                                    "#p24974" to "<http://example.org/str>",
+                                    "#p24947" to null,
                                     "str" to "\"bar\"@en"
                                 ),
                                 mutableMapOf(
                                     "len" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s3>",
-                                    "#p24974" to "<http://example.org/str>",
+                                    "#p24947" to null,
                                     "str" to "\"BAZ\""
                                 ),
                                 mutableMapOf(
                                     "len" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s4>",
-                                    "#p24974" to "<http://example.org/str>",
+                                    "#p24947" to null,
                                     "str" to "\"食べ物\""
                                 ),
                                 mutableMapOf(
                                     "len" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s5>",
-                                    "#p24974" to "<http://example.org/str>",
+                                    "#p24947" to null,
                                     "str" to "\"100%\""
                                 ),
                                 mutableMapOf(
                                     "len" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s6>",
-                                    "#p24974" to "<http://example.org/str>",
+                                    "#p24947" to null,
                                     "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 ),
                                 mutableMapOf(
                                     "len" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/s7>",
-                                    "#p24974" to "<http://example.org/str>",
+                                    "#p24947" to null,
                                     "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
                             )
@@ -6229,49 +6205,49 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "ustr",
                                 "s",
-                                "#p25083",
+                                "#p25056",
                                 "str"
                             ), listOf(
                                 mutableMapOf(
                                     "ustr" to "\"FOO\"",
                                     "s" to "<http://example.org/s1>",
-                                    "#p25083" to "<http://example.org/str>",
+                                    "#p25056" to null,
                                     "str" to "\"foo\""
                                 ),
                                 mutableMapOf(
                                     "ustr" to "\"BAR\"@en",
                                     "s" to "<http://example.org/s2>",
-                                    "#p25083" to "<http://example.org/str>",
+                                    "#p25056" to null,
                                     "str" to "\"bar\"@en"
                                 ),
                                 mutableMapOf(
                                     "ustr" to "\"BAZ\"",
                                     "s" to "<http://example.org/s3>",
-                                    "#p25083" to "<http://example.org/str>",
+                                    "#p25056" to null,
                                     "str" to "\"BAZ\""
                                 ),
                                 mutableMapOf(
                                     "ustr" to "\"食べ物\"",
                                     "s" to "<http://example.org/s4>",
-                                    "#p25083" to "<http://example.org/str>",
+                                    "#p25056" to null,
                                     "str" to "\"食べ物\""
                                 ),
                                 mutableMapOf(
                                     "ustr" to "\"100%\"",
                                     "s" to "<http://example.org/s5>",
-                                    "#p25083" to "<http://example.org/str>",
+                                    "#p25056" to null,
                                     "str" to "\"100%\""
                                 ),
                                 mutableMapOf(
                                     "ustr" to "\"ABC\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s" to "<http://example.org/s6>",
-                                    "#p25083" to "<http://example.org/str>",
+                                    "#p25056" to null,
                                     "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 ),
                                 mutableMapOf(
                                     "ustr" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s" to "<http://example.org/s7>",
-                                    "#p25083" to "<http://example.org/str>",
+                                    "#p25056" to null,
                                     "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
                             )
@@ -6325,49 +6301,49 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "lstr",
                                 "s",
-                                "#p25192",
+                                "#p25165",
                                 "str"
                             ), listOf(
                                 mutableMapOf(
                                     "lstr" to "\"foo\"",
                                     "s" to "<http://example.org/s1>",
-                                    "#p25192" to "<http://example.org/str>",
+                                    "#p25165" to null,
                                     "str" to "\"foo\""
                                 ),
                                 mutableMapOf(
                                     "lstr" to "\"bar\"@en",
                                     "s" to "<http://example.org/s2>",
-                                    "#p25192" to "<http://example.org/str>",
+                                    "#p25165" to null,
                                     "str" to "\"bar\"@en"
                                 ),
                                 mutableMapOf(
                                     "lstr" to "\"baz\"",
                                     "s" to "<http://example.org/s3>",
-                                    "#p25192" to "<http://example.org/str>",
+                                    "#p25165" to null,
                                     "str" to "\"BAZ\""
                                 ),
                                 mutableMapOf(
                                     "lstr" to "\"食べ物\"",
                                     "s" to "<http://example.org/s4>",
-                                    "#p25192" to "<http://example.org/str>",
+                                    "#p25165" to null,
                                     "str" to "\"食べ物\""
                                 ),
                                 mutableMapOf(
                                     "lstr" to "\"100%\"",
                                     "s" to "<http://example.org/s5>",
-                                    "#p25192" to "<http://example.org/str>",
+                                    "#p25165" to null,
                                     "str" to "\"100%\""
                                 ),
                                 mutableMapOf(
                                     "lstr" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s" to "<http://example.org/s6>",
-                                    "#p25192" to "<http://example.org/str>",
+                                    "#p25165" to null,
                                     "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 ),
                                 mutableMapOf(
                                     "lstr" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>",
                                     "s" to "<http://example.org/s7>",
-                                    "#p25192" to "<http://example.org/str>",
+                                    "#p25165" to null,
                                     "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
                             )
@@ -6420,17 +6396,17 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "s",
-                                "#p25340",
+                                "#p25313",
                                 "str"
                             ), listOf(
                                 mutableMapOf(
                                     "s" to "<http://example.org/s2>",
-                                    "#p25340" to "<http://example.org/str>",
+                                    "#p25313" to null,
                                     "str" to "\"bar\"@en"
                                 ),
                                 mutableMapOf(
                                     "s" to "<http://example.org/s6>",
-                                    "#p25340" to "<http://example.org/str>",
+                                    "#p25313" to null,
                                     "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
                             )
@@ -6463,17 +6439,17 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "s",
-                                "#p25411",
+                                "#p25384",
                                 "str"
                             ), listOf(
                                 mutableMapOf(
                                     "s" to "<http://example.org/s2>",
-                                    "#p25411" to "<http://example.org/str>",
+                                    "#p25384" to null,
                                     "str" to "\"bar\"@en"
                                 ),
                                 mutableMapOf(
                                     "s" to "<http://example.org/s6>",
-                                    "#p25411" to "<http://example.org/str>",
+                                    "#p25384" to null,
                                     "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
                             )
@@ -6584,75 +6560,75 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "sum",
-                                "#p26416",
+                                "s",
+                                "#p26389",
                                 "x",
-                                "#p26417",
-                                "y",
-                                "s"
+                                "#p26390",
+                                "y"
                             ), listOf(
                                 mutableMapOf(
                                     "sum" to null,
-                                    "#p26416" to "<http://example/p>",
+                                    "s" to "<http://example/x6>",
+                                    "#p26389" to null,
                                     "x" to "\"1\"",
-                                    "#p26417" to "<http://example/q>",
-                                    "y" to "\"2\"",
-                                    "s" to "<http://example/x6>"
+                                    "#p26390" to null,
+                                    "y" to "\"2\""
                                 ),
                                 mutableMapOf(
                                     "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p26416" to "<http://example/p>",
+                                    "s" to "<http://example/x4>",
+                                    "#p26389" to null,
                                     "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p26417" to "<http://example/q>",
-                                    "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "s" to "<http://example/x4>"
+                                    "#p26390" to null,
+                                    "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "sum" to null,
-                                    "#p26416" to "<http://example/p>",
+                                    "s" to "<http://example/x7>",
+                                    "#p26389" to null,
                                     "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                    "#p26417" to "<http://example/q>",
-                                    "y" to "\"2\"",
-                                    "s" to "<http://example/x7>"
+                                    "#p26390" to null,
+                                    "y" to "\"2\""
                                 ),
                                 mutableMapOf(
                                     "sum" to null,
-                                    "#p26416" to "<http://example/p>",
+                                    "s" to "<http://example/x8>",
+                                    "#p26389" to null,
                                     "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                    "#p26417" to "<http://example/q>",
-                                    "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "s" to "<http://example/x8>"
+                                    "#p26390" to null,
+                                    "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "sum" to "\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                    "#p26416" to "<http://example/p>",
+                                    "s" to "<http://example/x5>",
+                                    "#p26389" to null,
                                     "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                    "#p26417" to "<http://example/q>",
-                                    "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "s" to "<http://example/x5>"
+                                    "#p26390" to null,
+                                    "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "sum" to null,
-                                    "#p26416" to "<http://example/p>",
+                                    "s" to "<http://example/x1>",
+                                    "#p26389" to null,
                                     "x" to "\"a\"",
-                                    "#p26417" to "<http://example/q>",
-                                    "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "s" to "<http://example/x1>"
+                                    "#p26390" to null,
+                                    "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "sum" to null,
-                                    "#p26416" to "<http://example/p>",
+                                    "s" to "<http://example/x3>",
+                                    "#p26389" to null,
                                     "x" to "<http://example/a>",
-                                    "#p26417" to "<http://example/q>",
-                                    "y" to "\"1\"",
-                                    "s" to "<http://example/x3>"
+                                    "#p26390" to null,
+                                    "y" to "\"1\""
                                 ),
                                 mutableMapOf(
                                     "sum" to null,
-                                    "#p26416" to "<http://example/p>",
+                                    "s" to "<http://example/x2>",
+                                    "#p26389" to null,
                                     "x" to "_:b",
-                                    "#p26417" to "<http://example/q>",
-                                    "y" to "\"1\"",
-                                    "s" to "<http://example/x2>"
+                                    "#p26390" to null,
+                                    "y" to "\"1\""
                                 )
                             )
                         )
@@ -6718,75 +6694,75 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "sum",
-                                "#p26589",
+                                "s",
+                                "#p26562",
                                 "x",
-                                "#p26590",
-                                "y",
-                                "s"
+                                "#p26563",
+                                "y"
                             ), listOf(
                                 mutableMapOf(
                                     "sum" to null,
-                                    "#p26589" to "<http://example/p>",
+                                    "s" to "<http://example/x6>",
+                                    "#p26562" to null,
                                     "x" to "\"1\"",
-                                    "#p26590" to "<http://example/q>",
-                                    "y" to "\"2\"",
-                                    "s" to "<http://example/x6>"
+                                    "#p26563" to null,
+                                    "y" to "\"2\""
                                 ),
                                 mutableMapOf(
                                     "sum" to null,
-                                    "#p26589" to "<http://example/p>",
+                                    "s" to "<http://example/x4>",
+                                    "#p26562" to null,
                                     "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p26590" to "<http://example/q>",
-                                    "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "s" to "<http://example/x4>"
+                                    "#p26563" to null,
+                                    "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "sum" to null,
-                                    "#p26589" to "<http://example/p>",
+                                    "s" to "<http://example/x7>",
+                                    "#p26562" to null,
                                     "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                    "#p26590" to "<http://example/q>",
-                                    "y" to "\"2\"",
-                                    "s" to "<http://example/x7>"
+                                    "#p26563" to null,
+                                    "y" to "\"2\""
                                 ),
                                 mutableMapOf(
                                     "sum" to null,
-                                    "#p26589" to "<http://example/p>",
+                                    "s" to "<http://example/x8>",
+                                    "#p26562" to null,
                                     "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                    "#p26590" to "<http://example/q>",
-                                    "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "s" to "<http://example/x8>"
+                                    "#p26563" to null,
+                                    "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "sum" to null,
-                                    "#p26589" to "<http://example/p>",
+                                    "s" to "<http://example/x5>",
+                                    "#p26562" to null,
                                     "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                    "#p26590" to "<http://example/q>",
-                                    "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "s" to "<http://example/x5>"
+                                    "#p26563" to null,
+                                    "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "sum" to null,
-                                    "#p26589" to "<http://example/p>",
+                                    "s" to "<http://example/x1>",
+                                    "#p26562" to null,
                                     "x" to "\"a\"",
-                                    "#p26590" to "<http://example/q>",
-                                    "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "s" to "<http://example/x1>"
+                                    "#p26563" to null,
+                                    "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "sum" to null,
-                                    "#p26589" to "<http://example/p>",
+                                    "s" to "<http://example/x3>",
+                                    "#p26562" to null,
                                     "x" to "<http://example/a>",
-                                    "#p26590" to "<http://example/q>",
-                                    "y" to "\"1\"",
-                                    "s" to "<http://example/x3>"
+                                    "#p26563" to null,
+                                    "y" to "\"1\""
                                 ),
                                 mutableMapOf(
                                     "sum" to null,
-                                    "#p26589" to "<http://example/p>",
+                                    "s" to "<http://example/x2>",
+                                    "#p26562" to null,
                                     "x" to "_:b",
-                                    "#p26590" to "<http://example/q>",
-                                    "y" to "\"1\"",
-                                    "s" to "<http://example/x2>"
+                                    "#p26563" to null,
+                                    "y" to "\"1\""
                                 )
                             )
                         )
@@ -6850,14 +6826,14 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "hash",
-                                "#s26889",
-                                "#p26889",
+                                "#s26862",
+                                "#p26862",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "hash" to "\"acbd18db4cc2f85cedef654fccc4a4d8\"",
-                                    "#s26889" to "<http://example.org/s1>",
-                                    "#p26889" to "<http://example.org/str>",
+                                    "#s26862" to null,
+                                    "#p26862" to null,
                                     "l" to "\"foo\""
                                 )
                             )
@@ -6883,14 +6859,14 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "hash",
-                                "#s26907",
-                                "#p26907",
+                                "#s26880",
+                                "#p26880",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "hash" to "\"acbd18db4cc2f85cedef654fccc4a4d8\"",
-                                    "#s26907" to "<http://example.org/s1>",
-                                    "#p26907" to "<http://example.org/str>",
+                                    "#s26880" to null,
+                                    "#p26880" to null,
                                     "l" to "\"foo\""
                                 )
                             )
@@ -6916,14 +6892,14 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "hash",
-                                "#s26970",
-                                "#p26970",
+                                "#s26943",
+                                "#p26943",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "hash" to "\"e7ada485d13b1decf628c9211bc3a97b\"",
-                                    "#s26970" to "<http://example.org/s4>",
-                                    "#p26970" to "<http://example.org/str>",
+                                    "#s26943" to null,
+                                    "#p26943" to null,
                                     "l" to "\"食べ物\""
                                 )
                             )
@@ -6949,14 +6925,14 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "hash",
-                                "#s26988",
-                                "#p26988",
+                                "#s26961",
+                                "#p26961",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "hash" to "\"e7ada485d13b1decf628c9211bc3a97b\"",
-                                    "#s26988" to "<http://example.org/s4>",
-                                    "#p26988" to "<http://example.org/str>",
+                                    "#s26961" to null,
+                                    "#p26961" to null,
                                     "l" to "\"食べ物\""
                                 )
                             )
@@ -6982,14 +6958,14 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "hash",
-                                "#s27051",
-                                "#p27051",
+                                "#s27024",
+                                "#p27024",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "hash" to "\"0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33\"",
-                                    "#s27051" to "<http://example.org/s1>",
-                                    "#p27051" to "<http://example.org/str>",
+                                    "#s27024" to null,
+                                    "#p27024" to null,
                                     "l" to "\"foo\""
                                 )
                             )
@@ -7015,14 +6991,14 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "hash",
-                                "#s27069",
-                                "#p27069",
+                                "#s27042",
+                                "#p27042",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "hash" to "\"0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33\"",
-                                    "#s27069" to "<http://example.org/s1>",
-                                    "#p27069" to "<http://example.org/str>",
+                                    "#s27042" to null,
+                                    "#p27042" to null,
                                     "l" to "\"foo\""
                                 )
                             )
@@ -7048,14 +7024,14 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "hash",
-                                "#s27132",
-                                "#p27132",
+                                "#s27105",
+                                "#p27105",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "hash" to "\"d46696735b6a09ff407bfc1a9407e008840db9c9\"",
-                                    "#s27132" to "<http://example.org/s8>",
-                                    "#p27132" to "<http://example.org/str>",
+                                    "#s27105" to null,
+                                    "#p27105" to null,
                                     "l" to "\"食\""
                                 )
                             )
@@ -7081,14 +7057,14 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "hash",
-                                "#s27150",
-                                "#p27150",
+                                "#s27123",
+                                "#p27123",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "hash" to "\"d46696735b6a09ff407bfc1a9407e008840db9c9\"",
-                                    "#s27150" to "<http://example.org/s8>",
-                                    "#p27150" to "<http://example.org/str>",
+                                    "#s27123" to null,
+                                    "#p27123" to null,
                                     "l" to "\"食\""
                                 )
                             )
@@ -7114,14 +7090,14 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "hash",
-                                "#s27213",
-                                "#p27213",
+                                "#s27186",
+                                "#p27186",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "hash" to "\"2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae\"",
-                                    "#s27213" to "<http://example.org/s1>",
-                                    "#p27213" to "<http://example.org/str>",
+                                    "#s27186" to null,
+                                    "#p27186" to null,
                                     "l" to "\"foo\""
                                 )
                             )
@@ -7147,14 +7123,14 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "hash",
-                                "#s27231",
-                                "#p27231",
+                                "#s27204",
+                                "#p27204",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "hash" to "\"2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae\"",
-                                    "#s27231" to "<http://example.org/s1>",
-                                    "#p27231" to "<http://example.org/str>",
+                                    "#s27204" to null,
+                                    "#p27204" to null,
                                     "l" to "\"foo\""
                                 )
                             )
@@ -7180,14 +7156,14 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "hash",
-                                "#s27294",
-                                "#p27294",
+                                "#s27267",
+                                "#p27267",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "hash" to "\"0fbe868d1df356ca9df7ebff346da3a56280e059a7ea81186ef885b140d254ee\"",
-                                    "#s27294" to "<http://example.org/s8>",
-                                    "#p27294" to "<http://example.org/str>",
+                                    "#s27267" to null,
+                                    "#p27267" to null,
                                     "l" to "\"食\""
                                 )
                             )
@@ -7213,14 +7189,14 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "hash",
-                                "#s27312",
-                                "#p27312",
+                                "#s27285",
+                                "#p27285",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "hash" to "\"0fbe868d1df356ca9df7ebff346da3a56280e059a7ea81186ef885b140d254ee\"",
-                                    "#s27312" to "<http://example.org/s8>",
-                                    "#p27312" to "<http://example.org/str>",
+                                    "#s27285" to null,
+                                    "#p27285" to null,
                                     "l" to "\"食\""
                                 )
                             )
@@ -7248,31 +7224,31 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
-                                "#p27431",
+                                "#p27404",
                                 "date"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "\"28\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d1>",
-                                    "#p27431" to "<http://example.org/date>",
+                                    "#p27404" to null,
                                     "date" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"38\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d2>",
-                                    "#p27431" to "<http://example.org/date>",
+                                    "#p27404" to null,
                                     "date" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"59\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d3>",
-                                    "#p27431" to "<http://example.org/date>",
+                                    "#p27404" to null,
                                     "date" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d4>",
-                                    "#p27431" to "<http://example.org/date>",
+                                    "#p27404" to null,
                                     "date" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
@@ -7314,31 +7290,31 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
-                                "#p27473",
+                                "#p27446",
                                 "date"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "\"28\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d1>",
-                                    "#p27473" to "<http://example.org/date>",
+                                    "#p27446" to null,
                                     "date" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"38\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d2>",
-                                    "#p27473" to "<http://example.org/date>",
+                                    "#p27446" to null,
                                     "date" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"59\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d3>",
-                                    "#p27473" to "<http://example.org/date>",
+                                    "#p27446" to null,
                                     "date" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d4>",
-                                    "#p27473" to "<http://example.org/date>",
+                                    "#p27446" to null,
                                     "date" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
@@ -7380,31 +7356,31 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
-                                "#p27563",
+                                "#p27536",
                                 "date"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
                                     "s" to "<http://example.org/d1>",
-                                    "#p27563" to "<http://example.org/date>",
+                                    "#p27536" to null,
                                     "date" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"2.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
                                     "s" to "<http://example.org/d2>",
-                                    "#p27563" to "<http://example.org/date>",
+                                    "#p27536" to null,
                                     "date" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"0.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
                                     "s" to "<http://example.org/d3>",
-                                    "#p27563" to "<http://example.org/date>",
+                                    "#p27536" to null,
                                     "date" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
                                     "s" to "<http://example.org/d4>",
-                                    "#p27563" to "<http://example.org/date>",
+                                    "#p27536" to null,
                                     "date" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
@@ -7446,31 +7422,31 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
-                                "#p27648",
+                                "#p27621",
                                 "date"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d1>",
-                                    "#p27648" to "<http://example.org/date>",
+                                    "#p27621" to null,
                                     "date" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"15\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d2>",
-                                    "#p27648" to "<http://example.org/date>",
+                                    "#p27621" to null,
                                     "date" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"23\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d3>",
-                                    "#p27648" to "<http://example.org/date>",
+                                    "#p27621" to null,
                                     "date" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d4>",
-                                    "#p27648" to "<http://example.org/date>",
+                                    "#p27621" to null,
                                     "date" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
@@ -7512,31 +7488,31 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
-                                "#p27690",
+                                "#p27663",
                                 "date"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "\"11\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d1>",
-                                    "#p27690" to "<http://example.org/date>",
+                                    "#p27663" to null,
                                     "date" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"15\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d2>",
-                                    "#p27690" to "<http://example.org/date>",
+                                    "#p27663" to null,
                                     "date" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"23\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d3>",
-                                    "#p27690" to "<http://example.org/date>",
+                                    "#p27663" to null,
                                     "date" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d4>",
-                                    "#p27690" to "<http://example.org/date>",
+                                    "#p27663" to null,
                                     "date" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
@@ -7578,31 +7554,31 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
-                                "#p27780",
+                                "#p27753",
                                 "date"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "\"6\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d1>",
-                                    "#p27780" to "<http://example.org/date>",
+                                    "#p27753" to null,
                                     "date" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d2>",
-                                    "#p27780" to "<http://example.org/date>",
+                                    "#p27753" to null,
                                     "date" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"6\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d3>",
-                                    "#p27780" to "<http://example.org/date>",
+                                    "#p27753" to null,
                                     "date" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d4>",
-                                    "#p27780" to "<http://example.org/date>",
+                                    "#p27753" to null,
                                     "date" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
@@ -7644,31 +7620,31 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
-                                "#p27822",
+                                "#p27795",
                                 "date"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "\"6\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d1>",
-                                    "#p27822" to "<http://example.org/date>",
+                                    "#p27795" to null,
                                     "date" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"12\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d2>",
-                                    "#p27822" to "<http://example.org/date>",
+                                    "#p27795" to null,
                                     "date" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"6\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d3>",
-                                    "#p27822" to "<http://example.org/date>",
+                                    "#p27795" to null,
                                     "date" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d4>",
-                                    "#p27822" to "<http://example.org/date>",
+                                    "#p27795" to null,
                                     "date" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
@@ -7710,31 +7686,31 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
-                                "#p27912",
+                                "#p27885",
                                 "date"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "\"2010\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d1>",
-                                    "#p27912" to "<http://example.org/date>",
+                                    "#p27885" to null,
                                     "date" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"2010\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d2>",
-                                    "#p27912" to "<http://example.org/date>",
+                                    "#p27885" to null,
                                     "date" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"2008\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d3>",
-                                    "#p27912" to "<http://example.org/date>",
+                                    "#p27885" to null,
                                     "date" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"2011\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d4>",
-                                    "#p27912" to "<http://example.org/date>",
+                                    "#p27885" to null,
                                     "date" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
@@ -7776,31 +7752,31 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
-                                "#p27954",
+                                "#p27927",
                                 "date"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "\"2010\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d1>",
-                                    "#p27954" to "<http://example.org/date>",
+                                    "#p27927" to null,
                                     "date" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"2010\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d2>",
-                                    "#p27954" to "<http://example.org/date>",
+                                    "#p27927" to null,
                                     "date" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"2008\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d3>",
-                                    "#p27954" to "<http://example.org/date>",
+                                    "#p27927" to null,
                                     "date" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"2011\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d4>",
-                                    "#p27954" to "<http://example.org/date>",
+                                    "#p27927" to null,
                                     "date" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
@@ -7842,31 +7818,31 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
-                                "#p28044",
+                                "#p28017",
                                 "date"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "\"21\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d1>",
-                                    "#p28044" to "<http://example.org/date>",
+                                    "#p28017" to null,
                                     "date" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"21\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d2>",
-                                    "#p28044" to "<http://example.org/date>",
+                                    "#p28017" to null,
                                     "date" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"20\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d3>",
-                                    "#p28044" to "<http://example.org/date>",
+                                    "#p28017" to null,
                                     "date" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d4>",
-                                    "#p28044" to "<http://example.org/date>",
+                                    "#p28017" to null,
                                     "date" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
@@ -7908,31 +7884,31 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
-                                "#p28086",
+                                "#p28059",
                                 "date"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "\"21\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d1>",
-                                    "#p28086" to "<http://example.org/date>",
+                                    "#p28059" to null,
                                     "date" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"21\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d2>",
-                                    "#p28086" to "<http://example.org/date>",
+                                    "#p28059" to null,
                                     "date" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"20\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d3>",
-                                    "#p28086" to "<http://example.org/date>",
+                                    "#p28059" to null,
                                     "date" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "s" to "<http://example.org/d4>",
-                                    "#p28086" to "<http://example.org/date>",
+                                    "#p28059" to null,
                                     "date" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
@@ -7974,31 +7950,31 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
-                                "#p28176",
+                                "#p28149",
                                 "date"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "\"\"PT0S\"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>\"",
                                     "s" to "<http://example.org/d1>",
-                                    "#p28176" to "<http://example.org/date>",
+                                    "#p28149" to null,
                                     "date" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"\"-PT8H\"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>\"",
                                     "s" to "<http://example.org/d2>",
-                                    "#p28176" to "<http://example.org/date>",
+                                    "#p28149" to null,
                                     "date" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"\"PT0S\"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>\"",
                                     "s" to "<http://example.org/d3>",
-                                    "#p28176" to "<http://example.org/date>",
+                                    "#p28149" to null,
                                     "date" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"\"",
                                     "s" to "<http://example.org/d4>",
-                                    "#p28176" to "<http://example.org/date>",
+                                    "#p28149" to null,
                                     "date" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
@@ -8040,31 +8016,31 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
-                                "#p28261",
+                                "#p28234",
                                 "date"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "\"Z\"",
                                     "s" to "<http://example.org/d1>",
-                                    "#p28261" to "<http://example.org/date>",
+                                    "#p28234" to null,
                                     "date" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"-08:00\"",
                                     "s" to "<http://example.org/d2>",
-                                    "#p28261" to "<http://example.org/date>",
+                                    "#p28234" to null,
                                     "date" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"Z\"",
                                     "s" to "<http://example.org/d3>",
-                                    "#p28261" to "<http://example.org/date>",
+                                    "#p28234" to null,
                                     "date" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"\"",
                                     "s" to "<http://example.org/d4>",
-                                    "#p28261" to "<http://example.org/date>",
+                                    "#p28234" to null,
                                     "date" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
@@ -8106,31 +8082,31 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "s",
-                                "#p28303",
+                                "#p28276",
                                 "date"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "\"Z\"",
                                     "s" to "<http://example.org/d1>",
-                                    "#p28303" to "<http://example.org/date>",
+                                    "#p28276" to null,
                                     "date" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"-08:00\"",
                                     "s" to "<http://example.org/d2>",
-                                    "#p28303" to "<http://example.org/date>",
+                                    "#p28276" to null,
                                     "date" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"Z\"",
                                     "s" to "<http://example.org/d3>",
-                                    "#p28303" to "<http://example.org/date>",
+                                    "#p28276" to null,
                                     "date" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
                                     "x" to "\"\"",
                                     "s" to "<http://example.org/d4>",
-                                    "#p28303" to "<http://example.org/date>",
+                                    "#p28276" to null,
                                     "date" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
@@ -8173,53 +8149,53 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "b1",
-                                "b2",
                                 "a",
-                                "#p28458",
+                                "#p28431",
                                 "s1",
                                 "b",
-                                "#p28459",
-                                "s2"
+                                "#p28432",
+                                "s2",
+                                "b2"
                             ), listOf(
                                 mutableMapOf(
-                                    "b1" to "_:28407\"foo\"",
-                                    "b2" to "_:28413\"foo\"",
+                                    "b1" to "_:28380\"foo\"",
                                     "a" to "<http://example.org/s1>",
-                                    "#p28458" to "<http://example.org/str>",
+                                    "#p28431" to null,
                                     "s1" to "\"foo\"",
                                     "b" to "<http://example.org/s1>",
-                                    "#p28459" to "<http://example.org/str>",
-                                    "s2" to "\"foo\""
+                                    "#p28432" to null,
+                                    "s2" to "\"foo\"",
+                                    "b2" to "_:28386\"foo\""
                                 ),
                                 mutableMapOf(
-                                    "b1" to "_:28407\"BAZ\"",
-                                    "b2" to "_:28413\"foo\"",
+                                    "b1" to "_:28380\"BAZ\"",
                                     "a" to "<http://example.org/s3>",
-                                    "#p28458" to "<http://example.org/str>",
+                                    "#p28431" to null,
                                     "s1" to "\"BAZ\"",
                                     "b" to "<http://example.org/s1>",
-                                    "#p28459" to "<http://example.org/str>",
-                                    "s2" to "\"foo\""
+                                    "#p28432" to null,
+                                    "s2" to "\"foo\"",
+                                    "b2" to "_:28386\"foo\""
                                 ),
                                 mutableMapOf(
-                                    "b1" to "_:28407\"foo\"",
-                                    "b2" to "_:28413\"BAZ\"",
+                                    "b1" to "_:28380\"foo\"",
                                     "a" to "<http://example.org/s1>",
-                                    "#p28458" to "<http://example.org/str>",
+                                    "#p28431" to null,
                                     "s1" to "\"foo\"",
                                     "b" to "<http://example.org/s3>",
-                                    "#p28459" to "<http://example.org/str>",
-                                    "s2" to "\"BAZ\""
+                                    "#p28432" to null,
+                                    "s2" to "\"BAZ\"",
+                                    "b2" to "_:28386\"BAZ\""
                                 ),
                                 mutableMapOf(
-                                    "b1" to "_:28407\"BAZ\"",
-                                    "b2" to "_:28413\"BAZ\"",
+                                    "b1" to "_:28380\"BAZ\"",
                                     "a" to "<http://example.org/s3>",
-                                    "#p28458" to "<http://example.org/str>",
+                                    "#p28431" to null,
                                     "s1" to "\"BAZ\"",
                                     "b" to "<http://example.org/s3>",
-                                    "#p28459" to "<http://example.org/str>",
-                                    "s2" to "\"BAZ\""
+                                    "#p28432" to null,
+                                    "s2" to "\"BAZ\"",
+                                    "b2" to "_:28386\"BAZ\""
                                 )
                             )
                         )
@@ -8233,26 +8209,26 @@ class GeneratedPOPProjectionTest {
                             mutableMapOf(
                                 "s1" to "\"foo\"",
                                 "s2" to "\"foo\"",
-                                "b1" to "_:28407\"foo\"",
-                                "b2" to "_:28413\"foo\""
+                                "b1" to "_:28380\"foo\"",
+                                "b2" to "_:28386\"foo\""
                             ),
                             mutableMapOf(
                                 "s1" to "\"BAZ\"",
                                 "s2" to "\"foo\"",
-                                "b1" to "_:28407\"BAZ\"",
-                                "b2" to "_:28413\"foo\""
+                                "b1" to "_:28380\"BAZ\"",
+                                "b2" to "_:28386\"foo\""
                             ),
                             mutableMapOf(
                                 "s1" to "\"foo\"",
                                 "s2" to "\"BAZ\"",
-                                "b1" to "_:28407\"foo\"",
-                                "b2" to "_:28413\"BAZ\""
+                                "b1" to "_:28380\"foo\"",
+                                "b2" to "_:28386\"BAZ\""
                             ),
                             mutableMapOf(
                                 "s1" to "\"BAZ\"",
                                 "s2" to "\"BAZ\"",
-                                "b1" to "_:28407\"BAZ\"",
-                                "b2" to "_:28413\"BAZ\""
+                                "b1" to "_:28380\"BAZ\"",
+                                "b2" to "_:28386\"BAZ\""
                             )
                         )
                     )
@@ -8272,8 +8248,8 @@ class GeneratedPOPProjectionTest {
                                 "b2"
                             ), listOf(
                                 mutableMapOf(
-                                    "b1" to "_:3121431246",
-                                    "b2" to "_:3121931244"
+                                    "b1" to "_:3118831220",
+                                    "b2" to "_:3119331218"
                                 )
                             )
                         )
@@ -8283,8 +8259,8 @@ class GeneratedPOPProjectionTest {
                             "b2"
                         ), listOf(
                             mutableMapOf(
-                                "b1" to "_:3121431246",
-                                "b2" to "_:3121931244"
+                                "b1" to "_:3118831220",
+                                "b2" to "_:3119331218"
                             )
                         )
                     )
@@ -8304,8 +8280,8 @@ class GeneratedPOPProjectionTest {
                                 "b2"
                             ), listOf(
                                 mutableMapOf(
-                                    "b1" to "_:3125731270",
-                                    "b2" to "_:3125031268"
+                                    "b1" to "_:3123131244",
+                                    "b2" to "_:3122431242"
                                 )
                             )
                         )
@@ -8315,8 +8291,8 @@ class GeneratedPOPProjectionTest {
                             "b2"
                         ), listOf(
                             mutableMapOf(
-                                "b1" to "_:3125731270",
-                                "b2" to "_:3125031268"
+                                "b1" to "_:3123131244",
+                                "b2" to "_:3122431242"
                             )
                         )
                     )
@@ -8334,7 +8310,7 @@ class GeneratedPOPProjectionTest {
                                 "n"
                             ), listOf(
                                 mutableMapOf(
-                                    "n" to "\"2020-02-24T17:30:04Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                    "n" to "\"2020-02-24T19:33:13Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
                         )
@@ -8343,7 +8319,7 @@ class GeneratedPOPProjectionTest {
                             "n"
                         ), listOf(
                             mutableMapOf(
-                                "n" to "\"2020-02-24T17:30:04Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                "n" to "\"2020-02-24T19:33:13Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                             )
                         )
                     )
@@ -8721,7 +8697,6 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("s"),
                             AOPVariable("p"),
                             AOPVariable("o"),
-                            AOPVariable("o"),
                             AOPVariable("p2"),
                             AOPVariable("o2")
                         ),
@@ -8838,14 +8813,14 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                         ),
                         POPValues(dictionary, listOf(
-                                "#s33240",
-                                "#p33240",
-                                "#o33240"
+                                "#s33212",
+                                "#p33212",
+                                "#o33212"
                             ), listOf(
                                 mutableMapOf(
-                                    "#s33240" to "<http://example.org/s1>",
-                                    "#p33240" to "<http://example.org/p1>",
-                                    "#o33240" to "<http://example.org/s2>"
+                                    "#s33212" to null,
+                                    "#p33212" to null,
+                                    "#o33212" to null
                                 )
                             )
                         )
@@ -8866,14 +8841,14 @@ class GeneratedPOPProjectionTest {
                         mutableListOf(
                         ),
                         POPValues(dictionary, listOf(
-                                "#s33247",
-                                "#p33247",
-                                "#o33247"
+                                "#s33219",
+                                "#p33219",
+                                "#o33219"
                             ), listOf(
                                 mutableMapOf(
-                                    "#s33247" to "<http://example.org/s1>",
-                                    "#p33247" to "<http://example.org/p1>",
-                                    "#o33247" to "<http://example.org/s2>"
+                                    "#s33219" to null,
+                                    "#p33219" to null,
+                                    "#o33219" to null
                                 )
                             )
                         )
@@ -8899,27 +8874,27 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "eq",
-                                "#p34861",
+                                "x",
+                                "#p34833",
                                 "y",
-                                "#p34862",
-                                "z",
-                                "x"
+                                "#p34834",
+                                "z"
                             ), listOf(
                                 mutableMapOf(
                                     "eq" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                    "#p34861" to "<http://www.example.org/schema#p>",
+                                    "x" to "<http://www.example.org/instance#a>",
+                                    "#p34833" to null,
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p34862" to "<http://www.example.org/schema#q>",
-                                    "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "x" to "<http://www.example.org/instance#a>"
+                                    "#p34834" to null,
+                                    "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "eq" to "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                    "#p34861" to "<http://www.example.org/schema#p>",
+                                    "x" to "<http://www.example.org/instance#a>",
+                                    "#p34833" to null,
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p34862" to "<http://www.example.org/schema#q>",
-                                    "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "x" to "<http://www.example.org/instance#a>"
+                                    "#p34834" to null,
+                                    "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
                         )
@@ -8959,27 +8934,27 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "eq",
-                                "#p34900",
+                                "x",
+                                "#p34872",
                                 "y",
-                                "#p34901",
-                                "z",
-                                "x"
+                                "#p34873",
+                                "z"
                             ), listOf(
                                 mutableMapOf(
                                     "eq" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                    "#p34900" to "<http://www.example.org/schema#p>",
+                                    "x" to "<http://www.example.org/instance#a>",
+                                    "#p34872" to null,
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p34901" to "<http://www.example.org/schema#q>",
-                                    "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "x" to "<http://www.example.org/instance#a>"
+                                    "#p34873" to null,
+                                    "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "eq" to "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                    "#p34900" to "<http://www.example.org/schema#p>",
+                                    "x" to "<http://www.example.org/instance#a>",
+                                    "#p34872" to null,
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p34901" to "<http://www.example.org/schema#q>",
-                                    "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "x" to "<http://www.example.org/instance#a>"
+                                    "#p34873" to null,
+                                    "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
                         )
@@ -9019,87 +8994,87 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "sum",
+                                "x",
+                                "#p34982",
+                                "y",
+                                "#p34983",
+                                "z"
+                            ), listOf(
+                                mutableMapOf(
+                                    "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "x" to "<http://www.example.org/instance#a>",
+                                    "#p34982" to null,
+                                    "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p34983" to null,
+                                    "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "sum" to null,
+                                    "x" to "<http://www.example.org/instance#a>",
+                                    "#p34982" to null,
+                                    "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p34983" to null,
+                                    "z" to "\"foobar\""
+                                )
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "x",
+                            "y",
+                            "z",
+                            "sum"
+                        ), listOf(
+                            mutableMapOf(
+                                "x" to "<http://www.example.org/instance#a>",
+                                "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "x" to "<http://www.example.org/instance#a>",
+                                "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to "\"foobar\"",
+                                "sum" to null
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/project-expression/projexp02.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPProjection(
+                        dictionary,
+                        mutableListOf(
+                            AOPVariable("x"),
+                            AOPVariable("y"),
+                            AOPVariable("z"),
+                            AOPVariable("sum")
+                        ),
+                        POPValues(dictionary, listOf(
+                                "sum",
+                                "x",
                                 "#p35010",
                                 "y",
                                 "#p35011",
-                                "z",
-                                "x"
+                                "z"
                             ), listOf(
                                 mutableMapOf(
                                     "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35010" to "<http://www.example.org/schema#p>",
+                                    "x" to "<http://www.example.org/instance#a>",
+                                    "#p35010" to null,
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35011" to "<http://www.example.org/schema#q>",
-                                    "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "x" to "<http://www.example.org/instance#a>"
+                                    "#p35011" to null,
+                                    "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "sum" to null,
-                                    "#p35010" to "<http://www.example.org/schema#p>",
+                                    "x" to "<http://www.example.org/instance#a>",
+                                    "#p35010" to null,
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35011" to "<http://www.example.org/schema#q>",
-                                    "z" to "\"foobar\"",
-                                    "x" to "<http://www.example.org/instance#a>"
-                                )
-                            )
-                        )
-                    ),
-                    POPValues(dictionary, listOf(
-                            "x",
-                            "y",
-                            "z",
-                            "sum"
-                        ), listOf(
-                            mutableMapOf(
-                                "x" to "<http://www.example.org/instance#a>",
-                                "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                            ),
-                            mutableMapOf(
-                                "x" to "<http://www.example.org/instance#a>",
-                                "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "z" to "\"foobar\"",
-                                "sum" to null
-                            )
-                        )
-                    )
-                )
-            }() /* resources/sparql11-test-suite/project-expression/projexp02.rq */ ,
-            {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    POPProjection(
-                        dictionary,
-                        mutableListOf(
-                            AOPVariable("x"),
-                            AOPVariable("y"),
-                            AOPVariable("z"),
-                            AOPVariable("sum")
-                        ),
-                        POPValues(dictionary, listOf(
-                                "sum",
-                                "#p35038",
-                                "y",
-                                "#p35039",
-                                "z",
-                                "x"
-                            ), listOf(
-                                mutableMapOf(
-                                    "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35038" to "<http://www.example.org/schema#p>",
-                                    "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35039" to "<http://www.example.org/schema#q>",
-                                    "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "x" to "<http://www.example.org/instance#a>"
-                                ),
-                                mutableMapOf(
-                                    "sum" to null,
-                                    "#p35038" to "<http://www.example.org/schema#p>",
-                                    "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35039" to "<http://www.example.org/schema#q>",
-                                    "z" to "\"foobar\"",
-                                    "x" to "<http://www.example.org/instance#a>"
+                                    "#p35011" to null,
+                                    "z" to "\"foobar\""
                                 )
                             )
                         )
@@ -9140,21 +9115,21 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "twice",
-                                "sum",
-                                "#p35150",
+                                "x",
+                                "#p35122",
                                 "y",
-                                "#p35151",
+                                "#p35123",
                                 "z",
-                                "x"
+                                "sum"
                             ), listOf(
                                 mutableMapOf(
                                     "twice" to "\"6\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35150" to "<http://www.example.org/schema#p>",
+                                    "x" to "<http://www.example.org/instance#a>",
+                                    "#p35122" to null,
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35151" to "<http://www.example.org/schema#q>",
+                                    "#p35123" to null,
                                     "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "x" to "<http://www.example.org/instance#a>"
+                                    "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
                         )
@@ -9191,21 +9166,21 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "twice",
-                                "sum",
-                                "#p35195",
+                                "x",
+                                "#p35167",
                                 "y",
-                                "#p35196",
+                                "#p35168",
                                 "z",
-                                "x"
+                                "sum"
                             ), listOf(
                                 mutableMapOf(
                                     "twice" to "\"6\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35195" to "<http://www.example.org/schema#p>",
+                                    "x" to "<http://www.example.org/instance#a>",
+                                    "#p35167" to null,
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35196" to "<http://www.example.org/schema#q>",
+                                    "#p35168" to null,
                                     "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "x" to "<http://www.example.org/instance#a>"
+                                    "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
                         )
@@ -9241,19 +9216,19 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "sum",
                                 "x",
-                                "#p35308",
+                                "#p35280",
                                 "y"
                             ), listOf(
                                 mutableMapOf(
                                     "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35308" to "<http://www.example.org/schema#p>",
+                                    "#p35280" to null,
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "sum" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35308" to "<http://www.example.org/schema#p>",
+                                    "#p35280" to null,
                                     "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
@@ -9291,19 +9266,19 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "sum",
                                 "x",
-                                "#p35338",
+                                "#p35310",
                                 "y"
                             ), listOf(
                                 mutableMapOf(
                                     "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35338" to "<http://www.example.org/schema#p>",
+                                    "#p35310" to null,
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "sum" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35338" to "<http://www.example.org/schema#p>",
+                                    "#p35310" to null,
                                     "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
@@ -9341,19 +9316,19 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "dt",
                                 "x",
-                                "#p35424",
+                                "#p35396",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "dt" to "<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35424" to "<http://www.example.org/schema#p>",
+                                    "#p35396" to null,
                                     "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "dt" to null,
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35424" to "<http://www.example.org/schema#p>",
+                                    "#p35396" to null,
                                     "l" to "<http://www.example.org/schema#a>"
                                 )
                             )
@@ -9391,19 +9366,19 @@ class GeneratedPOPProjectionTest {
                         POPValues(dictionary, listOf(
                                 "dt",
                                 "x",
-                                "#p35449",
+                                "#p35421",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "dt" to "<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35449" to "<http://www.example.org/schema#p>",
+                                    "#p35421" to null,
                                     "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "dt" to null,
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35449" to "<http://www.example.org/schema#p>",
+                                    "#p35421" to null,
                                     "l" to "<http://www.example.org/schema#a>"
                                 )
                             )
@@ -9440,108 +9415,108 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "dt",
-                                "m",
                                 "x",
-                                "#p35534",
-                                "l"
-                            ), listOf(
-                                mutableMapOf(
-                                    "dt" to null,
-                                    "m" to null,
-                                    "x" to "<http://www.example.org/instance#a>",
-                                    "#p35534" to "<http://www.example.org/schema#p>",
-                                    "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                )
-                            )
-                        )
-                    ),
-                    POPValues(dictionary, listOf(
-                            "x",
-                            "l",
-                            "dt"
-                        ), listOf(
-                            mutableMapOf(
-                                "x" to "<http://www.example.org/instance#a>",
-                                "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "dt" to null
-                            )
-                        )
-                    )
-                )
-            }() /* resources/sparql11-test-suite/project-expression/projexp06.rq */ ,
-            {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    POPProjection(
-                        dictionary,
-                        mutableListOf(
-                            AOPVariable("x"),
-                            AOPVariable("l"),
-                            AOPVariable("dt")
-                        ),
-                        POPValues(dictionary, listOf(
-                                "dt",
-                                "m",
-                                "x",
-                                "#p35558",
-                                "l"
-                            ), listOf(
-                                mutableMapOf(
-                                    "dt" to null,
-                                    "m" to null,
-                                    "x" to "<http://www.example.org/instance#a>",
-                                    "#p35558" to "<http://www.example.org/schema#p>",
-                                    "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                )
-                            )
-                        )
-                    ),
-                    POPValues(dictionary, listOf(
-                            "x",
-                            "l",
-                            "dt"
-                        ), listOf(
-                            mutableMapOf(
-                                "x" to "<http://www.example.org/instance#a>",
-                                "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "dt" to null
-                            )
-                        )
-                    )
-                )
-            }() /* resources/sparql11-test-suite/project-expression/projexp06.rq */ ,
-            {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    POPProjection(
-                        dictionary,
-                        mutableListOf(
-                            AOPVariable("x"),
-                            AOPVariable("dt")
-                        ),
-                        POPValues(dictionary, listOf(
-                                "dt",
-                                "#p35654",
-                                "y",
-                                "#p35655",
+                                "#p35506",
                                 "l",
-                                "x"
+                                "m"
+                            ), listOf(
+                                mutableMapOf(
+                                    "dt" to null,
+                                    "x" to "<http://www.example.org/instance#a>",
+                                    "#p35506" to null,
+                                    "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "m" to null
+                                )
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "x",
+                            "l",
+                            "dt"
+                        ), listOf(
+                            mutableMapOf(
+                                "x" to "<http://www.example.org/instance#a>",
+                                "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "dt" to null
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/project-expression/projexp06.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPProjection(
+                        dictionary,
+                        mutableListOf(
+                            AOPVariable("x"),
+                            AOPVariable("l"),
+                            AOPVariable("dt")
+                        ),
+                        POPValues(dictionary, listOf(
+                                "dt",
+                                "x",
+                                "#p35530",
+                                "l",
+                                "m"
+                            ), listOf(
+                                mutableMapOf(
+                                    "dt" to null,
+                                    "x" to "<http://www.example.org/instance#a>",
+                                    "#p35530" to null,
+                                    "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "m" to null
+                                )
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "x",
+                            "l",
+                            "dt"
+                        ), listOf(
+                            mutableMapOf(
+                                "x" to "<http://www.example.org/instance#a>",
+                                "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "dt" to null
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/project-expression/projexp06.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPProjection(
+                        dictionary,
+                        mutableListOf(
+                            AOPVariable("x"),
+                            AOPVariable("dt")
+                        ),
+                        POPValues(dictionary, listOf(
+                                "dt",
+                                "x",
+                                "#p35626",
+                                "y",
+                                "#p35627",
+                                "l"
                             ), listOf(
                                 mutableMapOf(
                                     "dt" to "<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35654" to "<http://www.example.org/schema#p>",
+                                    "x" to "<http://www.example.org/instance#a>",
+                                    "#p35626" to null,
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35655" to "<http://www.example.org/schema#q>",
-                                    "l" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "x" to "<http://www.example.org/instance#a>"
+                                    "#p35627" to null,
+                                    "l" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "dt" to null,
-                                    "#p35654" to "<http://www.example.org/schema#p>",
+                                    "x" to "<http://www.example.org/instance#b>",
+                                    "#p35626" to null,
                                     "y" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35655" to null,
-                                    "l" to null,
-                                    "x" to "<http://www.example.org/instance#b>"
+                                    "#p35627" to null,
+                                    "l" to null
                                 )
                             )
                         )
@@ -9572,18 +9547,18 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#p37065",
-                                "#o37065"
+                                "#p37037",
+                                "#o37037"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#p37065" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37065" to "<http://www.example.orgOrder>"
+                                    "#p37037" to null,
+                                    "#o37037" to null
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#p37065" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37065" to "<http://www.example.orgOrder>"
+                                    "#p37037" to null,
+                                    "#o37037" to null
                                 )
                             )
                         )
@@ -9610,52 +9585,52 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("L")
                         ),
                         POPValues(dictionary, listOf(
-                                "#p37062",
+                                "#_36963",
+                                "#p37034",
                                 "L",
-                                "#p37063",
-                                "#_36991",
+                                "#p37035",
                                 "O"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p37062" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_36963" to "_:_36940",
+                                    "#p37034" to null,
                                     "L" to "\"Ice Cream\"",
-                                    "#p37063" to "<http://www.example.orghasItem>",
-                                    "#_36991" to "_:_36968",
+                                    "#p37035" to null,
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37062" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_36963" to "_:_36943",
+                                    "#p37034" to null,
                                     "L" to "\"Ice Cream\"",
-                                    "#p37063" to "<http://www.example.orghasItem>",
-                                    "#_36991" to "_:_36971",
+                                    "#p37035" to null,
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37062" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_36963" to "_:_36944",
+                                    "#p37034" to null,
                                     "L" to "\"Pasta\"",
-                                    "#p37063" to "<http://www.example.orghasItem>",
-                                    "#_36991" to "_:_36972",
+                                    "#p37035" to null,
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37062" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_36963" to "_:_36941",
+                                    "#p37034" to null,
                                     "L" to "\"Pizza\"",
-                                    "#p37063" to "<http://www.example.orghasItem>",
-                                    "#_36991" to "_:_36969",
+                                    "#p37035" to null,
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37062" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_36963" to "_:_36945",
+                                    "#p37034" to null,
                                     "L" to "\"Soft Drink\"",
-                                    "#p37063" to "<http://www.example.orghasItem>",
-                                    "#_36991" to "_:_36973",
+                                    "#p37035" to null,
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37062" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_36963" to "_:_36942",
+                                    "#p37034" to null,
                                     "L" to "\"Wine\"",
-                                    "#p37063" to "<http://www.example.orghasItem>",
-                                    "#_36991" to "_:_36970",
+                                    "#p37035" to null,
                                     "O" to "<http://www.example.orgorder1>"
                                 )
                             )
@@ -9696,18 +9671,18 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#p37086",
-                                "#o37086"
+                                "#p37058",
+                                "#o37058"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#p37086" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37086" to "<http://www.example.orgOrder>"
+                                    "#p37058" to null,
+                                    "#o37058" to null
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#p37086" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37086" to "<http://www.example.orgOrder>"
+                                    "#p37058" to null,
+                                    "#o37058" to null
                                 )
                             )
                         )
@@ -9734,52 +9709,52 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("L")
                         ),
                         POPValues(dictionary, listOf(
-                                "#p37083",
+                                "#_36963",
+                                "#p37055",
                                 "L",
-                                "#p37084",
-                                "#_36991",
+                                "#p37056",
                                 "O"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p37083" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_36963" to "_:_36940",
+                                    "#p37055" to null,
                                     "L" to "\"Ice Cream\"",
-                                    "#p37084" to "<http://www.example.orghasItem>",
-                                    "#_36991" to "_:_36968",
+                                    "#p37056" to null,
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37083" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_36963" to "_:_36943",
+                                    "#p37055" to null,
                                     "L" to "\"Ice Cream\"",
-                                    "#p37084" to "<http://www.example.orghasItem>",
-                                    "#_36991" to "_:_36971",
+                                    "#p37056" to null,
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37083" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_36963" to "_:_36944",
+                                    "#p37055" to null,
                                     "L" to "\"Pasta\"",
-                                    "#p37084" to "<http://www.example.orghasItem>",
-                                    "#_36991" to "_:_36972",
+                                    "#p37056" to null,
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37083" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_36963" to "_:_36941",
+                                    "#p37055" to null,
                                     "L" to "\"Pizza\"",
-                                    "#p37084" to "<http://www.example.orghasItem>",
-                                    "#_36991" to "_:_36969",
+                                    "#p37056" to null,
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37083" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_36963" to "_:_36945",
+                                    "#p37055" to null,
                                     "L" to "\"Soft Drink\"",
-                                    "#p37084" to "<http://www.example.orghasItem>",
-                                    "#_36991" to "_:_36973",
+                                    "#p37056" to null,
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37083" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_36963" to "_:_36942",
+                                    "#p37055" to null,
                                     "L" to "\"Wine\"",
-                                    "#p37084" to "<http://www.example.orghasItem>",
-                                    "#_36991" to "_:_36970",
+                                    "#p37056" to null,
                                     "O" to "<http://www.example.orgorder1>"
                                 )
                             )
@@ -9821,19 +9796,19 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "FullName",
-                                "#p37205",
+                                "P",
+                                "#p37177",
                                 "F",
-                                "#p37206",
-                                "L",
-                                "P"
+                                "#p37178",
+                                "L"
                             ), listOf(
                                 mutableMapOf(
                                     "FullName" to "\"John Doe\"",
-                                    "#p37205" to "<http://xmlns.com/foaf/0.1/firstName>",
+                                    "P" to "<http://p1>",
+                                    "#p37177" to null,
                                     "F" to "\"John\"",
-                                    "#p37206" to "<http://xmlns.com/foaf/0.1/lastName>",
-                                    "L" to "\"Doe\"",
-                                    "P" to "<http://p1>"
+                                    "#p37178" to null,
+                                    "L" to "\"Doe\""
                                 )
                             )
                         )
@@ -9861,16 +9836,16 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("o")
                         ),
                         POPValues(dictionary, listOf(
-                                "p",
-                                "P",
+                                "o",
                                 "s",
-                                "o"
+                                "P",
+                                "p"
                             ), listOf(
                                 mutableMapOf(
-                                    "p" to "<http://xmlns.com/foaf/0.1/name>",
-                                    "P" to null,
+                                    "o" to "\"John Doe\"",
                                     "s" to "<http://p1>",
-                                    "o" to "\"John Doe\""
+                                    "P" to null,
+                                    "p" to "<http://xmlns.com/foaf/0.1/name>"
                                 )
                             )
                         )
@@ -9900,19 +9875,19 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "FullName",
-                                "#p37260",
+                                "P",
+                                "#p37232",
                                 "F",
-                                "#p37261",
-                                "L",
-                                "P"
+                                "#p37233",
+                                "L"
                             ), listOf(
                                 mutableMapOf(
                                     "FullName" to "\"John Doe\"",
-                                    "#p37260" to "<http://xmlns.com/foaf/0.1/firstName>",
+                                    "P" to "<http://p1>",
+                                    "#p37232" to null,
                                     "F" to "\"John\"",
-                                    "#p37261" to "<http://xmlns.com/foaf/0.1/lastName>",
-                                    "L" to "\"Doe\"",
-                                    "P" to "<http://p1>"
+                                    "#p37233" to null,
+                                    "L" to "\"Doe\""
                                 )
                             )
                         )
@@ -9939,18 +9914,18 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#p37430",
-                                "#o37430"
+                                "#p37402",
+                                "#o37402"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#p37430" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37430" to "<http://www.example.orgOrder>"
+                                    "#p37402" to null,
+                                    "#o37402" to null
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#p37430" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37430" to "<http://www.example.orgOrder>"
+                                    "#p37402" to null,
+                                    "#o37402" to null
                                 )
                             )
                         )
@@ -9977,52 +9952,52 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("L")
                         ),
                         POPValues(dictionary, listOf(
-                                "#p37427",
+                                "#_37328",
+                                "#p37399",
                                 "L",
-                                "#p37428",
-                                "#_37356",
+                                "#p37400",
                                 "O"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p37427" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_37328" to "_:_37305",
+                                    "#p37399" to null,
                                     "L" to "\"Ice Cream\"",
-                                    "#p37428" to "<http://www.example.orghasItem>",
-                                    "#_37356" to "_:_37333",
+                                    "#p37400" to null,
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37427" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_37328" to "_:_37308",
+                                    "#p37399" to null,
                                     "L" to "\"Ice Cream\"",
-                                    "#p37428" to "<http://www.example.orghasItem>",
-                                    "#_37356" to "_:_37336",
+                                    "#p37400" to null,
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37427" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_37328" to "_:_37309",
+                                    "#p37399" to null,
                                     "L" to "\"Pasta\"",
-                                    "#p37428" to "<http://www.example.orghasItem>",
-                                    "#_37356" to "_:_37337",
+                                    "#p37400" to null,
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37427" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_37328" to "_:_37306",
+                                    "#p37399" to null,
                                     "L" to "\"Pizza\"",
-                                    "#p37428" to "<http://www.example.orghasItem>",
-                                    "#_37356" to "_:_37334",
+                                    "#p37400" to null,
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37427" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_37328" to "_:_37310",
+                                    "#p37399" to null,
                                     "L" to "\"Soft Drink\"",
-                                    "#p37428" to "<http://www.example.orghasItem>",
-                                    "#_37356" to "_:_37338",
+                                    "#p37400" to null,
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37427" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_37328" to "_:_37307",
+                                    "#p37399" to null,
                                     "L" to "\"Wine\"",
-                                    "#p37428" to "<http://www.example.orghasItem>",
-                                    "#_37356" to "_:_37335",
+                                    "#p37400" to null,
                                     "O" to "<http://www.example.orgorder1>"
                                 )
                             )
@@ -10063,18 +10038,18 @@ class GeneratedPOPProjectionTest {
                         ),
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#p37451",
-                                "#o37451"
+                                "#p37423",
+                                "#o37423"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#p37451" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37451" to "<http://www.example.orgOrder>"
+                                    "#p37423" to null,
+                                    "#o37423" to null
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#p37451" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37451" to "<http://www.example.orgOrder>"
+                                    "#p37423" to null,
+                                    "#o37423" to null
                                 )
                             )
                         )
@@ -10101,52 +10076,52 @@ class GeneratedPOPProjectionTest {
                             AOPVariable("L")
                         ),
                         POPValues(dictionary, listOf(
-                                "#p37448",
+                                "#_37328",
+                                "#p37420",
                                 "L",
-                                "#p37449",
-                                "#_37356",
+                                "#p37421",
                                 "O"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p37448" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_37328" to "_:_37305",
+                                    "#p37420" to null,
                                     "L" to "\"Ice Cream\"",
-                                    "#p37449" to "<http://www.example.orghasItem>",
-                                    "#_37356" to "_:_37333",
+                                    "#p37421" to null,
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37448" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_37328" to "_:_37308",
+                                    "#p37420" to null,
                                     "L" to "\"Ice Cream\"",
-                                    "#p37449" to "<http://www.example.orghasItem>",
-                                    "#_37356" to "_:_37336",
+                                    "#p37421" to null,
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37448" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_37328" to "_:_37309",
+                                    "#p37420" to null,
                                     "L" to "\"Pasta\"",
-                                    "#p37449" to "<http://www.example.orghasItem>",
-                                    "#_37356" to "_:_37337",
+                                    "#p37421" to null,
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37448" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_37328" to "_:_37306",
+                                    "#p37420" to null,
                                     "L" to "\"Pizza\"",
-                                    "#p37449" to "<http://www.example.orghasItem>",
-                                    "#_37356" to "_:_37334",
+                                    "#p37421" to null,
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37448" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_37328" to "_:_37310",
+                                    "#p37420" to null,
                                     "L" to "\"Soft Drink\"",
-                                    "#p37449" to "<http://www.example.orghasItem>",
-                                    "#_37356" to "_:_37338",
+                                    "#p37421" to null,
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37448" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#_37328" to "_:_37307",
+                                    "#p37420" to null,
                                     "L" to "\"Wine\"",
-                                    "#p37449" to "<http://www.example.orghasItem>",
-                                    "#_37356" to "_:_37335",
+                                    "#p37421" to null,
                                     "O" to "<http://www.example.orgorder1>"
                                 )
                             )
@@ -10218,6 +10193,7 @@ class GeneratedPOPProjectionTest {
                     assertTrue(expected.myEquals(output))
                 }
             } catch (e: Throwable) {
+                e.printStackTrace()
                 assertTrue(data.expected is Throwable)
             }
         }

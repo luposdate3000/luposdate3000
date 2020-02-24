@@ -14,7 +14,7 @@ object QueryResultToXML {
         res.add(nodeSparql)
         val nodeHead = XMLElement("head")
         nodeSparql.addContent(nodeHead)
-        val variableNames = query.resultSet.getVariableNames().toTypedArray()
+        val variableNames = query.getProvidedVariableNames().toTypedArray()
         val variables = mutableListOf<Pair<String, Variable>>()
         if (variableNames.size == 1 && variableNames[0] == "?boolean") {
             CoroutinesHelper.runBlock {

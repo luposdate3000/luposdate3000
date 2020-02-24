@@ -13,7 +13,7 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s03resultRepresentation.ResultRepresenationNetwork
-import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.*
 import lupos.s12p2p.P2P
 import lupos.s12p2p.TransferHelperNetwork
 import lupos.s14endpoint.Endpoint
@@ -91,7 +91,7 @@ object EndpointImpl {
             when (request.path) {
 
                 REQUEST_TRIPLE_ADD[0] -> responseStr = Endpoint.process_local_triple_add(params[REQUEST_TRIPLE_ADD[1]]!!.first(), params[REQUEST_TRIPLE_ADD[2]]!!.first().toLong(), params[REQUEST_TRIPLE_ADD[3]]!!.first(), params[REQUEST_TRIPLE_ADD[4]]!!.first(), params[REQUEST_TRIPLE_ADD[5]]!!.first(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_ADD[6]]!!.first())).toPrettyString()
-                REQUEST_TRIPLE_GET[0] -> responseBytes = ResultRepresenationNetwork.toNetworkPackage(Endpoint.process_local_triple_get(params[REQUEST_TRIPLE_GET[1]]!!.first(), ResultSetDictionary(), params[REQUEST_TRIPLE_GET[2]]!!.first().toLong(), params[REQUEST_TRIPLE_GET[3]]!!.first(), params[REQUEST_TRIPLE_GET[4]]!!.first(), params[REQUEST_TRIPLE_GET[5]]!!.first(), params[REQUEST_TRIPLE_GET[6]]!!.first().toBoolean(), params[REQUEST_TRIPLE_GET[7]]!!.first().toBoolean(), params[REQUEST_TRIPLE_GET[8]]!!.first().toBoolean(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_GET[9]]!!.first())))
+                REQUEST_TRIPLE_GET[0] -> responseBytes = ResultRepresenationNetwork.toNetworkPackage(Endpoint.process_local_triple_get(params[REQUEST_TRIPLE_GET[1]]!!.first(), ResultSet(ResultSetDictionary()), params[REQUEST_TRIPLE_GET[2]]!!.first().toLong(), params[REQUEST_TRIPLE_GET[3]]!!.first(), params[REQUEST_TRIPLE_GET[4]]!!.first(), params[REQUEST_TRIPLE_GET[5]]!!.first(), params[REQUEST_TRIPLE_GET[6]]!!.first().toBoolean(), params[REQUEST_TRIPLE_GET[7]]!!.first().toBoolean(), params[REQUEST_TRIPLE_GET[8]]!!.first().toBoolean(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_GET[9]]!!.first())))
                 REQUEST_TRIPLE_DELETE[0] -> responseStr = Endpoint.process_local_triple_delete(params[REQUEST_TRIPLE_DELETE[1]]!!.first(), params[REQUEST_TRIPLE_DELETE[2]]!!.first().toLong(), params[REQUEST_TRIPLE_DELETE[3]]!!.first(), params[REQUEST_TRIPLE_DELETE[4]]!!.first(), params[REQUEST_TRIPLE_DELETE[5]]!!.first(), params[REQUEST_TRIPLE_DELETE[6]]!!.first().toBoolean(), params[REQUEST_TRIPLE_DELETE[7]]!!.first().toBoolean(), params[REQUEST_TRIPLE_DELETE[8]]!!.first().toBoolean(), EIndexPattern.valueOf(params[REQUEST_TRIPLE_DELETE[9]]!!.first())).toPrettyString()
                 REQUEST_TRACE_PRINT[0] -> responseStr = process_print_traces()
                 REQUEST_PEERS_LIST[0] -> responseStr = P2P.process_peers_list()
