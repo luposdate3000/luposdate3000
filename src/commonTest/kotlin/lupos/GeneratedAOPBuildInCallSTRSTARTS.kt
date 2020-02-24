@@ -357,8 +357,10 @@ class GeneratedAOPBuildInCallSTRSTARTSTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output))
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
+                        println(expected.toPrettyString())
+                    }
                     assertTrue(expected.myEquals(output))
                 }
             } catch (e: Throwable) {

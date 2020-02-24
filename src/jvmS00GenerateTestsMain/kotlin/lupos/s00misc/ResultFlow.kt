@@ -116,11 +116,27 @@ fun testCaseFromPOPBaseSimple(op: POPBase): String {
             res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + ",\n"
             res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1].resultSet, "${prefix}                        ") + "\n"
         }
+is POPJoinHashMap -> {
+            res += "${prefix}                        dictionary,\n"
+            res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + ",\n"
+            res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1].resultSet, "${prefix}                        ") + ",\n"
+	    res+="${prefix}                        ${op.optional}"
+}
+is POPJoinNestedLoop -> {
+            res += "${prefix}                        dictionary,\n"
+            res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + ",\n"
+            res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1].resultSet, "${prefix}                        ") + ",\n"
+	    res+="${prefix}                        ${op.optional}"
+}
+is POPRename -> {
+            res += "${prefix}                        dictionary,\n"
+	    res += "${prefix}                        AOPVariable(\"${op.nameTo.name}\"),\n"
+	    res += "${prefix}                        AOPVariable(\"${op.nameFrom.name}\"),\n"
+            res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
+}
         else -> throw Exception("not implemented testCaseFromPOPBaseSimple(${classNameToString(op)})")
-/*is POPJoinHashMap -> {}
-is POPJoinNestedLoop -> {}
+/*
 is POPModify -> {}
-is POPRename -> {}
 is POPFilter -> {}
 is POPBindUndefined -> {}
 is POPTemporaryStore -> {}
@@ -310,8 +326,10 @@ fun printAllMicroTest() {
                 out.println("${prefix}                    assertTrue(data.expected is POPValues)")
                 out.println("${prefix}                    val output = QueryResultToXML.toXML(input).first()")
                 out.println("${prefix}                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()")
-                out.println("${prefix}                    if (!expected.myEquals(output))")
+                out.println("${prefix}                    if (!expected.myEquals(output)){")
                 out.println("${prefix}                        println(output.toPrettyString())")
+                out.println("${prefix}                        println(expected.toPrettyString())")
+                out.println("${prefix}                    }")
                 out.println("${prefix}                    assertTrue(expected.myEquals(output))")
                 out.println("${prefix}                }")
                 out.println("${prefix}            } catch (e: Throwable) {")

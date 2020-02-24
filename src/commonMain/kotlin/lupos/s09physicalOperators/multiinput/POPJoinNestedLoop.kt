@@ -19,7 +19,7 @@ class POPJoinNestedLoop : POPBase {
     override val resultSet: ResultSet
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     val optional: Boolean
-    val joinVariables: Set<String>
+    val joinVariables=mutableListOf<String>()
     private val variablesOldA = mutableListOf<Pair<Variable, Variable>>()//not joined
     private val variablesOldB = mutableListOf<Pair<Variable, Variable>>()//not joined
     private val variablesOldJ = mutableListOf<Pair<Pair<Variable, Variable>, Variable>>()//joined
@@ -56,21 +56,22 @@ class POPJoinNestedLoop : POPBase {
         this.optional = optional
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         require(children[1].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        var variablesA = children[0].resultSet.getVariableNames()
-        var variablesB = children[1].resultSet.getVariableNames()
-        joinVariables = variablesA.intersect(variablesB)
-        variablesA = variablesA.subtract(joinVariables)
-        variablesB = variablesB.subtract(joinVariables)
-
-        for (name in variablesA) {
+        val variablesAt = children[0].resultSet.getVariableNames()
+        val variablesBt = children[1].resultSet.getVariableNames()
+        val variablesA = MutableList(variablesAt.size){variablesAt[it]}
+        val variablesB = MutableList(variablesBt.size){variablesBt[it]}
+	variablesA.forEach{
+		if(variablesB.contains(it))
+			joinVariables.add(it)
+	}
+        val variablesA2 = variablesA.minus(joinVariables)
+        val variablesB2 = variablesB.minus(joinVariables)
+        for (name in variablesA2) 
             variablesOldA.add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
-        }
-        for (name in variablesB) {
+        for (name in variablesB2) 
             variablesOldB.add(Pair(children[1].resultSet.createVariable(name), resultSet.createVariable(name)))
-        }
-        for (name in joinVariables) {
+        for (name in joinVariables) 
             variablesOldJ.add(Pair(Pair(children[0].resultSet.createVariable(name), children[1].resultSet.createVariable(name)), resultSet.createVariable(name)))
-        }
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPJoinNestedLoop.evaluate" }, {

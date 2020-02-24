@@ -38,25 +38,25 @@ class GeneratedAOPBuildInCallBNODE0Test {
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3096730992")
+                        AOPBnode("3096530990")
                 )
             }()*/
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3096230994")
+                        AOPBnode("3096030992")
                 )
             }()*/
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3099831016")
+                        AOPBnode("3099631014")
                 )
             }()*/
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3100531018")
+                        AOPBnode("3100331016")
                 )
             }()*/
             {
@@ -93,8 +93,10 @@ class GeneratedAOPBuildInCallBNODE0Test {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output))
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
+                        println(expected.toPrettyString())
+                    }
                     assertTrue(expected.myEquals(output))
                 }
             } catch (e: Throwable) {

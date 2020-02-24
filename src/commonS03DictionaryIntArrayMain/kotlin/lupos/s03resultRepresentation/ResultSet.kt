@@ -30,8 +30,8 @@ class ResultSet(val dictionary: ResultSetDictionary) {
         return variablesLTS[variable.toInt()]
     }
 
-    fun getVariableNames(): Set<String> {
-        return variablesLTS.toSet()
+    fun getVariableNames(): List<String> {
+        return variablesLTS
     }
 
     fun createValue(value: String?): Value {

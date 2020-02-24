@@ -6,16 +6,17 @@ import lupos.s03resultRepresentation.Variable
 
 
 class ResultSet(val dictionary: ResultSetDictionary) {
-    val variables = mutableSetOf<String>()
+    val variables = mutableListOf<String>()
 
     fun renameVariable(variableOld: String, variableNew: String): String {
-        variables.remove(variableOld)
-        variables.add(variableNew)
+val i=variables.indexOf(variableOld)
+variables[i])variableNew
         return variableNew
     }
 
     fun createVariable(variable: String): Variable {
-        variables.add(variable)
+	if(!variables.contains(variable))
+		variables.add(variable)
         return variable
     }
 
@@ -23,7 +24,7 @@ class ResultSet(val dictionary: ResultSetDictionary) {
         return variable
     }
 
-    fun getVariableNames(): Set<String> {
+    fun getVariableNames(): List<String> {
         return variables
     }
 

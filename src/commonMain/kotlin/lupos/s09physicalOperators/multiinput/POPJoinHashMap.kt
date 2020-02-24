@@ -17,7 +17,7 @@ class POPJoinHashMap : POPBase {
     override val resultSet: ResultSet
     override val children: Array<OPBase>
     val optional: Boolean
-    val joinVariables: Set<String>
+    val joinVariables= mutableListOf<String>()
     val map: Array<MutableMap<String, MutableList<ResultRow>>>
     val variables: Array<MutableList<Pair<Variable, Variable>>>
     val variablesJ: Array<MutableList<Pair<Variable, Variable>>>
@@ -52,21 +52,21 @@ class POPJoinHashMap : POPBase {
         this.optional = optional
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         require(children[1].resultSet.dictionary == dictionary || (!(this.children[1] is POPBase)))
-
-        var variablesA: Set<String> = mutableSetOf<String>()
-        var variablesB: Set<String> = mutableSetOf<String>()
-        for (s in childA.getProvidedVariableNames())
-            (variablesA as MutableSet).add(s)
-        for (s in childB.getProvidedVariableNames())
-            (variablesB as MutableSet).add(s)
-        joinVariables = variablesA.intersect(variablesB)
-        variablesA = variablesA.subtract(joinVariables)
-        variablesB = variablesB.subtract(joinVariables)
+val variablesAt = children[0].resultSet.getVariableNames()
+        val variablesBt = children[1].resultSet.getVariableNames()
+        val variablesA = MutableList(variablesAt.size){variablesAt[it]}
+        val variablesB = MutableList(variablesBt.size){variablesBt[it]}
+        variablesA.forEach{
+                if(variablesB.contains(it))
+                        joinVariables.add(it)
+        }
+        val variablesA2 = variablesA.minus(joinVariables)
+        val variablesB2 = variablesB.minus(joinVariables)
         variables = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf<Pair<Variable, Variable>>())
         variablesJ = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf<Pair<Variable, Variable>>())
-        for (name in variablesA)
+        for (name in variablesA2)
             variables[0].add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
-        for (name in variablesB)
+        for (name in variablesB2)
             variables[1].add(Pair(children[1].resultSet.createVariable(name), resultSet.createVariable(name)))
         for (name in joinVariables) {
             variablesJ[0].add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
