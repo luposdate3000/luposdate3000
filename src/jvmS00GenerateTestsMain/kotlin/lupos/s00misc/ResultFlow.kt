@@ -171,7 +171,6 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
             }
             res += "${prefix}                MicroTestAN(\n"
             res += "${prefix}                        " + testCaseFromAOPBase(input, resultRow, resultSet) + ",\n"
-
             res += "${prefix}                        listOf(\n"
             val tmp = mapOfAggregationChilds[input.uuid]
             if (tmp != null) {
@@ -256,6 +255,7 @@ fun printAllMicroTest() {
                 out.println("import org.junit.jupiter.api.*")
                 out.println("import org.junit.jupiter.api.Assertions.*")
                 out.println("")
+                out.println("")
                 out.println("class Generated${operator}Test {")
                 out.println("    fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {")
                 out.println("        for (n in node.children)")
@@ -267,10 +267,7 @@ fun printAllMicroTest() {
                 out.println("                node.a = null")
                 out.println("        }")
                 out.println("    }")
-
-
-
-
+                out.println("")
                 out.println("${prefix}    @TestFactory")
                 out.println("${prefix}    fun test() = listOf(")
                 testcases.forEach {
@@ -285,9 +282,9 @@ fun printAllMicroTest() {
                 out.println("${prefix}    ).mapIndexed { index, data ->")
                 out.println("${prefix}        DynamicTest.dynamicTest(\"\$index\") {")
                 out.println("${prefix}            try {")
-                out.println("${prefix}                if(data.input is AOPBase){")
+                out.println("${prefix}                if (data.input is AOPBase) {")
                 out.println("${prefix}                    val input = data.input as AOPBase")
-                out.println("${prefix}                    val output:AOPConstant")
+                out.println("${prefix}                    val output: AOPConstant")
                 out.println("${prefix}                    if (data is MicroTestA1) {")
                 out.println("${prefix}                        output = input.calculate(data.resultSet, data.resultRow)")
                 out.println("${prefix}                    } else if (data is MicroTestAN) {")
@@ -302,18 +299,18 @@ fun printAllMicroTest() {
                 out.println("${prefix}                    }")
                 out.println("${prefix}                    assertTrue(data.expected is AOPConstant)")
                 out.println("${prefix}                    if (!data.expected.equals(output)) {")
-                out.println("${prefix}                        if(data is MicroTestA1)")
+                out.println("${prefix}                        if (data is MicroTestA1)")
                 out.println("${prefix}                            println(data.resultRow)")
                 out.println("${prefix}                        println(output.valueToString())")
                 out.println("${prefix}                        println((data.expected as AOPConstant).valueToString())")
                 out.println("${prefix}                    }")
                 out.println("${prefix}                    assertTrue(data.expected.equals(output))")
-                out.println("${prefix}                } else if (data.input is POPBase){")
+                out.println("${prefix}                } else if (data.input is POPBase) {")
                 out.println("${prefix}                    val input = data.input as POPBase")
                 out.println("${prefix}                    assertTrue(data.expected is POPValues)")
-                out.println("${prefix}                    val output=QueryResultToXML.toXML(input).first()")
-                out.println("${prefix}                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()")
-                out.println("${prefix}                    if(!expected.myEquals(output))")
+                out.println("${prefix}                    val output = QueryResultToXML.toXML(input).first()")
+                out.println("${prefix}                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()")
+                out.println("${prefix}                    if (!expected.myEquals(output))")
                 out.println("${prefix}                        println(output.toPrettyString())")
                 out.println("${prefix}                    assertTrue(expected.myEquals(output))")
                 out.println("${prefix}                }")
@@ -409,7 +406,7 @@ fun testCaseFromAOPBase(input: AOPBase, resultRow: ResultRow, resultSet: ResultS
         }
         is AOPBnode -> return "AOPBnode(\"${input.value.replace("\"", "\\\"")}\")"
         is AOPAggregation -> {
-            var res = "AOPAggregation(Aggregation.${input.type},${input.distinct},arrayOf("
+            var res = "AOPAggregation(Aggregation.${input.type}, ${input.distinct}, arrayOf("
             if (input.children.size > 0)
                 res += testCaseFromAOPBase(input.children[0] as AOPBase, resultRow, resultSet)
             for (i in 1 until input.children.size)

@@ -38,7 +38,7 @@ class GeneratedAOPBuildInCallNOWTest {
             /*{
                 MicroTest0(
                         AOPBuildInCallNOW(),
-                        AOPDateTime("\"2020-02-24T10:20:52Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                        AOPDateTime("\"2020-02-24T10:29:27Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                 )
             }()*/
             {
