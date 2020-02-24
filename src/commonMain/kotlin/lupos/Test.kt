@@ -39,6 +39,7 @@ val errorBoundForDecimalsDigits = 6
 fun main(args: Array<String>) {
     P2P.knownClients.add(EndpointImpl.fullname)
     testMain()
+printAllMicroTest()
 }
 
 fun testMain() {
@@ -381,7 +382,7 @@ fun parseSPARQLAndEvaluate(//
     DistributedTripleStore.clearGraph(DistributedTripleStore.localStore.defaultGraphName)
     val toParse = readFileOrNull(queryFile)!!
     if (toParse.contains("service", true)) {
-        printAllMicroTest(testName, queryFile, false)
+        updateAllMicroTest(testName, queryFile, false)
         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Service)" })
         return false
     }
@@ -470,7 +471,7 @@ fun parseSPARQLAndEvaluate(//
                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" })
                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphTarget :: " + xmlGraphTarget!!.first().toPrettyString() })
                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlGraphActual :: " + xmlGraphActual.first().toPrettyString() })
-                printAllMicroTest(testName, queryFile, false)
+                updateAllMicroTest(testName, queryFile, false)
                 GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(PersistentStore Graph)" })
                 return false
             } else {
@@ -499,34 +500,34 @@ fun parseSPARQLAndEvaluate(//
                 GlobalLogger.log(ELoggerType.TEST_DETAIL, { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.first().toPrettyString() })
                 if (xmlQueryResultRecovered.first().myEquals(xmlQueryResult)) {
                     if (expectedResult) {
-                        printAllMicroTest(testName, queryFile, true)
+                        updateAllMicroTest(testName, queryFile, true)
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success" })
                     } else {
-                        printAllMicroTest(testName, queryFile, false)
+                        updateAllMicroTest(testName, queryFile, false)
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(expectFalse)" })
                     }
                 } else {
-                    printAllMicroTest(testName, queryFile, false)
+                    updateAllMicroTest(testName, queryFile, false)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(RecoverFromXMLOperatorGraph)" })
                     res = false
                 }
             } else {
                 if (xmlQueryResult.myEqualsUnclean(xmlQueryTarget?.first())) {
                     if (expectedResult) {
-                        printAllMicroTest(testName, queryFile, true)
+                        updateAllMicroTest(testName, queryFile, true)
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Unordered)" })
                     } else {
-                        printAllMicroTest(testName, queryFile, false)
+                        updateAllMicroTest(testName, queryFile, false)
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(expectFalse,Unordered)" })
                     }
                 } else {
                     if (expectedResult) {
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryTarget :: " + xmlQueryTarget?.first()?.toPrettyString() })
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() })
-                        printAllMicroTest(testName, queryFile, false)
+                        updateAllMicroTest(testName, queryFile, false)
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Incorrect)" })
                     } else {
-                        printAllMicroTest(testName, queryFile, true)
+                        updateAllMicroTest(testName, queryFile, true)
                         GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse)" })
                     }
                 }
@@ -535,18 +536,18 @@ fun parseSPARQLAndEvaluate(//
         } else {
             if (verifiedOutput) {
                 if (expectedResult) {
-                    printAllMicroTest(testName, queryFile, true)
+                    updateAllMicroTest(testName, queryFile, true)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Graph)" })
                 } else {
-                    printAllMicroTest(testName, queryFile, false)
+                    updateAllMicroTest(testName, queryFile, false)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(ExpectFalse,Graph)" })
                 }
             } else {
                 if (expectedResult) {
-                    printAllMicroTest(testName, queryFile, true)
+                    updateAllMicroTest(testName, queryFile, true)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(Syntax)" })
                 } else {
-                    printAllMicroTest(testName, queryFile, false)
+                    updateAllMicroTest(testName, queryFile, false)
                     GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(ExpectFalse,Syntax)" })
                 }
             }
@@ -557,20 +558,20 @@ fun parseSPARQLAndEvaluate(//
             GlobalLogger.log(ELoggerType.DEBUG, { e.message })
             GlobalLogger.log(ELoggerType.DEBUG, { "Error in the following line:" })
             GlobalLogger.log(ELoggerType.DEBUG, { e.lineNumber })
-            printAllMicroTest(testName, queryFile, false)
+            updateAllMicroTest(testName, queryFile, false)
             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(ParseError)" })
         } else {
-            printAllMicroTest(testName, queryFile, true)
+            updateAllMicroTest(testName, queryFile, true)
             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse,ParseError)" })
         }
         return false
     } catch (e: Throwable) {
         if (expectedResult) {
-            printAllMicroTest(testName, queryFile, false)
+            updateAllMicroTest(testName, queryFile, false)
             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Failed(Throwable)" })
             GlobalLogger.stacktrace(ELoggerType.TEST_RESULT, e)
         } else {
-            printAllMicroTest(testName, queryFile, true)
+            updateAllMicroTest(testName, queryFile, true)
             GlobalLogger.log(ELoggerType.TEST_RESULT, { "----------Success(ExpectFalse,Throwable)" })
         }
         return false
