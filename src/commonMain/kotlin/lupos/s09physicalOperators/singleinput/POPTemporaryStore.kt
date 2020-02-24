@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -8,6 +7,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
@@ -55,12 +55,12 @@ class POPTemporaryStore : POPBase {
         CoroutinesHelper.run {
             try {
                 for (rsOld in children[0].channel) {
-resultFlowConsume({this@POPTemporaryStore},{children[0]},{rsOld})
+                    resultFlowConsume({ this@POPTemporaryStore }, { children[0] }, { rsOld })
                     var rsNew = resultSet.createResultRow()
                     for (variable in variables)
                         rsNew[variable.first] = rsOld[variable.second]
                     data.add(rsNew)
-                    channel.send(resultFlowProduce({this@POPTemporaryStore},{rsNew}))
+                    channel.send(resultFlowProduce({ this@POPTemporaryStore }, { rsNew }))
                 }
             } catch (e: Throwable) {
                 channel.close(e)
@@ -70,7 +70,7 @@ resultFlowConsume({this@POPTemporaryStore},{children[0]},{rsOld})
 
     suspend fun reset() {
         for (c in data) {
-            channel.send(resultFlowProduce({this@POPTemporaryStore},{c}))
+            channel.send(resultFlowProduce({ this@POPTemporaryStore }, { c }))
         }
     }
 

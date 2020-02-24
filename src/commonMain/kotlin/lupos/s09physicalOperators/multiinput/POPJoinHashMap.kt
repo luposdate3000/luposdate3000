@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -8,6 +7,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
@@ -87,14 +87,14 @@ class POPJoinHashMap : POPBase {
                 if (!children[1 - idx].resultSet.isUndefValue(rowB, p.first))
                     row[p.second] = rowB[p.first]
             }
-            channel.send(resultFlowProduce({this@POPJoinHashMap},{row}))
+            channel.send(resultFlowProduce({ this@POPJoinHashMap }, { row }))
         }
     }
 
     suspend fun joinHelper(idx: Int) {
         try {
             for (rowA in children[idx].channel) {
-resultFlowConsume({this@POPJoinHashMap},{children[idx]},{rowA})
+                resultFlowConsume({ this@POPJoinHashMap }, { children[idx] }, { rowA })
                 var keys = mutableSetOf<String>()
                 keys.add("")
                 var exactkey = ""
@@ -157,7 +157,7 @@ resultFlowConsume({this@POPJoinHashMap},{children[idx]},{rowA})
                                     row[p.second] = rowA[p.first]
                                 for (p in variablesJ[0])
                                     row[p.second] = rowA[p.first]
-                                channel.send(resultFlowProduce({this@POPJoinHashMap},{row}))
+                                channel.send(resultFlowProduce({ this@POPJoinHashMap }, { row }))
                             }
                         }
                     }

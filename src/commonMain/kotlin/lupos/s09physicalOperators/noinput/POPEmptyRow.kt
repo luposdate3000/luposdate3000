@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -8,6 +7,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
 
@@ -38,7 +38,7 @@ class POPEmptyRow : POPBase {
     override fun evaluate() = Trace.trace<Unit>({ "POPEmptyRow.evaluate" }, {
         CoroutinesHelper.run {
             try {
-                channel.send(resultFlowProduce({this@POPEmptyRow},{resultSet.createResultRow()}))
+                channel.send(resultFlowProduce({ this@POPEmptyRow }, { resultSet.createResultRow() }))
                 channel.close()
             } catch (e: Throwable) {
                 channel.close(e)

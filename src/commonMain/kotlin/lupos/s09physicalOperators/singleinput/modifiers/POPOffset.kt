@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput.modifiers
-import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -8,6 +7,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
@@ -58,14 +58,14 @@ class POPOffset : POPBase {
             try {
                 var count = 0
                 for (rsOld in children[0].channel) {
-resultFlowConsume({this@POPOffset},{children[0]},{rsOld})
+                    resultFlowConsume({ this@POPOffset }, { children[0] }, { rsOld })
                     if (count >= offset) {
                         var rsNew = resultSet.createResultRow()
                         for (v in variables)
                             rsNew[v.first] = rsOld[v.second]
-                        channel.send(resultFlowProduce({this@POPOffset},{rsNew}))
+                        channel.send(resultFlowProduce({ this@POPOffset }, { rsNew }))
                     }
-		    count++
+                    count++
                 }
                 channel.close()
                 children[0].channel.close()

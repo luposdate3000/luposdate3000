@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -8,6 +7,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
@@ -61,11 +61,11 @@ class POPFilterExact : POPBase {
         children[0].evaluate()
         CoroutinesHelper.run {
             try {
-                for (nextRow in children[0].channel){
-		resultFlowConsume({this@POPFilterExact},{children[0]},{nextRow})
+                for (nextRow in children[0].channel) {
+                    resultFlowConsume({ this@POPFilterExact }, { children[0] }, { nextRow })
                     if (nextRow[filterVariable] == valueR)
-                        channel.send(resultFlowProduce({this@POPFilterExact},{nextRow}))
-		}
+                        channel.send(resultFlowProduce({ this@POPFilterExact }, { nextRow }))
+                }
                 channel.close()
                 children[0].channel.close()
             } catch (e: Throwable) {

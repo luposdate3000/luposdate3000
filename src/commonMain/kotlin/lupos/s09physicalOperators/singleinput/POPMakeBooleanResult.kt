@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -8,6 +7,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
@@ -54,14 +54,14 @@ class POPMakeBooleanResult : POPBase {
             try {
                 var first = true
                 for (c in children[0].channel) {
-		    resultFlowConsume({this@POPMakeBooleanResult},{children[0]},{c})
+                    resultFlowConsume({ this@POPMakeBooleanResult }, { children[0] }, { c })
                     first = false
                     children[0].channel.close()
                     break
                 }
                 var rsNew = resultSet.createResultRow()
                 rsNew[variableNew] = resultSet.createValue("\"" + (!first) + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
-                channel.send(resultFlowProduce({this@POPMakeBooleanResult},{rsNew}))
+                channel.send(resultFlowProduce({ this@POPMakeBooleanResult }, { rsNew }))
                 channel.close()
             } catch (e: Throwable) {
                 channel.close(e)

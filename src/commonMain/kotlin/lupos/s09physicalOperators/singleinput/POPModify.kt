@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
@@ -71,7 +70,7 @@ class POPModify : POPBase {
         CoroutinesHelper.run {
             try {
                 for (row in children[0].channel) {
-resultFlowConsume({this@POPModify},{children[0]},{row})
+                    resultFlowConsume({ this@POPModify }, { children[0] }, { row })
                     for (i in insert) {
                         try {
                             when (i) {
@@ -114,7 +113,7 @@ resultFlowConsume({this@POPModify},{children[0]},{row})
 //ignore unbound variables
                         }
                     }
-                    channel.send(resultFlowProduce({this@POPModify},{resultSet.createResultRow()}))
+                    channel.send(resultFlowProduce({ this@POPModify }, { resultSet.createResultRow() }))
                 }
                 channel.close()
                 children[0].channel.close()

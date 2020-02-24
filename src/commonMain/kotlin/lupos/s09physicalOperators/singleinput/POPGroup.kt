@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput
-import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.ELoggerType
@@ -11,6 +10,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
@@ -101,7 +101,7 @@ class POPGroup : POPBase {
                 for (v in by)
                     variables.add(Pair(resultSet.createVariable(v.name), children[0].resultSet.createVariable(v.name)))
                 for (rsOld in children[0].channel) {
-resultFlowConsume({this@POPGroup},{children[0]},{rsOld})
+                    resultFlowConsume({ this@POPGroup }, { children[0] }, { rsOld })
                     var key: String = "|"
                     for (variable in variables)
                         key = key + children[0].resultSet.getValue(rsOld[variable.second]) + "|"
@@ -118,7 +118,7 @@ resultFlowConsume({this@POPGroup},{children[0]},{rsOld})
                         resultSet.setUndefValue(rsNew, b.first)
                     for (b in bindings)
                         resultSet.setUndefValue(rsNew, b.first)
-                    channel.send(resultFlowProduce({this@POPGroup},{rsNew}))
+                    channel.send(resultFlowProduce({ this@POPGroup }, { rsNew }))
                 }
                 for (k in tmpMutableMap.keys) {
                     val rsOld = tmpMutableMap[k]!!.first()
@@ -138,7 +138,7 @@ resultFlowConsume({this@POPGroup},{children[0]},{rsOld})
                             GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
                         }
                     }
-                    channel.send(resultFlowProduce({this@POPGroup},{rsNew}))
+                    channel.send(resultFlowProduce({ this@POPGroup }, { rsNew }))
                 }
                 channel.close()
                 children[0].channel.close()

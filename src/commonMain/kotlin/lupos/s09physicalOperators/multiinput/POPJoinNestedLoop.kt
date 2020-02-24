@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.multiinput
-import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -8,6 +7,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
@@ -79,9 +79,9 @@ class POPJoinNestedLoop : POPBase {
         CoroutinesHelper.run {
             try {
                 for (resultRowA in children[0].channel) {
-resultFlowConsume({this@POPJoinNestedLoop},{children[0]},{resultRowA})
+                    resultFlowConsume({ this@POPJoinNestedLoop }, { children[0] }, { resultRowA })
                     for (resultRowB in children[1].channel) {
-resultFlowConsume({this@POPJoinNestedLoop},{children[1]},{resultRowB})
+                        resultFlowConsume({ this@POPJoinNestedLoop }, { children[1] }, { resultRowB })
                         var joinVariableOk = true
                         var rsNew = resultSet.createResultRow()
                         for (p in variablesOldA) {
@@ -108,7 +108,7 @@ resultFlowConsume({this@POPJoinNestedLoop},{children[1]},{resultRowB})
                         if (!joinVariableOk)
                             continue
                         hadMatchForA = true
-                        channel.send(resultFlowProduce({this@POPJoinNestedLoop},{rsNew}))
+                        channel.send(resultFlowProduce({ this@POPJoinNestedLoop }, { rsNew }))
                     }
                     (children[1] as POPTemporaryStore).reset()
                 }

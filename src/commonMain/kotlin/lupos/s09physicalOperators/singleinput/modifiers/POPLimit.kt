@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput.modifiers
-import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -8,6 +7,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
@@ -59,14 +59,14 @@ class POPLimit : POPBase {
             try {
                 var count = 0
                 for (rsOld in children[0].channel) {
-resultFlowConsume({this@POPLimit},{children[0]},{rsOld})
+                    resultFlowConsume({ this@POPLimit }, { children[0] }, { rsOld })
                     var rsNew = resultSet.createResultRow()
                     if (count >= limit)
                         break
                     for (v in variables)
                         rsNew[v.first] = rsOld[v.second]
                     count++
-                    channel.send(resultFlowProduce({this@POPLimit},{rsNew}))
+                    channel.send(resultFlowProduce({ this@POPLimit }, { rsNew }))
                 }
                 channel.close()
                 children[0].channel.close()

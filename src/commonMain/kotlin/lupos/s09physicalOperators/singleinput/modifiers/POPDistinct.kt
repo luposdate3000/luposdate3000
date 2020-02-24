@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.singleinput.modifiers
-import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -8,6 +7,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
@@ -55,7 +55,7 @@ class POPDistinct : POPBase {
             try {
                 val tmpMutableMap = mutableMapOf<String, ResultRow>()
                 for (rsOld in children[0].channel) {
-resultFlowConsume({this@POPDistinct},{children[0]},{rsOld})
+                    resultFlowConsume({ this@POPDistinct }, { children[0] }, { rsOld })
                     val rsNew = resultSet.createResultRow()
                     var key: String = ""
                     for (variable in variables) {
@@ -65,7 +65,7 @@ resultFlowConsume({this@POPDistinct},{children[0]},{rsOld})
                     tmpMutableMap[key] = rsNew
                 }
                 for (k in tmpMutableMap.keys)
-                    channel.send(resultFlowProduce({this@POPDistinct},{tmpMutableMap[k]!!}))
+                    channel.send(resultFlowProduce({ this@POPDistinct }, { tmpMutableMap[k]!! }))
                 channel.close()
                 children[0].channel.close()
             } catch (e: Throwable) {

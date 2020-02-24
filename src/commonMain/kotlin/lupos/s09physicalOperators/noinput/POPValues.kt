@@ -1,5 +1,4 @@
 package lupos.s09physicalOperators.noinput
-import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -9,6 +8,7 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.singleinput.*
@@ -96,7 +96,7 @@ class POPValues : POPBase {
                     var rsNew = resultSet.createResultRow()
                     for ((variable, value) in rsOld)
                         rsNew[variable] = value
-                    channel.send(resultFlowProduce({this@POPValues},{rsNew}))
+                    channel.send(resultFlowProduce({ this@POPValues }, { rsNew }))
                 }
                 channel.close()
             } catch (e: Throwable) {
