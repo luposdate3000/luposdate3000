@@ -758,7 +758,7 @@ class GeneratedPOPBindTest {
                     POPBind(
                         dictionary,
                         AOPVariable("z"),
-                        POPExpression(dictionary, AOPAddition(AOPInteger(2), AOPVariable("o"))),
+                        POPExpression(dictionary, AOPAddition(AOPInteger(1), AOPVariable("o"))),
                         POPValues(dictionary, listOf(
                                 "o"
                             ), listOf(
@@ -786,7 +786,7 @@ class GeneratedPOPBindTest {
                     POPBind(
                         dictionary,
                         AOPVariable("z"),
-                        POPExpression(dictionary, AOPAddition(AOPInteger(1), AOPVariable("o"))),
+                        POPExpression(dictionary, AOPAddition(AOPInteger(2), AOPVariable("o"))),
                         POPValues(dictionary, listOf(
                                 "o"
                             ), listOf(
@@ -5677,7 +5677,7 @@ class GeneratedPOPBindTest {
                             "b2"
                         ), listOf(
                             mutableMapOf(
-                                "b2" to "_:3121831243"
+                                "b2" to "_:3122131246"
                             )
                         )
                     )
@@ -5694,7 +5694,7 @@ class GeneratedPOPBindTest {
                                 "b2"
                             ), listOf(
                                 mutableMapOf(
-                                    "b2" to "_:3121831243"
+                                    "b2" to "_:3122131246"
                                 )
                             )
                         )
@@ -5704,8 +5704,8 @@ class GeneratedPOPBindTest {
                             "b2"
                         ), listOf(
                             mutableMapOf(
-                                "b1" to "_:3121331245",
-                                "b2" to "_:3121831243"
+                                "b1" to "_:3121631248",
+                                "b2" to "_:3122131246"
                             )
                         )
                     )
@@ -5729,7 +5729,7 @@ class GeneratedPOPBindTest {
                             "b2"
                         ), listOf(
                             mutableMapOf(
-                                "b2" to "_:3124931267"
+                                "b2" to "_:3125231270"
                             )
                         )
                     )
@@ -5746,7 +5746,7 @@ class GeneratedPOPBindTest {
                                 "b2"
                             ), listOf(
                                 mutableMapOf(
-                                    "b2" to "_:3124931267"
+                                    "b2" to "_:3125231270"
                                 )
                             )
                         )
@@ -5756,8 +5756,8 @@ class GeneratedPOPBindTest {
                             "b2"
                         ), listOf(
                             mutableMapOf(
-                                "b1" to "_:3125631269",
-                                "b2" to "_:3124931267"
+                                "b1" to "_:3125931272",
+                                "b2" to "_:3125231270"
                             )
                         )
                     )
@@ -5769,7 +5769,7 @@ class GeneratedPOPBindTest {
                     POPBind(
                         dictionary,
                         AOPVariable("n"),
-                        POPExpression(dictionary, AOPDateTime("\"2020-02-24T13:33:40Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")),
+                        POPExpression(dictionary, AOPDateTime("\"2020-02-24T17:01:06Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")),
                         POPValues(dictionary, listOf(
                             ), listOf(
                                 mutableMapOf(
@@ -5781,7 +5781,7 @@ class GeneratedPOPBindTest {
                             "n"
                         ), listOf(
                             mutableMapOf(
-                                "n" to "\"2020-02-24T13:33:40Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                "n" to "\"2020-02-24T17:01:06Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                             )
                         )
                     )
@@ -5973,23 +5973,23 @@ class GeneratedPOPBindTest {
                         AOPVariable("eq"),
                         POPExpression(dictionary, AOPEQ(AOPVariable("y"), AOPVariable("z"))),
                         POPValues(dictionary, listOf(
-                                "#p34860",
+                                "#p34863",
                                 "y",
-                                "#p34861",
+                                "#p34864",
                                 "z",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p34860" to "<http://www.example.org/schema#p>",
+                                    "#p34863" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p34861" to "<http://www.example.org/schema#q>",
+                                    "#p34864" to "<http://www.example.org/schema#q>",
                                     "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 ),
                                 mutableMapOf(
-                                    "#p34860" to "<http://www.example.org/schema#p>",
+                                    "#p34863" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p34861" to "<http://www.example.org/schema#q>",
+                                    "#p34864" to "<http://www.example.org/schema#q>",
                                     "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 )
@@ -5998,25 +5998,25 @@ class GeneratedPOPBindTest {
                     ),
                     POPValues(dictionary, listOf(
                             "eq",
-                            "#p34860",
+                            "#p34863",
                             "y",
-                            "#p34861",
+                            "#p34864",
                             "z",
                             "x"
                         ), listOf(
                             mutableMapOf(
                                 "eq" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                "#p34860" to "<http://www.example.org/schema#p>",
+                                "#p34863" to "<http://www.example.org/schema#p>",
                                 "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p34861" to "<http://www.example.org/schema#q>",
+                                "#p34864" to "<http://www.example.org/schema#q>",
                                 "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>"
                             ),
                             mutableMapOf(
                                 "eq" to "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                "#p34860" to "<http://www.example.org/schema#p>",
+                                "#p34863" to "<http://www.example.org/schema#p>",
                                 "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p34861" to "<http://www.example.org/schema#q>",
+                                "#p34864" to "<http://www.example.org/schema#q>",
                                 "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>"
                             )
@@ -6032,23 +6032,23 @@ class GeneratedPOPBindTest {
                         AOPVariable("eq"),
                         POPExpression(dictionary, AOPEQ(AOPVariable("y"), AOPVariable("z"))),
                         POPValues(dictionary, listOf(
-                                "#p34899",
+                                "#p34902",
                                 "y",
-                                "#p34900",
+                                "#p34903",
                                 "z",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p34899" to "<http://www.example.org/schema#p>",
+                                    "#p34902" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p34900" to "<http://www.example.org/schema#q>",
+                                    "#p34903" to "<http://www.example.org/schema#q>",
                                     "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 ),
                                 mutableMapOf(
-                                    "#p34899" to "<http://www.example.org/schema#p>",
+                                    "#p34902" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p34900" to "<http://www.example.org/schema#q>",
+                                    "#p34903" to "<http://www.example.org/schema#q>",
                                     "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 )
@@ -6057,25 +6057,25 @@ class GeneratedPOPBindTest {
                     ),
                     POPValues(dictionary, listOf(
                             "eq",
-                            "#p34899",
+                            "#p34902",
                             "y",
-                            "#p34900",
+                            "#p34903",
                             "z",
                             "x"
                         ), listOf(
                             mutableMapOf(
                                 "eq" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                "#p34899" to "<http://www.example.org/schema#p>",
+                                "#p34902" to "<http://www.example.org/schema#p>",
                                 "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p34900" to "<http://www.example.org/schema#q>",
+                                "#p34903" to "<http://www.example.org/schema#q>",
                                 "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>"
                             ),
                             mutableMapOf(
                                 "eq" to "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                "#p34899" to "<http://www.example.org/schema#p>",
+                                "#p34902" to "<http://www.example.org/schema#p>",
                                 "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p34900" to "<http://www.example.org/schema#q>",
+                                "#p34903" to "<http://www.example.org/schema#q>",
                                 "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>"
                             )
@@ -6091,23 +6091,23 @@ class GeneratedPOPBindTest {
                         AOPVariable("sum"),
                         POPExpression(dictionary, AOPAddition(AOPVariable("z"), AOPVariable("y"))),
                         POPValues(dictionary, listOf(
-                                "#p35009",
+                                "#p35012",
                                 "y",
-                                "#p35010",
+                                "#p35013",
                                 "z",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p35009" to "<http://www.example.org/schema#p>",
+                                    "#p35012" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35010" to "<http://www.example.org/schema#q>",
+                                    "#p35013" to "<http://www.example.org/schema#q>",
                                     "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 ),
                                 mutableMapOf(
-                                    "#p35009" to "<http://www.example.org/schema#p>",
+                                    "#p35012" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35010" to "<http://www.example.org/schema#q>",
+                                    "#p35013" to "<http://www.example.org/schema#q>",
                                     "z" to "\"foobar\"",
                                     "x" to "<http://www.example.org/instance#a>"
                                 )
@@ -6116,25 +6116,25 @@ class GeneratedPOPBindTest {
                     ),
                     POPValues(dictionary, listOf(
                             "sum",
-                            "#p35009",
+                            "#p35012",
                             "y",
-                            "#p35010",
+                            "#p35013",
                             "z",
                             "x"
                         ), listOf(
                             mutableMapOf(
                                 "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p35009" to "<http://www.example.org/schema#p>",
+                                "#p35012" to "<http://www.example.org/schema#p>",
                                 "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p35010" to "<http://www.example.org/schema#q>",
+                                "#p35013" to "<http://www.example.org/schema#q>",
                                 "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>"
                             ),
                             mutableMapOf(
                                 "sum" to null,
-                                "#p35009" to "<http://www.example.org/schema#p>",
+                                "#p35012" to "<http://www.example.org/schema#p>",
                                 "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p35010" to "<http://www.example.org/schema#q>",
+                                "#p35013" to "<http://www.example.org/schema#q>",
                                 "z" to "\"foobar\"",
                                 "x" to "<http://www.example.org/instance#a>"
                             )
@@ -6150,23 +6150,23 @@ class GeneratedPOPBindTest {
                         AOPVariable("sum"),
                         POPExpression(dictionary, AOPAddition(AOPVariable("z"), AOPVariable("y"))),
                         POPValues(dictionary, listOf(
-                                "#p35037",
+                                "#p35040",
                                 "y",
-                                "#p35038",
+                                "#p35041",
                                 "z",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p35037" to "<http://www.example.org/schema#p>",
+                                    "#p35040" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35038" to "<http://www.example.org/schema#q>",
+                                    "#p35041" to "<http://www.example.org/schema#q>",
                                     "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 ),
                                 mutableMapOf(
-                                    "#p35037" to "<http://www.example.org/schema#p>",
+                                    "#p35040" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35038" to "<http://www.example.org/schema#q>",
+                                    "#p35041" to "<http://www.example.org/schema#q>",
                                     "z" to "\"foobar\"",
                                     "x" to "<http://www.example.org/instance#a>"
                                 )
@@ -6175,25 +6175,25 @@ class GeneratedPOPBindTest {
                     ),
                     POPValues(dictionary, listOf(
                             "sum",
-                            "#p35037",
+                            "#p35040",
                             "y",
-                            "#p35038",
+                            "#p35041",
                             "z",
                             "x"
                         ), listOf(
                             mutableMapOf(
                                 "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p35037" to "<http://www.example.org/schema#p>",
+                                "#p35040" to "<http://www.example.org/schema#p>",
                                 "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p35038" to "<http://www.example.org/schema#q>",
+                                "#p35041" to "<http://www.example.org/schema#q>",
                                 "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>"
                             ),
                             mutableMapOf(
                                 "sum" to null,
-                                "#p35037" to "<http://www.example.org/schema#p>",
+                                "#p35040" to "<http://www.example.org/schema#p>",
                                 "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p35038" to "<http://www.example.org/schema#q>",
+                                "#p35041" to "<http://www.example.org/schema#q>",
                                 "z" to "\"foobar\"",
                                 "x" to "<http://www.example.org/instance#a>"
                             )
@@ -6209,16 +6209,16 @@ class GeneratedPOPBindTest {
                         AOPVariable("sum"),
                         POPExpression(dictionary, AOPAddition(AOPVariable("z"), AOPVariable("y"))),
                         POPValues(dictionary, listOf(
-                                "#p35149",
+                                "#p35152",
                                 "y",
-                                "#p35150",
+                                "#p35153",
                                 "z",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p35149" to "<http://www.example.org/schema#p>",
+                                    "#p35152" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35150" to "<http://www.example.org/schema#q>",
+                                    "#p35153" to "<http://www.example.org/schema#q>",
                                     "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 )
@@ -6227,17 +6227,17 @@ class GeneratedPOPBindTest {
                     ),
                     POPValues(dictionary, listOf(
                             "sum",
-                            "#p35149",
+                            "#p35152",
                             "y",
-                            "#p35150",
+                            "#p35153",
                             "z",
                             "x"
                         ), listOf(
                             mutableMapOf(
                                 "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p35149" to "<http://www.example.org/schema#p>",
+                                "#p35152" to "<http://www.example.org/schema#p>",
                                 "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p35150" to "<http://www.example.org/schema#q>",
+                                "#p35153" to "<http://www.example.org/schema#q>",
                                 "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>"
                             )
@@ -6254,17 +6254,17 @@ class GeneratedPOPBindTest {
                         POPExpression(dictionary, AOPMultiplication(AOPVariable("sum"), AOPInteger(2))),
                         POPValues(dictionary, listOf(
                                 "sum",
-                                "#p35149",
+                                "#p35152",
                                 "y",
-                                "#p35150",
+                                "#p35153",
                                 "z",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
                                     "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35149" to "<http://www.example.org/schema#p>",
+                                    "#p35152" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35150" to "<http://www.example.org/schema#q>",
+                                    "#p35153" to "<http://www.example.org/schema#q>",
                                     "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 )
@@ -6274,18 +6274,18 @@ class GeneratedPOPBindTest {
                     POPValues(dictionary, listOf(
                             "twice",
                             "sum",
-                            "#p35149",
+                            "#p35152",
                             "y",
-                            "#p35150",
+                            "#p35153",
                             "z",
                             "x"
                         ), listOf(
                             mutableMapOf(
                                 "twice" to "\"6\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p35149" to "<http://www.example.org/schema#p>",
+                                "#p35152" to "<http://www.example.org/schema#p>",
                                 "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p35150" to "<http://www.example.org/schema#q>",
+                                "#p35153" to "<http://www.example.org/schema#q>",
                                 "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>"
                             )
@@ -6301,16 +6301,16 @@ class GeneratedPOPBindTest {
                         AOPVariable("sum"),
                         POPExpression(dictionary, AOPAddition(AOPVariable("z"), AOPVariable("y"))),
                         POPValues(dictionary, listOf(
-                                "#p35194",
+                                "#p35197",
                                 "y",
-                                "#p35195",
+                                "#p35198",
                                 "z",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p35194" to "<http://www.example.org/schema#p>",
+                                    "#p35197" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35195" to "<http://www.example.org/schema#q>",
+                                    "#p35198" to "<http://www.example.org/schema#q>",
                                     "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 )
@@ -6319,17 +6319,17 @@ class GeneratedPOPBindTest {
                     ),
                     POPValues(dictionary, listOf(
                             "sum",
-                            "#p35194",
+                            "#p35197",
                             "y",
-                            "#p35195",
+                            "#p35198",
                             "z",
                             "x"
                         ), listOf(
                             mutableMapOf(
                                 "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p35194" to "<http://www.example.org/schema#p>",
+                                "#p35197" to "<http://www.example.org/schema#p>",
                                 "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p35195" to "<http://www.example.org/schema#q>",
+                                "#p35198" to "<http://www.example.org/schema#q>",
                                 "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>"
                             )
@@ -6346,17 +6346,17 @@ class GeneratedPOPBindTest {
                         POPExpression(dictionary, AOPMultiplication(AOPVariable("sum"), AOPInteger(2))),
                         POPValues(dictionary, listOf(
                                 "sum",
-                                "#p35194",
+                                "#p35197",
                                 "y",
-                                "#p35195",
+                                "#p35198",
                                 "z",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
                                     "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35194" to "<http://www.example.org/schema#p>",
+                                    "#p35197" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35195" to "<http://www.example.org/schema#q>",
+                                    "#p35198" to "<http://www.example.org/schema#q>",
                                     "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 )
@@ -6366,18 +6366,18 @@ class GeneratedPOPBindTest {
                     POPValues(dictionary, listOf(
                             "twice",
                             "sum",
-                            "#p35194",
+                            "#p35197",
                             "y",
-                            "#p35195",
+                            "#p35198",
                             "z",
                             "x"
                         ), listOf(
                             mutableMapOf(
                                 "twice" to "\"6\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p35194" to "<http://www.example.org/schema#p>",
+                                "#p35197" to "<http://www.example.org/schema#p>",
                                 "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p35195" to "<http://www.example.org/schema#q>",
+                                "#p35198" to "<http://www.example.org/schema#q>",
                                 "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>"
                             )
@@ -6394,17 +6394,17 @@ class GeneratedPOPBindTest {
                         POPExpression(dictionary, AOPAddition(AOPVariable("y"), AOPVariable("y"))),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#p35307",
+                                "#p35310",
                                 "y"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35307" to "<http://www.example.org/schema#p>",
+                                    "#p35310" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35307" to "<http://www.example.org/schema#p>",
+                                    "#p35310" to "<http://www.example.org/schema#p>",
                                     "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
@@ -6413,19 +6413,19 @@ class GeneratedPOPBindTest {
                     POPValues(dictionary, listOf(
                             "sum",
                             "x",
-                            "#p35307",
+                            "#p35310",
                             "y"
                         ), listOf(
                             mutableMapOf(
                                 "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>",
-                                "#p35307" to "<http://www.example.org/schema#p>",
+                                "#p35310" to "<http://www.example.org/schema#p>",
                                 "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             ),
                             mutableMapOf(
                                 "sum" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>",
-                                "#p35307" to "<http://www.example.org/schema#p>",
+                                "#p35310" to "<http://www.example.org/schema#p>",
                                 "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             )
                         )
@@ -6441,17 +6441,17 @@ class GeneratedPOPBindTest {
                         POPExpression(dictionary, AOPAddition(AOPVariable("y"), AOPVariable("y"))),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#p35337",
+                                "#p35340",
                                 "y"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35337" to "<http://www.example.org/schema#p>",
+                                    "#p35340" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35337" to "<http://www.example.org/schema#p>",
+                                    "#p35340" to "<http://www.example.org/schema#p>",
                                     "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
@@ -6460,19 +6460,19 @@ class GeneratedPOPBindTest {
                     POPValues(dictionary, listOf(
                             "sum",
                             "x",
-                            "#p35337",
+                            "#p35340",
                             "y"
                         ), listOf(
                             mutableMapOf(
                                 "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>",
-                                "#p35337" to "<http://www.example.org/schema#p>",
+                                "#p35340" to "<http://www.example.org/schema#p>",
                                 "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             ),
                             mutableMapOf(
                                 "sum" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>",
-                                "#p35337" to "<http://www.example.org/schema#p>",
+                                "#p35340" to "<http://www.example.org/schema#p>",
                                 "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             )
                         )
@@ -6488,17 +6488,17 @@ class GeneratedPOPBindTest {
                         POPExpression(dictionary, AOPBuildInCallDATATYPE(AOPVariable("l"))),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#p35423",
+                                "#p35426",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35423" to "<http://www.example.org/schema#p>",
+                                    "#p35426" to "<http://www.example.org/schema#p>",
                                     "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35423" to "<http://www.example.org/schema#p>",
+                                    "#p35426" to "<http://www.example.org/schema#p>",
                                     "l" to "<http://www.example.org/schema#a>"
                                 )
                             )
@@ -6507,19 +6507,19 @@ class GeneratedPOPBindTest {
                     POPValues(dictionary, listOf(
                             "dt",
                             "x",
-                            "#p35423",
+                            "#p35426",
                             "l"
                         ), listOf(
                             mutableMapOf(
                                 "dt" to "<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>",
-                                "#p35423" to "<http://www.example.org/schema#p>",
+                                "#p35426" to "<http://www.example.org/schema#p>",
                                 "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             ),
                             mutableMapOf(
                                 "dt" to null,
                                 "x" to "<http://www.example.org/instance#a>",
-                                "#p35423" to "<http://www.example.org/schema#p>",
+                                "#p35426" to "<http://www.example.org/schema#p>",
                                 "l" to "<http://www.example.org/schema#a>"
                             )
                         )
@@ -6535,17 +6535,17 @@ class GeneratedPOPBindTest {
                         POPExpression(dictionary, AOPBuildInCallDATATYPE(AOPVariable("l"))),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#p35448",
+                                "#p35451",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35448" to "<http://www.example.org/schema#p>",
+                                    "#p35451" to "<http://www.example.org/schema#p>",
                                     "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35448" to "<http://www.example.org/schema#p>",
+                                    "#p35451" to "<http://www.example.org/schema#p>",
                                     "l" to "<http://www.example.org/schema#a>"
                                 )
                             )
@@ -6554,19 +6554,19 @@ class GeneratedPOPBindTest {
                     POPValues(dictionary, listOf(
                             "dt",
                             "x",
-                            "#p35448",
+                            "#p35451",
                             "l"
                         ), listOf(
                             mutableMapOf(
                                 "dt" to "<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>",
-                                "#p35448" to "<http://www.example.org/schema#p>",
+                                "#p35451" to "<http://www.example.org/schema#p>",
                                 "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             ),
                             mutableMapOf(
                                 "dt" to null,
                                 "x" to "<http://www.example.org/instance#a>",
-                                "#p35448" to "<http://www.example.org/schema#p>",
+                                "#p35451" to "<http://www.example.org/schema#p>",
                                 "l" to "<http://www.example.org/schema#a>"
                             )
                         )
@@ -6582,12 +6582,12 @@ class GeneratedPOPBindTest {
                         POPExpression(dictionary, AOPUndef()),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#p35533",
+                                "#p35536",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35533" to "<http://www.example.org/schema#p>",
+                                    "#p35536" to "<http://www.example.org/schema#p>",
                                     "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
@@ -6596,13 +6596,13 @@ class GeneratedPOPBindTest {
                     POPValues(dictionary, listOf(
                             "m",
                             "x",
-                            "#p35533",
+                            "#p35536",
                             "l"
                         ), listOf(
                             mutableMapOf(
                                 "m" to null,
                                 "x" to "<http://www.example.org/instance#a>",
-                                "#p35533" to "<http://www.example.org/schema#p>",
+                                "#p35536" to "<http://www.example.org/schema#p>",
                                 "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             )
                         )
@@ -6619,13 +6619,13 @@ class GeneratedPOPBindTest {
                         POPValues(dictionary, listOf(
                                 "m",
                                 "x",
-                                "#p35533",
+                                "#p35536",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "m" to null,
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35533" to "<http://www.example.org/schema#p>",
+                                    "#p35536" to "<http://www.example.org/schema#p>",
                                     "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
@@ -6635,14 +6635,14 @@ class GeneratedPOPBindTest {
                             "dt",
                             "m",
                             "x",
-                            "#p35533",
+                            "#p35536",
                             "l"
                         ), listOf(
                             mutableMapOf(
                                 "dt" to null,
                                 "m" to null,
                                 "x" to "<http://www.example.org/instance#a>",
-                                "#p35533" to "<http://www.example.org/schema#p>",
+                                "#p35536" to "<http://www.example.org/schema#p>",
                                 "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             )
                         )
@@ -6658,12 +6658,12 @@ class GeneratedPOPBindTest {
                         POPExpression(dictionary, AOPUndef()),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#p35557",
+                                "#p35560",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35557" to "<http://www.example.org/schema#p>",
+                                    "#p35560" to "<http://www.example.org/schema#p>",
                                     "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
@@ -6672,13 +6672,13 @@ class GeneratedPOPBindTest {
                     POPValues(dictionary, listOf(
                             "m",
                             "x",
-                            "#p35557",
+                            "#p35560",
                             "l"
                         ), listOf(
                             mutableMapOf(
                                 "m" to null,
                                 "x" to "<http://www.example.org/instance#a>",
-                                "#p35557" to "<http://www.example.org/schema#p>",
+                                "#p35560" to "<http://www.example.org/schema#p>",
                                 "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             )
                         )
@@ -6695,13 +6695,13 @@ class GeneratedPOPBindTest {
                         POPValues(dictionary, listOf(
                                 "m",
                                 "x",
-                                "#p35557",
+                                "#p35560",
                                 "l"
                             ), listOf(
                                 mutableMapOf(
                                     "m" to null,
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35557" to "<http://www.example.org/schema#p>",
+                                    "#p35560" to "<http://www.example.org/schema#p>",
                                     "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
@@ -6711,14 +6711,14 @@ class GeneratedPOPBindTest {
                             "dt",
                             "m",
                             "x",
-                            "#p35557",
+                            "#p35560",
                             "l"
                         ), listOf(
                             mutableMapOf(
                                 "dt" to null,
                                 "m" to null,
                                 "x" to "<http://www.example.org/instance#a>",
-                                "#p35557" to "<http://www.example.org/schema#p>",
+                                "#p35560" to "<http://www.example.org/schema#p>",
                                 "l" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             )
                         )
@@ -6733,23 +6733,23 @@ class GeneratedPOPBindTest {
                         AOPVariable("dt"),
                         POPExpression(dictionary, AOPBuildInCallDATATYPE(AOPVariable("l"))),
                         POPValues(dictionary, listOf(
-                                "#p35653",
+                                "#p35656",
                                 "y",
-                                "#p35654",
+                                "#p35657",
                                 "l",
                                 "x"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p35653" to "<http://www.example.org/schema#p>",
+                                    "#p35656" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35654" to "<http://www.example.org/schema#q>",
+                                    "#p35657" to "<http://www.example.org/schema#q>",
                                     "l" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>"
                                 ),
                                 mutableMapOf(
-                                    "#p35653" to "<http://www.example.org/schema#p>",
+                                    "#p35656" to "<http://www.example.org/schema#p>",
                                     "y" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "#p35654" to null,
+                                    "#p35657" to null,
                                     "l" to null,
                                     "x" to "<http://www.example.org/instance#b>"
                                 )
@@ -6758,25 +6758,25 @@ class GeneratedPOPBindTest {
                     ),
                     POPValues(dictionary, listOf(
                             "dt",
-                            "#p35653",
+                            "#p35656",
                             "y",
-                            "#p35654",
+                            "#p35657",
                             "l",
                             "x"
                         ), listOf(
                             mutableMapOf(
                                 "dt" to "<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p35653" to "<http://www.example.org/schema#p>",
+                                "#p35656" to "<http://www.example.org/schema#p>",
                                 "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p35654" to "<http://www.example.org/schema#q>",
+                                "#p35657" to "<http://www.example.org/schema#q>",
                                 "l" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>"
                             ),
                             mutableMapOf(
                                 "dt" to null,
-                                "#p35653" to "<http://www.example.org/schema#p>",
+                                "#p35656" to "<http://www.example.org/schema#p>",
                                 "y" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "#p35654" to null,
+                                "#p35657" to null,
                                 "l" to null,
                                 "x" to "<http://www.example.org/instance#b>"
                             )
@@ -6792,16 +6792,16 @@ class GeneratedPOPBindTest {
                         AOPVariable("FullName"),
                         POPExpression(dictionary, AOPBuildInCallCONCAT(AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")), AOPVariable("L"))),
                         POPValues(dictionary, listOf(
-                                "#p37204",
+                                "#p37207",
                                 "F",
-                                "#p37205",
+                                "#p37208",
                                 "L",
                                 "P"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p37204" to "<http://xmlns.com/foaf/0.1/firstName>",
+                                    "#p37207" to "<http://xmlns.com/foaf/0.1/firstName>",
                                     "F" to "\"John\"",
-                                    "#p37205" to "<http://xmlns.com/foaf/0.1/lastName>",
+                                    "#p37208" to "<http://xmlns.com/foaf/0.1/lastName>",
                                     "L" to "\"Doe\"",
                                     "P" to "<http://p1>"
                                 )
@@ -6810,17 +6810,17 @@ class GeneratedPOPBindTest {
                     ),
                     POPValues(dictionary, listOf(
                             "FullName",
-                            "#p37204",
+                            "#p37207",
                             "F",
-                            "#p37205",
+                            "#p37208",
                             "L",
                             "P"
                         ), listOf(
                             mutableMapOf(
                                 "FullName" to "\"John Doe\"",
-                                "#p37204" to "<http://xmlns.com/foaf/0.1/firstName>",
+                                "#p37207" to "<http://xmlns.com/foaf/0.1/firstName>",
                                 "F" to "\"John\"",
-                                "#p37205" to "<http://xmlns.com/foaf/0.1/lastName>",
+                                "#p37208" to "<http://xmlns.com/foaf/0.1/lastName>",
                                 "L" to "\"Doe\"",
                                 "P" to "<http://p1>"
                             )
@@ -6904,16 +6904,16 @@ class GeneratedPOPBindTest {
                         AOPVariable("FullName"),
                         POPExpression(dictionary, AOPBuildInCallCONCAT(AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")), AOPVariable("L"))),
                         POPValues(dictionary, listOf(
-                                "#p37259",
+                                "#p37262",
                                 "F",
-                                "#p37260",
+                                "#p37263",
                                 "L",
                                 "P"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p37259" to "<http://xmlns.com/foaf/0.1/firstName>",
+                                    "#p37262" to "<http://xmlns.com/foaf/0.1/firstName>",
                                     "F" to "\"John\"",
-                                    "#p37260" to "<http://xmlns.com/foaf/0.1/lastName>",
+                                    "#p37263" to "<http://xmlns.com/foaf/0.1/lastName>",
                                     "L" to "\"Doe\"",
                                     "P" to "<http://p1>"
                                 )
@@ -6922,17 +6922,17 @@ class GeneratedPOPBindTest {
                     ),
                     POPValues(dictionary, listOf(
                             "FullName",
-                            "#p37259",
+                            "#p37262",
                             "F",
-                            "#p37260",
+                            "#p37263",
                             "L",
                             "P"
                         ), listOf(
                             mutableMapOf(
                                 "FullName" to "\"John Doe\"",
-                                "#p37259" to "<http://xmlns.com/foaf/0.1/firstName>",
+                                "#p37262" to "<http://xmlns.com/foaf/0.1/firstName>",
                                 "F" to "\"John\"",
-                                "#p37260" to "<http://xmlns.com/foaf/0.1/lastName>",
+                                "#p37263" to "<http://xmlns.com/foaf/0.1/lastName>",
                                 "L" to "\"Doe\"",
                                 "P" to "<http://p1>"
                             )

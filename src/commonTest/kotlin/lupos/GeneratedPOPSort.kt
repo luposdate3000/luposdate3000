@@ -4055,19 +4055,19 @@ class GeneratedPOPSortTest {
                         POPValues(dictionary, listOf(
                                 "sum",
                                 "x",
-                                "#p35307",
+                                "#p35310",
                                 "y"
                             ), listOf(
                                 mutableMapOf(
                                     "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35307" to "<http://www.example.org/schema#p>",
+                                    "#p35310" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "sum" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35307" to "<http://www.example.org/schema#p>",
+                                    "#p35310" to "<http://www.example.org/schema#p>",
                                     "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
@@ -4076,19 +4076,19 @@ class GeneratedPOPSortTest {
                     POPValues(dictionary, listOf(
                             "sum",
                             "x",
-                            "#p35307",
+                            "#p35310",
                             "y"
                         ), listOf(
                             mutableMapOf(
                                 "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>",
-                                "#p35307" to "<http://www.example.org/schema#p>",
+                                "#p35310" to "<http://www.example.org/schema#p>",
                                 "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             ),
                             mutableMapOf(
                                 "sum" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>",
-                                "#p35307" to "<http://www.example.org/schema#p>",
+                                "#p35310" to "<http://www.example.org/schema#p>",
                                 "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             )
                         )
@@ -4105,19 +4105,19 @@ class GeneratedPOPSortTest {
                         POPValues(dictionary, listOf(
                                 "sum",
                                 "x",
-                                "#p35337",
+                                "#p35340",
                                 "y"
                             ), listOf(
                                 mutableMapOf(
                                     "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35337" to "<http://www.example.org/schema#p>",
+                                    "#p35340" to "<http://www.example.org/schema#p>",
                                     "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
                                     "sum" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                     "x" to "<http://www.example.org/instance#a>",
-                                    "#p35337" to "<http://www.example.org/schema#p>",
+                                    "#p35340" to "<http://www.example.org/schema#p>",
                                     "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                             )
@@ -4126,19 +4126,19 @@ class GeneratedPOPSortTest {
                     POPValues(dictionary, listOf(
                             "sum",
                             "x",
-                            "#p35337",
+                            "#p35340",
                             "y"
                         ), listOf(
                             mutableMapOf(
                                 "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>",
-                                "#p35337" to "<http://www.example.org/schema#p>",
+                                "#p35340" to "<http://www.example.org/schema#p>",
                                 "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             ),
                             mutableMapOf(
                                 "sum" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
                                 "x" to "<http://www.example.org/instance#a>",
-                                "#p35337" to "<http://www.example.org/schema#p>",
+                                "#p35340" to "<http://www.example.org/schema#p>",
                                 "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                             )
                         )
@@ -4154,167 +4154,167 @@ class GeneratedPOPSortTest {
                         true,
                         POPValues(dictionary, listOf(
                                 "O",
+                                "#p37067",
+                                "#o37067"
+                            ), listOf(
+                                mutableMapOf(
+                                    "O" to "<http://www.example.orgorder1>",
+                                    "#p37067" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37067" to "<http://www.example.orgOrder>"
+                                ),
+                                mutableMapOf(
+                                    "O" to "<http://www.example.orgorder2>",
+                                    "#p37067" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37067" to "<http://www.example.orgOrder>"
+                                ),
+                                mutableMapOf(
+                                    "O" to "<http://www.example.orgorder3>",
+                                    "#p37067" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37067" to "<http://www.example.orgOrder>"
+                                ),
+                                mutableMapOf(
+                                    "O" to "<http://www.example.orgorder4>",
+                                    "#p37067" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37067" to "<http://www.example.orgOrder>"
+                                )
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "O",
+                            "#p37067",
+                            "#o37067"
+                        ), listOf(
+                            mutableMapOf(
+                                "O" to "<http://www.example.orgorder1>",
+                                "#p37067" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37067" to "<http://www.example.orgOrder>"
+                            ),
+                            mutableMapOf(
+                                "O" to "<http://www.example.orgorder2>",
+                                "#p37067" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37067" to "<http://www.example.orgOrder>"
+                            ),
+                            mutableMapOf(
+                                "O" to "<http://www.example.orgorder3>",
+                                "#p37067" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37067" to "<http://www.example.orgOrder>"
+                            ),
+                            mutableMapOf(
+                                "O" to "<http://www.example.orgorder4>",
+                                "#p37067" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37067" to "<http://www.example.orgOrder>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPSort(
+                        dictionary,
+                        AOPVariable("L"),
+                        true,
+                        POPValues(dictionary, listOf(
                                 "#p37064",
-                                "#o37064"
+                                "L",
+                                "#p37065",
+                                "#_36993",
+                                "O"
                             ), listOf(
                                 mutableMapOf(
-                                    "O" to "<http://www.example.orgorder1>",
-                                    "#p37064" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37064" to "<http://www.example.orgOrder>"
+                                    "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "L" to "\"Ice Cream\"",
+                                    "#p37065" to "<http://www.example.orghasItem>",
+                                    "#_36993" to "_:_36970",
+                                    "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "O" to "<http://www.example.orgorder2>",
-                                    "#p37064" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37064" to "<http://www.example.orgOrder>"
+                                    "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "L" to "\"Pizza\"",
+                                    "#p37065" to "<http://www.example.orghasItem>",
+                                    "#_36993" to "_:_36971",
+                                    "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "O" to "<http://www.example.orgorder3>",
-                                    "#p37064" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37064" to "<http://www.example.orgOrder>"
+                                    "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "L" to "\"Wine\"",
+                                    "#p37065" to "<http://www.example.orghasItem>",
+                                    "#_36993" to "_:_36972",
+                                    "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "O" to "<http://www.example.orgorder4>",
-                                    "#p37064" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37064" to "<http://www.example.orgOrder>"
+                                    "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "L" to "\"Ice Cream\"",
+                                    "#p37065" to "<http://www.example.orghasItem>",
+                                    "#_36993" to "_:_36973",
+                                    "O" to "<http://www.example.orgorder2>"
+                                ),
+                                mutableMapOf(
+                                    "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "L" to "\"Pasta\"",
+                                    "#p37065" to "<http://www.example.orghasItem>",
+                                    "#_36993" to "_:_36974",
+                                    "O" to "<http://www.example.orgorder2>"
+                                ),
+                                mutableMapOf(
+                                    "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "L" to "\"Soft Drink\"",
+                                    "#p37065" to "<http://www.example.orghasItem>",
+                                    "#_36993" to "_:_36975",
+                                    "O" to "<http://www.example.orgorder2>"
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
-                            "O",
                             "#p37064",
-                            "#o37064"
-                        ), listOf(
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder1>",
-                                "#p37064" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37064" to "<http://www.example.orgOrder>"
-                            ),
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder2>",
-                                "#p37064" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37064" to "<http://www.example.orgOrder>"
-                            ),
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder3>",
-                                "#p37064" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37064" to "<http://www.example.orgOrder>"
-                            ),
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder4>",
-                                "#p37064" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37064" to "<http://www.example.orgOrder>"
-                            )
-                        )
-                    )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
-            {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    POPSort(
-                        dictionary,
-                        AOPVariable("L"),
-                        true,
-                        POPValues(dictionary, listOf(
-                                "#p37061",
-                                "L",
-                                "#p37062",
-                                "#_36990",
-                                "O"
-                            ), listOf(
-                                mutableMapOf(
-                                    "#p37061" to "<http://www.w3.org/2000/01/rdf-schema#label>",
-                                    "L" to "\"Ice Cream\"",
-                                    "#p37062" to "<http://www.example.orghasItem>",
-                                    "#_36990" to "_:_36967",
-                                    "O" to "<http://www.example.orgorder1>"
-                                ),
-                                mutableMapOf(
-                                    "#p37061" to "<http://www.w3.org/2000/01/rdf-schema#label>",
-                                    "L" to "\"Pizza\"",
-                                    "#p37062" to "<http://www.example.orghasItem>",
-                                    "#_36990" to "_:_36968",
-                                    "O" to "<http://www.example.orgorder1>"
-                                ),
-                                mutableMapOf(
-                                    "#p37061" to "<http://www.w3.org/2000/01/rdf-schema#label>",
-                                    "L" to "\"Wine\"",
-                                    "#p37062" to "<http://www.example.orghasItem>",
-                                    "#_36990" to "_:_36969",
-                                    "O" to "<http://www.example.orgorder1>"
-                                ),
-                                mutableMapOf(
-                                    "#p37061" to "<http://www.w3.org/2000/01/rdf-schema#label>",
-                                    "L" to "\"Ice Cream\"",
-                                    "#p37062" to "<http://www.example.orghasItem>",
-                                    "#_36990" to "_:_36970",
-                                    "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                    "#p37061" to "<http://www.w3.org/2000/01/rdf-schema#label>",
-                                    "L" to "\"Pasta\"",
-                                    "#p37062" to "<http://www.example.orghasItem>",
-                                    "#_36990" to "_:_36971",
-                                    "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                    "#p37061" to "<http://www.w3.org/2000/01/rdf-schema#label>",
-                                    "L" to "\"Soft Drink\"",
-                                    "#p37062" to "<http://www.example.orghasItem>",
-                                    "#_36990" to "_:_36972",
-                                    "O" to "<http://www.example.orgorder2>"
-                                )
-                            )
-                        )
-                    ),
-                    POPValues(dictionary, listOf(
-                            "#p37061",
                             "L",
-                            "#p37062",
-                            "#_36990",
+                            "#p37065",
+                            "#_36993",
                             "O"
                         ), listOf(
                             mutableMapOf(
-                                "#p37061" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Ice Cream\"",
-                                "#p37062" to "<http://www.example.orghasItem>",
-                                "#_36990" to "_:_36967",
+                                "#p37065" to "<http://www.example.orghasItem>",
+                                "#_36993" to "_:_36970",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#p37061" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Ice Cream\"",
-                                "#p37062" to "<http://www.example.orghasItem>",
-                                "#_36990" to "_:_36970",
+                                "#p37065" to "<http://www.example.orghasItem>",
+                                "#_36993" to "_:_36973",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#p37061" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Pasta\"",
-                                "#p37062" to "<http://www.example.orghasItem>",
-                                "#_36990" to "_:_36971",
+                                "#p37065" to "<http://www.example.orghasItem>",
+                                "#_36993" to "_:_36974",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#p37061" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Pizza\"",
-                                "#p37062" to "<http://www.example.orghasItem>",
-                                "#_36990" to "_:_36968",
+                                "#p37065" to "<http://www.example.orghasItem>",
+                                "#_36993" to "_:_36971",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#p37061" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Soft Drink\"",
-                                "#p37062" to "<http://www.example.orghasItem>",
-                                "#_36990" to "_:_36972",
+                                "#p37065" to "<http://www.example.orghasItem>",
+                                "#_36993" to "_:_36975",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#p37061" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37064" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Wine\"",
-                                "#p37062" to "<http://www.example.orghasItem>",
-                                "#_36990" to "_:_36969",
+                                "#p37065" to "<http://www.example.orghasItem>",
+                                "#_36993" to "_:_36972",
                                 "O" to "<http://www.example.orgorder1>"
                             )
                         )
@@ -4330,167 +4330,167 @@ class GeneratedPOPSortTest {
                         true,
                         POPValues(dictionary, listOf(
                                 "O",
+                                "#p37088",
+                                "#o37088"
+                            ), listOf(
+                                mutableMapOf(
+                                    "O" to "<http://www.example.orgorder1>",
+                                    "#p37088" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37088" to "<http://www.example.orgOrder>"
+                                ),
+                                mutableMapOf(
+                                    "O" to "<http://www.example.orgorder2>",
+                                    "#p37088" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37088" to "<http://www.example.orgOrder>"
+                                ),
+                                mutableMapOf(
+                                    "O" to "<http://www.example.orgorder3>",
+                                    "#p37088" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37088" to "<http://www.example.orgOrder>"
+                                ),
+                                mutableMapOf(
+                                    "O" to "<http://www.example.orgorder4>",
+                                    "#p37088" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37088" to "<http://www.example.orgOrder>"
+                                )
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "O",
+                            "#p37088",
+                            "#o37088"
+                        ), listOf(
+                            mutableMapOf(
+                                "O" to "<http://www.example.orgorder1>",
+                                "#p37088" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37088" to "<http://www.example.orgOrder>"
+                            ),
+                            mutableMapOf(
+                                "O" to "<http://www.example.orgorder2>",
+                                "#p37088" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37088" to "<http://www.example.orgOrder>"
+                            ),
+                            mutableMapOf(
+                                "O" to "<http://www.example.orgorder3>",
+                                "#p37088" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37088" to "<http://www.example.orgOrder>"
+                            ),
+                            mutableMapOf(
+                                "O" to "<http://www.example.orgorder4>",
+                                "#p37088" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37088" to "<http://www.example.orgOrder>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPSort(
+                        dictionary,
+                        AOPVariable("L"),
+                        true,
+                        POPValues(dictionary, listOf(
                                 "#p37085",
-                                "#o37085"
+                                "L",
+                                "#p37086",
+                                "#_36993",
+                                "O"
                             ), listOf(
                                 mutableMapOf(
-                                    "O" to "<http://www.example.orgorder1>",
-                                    "#p37085" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37085" to "<http://www.example.orgOrder>"
+                                    "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "L" to "\"Ice Cream\"",
+                                    "#p37086" to "<http://www.example.orghasItem>",
+                                    "#_36993" to "_:_36970",
+                                    "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "O" to "<http://www.example.orgorder2>",
-                                    "#p37085" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37085" to "<http://www.example.orgOrder>"
+                                    "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "L" to "\"Pizza\"",
+                                    "#p37086" to "<http://www.example.orghasItem>",
+                                    "#_36993" to "_:_36971",
+                                    "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "O" to "<http://www.example.orgorder3>",
-                                    "#p37085" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37085" to "<http://www.example.orgOrder>"
+                                    "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "L" to "\"Wine\"",
+                                    "#p37086" to "<http://www.example.orghasItem>",
+                                    "#_36993" to "_:_36972",
+                                    "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "O" to "<http://www.example.orgorder4>",
-                                    "#p37085" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37085" to "<http://www.example.orgOrder>"
+                                    "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "L" to "\"Ice Cream\"",
+                                    "#p37086" to "<http://www.example.orghasItem>",
+                                    "#_36993" to "_:_36973",
+                                    "O" to "<http://www.example.orgorder2>"
+                                ),
+                                mutableMapOf(
+                                    "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "L" to "\"Pasta\"",
+                                    "#p37086" to "<http://www.example.orghasItem>",
+                                    "#_36993" to "_:_36974",
+                                    "O" to "<http://www.example.orgorder2>"
+                                ),
+                                mutableMapOf(
+                                    "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "L" to "\"Soft Drink\"",
+                                    "#p37086" to "<http://www.example.orghasItem>",
+                                    "#_36993" to "_:_36975",
+                                    "O" to "<http://www.example.orgorder2>"
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
-                            "O",
                             "#p37085",
-                            "#o37085"
-                        ), listOf(
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder1>",
-                                "#p37085" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37085" to "<http://www.example.orgOrder>"
-                            ),
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder2>",
-                                "#p37085" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37085" to "<http://www.example.orgOrder>"
-                            ),
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder3>",
-                                "#p37085" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37085" to "<http://www.example.orgOrder>"
-                            ),
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder4>",
-                                "#p37085" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37085" to "<http://www.example.orgOrder>"
-                            )
-                        )
-                    )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
-            {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    POPSort(
-                        dictionary,
-                        AOPVariable("L"),
-                        true,
-                        POPValues(dictionary, listOf(
-                                "#p37082",
-                                "L",
-                                "#p37083",
-                                "#_36990",
-                                "O"
-                            ), listOf(
-                                mutableMapOf(
-                                    "#p37082" to "<http://www.w3.org/2000/01/rdf-schema#label>",
-                                    "L" to "\"Ice Cream\"",
-                                    "#p37083" to "<http://www.example.orghasItem>",
-                                    "#_36990" to "_:_36967",
-                                    "O" to "<http://www.example.orgorder1>"
-                                ),
-                                mutableMapOf(
-                                    "#p37082" to "<http://www.w3.org/2000/01/rdf-schema#label>",
-                                    "L" to "\"Pizza\"",
-                                    "#p37083" to "<http://www.example.orghasItem>",
-                                    "#_36990" to "_:_36968",
-                                    "O" to "<http://www.example.orgorder1>"
-                                ),
-                                mutableMapOf(
-                                    "#p37082" to "<http://www.w3.org/2000/01/rdf-schema#label>",
-                                    "L" to "\"Wine\"",
-                                    "#p37083" to "<http://www.example.orghasItem>",
-                                    "#_36990" to "_:_36969",
-                                    "O" to "<http://www.example.orgorder1>"
-                                ),
-                                mutableMapOf(
-                                    "#p37082" to "<http://www.w3.org/2000/01/rdf-schema#label>",
-                                    "L" to "\"Ice Cream\"",
-                                    "#p37083" to "<http://www.example.orghasItem>",
-                                    "#_36990" to "_:_36970",
-                                    "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                    "#p37082" to "<http://www.w3.org/2000/01/rdf-schema#label>",
-                                    "L" to "\"Pasta\"",
-                                    "#p37083" to "<http://www.example.orghasItem>",
-                                    "#_36990" to "_:_36971",
-                                    "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                    "#p37082" to "<http://www.w3.org/2000/01/rdf-schema#label>",
-                                    "L" to "\"Soft Drink\"",
-                                    "#p37083" to "<http://www.example.orghasItem>",
-                                    "#_36990" to "_:_36972",
-                                    "O" to "<http://www.example.orgorder2>"
-                                )
-                            )
-                        )
-                    ),
-                    POPValues(dictionary, listOf(
-                            "#p37082",
                             "L",
-                            "#p37083",
-                            "#_36990",
+                            "#p37086",
+                            "#_36993",
                             "O"
                         ), listOf(
                             mutableMapOf(
-                                "#p37082" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Ice Cream\"",
-                                "#p37083" to "<http://www.example.orghasItem>",
-                                "#_36990" to "_:_36967",
+                                "#p37086" to "<http://www.example.orghasItem>",
+                                "#_36993" to "_:_36970",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#p37082" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Ice Cream\"",
-                                "#p37083" to "<http://www.example.orghasItem>",
-                                "#_36990" to "_:_36970",
+                                "#p37086" to "<http://www.example.orghasItem>",
+                                "#_36993" to "_:_36973",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#p37082" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Pasta\"",
-                                "#p37083" to "<http://www.example.orghasItem>",
-                                "#_36990" to "_:_36971",
+                                "#p37086" to "<http://www.example.orghasItem>",
+                                "#_36993" to "_:_36974",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#p37082" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Pizza\"",
-                                "#p37083" to "<http://www.example.orghasItem>",
-                                "#_36990" to "_:_36968",
+                                "#p37086" to "<http://www.example.orghasItem>",
+                                "#_36993" to "_:_36971",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#p37082" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Soft Drink\"",
-                                "#p37083" to "<http://www.example.orghasItem>",
-                                "#_36990" to "_:_36972",
+                                "#p37086" to "<http://www.example.orghasItem>",
+                                "#_36993" to "_:_36975",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#p37082" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37085" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Wine\"",
-                                "#p37083" to "<http://www.example.orghasItem>",
-                                "#_36990" to "_:_36969",
+                                "#p37086" to "<http://www.example.orghasItem>",
+                                "#_36993" to "_:_36972",
                                 "O" to "<http://www.example.orgorder1>"
                             )
                         )
@@ -4506,167 +4506,167 @@ class GeneratedPOPSortTest {
                         true,
                         POPValues(dictionary, listOf(
                                 "O",
+                                "#p37432",
+                                "#o37432"
+                            ), listOf(
+                                mutableMapOf(
+                                    "O" to "<http://www.example.orgorder1>",
+                                    "#p37432" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37432" to "<http://www.example.orgOrder>"
+                                ),
+                                mutableMapOf(
+                                    "O" to "<http://www.example.orgorder2>",
+                                    "#p37432" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37432" to "<http://www.example.orgOrder>"
+                                ),
+                                mutableMapOf(
+                                    "O" to "<http://www.example.orgorder3>",
+                                    "#p37432" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37432" to "<http://www.example.orgOrder>"
+                                ),
+                                mutableMapOf(
+                                    "O" to "<http://www.example.orgorder4>",
+                                    "#p37432" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37432" to "<http://www.example.orgOrder>"
+                                )
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "O",
+                            "#p37432",
+                            "#o37432"
+                        ), listOf(
+                            mutableMapOf(
+                                "O" to "<http://www.example.orgorder1>",
+                                "#p37432" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37432" to "<http://www.example.orgOrder>"
+                            ),
+                            mutableMapOf(
+                                "O" to "<http://www.example.orgorder2>",
+                                "#p37432" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37432" to "<http://www.example.orgOrder>"
+                            ),
+                            mutableMapOf(
+                                "O" to "<http://www.example.orgorder3>",
+                                "#p37432" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37432" to "<http://www.example.orgOrder>"
+                            ),
+                            mutableMapOf(
+                                "O" to "<http://www.example.orgorder4>",
+                                "#p37432" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37432" to "<http://www.example.orgOrder>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPSort(
+                        dictionary,
+                        AOPVariable("L"),
+                        true,
+                        POPValues(dictionary, listOf(
                                 "#p37429",
-                                "#o37429"
-                            ), listOf(
-                                mutableMapOf(
-                                    "O" to "<http://www.example.orgorder1>",
-                                    "#p37429" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37429" to "<http://www.example.orgOrder>"
-                                ),
-                                mutableMapOf(
-                                    "O" to "<http://www.example.orgorder2>",
-                                    "#p37429" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37429" to "<http://www.example.orgOrder>"
-                                ),
-                                mutableMapOf(
-                                    "O" to "<http://www.example.orgorder3>",
-                                    "#p37429" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37429" to "<http://www.example.orgOrder>"
-                                ),
-                                mutableMapOf(
-                                    "O" to "<http://www.example.orgorder4>",
-                                    "#p37429" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37429" to "<http://www.example.orgOrder>"
-                                )
-                            )
-                        )
-                    ),
-                    POPValues(dictionary, listOf(
-                            "O",
-                            "#p37429",
-                            "#o37429"
-                        ), listOf(
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder1>",
-                                "#p37429" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37429" to "<http://www.example.orgOrder>"
-                            ),
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder2>",
-                                "#p37429" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37429" to "<http://www.example.orgOrder>"
-                            ),
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder3>",
-                                "#p37429" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37429" to "<http://www.example.orgOrder>"
-                            ),
-                            mutableMapOf(
-                                "O" to "<http://www.example.orgorder4>",
-                                "#p37429" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37429" to "<http://www.example.orgOrder>"
-                            )
-                        )
-                    )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
-            {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    POPSort(
-                        dictionary,
-                        AOPVariable("L"),
-                        true,
-                        POPValues(dictionary, listOf(
-                                "#p37426",
                                 "L",
-                                "#p37427",
-                                "#_37355",
+                                "#p37430",
+                                "#_37358",
                                 "O"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p37426" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Ice Cream\"",
-                                    "#p37427" to "<http://www.example.orghasItem>",
-                                    "#_37355" to "_:_37332",
+                                    "#p37430" to "<http://www.example.orghasItem>",
+                                    "#_37358" to "_:_37335",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37426" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Pizza\"",
-                                    "#p37427" to "<http://www.example.orghasItem>",
-                                    "#_37355" to "_:_37333",
+                                    "#p37430" to "<http://www.example.orghasItem>",
+                                    "#_37358" to "_:_37336",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37426" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Wine\"",
-                                    "#p37427" to "<http://www.example.orghasItem>",
-                                    "#_37355" to "_:_37334",
+                                    "#p37430" to "<http://www.example.orghasItem>",
+                                    "#_37358" to "_:_37337",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37426" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Ice Cream\"",
-                                    "#p37427" to "<http://www.example.orghasItem>",
-                                    "#_37355" to "_:_37335",
+                                    "#p37430" to "<http://www.example.orghasItem>",
+                                    "#_37358" to "_:_37338",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37426" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Pasta\"",
-                                    "#p37427" to "<http://www.example.orghasItem>",
-                                    "#_37355" to "_:_37336",
+                                    "#p37430" to "<http://www.example.orghasItem>",
+                                    "#_37358" to "_:_37339",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37426" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Soft Drink\"",
-                                    "#p37427" to "<http://www.example.orghasItem>",
-                                    "#_37355" to "_:_37337",
+                                    "#p37430" to "<http://www.example.orghasItem>",
+                                    "#_37358" to "_:_37340",
                                     "O" to "<http://www.example.orgorder2>"
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
-                            "#p37426",
+                            "#p37429",
                             "L",
-                            "#p37427",
-                            "#_37355",
+                            "#p37430",
+                            "#_37358",
                             "O"
                         ), listOf(
                             mutableMapOf(
-                                "#p37426" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Ice Cream\"",
-                                "#p37427" to "<http://www.example.orghasItem>",
-                                "#_37355" to "_:_37332",
+                                "#p37430" to "<http://www.example.orghasItem>",
+                                "#_37358" to "_:_37335",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#p37426" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Ice Cream\"",
-                                "#p37427" to "<http://www.example.orghasItem>",
-                                "#_37355" to "_:_37335",
+                                "#p37430" to "<http://www.example.orghasItem>",
+                                "#_37358" to "_:_37338",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#p37426" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Pasta\"",
-                                "#p37427" to "<http://www.example.orghasItem>",
-                                "#_37355" to "_:_37336",
+                                "#p37430" to "<http://www.example.orghasItem>",
+                                "#_37358" to "_:_37339",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#p37426" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Pizza\"",
-                                "#p37427" to "<http://www.example.orghasItem>",
-                                "#_37355" to "_:_37333",
+                                "#p37430" to "<http://www.example.orghasItem>",
+                                "#_37358" to "_:_37336",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#p37426" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Soft Drink\"",
-                                "#p37427" to "<http://www.example.orghasItem>",
-                                "#_37355" to "_:_37337",
+                                "#p37430" to "<http://www.example.orghasItem>",
+                                "#_37358" to "_:_37340",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#p37426" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37429" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Wine\"",
-                                "#p37427" to "<http://www.example.orghasItem>",
-                                "#_37355" to "_:_37334",
+                                "#p37430" to "<http://www.example.orghasItem>",
+                                "#_37358" to "_:_37337",
                                 "O" to "<http://www.example.orgorder1>"
                             )
                         )
@@ -4682,56 +4682,56 @@ class GeneratedPOPSortTest {
                         true,
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#p37450",
-                                "#o37450"
+                                "#p37453",
+                                "#o37453"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#p37450" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37450" to "<http://www.example.orgOrder>"
+                                    "#p37453" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37453" to "<http://www.example.orgOrder>"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#p37450" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37450" to "<http://www.example.orgOrder>"
+                                    "#p37453" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37453" to "<http://www.example.orgOrder>"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder3>",
-                                    "#p37450" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37450" to "<http://www.example.orgOrder>"
+                                    "#p37453" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37453" to "<http://www.example.orgOrder>"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder4>",
-                                    "#p37450" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                    "#o37450" to "<http://www.example.orgOrder>"
+                                    "#p37453" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o37453" to "<http://www.example.orgOrder>"
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
                             "O",
-                            "#p37450",
-                            "#o37450"
+                            "#p37453",
+                            "#o37453"
                         ), listOf(
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder1>",
-                                "#p37450" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37450" to "<http://www.example.orgOrder>"
+                                "#p37453" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37453" to "<http://www.example.orgOrder>"
                             ),
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder2>",
-                                "#p37450" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37450" to "<http://www.example.orgOrder>"
+                                "#p37453" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37453" to "<http://www.example.orgOrder>"
                             ),
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder3>",
-                                "#p37450" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37450" to "<http://www.example.orgOrder>"
+                                "#p37453" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37453" to "<http://www.example.orgOrder>"
                             ),
                             mutableMapOf(
                                 "O" to "<http://www.example.orgorder4>",
-                                "#p37450" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                "#o37450" to "<http://www.example.orgOrder>"
+                                "#p37453" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o37453" to "<http://www.example.orgOrder>"
                             )
                         )
                     )
@@ -4745,104 +4745,104 @@ class GeneratedPOPSortTest {
                         AOPVariable("L"),
                         true,
                         POPValues(dictionary, listOf(
-                                "#p37447",
+                                "#p37450",
                                 "L",
-                                "#p37448",
-                                "#_37355",
+                                "#p37451",
+                                "#_37358",
                                 "O"
                             ), listOf(
                                 mutableMapOf(
-                                    "#p37447" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Ice Cream\"",
-                                    "#p37448" to "<http://www.example.orghasItem>",
-                                    "#_37355" to "_:_37332",
+                                    "#p37451" to "<http://www.example.orghasItem>",
+                                    "#_37358" to "_:_37335",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37447" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Pizza\"",
-                                    "#p37448" to "<http://www.example.orghasItem>",
-                                    "#_37355" to "_:_37333",
+                                    "#p37451" to "<http://www.example.orghasItem>",
+                                    "#_37358" to "_:_37336",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37447" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Wine\"",
-                                    "#p37448" to "<http://www.example.orghasItem>",
-                                    "#_37355" to "_:_37334",
+                                    "#p37451" to "<http://www.example.orghasItem>",
+                                    "#_37358" to "_:_37337",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#p37447" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Ice Cream\"",
-                                    "#p37448" to "<http://www.example.orghasItem>",
-                                    "#_37355" to "_:_37335",
+                                    "#p37451" to "<http://www.example.orghasItem>",
+                                    "#_37358" to "_:_37338",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37447" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Pasta\"",
-                                    "#p37448" to "<http://www.example.orghasItem>",
-                                    "#_37355" to "_:_37336",
+                                    "#p37451" to "<http://www.example.orghasItem>",
+                                    "#_37358" to "_:_37339",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#p37447" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                    "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                     "L" to "\"Soft Drink\"",
-                                    "#p37448" to "<http://www.example.orghasItem>",
-                                    "#_37355" to "_:_37337",
+                                    "#p37451" to "<http://www.example.orghasItem>",
+                                    "#_37358" to "_:_37340",
                                     "O" to "<http://www.example.orgorder2>"
                                 )
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
-                            "#p37447",
+                            "#p37450",
                             "L",
-                            "#p37448",
-                            "#_37355",
+                            "#p37451",
+                            "#_37358",
                             "O"
                         ), listOf(
                             mutableMapOf(
-                                "#p37447" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Ice Cream\"",
-                                "#p37448" to "<http://www.example.orghasItem>",
-                                "#_37355" to "_:_37332",
+                                "#p37451" to "<http://www.example.orghasItem>",
+                                "#_37358" to "_:_37335",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#p37447" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Ice Cream\"",
-                                "#p37448" to "<http://www.example.orghasItem>",
-                                "#_37355" to "_:_37335",
+                                "#p37451" to "<http://www.example.orghasItem>",
+                                "#_37358" to "_:_37338",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#p37447" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Pasta\"",
-                                "#p37448" to "<http://www.example.orghasItem>",
-                                "#_37355" to "_:_37336",
+                                "#p37451" to "<http://www.example.orghasItem>",
+                                "#_37358" to "_:_37339",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#p37447" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Pizza\"",
-                                "#p37448" to "<http://www.example.orghasItem>",
-                                "#_37355" to "_:_37333",
+                                "#p37451" to "<http://www.example.orghasItem>",
+                                "#_37358" to "_:_37336",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#p37447" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Soft Drink\"",
-                                "#p37448" to "<http://www.example.orghasItem>",
-                                "#_37355" to "_:_37337",
+                                "#p37451" to "<http://www.example.orghasItem>",
+                                "#_37358" to "_:_37340",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#p37447" to "<http://www.w3.org/2000/01/rdf-schema#label>",
+                                "#p37450" to "<http://www.w3.org/2000/01/rdf-schema#label>",
                                 "L" to "\"Wine\"",
-                                "#p37448" to "<http://www.example.orghasItem>",
-                                "#_37355" to "_:_37334",
+                                "#p37451" to "<http://www.example.orghasItem>",
+                                "#_37358" to "_:_37337",
                                 "O" to "<http://www.example.orgorder1>"
                             )
                         )

@@ -1,8 +1,7 @@
 package lupos.s15tripleStoreDistributed
 
-import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.*
 import lupos.s00misc.EGraphOperationType
-import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.GlobalLogger
 import lupos.s00misc.ThreadSafeUuid
@@ -12,6 +11,7 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
@@ -23,25 +23,25 @@ val uuid = ThreadSafeUuid()
 class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
-    private var sNew: Variable
-    private var pNew: Variable
+    var sNew: Variable
+    var pNew: Variable
     override val resultSet: ResultSet
-    private var oNew: Variable
-    private val nodeNameIterator: Iterator<String>
-    private var remoteIterator: Iterator<ResultRow>? = null
-    private val transactionID: Long
-    private val graphName: String
-    private val idx: EIndexPattern
+    var oNew: Variable
+    val nodeNameIterator: Iterator<String>
+    var remoteIterator: Iterator<ResultRow>? = null
+    val transactionID: Long
+    val graphNameL: String
+    val idx: EIndexPattern
 
-    private val sFilter: String?
-    private val pFilter: String?
-    private val oFilter: String?
+    val sFilter: String?
+    val pFilter: String?
+    val oFilter: String?
 
     constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String) : this(transactionID, dictionary, graphName, EIndexPattern.SPO)
     constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String, index: EIndexPattern) : this(transactionID, dictionary, graphName, null, null, null, false, false, false, index)
     constructor(transactionID: Long, dictionary: ResultSetDictionary, graphName: String, s: String?, p: String?, o: String?, sv: Boolean, pv: Boolean, ov: Boolean, index: EIndexPattern) {
         idx = index
-        this.graphName = graphName
+        graphNameL = graphName
         this.dictionary = dictionary
         this.transactionID = transactionID
         resultSet = ResultSet(dictionary)
@@ -90,7 +90,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
     }
 
     override fun getGraphName(): String = Trace.trace({ "TripleStoreIteratorGlobal.getGraphName" }, {
-        return graphName
+        return graphNameL
     })
 
     override fun getProvidedVariableNames(): List<String> {
@@ -122,10 +122,10 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
                     val ov = oFilter != null
                     var remoteNode: OPBase? = null
                     try {
-                        remoteNode = P2P.execTripleGet(nodeName, graphName, dictionary, transactionID, s, p, o, sv, pv, ov, idx)
+                        remoteNode = P2P.execTripleGet(nodeName, graphNameL, dictionary, transactionID, s, p, o, sv, pv, ov, idx)
                         remoteNode.evaluate()
                         for (c in remoteNode.channel)
-                            channel.send(c)
+                            channel.send(resultFlowProduce({ this@TripleStoreIteratorGlobal }, { c }))
                     } catch (e: Throwable) {
                         remoteNode?.channel?.close(e)
                         channel.close(e)
