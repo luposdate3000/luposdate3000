@@ -39,7 +39,7 @@ val errorBoundForDecimalsDigits = 6
 fun main(args: Array<String>) {
     P2P.knownClients.add(EndpointImpl.fullname)
     testMain()
-printAllMicroTest()
+    printAllMicroTest()
 }
 
 fun testMain() {

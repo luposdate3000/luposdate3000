@@ -20,6 +20,7 @@ import lupos.s11outputResult.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
+
 class GeneratedAOPBuildInCallBNODE0Test {
     fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
         for (n in node.children)
@@ -31,30 +32,31 @@ class GeneratedAOPBuildInCallBNODE0Test {
                 node.a = null
         }
     }
+
     @TestFactory
     fun test() = listOf(
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3096630991")
+                        AOPBnode("3096330988")
                 )
             }()*/
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3096130993")
+                        AOPBnode("3095830990")
                 )
             }()*/
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3099731015")
+                        AOPBnode("3099431012")
                 )
             }()*/
             /*{
                 MicroTest0(
                         AOPBuildInCallBNODE0(),
-                        AOPBnode("3100431017")
+                        AOPBnode("3100131014")
                 )
             }()*/
             {
@@ -63,9 +65,9 @@ class GeneratedAOPBuildInCallBNODE0Test {
     ).mapIndexed { index, data ->
         DynamicTest.dynamicTest("$index") {
             try {
-                if(data.input is AOPBase){
+                if (data.input is AOPBase) {
                     val input = data.input as AOPBase
-                    val output:AOPConstant
+                    val output: AOPConstant
                     if (data is MicroTestA1) {
                         output = input.calculate(data.resultSet, data.resultRow)
                     } else if (data is MicroTestAN) {
@@ -80,18 +82,18 @@ class GeneratedAOPBuildInCallBNODE0Test {
                     }
                     assertTrue(data.expected is AOPConstant)
                     if (!data.expected.equals(output)) {
-                        if(data is MicroTestA1)
+                        if (data is MicroTestA1)
                             println(data.resultRow)
                         println(output.valueToString())
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase){
+                } else if (data.input is POPBase) {
                     val input = data.input as POPBase
                     assertTrue(data.expected is POPValues)
-                    val output=QueryResultToXML.toXML(input).first()
-                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if(!expected.myEquals(output))
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output))
                         println(output.toPrettyString())
                     assertTrue(expected.myEquals(output))
                 }

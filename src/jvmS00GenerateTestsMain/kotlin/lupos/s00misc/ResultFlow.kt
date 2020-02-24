@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators
+
 import java.io.File
 import lupos.s00misc.classNameToString
 import lupos.s00misc.ThreadSafeMutableList
@@ -225,104 +226,106 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
     return expected
 }
 
-val mapOfTestCases=ThreadSafeMutableMap</*mainoperator*/String,MutableSet<String/*query*/>>()
+val mapOfTestCases = ThreadSafeMutableMap</*mainoperator*/String, MutableSet<String/*query*/>>()
 
-fun printAllMicroTest(){
-	mapOfTestCases.forEach{operator,testcases->
-		val fileName = "src/commonTest/kotlin/lupos/Generated${operator}.kt"
-		val myfile = File(fileName)
-		myfile.printWriter().use { out ->
-out.println("package lupos")
-out.println("")
-out.println("import lupos.s02buildSyntaxTree.sparql1_1.*")
-out.println("import lupos.s03resultRepresentation.*")
-out.println("import lupos.s04arithmetikOperators.*")
-out.println("import lupos.s04arithmetikOperators.multiinput.*")
-out.println("import lupos.s04arithmetikOperators.noinput.*")
-out.println("import lupos.s04arithmetikOperators.singleinput.*")
-out.println("import lupos.s04logicalOperators.*")
-out.println("import lupos.s04logicalOperators.noinput.*")
-out.println("import lupos.s04logicalOperators.singleinput.*")
-out.println("import lupos.s04logicalOperators.singleinput.modifiers.*")
-out.println("import lupos.s08logicalOptimisation.*")
-out.println("import lupos.s09physicalOperators.*")
-out.println("import lupos.s09physicalOperators.multiinput.*")
-out.println("import lupos.s09physicalOperators.noinput.*")
-out.println("import lupos.s09physicalOperators.singleinput.*")
-out.println("import lupos.s09physicalOperators.singleinput.modifiers.*")
-out.println("import lupos.s11outputResult.*")
-out.println("import org.junit.jupiter.api.*")
-out.println("import org.junit.jupiter.api.Assertions.*")
-out.println("")
-out.println("class Generated${operator}Test {")
-out.println("    fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {")
-out.println("        for (n in node.children)")
-out.println("            setAggregationMode(n, mode, count)")
-out.println("        if (node is AOPAggregation) {")
-out.println("            node.count = count")
-out.println("            node.collectMode = mode")
-out.println("            if (node.collectMode)")
-out.println("                node.a = null")
-out.println("        }")
-out.println("    }")
+fun printAllMicroTest() {
+    mapOfTestCases.forEach { operator, testcases ->
+        if (testcases.size > 0) {
+            val fileName = "src/commonTest/kotlin/lupos/Generated${operator}.kt"
+            val myfile = File(fileName)
+            myfile.printWriter().use { out ->
+                out.println("package lupos")
+                out.println("")
+                out.println("import lupos.s02buildSyntaxTree.sparql1_1.*")
+                out.println("import lupos.s03resultRepresentation.*")
+                out.println("import lupos.s04arithmetikOperators.*")
+                out.println("import lupos.s04arithmetikOperators.multiinput.*")
+                out.println("import lupos.s04arithmetikOperators.noinput.*")
+                out.println("import lupos.s04arithmetikOperators.singleinput.*")
+                out.println("import lupos.s04logicalOperators.*")
+                out.println("import lupos.s04logicalOperators.noinput.*")
+                out.println("import lupos.s04logicalOperators.singleinput.*")
+                out.println("import lupos.s04logicalOperators.singleinput.modifiers.*")
+                out.println("import lupos.s08logicalOptimisation.*")
+                out.println("import lupos.s09physicalOperators.*")
+                out.println("import lupos.s09physicalOperators.multiinput.*")
+                out.println("import lupos.s09physicalOperators.noinput.*")
+                out.println("import lupos.s09physicalOperators.singleinput.*")
+                out.println("import lupos.s09physicalOperators.singleinput.modifiers.*")
+                out.println("import lupos.s11outputResult.*")
+                out.println("import org.junit.jupiter.api.*")
+                out.println("import org.junit.jupiter.api.Assertions.*")
+                out.println("")
+                out.println("class Generated${operator}Test {")
+                out.println("    fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {")
+                out.println("        for (n in node.children)")
+                out.println("            setAggregationMode(n, mode, count)")
+                out.println("        if (node is AOPAggregation) {")
+                out.println("            node.count = count")
+                out.println("            node.collectMode = mode")
+                out.println("            if (node.collectMode)")
+                out.println("                node.a = null")
+                out.println("        }")
+                out.println("    }")
 
 
 
 
-        out.println("${prefix}    @TestFactory")
-        out.println("${prefix}    fun test() = listOf(")
-testcases.forEach{
-if(it.endsWith("*/"))
-out.println("${prefix}$it")
-else
-out.println("${prefix}$it,")
-}
-        out.println("${prefix}            {")
-        out.println("${prefix}                MicroTest0(AOPUndef(), AOPUndef())")
-        out.println("${prefix}            }()")
-        out.println("${prefix}    ).mapIndexed { index, data ->")
-        out.println("${prefix}        DynamicTest.dynamicTest(\"\$index\") {")
-        out.println("${prefix}            try {")
-        out.println("${prefix}                if(data.input is AOPBase){")
-        out.println("${prefix}                    val input = data.input as AOPBase")
-        out.println("${prefix}                    val output:AOPConstant")
-        out.println("${prefix}                    if (data is MicroTestA1) {")
-        out.println("${prefix}                        output = input.calculate(data.resultSet, data.resultRow)")
-        out.println("${prefix}                    } else if (data is MicroTestAN) {")
-        out.println("${prefix}                        setAggregationMode(input, true, data.resultRows.count())")
-        out.println("${prefix}                        for (resultRow in data.resultRows)")
-        out.println("${prefix}                            input.calculate(data.resultSet, resultRow)")
-        out.println("${prefix}                        setAggregationMode(input, false, data.resultRows.count())")
-        out.println("${prefix}                        output = input.calculate(data.resultSet, data.resultSet.createResultRow())")
-        out.println("${prefix}                    } else {")
-        out.println("${prefix}                        val resultSet = ResultSet(ResultSetDictionary())")
-        out.println("${prefix}                        output = input.calculate(resultSet, resultSet.createResultRow())")
-        out.println("${prefix}                    }")
-        out.println("${prefix}                    assertTrue(data.expected is AOPConstant)")
-        out.println("${prefix}                    if (!data.expected.equals(output)) {")
-        out.println("${prefix}                        if(data is MicroTestA1)")
-        out.println("${prefix}                            println(data.resultRow)")
-        out.println("${prefix}                        println(output.valueToString())")
-        out.println("${prefix}                        println((data.expected as AOPConstant).valueToString())")
-        out.println("${prefix}                    }")
-        out.println("${prefix}                    assertTrue(data.expected.equals(output))")
-        out.println("${prefix}                } else if (data.input is POPBase){")
-        out.println("${prefix}                    val input = data.input as POPBase")
-        out.println("${prefix}                    assertTrue(data.expected is POPValues)")
-        out.println("${prefix}                    val output=QueryResultToXML.toXML(input).first()")
-        out.println("${prefix}                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()")
-        out.println("${prefix}                    if(!expected.myEquals(output))")
-        out.println("${prefix}                        println(output.toPrettyString())")
-        out.println("${prefix}                    assertTrue(expected.myEquals(output))")
-        out.println("${prefix}                }")
-        out.println("${prefix}            } catch (e: Throwable) {")
-        out.println("${prefix}                assertTrue(data.expected is Throwable)")
-        out.println("${prefix}            }")
-        out.println("${prefix}        }")
-        out.println("${prefix}    }")
-        out.println("${prefix}}")
-		}
-	}
+                out.println("${prefix}    @TestFactory")
+                out.println("${prefix}    fun test() = listOf(")
+                testcases.forEach {
+                    if (it.endsWith("*/"))
+                        out.println("${prefix}$it")
+                    else
+                        out.println("${prefix}$it,")
+                }
+                out.println("${prefix}            {")
+                out.println("${prefix}                MicroTest0(AOPUndef(), AOPUndef())")
+                out.println("${prefix}            }()")
+                out.println("${prefix}    ).mapIndexed { index, data ->")
+                out.println("${prefix}        DynamicTest.dynamicTest(\"\$index\") {")
+                out.println("${prefix}            try {")
+                out.println("${prefix}                if(data.input is AOPBase){")
+                out.println("${prefix}                    val input = data.input as AOPBase")
+                out.println("${prefix}                    val output:AOPConstant")
+                out.println("${prefix}                    if (data is MicroTestA1) {")
+                out.println("${prefix}                        output = input.calculate(data.resultSet, data.resultRow)")
+                out.println("${prefix}                    } else if (data is MicroTestAN) {")
+                out.println("${prefix}                        setAggregationMode(input, true, data.resultRows.count())")
+                out.println("${prefix}                        for (resultRow in data.resultRows)")
+                out.println("${prefix}                            input.calculate(data.resultSet, resultRow)")
+                out.println("${prefix}                        setAggregationMode(input, false, data.resultRows.count())")
+                out.println("${prefix}                        output = input.calculate(data.resultSet, data.resultSet.createResultRow())")
+                out.println("${prefix}                    } else {")
+                out.println("${prefix}                        val resultSet = ResultSet(ResultSetDictionary())")
+                out.println("${prefix}                        output = input.calculate(resultSet, resultSet.createResultRow())")
+                out.println("${prefix}                    }")
+                out.println("${prefix}                    assertTrue(data.expected is AOPConstant)")
+                out.println("${prefix}                    if (!data.expected.equals(output)) {")
+                out.println("${prefix}                        if(data is MicroTestA1)")
+                out.println("${prefix}                            println(data.resultRow)")
+                out.println("${prefix}                        println(output.valueToString())")
+                out.println("${prefix}                        println((data.expected as AOPConstant).valueToString())")
+                out.println("${prefix}                    }")
+                out.println("${prefix}                    assertTrue(data.expected.equals(output))")
+                out.println("${prefix}                } else if (data.input is POPBase){")
+                out.println("${prefix}                    val input = data.input as POPBase")
+                out.println("${prefix}                    assertTrue(data.expected is POPValues)")
+                out.println("${prefix}                    val output=QueryResultToXML.toXML(input).first()")
+                out.println("${prefix}                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()")
+                out.println("${prefix}                    if(!expected.myEquals(output))")
+                out.println("${prefix}                        println(output.toPrettyString())")
+                out.println("${prefix}                    assertTrue(expected.myEquals(output))")
+                out.println("${prefix}                }")
+                out.println("${prefix}            } catch (e: Throwable) {")
+                out.println("${prefix}                assertTrue(data.expected is Throwable)")
+                out.println("${prefix}            }")
+                out.println("${prefix}        }")
+                out.println("${prefix}    }")
+                out.println("${prefix}}")
+            }
+        }
+    }
 }
 
 fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
@@ -330,18 +333,18 @@ fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
         val name = ("" + testName.hashCode() + "_" + queryFile).replace("[^a-zA-Z0-9]".toRegex(), "_")
         if (listOfMicroTests.size() > 0) {
             listOfMicroTests.forEach {
-val c=it.indexOf("MicroTest")
-val a=it.indexOf("AOP",c)
-val b=it.indexOf("(",a+1)
-val name=it.substring(a,b).replace(".* ".toRegex(),"")
-val x=mapOfTestCases[name]
-val tmp:MutableSet<String>
-if(x==null){
-mapOfTestCases[name]=mutableSetOf<String>()
-tmp=mapOfTestCases[name]!!
-}else
-tmp=x
-if (success) {
+                val c = it.indexOf("MicroTest")
+                val a = it.indexOf("AOP", c)
+                val b = it.indexOf("(", a + 1)
+                val name = it.substring(a, b).replace(".* ".toRegex(), "")
+                val x = mapOfTestCases[name]
+                val tmp: MutableSet<String>
+                if (x == null) {
+                    mapOfTestCases[name] = mutableSetOf<String>()
+                    tmp = mapOfTestCases[name]!!
+                } else
+                    tmp = x
+                if (success) {
                     if (it.contains("AOPBuildInCallBNODE1") || it.contains("AOPBuildInCallBNODE0") || it.contains("AOPBuildInCallNOW"))
                         tmp.add("${prefix}            /*" + it + "*/")
                     else
@@ -352,24 +355,24 @@ if (success) {
         }
         if (popMap.keySize() > 0) {
             popMap.forEachValue {
-val name=classNameToString(it)
-val x=mapOfTestCases[name]
-val tmp:MutableSet<String>
-if(x==null){
-mapOfTestCases[name]=mutableSetOf<String>()
-tmp=mapOfTestCases[name]!!
-}else
-tmp=x
+                val name = classNameToString(it)
+                val x = mapOfTestCases[name]
+                val tmp: MutableSet<String>
+                if (x == null) {
+                    mapOfTestCases[name] = mutableSetOf<String>()
+                    tmp = mapOfTestCases[name]!!
+                } else
+                    tmp = x
                 try {
-if (success)
-                        tmp.add("${prefix}            "+testCaseFromPOPBaseSimple(it))
-else
-                        tmp.add("${prefix}            /*"+testCaseFromPOPBaseSimple(it)+"*/")
+                    if (success)
+                        tmp.add("${prefix}            " + testCaseFromPOPBaseSimple(it))
+                    else
+                        tmp.add("${prefix}            /*" + testCaseFromPOPBaseSimple(it) + "*/")
                 } catch (e: Throwable) {
                 }
             }
         }
-}
+    }
     listOfMicroTests.clear()
     mapOfAggregationChilds.clear()
     popMap.clear()
