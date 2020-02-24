@@ -98,15 +98,14 @@ fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, resultSet: 
 }
 
 fun testCaseFromPOPBaseSimple(op: POPBase): String {
-    val prefix = "--nochnicht--"
-    var res = "${prefix}{\n"
-    res += "${prefix}    MicroTestPN(\n"
-    res += "${prefix}        ${classNameToString(op)}(\n"
+    var res = "${prefix}            {\n"
+    res += "${prefix}                MicroTestPN(\n"
+    res += "${prefix}                    ${classNameToString(op)}(\n"
     when (op) {
         is POPUnion -> {
-            res += "${prefix}            dictionary,\n"
-            res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}            ") + ",\n"
-            res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1].resultSet, "${prefix}            ") + "\n"
+            res += "${prefix}                        dictionary,\n"
+            res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + ",\n"
+            res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1].resultSet, "${prefix}                        ") + "\n"
         }
         else -> throw Exception("not implemented testCaseFromPOPBaseSimple(${classNameToString(op)})")
 /*is POPJoinHashMap -> {}
@@ -132,10 +131,10 @@ is POPValues -> {}
 is POPImportFromXml -> {}
 */
     }
-    res += "${prefix}        ),\n"
-    res += testCaseFromResultRowsAsPOPValues(rowMapProduced[op.uuid], op.resultSet, "${prefix}        ") + "\n"
-    res += "${prefix}    )\n"
-    return res + "${prefix}}\n"
+    res += "${prefix}                    ),\n"
+    res += testCaseFromResultRowsAsPOPValues(rowMapProduced[op.uuid], op.resultSet, "${prefix}                    ") + "\n"
+    res += "${prefix}                )\n"
+    return res + "${prefix}            }"
 }
 
 fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSetv: () -> ResultSet, action: () -> T): T {
@@ -241,7 +240,7 @@ if (listOfMicroTests.size() > 0){
 if(popMap.keySize()>0){
         popMap.forEachValue {
             try {
-                println(testCaseFromPOPBaseSimple(it))
+                println(testCaseFromPOPBaseSimple(it)+",")
             } catch (e: Throwable) {
                 println(e.message)
             }
@@ -275,7 +274,13 @@ if(popMap.keySize()>0){
         println("${prefix}                        println((data.expected as AOPConstant).valueToString())")
         println("${prefix}                    }")
         println("${prefix}                    assertTrue(data.expected.equals(output))")
-        println("${prefix}                } else {")
+        println("${prefix}                } else if (data.input is POPBase){")
+        println("${prefix}                    assertTrue(data.expected is POPValues)")
+        println("${prefix}                    val output=QueryResultToXML(data.input)")
+        println("${prefix}                    val expected=QueryResultToXML(data.expected as POPValues)")
+        println("${prefix}                    if(!expected.myEquals(output))")
+        println("${prefix}                        println(output.toPrettyString())")
+        println("${prefix}                    assertTrue(expected.myEquals(output))")
         println("${prefix}                }")
         println("${prefix}            } catch (e: Throwable) {")
         println("${prefix}                assertTrue(data.expected is Throwable)")
