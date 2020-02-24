@@ -35,7 +35,7 @@ class GeneratedPOPRenameTest {
 
     @TestFactory
     fun test() = listOf(
-            {
+            { // resources/sparql11-test-suite/construct/constructwhere01.rq
                 val dictionary=ResultSetDictionary()
                 MicroTestPN(
                     POPRename(
@@ -99,7 +99,7 @@ class GeneratedPOPRenameTest {
                     )
                 )
             }(),
-            {
+            { // resources/sparql11-test-suite/construct/constructwhere01.rq
                 val dictionary=ResultSetDictionary()
                 MicroTestPN(
                     POPRename(
@@ -163,7 +163,7 @@ class GeneratedPOPRenameTest {
                     )
                 )
             }(),
-            {
+            { // resources/sparql11-test-suite/construct/constructwhere01.rq
                 val dictionary=ResultSetDictionary()
                 MicroTestPN(
                     POPRename(
@@ -227,7 +227,7 @@ class GeneratedPOPRenameTest {
                     )
                 )
             }(),
-            {
+            { // resources/sparql11-test-suite/subquery/sq12.rq
                 val dictionary=ResultSetDictionary()
                 MicroTestPN(
                     POPRename(
@@ -252,6 +252,44 @@ class GeneratedPOPRenameTest {
                             mutableMapOf(
                                 "s" to "<http://p1>",
                                 "FullName" to "\"John Doe\""
+                            )
+                        )
+                    )
+                )
+            }(),
+            { // resources/sparql11-test-suite/subquery/sq12.rq
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPRename(
+                        dictionary,
+                        AOPVariable("o"),
+                        AOPVariable("FullName"),
+                        POPValues(dictionary, listOf(
+                                "p",
+                                "P",
+                                "s",
+                                "FullName"
+                            ), listOf(
+                                mutableMapOf(
+                                    "p" to "<http://xmlns.com/foaf/0.1/name>",
+                                    "P" to null,
+                                    "s" to "<http://p1>",
+                                    "FullName" to "\"John Doe\""
+                                )
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "p",
+                            "P",
+                            "s",
+                            "o"
+                        ), listOf(
+                            mutableMapOf(
+                                "p" to "<http://xmlns.com/foaf/0.1/name>",
+                                "P" to null,
+                                "s" to "<http://p1>",
+                                "o" to "\"John Doe\""
                             )
                         )
                     )

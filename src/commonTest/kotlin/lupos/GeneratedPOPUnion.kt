@@ -35,7 +35,7 @@ class GeneratedPOPUnionTest {
 
     @TestFactory
     fun test() = listOf(
-            {
+            { // resources/sparql11-test-suite/basic-update/insert-using-01.ru
                 val dictionary=ResultSetDictionary()
                 MicroTestPN(
                     POPUnion(
@@ -79,6 +79,90 @@ class GeneratedPOPUnionTest {
                                 "s" to "<http://example.org/g2>",
                                 "p" to "<http://example.org/p>",
                                 "o" to "\"z\""
+                            )
+                        )
+                    )
+                )
+            }(),
+            { // resources/sparql11-test-suite/bind/bind07.rq
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPUnion(
+                        dictionary,
+                        POPValues(dictionary, listOf(
+                                "z",
+                                "o"
+                            ), listOf(
+                                mutableMapOf(
+                                    "z" to null,
+                                    "o" to null
+                                )
+                            )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "z",
+                                "o"
+                            ), listOf(
+                                mutableMapOf(
+                                    "z" to null,
+                                    "o" to null
+                                )
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "z",
+                            "o"
+                        ), listOf(
+                            mutableMapOf(
+                                "z" to null,
+                                "o" to null
+                            ),
+                            mutableMapOf(
+                                "z" to null,
+                                "o" to null
+                            )
+                        )
+                    )
+                )
+            }(),
+            { // resources/sparql11-test-suite/entailment/bind07.rq
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPUnion(
+                        dictionary,
+                        POPValues(dictionary, listOf(
+                                "z",
+                                "o"
+                            ), listOf(
+                                mutableMapOf(
+                                    "z" to null,
+                                    "o" to null
+                                )
+                            )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "z",
+                                "o"
+                            ), listOf(
+                                mutableMapOf(
+                                    "z" to null,
+                                    "o" to null
+                                )
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "z",
+                            "o"
+                        ), listOf(
+                            mutableMapOf(
+                                "z" to null,
+                                "o" to null
+                            ),
+                            mutableMapOf(
+                                "z" to null,
+                                "o" to null
                             )
                         )
                     )

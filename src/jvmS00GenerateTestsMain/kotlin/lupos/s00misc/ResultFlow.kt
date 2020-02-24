@@ -93,8 +93,13 @@ fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, resultSet: 
     if (rows != null) {
         for (row in rows) {
             res += "${prefix}        mutableMapOf(\n"
-            for (k in resultSet.getVariableNames())
-                res += "${prefix}            \"${k}\" to \"${resultSet.getValue(row[resultSet.createVariable(k)])!!.replace("\"", "\\\"")}\",\n"
+            for (k in resultSet.getVariableNames()){
+		val v=resultSet.getValue(row[resultSet.createVariable(k)])?.replace("\"", "\\\"")
+		if(v==null)
+	                res += "${prefix}            \"${k}\" to null,\n"
+		else
+        	        res += "${prefix}            \"${k}\" to \"${v}\",\n"
+		}
             res = res.substring(0, res.length - 2) + "\n"
             res += "${prefix}        ),\n"
         }
@@ -105,8 +110,8 @@ fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, resultSet: 
     return res
 }
 
-fun testCaseFromPOPBaseSimple(op: POPBase): String {
-    var res = "{\n"
+fun testCaseFromPOPBaseSimple(op: POPBase,queryFile:String): String {
+    var res = "{ // ${queryFile}\n"
     res += "${prefix}                val dictionary=ResultSetDictionary()\n"
     res += "${prefix}                MicroTestPN(\n"
     res += "${prefix}                    ${classNameToString(op)}(\n"
@@ -134,10 +139,16 @@ is POPRename -> {
 	    res += "${prefix}                        AOPVariable(\"${op.nameFrom.name}\"),\n"
             res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
 }
+is POPFilter -> {
+println("xxx")
+            res += "${prefix}                        dictionary,\n"
+	    res += "${prefix}                        POPExpression(dictionary, ${testCaseFromAOPBase(op.children[1].children[0] as AOPBase)}),\n"
+            res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
+println("xxx"+res)
+}
         else -> throw Exception("not implemented testCaseFromPOPBaseSimple(${classNameToString(op)})")
 /*
 is POPModify -> {}
-is POPFilter -> {}
 is POPBindUndefined -> {}
 is POPTemporaryStore -> {}
 is POPLimit -> {}
@@ -186,7 +197,7 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
                 res += "${prefix}                resultSet.createVariable(\"$name\")\n"
             }
             res += "${prefix}                MicroTestAN(\n"
-            res += "${prefix}                        " + testCaseFromAOPBase(input, resultRow, resultSet) + ",\n"
+            res += "${prefix}                        " + testCaseFromAOPBase(input) + ",\n"
             res += "${prefix}                        listOf(\n"
             val tmp = mapOfAggregationChilds[input.uuid]
             if (tmp != null) {
@@ -197,7 +208,7 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
             res += "${prefix}                        ),\n"
             res += "${prefix}                        resultSet,\n"
             if (expected is AOPBase)
-                res += "${prefix}                        " + testCaseFromAOPBase(expected, resultRow, resultSet) + "\n"
+                res += "${prefix}                        " + testCaseFromAOPBase(expected) + "\n"
             else
                 res += "${prefix}                        Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
             res += "${prefix}                )\n"
@@ -212,19 +223,19 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
             res += "${prefix}                resultSet.createVariable(\"$name\")\n"
         }
         res += "${prefix}                MicroTestA1(\n"
-        res += "${prefix}                        " + testCaseFromAOPBase(input, resultRow, resultSet) + ",\n"
+        res += "${prefix}                        " + testCaseFromAOPBase(input) + ",\n"
         res += testCaseFromResultRow(resultRow, resultSet, "${prefix}                        ", variableNames)
         res += "${prefix}                        resultSet,\n"
         if (expected is AOPBase)
-            res += "${prefix}                        " + testCaseFromAOPBase(expected, resultRow, resultSet) + "\n"
+            res += "${prefix}                        " + testCaseFromAOPBase(expected) + "\n"
         else
             res += "${prefix}                        Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
         res += "${prefix}                )\n"
     } else {
         res += "${prefix}                MicroTest0(\n"
-        res += "${prefix}                        " + testCaseFromAOPBase(input, resultRow, resultSet) + ",\n"
+        res += "${prefix}                        " + testCaseFromAOPBase(input) + ",\n"
         if (expected is AOPBase)
-            res += "${prefix}                        " + testCaseFromAOPBase(expected, resultRow, resultSet) + "\n"
+            res += "${prefix}                        " + testCaseFromAOPBase(expected) + "\n"
         else
             res += "${prefix}                        Exception(\"${(expected as Throwable).message!!.replace("\"", "\\\"")}\")\n"
         res += "${prefix}                )\n"
@@ -380,10 +391,11 @@ fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
                     tmp = x
                 try {
                     if (success)
-                        tmp.add("${prefix}            " + testCaseFromPOPBaseSimple(it))
+                        tmp.add("${prefix}            " + testCaseFromPOPBaseSimple(it,queryFile))
                     else
-                        tmp.add("${prefix}            /*" + testCaseFromPOPBaseSimple(it) + "*/")
+                        tmp.add("${prefix}            /*" + testCaseFromPOPBaseSimple(it,queryFile) + "*/")
                 } catch (e: Throwable) {
+e.printStackTrace()
                 }
             }
         }
@@ -395,10 +407,10 @@ fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
     rowMapProduced.clear()
 }
 
-fun testCaseFromAOPBase(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet): String {
+fun testCaseFromAOPBase(input: AOPBase): String {
     when (input) {
-        is AOPBuildInCallURI -> return "AOPBuildInCallURI(${testCaseFromAOPBase(input.children[0] as AOPBase, resultRow, resultSet)}, \"${input.prefix}\")"
-        is AOPBuildInCallIRI -> return "AOPBuildInCallIRI(${testCaseFromAOPBase(input.children[0] as AOPBase, resultRow, resultSet)}, \"${input.prefix}\")"
+        is AOPBuildInCallURI -> return "AOPBuildInCallURI(${testCaseFromAOPBase(input.children[0] as AOPBase)}, \"${input.prefix}\")"
+        is AOPBuildInCallIRI -> return "AOPBuildInCallIRI(${testCaseFromAOPBase(input.children[0] as AOPBase)}, \"${input.prefix}\")"
         is AOPDecimal -> return "AOPDecimal(${input.value})"
         is AOPBoolean -> return "AOPBoolean(${input.value})"
         is AOPDateTime -> return "AOPDateTime(\"${input.valueToString().replace("\"", "\\\"")}\")"
@@ -426,18 +438,18 @@ fun testCaseFromAOPBase(input: AOPBase, resultRow: ResultRow, resultSet: ResultS
         is AOPAggregation -> {
             var res = "AOPAggregation(Aggregation.${input.type}, ${input.distinct}, arrayOf("
             if (input.children.size > 0)
-                res += testCaseFromAOPBase(input.children[0] as AOPBase, resultRow, resultSet)
+                res += testCaseFromAOPBase(input.children[0] as AOPBase)
             for (i in 1 until input.children.size)
-                res += "," + testCaseFromAOPBase(input.children[i] as AOPBase, resultRow, resultSet)
+                res += "," + testCaseFromAOPBase(input.children[i] as AOPBase)
             return res + "))"
         }
         else -> {
             var res = ""
             res += "${classNameToString(input)}("
             if (input.children.size > 0)
-                res += testCaseFromAOPBase((input.children[0] as AOPBase), resultRow, resultSet)
+                res += testCaseFromAOPBase((input.children[0] as AOPBase))
             for (i in 1 until input.children.size)
-                res += ", " + testCaseFromAOPBase((input.children[i] as AOPBase), resultRow, resultSet)
+                res += ", " + testCaseFromAOPBase((input.children[i] as AOPBase))
             res += ")"
             return res
         }
