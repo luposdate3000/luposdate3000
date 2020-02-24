@@ -52,7 +52,7 @@ class GeneratedAOPBuildInCallTZTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "Z")
                 )
-            }() /* resources/sparql11-test-suite/functions/tz-01.rq */,
+            }() /* resources/sparql11-test-suite/functions/tz-01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -70,7 +70,7 @@ class GeneratedAOPBuildInCallTZTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "-08:00")
                 )
-            }() /* resources/sparql11-test-suite/functions/tz-01.rq */,
+            }() /* resources/sparql11-test-suite/functions/tz-01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -88,7 +88,7 @@ class GeneratedAOPBuildInCallTZTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "Z")
                 )
-            }() /* resources/sparql11-test-suite/functions/tz-01.rq */,
+            }() /* resources/sparql11-test-suite/functions/tz-01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -106,7 +106,7 @@ class GeneratedAOPBuildInCallTZTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "")
                 )
-            }() /* resources/sparql11-test-suite/functions/tz-01.rq */,
+            }() /* resources/sparql11-test-suite/functions/tz-01.rq */ ,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -141,7 +141,7 @@ class GeneratedAOPBuildInCallTZTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)) {
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

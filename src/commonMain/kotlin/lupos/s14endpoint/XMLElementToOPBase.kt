@@ -42,6 +42,7 @@ fun createAOPVariable(mapping: MutableMap<String, String>, name: String): AOPVar
 
 fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transactionID: Long, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf<String, String>()): OPBase {
     return when (node.tag) {
+"AOPDateTime"->AOPDateTime(node.attributes["value"]!!)
         "AOPAddition" -> AOPAddition(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPBuildInCallCONTAINS" -> AOPBuildInCallCONTAINS(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPBuildInCallDAY" -> AOPBuildInCallDAY(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
@@ -79,7 +80,6 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
             AOPAggregation(Aggregation.valueOf(node.attributes["type"]!!), node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
         }
         "AOPGT" -> return AOPGT(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
-        "AOPBuildInCallNOW" -> AOPBuildInCallNOW()
         "AOPIn" -> AOPIn(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPNotIn" -> AOPNotIn(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)
         "AOPOr" -> AOPOr(convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase)

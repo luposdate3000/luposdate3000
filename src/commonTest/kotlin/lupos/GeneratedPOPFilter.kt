@@ -36,173 +36,173 @@ class GeneratedPOPFilterTest {
     @TestFactory
     fun test() = listOf(
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPVariable("#f1151")),
-                                POPValues(dictionary, listOf(
-                                        "C",
-                                        "#f1151",
-                                        "P"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "C" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#f1151" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                                "P" to "<http://www.example.org/p1>"
-                                        ),
-                                        mutableMapOf(
-                                                "C" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#f1151" to "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                                "P" to "<http://www.example.org/p2>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPVariable("#f1162")),
                         POPValues(dictionary, listOf(
                                 "C",
-                                "#f1151",
+                                "#f1162",
                                 "P"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "C" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "#f1151" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                        "P" to "<http://www.example.org/p1>"
+                                    "C" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#f1162" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
+                                    "P" to "<http://www.example.org/p1>"
+                                ),
+                                mutableMapOf(
+                                    "C" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#f1162" to "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
+                                    "P" to "<http://www.example.org/p2>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "C",
+                            "#f1162",
+                            "P"
+                        ), listOf(
+                            mutableMapOf(
+                                "C" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "#f1162" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
+                                "P" to "<http://www.example.org/p1>"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/aggregates/agg03.rq */,
+            }() /* resources/sparql11-test-suite/aggregates/agg03.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPVariable("#f1731")),
-                                POPValues(dictionary, listOf(
-                                        "C",
-                                        "#f1731"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "C" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#f1731" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPVariable("#f1745")),
                         POPValues(dictionary, listOf(
                                 "C",
-                                "#f1731"
-                        ), listOf(
+                                "#f1745"
+                            ), listOf(
                                 mutableMapOf(
-                                        "C" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "#f1731" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
+                                    "C" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#f1745" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "C",
+                            "#f1745"
+                        ), listOf(
+                            mutableMapOf(
+                                "C" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "#f1745" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/aggregates/agg06.rq */,
+            }() /* resources/sparql11-test-suite/aggregates/agg06.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPVariable("#f2005")),
-                                POPValues(dictionary, listOf(
-                                        "C",
-                                        "#f2005",
-                                        "P"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "C" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#f2005" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                                "P" to "<http://www.example.org/p1>"
-                                        ),
-                                        mutableMapOf(
-                                                "C" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#f2005" to "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                                "P" to "<http://www.example.org/p2>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPVariable("#f2020")),
                         POPValues(dictionary, listOf(
                                 "C",
-                                "#f2005",
+                                "#f2020",
                                 "P"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "C" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "#f2005" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                        "P" to "<http://www.example.org/p1>"
+                                    "C" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#f2020" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
+                                    "P" to "<http://www.example.org/p1>"
+                                ),
+                                mutableMapOf(
+                                    "C" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#f2020" to "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
+                                    "P" to "<http://www.example.org/p2>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "C",
+                            "#f2020",
+                            "P"
+                        ), listOf(
+                            mutableMapOf(
+                                "C" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "#f2020" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
+                                "P" to "<http://www.example.org/p1>"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/aggregates/agg07.rq */,
+            }() /* resources/sparql11-test-suite/aggregates/agg07.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPVariable("#f3779")),
-                                POPValues(dictionary, listOf(
-                                        "avg",
-                                        "#f3779",
-                                        "s"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "avg" to "\"2.2333333333333334\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "#f3779" to "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                                "s" to "<http://www.example.org/decimals>"
-                                        ),
-                                        mutableMapOf(
-                                                "avg" to "\"10700.0\"^^<http://www.w3.org/2001/XMLSchema#double>",
-                                                "#f3779" to "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                                "s" to "<http://www.example.org/doubles>"
-                                        ),
-                                        mutableMapOf(
-                                                "avg" to "\"2.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "#f3779" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                                "s" to "<http://www.example.org/ints>"
-                                        ),
-                                        mutableMapOf(
-                                                "avg" to "\"1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "#f3779" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                                "s" to "<http://www.example.org/mixed1>"
-                                        ),
-                                        mutableMapOf(
-                                                "avg" to "\"0.2\"^^<http://www.w3.org/2001/XMLSchema#double>",
-                                                "#f3779" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                                "s" to "<http://www.example.org/mixed2>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPVariable("#f3807")),
                         POPValues(dictionary, listOf(
                                 "avg",
-                                "#f3779",
+                                "#f3807",
                                 "s"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "avg" to "\"2.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "#f3779" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                        "s" to "<http://www.example.org/ints>"
+                                    "avg" to "\"2.2333333333333334\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
+                                    "#f3807" to "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
+                                    "s" to "<http://www.example.org/decimals>"
                                 ),
                                 mutableMapOf(
-                                        "avg" to "\"1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "#f3779" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                        "s" to "<http://www.example.org/mixed1>"
+                                    "avg" to "\"10700.0\"^^<http://www.w3.org/2001/XMLSchema#double>",
+                                    "#f3807" to "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
+                                    "s" to "<http://www.example.org/doubles>"
                                 ),
                                 mutableMapOf(
-                                        "avg" to "\"0.2\"^^<http://www.w3.org/2001/XMLSchema#double>",
-                                        "#f3779" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
-                                        "s" to "<http://www.example.org/mixed2>"
+                                    "avg" to "\"2.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
+                                    "#f3807" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
+                                    "s" to "<http://www.example.org/ints>"
+                                ),
+                                mutableMapOf(
+                                    "avg" to "\"1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
+                                    "#f3807" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
+                                    "s" to "<http://www.example.org/mixed1>"
+                                ),
+                                mutableMapOf(
+                                    "avg" to "\"0.2\"^^<http://www.w3.org/2001/XMLSchema#double>",
+                                    "#f3807" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
+                                    "s" to "<http://www.example.org/mixed2>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "avg",
+                            "#f3807",
+                            "s"
+                        ), listOf(
+                            mutableMapOf(
+                                "avg" to "\"2.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
+                                "#f3807" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
+                                "s" to "<http://www.example.org/ints>"
+                            ),
+                            mutableMapOf(
+                                "avg" to "\"1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
+                                "#f3807" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
+                                "s" to "<http://www.example.org/mixed1>"
+                            ),
+                            mutableMapOf(
+                                "avg" to "\"0.2\"^^<http://www.w3.org/2001/XMLSchema#double>",
+                                "#f3807" to "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>",
+                                "s" to "<http://www.example.org/mixed2>"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/aggregates/agg-avg-02.rq */,
+            }() /* resources/sparql11-test-suite/aggregates/agg-avg-02.rq */ ,
             /*{
                 val dictionary=ResultSetDictionary()
                 MicroTestPN(
@@ -229,2297 +229,2297 @@ class GeneratedPOPFilterTest {
                 )
             }()*/ /* resources/sparql11-test-suite/aggregates/agg-sample-01.rq */
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPEQ(AOPVariable("z"), AOPInteger(3))),
-                                POPValues(dictionary, listOf(
-                                        "z",
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p>",
-                                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p>",
-                                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p>",
-                                                "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPEQ(AOPVariable("z"), AOPInteger(3))),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "s",
                                 "p",
                                 "o"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                )
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/bind/bind08.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPEQ(AOPVariable("v"), AOPVariable("z"))),
-                                POPValues(dictionary, listOf(
-                                        "z",
-                                        "s",
-                                        "#p7807",
-                                        "v"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "z" to null,
-                                                "s" to "<http://example.org/s1>",
-                                                "#p7807" to "<http://example.org/p>",
-                                                "v" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to null,
-                                                "s" to "<http://example.org/s2>",
-                                                "#p7807" to "<http://example.org/p>",
-                                                "v" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to null,
-                                                "s" to "<http://example.org/s3>",
-                                                "#p7807" to "<http://example.org/p>",
-                                                "v" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to null,
-                                                "s" to "<http://example.org/s4>",
-                                                "#p7807" to "<http://example.org/p>",
-                                                "v" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        )
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "z",
-                                "s",
-                                "#p7807",
-                                "v"
-                        ), listOf(
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/bind/bind10.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPEQ(AOPVariable("v"), AOPVariable("z"))),
-                                POPValues(dictionary, listOf(
-                                        "z",
-                                        "s",
-                                        "#p7876",
-                                        "v"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "z" to null,
-                                                "s" to "<http://example.org/s1>",
-                                                "#p7876" to "<http://example.org/p>",
-                                                "v" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to null,
-                                                "s" to "<http://example.org/s2>",
-                                                "#p7876" to "<http://example.org/p>",
-                                                "v" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to null,
-                                                "s" to "<http://example.org/s3>",
-                                                "#p7876" to "<http://example.org/p>",
-                                                "v" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to null,
-                                                "s" to "<http://example.org/s4>",
-                                                "#p7876" to "<http://example.org/p>",
-                                                "v" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        )
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "z",
-                                "s",
-                                "#p7876",
-                                "v"
-                        ), listOf(
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/bind/bind10.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPEQ(AOPVariable("v"), AOPVariable("z"))),
-                                POPValues(dictionary, listOf(
-                                        "z",
-                                        "s",
-                                        "#p8000",
-                                        "v"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s1>",
-                                                "#p8000" to "<http://example.org/p>",
-                                                "v" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s2>",
-                                                "#p8000" to "<http://example.org/p>",
-                                                "v" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s3>",
-                                                "#p8000" to "<http://example.org/p>",
-                                                "v" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s4>",
-                                                "#p8000" to "<http://example.org/p>",
-                                                "v" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        )
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "z",
-                                "s",
-                                "#p8000",
-                                "v"
-                        ), listOf(
+                                    "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s1>",
+                                    "p" to "<http://example.org/p>",
+                                    "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
                                 mutableMapOf(
-                                        "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "s" to "<http://example.org/s4>",
-                                        "#p8000" to "<http://example.org/p>",
-                                        "v" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                    "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s2>",
+                                    "p" to "<http://example.org/p>",
+                                    "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s3>",
+                                    "p" to "<http://example.org/p>",
+                                    "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s4>",
+                                    "p" to "<http://example.org/p>",
+                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "z",
+                            "s",
+                            "p",
+                            "o"
+                        ), listOf(
+                            mutableMapOf(
+                                "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "s" to "<http://example.org/s2>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/bind/bind11.rq */,
+            }() /* resources/sparql11-test-suite/bind/bind08.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPEQ(AOPVariable("v"), AOPVariable("z"))),
-                                POPValues(dictionary, listOf(
-                                        "z",
-                                        "s",
-                                        "#p8064",
-                                        "v"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s1>",
-                                                "#p8064" to "<http://example.org/p>",
-                                                "v" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s2>",
-                                                "#p8064" to "<http://example.org/p>",
-                                                "v" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s3>",
-                                                "#p8064" to "<http://example.org/p>",
-                                                "v" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s4>",
-                                                "#p8064" to "<http://example.org/p>",
-                                                "v" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPEQ(AOPVariable("v"), AOPVariable("z"))),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "s",
-                                "#p8064",
+                                "#p7865",
                                 "v"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "s" to "<http://example.org/s4>",
-                                        "#p8064" to "<http://example.org/p>",
-                                        "v" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                    "z" to null,
+                                    "s" to "<http://example.org/s1>",
+                                    "#p7865" to "<http://example.org/p>",
+                                    "v" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "z" to null,
+                                    "s" to "<http://example.org/s2>",
+                                    "#p7865" to "<http://example.org/p>",
+                                    "v" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "z" to null,
+                                    "s" to "<http://example.org/s3>",
+                                    "#p7865" to "<http://example.org/p>",
+                                    "v" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "z" to null,
+                                    "s" to "<http://example.org/s4>",
+                                    "#p7865" to "<http://example.org/p>",
+                                    "v" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "z",
+                            "s",
+                            "#p7865",
+                            "v"
+                        ), listOf(
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/bind/bind11.rq */,
+            }() /* resources/sparql11-test-suite/bind/bind10.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPEQ(AOPVariable("z"), AOPInteger(3))),
-                                POPValues(dictionary, listOf(
-                                        "z",
-                                        "s",
-                                        "o",
-                                        "#p17097",
-                                        "#o17097",
-                                        "p"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s1>",
-                                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#p17097" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                                "#o17097" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                                "p" to "<http://example.org/p>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s2>",
-                                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#p17097" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                                "#o17097" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                                "p" to "<http://example.org/p>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s3>",
-                                                "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#p17097" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                                "#o17097" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                                "p" to "<http://example.org/p>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#p17097" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                                "#o17097" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                                "p" to "<http://example.org/p>"
-                                        )
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPEQ(AOPVariable("v"), AOPVariable("z"))),
+                        POPValues(dictionary, listOf(
+                                "z",
+                                "s",
+                                "#p7934",
+                                "v"
+                            ), listOf(
+                                mutableMapOf(
+                                    "z" to null,
+                                    "s" to "<http://example.org/s1>",
+                                    "#p7934" to "<http://example.org/p>",
+                                    "v" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "z" to null,
+                                    "s" to "<http://example.org/s2>",
+                                    "#p7934" to "<http://example.org/p>",
+                                    "v" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "z" to null,
+                                    "s" to "<http://example.org/s3>",
+                                    "#p7934" to "<http://example.org/p>",
+                                    "v" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "z" to null,
+                                    "s" to "<http://example.org/s4>",
+                                    "#p7934" to "<http://example.org/p>",
+                                    "v" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "z",
+                            "s",
+                            "#p7934",
+                            "v"
+                        ), listOf(
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/bind/bind10.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPEQ(AOPVariable("v"), AOPVariable("z"))),
+                        POPValues(dictionary, listOf(
+                                "z",
+                                "s",
+                                "#p8059",
+                                "v"
+                            ), listOf(
+                                mutableMapOf(
+                                    "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s1>",
+                                    "#p8059" to "<http://example.org/p>",
+                                    "v" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s2>",
+                                    "#p8059" to "<http://example.org/p>",
+                                    "v" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s3>",
+                                    "#p8059" to "<http://example.org/p>",
+                                    "v" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s4>",
+                                    "#p8059" to "<http://example.org/p>",
+                                    "v" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
-                        ),
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "z",
+                            "s",
+                            "#p8059",
+                            "v"
+                        ), listOf(
+                            mutableMapOf(
+                                "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "s" to "<http://example.org/s4>",
+                                "#p8059" to "<http://example.org/p>",
+                                "v" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/bind/bind11.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPEQ(AOPVariable("v"), AOPVariable("z"))),
+                        POPValues(dictionary, listOf(
+                                "z",
+                                "s",
+                                "#p8123",
+                                "v"
+                            ), listOf(
+                                mutableMapOf(
+                                    "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s1>",
+                                    "#p8123" to "<http://example.org/p>",
+                                    "v" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s2>",
+                                    "#p8123" to "<http://example.org/p>",
+                                    "v" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s3>",
+                                    "#p8123" to "<http://example.org/p>",
+                                    "v" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s4>",
+                                    "#p8123" to "<http://example.org/p>",
+                                    "v" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                )
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "z",
+                            "s",
+                            "#p8123",
+                            "v"
+                        ), listOf(
+                            mutableMapOf(
+                                "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "s" to "<http://example.org/s4>",
+                                "#p8123" to "<http://example.org/p>",
+                                "v" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/bind/bind11.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPEQ(AOPVariable("z"), AOPInteger(3))),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "s",
                                 "o",
-                                "#p17097",
-                                "#o17097",
+                                "#p17269",
+                                "#o17269",
                                 "p"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "s" to "<http://example.org/s2>",
-                                        "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "#p17097" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                        "#o17097" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                        "p" to "<http://example.org/p>"
+                                    "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s1>",
+                                    "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17269" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o17269" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "p" to "<http://example.org/p>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s2>",
+                                    "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17269" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o17269" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "p" to "<http://example.org/p>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s3>",
+                                    "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17269" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o17269" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "p" to "<http://example.org/p>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s4>",
+                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17269" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o17269" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "p" to "<http://example.org/p>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "z",
+                            "s",
+                            "o",
+                            "#p17269",
+                            "#o17269",
+                            "p"
+                        ), listOf(
+                            mutableMapOf(
+                                "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "s" to "<http://example.org/s2>",
+                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "#p17269" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o17269" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                "p" to "<http://example.org/p>"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/entailment/bind05.rq */,
+            }() /* resources/sparql11-test-suite/entailment/bind05.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPEQ(AOPVariable("z"), AOPInteger(3))),
-                                POPValues(dictionary, listOf(
-                                        "z",
-                                        "s",
-                                        "o",
-                                        "#p17214",
-                                        "#o17214",
-                                        "p"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s1>",
-                                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#p17214" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                                "#o17214" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                                "p" to "<http://example.org/p>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s2>",
-                                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#p17214" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                                "#o17214" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                                "p" to "<http://example.org/p>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s3>",
-                                                "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#p17214" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                                "#o17214" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                                "p" to "<http://example.org/p>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#p17214" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                                "#o17214" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                                "p" to "<http://example.org/p>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPEQ(AOPVariable("z"), AOPInteger(3))),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "s",
                                 "o",
-                                "#p17214",
-                                "#o17214",
+                                "#p17386",
+                                "#o17386",
                                 "p"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "s" to "<http://example.org/s2>",
-                                        "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "#p17214" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                        "#o17214" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                        "p" to "<http://example.org/p>"
+                                    "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s1>",
+                                    "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17386" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o17386" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "p" to "<http://example.org/p>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s2>",
+                                    "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17386" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o17386" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "p" to "<http://example.org/p>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s3>",
+                                    "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17386" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o17386" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "p" to "<http://example.org/p>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s4>",
+                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17386" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o17386" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "p" to "<http://example.org/p>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "z",
+                            "s",
+                            "o",
+                            "#p17386",
+                            "#o17386",
+                            "p"
+                        ), listOf(
+                            mutableMapOf(
+                                "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "s" to "<http://example.org/s2>",
+                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "#p17386" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o17386" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                "p" to "<http://example.org/p>"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/entailment/bind05.rq */,
+            }() /* resources/sparql11-test-suite/entailment/bind05.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPEQ(AOPVariable("z"), AOPInteger(3))),
-                                POPValues(dictionary, listOf(
-                                        "z",
-                                        "s",
-                                        "o",
-                                        "#p17645",
-                                        "#o17645",
-                                        "p"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s1>",
-                                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#p17645" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                                "#o17645" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                                "p" to "<http://example.org/p>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s2>",
-                                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#p17645" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                                "#o17645" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                                "p" to "<http://example.org/p>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s3>",
-                                                "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#p17645" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                                "#o17645" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                                "p" to "<http://example.org/p>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#p17645" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                                "#o17645" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                                "p" to "<http://example.org/p>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPEQ(AOPVariable("z"), AOPInteger(3))),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "s",
                                 "o",
-                                "#p17645",
-                                "#o17645",
+                                "#p17820",
+                                "#o17820",
                                 "p"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "s" to "<http://example.org/s2>",
-                                        "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "#p17645" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                        "#o17645" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                        "p" to "<http://example.org/p>"
+                                    "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s1>",
+                                    "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17820" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o17820" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "p" to "<http://example.org/p>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s2>",
+                                    "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17820" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o17820" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "p" to "<http://example.org/p>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s3>",
+                                    "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17820" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o17820" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "p" to "<http://example.org/p>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s4>",
+                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17820" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o17820" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "p" to "<http://example.org/p>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "z",
+                            "s",
+                            "o",
+                            "#p17820",
+                            "#o17820",
+                            "p"
+                        ), listOf(
+                            mutableMapOf(
+                                "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "s" to "<http://example.org/s2>",
+                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "#p17820" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o17820" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                "p" to "<http://example.org/p>"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/entailment/bind08.rq */,
+            }() /* resources/sparql11-test-suite/entailment/bind08.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPEQ(AOPVariable("z"), AOPInteger(3))),
-                                POPValues(dictionary, listOf(
-                                        "z",
-                                        "s",
-                                        "o",
-                                        "#p17762",
-                                        "#o17762",
-                                        "p"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s1>",
-                                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#p17762" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                                "#o17762" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                                "p" to "<http://example.org/p>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s2>",
-                                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#p17762" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                                "#o17762" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                                "p" to "<http://example.org/p>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s3>",
-                                                "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#p17762" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                                "#o17762" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                                "p" to "<http://example.org/p>"
-                                        ),
-                                        mutableMapOf(
-                                                "z" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "s" to "<http://example.org/s4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "#p17762" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                                "#o17762" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                                "p" to "<http://example.org/p>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPEQ(AOPVariable("z"), AOPInteger(3))),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "s",
                                 "o",
-                                "#p17762",
-                                "#o17762",
+                                "#p17937",
+                                "#o17937",
                                 "p"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "s" to "<http://example.org/s2>",
-                                        "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "#p17762" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
-                                        "#o17762" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
-                                        "p" to "<http://example.org/p>"
+                                    "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s1>",
+                                    "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17937" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o17937" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "p" to "<http://example.org/p>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s2>",
+                                    "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17937" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o17937" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "p" to "<http://example.org/p>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s3>",
+                                    "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17937" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o17937" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "p" to "<http://example.org/p>"
+                                ),
+                                mutableMapOf(
+                                    "z" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "s" to "<http://example.org/s4>",
+                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                    "#p17937" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                    "#o17937" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                    "p" to "<http://example.org/p>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "z",
+                            "s",
+                            "o",
+                            "#p17937",
+                            "#o17937",
+                            "p"
+                        ), listOf(
+                            mutableMapOf(
+                                "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "s" to "<http://example.org/s2>",
+                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "#p17937" to "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>",
+                                "#o17937" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>",
+                                "p" to "<http://example.org/p>"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/entailment/bind08.rq */,
+            }() /* resources/sparql11-test-suite/entailment/bind08.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en"))),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "#p21533",
-                                        "str"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "#p21533" to "<http://example.org/str>",
-                                                "str" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "#p21533" to "<http://example.org/str>",
-                                                "str" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "#p21533" to "<http://example.org/str>",
-                                                "str" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "#p21533" to "<http://example.org/str>",
-                                                "str" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "#p21533" to "<http://example.org/str>",
-                                                "str" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "#p21533" to "<http://example.org/str>",
-                                                "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s7>",
-                                                "#p21533" to "<http://example.org/str>",
-                                                "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en"))),
                         POPValues(dictionary, listOf(
                                 "s",
-                                "#p21533",
+                                "#p21745",
                                 "str"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "#p21533" to "<http://example.org/str>",
-                                        "str" to "\"bar\"@en"
+                                    "s" to "<http://example.org/s1>",
+                                    "#p21745" to "<http://example.org/str>",
+                                    "str" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s2>",
+                                    "#p21745" to "<http://example.org/str>",
+                                    "str" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s3>",
+                                    "#p21745" to "<http://example.org/str>",
+                                    "str" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s4>",
+                                    "#p21745" to "<http://example.org/str>",
+                                    "str" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s5>",
+                                    "#p21745" to "<http://example.org/str>",
+                                    "str" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s6>",
+                                    "#p21745" to "<http://example.org/str>",
+                                    "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s7>",
+                                    "#p21745" to "<http://example.org/str>",
+                                    "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "#p21745",
+                            "str"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "#p21745" to "<http://example.org/str>",
+                                "str" to "\"bar\"@en"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/strdt01.rq */,
+            }() /* resources/sparql11-test-suite/functions/strdt01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en"))),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "#p21666",
-                                        "str"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "#p21666" to "<http://example.org/str>",
-                                                "str" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "#p21666" to "<http://example.org/str>",
-                                                "str" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "#p21666" to "<http://example.org/str>",
-                                                "str" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "#p21666" to "<http://example.org/str>",
-                                                "str" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "#p21666" to "<http://example.org/str>",
-                                                "str" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "#p21666" to "<http://example.org/str>",
-                                                "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s7>",
-                                                "#p21666" to "<http://example.org/str>",
-                                                "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en"))),
                         POPValues(dictionary, listOf(
                                 "s",
-                                "#p21666",
+                                "#p21878",
                                 "str"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "#p21666" to "<http://example.org/str>",
-                                        "str" to "\"bar\"@en"
+                                    "s" to "<http://example.org/s1>",
+                                    "#p21878" to "<http://example.org/str>",
+                                    "str" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s2>",
+                                    "#p21878" to "<http://example.org/str>",
+                                    "str" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s3>",
+                                    "#p21878" to "<http://example.org/str>",
+                                    "str" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s4>",
+                                    "#p21878" to "<http://example.org/str>",
+                                    "str" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s5>",
+                                    "#p21878" to "<http://example.org/str>",
+                                    "str" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s6>",
+                                    "#p21878" to "<http://example.org/str>",
+                                    "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s7>",
+                                    "#p21878" to "<http://example.org/str>",
+                                    "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "#p21878",
+                            "str"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "#p21878" to "<http://example.org/str>",
+                                "str" to "\"bar\"@en"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/strdt01.rq */,
+            }() /* resources/sparql11-test-suite/functions/strdt01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en"))),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "#p21859",
-                                        "str"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "#p21859" to "<http://example.org/str>",
-                                                "str" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "#p21859" to "<http://example.org/str>",
-                                                "str" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "#p21859" to "<http://example.org/str>",
-                                                "str" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "#p21859" to "<http://example.org/str>",
-                                                "str" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "#p21859" to "<http://example.org/str>",
-                                                "str" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "#p21859" to "<http://example.org/str>",
-                                                "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s7>",
-                                                "#p21859" to "<http://example.org/str>",
-                                                "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en"))),
                         POPValues(dictionary, listOf(
                                 "s",
-                                "#p21859",
+                                "#p22072",
                                 "str"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "#p21859" to "<http://example.org/str>",
-                                        "str" to "\"bar\"@en"
+                                    "s" to "<http://example.org/s1>",
+                                    "#p22072" to "<http://example.org/str>",
+                                    "str" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s2>",
+                                    "#p22072" to "<http://example.org/str>",
+                                    "str" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s3>",
+                                    "#p22072" to "<http://example.org/str>",
+                                    "str" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s4>",
+                                    "#p22072" to "<http://example.org/str>",
+                                    "str" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s5>",
+                                    "#p22072" to "<http://example.org/str>",
+                                    "str" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s6>",
+                                    "#p22072" to "<http://example.org/str>",
+                                    "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s7>",
+                                    "#p22072" to "<http://example.org/str>",
+                                    "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "#p22072",
+                            "str"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "#p22072" to "<http://example.org/str>",
+                                "str" to "\"bar\"@en"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/strdt02.rq */,
+            }() /* resources/sparql11-test-suite/functions/strdt02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en"))),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "#p22000",
-                                        "str"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "#p22000" to "<http://example.org/str>",
-                                                "str" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "#p22000" to "<http://example.org/str>",
-                                                "str" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "#p22000" to "<http://example.org/str>",
-                                                "str" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "#p22000" to "<http://example.org/str>",
-                                                "str" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "#p22000" to "<http://example.org/str>",
-                                                "str" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "#p22000" to "<http://example.org/str>",
-                                                "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s7>",
-                                                "#p22000" to "<http://example.org/str>",
-                                                "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en"))),
                         POPValues(dictionary, listOf(
                                 "s",
-                                "#p22000",
+                                "#p22213",
                                 "str"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "#p22000" to "<http://example.org/str>",
-                                        "str" to "\"bar\"@en"
+                                    "s" to "<http://example.org/s1>",
+                                    "#p22213" to "<http://example.org/str>",
+                                    "str" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s2>",
+                                    "#p22213" to "<http://example.org/str>",
+                                    "str" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s3>",
+                                    "#p22213" to "<http://example.org/str>",
+                                    "str" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s4>",
+                                    "#p22213" to "<http://example.org/str>",
+                                    "str" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s5>",
+                                    "#p22213" to "<http://example.org/str>",
+                                    "str" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s6>",
+                                    "#p22213" to "<http://example.org/str>",
+                                    "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s7>",
+                                    "#p22213" to "<http://example.org/str>",
+                                    "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "#p22213",
+                            "str"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "#p22213" to "<http://example.org/str>",
+                                "str" to "\"bar\"@en"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/strdt02.rq */,
+            }() /* resources/sparql11-test-suite/functions/strdt02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en"))),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "#p22370",
-                                        "str"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "#p22370" to "<http://example.org/str>",
-                                                "str" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "#p22370" to "<http://example.org/str>",
-                                                "str" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "#p22370" to "<http://example.org/str>",
-                                                "str" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "#p22370" to "<http://example.org/str>",
-                                                "str" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "#p22370" to "<http://example.org/str>",
-                                                "str" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "#p22370" to "<http://example.org/str>",
-                                                "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s7>",
-                                                "#p22370" to "<http://example.org/str>",
-                                                "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en"))),
                         POPValues(dictionary, listOf(
                                 "s",
-                                "#p22370",
+                                "#p22585",
                                 "str"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "#p22370" to "<http://example.org/str>",
-                                        "str" to "\"bar\"@en"
+                                    "s" to "<http://example.org/s1>",
+                                    "#p22585" to "<http://example.org/str>",
+                                    "str" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s2>",
+                                    "#p22585" to "<http://example.org/str>",
+                                    "str" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s3>",
+                                    "#p22585" to "<http://example.org/str>",
+                                    "str" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s4>",
+                                    "#p22585" to "<http://example.org/str>",
+                                    "str" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s5>",
+                                    "#p22585" to "<http://example.org/str>",
+                                    "str" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s6>",
+                                    "#p22585" to "<http://example.org/str>",
+                                    "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s7>",
+                                    "#p22585" to "<http://example.org/str>",
+                                    "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "#p22585",
+                            "str"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "#p22585" to "<http://example.org/str>",
+                                "str" to "\"bar\"@en"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/strlang01.rq */,
+            }() /* resources/sparql11-test-suite/functions/strlang01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en"))),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "#p22503",
-                                        "str"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "#p22503" to "<http://example.org/str>",
-                                                "str" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "#p22503" to "<http://example.org/str>",
-                                                "str" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "#p22503" to "<http://example.org/str>",
-                                                "str" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "#p22503" to "<http://example.org/str>",
-                                                "str" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "#p22503" to "<http://example.org/str>",
-                                                "str" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "#p22503" to "<http://example.org/str>",
-                                                "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s7>",
-                                                "#p22503" to "<http://example.org/str>",
-                                                "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en"))),
                         POPValues(dictionary, listOf(
                                 "s",
-                                "#p22503",
+                                "#p22718",
                                 "str"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "#p22503" to "<http://example.org/str>",
-                                        "str" to "\"bar\"@en"
+                                    "s" to "<http://example.org/s1>",
+                                    "#p22718" to "<http://example.org/str>",
+                                    "str" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s2>",
+                                    "#p22718" to "<http://example.org/str>",
+                                    "str" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s3>",
+                                    "#p22718" to "<http://example.org/str>",
+                                    "str" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s4>",
+                                    "#p22718" to "<http://example.org/str>",
+                                    "str" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s5>",
+                                    "#p22718" to "<http://example.org/str>",
+                                    "str" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s6>",
+                                    "#p22718" to "<http://example.org/str>",
+                                    "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s7>",
+                                    "#p22718" to "<http://example.org/str>",
+                                    "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "#p22718",
+                            "str"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "#p22718" to "<http://example.org/str>",
+                                "str" to "\"bar\"@en"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/strlang01.rq */,
+            }() /* resources/sparql11-test-suite/functions/strlang01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en"))),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "#p22693",
-                                        "str"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "#p22693" to "<http://example.org/str>",
-                                                "str" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "#p22693" to "<http://example.org/str>",
-                                                "str" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "#p22693" to "<http://example.org/str>",
-                                                "str" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "#p22693" to "<http://example.org/str>",
-                                                "str" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "#p22693" to "<http://example.org/str>",
-                                                "str" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "#p22693" to "<http://example.org/str>",
-                                                "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s7>",
-                                                "#p22693" to "<http://example.org/str>",
-                                                "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en"))),
                         POPValues(dictionary, listOf(
                                 "s",
-                                "#p22693",
+                                "#p22909",
                                 "str"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "#p22693" to "<http://example.org/str>",
-                                        "str" to "\"bar\"@en"
+                                    "s" to "<http://example.org/s1>",
+                                    "#p22909" to "<http://example.org/str>",
+                                    "str" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s2>",
+                                    "#p22909" to "<http://example.org/str>",
+                                    "str" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s3>",
+                                    "#p22909" to "<http://example.org/str>",
+                                    "str" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s4>",
+                                    "#p22909" to "<http://example.org/str>",
+                                    "str" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s5>",
+                                    "#p22909" to "<http://example.org/str>",
+                                    "str" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s6>",
+                                    "#p22909" to "<http://example.org/str>",
+                                    "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s7>",
+                                    "#p22909" to "<http://example.org/str>",
+                                    "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "#p22909",
+                            "str"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "#p22909" to "<http://example.org/str>",
+                                "str" to "\"bar\"@en"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/strlang02.rq */,
+            }() /* resources/sparql11-test-suite/functions/strlang02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en"))),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "#p22834",
-                                        "str"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "#p22834" to "<http://example.org/str>",
-                                                "str" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "#p22834" to "<http://example.org/str>",
-                                                "str" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "#p22834" to "<http://example.org/str>",
-                                                "str" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "#p22834" to "<http://example.org/str>",
-                                                "str" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "#p22834" to "<http://example.org/str>",
-                                                "str" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "#p22834" to "<http://example.org/str>",
-                                                "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s7>",
-                                                "#p22834" to "<http://example.org/str>",
-                                                "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en"))),
                         POPValues(dictionary, listOf(
                                 "s",
-                                "#p22834",
+                                "#p23050",
                                 "str"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "#p22834" to "<http://example.org/str>",
-                                        "str" to "\"bar\"@en"
+                                    "s" to "<http://example.org/s1>",
+                                    "#p23050" to "<http://example.org/str>",
+                                    "str" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s2>",
+                                    "#p23050" to "<http://example.org/str>",
+                                    "str" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s3>",
+                                    "#p23050" to "<http://example.org/str>",
+                                    "str" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s4>",
+                                    "#p23050" to "<http://example.org/str>",
+                                    "str" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s5>",
+                                    "#p23050" to "<http://example.org/str>",
+                                    "str" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s6>",
+                                    "#p23050" to "<http://example.org/str>",
+                                    "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s7>",
+                                    "#p23050" to "<http://example.org/str>",
+                                    "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "#p23050",
+                            "str"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "#p23050" to "<http://example.org/str>",
+                                "str" to "\"bar\"@en"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/strlang02.rq */,
+            }() /* resources/sparql11-test-suite/functions/strlang02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPBuildInCallIsNUMERIC(AOPVariable("num"))),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "num"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/d1>",
-                                                "p" to "<http://example.org/date>",
-                                                "num" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/d2>",
-                                                "p" to "<http://example.org/date>",
-                                                "num" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/d3>",
-                                                "p" to "<http://example.org/date>",
-                                                "num" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/d4>",
-                                                "p" to "<http://example.org/date>",
-                                                "num" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n1>",
-                                                "p" to "<http://example.org/num>",
-                                                "num" to "\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n2>",
-                                                "p" to "<http://example.org/num>",
-                                                "num" to "\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n3>",
-                                                "p" to "<http://example.org/num>",
-                                                "num" to "\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n4>",
-                                                "p" to "<http://example.org/num>",
-                                                "num" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n5>",
-                                                "p" to "<http://example.org/num>",
-                                                "num" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/str>",
-                                                "num" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/str>",
-                                                "num" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/str>",
-                                                "num" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/str>",
-                                                "num" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/str>",
-                                                "num" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/str>",
-                                                "num" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s7>",
-                                                "p" to "<http://example.org/str>",
-                                                "num" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPBuildInCallIsNUMERIC(AOPVariable("num"))),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "num"
+                            ), listOf(
+                                mutableMapOf(
+                                    "s" to "<http://example.org/d1>",
+                                    "p" to "<http://example.org/date>",
+                                    "num" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/d2>",
+                                    "p" to "<http://example.org/date>",
+                                    "num" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/d3>",
+                                    "p" to "<http://example.org/date>",
+                                    "num" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/d4>",
+                                    "p" to "<http://example.org/date>",
+                                    "num" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n1>",
+                                    "p" to "<http://example.org/num>",
+                                    "num" to "\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n2>",
+                                    "p" to "<http://example.org/num>",
+                                    "num" to "\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n3>",
+                                    "p" to "<http://example.org/num>",
+                                    "num" to "\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n4>",
+                                    "p" to "<http://example.org/num>",
+                                    "num" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n5>",
+                                    "p" to "<http://example.org/num>",
+                                    "num" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s1>",
+                                    "p" to "<http://example.org/str>",
+                                    "num" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s2>",
+                                    "p" to "<http://example.org/str>",
+                                    "num" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s3>",
+                                    "p" to "<http://example.org/str>",
+                                    "num" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s4>",
+                                    "p" to "<http://example.org/str>",
+                                    "num" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s5>",
+                                    "p" to "<http://example.org/str>",
+                                    "num" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s6>",
+                                    "p" to "<http://example.org/str>",
+                                    "num" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s7>",
+                                    "p" to "<http://example.org/str>",
+                                    "num" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                )
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "num"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/n1>",
-                                        "p" to "<http://example.org/num>",
-                                        "num" to "\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/n2>",
-                                        "p" to "<http://example.org/num>",
-                                        "num" to "\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/n3>",
-                                        "p" to "<http://example.org/num>",
-                                        "num" to "\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/n4>",
-                                        "p" to "<http://example.org/num>",
-                                        "num" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/n5>",
-                                        "p" to "<http://example.org/num>",
-                                        "num" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                )
+                            mutableMapOf(
+                                "s" to "<http://example.org/n1>",
+                                "p" to "<http://example.org/num>",
+                                "num" to "\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/n2>",
+                                "p" to "<http://example.org/num>",
+                                "num" to "\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/n3>",
+                                "p" to "<http://example.org/num>",
+                                "num" to "\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/n4>",
+                                "p" to "<http://example.org/num>",
+                                "num" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/n5>",
+                                "p" to "<http://example.org/num>",
+                                "num" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                            )
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/isnumeric01.rq */,
+            }() /* resources/sparql11-test-suite/functions/isnumeric01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPGEQ(AOPBuildInCallABS(AOPVariable("num")), AOPInteger(2))),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "#p23368",
-                                        "num"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n1>",
-                                                "#p23368" to "<http://example.org/num>",
-                                                "num" to "\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n2>",
-                                                "#p23368" to "<http://example.org/num>",
-                                                "num" to "\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n3>",
-                                                "#p23368" to "<http://example.org/num>",
-                                                "num" to "\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n4>",
-                                                "#p23368" to "<http://example.org/num>",
-                                                "num" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n5>",
-                                                "#p23368" to "<http://example.org/num>",
-                                                "num" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPGEQ(AOPBuildInCallABS(AOPVariable("num")), AOPInteger(2))),
                         POPValues(dictionary, listOf(
                                 "s",
-                                "#p23368",
+                                "#p23587",
                                 "num"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "s" to "<http://example.org/n4>",
-                                        "#p23368" to "<http://example.org/num>",
-                                        "num" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                    "s" to "<http://example.org/n1>",
+                                    "#p23587" to "<http://example.org/num>",
+                                    "num" to "\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 ),
                                 mutableMapOf(
-                                        "s" to "<http://example.org/n5>",
-                                        "#p23368" to "<http://example.org/num>",
-                                        "num" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                                    "s" to "<http://example.org/n2>",
+                                    "#p23587" to "<http://example.org/num>",
+                                    "num" to "\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n3>",
+                                    "#p23587" to "<http://example.org/num>",
+                                    "num" to "\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n4>",
+                                    "#p23587" to "<http://example.org/num>",
+                                    "num" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n5>",
+                                    "#p23587" to "<http://example.org/num>",
+                                    "num" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "#p23587",
+                            "num"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/n4>",
+                                "#p23587" to "<http://example.org/num>",
+                                "num" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/n5>",
+                                "#p23587" to "<http://example.org/num>",
+                                "num" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/abs01.rq */,
+            }() /* resources/sparql11-test-suite/functions/abs01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPBuildInCallCONTAINS(AOPVariable("str"), AOPSimpleLiteral("\"", "a"))),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "#p25110",
-                                        "str"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "#p25110" to "<http://example.org/str>",
-                                                "str" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "#p25110" to "<http://example.org/str>",
-                                                "str" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "#p25110" to "<http://example.org/str>",
-                                                "str" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "#p25110" to "<http://example.org/str>",
-                                                "str" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "#p25110" to "<http://example.org/str>",
-                                                "str" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "#p25110" to "<http://example.org/str>",
-                                                "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s7>",
-                                                "#p25110" to "<http://example.org/str>",
-                                                "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPBuildInCallCONTAINS(AOPVariable("str"), AOPSimpleLiteral("\"", "a"))),
                         POPValues(dictionary, listOf(
                                 "s",
-                                "#p25110",
+                                "#p25341",
                                 "str"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "#p25110" to "<http://example.org/str>",
-                                        "str" to "\"bar\"@en"
+                                    "s" to "<http://example.org/s1>",
+                                    "#p25341" to "<http://example.org/str>",
+                                    "str" to "\"foo\""
                                 ),
                                 mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "#p25110" to "<http://example.org/str>",
-                                        "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                    "s" to "<http://example.org/s2>",
+                                    "#p25341" to "<http://example.org/str>",
+                                    "str" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s3>",
+                                    "#p25341" to "<http://example.org/str>",
+                                    "str" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s4>",
+                                    "#p25341" to "<http://example.org/str>",
+                                    "str" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s5>",
+                                    "#p25341" to "<http://example.org/str>",
+                                    "str" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s6>",
+                                    "#p25341" to "<http://example.org/str>",
+                                    "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s7>",
+                                    "#p25341" to "<http://example.org/str>",
+                                    "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "#p25341",
+                            "str"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "#p25341" to "<http://example.org/str>",
+                                "str" to "\"bar\"@en"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s6>",
+                                "#p25341" to "<http://example.org/str>",
+                                "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/contains01.rq */,
+            }() /* resources/sparql11-test-suite/functions/contains01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPBuildInCallCONTAINS(AOPVariable("str"), AOPSimpleLiteral("\"", "a"))),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "#p25181",
-                                        "str"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "#p25181" to "<http://example.org/str>",
-                                                "str" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "#p25181" to "<http://example.org/str>",
-                                                "str" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "#p25181" to "<http://example.org/str>",
-                                                "str" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "#p25181" to "<http://example.org/str>",
-                                                "str" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "#p25181" to "<http://example.org/str>",
-                                                "str" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "#p25181" to "<http://example.org/str>",
-                                                "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s7>",
-                                                "#p25181" to "<http://example.org/str>",
-                                                "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPBuildInCallCONTAINS(AOPVariable("str"), AOPSimpleLiteral("\"", "a"))),
                         POPValues(dictionary, listOf(
                                 "s",
-                                "#p25181",
+                                "#p25412",
                                 "str"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "#p25181" to "<http://example.org/str>",
-                                        "str" to "\"bar\"@en"
+                                    "s" to "<http://example.org/s1>",
+                                    "#p25412" to "<http://example.org/str>",
+                                    "str" to "\"foo\""
                                 ),
                                 mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "#p25181" to "<http://example.org/str>",
-                                        "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                    "s" to "<http://example.org/s2>",
+                                    "#p25412" to "<http://example.org/str>",
+                                    "str" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s3>",
+                                    "#p25412" to "<http://example.org/str>",
+                                    "str" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s4>",
+                                    "#p25412" to "<http://example.org/str>",
+                                    "str" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s5>",
+                                    "#p25412" to "<http://example.org/str>",
+                                    "str" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s6>",
+                                    "#p25412" to "<http://example.org/str>",
+                                    "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s7>",
+                                    "#p25412" to "<http://example.org/str>",
+                                    "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "#p25412",
+                            "str"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "#p25412" to "<http://example.org/str>",
+                                "str" to "\"bar\"@en"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s6>",
+                                "#p25412" to "<http://example.org/str>",
+                                "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/contains01.rq */,
+            }() /* resources/sparql11-test-suite/functions/contains01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1"))),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "str"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/d1>",
-                                                "p" to "<http://example.org/date>",
-                                                "str" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/d2>",
-                                                "p" to "<http://example.org/date>",
-                                                "str" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/d3>",
-                                                "p" to "<http://example.org/date>",
-                                                "str" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/d4>",
-                                                "p" to "<http://example.org/date>",
-                                                "str" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n1>",
-                                                "p" to "<http://example.org/num>",
-                                                "str" to "\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n2>",
-                                                "p" to "<http://example.org/num>",
-                                                "str" to "\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n3>",
-                                                "p" to "<http://example.org/num>",
-                                                "str" to "\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n4>",
-                                                "p" to "<http://example.org/num>",
-                                                "str" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n5>",
-                                                "p" to "<http://example.org/num>",
-                                                "str" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/str>",
-                                                "str" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/str>",
-                                                "str" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/str>",
-                                                "str" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/str>",
-                                                "str" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/str>",
-                                                "str" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/str>",
-                                                "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s7>",
-                                                "p" to "<http://example.org/str>",
-                                                "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1"))),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "str"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "s" to "<http://example.org/n3>",
-                                        "p" to "<http://example.org/num>",
-                                        "str" to "\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                                    "s" to "<http://example.org/d1>",
+                                    "p" to "<http://example.org/date>",
+                                    "str" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 ),
                                 mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/str>",
-                                        "str" to "\"100%\""
+                                    "s" to "<http://example.org/d2>",
+                                    "p" to "<http://example.org/date>",
+                                    "str" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/d3>",
+                                    "p" to "<http://example.org/date>",
+                                    "str" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/d4>",
+                                    "p" to "<http://example.org/date>",
+                                    "str" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n1>",
+                                    "p" to "<http://example.org/num>",
+                                    "str" to "\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n2>",
+                                    "p" to "<http://example.org/num>",
+                                    "str" to "\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n3>",
+                                    "p" to "<http://example.org/num>",
+                                    "str" to "\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n4>",
+                                    "p" to "<http://example.org/num>",
+                                    "str" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n5>",
+                                    "p" to "<http://example.org/num>",
+                                    "str" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s1>",
+                                    "p" to "<http://example.org/str>",
+                                    "str" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s2>",
+                                    "p" to "<http://example.org/str>",
+                                    "str" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s3>",
+                                    "p" to "<http://example.org/str>",
+                                    "str" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s4>",
+                                    "p" to "<http://example.org/str>",
+                                    "str" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s5>",
+                                    "p" to "<http://example.org/str>",
+                                    "str" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s6>",
+                                    "p" to "<http://example.org/str>",
+                                    "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s7>",
+                                    "p" to "<http://example.org/str>",
+                                    "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "str"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/n3>",
+                                "p" to "<http://example.org/num>",
+                                "str" to "\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s5>",
+                                "p" to "<http://example.org/str>",
+                                "str" to "\"100%\""
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/starts01.rq */,
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPBuildInCallSTRENDS(AOPVariable("str"), AOPSimpleLiteral("\"", "bc"))),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "str"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/d1>",
-                                                "p" to "<http://example.org/date>",
-                                                "str" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/d2>",
-                                                "p" to "<http://example.org/date>",
-                                                "str" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/d3>",
-                                                "p" to "<http://example.org/date>",
-                                                "str" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/d4>",
-                                                "p" to "<http://example.org/date>",
-                                                "str" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n1>",
-                                                "p" to "<http://example.org/num>",
-                                                "str" to "\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n2>",
-                                                "p" to "<http://example.org/num>",
-                                                "str" to "\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n3>",
-                                                "p" to "<http://example.org/num>",
-                                                "str" to "\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n4>",
-                                                "p" to "<http://example.org/num>",
-                                                "str" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/n5>",
-                                                "p" to "<http://example.org/num>",
-                                                "str" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/str>",
-                                                "str" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/str>",
-                                                "str" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/str>",
-                                                "str" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/str>",
-                                                "str" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/str>",
-                                                "str" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/str>",
-                                                "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s7>",
-                                                "p" to "<http://example.org/str>",
-                                                "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPBuildInCallSTRENDS(AOPVariable("str"), AOPSimpleLiteral("\"", "bc"))),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "str"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/str>",
-                                        "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                    "s" to "<http://example.org/d1>",
+                                    "p" to "<http://example.org/date>",
+                                    "str" to "\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/d2>",
+                                    "p" to "<http://example.org/date>",
+                                    "str" to "\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/d3>",
+                                    "p" to "<http://example.org/date>",
+                                    "str" to "\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/d4>",
+                                    "p" to "<http://example.org/date>",
+                                    "str" to "\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n1>",
+                                    "p" to "<http://example.org/num>",
+                                    "str" to "\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n2>",
+                                    "p" to "<http://example.org/num>",
+                                    "str" to "\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n3>",
+                                    "p" to "<http://example.org/num>",
+                                    "str" to "\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n4>",
+                                    "p" to "<http://example.org/num>",
+                                    "str" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/n5>",
+                                    "p" to "<http://example.org/num>",
+                                    "str" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s1>",
+                                    "p" to "<http://example.org/str>",
+                                    "str" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s2>",
+                                    "p" to "<http://example.org/str>",
+                                    "str" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s3>",
+                                    "p" to "<http://example.org/str>",
+                                    "str" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s4>",
+                                    "p" to "<http://example.org/str>",
+                                    "str" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s5>",
+                                    "p" to "<http://example.org/str>",
+                                    "str" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s6>",
+                                    "p" to "<http://example.org/str>",
+                                    "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s7>",
+                                    "p" to "<http://example.org/str>",
+                                    "str" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "str"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s6>",
+                                "p" to "<http://example.org/str>",
+                                "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/ends01.rq */,
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")))),
-                                POPValues(dictionary, listOf(
-                                        "a",
-                                        "#p28207",
-                                        "s1",
-                                        "b",
-                                        "#p28208",
-                                        "s2"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s1>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"foo\"",
-                                                "b" to "<http://example.org/s1>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s2>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"bar\"@en",
-                                                "b" to "<http://example.org/s1>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s3>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"BAZ\"",
-                                                "b" to "<http://example.org/s1>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s4>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"食べ物\"",
-                                                "b" to "<http://example.org/s1>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s5>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"100%\"",
-                                                "b" to "<http://example.org/s1>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s6>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s1>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s7>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s1>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s1>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"foo\"",
-                                                "b" to "<http://example.org/s2>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s2>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"bar\"@en",
-                                                "b" to "<http://example.org/s2>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s3>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"BAZ\"",
-                                                "b" to "<http://example.org/s2>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s4>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"食べ物\"",
-                                                "b" to "<http://example.org/s2>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s5>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"100%\"",
-                                                "b" to "<http://example.org/s2>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s6>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s2>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s7>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s2>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"bar\"@en"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s1>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"foo\"",
-                                                "b" to "<http://example.org/s3>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s2>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"bar\"@en",
-                                                "b" to "<http://example.org/s3>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s3>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"BAZ\"",
-                                                "b" to "<http://example.org/s3>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s4>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"食べ物\"",
-                                                "b" to "<http://example.org/s3>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s5>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"100%\"",
-                                                "b" to "<http://example.org/s3>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s6>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s3>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s7>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s3>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s1>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"foo\"",
-                                                "b" to "<http://example.org/s4>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s2>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"bar\"@en",
-                                                "b" to "<http://example.org/s4>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s3>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"BAZ\"",
-                                                "b" to "<http://example.org/s4>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s4>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"食べ物\"",
-                                                "b" to "<http://example.org/s4>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s5>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"100%\"",
-                                                "b" to "<http://example.org/s4>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s6>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s4>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s7>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s4>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"食べ物\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s1>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"foo\"",
-                                                "b" to "<http://example.org/s5>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s2>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"bar\"@en",
-                                                "b" to "<http://example.org/s5>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s3>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"BAZ\"",
-                                                "b" to "<http://example.org/s5>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s4>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"食べ物\"",
-                                                "b" to "<http://example.org/s5>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s5>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"100%\"",
-                                                "b" to "<http://example.org/s5>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s6>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s5>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s7>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s5>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"100%\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s1>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"foo\"",
-                                                "b" to "<http://example.org/s6>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s2>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"bar\"@en",
-                                                "b" to "<http://example.org/s6>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s3>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"BAZ\"",
-                                                "b" to "<http://example.org/s6>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s4>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"食べ物\"",
-                                                "b" to "<http://example.org/s6>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s5>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"100%\"",
-                                                "b" to "<http://example.org/s6>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s6>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s6>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s7>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s6>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s1>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"foo\"",
-                                                "b" to "<http://example.org/s7>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s2>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"bar\"@en",
-                                                "b" to "<http://example.org/s7>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s3>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"BAZ\"",
-                                                "b" to "<http://example.org/s7>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s4>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"食べ物\"",
-                                                "b" to "<http://example.org/s7>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s5>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"100%\"",
-                                                "b" to "<http://example.org/s7>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s6>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s7>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s7>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s7>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")))),
                         POPValues(dictionary, listOf(
                                 "a",
-                                "#p28207",
+                                "#p28459",
                                 "s1",
                                 "b",
-                                "#p28208",
+                                "#p28460",
                                 "s2"
+                            ), listOf(
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s1>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"foo\"",
+                                    "b" to "<http://example.org/s1>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s2>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"bar\"@en",
+                                    "b" to "<http://example.org/s1>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s3>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"BAZ\"",
+                                    "b" to "<http://example.org/s1>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s4>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"食べ物\"",
+                                    "b" to "<http://example.org/s1>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s5>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"100%\"",
+                                    "b" to "<http://example.org/s1>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s6>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s1>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s7>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s1>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s1>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"foo\"",
+                                    "b" to "<http://example.org/s2>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s2>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"bar\"@en",
+                                    "b" to "<http://example.org/s2>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s3>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"BAZ\"",
+                                    "b" to "<http://example.org/s2>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s4>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"食べ物\"",
+                                    "b" to "<http://example.org/s2>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s5>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"100%\"",
+                                    "b" to "<http://example.org/s2>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s6>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s2>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s7>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s2>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"bar\"@en"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s1>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"foo\"",
+                                    "b" to "<http://example.org/s3>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s2>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"bar\"@en",
+                                    "b" to "<http://example.org/s3>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s3>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"BAZ\"",
+                                    "b" to "<http://example.org/s3>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s4>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"食べ物\"",
+                                    "b" to "<http://example.org/s3>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s5>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"100%\"",
+                                    "b" to "<http://example.org/s3>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s6>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s3>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s7>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s3>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s1>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"foo\"",
+                                    "b" to "<http://example.org/s4>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s2>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"bar\"@en",
+                                    "b" to "<http://example.org/s4>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s3>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"BAZ\"",
+                                    "b" to "<http://example.org/s4>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s4>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"食べ物\"",
+                                    "b" to "<http://example.org/s4>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s5>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"100%\"",
+                                    "b" to "<http://example.org/s4>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s6>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s4>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s7>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s4>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"食べ物\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s1>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"foo\"",
+                                    "b" to "<http://example.org/s5>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s2>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"bar\"@en",
+                                    "b" to "<http://example.org/s5>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s3>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"BAZ\"",
+                                    "b" to "<http://example.org/s5>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s4>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"食べ物\"",
+                                    "b" to "<http://example.org/s5>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s5>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"100%\"",
+                                    "b" to "<http://example.org/s5>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s6>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s5>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s7>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s5>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"100%\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s1>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"foo\"",
+                                    "b" to "<http://example.org/s6>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s2>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"bar\"@en",
+                                    "b" to "<http://example.org/s6>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s3>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"BAZ\"",
+                                    "b" to "<http://example.org/s6>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s4>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"食べ物\"",
+                                    "b" to "<http://example.org/s6>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s5>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"100%\"",
+                                    "b" to "<http://example.org/s6>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s6>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s6>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s7>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s6>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s1>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"foo\"",
+                                    "b" to "<http://example.org/s7>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s2>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"bar\"@en",
+                                    "b" to "<http://example.org/s7>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s3>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"BAZ\"",
+                                    "b" to "<http://example.org/s7>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s4>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"食べ物\"",
+                                    "b" to "<http://example.org/s7>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s5>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"100%\"",
+                                    "b" to "<http://example.org/s7>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s6>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s7>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s7>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s7>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                )
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "a",
+                            "#p28459",
+                            "s1",
+                            "b",
+                            "#p28460",
+                            "s2"
                         ), listOf(
-                                mutableMapOf(
-                                        "a" to "<http://example.org/s1>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"foo\"",
-                                        "b" to "<http://example.org/s1>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "a" to "<http://example.org/s2>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"bar\"@en",
-                                        "b" to "<http://example.org/s1>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "a" to "<http://example.org/s3>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"BAZ\"",
-                                        "b" to "<http://example.org/s1>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "a" to "<http://example.org/s4>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"食べ物\"",
-                                        "b" to "<http://example.org/s1>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "a" to "<http://example.org/s5>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"100%\"",
-                                        "b" to "<http://example.org/s1>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "a" to "<http://example.org/s6>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "b" to "<http://example.org/s1>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "a" to "<http://example.org/s7>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "b" to "<http://example.org/s1>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "a" to "<http://example.org/s1>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"foo\"",
-                                        "b" to "<http://example.org/s3>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"BAZ\""
-                                ),
-                                mutableMapOf(
-                                        "a" to "<http://example.org/s2>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"bar\"@en",
-                                        "b" to "<http://example.org/s3>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"BAZ\""
-                                ),
-                                mutableMapOf(
-                                        "a" to "<http://example.org/s3>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"BAZ\"",
-                                        "b" to "<http://example.org/s3>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"BAZ\""
-                                ),
-                                mutableMapOf(
-                                        "a" to "<http://example.org/s4>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"食べ物\"",
-                                        "b" to "<http://example.org/s3>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"BAZ\""
-                                ),
-                                mutableMapOf(
-                                        "a" to "<http://example.org/s5>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"100%\"",
-                                        "b" to "<http://example.org/s3>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"BAZ\""
-                                ),
-                                mutableMapOf(
-                                        "a" to "<http://example.org/s6>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "b" to "<http://example.org/s3>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"BAZ\""
-                                ),
-                                mutableMapOf(
-                                        "a" to "<http://example.org/s7>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "b" to "<http://example.org/s3>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"BAZ\""
-                                )
+                            mutableMapOf(
+                                "a" to "<http://example.org/s1>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"foo\"",
+                                "b" to "<http://example.org/s1>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s2>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"bar\"@en",
+                                "b" to "<http://example.org/s1>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s3>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"BAZ\"",
+                                "b" to "<http://example.org/s1>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s4>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"食べ物\"",
+                                "b" to "<http://example.org/s1>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s5>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"100%\"",
+                                "b" to "<http://example.org/s1>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s6>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s1>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s7>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s1>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s1>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"foo\"",
+                                "b" to "<http://example.org/s3>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s2>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"bar\"@en",
+                                "b" to "<http://example.org/s3>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s3>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"BAZ\"",
+                                "b" to "<http://example.org/s3>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s4>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"食べ物\"",
+                                "b" to "<http://example.org/s3>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s5>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"100%\"",
+                                "b" to "<http://example.org/s3>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s6>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s3>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s7>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s3>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"BAZ\""
+                            )
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")))),
-                                POPValues(dictionary, listOf(
-                                        "a",
-                                        "#p28207",
-                                        "s1",
-                                        "b",
-                                        "#p28208",
-                                        "s2"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s1>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"foo\"",
-                                                "b" to "<http://example.org/s1>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s2>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"bar\"@en",
-                                                "b" to "<http://example.org/s1>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s3>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"BAZ\"",
-                                                "b" to "<http://example.org/s1>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s4>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"食べ物\"",
-                                                "b" to "<http://example.org/s1>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s5>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"100%\"",
-                                                "b" to "<http://example.org/s1>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s6>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s1>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s7>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s1>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s1>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"foo\"",
-                                                "b" to "<http://example.org/s3>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s2>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"bar\"@en",
-                                                "b" to "<http://example.org/s3>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s3>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"BAZ\"",
-                                                "b" to "<http://example.org/s3>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s4>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"食べ物\"",
-                                                "b" to "<http://example.org/s3>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s5>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"100%\"",
-                                                "b" to "<http://example.org/s3>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s6>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s3>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"BAZ\""
-                                        ),
-                                        mutableMapOf(
-                                                "a" to "<http://example.org/s7>",
-                                                "#p28207" to "<http://example.org/str>",
-                                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "b" to "<http://example.org/s3>",
-                                                "#p28208" to "<http://example.org/str>",
-                                                "s2" to "\"BAZ\""
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")))),
                         POPValues(dictionary, listOf(
                                 "a",
-                                "#p28207",
+                                "#p28459",
                                 "s1",
                                 "b",
-                                "#p28208",
+                                "#p28460",
                                 "s2"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "a" to "<http://example.org/s1>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"foo\"",
-                                        "b" to "<http://example.org/s1>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"foo\""
+                                    "a" to "<http://example.org/s1>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"foo\"",
+                                    "b" to "<http://example.org/s1>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"foo\""
                                 ),
                                 mutableMapOf(
-                                        "a" to "<http://example.org/s3>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"BAZ\"",
-                                        "b" to "<http://example.org/s1>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"foo\""
+                                    "a" to "<http://example.org/s2>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"bar\"@en",
+                                    "b" to "<http://example.org/s1>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"foo\""
                                 ),
                                 mutableMapOf(
-                                        "a" to "<http://example.org/s1>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"foo\"",
-                                        "b" to "<http://example.org/s3>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"BAZ\""
+                                    "a" to "<http://example.org/s3>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"BAZ\"",
+                                    "b" to "<http://example.org/s1>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"foo\""
                                 ),
                                 mutableMapOf(
-                                        "a" to "<http://example.org/s3>",
-                                        "#p28207" to "<http://example.org/str>",
-                                        "s1" to "\"BAZ\"",
-                                        "b" to "<http://example.org/s3>",
-                                        "#p28208" to "<http://example.org/str>",
-                                        "s2" to "\"BAZ\""
+                                    "a" to "<http://example.org/s4>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"食べ物\"",
+                                    "b" to "<http://example.org/s1>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s5>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"100%\"",
+                                    "b" to "<http://example.org/s1>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s6>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s1>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s7>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s1>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"foo\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s1>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"foo\"",
+                                    "b" to "<http://example.org/s3>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s2>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"bar\"@en",
+                                    "b" to "<http://example.org/s3>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s3>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"BAZ\"",
+                                    "b" to "<http://example.org/s3>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s4>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"食べ物\"",
+                                    "b" to "<http://example.org/s3>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s5>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"100%\"",
+                                    "b" to "<http://example.org/s3>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s6>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s3>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"BAZ\""
+                                ),
+                                mutableMapOf(
+                                    "a" to "<http://example.org/s7>",
+                                    "#p28459" to "<http://example.org/str>",
+                                    "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                    "b" to "<http://example.org/s3>",
+                                    "#p28460" to "<http://example.org/str>",
+                                    "s2" to "\"BAZ\""
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "a",
+                            "#p28459",
+                            "s1",
+                            "b",
+                            "#p28460",
+                            "s2"
+                        ), listOf(
+                            mutableMapOf(
+                                "a" to "<http://example.org/s1>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"foo\"",
+                                "b" to "<http://example.org/s1>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s3>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"BAZ\"",
+                                "b" to "<http://example.org/s1>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s1>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"foo\"",
+                                "b" to "<http://example.org/s3>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s3>",
+                                "#p28459" to "<http://example.org/str>",
+                                "s1" to "\"BAZ\"",
+                                "b" to "<http://example.org/s3>",
+                                "#p28460" to "<http://example.org/str>",
+                                "s2" to "\"BAZ\""
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
             /*{
                 val dictionary=ResultSetDictionary()
                 MicroTestPN(
@@ -2528,7 +2528,7 @@ class GeneratedPOPFilterTest {
                         POPExpression(dictionary, AOPIn(AOPInteger(2), AOPSet(AOPInteger(1), AOPInteger(2), AOPInteger(3)))),
                         POPValues(dictionary, listOf(
                             ), listOf(
-                                mutableMapOf
+                                mutableMapOf(
                                 )
                             )
                         )
@@ -2547,7 +2547,7 @@ class GeneratedPOPFilterTest {
                         POPExpression(dictionary, AOPIn(AOPInteger(2), AOPSet(AOPInteger(1), AOPInteger(3)))),
                         POPValues(dictionary, listOf(
                             ), listOf(
-                                mutableMapOf
+                                mutableMapOf(
                                 )
                             )
                         )
@@ -2566,7 +2566,7 @@ class GeneratedPOPFilterTest {
                         POPExpression(dictionary, AOPNotIn(AOPInteger(2), AOPSet())),
                         POPValues(dictionary, listOf(
                             ), listOf(
-                                mutableMapOf
+                                mutableMapOf(
                                 )
                             )
                         )
@@ -2585,7 +2585,7 @@ class GeneratedPOPFilterTest {
                         POPExpression(dictionary, AOPNotIn(AOPInteger(2), AOPSet(AOPDivision(AOPInteger(0), AOPInteger(1)), AOPInteger(2)))),
                         POPValues(dictionary, listOf(
                             ), listOf(
-                                mutableMapOf
+                                mutableMapOf(
                                 )
                             )
                         )
@@ -2597,30 +2597,30 @@ class GeneratedPOPFilterTest {
                 )
             }()*/ /* resources/sparql11-test-suite/functions/notin02.rq */
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPFilter(
-                                dictionary,
-                                POPExpression(dictionary, AOPEQ(AOPBuildInCallDATATYPE(AOPVariable("n")), AOPIri("http://www.w3.org/2001/XMLSchema#dateTime"))),
-                                POPValues(dictionary, listOf(
-                                        "n"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "n" to "\"2020-02-24T12:50:30Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
-                                        )
-                                )
-                                )
-                        ),
+                    POPFilter(
+                        dictionary,
+                        POPExpression(dictionary, AOPEQ(AOPBuildInCallDATATYPE(AOPVariable("n")), AOPIri("http://www.w3.org/2001/XMLSchema#dateTime"))),
                         POPValues(dictionary, listOf(
                                 "n"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "n" to "\"2020-02-24T12:50:30Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                    "n" to "\"2020-02-24T13:19:17Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "n"
+                        ), listOf(
+                            mutableMapOf(
+                                "n" to "\"2020-02-24T13:19:17Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/now01.rq */,
+            }() /* resources/sparql11-test-suite/functions/now01.rq */ ,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -2655,7 +2655,7 @@ class GeneratedPOPFilterTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)) {
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

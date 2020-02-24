@@ -56,7 +56,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28162\"foo\"")
+                        AOPBnode("28414\"foo\"")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
@@ -80,7 +80,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28162\"foo\"")
+                        AOPBnode("28414\"foo\"")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
@@ -96,7 +96,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                         AOPBuildInCallBNODE1(AOPVariable("s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28162\"foo\"")
+                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28414\"foo\"")
                             resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
@@ -106,7 +106,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28156\"foo\"")
+                        AOPBnode("28408\"foo\"")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
@@ -122,7 +122,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                         AOPBuildInCallBNODE1(AOPVariable("s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28162\"foo\"")
+                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28414\"foo\"")
                             resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
@@ -132,7 +132,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28156\"BAZ\"")
+                        AOPBnode("28408\"BAZ\"")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
@@ -156,7 +156,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28162\"BAZ\"")
+                        AOPBnode("28414\"BAZ\"")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
@@ -172,7 +172,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                         AOPBuildInCallBNODE1(AOPVariable("s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28162\"BAZ\"")
+                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28414\"BAZ\"")
                             resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
@@ -182,7 +182,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28156\"foo\"")
+                        AOPBnode("28408\"foo\"")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
@@ -206,7 +206,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28162\"BAZ\"")
+                        AOPBnode("28414\"BAZ\"")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             /*{
@@ -222,7 +222,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                         AOPBuildInCallBNODE1(AOPVariable("s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28162\"BAZ\"")
+                            resultRow[resultSet.createVariable("b2")] = resultSet.createValue("_:28414\"BAZ\"")
                             resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
                             resultSet.setUndefValue(resultRow, resultSet.createVariable("#2"))
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
@@ -232,7 +232,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBnode("28156\"BAZ\"")
+                        AOPBnode("28408\"BAZ\"")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/bnode01.rq */
             {
@@ -269,7 +269,7 @@ class GeneratedAOPBuildInCallBNODE1Test {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)) {
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

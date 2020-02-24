@@ -129,6 +129,8 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 
 
 class OperatorGraphVisitor : Visitor<OPBase> {
+val queryExecutionStartTime=AOPDateTime() /*required for BuildInCall.NOW */
+
     override fun visit(node: ASTNode, childrenValues: List<OPBase>): OPBase = LOPNOOP()
 
     fun mergeLOPBind(a: LOPBind, b: LOPBind): LOPBind {
@@ -868,7 +870,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             }
             BuiltInFunctions.NOW -> {
                 require(childrenValues.size == 0)
-                return AOPBuildInCallNOW()
+                return queryExecutionStartTime
             }
             BuiltInFunctions.UUID -> {
                 require(childrenValues.size == 0)

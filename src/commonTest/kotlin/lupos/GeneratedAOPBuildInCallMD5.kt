@@ -52,7 +52,7 @@ class GeneratedAOPBuildInCallMD5Test {
                         resultSet,
                         AOPSimpleLiteral("\"", "acbd18db4cc2f85cedef654fccc4a4d8")
                 )
-            }() /* resources/sparql11-test-suite/functions/md5-01.rq */,
+            }() /* resources/sparql11-test-suite/functions/md5-01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -70,7 +70,7 @@ class GeneratedAOPBuildInCallMD5Test {
                         resultSet,
                         AOPSimpleLiteral("\"", "e7ada485d13b1decf628c9211bc3a97b")
                 )
-            }() /* resources/sparql11-test-suite/functions/md5-02.rq */,
+            }() /* resources/sparql11-test-suite/functions/md5-02.rq */ ,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -105,7 +105,7 @@ class GeneratedAOPBuildInCallMD5Test {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)) {
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

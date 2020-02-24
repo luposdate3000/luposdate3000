@@ -52,7 +52,7 @@ class GeneratedAOPBuildInCallSHA256Test {
                         resultSet,
                         AOPSimpleLiteral("\"", "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae")
                 )
-            }() /* resources/sparql11-test-suite/functions/sha256-01.rq */,
+            }() /* resources/sparql11-test-suite/functions/sha256-01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -70,7 +70,7 @@ class GeneratedAOPBuildInCallSHA256Test {
                         resultSet,
                         AOPSimpleLiteral("\"", "0fbe868d1df356ca9df7ebff346da3a56280e059a7ea81186ef885b140d254ee")
                 )
-            }() /* resources/sparql11-test-suite/functions/sha256-02.rq */,
+            }() /* resources/sparql11-test-suite/functions/sha256-02.rq */ ,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -105,7 +105,7 @@ class GeneratedAOPBuildInCallSHA256Test {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)) {
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

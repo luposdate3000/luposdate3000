@@ -40,7 +40,7 @@ class GeneratedAOPDivisionTest {
                         AOPDivision(AOPInteger(0), AOPInteger(1)),
                         AOPInteger(0)
                 )
-            }() /* resources/sparql11-test-suite/functions/if02.rq */,
+            }() /* resources/sparql11-test-suite/functions/if02.rq */ ,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -75,7 +75,7 @@ class GeneratedAOPDivisionTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)) {
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

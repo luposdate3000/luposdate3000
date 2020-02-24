@@ -52,7 +52,7 @@ class GeneratedAOPBuildInCallSHA1Test {
                         resultSet,
                         AOPSimpleLiteral("\"", "0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33")
                 )
-            }() /* resources/sparql11-test-suite/functions/sha1-01.rq */,
+            }() /* resources/sparql11-test-suite/functions/sha1-01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("#0")
@@ -70,7 +70,7 @@ class GeneratedAOPBuildInCallSHA1Test {
                         resultSet,
                         AOPSimpleLiteral("\"", "d46696735b6a09ff407bfc1a9407e008840db9c9")
                 )
-            }() /* resources/sparql11-test-suite/functions/sha1-02.rq */,
+            }() /* resources/sparql11-test-suite/functions/sha1-02.rq */ ,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -105,7 +105,7 @@ class GeneratedAOPBuildInCallSHA1Test {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)) {
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

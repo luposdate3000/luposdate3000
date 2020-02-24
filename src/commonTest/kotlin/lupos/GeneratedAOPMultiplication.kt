@@ -58,7 +58,7 @@ class GeneratedAOPMultiplicationTest {
                         resultSet,
                         AOPInteger(6)
                 )
-            }() /* resources/sparql11-test-suite/project-expression/projexp03.rq */,
+            }() /* resources/sparql11-test-suite/project-expression/projexp03.rq */ ,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -93,7 +93,7 @@ class GeneratedAOPMultiplicationTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)) {
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

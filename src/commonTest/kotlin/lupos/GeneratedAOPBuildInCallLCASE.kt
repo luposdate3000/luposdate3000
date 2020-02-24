@@ -52,7 +52,7 @@ class GeneratedAOPBuildInCallLCASETest {
                         resultSet,
                         AOPSimpleLiteral("\"", "foo")
                 )
-            }() /* resources/sparql11-test-suite/functions/lcase01.rq */,
+            }() /* resources/sparql11-test-suite/functions/lcase01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -70,7 +70,7 @@ class GeneratedAOPBuildInCallLCASETest {
                         resultSet,
                         AOPLanguageTaggedLiteral("\"", "bar", "en")
                 )
-            }() /* resources/sparql11-test-suite/functions/lcase01.rq */,
+            }() /* resources/sparql11-test-suite/functions/lcase01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -88,7 +88,7 @@ class GeneratedAOPBuildInCallLCASETest {
                         resultSet,
                         AOPSimpleLiteral("\"", "baz")
                 )
-            }() /* resources/sparql11-test-suite/functions/lcase01.rq */,
+            }() /* resources/sparql11-test-suite/functions/lcase01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -106,7 +106,7 @@ class GeneratedAOPBuildInCallLCASETest {
                         resultSet,
                         AOPSimpleLiteral("\"", "食べ物")
                 )
-            }() /* resources/sparql11-test-suite/functions/lcase01.rq */,
+            }() /* resources/sparql11-test-suite/functions/lcase01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -124,7 +124,7 @@ class GeneratedAOPBuildInCallLCASETest {
                         resultSet,
                         AOPSimpleLiteral("\"", "100%")
                 )
-            }() /* resources/sparql11-test-suite/functions/lcase01.rq */,
+            }() /* resources/sparql11-test-suite/functions/lcase01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -142,7 +142,7 @@ class GeneratedAOPBuildInCallLCASETest {
                         resultSet,
                         AOPTypedLiteral("\"", "abc", "http://www.w3.org/2001/XMLSchema#string")
                 )
-            }() /* resources/sparql11-test-suite/functions/lcase01.rq */,
+            }() /* resources/sparql11-test-suite/functions/lcase01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -160,7 +160,7 @@ class GeneratedAOPBuildInCallLCASETest {
                         resultSet,
                         AOPTypedLiteral("\"", "def", "http://www.w3.org/2001/XMLSchema#string")
                 )
-            }() /* resources/sparql11-test-suite/functions/lcase01.rq */,
+            }() /* resources/sparql11-test-suite/functions/lcase01.rq */ ,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -195,7 +195,7 @@ class GeneratedAOPBuildInCallLCASETest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)) {
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

@@ -93,14 +93,16 @@ fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, resultSet: 
     if (rows != null) {
         for (row in rows) {
             res += "${prefix}        mutableMapOf(\n"
-            for (k in resultSet.getVariableNames()) {
-                val v = resultSet.getValue(row[resultSet.createVariable(k)])?.replace("\"", "\\\"")
-                if (v == null)
-                    res += "${prefix}            \"${k}\" to null,\n"
-                else
-                    res += "${prefix}            \"${k}\" to \"${v}\",\n"
-            }
-            res = res.substring(0, res.length - 2) + "\n"
+	        if(resultSet.getVariableNames().size>0){
+	            for (k in resultSet.getVariableNames()) {
+	                val v = resultSet.getValue(row[resultSet.createVariable(k)])?.replace("\"", "\\\"")
+	                if (v == null)
+	                    res += "${prefix}            \"${k}\" to null,\n"
+	                else
+	                    res += "${prefix}            \"${k}\" to \"${v}\",\n"
+	            }
+	            res = res.substring(0, res.length - 2) + "\n"
+	        }
             res += "${prefix}        ),\n"
         }
         res = res.substring(0, res.length - 2) + "\n"
@@ -140,22 +142,29 @@ fun testCaseFromPOPBaseSimple(op: POPBase): String {
             res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
         }
         is POPFilter -> {
-            println("xxx")
             res += "${prefix}                        dictionary,\n"
             res += "${prefix}                        POPExpression(dictionary, ${testCaseFromAOPBase(op.children[1].children[0] as AOPBase)}),\n"
             res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
-            println("xxx" + res)
         }
+	is POPBindUndefined -> {
+            res += "${prefix}                        dictionary,\n"
+            res += "${prefix}                        AOPVariable(\"${op.name.name}\"),\n"
+            res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
+	}
+	is POPBind -> {
+            res += "${prefix}                        dictionary,\n"
+            res += "${prefix}                        AOPVariable(\"${op.name.name}\"),\n"
+            res += "${prefix}                        POPExpression(dictionary, ${testCaseFromAOPBase(op.children[1].children[0] as AOPBase)}),\n"
+            res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}                        ") + "\n"
+	}
         else -> throw Exception("not implemented testCaseFromPOPBaseSimple(${classNameToString(op)})")
 /*
 is POPModify -> {}
-is POPBindUndefined -> {}
 is POPTemporaryStore -> {}
 is POPLimit -> {}
 is POPOffset -> {}
 is POPDistinct -> {}
 is POPProjection -> {}
-is POPBind -> {}
 is POPFilterExact -> {}
 is POPMakeBooleanResult -> {}
 is POPGroup -> {}

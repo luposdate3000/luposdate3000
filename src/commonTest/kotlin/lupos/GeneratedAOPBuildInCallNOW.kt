@@ -38,7 +38,7 @@ class GeneratedAOPBuildInCallNOWTest {
             /*{
                 MicroTest0(
                         AOPBuildInCallNOW(),
-                        AOPDateTime("\"2020-02-24T12:50:30Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                        AOPDateTime("\"2020-02-24T13:09:04Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                 )
             }()*/ /* resources/sparql11-test-suite/functions/now01.rq */
             {
@@ -75,7 +75,7 @@ class GeneratedAOPBuildInCallNOWTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)) {
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

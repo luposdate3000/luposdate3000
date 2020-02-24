@@ -52,7 +52,7 @@ class GeneratedAOPBuildInCallABSTest {
                         resultSet,
                         AOPInteger(1)
                 )
-            }() /* resources/sparql11-test-suite/functions/abs01.rq */,
+            }() /* resources/sparql11-test-suite/functions/abs01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -70,7 +70,7 @@ class GeneratedAOPBuildInCallABSTest {
                         resultSet,
                         AOPDecimal(1.6)
                 )
-            }() /* resources/sparql11-test-suite/functions/abs01.rq */,
+            }() /* resources/sparql11-test-suite/functions/abs01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -88,7 +88,7 @@ class GeneratedAOPBuildInCallABSTest {
                         resultSet,
                         AOPDecimal(1.1)
                 )
-            }() /* resources/sparql11-test-suite/functions/abs01.rq */,
+            }() /* resources/sparql11-test-suite/functions/abs01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -106,7 +106,7 @@ class GeneratedAOPBuildInCallABSTest {
                         resultSet,
                         AOPInteger(2)
                 )
-            }() /* resources/sparql11-test-suite/functions/abs01.rq */,
+            }() /* resources/sparql11-test-suite/functions/abs01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -124,7 +124,7 @@ class GeneratedAOPBuildInCallABSTest {
                         resultSet,
                         AOPDecimal(2.5)
                 )
-            }() /* resources/sparql11-test-suite/functions/abs01.rq */,
+            }() /* resources/sparql11-test-suite/functions/abs01.rq */ ,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -159,7 +159,7 @@ class GeneratedAOPBuildInCallABSTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)) {
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

@@ -36,96 +36,96 @@ class GeneratedPOPUnionTest {
     @TestFactory
     fun test() = listOf(
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPUnion(
-                                dictionary,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/g1>",
-                                                "p" to "<http://example.org/p>",
-                                                "o" to "\"y\""
-                                        )
+                    POPUnion(
+                        dictionary,
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                            ), listOf(
+                                mutableMapOf(
+                                    "s" to "<http://example.org/g1>",
+                                    "p" to "<http://example.org/p>",
+                                    "o" to "\"y\""
                                 )
-                                ),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/g2>",
-                                                "p" to "<http://example.org/p>",
-                                                "o" to "\"z\""
-                                        )
-                                )
-                                )
+                            )
                         ),
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o"
+                            ), listOf(
+                                mutableMapOf(
+                                    "s" to "<http://example.org/g2>",
+                                    "p" to "<http://example.org/p>",
+                                    "o" to "\"z\""
+                                )
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/g1>",
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "\"y\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/g2>",
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "\"z\""
-                                )
+                            mutableMapOf(
+                                "s" to "<http://example.org/g1>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"y\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/g2>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"z\""
+                            )
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/basic-update/insert-using-01.ru */,
+            }() /* resources/sparql11-test-suite/basic-update/insert-using-01.ru */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestPN(
-                        POPUnion(
-                                dictionary,
-                                POPValues(dictionary, listOf(
-                                        "z",
-                                        "o"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "z" to null,
-                                                "o" to null
-                                        )
+                    POPUnion(
+                        dictionary,
+                        POPValues(dictionary, listOf(
+                                "z",
+                                "o"
+                            ), listOf(
+                                mutableMapOf(
+                                    "z" to null,
+                                    "o" to null
                                 )
-                                ),
-                                POPValues(dictionary, listOf(
-                                        "z",
-                                        "o"
-                                ), listOf(
-                                        mutableMapOf(
-                                                "z" to null,
-                                                "o" to null
-                                        )
-                                )
-                                )
+                            )
                         ),
                         POPValues(dictionary, listOf(
                                 "z",
                                 "o"
-                        ), listOf(
+                            ), listOf(
                                 mutableMapOf(
-                                        "z" to null,
-                                        "o" to null
-                                ),
-                                mutableMapOf(
-                                        "z" to null,
-                                        "o" to null
+                                    "z" to null,
+                                    "o" to null
                                 )
+                            )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "z",
+                            "o"
+                        ), listOf(
+                            mutableMapOf(
+                                "z" to null,
+                                "o" to null
+                            ),
+                            mutableMapOf(
+                                "z" to null,
+                                "o" to null
+                            )
                         )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/entailment/bind07.rq */,
+            }() /* resources/sparql11-test-suite/entailment/bind07.rq */ ,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -160,7 +160,7 @@ class GeneratedPOPUnionTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)) {
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }
