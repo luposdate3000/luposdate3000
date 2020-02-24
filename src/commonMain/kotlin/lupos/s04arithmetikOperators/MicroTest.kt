@@ -80,25 +80,25 @@ fun resultFlowProduce(producerv: () -> OPBase, action: () -> ResultRow): ResultR
 }
 
 fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, resultSet: ResultSet, prefix: String): String {
-    var res = "${prefix}{\n"
-    res += "${prefix}    POPValues(dictionary, listOf(\n"
+    var res = "${prefix}POPValues(dictionary, listOf(\n"
     if (rows != null) {
         for (row in rows) {
-            res += "${prefix}            mutableMapOf(\n"
+            res += "${prefix}        mutableMapOf(\n"
             for (k in resultSet.getVariableNames())
-                res += "${prefix}                \"${k}\" to \"${resultSet.getValue(row[resultSet.createVariable(k)])!!.replace("\"", "\\\"")}\",\n"
+                res += "${prefix}            \"${k}\" to \"${resultSet.getValue(row[resultSet.createVariable(k)])!!.replace("\"", "\\\"")}\",\n"
             res = res.substring(0, res.length - 2) + "\n"
-            res += "${prefix}            ),\n"
+            res += "${prefix}        ),\n"
         }
         res = res.substring(0, res.length - 2) + "\n"
     }
-    res += "${prefix}        )\n"
     res += "${prefix}    )\n"
-    return res + "${prefix}}"
+    res += "${prefix})"
+    return res
 }
 
 fun testCaseFromPOPBaseSimple(op: POPBase): String {
     var res = "${prefix}            {\n"
+    res += "${prefix}                val dictionary=ResultSetDictionary()\n"
     res += "${prefix}                MicroTestPN(\n"
     res += "${prefix}                    ${classNameToString(op)}(\n"
     when (op) {
@@ -134,7 +134,7 @@ is POPImportFromXml -> {}
     res += "${prefix}                    ),\n"
     res += testCaseFromResultRowsAsPOPValues(rowMapProduced[op.uuid], op.resultSet, "${prefix}                    ") + "\n"
     res += "${prefix}                )\n"
-    return res + "${prefix}            }"
+    return res + "${prefix}            }()"
 }
 
 fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSetv: () -> ResultSet, action: () -> T): T {
@@ -217,12 +217,12 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
     return expected
 }
 
-fun printAllMicroTest(testName: String, success: Boolean) {
+fun printAllMicroTest(testName: String,queryFile:String, success: Boolean) {
     if (listOfMicroTests.size() > 0 || popMap.keySize() > 0) {
+        val name = (testName+"_"+queryFile).replace("[^a-zA-Z0-9]".toRegex(), "_")
+        println("${prefix}    @TestFactory")
+        println("${prefix}    fun test${name}() = listOf(")
         if (listOfMicroTests.size() > 0) {
-            val name = testName.replace("/", "_").replace(".", "_").replace("-", "_")
-            println("${prefix}    @TestFactory")
-            println("${prefix}    fun test${name}() = listOf(")
             val tmp = mutableListOf<String>()
             listOfMicroTests.forEach {
                 tmp.add(it)
@@ -258,18 +258,19 @@ fun printAllMicroTest(testName: String, success: Boolean) {
         println("${prefix}        DynamicTest.dynamicTest(\"test->${testName}<-\$index\") {")
         println("${prefix}            try {")
         println("${prefix}                if(data.input is AOPBase){")
+        println("${prefix}                    val input = data.input as AOPBase")
         println("${prefix}                    val output:AOPConstant")
         println("${prefix}                    if (data is MicroTestA1) {")
-        println("${prefix}                        output = data.input.calculate(data.resultSet, data.resultRow)")
+        println("${prefix}                        output = input.calculate(data.resultSet, data.resultRow)")
         println("${prefix}                    } else if (data is MicroTestAN) {")
-        println("${prefix}                        setAggregationMode(data.input, true, data.resultRows.count())")
+        println("${prefix}                        setAggregationMode(input, true, data.resultRows.count())")
         println("${prefix}                        for (resultRow in data.resultRows)")
-        println("${prefix}                            data.input.calculate(data.resultSet, resultRow)")
-        println("${prefix}                        setAggregationMode(data.input, false, data.resultRows.count())")
-        println("${prefix}                        output = data.input.calculate(data.resultSet, data.resultSet.createResultRow())")
+        println("${prefix}                            input.calculate(data.resultSet, resultRow)")
+        println("${prefix}                        setAggregationMode(input, false, data.resultRows.count())")
+        println("${prefix}                        output = input.calculate(data.resultSet, data.resultSet.createResultRow())")
         println("${prefix}                    } else {")
         println("${prefix}                        val resultSet = ResultSet(ResultSetDictionary())")
-        println("${prefix}                        output = data.input.calculate(resultSet, resultSet.createResultRow())")
+        println("${prefix}                        output = input.calculate(resultSet, resultSet.createResultRow())")
         println("${prefix}                    }")
         println("${prefix}                    assertTrue(data.expected is AOPConstant)")
         println("${prefix}                    if (!data.expected.equals(output)) {")
@@ -280,9 +281,10 @@ fun printAllMicroTest(testName: String, success: Boolean) {
         println("${prefix}                    }")
         println("${prefix}                    assertTrue(data.expected.equals(output))")
         println("${prefix}                } else if (data.input is POPBase){")
+        println("${prefix}                    val input = data.input as POPBase")
         println("${prefix}                    assertTrue(data.expected is POPValues)")
-        println("${prefix}                    val output=QueryResultToXML(data.input)")
-        println("${prefix}                    val expected=QueryResultToXML(data.expected as POPValues)")
+        println("${prefix}                    val output=QueryResultToXML.toXML(input).first()")
+        println("${prefix}                    val expected=QueryResultToXML.toXML(data.expected as POPValues).first()")
         println("${prefix}                    if(!expected.myEquals(output))")
         println("${prefix}                        println(output.toPrettyString())")
         println("${prefix}                    assertTrue(expected.myEquals(output))")
