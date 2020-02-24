@@ -9,6 +9,14 @@ class ThreadSafeMutableMap<k, v>() {
         values.clear()
     }
 
+    fun keySize() :Int{
+        var res=0
+	mutex.withReadLock {
+		res=values.keys.size
+	}
+	return res
+    }
+
     operator fun get(key: k): v? {
         var res: v? = null
         mutex.withReadLock {

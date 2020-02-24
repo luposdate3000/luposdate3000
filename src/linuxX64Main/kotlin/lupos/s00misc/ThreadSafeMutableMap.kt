@@ -19,6 +19,14 @@ class ThreadSafeMutableMap<k, v>() {
         global_values.value = values.freeze()
     }
 
+fun keySize() :Int{
+        var res=0
+        mutex.withReadLock {
+                res=global_values.value.keys.size
+        }
+        return res
+    }
+
     operator fun set(key: k, value: v) = mutex.withWriteLock {
         val values = global_values.value.toMutableMap()
         values[key] = value

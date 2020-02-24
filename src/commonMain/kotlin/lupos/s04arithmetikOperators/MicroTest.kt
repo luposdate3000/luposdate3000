@@ -79,20 +79,18 @@ fun resultFlowProduce(producerv: () -> OPBase, action: () -> ResultRow): ResultR
     return res
 }
 
-fun testCaseFromResultRowsAsPOPValues(producer: POPBase, consumer: POPBase, prefix: String): String {
+fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, resultSet: ResultSet, prefix: String): String {
     var res = "${prefix}{\n"
     res += "${prefix}    POPValues(dictionary, listOf(\n"
-    val rows = rowMapConsumed[Pair(consumer.uuid, producer.uuid)]
     if (rows != null) {
-        res += "${prefix}            mutableMapOf(\n"
-        for (row in 0 until rows.size - 1) {
-            for (k in consumer.resultSet.getVariableNames()) {
-                res += "${prefix}                \"${k}\" to \"${consumer.resultSet.getValue(rows[row][consumer.resultSet.createVariable(k)])!!.replace("\"", "\\\"")}\",\n"
-            }
+        for (row in rows) {
+            res += "${prefix}            mutableMapOf(\n"
+            for (k in resultSet.getVariableNames())
+                res += "${prefix}                \"${k}\" to \"${resultSet.getValue(row[resultSet.createVariable(k)])!!.replace("\"", "\\\"")}\",\n"
+	    res=res.substring(0,res.length-2)+"\n"
+            res += "${prefix}            ),\n"
         }
-        for (k in consumer.resultSet.getVariableNames()) {
-            res += "${prefix}                \"${k}\" to \"${consumer.resultSet.getValue(rows[rows.size - 1][consumer.resultSet.createVariable(k)])!!.replace("\"", "\\\"")}\"\n"
-        }
+	res=res.substring(0,res.length-2)+"\n"
     }
     res += "${prefix}        )\n"
     res += "${prefix}    )\n"
@@ -107,8 +105,8 @@ fun testCaseFromPOPBaseSimple(op: POPBase): String {
     when (op) {
         is POPUnion -> {
             res += "${prefix}            dictionary,\n"
-            res += testCaseFromResultRowsAsPOPValues(op.children[0] as POPBase, op, "${prefix}            ") + ",\n"
-            res += testCaseFromResultRowsAsPOPValues(op.children[1] as POPBase, op, "${prefix}            ") + "\n"
+            res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0].resultSet, "${prefix}            ") + ",\n"
+            res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1].resultSet, "${prefix}            ") + "\n"
         }
         else -> throw Exception("not implemented testCaseFromPOPBaseSimple(${classNameToString(op)})")
 /*is POPJoinHashMap -> {}
@@ -134,8 +132,8 @@ is POPValues -> {}
 is POPImportFromXml -> {}
 */
     }
-//TODO result
-    res += "${prefix}        )\n"
+    res += "${prefix}        ),\n"
+    res += testCaseFromResultRowsAsPOPValues(rowMapProduced[op.uuid], op.resultSet, "${prefix}        ") + "\n"
     res += "${prefix}    )\n"
     return res + "${prefix}}\n"
 }
@@ -221,7 +219,8 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
 }
 
 fun printAllMicroTest(testName: String, success: Boolean) {
-    if (listOfMicroTests.size() > 0) {
+    if (listOfMicroTests.size() > 0 || popMap.keySize()>0) {
+if (listOfMicroTests.size() > 0){
         val name = testName.replace("/", "_").replace(".", "_").replace("-", "_")
         println("${prefix}    @TestFactory")
         println("${prefix}    fun test${name}() = listOf(")
@@ -238,6 +237,8 @@ fun printAllMicroTest(testName: String, success: Boolean) {
             } else
                 println("${prefix}            /*" + it + "*/")
         }
+}
+if(popMap.keySize()>0){
         popMap.forEachValue {
             try {
                 println(testCaseFromPOPBaseSimple(it))
@@ -245,6 +246,7 @@ fun printAllMicroTest(testName: String, success: Boolean) {
                 println(e.message)
             }
         }
+}
         println("${prefix}            {")
         println("${prefix}                MicroTest0(AOPUndef(), AOPUndef())")
         println("${prefix}            }()")
@@ -284,6 +286,9 @@ fun printAllMicroTest(testName: String, success: Boolean) {
     }
     listOfMicroTests.clear()
     mapOfAggregationChilds.clear()
+    popMap.clear()
+    rowMapConsumed.clear()
+    rowMapProduced.clear()
 }
 
 fun testCaseFromAOPBase(input: AOPBase, resultRow: ResultRow, resultSet: ResultSet): String {
