@@ -87,10 +87,10 @@ fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, resultSet: 
             res += "${prefix}            mutableMapOf(\n"
             for (k in resultSet.getVariableNames())
                 res += "${prefix}                \"${k}\" to \"${resultSet.getValue(row[resultSet.createVariable(k)])!!.replace("\"", "\\\"")}\",\n"
-	    res=res.substring(0,res.length-2)+"\n"
+            res = res.substring(0, res.length - 2) + "\n"
             res += "${prefix}            ),\n"
         }
-	res=res.substring(0,res.length-2)+"\n"
+        res = res.substring(0, res.length - 2) + "\n"
     }
     res += "${prefix}        )\n"
     res += "${prefix}    )\n"
@@ -218,34 +218,39 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
 }
 
 fun printAllMicroTest(testName: String, success: Boolean) {
-    if (listOfMicroTests.size() > 0 || popMap.keySize()>0) {
-if (listOfMicroTests.size() > 0){
-        val name = testName.replace("/", "_").replace(".", "_").replace("-", "_")
-        println("${prefix}    @TestFactory")
-        println("${prefix}    fun test${name}() = listOf(")
-        val tmp = mutableListOf<String>()
-        listOfMicroTests.forEach {
-            tmp.add(it)
-        }
-        tmp.sorted().forEach {
-            if (success) {
-                if (it.contains("AOPBuildInCallBNODE1") || it.contains("AOPBuildInCallBNODE0") || it.contains("AOPBuildInCallNOW"))
+    if (listOfMicroTests.size() > 0 || popMap.keySize() > 0) {
+        if (listOfMicroTests.size() > 0) {
+            val name = testName.replace("/", "_").replace(".", "_").replace("-", "_")
+            println("${prefix}    @TestFactory")
+            println("${prefix}    fun test${name}() = listOf(")
+            val tmp = mutableListOf<String>()
+            listOfMicroTests.forEach {
+                tmp.add(it)
+            }
+            tmp.sorted().forEach {
+                if (success) {
+                    if (it.contains("AOPBuildInCallBNODE1") || it.contains("AOPBuildInCallBNODE0") || it.contains("AOPBuildInCallNOW"))
+                        println("${prefix}            /*" + it + "*/")
+                    else
+                        println("${prefix}            " + it + ",")
+                } else
                     println("${prefix}            /*" + it + "*/")
-                else
-                    println("${prefix}            " + it + ",")
-            } else
-                println("${prefix}            /*" + it + "*/")
-        }
-}
-if(popMap.keySize()>0){
-        popMap.forEachValue {
-            try {
-                println(testCaseFromPOPBaseSimple(it)+",")
-            } catch (e: Throwable) {
-                println(e.message)
             }
         }
-}
+        if (popMap.keySize() > 0) {
+            val tmp = mutableSetOf<String>()
+            popMap.forEachValue {
+                try {
+                    val str = testCaseFromPOPBaseSimple(it)
+                    if (!tmp.contains(str)) {
+                        tmp.add(str)
+                        println(str + ",")
+                    }
+                } catch (e: Throwable) {
+                    println(e.message)
+                }
+            }
+        }
         println("${prefix}            {")
         println("${prefix}                MicroTest0(AOPUndef(), AOPUndef())")
         println("${prefix}            }()")

@@ -19,10 +19,10 @@ class ThreadSafeMutableMap<k, v>() {
         global_values.value = values.freeze()
     }
 
-fun keySize() :Int{
-        var res=0
+    fun keySize(): Int {
+        var res = 0
         mutex.withReadLock {
-                res=global_values.value.keys.size
+            res = global_values.value.keys.size
         }
         return res
     }
