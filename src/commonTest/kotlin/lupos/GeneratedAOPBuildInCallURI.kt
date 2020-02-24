@@ -1,5 +1,7 @@
 package lupos
 
+import lupos.s12p2p.P2P
+import lupos.s14endpoint.EndpointImpl
 import lupos.s00misc.*
 import lupos.s15tripleStoreDistributed.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
@@ -24,6 +26,9 @@ import org.junit.jupiter.api.Assertions.*
 
 
 class GeneratedAOPBuildInCallURITest {
+    constructor(){
+        P2P.knownClients.add(EndpointImpl.fullname)
+    }
     fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
         for (n in node.children)
             setAggregationMode(n, mode, count)

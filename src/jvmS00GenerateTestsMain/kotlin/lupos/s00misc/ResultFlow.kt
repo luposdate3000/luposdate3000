@@ -327,6 +327,8 @@ fun printAllMicroTest() {
             myfile.printWriter().use { out ->
                 out.println("package lupos")
                 out.println("")
+                out.println("import lupos.s12p2p.P2P")
+                out.println("import lupos.s14endpoint.EndpointImpl")
                 out.println("import lupos.s00misc.*")
                 out.println("import lupos.s15tripleStoreDistributed.*")
                 out.println("import lupos.s02buildSyntaxTree.sparql1_1.*")
@@ -351,6 +353,9 @@ fun printAllMicroTest() {
                 out.println("")
                 out.println("")
                 out.println("class Generated${operator}Test {")
+                out.println("    constructor(){")
+                out.println("        P2P.knownClients.add(EndpointImpl.fullname)")
+                out.println("    }")
                 out.println("    fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {")
                 out.println("        for (n in node.children)")
                 out.println("            setAggregationMode(n, mode, count)")
