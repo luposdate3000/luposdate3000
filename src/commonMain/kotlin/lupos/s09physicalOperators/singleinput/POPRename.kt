@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -94,10 +95,10 @@ class POPRename : POPBase {
         CoroutinesHelper.run {
             try {
                 for (rsOld in children[0].channel) {
+resultFlowConsume({this@POPRename},{children[0]},{rsOld})
                     var rsNew = resultSet.createResultRow()
-                    for (i in variablesNew.indices) {
+                    for (i in variablesNew.indices) 
                         rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
-                    }
                     channel.send(rsNew)
                 }
                 channel.close()

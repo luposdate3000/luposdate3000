@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper

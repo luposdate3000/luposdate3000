@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -65,6 +66,7 @@ class POPSort : POPBase {
             try {
                 val tmpMutableMap = mutableMapOf<String, MutableList<ResultRow>>()
                 for (rsOld in children[0].channel) {
+resultFlowConsume({this@POPSort},{children[0]},{rsOld})
                     val rsNew = resultSet.createResultRow()
                     var key: String = ""
                     for (variable in variables) {

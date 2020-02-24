@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -54,6 +55,7 @@ class POPTemporaryStore : POPBase {
         CoroutinesHelper.run {
             try {
                 for (rsOld in children[0].channel) {
+resultFlowConsume({this@POPTemporaryStore},{children[0]},{rsOld})
                     var rsNew = resultSet.createResultRow()
                     for (variable in variables)
                         rsNew[variable.first] = rsOld[variable.second]

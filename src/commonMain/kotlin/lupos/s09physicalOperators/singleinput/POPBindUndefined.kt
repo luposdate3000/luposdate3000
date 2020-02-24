@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -68,6 +69,7 @@ class POPBindUndefined : POPBase {
         CoroutinesHelper.run {
             try {
                 for (rsOld in children[0].channel) {
+resultFlowConsume({this@POPBindUndefined},{children[0]},{rsOld})
                     var rsNew = resultSet.createResultRow()
                     for (i in variablesOld.indices)
                         rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]

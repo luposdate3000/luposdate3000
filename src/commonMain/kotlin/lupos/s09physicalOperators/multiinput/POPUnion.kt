@@ -1,5 +1,5 @@
 package lupos.s09physicalOperators.multiinput
-
+import lupos.s04arithmetikOperators.*
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
@@ -70,13 +70,12 @@ class POPUnion : POPBase {
                 for (idx in children.indices) {
                     val c = children[idx]
                     for (rsOld in c.channel) {
+resultFlowConsume({this@POPUnion},{c},{rsOld})
                         val rsNew = resultSet.createResultRow()
-                        for (p in variablesOldMissing[idx]) {
+                        for (p in variablesOldMissing[idx])
                             resultSet.setUndefValue(rsNew, p)
-                        }
-                        for (p in variablesOld[idx]) {
+                        for (p in variablesOld[idx])
                             rsNew[p.second] = rsOld[p.first]
-                        }
                         channel.send(rsNew)
                     }
                 }

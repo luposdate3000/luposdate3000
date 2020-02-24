@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.multiinput
+import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -93,6 +94,7 @@ class POPJoinHashMap : POPBase {
     suspend fun joinHelper(idx: Int) {
         try {
             for (rowA in children[idx].channel) {
+resultFlowConsume({this@POPJoinHashMap},{children[idx]},{rowA})
                 var keys = mutableSetOf<String>()
                 keys.add("")
                 var exactkey = ""

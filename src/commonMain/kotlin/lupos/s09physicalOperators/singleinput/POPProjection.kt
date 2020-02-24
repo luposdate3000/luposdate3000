@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -63,6 +64,7 @@ class POPProjection : POPBase {
         CoroutinesHelper.run {
             try {
                 for (rsOld in children[0].channel) {
+resultFlowConsume({this@POPProjection},{children[0]},{rsOld})
                     var rsNew = resultSet.createResultRow()
                     for (i in variablesNew.indices)
                         rsNew[variablesNew[i]] = rsOld[variablesOld[i]]

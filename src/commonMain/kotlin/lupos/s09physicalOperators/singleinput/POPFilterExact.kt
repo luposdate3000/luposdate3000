@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -60,9 +61,11 @@ class POPFilterExact : POPBase {
         children[0].evaluate()
         CoroutinesHelper.run {
             try {
-                for (nextRow in children[0].channel)
+                for (nextRow in children[0].channel){
+		resultFlowConsume({this@POPFilterExact},{children[0]},{nextRow})
                     if (nextRow[filterVariable] == valueR)
                         channel.send(nextRow)
+		}
                 channel.close()
                 children[0].channel.close()
             } catch (e: Throwable) {

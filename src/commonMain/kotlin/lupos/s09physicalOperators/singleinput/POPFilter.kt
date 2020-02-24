@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.ELoggerType
@@ -51,7 +52,8 @@ class POPFilter : POPBase {
         children[0].evaluate()
         CoroutinesHelper.run {
             try {
-                for (nextRow in children[0].channel)
+                for (nextRow in children[0].channel){
+resultFlowConsume({this@POPFilter},{children[0]},{nextRow})
                     try {
                         if ((children[1] as POPExpression).evaluateBoolean(resultSet, nextRow))
                             channel.send(nextRow)
@@ -59,6 +61,7 @@ class POPFilter : POPBase {
                         GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })
                         GlobalLogger.stacktrace(ELoggerType.DEBUG, e)
                     }
+}
                 channel.close()
                 children[0].channel.close()
             } catch (e: Throwable) {

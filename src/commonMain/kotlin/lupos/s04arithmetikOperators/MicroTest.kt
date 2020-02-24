@@ -24,59 +24,119 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.*
+import lupos.s09physicalOperators.noinput.*
+import lupos.s09physicalOperators.singleinput.*
+import lupos.s09physicalOperators.singleinput.modifiers.*
+import lupos.s09physicalOperators.multiinput.*
 
 
 val prefix = "--MicroTest--"
 val listOfMicroTests = ThreadSafeMutableList<String>()
 val mapOfAggregationChilds = ThreadSafeMutableMap<Long, MutableList<String>>()
 
-open class MicroTest0(val input: AOPBase, val expected: Any) {
+open class MicroTest0(val input: OPBase, val expected: Any) {
 }
 
-class MicroTest1(input: AOPBase, val resultRow: ResultRow, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
+class MicroTestA1(input: AOPBase, val resultRow: ResultRow, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
 }
 
-class MicroTestN(input: AOPBase, val resultRows: List<ResultRow>, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
+class MicroTestAN(input: AOPBase, val resultRows: List<ResultRow>, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
+}
+
+class MicroTestPN(input: POPBase, expected: Any) : MicroTest0(input, expected) {
 }
 
 val mapOfResultRows = ThreadSafeMutableMap<Long, MutableList<String>>()
 
-fun resultFlow(consumer: () -> POPBase, producer: () -> POPBase, action: () -> ResultRow): ResultRow {
+val popMap=ThreadSafeMutableMap<Long,POPBase>()
+val rowMapConsumed=ThreadSafeMutableMap<Pair<Long,Long>,MutableList<ResultRow>>()
+val rowMapProduced=ThreadSafeMutableMap<Long,MutableList<ResultRow>>()
+
+fun resultFlowConsume(consumerv: () -> OPBase,producerv: () -> OPBase, action: () -> ResultRow): ResultRow {
     val res = action()
+	val consumer=consumerv()as POPBase
+	val producer=producerv()as POPBase
+    popMap[consumer.uuid]=consumer
+    popMap[producer.uuid]=producer
+val key=Pair(consumer.uuid,producer.uuid)
+val list=rowMapConsumed[key]
+if(list==null)
+	rowMapConsumed[key]=mutableListOf(res)
+else
+ list.add(res)
+    return res
+}
+fun resultFlowProduce(producerv: () -> OPBase, action: () -> ResultRow): ResultRow {
+    val res = action()
+	val producer=producerv()as POPBase
+    popMap[producer.uuid]=producer
+val list=rowMapProduced[producer.uuid]
+if(list==null)
+	rowMapProduced[producer.uuid]=mutableListOf(res)
+else
+ list.add(res)
     return res
 }
 
-fun childContainsAggregation(input: OPBase): Boolean {
-    if (input is AOPAggregation)
-        return true
-    for (c in input.children)
-        if (childContainsAggregation(c))
-            return true
-    return false
+fun testCaseFromResultRowsAsPOPValues(producer:POPBase,consumer:POPBase, prefix: String):String{
+	var res="${prefix}{\n"
+	res+="${prefix}    POPValues(dictionary, listOf(\n"
+	val rows=rowMapConsumed[Pair(consumer.uuid,producer.uuid)]
+	if(rows!=null){
+		res+="${prefix}            mutableMapOf(\n"
+		for(row in 0 until rows.size-1){
+			for (k in consumer.resultSet.getVariableNames()){
+				res+="${prefix}                \"${k}\" to \"${consumer.resultSet.getValue(rows[row][consumer.resultSet.createVariable(k)])!!.replace("\"","\\\"")}\",\n"
+			}
+		}
+		for (k in consumer.resultSet.getVariableNames()){
+			res+="${prefix}                \"${k}\" to \"${consumer.resultSet.getValue(rows[rows.size-1][consumer.resultSet.createVariable(k)])!!.replace("\"","\\\"")}\"\n"
+		}
+	}
+	res+="${prefix}        )\n"
+	res+="${prefix}    )\n"
+	return res+"${prefix}}"
 }
 
-fun childContainsVariable(input: OPBase): Boolean {
-    if (input is AOPVariable)
-        return true
-    for (c in input.children)
-        if (childContainsVariable(c))
-            return true
-    return false
+fun testCaseFromPOPBaseSimple(op:POPBase):String{
+val prefix="--nochnicht--"
+var res="${prefix}{\n"
+res+="${prefix}    MicroTestPN(\n"
+res+="${prefix}        ${classNameToString(op)}(\n"
+when (op){
+is POPUnion -> {
+res+="${prefix}            dictionary,\n"
+res+=testCaseFromResultRowsAsPOPValues(op.children[0]as POPBase,op,"${prefix}            ")+",\n"
+res+=testCaseFromResultRowsAsPOPValues(op.children[1]as  POPBase,op,"${prefix}            ")+"\n"
 }
-
-
-fun helperVariableName(v: String, variableNames: MutableMap<String, String>): String {
-    return when {
-        variableNames[v] != null -> variableNames[v]!!
-        v.startsWith("#") -> {
-            variableNames[v] = "#" + variableNames.keys.size
-            variableNames[v]!!
-        }
-        else -> {
-            variableNames[v] = v
-            variableNames[v]!!
-        }
-    }
+else -> throw Exception("not implemented testCaseFromPOPBaseSimple(${classNameToString(op)})")
+/*is POPJoinHashMap -> {}
+is POPJoinNestedLoop -> {}
+is POPModify -> {}
+is POPRename -> {}
+is POPFilter -> {}
+is POPBindUndefined -> {}
+is POPTemporaryStore -> {}
+is POPLimit -> {}
+is POPOffset -> {}
+is POPDistinct -> {}
+is POPProjection -> {}
+is POPBind -> {}
+is POPFilterExact -> {}
+is POPMakeBooleanResult -> {}
+is POPGroup -> {}
+is POPSort -> {}
+is POPModifyData -> {}
+is POPGraphOperation -> {}
+is POPEmptyRow -> {}
+is POPValues -> {}
+is POPImportFromXml -> {}
+*/
+}
+//TODO result
+res+="${prefix}        )\n"
+res+="${prefix}    )\n"
+return res+"${prefix}}\n"
 }
 
 fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSetv: () -> ResultSet, action: () -> T): T {
@@ -102,7 +162,7 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
                 val name = helperVariableName(v, variableNames)
                 res += "${prefix}                resultSet.createVariable(\"$name\")\n"
             }
-            res += "${prefix}                MicroTestN(\n"
+            res += "${prefix}                MicroTestAN(\n"
             res += "${prefix}                        " + testCaseFromAOPBase(input, resultRow, resultSet) + ",\n"
 
             res += "${prefix}                        listOf(\n"
@@ -129,7 +189,7 @@ fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSet
             val name = helperVariableName(v, variableNames)
             res += "${prefix}                resultSet.createVariable(\"$name\")\n"
         }
-        res += "${prefix}                MicroTest1(\n"
+        res += "${prefix}                MicroTestA1(\n"
         res += "${prefix}                        " + testCaseFromAOPBase(input, resultRow, resultSet) + ",\n"
         res += testCaseFromResultRow(resultRow, resultSet, "${prefix}                        ", variableNames)
         res += "${prefix}                        resultSet,\n"
@@ -177,35 +237,43 @@ fun printAllMicroTest(testName: String, success: Boolean) {
             } else
                 println("${prefix}            /*" + it + "*/")
         }
+popMap.forEachValue{
+try{
+	println(testCaseFromPOPBaseSimple(it))
+}catch(e:Throwable){
+println(e.message)
+}
+}
         println("${prefix}            {")
         println("${prefix}                MicroTest0(AOPUndef(), AOPUndef())")
         println("${prefix}            }()")
         println("${prefix}    ).mapIndexed { index, data ->")
         println("${prefix}        DynamicTest.dynamicTest(\"test->${testName}<-\$index\") {")
         println("${prefix}            try {")
-        println("${prefix}                val output:AOPConstant")
-        println("${prefix}                if (data is MicroTest1) {")
-        println("${prefix}                    output = data.input.calculate(data.resultSet, data.resultRow)")
-        println("${prefix}                } else if (data is MicroTestN) {")
-        println("${prefix}                    if(data.input is AOPBase)")
+        println("${prefix}                if(data.input is AOPBase){")
+        println("${prefix}                    val output:AOPConstant")
+        println("${prefix}                    if (data is MicroTestA1) {")
+        println("${prefix}                        output = data.input.calculate(data.resultSet, data.resultRow)")
+        println("${prefix}                    } else if (data is MicroTestAN) {")
         println("${prefix}                        setAggregationMode(data.input, true, data.resultRows.count())")
-        println("${prefix}                    for (resultRow in data.resultRows)")
-        println("${prefix}                        data.input.calculate(data.resultSet, resultRow)")
-        println("${prefix}                    if(data.input is AOPBase)")
+        println("${prefix}                        for (resultRow in data.resultRows)")
+        println("${prefix}                            data.input.calculate(data.resultSet, resultRow)")
         println("${prefix}                        setAggregationMode(data.input, false, data.resultRows.count())")
-        println("${prefix}                    output = data.input.calculate(data.resultSet, data.resultSet.createResultRow())")
+        println("${prefix}                        output = data.input.calculate(data.resultSet, data.resultSet.createResultRow())")
+        println("${prefix}                    } else {")
+        println("${prefix}                        val resultSet = ResultSet(ResultSetDictionary())")
+        println("${prefix}                        output = data.input.calculate(resultSet, resultSet.createResultRow())")
+        println("${prefix}                    }")
+        println("${prefix}                    assertTrue(data.expected is AOPConstant)")
+        println("${prefix}                    if (!data.expected.equals(output)) {")
+        println("${prefix}                        if(data is MicroTestA1)")
+        println("${prefix}                            println(data.resultRow)")
+        println("${prefix}                        println(output.valueToString())")
+        println("${prefix}                        println((data.expected as AOPConstant).valueToString())")
+        println("${prefix}                    }")
+        println("${prefix}                    assertTrue(data.expected.equals(output))")
         println("${prefix}                } else {")
-        println("${prefix}                    val resultSet = ResultSet(ResultSetDictionary())")
-        println("${prefix}                    output = data.input.calculate(resultSet, resultSet.createResultRow())")
         println("${prefix}                }")
-        println("${prefix}                assertTrue(data.expected is AOPConstant)")
-        println("${prefix}                if (!data.expected.equals(output)) {")
-        println("${prefix}                    if(data is MicroTest1)")
-        println("${prefix}                        println(data.resultRow)")
-        println("${prefix}                    println(output.valueToString())")
-        println("${prefix}                    println((data.expected as AOPConstant).valueToString())")
-        println("${prefix}                }")
-        println("${prefix}                assertTrue(data.expected.equals(output))")
         println("${prefix}            } catch (e: Throwable) {")
         println("${prefix}                assertTrue(data.expected is Throwable)")
         println("${prefix}            }")
@@ -282,4 +350,37 @@ fun testCaseFromResultRow(resultRow: ResultRow, resultSet: ResultSet, prefix: St
     res += "${prefix}}(),\n"
     return res
 }
+fun childContainsAggregation(input: OPBase): Boolean {
+    if (input is AOPAggregation)
+        return true
+    for (c in input.children)
+        if (childContainsAggregation(c))
+            return true
+    return false
+}
+
+fun childContainsVariable(input: OPBase): Boolean {
+    if (input is AOPVariable)
+        return true
+    for (c in input.children)
+        if (childContainsVariable(c))
+            return true
+    return false
+}
+
+
+fun helperVariableName(v: String, variableNames: MutableMap<String, String>): String {
+    return when {
+        variableNames[v] != null -> variableNames[v]!!
+        v.startsWith("#") -> {
+            variableNames[v] = "#" + variableNames.keys.size
+            variableNames[v]!!
+        }
+        else -> {
+            variableNames[v] = v
+            variableNames[v]!!
+        }
+    }
+}
+
 

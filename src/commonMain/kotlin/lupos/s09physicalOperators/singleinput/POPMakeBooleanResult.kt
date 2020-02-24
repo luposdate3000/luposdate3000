@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -53,6 +54,7 @@ class POPMakeBooleanResult : POPBase {
             try {
                 var first = true
                 for (c in children[0].channel) {
+		    resultFlowConsume({this@POPMakeBooleanResult},{children[0]},{c})
                     first = false
                     children[0].channel.close()
                     break

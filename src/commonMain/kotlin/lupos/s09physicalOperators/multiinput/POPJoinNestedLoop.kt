@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.multiinput
+import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -78,7 +79,9 @@ class POPJoinNestedLoop : POPBase {
         CoroutinesHelper.run {
             try {
                 for (resultRowA in children[0].channel) {
+resultFlowConsume({this@POPJoinNestedLoop},{children[0]},{resultRowA})
                     for (resultRowB in children[1].channel) {
+resultFlowConsume({this@POPJoinNestedLoop},{children[1]},{resultRowB})
                         var joinVariableOk = true
                         var rsNew = resultSet.createResultRow()
                         for (p in variablesOldA) {

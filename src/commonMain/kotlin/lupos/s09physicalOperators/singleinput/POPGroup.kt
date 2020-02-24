@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s04arithmetikOperators.*
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.ELoggerType
@@ -100,6 +101,7 @@ class POPGroup : POPBase {
                 for (v in by)
                     variables.add(Pair(resultSet.createVariable(v.name), children[0].resultSet.createVariable(v.name)))
                 for (rsOld in children[0].channel) {
+resultFlowConsume({this@POPGroup},{children[0]},{rsOld})
                     var key: String = "|"
                     for (variable in variables)
                         key = key + children[0].resultSet.getValue(rsOld[variable.second]) + "|"
