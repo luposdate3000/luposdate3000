@@ -41,15 +41,16 @@ class POPFilter : POPBase {
         resultSet = children[0].resultSet
     }
 
-    override fun getProvidedVariableNames() :List<String>{
-val res=children[0].getProvidedVariableNames().distinct()
-println("($classname)($uuid)getProvidedVariableNames $res")
-return res
-}
+    override fun getProvidedVariableNames(): List<String> {
+        val res = children[0].getProvidedVariableNames().distinct()
+        println("($classname)($uuid)getProvidedVariableNames $res")
+        return res
+    }
+
     override fun getRequiredVariableNames(): List<String> {
-        val res= children[1].getRequiredVariableNamesRecoursive()
-println("($classname)($uuid)getRequiredVariableNames $res")
-return res
+        val res = children[1].getRequiredVariableNamesRecoursive()
+        println("($classname)($uuid)getRequiredVariableNames $res")
+        return res
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPFilter.evaluate" }, {
@@ -59,8 +60,8 @@ return res
                 for (nextRow in children[0].channel) {
                     resultFlowConsume({ this@POPFilter }, { children[0] }, { nextRow })
                     try {
-			val expression=children[1] as AOPBase
-			val condition=expression.calculate(resultSet, nextRow) as AOPBoolean
+                        val expression = children[1] as AOPBase
+                        val condition = expression.calculate(resultSet, nextRow) as AOPBoolean
                         if (condition.value)
                             channel.send(resultFlowProduce({ this@POPFilter }, { nextRow }))
                     } catch (e: Throwable) {

@@ -43,26 +43,26 @@ abstract class OPBase {
 
     override fun toString(): String = toXMLElement().toPrettyString()
 
-fun getRequiredVariableNamesRecoursive():List<String>{
-var res=getRequiredVariableNames()
-for(c in children)
-res+=c.getRequiredVariableNamesRecoursive()
-return res.distinct()
-}
-
-    open fun getRequiredVariableNames():List<String>{
-val res=mutableListOf<String>()
-println("($classname)($uuid)getRequiredVariableNames $res")
-return res
-}
-
-    open fun getProvidedVariableNames():List<String>{
-val res = mutableListOf<String>()
+    fun getRequiredVariableNamesRecoursive(): List<String> {
+        var res = getRequiredVariableNames()
         for (c in children)
-            res .addAll( c.getProvidedVariableNames())
-println("($classname)($uuid)getProvidedVariableNames ${res.distinct()}")
+            res += c.getRequiredVariableNamesRecoursive()
         return res.distinct()
-}
+    }
+
+    open fun getRequiredVariableNames(): List<String> {
+        val res = mutableListOf<String>()
+        println("($classname)($uuid)getRequiredVariableNames $res")
+        return res
+    }
+
+    open fun getProvidedVariableNames(): List<String> {
+        val res = mutableListOf<String>()
+        for (c in children)
+            res.addAll(c.getProvidedVariableNames())
+        println("($classname)($uuid)getProvidedVariableNames ${res.distinct()}")
+        return res.distinct()
+    }
 
     open fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)

@@ -20,16 +20,16 @@ class LOPFilter : LOPBase {
         children[0] = child
     }
 
-    override fun getProvidedVariableNames():List<String> {
-val res= children[0].getProvidedVariableNames().distinct()
-println("($classname)($uuid)getProvidedVariableNames $res")
-return res
-}
+    override fun getProvidedVariableNames(): List<String> {
+        val res = children[0].getProvidedVariableNames().distinct()
+        println("($classname)($uuid)getProvidedVariableNames $res")
+        return res
+    }
 
-    override fun getRequiredVariableNames():List<String>{
-val res=children[1].getRequiredVariableNamesRecoursive()
-println("($classname)($uuid)getRequiredVariableNames $res")
-return res
+    override fun getRequiredVariableNames(): List<String> {
+        val res = children[1].getRequiredVariableNamesRecoursive()
+        println("($classname)($uuid)getRequiredVariableNames $res")
+        return res
     }
 
     override fun equals(other: Any?): Boolean {

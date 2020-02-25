@@ -11,9 +11,9 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.singleinput.*
-import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
@@ -62,13 +62,13 @@ class POPGroup : POPBase {
     }
 
     override fun getProvidedVariableNames() = (MutableList(by.size) { by[it].name } + MutableList(bindings.size) { resultSet.getVariable(bindings[it].first) }).distinct()
-    override fun getRequiredVariableNames() :List<String>{
-var res= MutableList(by.size) { by[it].name } 
-for (b in bindings)
-res.addAll(b.second.getRequiredVariableNamesRecoursive())
-println("($classname)($uuid)getRequiredVariableNames ${res.distinct()}")
-return res.distinct()
-}
+    override fun getRequiredVariableNames(): List<String> {
+        var res = MutableList(by.size) { by[it].name }
+        for (b in bindings)
+            res.addAll(b.second.getRequiredVariableNamesRecoursive())
+        println("($classname)($uuid)getRequiredVariableNames ${res.distinct()}")
+        return res.distinct()
+    }
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         require(additionalProvided.isEmpty())
@@ -90,7 +90,7 @@ return res.distinct()
         }
     }
 
-fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
+    fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
         for (n in node.children)
             setAggregationMode(n, mode, count)
         if (node is AOPAggregation) {
@@ -100,6 +100,7 @@ fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
                 node.a = null
         }
     }
+
     override fun evaluate() = Trace.trace<Unit>({ "POPGroup.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
@@ -135,13 +136,13 @@ fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
                         rsNew[variable.first] = rsOld[variable.second]
                     for (b in bindings) {
                         try {
-	setAggregationMode(b.second, true, tmpMutableMap[k]!!.count())
-        for (resultRow in tmpMutableMap[k]!!)
-            (b.second as AOPBase).calculate(children[0].resultSet, resultRow)
-        setAggregationMode(b.second, false, tmpMutableMap[k]!!.count())
-        val a = (b.second as AOPBase).calculate(children[0].resultSet, children[0].resultSet.createResultRow())
-        println("return from evaluate ${a.valueToString()}")
-        val value= a.valueToString()
+                            setAggregationMode(b.second, true, tmpMutableMap[k]!!.count())
+                            for (resultRow in tmpMutableMap[k]!!)
+                                (b.second as AOPBase).calculate(children[0].resultSet, resultRow)
+                            setAggregationMode(b.second, false, tmpMutableMap[k]!!.count())
+                            val a = (b.second as AOPBase).calculate(children[0].resultSet, children[0].resultSet.createResultRow())
+                            println("return from evaluate ${a.valueToString()}")
+                            val value = a.valueToString()
                             if (value == null)
                                 resultSet.setUndefValue(rsNew, b.first)
                             else

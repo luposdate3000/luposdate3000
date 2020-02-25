@@ -61,16 +61,16 @@ class POPBind : POPBase {
     }
 
     override fun childrenToVerifyCount(): Int = 1
-    override fun getProvidedVariableNames() :List<String>{
-val res= (children[0].getProvidedVariableNames() + name.name).distinct()
-println("($classname)($uuid)getProvidedVariableNames $res")
-return res
-}
+    override fun getProvidedVariableNames(): List<String> {
+        val res = (children[0].getProvidedVariableNames() + name.name).distinct()
+        println("($classname)($uuid)getProvidedVariableNames $res")
+        return res
+    }
 
     override fun getRequiredVariableNames(): List<String> {
-        val res= children[1].getRequiredVariableNames()
-println("($classname)($uuid)getRequiredVariableNames $res")
-return res
+        val res = children[1].getRequiredVariableNames()
+        println("($classname)($uuid)getRequiredVariableNames $res")
+        return res
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPBind.evaluate" }, {

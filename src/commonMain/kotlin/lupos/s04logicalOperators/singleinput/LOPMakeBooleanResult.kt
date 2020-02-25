@@ -14,11 +14,11 @@ class LOPMakeBooleanResult() : LOPBase() {
         children[0] = child
     }
 
-    override fun getProvidedVariableNames() :List<String>{
-val res= mutableListOf("?boolean")
-println("($classname)($uuid)getProvidedVariableNames $res")
-return res
-}
+    override fun getProvidedVariableNames(): List<String> {
+        val res = mutableListOf("?boolean")
+        println("($classname)($uuid)getProvidedVariableNames $res")
+        return res
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPMakeBooleanResult)

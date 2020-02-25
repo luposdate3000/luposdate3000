@@ -39,11 +39,11 @@ class AOPVariable(var name: String) : AOPBase() {
         }
     }
 
-    override fun getRequiredVariableNames() :List<String>{
-val res=listOf(name)
-println("($classname)($uuid)getRequiredVariableNames $res")
-return res
-}
+    override fun getRequiredVariableNames(): List<String> {
+        val res = listOf(name)
+        println("($classname)($uuid)getRequiredVariableNames $res")
+        return res
+    }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name)
 

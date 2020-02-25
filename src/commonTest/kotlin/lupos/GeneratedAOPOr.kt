@@ -1,9 +1,6 @@
 package lupos
 
-import lupos.s12p2p.P2P
-import lupos.s14endpoint.EndpointImpl
 import lupos.s00misc.*
-import lupos.s15tripleStoreDistributed.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -21,6 +18,9 @@ import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.*
 import lupos.s11outputResult.*
+import lupos.s12p2p.P2P
+import lupos.s14endpoint.EndpointImpl
+import lupos.s15tripleStoreDistributed.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
@@ -30,6 +30,7 @@ class GeneratedAOPOrTest {
         P2P.knownClients.clear()
         P2P.knownClients.add(EndpointImpl.fullname)
     }
+
     fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
         for (n in node.children)
             setAggregationMode(n, mode, count)
@@ -90,7 +91,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -110,7 +111,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -130,7 +131,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -150,7 +151,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -170,7 +171,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -190,7 +191,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -210,7 +211,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -230,7 +231,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -250,7 +251,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -270,7 +271,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -290,7 +291,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -310,7 +311,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -330,7 +331,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -350,7 +351,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -370,7 +371,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -390,7 +391,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -410,7 +411,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -430,7 +431,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -450,7 +451,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -470,7 +471,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -490,7 +491,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -510,7 +511,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -530,7 +531,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -550,7 +551,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -570,7 +571,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -590,7 +591,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -610,7 +611,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -630,7 +631,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -650,7 +651,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -670,7 +671,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -690,7 +691,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -710,7 +711,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(true)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -730,7 +731,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -750,7 +751,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -770,7 +771,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -790,7 +791,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -810,7 +811,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -830,7 +831,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -850,7 +851,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -870,7 +871,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -890,7 +891,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -910,7 +911,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -930,7 +931,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -950,7 +951,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -970,7 +971,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -990,7 +991,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1010,7 +1011,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1030,7 +1031,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1050,7 +1051,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1070,7 +1071,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1090,7 +1091,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1110,7 +1111,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1130,7 +1131,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1150,7 +1151,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1170,7 +1171,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1190,7 +1191,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1210,7 +1211,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1230,7 +1231,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1250,7 +1251,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1270,7 +1271,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1290,7 +1291,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1310,7 +1311,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("a")
@@ -1330,7 +1331,7 @@ class GeneratedAOPOrTest {
                         resultSet,
                         AOPBoolean(false)
                 )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -1365,7 +1366,7 @@ class GeneratedAOPOrTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
+                    if (!expected.myEquals(output)) {
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

@@ -10,11 +10,11 @@ class LOPValues(val variables: List<AOPVariable>, values: List<AOPValue>) : LOPB
     override val classname = "LOPValues"
     override val children: Array<OPBase> = Array(values.size) { values[it] }
 
-    override fun getProvidedVariableNames() :List<String>{
-val res =MutableList(variables.size) { variables[it].name }.distinct()
-println("($classname)($uuid)getProvidedVariableNames $res")
-return res
-}
+    override fun getProvidedVariableNames(): List<String> {
+        val res = MutableList(variables.size) { variables[it].name }.distinct()
+        println("($classname)($uuid)getProvidedVariableNames $res")
+        return res
+    }
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPValues")

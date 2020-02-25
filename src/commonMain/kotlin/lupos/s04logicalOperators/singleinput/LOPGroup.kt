@@ -12,20 +12,20 @@ class LOPGroup(var by: List<AOPVariable>) : LOPBase() {
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     override fun childrenToVerifyCount() = 1
 
-    override fun getProvidedVariableNames() :List<String>{
-val res=(children[1].getProvidedVariableNames() + Array(by.size) { by[it].name }).distinct()
-println("($classname)($uuid)getProvidedVariableNames $res")
-return res
-}
+    override fun getProvidedVariableNames(): List<String> {
+        val res = (children[1].getProvidedVariableNames() + Array(by.size) { by[it].name }).distinct()
+        println("($classname)($uuid)getProvidedVariableNames $res")
+        return res
+    }
 
-    override fun getRequiredVariableNames() :List<String>{
-val res=mutableListOf<String>()
-res.addAll(children[1].getRequiredVariableNamesRecoursive())
-for(b in by)
-res.addAll(b.getRequiredVariableNames())
-println("($classname)($uuid)getRequiredVariableNames $res")
-return res.distinct()
-}
+    override fun getRequiredVariableNames(): List<String> {
+        val res = mutableListOf<String>()
+        res.addAll(children[1].getRequiredVariableNamesRecoursive())
+        for (b in by)
+            res.addAll(b.getRequiredVariableNames())
+        println("($classname)($uuid)getRequiredVariableNames $res")
+        return res.distinct()
+    }
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         require(additionalProvided.isEmpty())

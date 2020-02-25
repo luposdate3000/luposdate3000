@@ -30,15 +30,16 @@ class LOPRename(val nameTo: AOPVariable, val nameFrom: AOPVariable) : LOPBase() 
         }
     }
 
-    override fun getProvidedVariableNames() :List<String>{
-val res= (children[0].getProvidedVariableNames() - nameFrom.name + nameTo.name).distinct()
-println("($classname)($uuid)getProvidedVariableNames $res")
-return res
-}
+    override fun getProvidedVariableNames(): List<String> {
+        val res = (children[0].getProvidedVariableNames() - nameFrom.name + nameTo.name).distinct()
+        println("($classname)($uuid)getProvidedVariableNames $res")
+        return res
+    }
+
     override fun getRequiredVariableNames(): List<String> {
-        val res= listOf<String>(nameFrom.name)
-println("($classname)($uuid)getProvidedVariableNames $res")
-return res
+        val res = listOf<String>(nameFrom.name)
+        println("($classname)($uuid)getProvidedVariableNames $res")
+        return res
     }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("nameTo", nameTo.name).addAttribute("nameFrom", nameFrom.name)
