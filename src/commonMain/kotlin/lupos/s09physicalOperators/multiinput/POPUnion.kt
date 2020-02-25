@@ -14,6 +14,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPUnion : POPBase {
+    override val classname="POPUnion"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())

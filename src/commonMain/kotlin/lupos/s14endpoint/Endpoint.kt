@@ -32,6 +32,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class TripleInsertIterator : POPBase {
+    override val classname="TripleInsertIterator"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()

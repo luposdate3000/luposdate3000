@@ -7,6 +7,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPNOOP() : LOPBase() {
+    override val classname="LOPNOOP"
     override val children: Array<OPBase> = arrayOf(OPNothing())
 
     constructor(child: OPBase) : this() {

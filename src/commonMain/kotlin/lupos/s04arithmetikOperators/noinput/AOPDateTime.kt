@@ -8,6 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPDateTime : AOPConstant {
+    override val classname="AOPDateTime"
     override val children: Array<OPBase> = arrayOf()
     val year: Int
     val month: Int

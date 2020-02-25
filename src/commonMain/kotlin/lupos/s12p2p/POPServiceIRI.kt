@@ -13,6 +13,7 @@ import lupos.s12p2p.P2P
 
 
 class POPServiceIRI : POPBase {
+    override val classname="POPServiceIRI"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()

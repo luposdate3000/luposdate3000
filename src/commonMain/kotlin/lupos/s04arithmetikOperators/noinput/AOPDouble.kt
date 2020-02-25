@@ -8,6 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPDouble(var value: Double) : AOPConstant() {
+    override val classname="AOPDouble"
     override val children: Array<OPBase> = arrayOf()
 
     override fun toXMLElement(): XMLElement {

@@ -8,6 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBoolean(var value: Boolean) : AOPConstant() {
+    override val classname="AOPBoolean"
     override val children: Array<OPBase> = arrayOf()
 
 

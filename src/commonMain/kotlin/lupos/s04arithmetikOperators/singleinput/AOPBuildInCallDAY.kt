@@ -9,6 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBuildInCallDAY(child: AOPBase) : AOPBase() {
+    override val classname="AOPBuildInCallDAY"
     override val children: Array<OPBase> = arrayOf(child)
 
     override fun toXMLElement(): XMLElement {

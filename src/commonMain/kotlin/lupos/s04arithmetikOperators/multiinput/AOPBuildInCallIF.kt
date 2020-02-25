@@ -12,6 +12,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBuildInCallIF(child: AOPBase, childA: AOPBase, childB: AOPBase) : AOPBase() {
+    override val classname="AOPBuildInCallIF"
     override val children: Array<OPBase> = arrayOf(child, childA, childB)
 
     override fun toXMLElement(): XMLElement {

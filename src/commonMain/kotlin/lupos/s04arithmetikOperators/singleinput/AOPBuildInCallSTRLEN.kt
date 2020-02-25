@@ -9,6 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBuildInCallSTRLEN(child: AOPBase) : AOPBase() {
+    override val classname="AOPBuildInCallSTRLEN"
     override val children: Array<OPBase> = arrayOf(child)
 
     override fun toXMLElement(): XMLElement {

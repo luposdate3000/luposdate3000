@@ -15,6 +15,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPProjection : POPBase {
+    override val classname="POPProjection"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())

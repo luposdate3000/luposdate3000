@@ -9,6 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBuildInCallIRI(child: AOPBase, var prefix: String = "") : AOPBase() {
+    override val classname="AOPBuildInCallIRI"
     override val children: Array<OPBase> = arrayOf(child)
 
     override fun applyPrefix(prefix: String, iri: String) {

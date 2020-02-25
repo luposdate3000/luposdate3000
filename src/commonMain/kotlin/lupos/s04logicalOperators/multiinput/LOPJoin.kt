@@ -7,6 +7,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPJoin : LOPBase {
+    override val classname="LOPJoin"
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     val optional: Boolean
 

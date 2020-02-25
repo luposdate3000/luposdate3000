@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Assertions.*
 
 
 class LogicalOptimizerFilterDownTest {
+    override val classname="LogicalOptimizerFilterDownTest"
     var store1 = LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), null, false)
     val astS = AOPVariable("s")
     val projectS = mutableListOf(AOPVariable("s"))

@@ -27,6 +27,7 @@ import lupos.s04logicalOperators.OPBase
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class AOPBuildInCallSHA256(child: AOPBase) : AOPBase() {
+    override val classname="AOPBuildInCallSHA256"
     override val children: Array<OPBase> = arrayOf(child)
 
     override fun toXMLElement(): XMLElement {

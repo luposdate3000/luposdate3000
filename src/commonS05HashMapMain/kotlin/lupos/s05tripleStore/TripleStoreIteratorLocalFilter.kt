@@ -17,6 +17,7 @@ import lupos.s05tripleStore.POPTripleStoreIteratorBase
 
 
 class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
+    override val classname="TripleStoreIteratorLocalFilter"
     var sFilter: Value? = null
     var pFilter: Value? = null
     var oFilter: Value? = null

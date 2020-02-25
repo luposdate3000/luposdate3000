@@ -8,6 +8,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 
 class LogicalOptimizerRemovePrefix(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary) {
+    override val classname="LogicalOptimizerRemovePrefix"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         when (node) {
             is LOPPrefix -> {

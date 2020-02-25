@@ -8,6 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPIri(var iri: String) : AOPConstant() {
+    override val classname="AOPIri"
     override val children: Array<OPBase> = arrayOf()
 
     override fun toXMLElement(): XMLElement {

@@ -10,6 +10,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPExpression(val child: AOPBase) : LOPBase() {
+    override val classname="LOPExpression"
     override val children: Array<OPBase> = arrayOf()
     fun getAllVariablesInChildren(node: AOPBase): List<String> {
         val res = mutableListOf<String>()

@@ -11,6 +11,7 @@ package lupos.s01io.buffer
  * @param <T> the type of the keys to be stored...
  */
 class CachedEntry<T, V>(val key: T, val value: V) {
+    override val classname="CachedEntry"
 
     var before: CachedEntry<T, V> = this
     var after: CachedEntry<T, V> = this
@@ -51,6 +52,7 @@ class CachedEntry<T, V>(val key: T, val value: V) {
  * item if the cache is full.
  */
 class LeastRecentlyUsed<T, V>(val dummyKey: T, val dummyValue: V, val size: Int) {
+    override val classname="LeastRecentlyUsed"
 
     val entries = HashMap<T, CachedEntry<T, V>>(size)
     val dummy = CachedEntry<T, V>(dummyKey, dummyValue)

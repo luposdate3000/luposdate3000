@@ -9,6 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPSubtraction(childA: AOPBase, childB: AOPBase) : AOPBase() {
+    override val classname="AOPSubtraction"
     override val children: Array<OPBase> = arrayOf(childA, childB)
 
     override fun toXMLElement(): XMLElement {

@@ -9,6 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPIn(childA: AOPBase, childB: AOPBase) : AOPBase() {
+    override val classname="AOPIn"
     override val children: Array<OPBase> = arrayOf(childA, childB)
 
     override fun toXMLElement(): XMLElement {

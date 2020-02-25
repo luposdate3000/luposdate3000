@@ -6,6 +6,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class OPNothing() : LOPBase() {
+    override val classname="OPNothing"
     override val children: Array<OPBase> = arrayOf()
     override fun getProvidedVariableNames() = mutableListOf<String>()
 

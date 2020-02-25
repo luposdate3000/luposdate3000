@@ -9,6 +9,7 @@ import lupos.s12p2p.POPServiceIRI
 
 
 class KeyDistributionOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary) {
+    override val classname="KeyDistributionOptimizer"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         when (node) {
             is LOPServiceIRI -> {

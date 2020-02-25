@@ -7,6 +7,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 abstract class POPTripleStoreIteratorBase() : POPBase() {
+    override val classname="POPTripleStoreIteratorBase"
     var nameS = "#s" + uuid
     var nameP = "#p" + uuid
     var nameO = "#o" + uuid

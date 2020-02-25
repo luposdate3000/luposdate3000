@@ -13,6 +13,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPJoinHashMap : POPBase {
+    override val classname="POPJoinHashMap"
     override val dictionary: ResultSetDictionary
     override val resultSet: ResultSet
     override val children: Array<OPBase>

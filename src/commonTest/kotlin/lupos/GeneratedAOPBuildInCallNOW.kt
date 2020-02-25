@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Assertions.*
 
 
 class GeneratedAOPBuildInCallNOWTest {
+    override val classname="GeneratedAOPBuildInCallNOWTest"
     fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
         for (n in node.children)
             setAggregationMode(n, mode, count)

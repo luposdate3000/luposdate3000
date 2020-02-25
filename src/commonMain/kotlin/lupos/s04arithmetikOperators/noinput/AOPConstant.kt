@@ -5,6 +5,7 @@ import lupos.s04arithmetikOperators.*
 
 
 abstract class AOPConstant() : AOPBase() {
+    override val classname="AOPConstant"
     abstract fun valueToString(): String?
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant = this
     abstract fun toDouble(): Double

@@ -5,6 +5,7 @@ import lupos.s03resultRepresentation.Variable
 
 
 class ResultRow() : Comparable<ResultRow> {
+    override val classname="ResultRow"
     val values = mutableMapOf<Variable, Value>()
     operator fun set(name: Variable, value: Value) {
         values[name] = value

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Assertions.*
 
 
 class LogicalOptimizerRemovePrefixTest {
+    override val classname="LogicalOptimizerRemovePrefixTest"
     fun helper(input: OPBase, target: OPBase, transactionID: Long, dictionary: ResultSetDictionary) {
         val output = LogicalOptimizerRemovePrefix(transactionID, dictionary).optimizeCall(input)
         println(target.toXMLElement().toPrettyString())

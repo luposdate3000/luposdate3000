@@ -23,6 +23,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class POPModify : POPBase {
+    override val classname="POPModify"
     override val resultSet: ResultSet
     override val children: Array<OPBase> = arrayOf(OPNothing())
     override val dictionary: ResultSetDictionary

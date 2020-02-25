@@ -9,6 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBuildInCallIsNUMERIC(child: AOPBase) : AOPBase() {
+    override val classname="AOPBuildInCallIsNUMERIC"
     override val children: Array<OPBase> = arrayOf(child)
 
     override fun toXMLElement(): XMLElement {

@@ -13,6 +13,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBuildInCallLANGMATCHES(child: AOPBase, childB: AOPBase) : AOPBase() {
+    override val classname="AOPBuildInCallLANGMATCHES"
     override val children: Array<OPBase> = arrayOf(child, childB)
 
     override fun toXMLElement(): XMLElement {

@@ -8,6 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPRename(val nameTo: AOPVariable, val nameFrom: AOPVariable) : LOPBase() {
+    override val classname="LOPRename"
     override val children: Array<OPBase> = arrayOf(OPNothing())
 
     constructor(nameTo: AOPVariable, nameFrom: AOPVariable, child: OPBase) : this(nameTo, nameFrom) {

@@ -8,6 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPTypedLiteral : AOPConstantString {
+    override val classname="AOPTypedLiteral"
     override val children: Array<OPBase> = arrayOf()
     override val delimiter: String
     override val content: String

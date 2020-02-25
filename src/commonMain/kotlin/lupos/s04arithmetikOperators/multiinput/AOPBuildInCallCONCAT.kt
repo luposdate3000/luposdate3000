@@ -15,6 +15,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBuildInCallCONCAT(child: AOPBase, childB: AOPBase) : AOPBase() {
+    override val classname="AOPBuildInCallCONCAT"
     override val children: Array<OPBase> = arrayOf(child, childB)
 
     override fun toXMLElement(): XMLElement {

@@ -14,6 +14,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPAddition(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
+    override val classname="AOPAddition"
     override val children: Array<OPBase> = arrayOf(childA, childB)
 
     override fun toXMLElement(): XMLElement {

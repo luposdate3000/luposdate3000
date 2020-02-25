@@ -5,5 +5,6 @@ import lupos.s04logicalOperators.OPBase
 
 
 abstract class POPBase : OPBase() {
+    override val classname="POPBase"
     abstract val dictionary: ResultSetDictionary
 }

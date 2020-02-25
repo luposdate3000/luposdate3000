@@ -6,6 +6,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPTriple(val s: OPBase, val p: OPBase, val o: OPBase, val graph: String?, val graphVar: Boolean) : LOPBase() {
+    override val classname="LOPTriple"
     override val children: Array<OPBase> = arrayOf()
 
     override fun getProvidedVariableNames() = (s.getRequiredVariableNames() + p.getRequiredVariableNames() + o.getRequiredVariableNames()).distinct()

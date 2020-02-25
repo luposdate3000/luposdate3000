@@ -9,6 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBuildInCallSTRLANG(child: AOPBase, childB: AOPBase) : AOPBase() {
+    override val classname="AOPBuildInCallSTRLANG"
     override val children: Array<OPBase> = arrayOf(child, childB)
 
     override fun toXMLElement(): XMLElement {

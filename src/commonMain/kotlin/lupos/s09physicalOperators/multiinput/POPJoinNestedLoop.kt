@@ -15,6 +15,7 @@ import lupos.s09physicalOperators.singleinput.POPTemporaryStore
 
 
 class POPJoinNestedLoop : POPBase {
+    override val classname="POPJoinNestedLoop"
     override val dictionary: ResultSetDictionary
     override val resultSet: ResultSet
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())

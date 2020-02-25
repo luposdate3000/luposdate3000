@@ -22,6 +22,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class POPGraphOperation : POPBase {
+    override val classname="POPGraphOperation"
     override val children: Array<OPBase> = arrayOf()
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary

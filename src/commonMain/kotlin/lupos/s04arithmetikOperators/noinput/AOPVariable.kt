@@ -8,6 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPVariable(var name: String) : AOPBase() {
+    override val classname="AOPVariable"
     override val children: Array<OPBase> = arrayOf()
 
 

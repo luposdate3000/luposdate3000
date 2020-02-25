@@ -8,6 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPDecimal(var value: Double) : AOPConstant() {
+    override val classname="AOPDecimal"
     override val children: Array<OPBase> = arrayOf()
 
 

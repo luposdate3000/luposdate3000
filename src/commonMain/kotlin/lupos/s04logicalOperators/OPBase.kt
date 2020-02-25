@@ -14,6 +14,7 @@ import lupos.s04logicalOperators.singleinput.LOPBind
 
 
 abstract class OPBase {
+    abstract val classname:String
     val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
     abstract val resultSet: ResultSet
 

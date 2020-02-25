@@ -8,6 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPInteger(var value: Int) : AOPConstant() {
+    override val classname="AOPInteger"
     override val children: Array<OPBase> = arrayOf()
 
 

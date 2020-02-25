@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Assertions.*
 
 
 class LogicalOptimizerRemoveNOOPTest {
+    override val classname="LogicalOptimizerRemoveNOOPTest"
     fun helper(input: OPBase, target: OPBase, transactionID: Long, dictionary: ResultSetDictionary) {
         val output = LogicalOptimizerRemoveNOOP(transactionID, dictionary).optimizeCall(input)
         println(target.toXMLElement().toPrettyString())
