@@ -525,6 +525,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
         var query: OPBase = LOPNOOP()
         var prefix: LOPPrefix? = null
         var values: OPBase? = null
+        var lastQuery: OPBase? = null
         for (q in childrenValues) {
             if (q is LOPPrefix) {
                 if (prefix == null)
@@ -538,23 +539,31 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                     values = LOPJoin(values, q, false)
                 }
             } else {
-                require(query is LOPNOOP)
-                query = q
+                if (lastQuery == null) {
+                    lastQuery = q
+                } else {
+                    query = LOPJoin(query, joinValuesAndQuery(values, lastQuery!!), false)
+                    values = null
+                    lastQuery = q
+                }
             }
         }
-        if (values != null && prefix != null) {
-            prefix.getLatestChild().setChild(joinValuesAndQuery(values, query))
-            return prefix
-        } else if (values != null) {
-            return joinValuesAndQuery(values, query)
-        } else if (prefix != null) {
+        if (query is LOPNOOP) {
+            if (lastQuery != null)
+                query = joinValuesAndQuery(values, lastQuery)
+        } else {
+            query = LOPJoin(query, joinValuesAndQuery(values, lastQuery!!), false)
+        }
+        if (prefix != null) {
             prefix.getLatestChild().setChild(query)
             return prefix
         }
         return query
     }
 
-    private fun joinValuesAndQuery(values: OPBase, query: OPBase): OPBase {
+    private fun joinValuesAndQuery(values: OPBase?, query: OPBase): OPBase {
+        if (values == null)
+            return query
         if (query !is LOPProjection)
             return LOPJoin(values, query, false)
         var latestProjection = query

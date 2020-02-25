@@ -1,9 +1,6 @@
 package lupos
 
-import lupos.s12p2p.P2P
-import lupos.s14endpoint.EndpointImpl
 import lupos.s00misc.*
-import lupos.s15tripleStoreDistributed.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -21,6 +18,9 @@ import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.*
 import lupos.s11outputResult.*
+import lupos.s12p2p.P2P
+import lupos.s14endpoint.EndpointImpl
+import lupos.s15tripleStoreDistributed.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
@@ -30,6 +30,7 @@ class GeneratedAOPBuildInCallSHA256Test {
         P2P.knownClients.clear()
         P2P.knownClients.add(EndpointImpl.fullname)
     }
+
     fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
         for (n in node.children)
             setAggregationMode(n, mode, count)
@@ -56,7 +57,7 @@ class GeneratedAOPBuildInCallSHA256Test {
                         resultSet,
                         AOPSimpleLiteral("\"", "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae")
                 )
-            }() /* resources/sparql11-test-suite/functions/sha256-01.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/sha256-01.rq */,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("l")
@@ -70,7 +71,7 @@ class GeneratedAOPBuildInCallSHA256Test {
                         resultSet,
                         AOPSimpleLiteral("\"", "0fbe868d1df356ca9df7ebff346da3a56280e059a7ea81186ef885b140d254ee")
                 )
-            }() /* resources/sparql11-test-suite/functions/sha256-02.rq */ ,
+            }() /* resources/sparql11-test-suite/functions/sha256-02.rq */,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -105,7 +106,7 @@ class GeneratedAOPBuildInCallSHA256Test {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)){
+                    if (!expected.myEquals(output)) {
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }
