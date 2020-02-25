@@ -52,9 +52,7 @@ class POPImportFromXml : POPBase {
             throw Exception("can only parse sparql xml into an iterator")
     }
 
-    override fun toXMLElement(): XMLElement {
-        return XMLElement("POPImportFromXML").addContent(data).addAttribute("uuid", "" + uuid)
-    }
+    override fun toXMLElement() = super.toXMLElement().addContent(data)
 
     override fun getProvidedVariableNames() = mutableListOf<String>("s", "p", "o")
 

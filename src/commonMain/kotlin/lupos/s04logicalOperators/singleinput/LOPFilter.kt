@@ -27,12 +27,6 @@ class LOPFilter : LOPBase {
         return children[0].getRequiredVariableNames() + children[1].getRequiredVariableNames()
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPFilter")
-        res.addContent(childrenToXML())
-        return res
-    }
-
     override fun equals(other: Any?): Boolean {
         if (other !is LOPFilter)
             return false

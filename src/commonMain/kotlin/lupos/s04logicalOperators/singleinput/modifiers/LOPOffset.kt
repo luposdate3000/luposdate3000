@@ -20,12 +20,7 @@ class LOPOffset(val offset: Int) : LOPBase() {
         return children[0].getRequiredVariableNames()
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPOffset")
-        res.addAttribute("offset", "" + offset)
-        res.addContent(childrenToXML())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPOffset)

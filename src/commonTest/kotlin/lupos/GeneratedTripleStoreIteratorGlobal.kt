@@ -899,30 +899,6 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         {
                             val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                             val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/g1>", "<http://example.org/p>", "\"y\""))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
-                        ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/g1>",
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "\"y\""
-                                )
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/basic-update/insert-using-01.ru */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
                             graph.addData(1L, listOf("<http://example.org/g2>", "<http://example.org/p>", "\"z\""))
                             DistributedTripleStore.commit(1L)
                             TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
@@ -936,6 +912,30 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                         "s" to "<http://example.org/g2>",
                                         "p" to "<http://example.org/p>",
                                         "o" to "\"z\""
+                                )
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/basic-update/insert-using-01.ru */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/g1>", "<http://example.org/p>", "\"y\""))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                mutableMapOf(
+                                        "s" to "<http://example.org/g1>",
+                                        "p" to "<http://example.org/p>",
+                                        "o" to "\"y\""
                                 )
                         )
                         )
@@ -1276,54 +1276,6 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             graph.addData(1L, listOf("<http://example.org/b>", "<http://xmlns.com/foaf/0.1/mbox>", "\"bob@example.org\""))
                             graph.addData(1L, listOf("<http://example.org/b>", "<http://xmlns.com/foaf/0.1/name>", "\"Bob\""))
                             DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p1", "o1", false, false, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p1",
-                                "o1"
-                        ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/a>",
-                                        "p1" to "<http://xmlns.com/foaf/0.1/knows>",
-                                        "o1" to "<http://example.org/b>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/a>",
-                                        "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
-                                        "o1" to "\"alan@example.org\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/a>",
-                                        "p1" to "<http://xmlns.com/foaf/0.1/name>",
-                                        "o1" to "\"Alan\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/b>",
-                                        "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
-                                        "o1" to "\"bob@example.org\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/b>",
-                                        "p1" to "<http://xmlns.com/foaf/0.1/name>",
-                                        "o1" to "\"Bob\""
-                                )
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/bindings/values06.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/a>", "<http://xmlns.com/foaf/0.1/knows>", "<http://example.org/b>"))
-                            graph.addData(1L, listOf("<http://example.org/a>", "<http://xmlns.com/foaf/0.1/mbox>", "\"alan@example.org\""))
-                            graph.addData(1L, listOf("<http://example.org/a>", "<http://xmlns.com/foaf/0.1/name>", "\"Alan\""))
-                            graph.addData(1L, listOf("<http://example.org/b>", "<http://xmlns.com/foaf/0.1/mbox>", "\"bob@example.org\""))
-                            graph.addData(1L, listOf("<http://example.org/b>", "<http://xmlns.com/foaf/0.1/name>", "\"Bob\""))
-                            DistributedTripleStore.commit(1L)
                             TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p2", "o2", false, false, false, EIndexPattern.SPO)
                         }(),
                         POPValues(dictionary, listOf(
@@ -1360,6 +1312,54 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         )
                 )
             }() /* resources/sparql11-test-suite/bindings/values05.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/a>", "<http://xmlns.com/foaf/0.1/knows>", "<http://example.org/b>"))
+                            graph.addData(1L, listOf("<http://example.org/a>", "<http://xmlns.com/foaf/0.1/mbox>", "\"alan@example.org\""))
+                            graph.addData(1L, listOf("<http://example.org/a>", "<http://xmlns.com/foaf/0.1/name>", "\"Alan\""))
+                            graph.addData(1L, listOf("<http://example.org/b>", "<http://xmlns.com/foaf/0.1/mbox>", "\"bob@example.org\""))
+                            graph.addData(1L, listOf("<http://example.org/b>", "<http://xmlns.com/foaf/0.1/name>", "\"Bob\""))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p1", "o1", false, false, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p1",
+                                "o1"
+                        ), listOf(
+                                mutableMapOf(
+                                        "s" to "<http://example.org/a>",
+                                        "p1" to "<http://xmlns.com/foaf/0.1/knows>",
+                                        "o1" to "<http://example.org/b>"
+                                ),
+                                mutableMapOf(
+                                        "s" to "<http://example.org/a>",
+                                        "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                        "o1" to "\"alan@example.org\""
+                                ),
+                                mutableMapOf(
+                                        "s" to "<http://example.org/a>",
+                                        "p1" to "<http://xmlns.com/foaf/0.1/name>",
+                                        "o1" to "\"Alan\""
+                                ),
+                                mutableMapOf(
+                                        "s" to "<http://example.org/b>",
+                                        "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                        "o1" to "\"bob@example.org\""
+                                ),
+                                mutableMapOf(
+                                        "s" to "<http://example.org/b>",
+                                        "p1" to "<http://xmlns.com/foaf/0.1/name>",
+                                        "o1" to "\"Bob\""
+                                )
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/bindings/values06.rq */,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -1587,6 +1587,28 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "o"
                         ), listOf(
                             mutableMapOf(
+                                "o" to "<http://example.org/o1>"
+                            )
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/construct/constructwhere02.rq */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p>","<http://example.org/o1>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s2","<http://example.org/p>","o",false,true,false,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "s2",
+                            "o"
+                        ), listOf(
+                            mutableMapOf(
+                                "s2" to "<http://example.org/s1>",
                                 "o" to "<http://example.org/o1>"
                             )
                         )
@@ -3208,9 +3230,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/ns#b>","<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>","<http://example.org/ns#p>"))
+                        graph.addData(1L,listOf("<http://example.org/ns#a>","<http://example.org/ns#b>","<http://example.org/ns#c>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>","<http://example.org/ns#p>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"<http://example.org/ns#a>","x","<http://example.org/ns#c>",true,false,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x"
@@ -3228,9 +3250,9 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/ns#a>","<http://example.org/ns#b>","<http://example.org/ns#c>"))
+                        graph.addData(1L,listOf("<http://example.org/ns#b>","<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>","<http://example.org/ns#p>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"<http://example.org/ns#a>","x","<http://example.org/ns#c>",true,false,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>","<http://example.org/ns#p>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x"
@@ -3330,6 +3352,30 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         {
                             val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                             val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/x/y>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/x/c>"))
+                            graph.addData(1L, listOf("_:y", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/x/c>"))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "y", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/x/c>", false, true, true, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "y"
+                        ), listOf(
+                                mutableMapOf(
+                                        "y" to "<http://example.org/x/y>"
+                                ),
+                                mutableMapOf(
+                                        "y" to "_:y"
+                                )
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/entailment/owlds02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
                             graph.addData(1L, listOf("<http://example.org/x/x>", "<http://example.org/x/p>", "<http://example.org/x/y>"))
                             graph.addData(1L, listOf("<http://example.org/x/x>", "<http://example.org/x/p>", "_:y"))
                             DistributedTripleStore.commit(1L)
@@ -3345,30 +3391,6 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 ),
                                 mutableMapOf(
                                         "x" to "<http://example.org/x/x>",
-                                        "y" to "_:y"
-                                )
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/entailment/owlds02.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/x/y>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/x/c>"))
-                            graph.addData(1L, listOf("_:y", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/x/c>"))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "y", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/x/c>", false, true, true, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "y"
-                        ), listOf(
-                                mutableMapOf(
-                                        "y" to "<http://example.org/x/y>"
-                                ),
-                                mutableMapOf(
                                         "y" to "_:y"
                                 )
                         )
@@ -3401,6 +3423,28 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("<http://example.org/John>","<http://example.org/name>","\"Johnnie\""))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://example.org/name>","y",false,true,false,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "x",
+                            "y"
+                        ), listOf(
+                            mutableMapOf(
+                                "x" to "<http://example.org/John>",
+                                "y" to "\"Johnnie\""
+                            )
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q2.rq */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
                         graph.addData(1L,listOf("<http://example.org/Anite>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/Student>"))
                         graph.addData(1L,listOf("<http://example.org/Anite>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/Conference>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
@@ -3420,7 +3464,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/person1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/publishedAt>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:SPARQLDAWGTestOntology","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
-                        graph.addData(1L,listOf("_:_16263","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_16264","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         DistributedTripleStore.commit(1L)
                         TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#c",false,true,false,EIndexPattern.SPO)
                     }(),
@@ -3505,7 +3549,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "#c" to "<http://www.w3.org/2002/07/owl#Ontology>"
                             ),
                             mutableMapOf(
-                                "x" to "_:_16263",
+                                "x" to "_:_16264",
                                 "#c" to "<http://www.w3.org/2002/07/owl#Restriction>"
                             )
                         )
@@ -3518,236 +3562,15 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/John>","<http://example.org/name>","\"Johnnie\""))
+                        graph.addData(1L,listOf("_:_16390","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/publishedAt>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://example.org/name>","y",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_16410","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/publishedAt>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "x",
-                            "y"
+                            "#_16410"
                         ), listOf(
                             mutableMapOf(
-                                "x" to "<http://example.org/John>",
-                                "y" to "\"Johnnie\""
-                            )
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q2.rq */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_16389","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://example.org/Conference>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_16409","<http://www.w3.org/2002/07/owl#someValuesFrom>","#_16418",false,true,false,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_16409",
-                            "#_16418"
-                        ), listOf(
-                            mutableMapOf(
-                                "#_16409" to "_:_16389",
-                                "#_16418" to "<http://example.org/Conference>"
-                            )
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q3.rq */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/Anite>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/Student>"))
-                        graph.addData(1L,listOf("<http://example.org/Anite>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/Conference>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/ConferencePaper>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/Employee>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/George>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/Employee>"))
-                        graph.addData(1L,listOf("<http://example.org/George>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/GraduateAssistant>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/John>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/GraduateAssistant>"))
-                        graph.addData(1L,listOf("<http://example.org/John>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/Student>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/Workshop>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/hasPublication>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
-                        graph.addData(1L,listOf("<http://example.org/name>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>"))
-                        graph.addData(1L,listOf("<http://example.org/paper1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/ConferencePaper>"))
-                        graph.addData(1L,listOf("<http://example.org/paper1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/person1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/publishedAt>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
-                        graph.addData(1L,listOf("_:SPARQLDAWGTestOntology","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
-                        graph.addData(1L,listOf("_:_16389","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#b0","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_16409",false,true,false,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#b0",
-                            "#_16409"
-                        ), listOf(
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/Anite>",
-                                "#_16409" to "<http://example.org/Student>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/Anite>",
-                                "#_16409" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/Conference>",
-                                "#_16409" to "<http://www.w3.org/2002/07/owl#Class>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/ConferencePaper>",
-                                "#_16409" to "<http://www.w3.org/2002/07/owl#Class>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/Employee>",
-                                "#_16409" to "<http://www.w3.org/2002/07/owl#Class>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/George>",
-                                "#_16409" to "<http://example.org/Employee>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/George>",
-                                "#_16409" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/GraduateAssistant>",
-                                "#_16409" to "<http://www.w3.org/2002/07/owl#Class>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/John>",
-                                "#_16409" to "<http://example.org/GraduateAssistant>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/John>",
-                                "#_16409" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/Student>",
-                                "#_16409" to "<http://www.w3.org/2002/07/owl#Class>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/Workshop>",
-                                "#_16409" to "<http://www.w3.org/2002/07/owl#Class>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/hasPublication>",
-                                "#_16409" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/name>",
-                                "#_16409" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/paper1>",
-                                "#_16409" to "<http://example.org/ConferencePaper>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/paper1>",
-                                "#_16409" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/person1>",
-                                "#_16409" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "<http://example.org/publishedAt>",
-                                "#_16409" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "_:SPARQLDAWGTestOntology",
-                                "#_16409" to "<http://www.w3.org/2002/07/owl#Ontology>"
-                            ),
-                            mutableMapOf(
-                                "#b0" to "_:_16389",
-                                "#_16409" to "<http://www.w3.org/2002/07/owl#Restriction>"
-                            )
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q3.rq */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_16389","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/publishedAt>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_16409","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/publishedAt>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_16409"
-                        ), listOf(
-                            mutableMapOf(
-                                "#_16409" to "_:_16389"
-                            )
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q3.rq */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_16389","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_16409","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_16409"
-                        ), listOf(
-                            mutableMapOf(
-                                "#_16409" to "_:_16389"
-                            )
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q3.rq */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/Conference>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/ConferencePaper>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/Employee>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/GraduateAssistant>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/Student>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/Workshop>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_16418","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_16418"
-                        ), listOf(
-                            mutableMapOf(
-                                "#_16418" to "<http://example.org/Conference>"
-                            ),
-                            mutableMapOf(
-                                "#_16418" to "<http://example.org/ConferencePaper>"
-                            ),
-                            mutableMapOf(
-                                "#_16418" to "<http://example.org/Employee>"
-                            ),
-                            mutableMapOf(
-                                "#_16418" to "<http://example.org/GraduateAssistant>"
-                            ),
-                            mutableMapOf(
-                                "#_16418" to "<http://example.org/Student>"
-                            ),
-                            mutableMapOf(
-                                "#_16418" to "<http://example.org/Workshop>"
+                                "#_16410" to "_:_16390"
                             )
                         )
                     )
@@ -3786,20 +3609,199 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/Anite>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/Student>"))
+                        graph.addData(1L,listOf("_:_16390","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://example.org/Conference>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/Student>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_16410","<http://www.w3.org/2002/07/owl#someValuesFrom>","#_16419",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "x"
+                            "#_16410",
+                            "#_16419"
                         ), listOf(
                             mutableMapOf(
-                                "x" to "<http://example.org/Anite>"
+                                "#_16410" to "_:_16390",
+                                "#_16419" to "<http://example.org/Conference>"
                             )
                         )
                     )
                 )
-            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q4.rq */
+            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q3.rq */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("_:_16390","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_16410","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_16410"
+                        ), listOf(
+                            mutableMapOf(
+                                "#_16410" to "_:_16390"
+                            )
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q3.rq */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("<http://example.org/Conference>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/ConferencePaper>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/Employee>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/GraduateAssistant>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/Student>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/Workshop>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_16419","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_16419"
+                        ), listOf(
+                            mutableMapOf(
+                                "#_16419" to "<http://example.org/Conference>"
+                            ),
+                            mutableMapOf(
+                                "#_16419" to "<http://example.org/ConferencePaper>"
+                            ),
+                            mutableMapOf(
+                                "#_16419" to "<http://example.org/Employee>"
+                            ),
+                            mutableMapOf(
+                                "#_16419" to "<http://example.org/GraduateAssistant>"
+                            ),
+                            mutableMapOf(
+                                "#_16419" to "<http://example.org/Student>"
+                            ),
+                            mutableMapOf(
+                                "#_16419" to "<http://example.org/Workshop>"
+                            )
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q3.rq */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("<http://example.org/Anite>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/Student>"))
+                        graph.addData(1L,listOf("<http://example.org/Anite>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
+                        graph.addData(1L,listOf("<http://example.org/Conference>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/ConferencePaper>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/Employee>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/George>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/Employee>"))
+                        graph.addData(1L,listOf("<http://example.org/George>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
+                        graph.addData(1L,listOf("<http://example.org/GraduateAssistant>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/John>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/GraduateAssistant>"))
+                        graph.addData(1L,listOf("<http://example.org/John>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
+                        graph.addData(1L,listOf("<http://example.org/Student>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/Workshop>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/hasPublication>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
+                        graph.addData(1L,listOf("<http://example.org/name>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>"))
+                        graph.addData(1L,listOf("<http://example.org/paper1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/ConferencePaper>"))
+                        graph.addData(1L,listOf("<http://example.org/paper1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
+                        graph.addData(1L,listOf("<http://example.org/person1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
+                        graph.addData(1L,listOf("<http://example.org/publishedAt>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
+                        graph.addData(1L,listOf("_:SPARQLDAWGTestOntology","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
+                        graph.addData(1L,listOf("_:_16390","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#b0","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_16410",false,true,false,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#b0",
+                            "#_16410"
+                        ), listOf(
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/Anite>",
+                                "#_16410" to "<http://example.org/Student>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/Anite>",
+                                "#_16410" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/Conference>",
+                                "#_16410" to "<http://www.w3.org/2002/07/owl#Class>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/ConferencePaper>",
+                                "#_16410" to "<http://www.w3.org/2002/07/owl#Class>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/Employee>",
+                                "#_16410" to "<http://www.w3.org/2002/07/owl#Class>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/George>",
+                                "#_16410" to "<http://example.org/Employee>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/George>",
+                                "#_16410" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/GraduateAssistant>",
+                                "#_16410" to "<http://www.w3.org/2002/07/owl#Class>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/John>",
+                                "#_16410" to "<http://example.org/GraduateAssistant>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/John>",
+                                "#_16410" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/Student>",
+                                "#_16410" to "<http://www.w3.org/2002/07/owl#Class>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/Workshop>",
+                                "#_16410" to "<http://www.w3.org/2002/07/owl#Class>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/hasPublication>",
+                                "#_16410" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/name>",
+                                "#_16410" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/paper1>",
+                                "#_16410" to "<http://example.org/ConferencePaper>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/paper1>",
+                                "#_16410" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/person1>",
+                                "#_16410" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "<http://example.org/publishedAt>",
+                                "#_16410" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "_:SPARQLDAWGTestOntology",
+                                "#_16410" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                            ),
+                            mutableMapOf(
+                                "#b0" to "_:_16390",
+                                "#_16410" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                            )
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q3.rq */
             /* {
                 val dictionary=ResultSetDictionary()
                 MicroTestPN(
@@ -3845,7 +3847,7 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/person1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/publishedAt>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:SPARQLDAWGTestOntology","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
-                        graph.addData(1L,listOf("_:_16517","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_16518","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         DistributedTripleStore.commit(1L)
                         TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","c",false,true,false,EIndexPattern.SPO)
                     }(),
@@ -3930,8 +3932,28 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 "c" to "<http://www.w3.org/2002/07/owl#Ontology>"
                             ),
                             mutableMapOf(
-                                "x" to "_:_16517",
+                                "x" to "_:_16518",
                                 "c" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                            )
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q4.rq */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("<http://example.org/Anite>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/Student>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/Student>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "x"
+                        ), listOf(
+                            mutableMapOf(
+                                "x" to "<http://example.org/Anite>"
                             )
                         )
                     )
@@ -4303,34 +4325,6 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         {
                             val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                             val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/test#a>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
-                            graph.addData(1L, listOf("<http://example.org/test#b>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
-                            graph.addData(1L, listOf("<http://example.org/test#c>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "X", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>", false, true, true, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "X"
-                        ), listOf(
-                                mutableMapOf(
-                                        "X" to "<http://example.org/test#a>"
-                                ),
-                                mutableMapOf(
-                                        "X" to "<http://example.org/test#b>"
-                                ),
-                                mutableMapOf(
-                                        "X" to "<http://example.org/test#c>"
-                                )
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/entailment/sparqldl-04.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
                             graph.addData(1L, listOf("<http://example.org/test#a>", "<http://example.org/test#name>", "\"A\""))
                             graph.addData(1L, listOf("<http://example.org/test#b>", "<http://example.org/test#name>", "\"B\""))
                             DistributedTripleStore.commit(1L)
@@ -4374,6 +4368,34 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 mutableMapOf(
                                         "X" to "<http://example.org/test#b>",
                                         "Y2" to "\"Bnick\""
+                                )
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-04.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/test#a>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
+                            graph.addData(1L, listOf("<http://example.org/test#b>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
+                            graph.addData(1L, listOf("<http://example.org/test#c>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>"))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "X", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://example.org/test#Person>", false, true, true, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "X"
+                        ), listOf(
+                                mutableMapOf(
+                                        "X" to "<http://example.org/test#a>"
+                                ),
+                                mutableMapOf(
+                                        "X" to "<http://example.org/test#b>"
+                                ),
+                                mutableMapOf(
+                                        "X" to "<http://example.org/test#c>"
                                 )
                         )
                         )
@@ -4760,6 +4782,28 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("<http://example.org/test#a>","<http://example.org/test#p>","<http://example.org/test#b>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"a","<http://example.org/test#p>","b",false,true,false,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "a",
+                            "b"
+                        ), listOf(
+                            mutableMapOf(
+                                "a" to "<http://example.org/test#a>",
+                                "b" to "<http://example.org/test#b>"
+                            )
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/sparqldl-13.rq */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
                         graph.addData(1L,listOf("<http://example.org/test#b>","<http://www.w3.org/2002/07/owl#sameAs>","<http://example.org/test#x>"))
                         DistributedTripleStore.commit(1L)
                         TripleStoreIteratorGlobal(1L,dictionary,graphName,"b","<http://www.w3.org/2002/07/owl#sameAs>","x",false,true,false,EIndexPattern.SPO)
@@ -4804,28 +4848,6 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     )
                 )
             }() */ /* resources/sparql11-test-suite/entailment/sparqldl-13.rq */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/test#a>","<http://example.org/test#p>","<http://example.org/test#b>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"a","<http://example.org/test#p>","b",false,true,false,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "a",
-                            "b"
-                        ), listOf(
-                            mutableMapOf(
-                                "a" to "<http://example.org/test#a>",
-                                "b" to "<http://example.org/test#b>"
-                            )
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/sparqldl-13.rq */
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -4859,50 +4881,6 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_18896","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_18911","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_18911"
-                        ), listOf(
-                            mutableMapOf(
-                                "#_18911" to "_:_18896"
-                            )
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/parent3.rq */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_18896","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        graph.addData(1L,listOf("_:_18897","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_18911","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_18911"
-                        ), listOf(
-                            mutableMapOf(
-                                "#_18911" to "_:_18896"
-                            ),
-                            mutableMapOf(
-                                "#_18911" to "_:_18897"
-                            )
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/parent3.rq */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
                         graph.addData(1L,listOf("<http://example.org/test#Alice>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#Female>"))
                         graph.addData(1L,listOf("<http://example.org/test#Alice>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#Parent>"))
                         graph.addData(1L,listOf("<http://example.org/test#Alice>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
@@ -4910,105 +4888,105 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#Bob>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Charlie>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_18897"))
+                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_18898"))
                         graph.addData(1L,listOf("<http://example.org/test#Father>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Female>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Male>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Mother>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Parent>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#hasChild>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
-                        graph.addData(1L,listOf("_:_18890","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_18893","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_18896","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_18891","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_18894","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("_:_18897","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_18898","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_18898","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_18899","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("_:ont","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_18911",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_18912",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "parent",
-                            "#_18911"
+                            "#_18912"
                         ), listOf(
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_18911" to "<http://example.org/test#Female>"
+                                "#_18912" to "<http://example.org/test#Female>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_18911" to "<http://example.org/test#Parent>"
+                                "#_18912" to "<http://example.org/test#Parent>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_18911" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_18912" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Bob>",
-                                "#_18911" to "<http://example.org/test#Male>"
+                                "#_18912" to "<http://example.org/test#Male>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Bob>",
-                                "#_18911" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_18912" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Charlie>",
-                                "#_18911" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_18912" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Dudley>",
-                                "#_18911" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_18912" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Dudley>",
-                                "#_18911" to "_:_18897"
+                                "#_18912" to "_:_18898"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Father>",
-                                "#_18911" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_18912" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Female>",
-                                "#_18911" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_18912" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Male>",
-                                "#_18911" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_18912" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Mother>",
-                                "#_18911" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_18912" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Parent>",
-                                "#_18911" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_18912" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#hasChild>",
-                                "#_18911" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                "#_18912" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                             ),
                             mutableMapOf(
-                                "parent" to "_:_18890",
-                                "#_18911" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "parent" to "_:_18891",
+                                "#_18912" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
-                                "parent" to "_:_18893",
-                                "#_18911" to "<http://www.w3.org/2002/07/owl#Class>"
-                            ),
-                            mutableMapOf(
-                                "parent" to "_:_18896",
-                                "#_18911" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                "parent" to "_:_18894",
+                                "#_18912" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:_18897",
-                                "#_18911" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                "#_18912" to "<http://www.w3.org/2002/07/owl#Restriction>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:_18898",
-                                "#_18911" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_18912" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                            ),
+                            mutableMapOf(
+                                "parent" to "_:_18899",
+                                "#_18912" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:ont",
-                                "#_18911" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                "#_18912" to "<http://www.w3.org/2002/07/owl#Ontology>"
                             )
                         )
                     )
@@ -5020,48 +4998,68 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_18896","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_18897","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_18912","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_18912"
+                        ), listOf(
+                            mutableMapOf(
+                                "#_18912" to "_:_18897"
+                            )
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/parent3.rq */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("_:_18897","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_18898","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_18912","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_18912"
+                        ), listOf(
+                            mutableMapOf(
+                                "#_18912" to "_:_18897"
+                            ),
+                            mutableMapOf(
+                                "#_18912" to "_:_18898"
+                            )
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/parent3.rq */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
                         graph.addData(1L,listOf("_:_18897","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_18898","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_18911","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_18912","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_18911"
+                            "#_18912"
                         ), listOf(
                             mutableMapOf(
-                                "#_18911" to "_:_18896"
+                                "#_18912" to "_:_18897"
                             ),
                             mutableMapOf(
-                                "#_18911" to "_:_18897"
+                                "#_18912" to "_:_18898"
                             )
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/entailment/parent3.rq */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_18983","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_18984","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19001","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_19001"
-                        ), listOf(
-                            mutableMapOf(
-                                "#_19001" to "_:_18983"
-                            ),
-                            mutableMapOf(
-                                "#_19001" to "_:_18984"
-                            )
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/parent4.rq */
             /* {
                 val dictionary=ResultSetDictionary()
                 MicroTestPN(
@@ -5075,105 +5073,105 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#Bob>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Charlie>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_18984"))
+                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_18985"))
                         graph.addData(1L,listOf("<http://example.org/test#Father>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Female>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Male>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Mother>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Parent>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#hasChild>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
-                        graph.addData(1L,listOf("_:_18977","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_18980","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_18983","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_18978","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_18981","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("_:_18984","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_18985","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_18985","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_18986","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("_:ont","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19001",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19002",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "parent",
-                            "#_19001"
+                            "#_19002"
                         ), listOf(
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_19001" to "<http://example.org/test#Female>"
+                                "#_19002" to "<http://example.org/test#Female>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_19001" to "<http://example.org/test#Parent>"
+                                "#_19002" to "<http://example.org/test#Parent>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_19001" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19002" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Bob>",
-                                "#_19001" to "<http://example.org/test#Male>"
+                                "#_19002" to "<http://example.org/test#Male>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Bob>",
-                                "#_19001" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19002" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Charlie>",
-                                "#_19001" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19002" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Dudley>",
-                                "#_19001" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19002" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Dudley>",
-                                "#_19001" to "_:_18984"
+                                "#_19002" to "_:_18985"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Father>",
-                                "#_19001" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19002" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Female>",
-                                "#_19001" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19002" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Male>",
-                                "#_19001" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19002" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Mother>",
-                                "#_19001" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19002" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Parent>",
-                                "#_19001" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19002" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#hasChild>",
-                                "#_19001" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                "#_19002" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                             ),
                             mutableMapOf(
-                                "parent" to "_:_18977",
-                                "#_19001" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "parent" to "_:_18978",
+                                "#_19002" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
-                                "parent" to "_:_18980",
-                                "#_19001" to "<http://www.w3.org/2002/07/owl#Class>"
-                            ),
-                            mutableMapOf(
-                                "parent" to "_:_18983",
-                                "#_19001" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                "parent" to "_:_18981",
+                                "#_19002" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:_18984",
-                                "#_19001" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                "#_19002" to "<http://www.w3.org/2002/07/owl#Restriction>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:_18985",
-                                "#_19001" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19002" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                            ),
+                            mutableMapOf(
+                                "parent" to "_:_18986",
+                                "#_19002" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:ont",
-                                "#_19001" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                "#_19002" to "<http://www.w3.org/2002/07/owl#Ontology>"
                             )
                         )
                     )
@@ -5185,19 +5183,19 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_18983","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
                         graph.addData(1L,listOf("_:_18984","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_18985","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19001","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19002","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_19001"
+                            "#_19002"
                         ), listOf(
                             mutableMapOf(
-                                "#_19001" to "_:_18983"
+                                "#_19002" to "_:_18984"
                             ),
                             mutableMapOf(
-                                "#_19001" to "_:_18984"
+                                "#_19002" to "_:_18985"
                             )
                         )
                     )
@@ -5209,19 +5207,43 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19078","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        graph.addData(1L,listOf("_:_19079","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_18984","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_18985","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19093","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19002","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_19093"
+                            "#_19002"
                         ), listOf(
                             mutableMapOf(
-                                "#_19093" to "_:_19078"
+                                "#_19002" to "_:_18984"
                             ),
                             mutableMapOf(
-                                "#_19093" to "_:_19079"
+                                "#_19002" to "_:_18985"
+                            )
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/parent4.rq */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("_:_19079","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19080","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19094","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_19094"
+                        ), listOf(
+                            mutableMapOf(
+                                "#_19094" to "_:_19079"
+                            ),
+                            mutableMapOf(
+                                "#_19094" to "_:_19080"
                             )
                         )
                     )
@@ -5240,105 +5262,105 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#Bob>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Charlie>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_19079"))
+                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_19080"))
                         graph.addData(1L,listOf("<http://example.org/test#Father>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Female>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Male>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Mother>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Parent>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#hasChild>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
-                        graph.addData(1L,listOf("_:_19072","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19075","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19078","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19073","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_19076","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("_:_19079","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19080","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_19080","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19081","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("_:ont","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19093",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19094",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "parent",
-                            "#_19093"
+                            "#_19094"
                         ), listOf(
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_19093" to "<http://example.org/test#Female>"
+                                "#_19094" to "<http://example.org/test#Female>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_19093" to "<http://example.org/test#Parent>"
+                                "#_19094" to "<http://example.org/test#Parent>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_19093" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19094" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Bob>",
-                                "#_19093" to "<http://example.org/test#Male>"
+                                "#_19094" to "<http://example.org/test#Male>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Bob>",
-                                "#_19093" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19094" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Charlie>",
-                                "#_19093" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19094" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Dudley>",
-                                "#_19093" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19094" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Dudley>",
-                                "#_19093" to "_:_19079"
+                                "#_19094" to "_:_19080"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Father>",
-                                "#_19093" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19094" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Female>",
-                                "#_19093" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19094" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Male>",
-                                "#_19093" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19094" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Mother>",
-                                "#_19093" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19094" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Parent>",
-                                "#_19093" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19094" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#hasChild>",
-                                "#_19093" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                "#_19094" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                             ),
                             mutableMapOf(
-                                "parent" to "_:_19072",
-                                "#_19093" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "parent" to "_:_19073",
+                                "#_19094" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
-                                "parent" to "_:_19075",
-                                "#_19093" to "<http://www.w3.org/2002/07/owl#Class>"
-                            ),
-                            mutableMapOf(
-                                "parent" to "_:_19078",
-                                "#_19093" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                "parent" to "_:_19076",
+                                "#_19094" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:_19079",
-                                "#_19093" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                "#_19094" to "<http://www.w3.org/2002/07/owl#Restriction>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:_19080",
-                                "#_19093" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19094" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                            ),
+                            mutableMapOf(
+                                "parent" to "_:_19081",
+                                "#_19094" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:ont",
-                                "#_19093" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                "#_19094" to "<http://www.w3.org/2002/07/owl#Ontology>"
                             )
                         )
                     )
@@ -5350,19 +5372,19 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19078","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19079","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19079","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_19080","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19093","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19094","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_19093"
+                            "#_19094"
                         ), listOf(
                             mutableMapOf(
-                                "#_19093" to "_:_19078"
+                                "#_19094" to "_:_19079"
                             ),
                             mutableMapOf(
-                                "#_19093" to "_:_19079"
+                                "#_19094" to "_:_19080"
                             )
                         )
                     )
@@ -5374,43 +5396,19 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19165","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        graph.addData(1L,listOf("_:_19166","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19181","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_19181"
-                        ), listOf(
-                            mutableMapOf(
-                                "#_19181" to "_:_19165"
-                            ),
-                            mutableMapOf(
-                                "#_19181" to "_:_19166"
-                            )
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/parent6.rq */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19165","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         graph.addData(1L,listOf("_:_19166","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19167","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19181","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19182","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_19181"
+                            "#_19182"
                         ), listOf(
                             mutableMapOf(
-                                "#_19181" to "_:_19165"
+                                "#_19182" to "_:_19166"
                             ),
                             mutableMapOf(
-                                "#_19181" to "_:_19166"
+                                "#_19182" to "_:_19167"
                             )
                         )
                     )
@@ -5429,105 +5427,105 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#Bob>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Charlie>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_19166"))
+                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_19167"))
                         graph.addData(1L,listOf("<http://example.org/test#Father>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Female>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Male>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Mother>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Parent>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#hasChild>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
-                        graph.addData(1L,listOf("_:_19159","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19162","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19165","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19160","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_19163","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("_:_19166","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19167","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_19167","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19168","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("_:ont","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19181",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19182",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "parent",
-                            "#_19181"
+                            "#_19182"
                         ), listOf(
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_19181" to "<http://example.org/test#Female>"
+                                "#_19182" to "<http://example.org/test#Female>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_19181" to "<http://example.org/test#Parent>"
+                                "#_19182" to "<http://example.org/test#Parent>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_19181" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19182" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Bob>",
-                                "#_19181" to "<http://example.org/test#Male>"
+                                "#_19182" to "<http://example.org/test#Male>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Bob>",
-                                "#_19181" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19182" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Charlie>",
-                                "#_19181" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19182" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Dudley>",
-                                "#_19181" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19182" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Dudley>",
-                                "#_19181" to "_:_19166"
+                                "#_19182" to "_:_19167"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Father>",
-                                "#_19181" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19182" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Female>",
-                                "#_19181" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19182" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Male>",
-                                "#_19181" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19182" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Mother>",
-                                "#_19181" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19182" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Parent>",
-                                "#_19181" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19182" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#hasChild>",
-                                "#_19181" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                "#_19182" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                             ),
                             mutableMapOf(
-                                "parent" to "_:_19159",
-                                "#_19181" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "parent" to "_:_19160",
+                                "#_19182" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
-                                "parent" to "_:_19162",
-                                "#_19181" to "<http://www.w3.org/2002/07/owl#Class>"
-                            ),
-                            mutableMapOf(
-                                "parent" to "_:_19165",
-                                "#_19181" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                "parent" to "_:_19163",
+                                "#_19182" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:_19166",
-                                "#_19181" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                "#_19182" to "<http://www.w3.org/2002/07/owl#Restriction>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:_19167",
-                                "#_19181" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19182" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                            ),
+                            mutableMapOf(
+                                "parent" to "_:_19168",
+                                "#_19182" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:ont",
-                                "#_19181" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                "#_19182" to "<http://www.w3.org/2002/07/owl#Ontology>"
                             )
                         )
                     )
@@ -5539,48 +5537,24 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19269","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19270","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19166","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_19167","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19285","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19182","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_19285"
+                            "#_19182"
                         ), listOf(
                             mutableMapOf(
-                                "#_19285" to "_:_19269"
+                                "#_19182" to "_:_19166"
                             ),
                             mutableMapOf(
-                                "#_19285" to "_:_19270"
+                                "#_19182" to "_:_19167"
                             )
                         )
                     )
                 )
-            }() */ /* resources/sparql11-test-suite/entailment/parent7.rq */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19269","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        graph.addData(1L,listOf("_:_19270","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19285","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_19285"
-                        ), listOf(
-                            mutableMapOf(
-                                "#_19285" to "_:_19269"
-                            ),
-                            mutableMapOf(
-                                "#_19285" to "_:_19270"
-                            )
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/parent7.rq */
+            }() */ /* resources/sparql11-test-suite/entailment/parent6.rq */
             /* {
                 val dictionary=ResultSetDictionary()
                 MicroTestPN(
@@ -5594,105 +5568,153 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#Bob>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Charlie>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_19270"))
+                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_19271"))
                         graph.addData(1L,listOf("<http://example.org/test#Father>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Female>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Male>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Mother>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Parent>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#hasChild>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
-                        graph.addData(1L,listOf("_:_19263","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19266","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19269","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19264","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_19267","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("_:_19270","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19271","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_19271","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19272","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("_:ont","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19285",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19286",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "parent",
-                            "#_19285"
+                            "#_19286"
                         ), listOf(
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_19285" to "<http://example.org/test#Female>"
+                                "#_19286" to "<http://example.org/test#Female>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_19285" to "<http://example.org/test#Parent>"
+                                "#_19286" to "<http://example.org/test#Parent>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_19285" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19286" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Bob>",
-                                "#_19285" to "<http://example.org/test#Male>"
+                                "#_19286" to "<http://example.org/test#Male>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Bob>",
-                                "#_19285" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19286" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Charlie>",
-                                "#_19285" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19286" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Dudley>",
-                                "#_19285" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19286" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Dudley>",
-                                "#_19285" to "_:_19270"
+                                "#_19286" to "_:_19271"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Father>",
-                                "#_19285" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19286" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Female>",
-                                "#_19285" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19286" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Male>",
-                                "#_19285" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19286" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Mother>",
-                                "#_19285" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19286" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Parent>",
-                                "#_19285" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19286" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#hasChild>",
-                                "#_19285" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                "#_19286" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                             ),
                             mutableMapOf(
-                                "parent" to "_:_19263",
-                                "#_19285" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "parent" to "_:_19264",
+                                "#_19286" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
-                                "parent" to "_:_19266",
-                                "#_19285" to "<http://www.w3.org/2002/07/owl#Class>"
-                            ),
-                            mutableMapOf(
-                                "parent" to "_:_19269",
-                                "#_19285" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                "parent" to "_:_19267",
+                                "#_19286" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:_19270",
-                                "#_19285" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                "#_19286" to "<http://www.w3.org/2002/07/owl#Restriction>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:_19271",
-                                "#_19285" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19286" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                            ),
+                            mutableMapOf(
+                                "parent" to "_:_19272",
+                                "#_19286" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:ont",
-                                "#_19285" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                "#_19286" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                            )
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/parent7.rq */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("_:_19270","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19271","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19286","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_19286"
+                        ), listOf(
+                            mutableMapOf(
+                                "#_19286" to "_:_19270"
+                            ),
+                            mutableMapOf(
+                                "#_19286" to "_:_19271"
+                            )
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/parent7.rq */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("_:_19270","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_19271","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19286","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_19286"
+                        ), listOf(
+                            mutableMapOf(
+                                "#_19286" to "_:_19270"
+                            ),
+                            mutableMapOf(
+                                "#_19286" to "_:_19271"
                             )
                         )
                     )
@@ -5711,105 +5733,105 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#Bob>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Charlie>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
                         graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
-                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_19374"))
+                        graph.addData(1L,listOf("<http://example.org/test#Dudley>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:_19375"))
                         graph.addData(1L,listOf("<http://example.org/test#Father>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Female>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Male>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Mother>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#Parent>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#hasChild>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
-                        graph.addData(1L,listOf("_:_19367","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19370","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("_:_19373","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19368","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_19371","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("_:_19374","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19375","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("_:_19375","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19376","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("_:ont","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19389",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"parent","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19390",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "parent",
-                            "#_19389"
+                            "#_19390"
                         ), listOf(
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_19389" to "<http://example.org/test#Female>"
+                                "#_19390" to "<http://example.org/test#Female>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_19389" to "<http://example.org/test#Parent>"
+                                "#_19390" to "<http://example.org/test#Parent>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Alice>",
-                                "#_19389" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19390" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Bob>",
-                                "#_19389" to "<http://example.org/test#Male>"
+                                "#_19390" to "<http://example.org/test#Male>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Bob>",
-                                "#_19389" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19390" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Charlie>",
-                                "#_19389" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19390" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Dudley>",
-                                "#_19389" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                "#_19390" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Dudley>",
-                                "#_19389" to "_:_19374"
+                                "#_19390" to "_:_19375"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Father>",
-                                "#_19389" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19390" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Female>",
-                                "#_19389" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19390" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Male>",
-                                "#_19389" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19390" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Mother>",
-                                "#_19389" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19390" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#Parent>",
-                                "#_19389" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19390" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "<http://example.org/test#hasChild>",
-                                "#_19389" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                "#_19390" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                             ),
                             mutableMapOf(
-                                "parent" to "_:_19367",
-                                "#_19389" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "parent" to "_:_19368",
+                                "#_19390" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
-                                "parent" to "_:_19370",
-                                "#_19389" to "<http://www.w3.org/2002/07/owl#Class>"
-                            ),
-                            mutableMapOf(
-                                "parent" to "_:_19373",
-                                "#_19389" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                "parent" to "_:_19371",
+                                "#_19390" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:_19374",
-                                "#_19389" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                "#_19390" to "<http://www.w3.org/2002/07/owl#Restriction>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:_19375",
-                                "#_19389" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19390" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                            ),
+                            mutableMapOf(
+                                "parent" to "_:_19376",
+                                "#_19390" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "parent" to "_:ont",
-                                "#_19389" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                "#_19390" to "<http://www.w3.org/2002/07/owl#Ontology>"
                             )
                         )
                     )
@@ -5821,43 +5843,19 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19373","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19374","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19389","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_19389"
-                        ), listOf(
-                            mutableMapOf(
-                                "#_19389" to "_:_19373"
-                            ),
-                            mutableMapOf(
-                                "#_19389" to "_:_19374"
-                            )
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/parent8.rq */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19373","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
                         graph.addData(1L,listOf("_:_19374","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_19375","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19389","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19390","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_19389"
+                            "#_19390"
                         ), listOf(
                             mutableMapOf(
-                                "#_19389" to "_:_19373"
+                                "#_19390" to "_:_19374"
                             ),
                             mutableMapOf(
-                                "#_19389" to "_:_19374"
+                                "#_19390" to "_:_19375"
                             )
                         )
                     )
@@ -5869,63 +5867,43 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19477","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>"))
+                        graph.addData(1L,listOf("_:_19374","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19375","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19494","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19390","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_19494"
+                            "#_19390"
                         ), listOf(
                             mutableMapOf(
-                                "#_19494" to "_:_19477"
-                            )
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/parent9.rq */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19477","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        graph.addData(1L,listOf("_:_19478","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19494","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_19494"
-                        ), listOf(
-                            mutableMapOf(
-                                "#_19494" to "_:_19477"
+                                "#_19390" to "_:_19374"
                             ),
                             mutableMapOf(
-                                "#_19494" to "_:_19478"
+                                "#_19390" to "_:_19375"
                             )
                         )
                     )
                 )
-            }() */ /* resources/sparql11-test-suite/entailment/parent9.rq */
+            }() */ /* resources/sparql11-test-suite/entailment/parent8.rq */
             /* {
                 val dictionary=ResultSetDictionary()
                 MicroTestPN(
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19477","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         graph.addData(1L,listOf("_:_19478","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19479","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19494","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19495","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_19494"
+                            "#_19495"
                         ), listOf(
                             mutableMapOf(
-                                "#_19494" to "_:_19477"
+                                "#_19495" to "_:_19478"
                             ),
                             mutableMapOf(
-                                "#_19494" to "_:_19478"
+                                "#_19495" to "_:_19479"
                             )
                         )
                     )
@@ -5937,7 +5915,51 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19568","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>"))
+                        graph.addData(1L,listOf("_:_19478","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_19479","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19495","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_19495"
+                        ), listOf(
+                            mutableMapOf(
+                                "#_19495" to "_:_19478"
+                            ),
+                            mutableMapOf(
+                                "#_19495" to "_:_19479"
+                            )
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/parent9.rq */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("_:_19478","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_19495","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_19495"
+                        ), listOf(
+                            mutableMapOf(
+                                "#_19495" to "_:_19478"
+                            )
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/parent9.rq */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("_:_19569","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>"))
                         DistributedTripleStore.commit(1L)
                         TripleStoreIteratorGlobal(1L,dictionary,graphName,"#b","<http://www.w3.org/2002/07/owl#someValuesFrom>","<http://www.w3.org/2002/07/owl#Thing>",false,true,true,EIndexPattern.SPO)
                     }(),
@@ -5945,30 +5967,6 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "#b"
                         ), listOf(
                             mutableMapOf(
-                                "#b" to "_:_19568"
-                            )
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/parent10.rq */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19568","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        graph.addData(1L,listOf("_:_19569","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#b","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#b"
-                        ), listOf(
-                            mutableMapOf(
-                                "#b" to "_:_19568"
-                            ),
-                            mutableMapOf(
                                 "#b" to "_:_19569"
                             )
                         )
@@ -5981,8 +5979,8 @@ class GeneratedTripleStoreIteratorGlobalTest {
                     {
                         val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                         val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("_:_19568","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
                         graph.addData(1L,listOf("_:_19569","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
+                        graph.addData(1L,listOf("_:_19570","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>"))
                         DistributedTripleStore.commit(1L)
                         TripleStoreIteratorGlobal(1L,dictionary,graphName,"#b","<http://www.w3.org/2002/07/owl#onProperty>","<http://example.org/test#hasChild>",false,true,true,EIndexPattern.SPO)
                     }(),
@@ -5990,10 +5988,34 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             "#b"
                         ), listOf(
                             mutableMapOf(
-                                "#b" to "_:_19568"
+                                "#b" to "_:_19569"
                             ),
                             mutableMapOf(
+                                "#b" to "_:_19570"
+                            )
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/parent10.rq */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("_:_19569","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        graph.addData(1L,listOf("_:_19570","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#b","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#b"
+                        ), listOf(
+                            mutableMapOf(
                                 "#b" to "_:_19569"
+                            ),
+                            mutableMapOf(
+                                "#b" to "_:_19570"
                             )
                         )
                     )
@@ -6019,63 +6041,63 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:simple","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19682",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19683",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x",
-                            "#_19682"
+                            "#_19683"
                         ), listOf(
                             mutableMapOf(
                                 "x" to "<http://example.org/test#A>",
-                                "#_19682" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19683" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#B>",
-                                "#_19682" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19683" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#C>",
-                                "#_19682" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19683" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#a>",
-                                "#_19682" to "<http://example.org/test#A>"
+                                "#_19683" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#a>",
-                                "#_19682" to "<http://example.org/test#B>"
+                                "#_19683" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#b>",
-                                "#_19682" to "<http://example.org/test#B>"
+                                "#_19683" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#c>",
-                                "#_19682" to "<http://example.org/test#C>"
+                                "#_19683" to "<http://example.org/test#C>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_19682" to "<http://example.org/test#A>"
+                                "#_19683" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_19682" to "<http://example.org/test#B>"
+                                "#_19683" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_19682" to "<http://example.org/test#C>"
+                                "#_19683" to "<http://example.org/test#C>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#p>",
-                                "#_19682" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
+                                "#_19683" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#p>",
-                                "#_19682" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                "#_19683" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                             ),
                             mutableMapOf(
                                 "x" to "_:simple",
-                                "#_19682" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                "#_19683" to "<http://www.w3.org/2002/07/owl#Ontology>"
                             )
                         )
                     )
@@ -6101,63 +6123,63 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:simple","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19787",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19788",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x",
-                            "#_19787"
+                            "#_19788"
                         ), listOf(
                             mutableMapOf(
                                 "x" to "<http://example.org/test#A>",
-                                "#_19787" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19788" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#B>",
-                                "#_19787" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19788" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#C>",
-                                "#_19787" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19788" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#a>",
-                                "#_19787" to "<http://example.org/test#A>"
+                                "#_19788" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#a>",
-                                "#_19787" to "<http://example.org/test#B>"
+                                "#_19788" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#b>",
-                                "#_19787" to "<http://example.org/test#B>"
+                                "#_19788" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#c>",
-                                "#_19787" to "<http://example.org/test#C>"
+                                "#_19788" to "<http://example.org/test#C>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_19787" to "<http://example.org/test#A>"
+                                "#_19788" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_19787" to "<http://example.org/test#B>"
+                                "#_19788" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_19787" to "<http://example.org/test#C>"
+                                "#_19788" to "<http://example.org/test#C>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#p>",
-                                "#_19787" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
+                                "#_19788" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#p>",
-                                "#_19787" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                "#_19788" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                             ),
                             mutableMapOf(
                                 "x" to "_:simple",
-                                "#_19787" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                "#_19788" to "<http://www.w3.org/2002/07/owl#Ontology>"
                             )
                         )
                     )
@@ -6183,63 +6205,63 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:simple","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19931",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_19932",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x",
-                            "#_19931"
+                            "#_19932"
                         ), listOf(
                             mutableMapOf(
                                 "x" to "<http://example.org/test#A>",
-                                "#_19931" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19932" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#B>",
-                                "#_19931" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19932" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#C>",
-                                "#_19931" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_19932" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#a>",
-                                "#_19931" to "<http://example.org/test#A>"
+                                "#_19932" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#a>",
-                                "#_19931" to "<http://example.org/test#B>"
+                                "#_19932" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#b>",
-                                "#_19931" to "<http://example.org/test#B>"
+                                "#_19932" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#c>",
-                                "#_19931" to "<http://example.org/test#C>"
+                                "#_19932" to "<http://example.org/test#C>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_19931" to "<http://example.org/test#A>"
+                                "#_19932" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_19931" to "<http://example.org/test#B>"
+                                "#_19932" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_19931" to "<http://example.org/test#C>"
+                                "#_19932" to "<http://example.org/test#C>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#p>",
-                                "#_19931" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
+                                "#_19932" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#p>",
-                                "#_19931" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                "#_19932" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                             ),
                             mutableMapOf(
                                 "x" to "_:simple",
-                                "#_19931" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                "#_19932" to "<http://www.w3.org/2002/07/owl#Ontology>"
                             )
                         )
                     )
@@ -6255,19 +6277,19 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#B>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#C>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20075","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20076","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_20075"
+                            "#_20076"
                         ), listOf(
                             mutableMapOf(
-                                "#_20075" to "<http://example.org/test#A>"
+                                "#_20076" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
-                                "#_20075" to "<http://example.org/test#B>"
+                                "#_20076" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
-                                "#_20075" to "<http://example.org/test#C>"
+                                "#_20076" to "<http://example.org/test#C>"
                             )
                         )
                     )
@@ -6293,63 +6315,63 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:simple","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20075",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20076",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x",
-                            "#_20075"
+                            "#_20076"
                         ), listOf(
                             mutableMapOf(
                                 "x" to "<http://example.org/test#A>",
-                                "#_20075" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_20076" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#B>",
-                                "#_20075" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_20076" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#C>",
-                                "#_20075" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_20076" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#a>",
-                                "#_20075" to "<http://example.org/test#A>"
+                                "#_20076" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#a>",
-                                "#_20075" to "<http://example.org/test#B>"
+                                "#_20076" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#b>",
-                                "#_20075" to "<http://example.org/test#B>"
+                                "#_20076" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#c>",
-                                "#_20075" to "<http://example.org/test#C>"
+                                "#_20076" to "<http://example.org/test#C>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_20075" to "<http://example.org/test#A>"
+                                "#_20076" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_20075" to "<http://example.org/test#B>"
+                                "#_20076" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_20075" to "<http://example.org/test#C>"
+                                "#_20076" to "<http://example.org/test#C>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#p>",
-                                "#_20075" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
+                                "#_20076" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#p>",
-                                "#_20075" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                "#_20076" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                             ),
                             mutableMapOf(
                                 "x" to "_:simple",
-                                "#_20075" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                "#_20076" to "<http://www.w3.org/2002/07/owl#Ontology>"
                             )
                         )
                     )
@@ -6365,19 +6387,19 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#B>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#C>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20200","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20201","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_20200"
+                            "#_20201"
                         ), listOf(
                             mutableMapOf(
-                                "#_20200" to "<http://example.org/test#A>"
+                                "#_20201" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
-                                "#_20200" to "<http://example.org/test#B>"
+                                "#_20201" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
-                                "#_20200" to "<http://example.org/test#C>"
+                                "#_20201" to "<http://example.org/test#C>"
                             )
                         )
                     )
@@ -6403,63 +6425,63 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:simple","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20192",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20193",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x",
-                            "#_20192"
+                            "#_20193"
                         ), listOf(
                             mutableMapOf(
                                 "x" to "<http://example.org/test#A>",
-                                "#_20192" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_20193" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#B>",
-                                "#_20192" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_20193" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#C>",
-                                "#_20192" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_20193" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#a>",
-                                "#_20192" to "<http://example.org/test#A>"
+                                "#_20193" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#a>",
-                                "#_20192" to "<http://example.org/test#B>"
+                                "#_20193" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#b>",
-                                "#_20192" to "<http://example.org/test#B>"
+                                "#_20193" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#c>",
-                                "#_20192" to "<http://example.org/test#C>"
+                                "#_20193" to "<http://example.org/test#C>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_20192" to "<http://example.org/test#A>"
+                                "#_20193" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_20192" to "<http://example.org/test#B>"
+                                "#_20193" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_20192" to "<http://example.org/test#C>"
+                                "#_20193" to "<http://example.org/test#C>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#p>",
-                                "#_20192" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
+                                "#_20193" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#p>",
-                                "#_20192" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                "#_20193" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                             ),
                             mutableMapOf(
                                 "x" to "_:simple",
-                                "#_20192" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                "#_20193" to "<http://www.w3.org/2002/07/owl#Ontology>"
                             )
                         )
                     )
@@ -6474,6 +6496,34 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#A>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#B>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#C>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20357","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "#_20357"
+                        ), listOf(
+                            mutableMapOf(
+                                "#_20357" to "<http://example.org/test#A>"
+                            ),
+                            mutableMapOf(
+                                "#_20357" to "<http://example.org/test#B>"
+                            ),
+                            mutableMapOf(
+                                "#_20357" to "<http://example.org/test#C>"
+                            )
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/entailment/simple6.rq */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("<http://example.org/test#A>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/test#B>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                        graph.addData(1L,listOf("<http://example.org/test#C>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#a>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#A>"))
                         graph.addData(1L,listOf("<http://example.org/test#a>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#B>"))
                         graph.addData(1L,listOf("<http://example.org/test#b>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#B>"))
@@ -6485,63 +6535,63 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:simple","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20348",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20349",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x",
-                            "#_20348"
+                            "#_20349"
                         ), listOf(
                             mutableMapOf(
                                 "x" to "<http://example.org/test#A>",
-                                "#_20348" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_20349" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#B>",
-                                "#_20348" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_20349" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#C>",
-                                "#_20348" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_20349" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#a>",
-                                "#_20348" to "<http://example.org/test#A>"
+                                "#_20349" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#a>",
-                                "#_20348" to "<http://example.org/test#B>"
+                                "#_20349" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#b>",
-                                "#_20348" to "<http://example.org/test#B>"
+                                "#_20349" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#c>",
-                                "#_20348" to "<http://example.org/test#C>"
+                                "#_20349" to "<http://example.org/test#C>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_20348" to "<http://example.org/test#A>"
+                                "#_20349" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_20348" to "<http://example.org/test#B>"
+                                "#_20349" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_20348" to "<http://example.org/test#C>"
+                                "#_20349" to "<http://example.org/test#C>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#p>",
-                                "#_20348" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
+                                "#_20349" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#p>",
-                                "#_20348" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                "#_20349" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                             ),
                             mutableMapOf(
                                 "x" to "_:simple",
-                                "#_20348" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                "#_20349" to "<http://www.w3.org/2002/07/owl#Ontology>"
                             )
                         )
                     )
@@ -6557,47 +6607,19 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#B>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#C>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20356","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20539","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_20356"
+                            "#_20539"
                         ), listOf(
                             mutableMapOf(
-                                "#_20356" to "<http://example.org/test#A>"
+                                "#_20539" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
-                                "#_20356" to "<http://example.org/test#B>"
+                                "#_20539" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
-                                "#_20356" to "<http://example.org/test#C>"
-                            )
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/entailment/simple6.rq */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/test#A>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/test#B>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        graph.addData(1L,listOf("<http://example.org/test#C>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20529","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "#_20529"
-                        ), listOf(
-                            mutableMapOf(
-                                "#_20529" to "<http://example.org/test#A>"
-                            ),
-                            mutableMapOf(
-                                "#_20529" to "<http://example.org/test#B>"
-                            ),
-                            mutableMapOf(
-                                "#_20529" to "<http://example.org/test#C>"
+                                "#_20539" to "<http://example.org/test#C>"
                             )
                         )
                     )
@@ -6613,19 +6635,19 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#B>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         graph.addData(1L,listOf("<http://example.org/test#C>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20538","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_20530","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>",false,true,true,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
-                            "#_20538"
+                            "#_20530"
                         ), listOf(
                             mutableMapOf(
-                                "#_20538" to "<http://example.org/test#A>"
+                                "#_20530" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
-                                "#_20538" to "<http://example.org/test#B>"
+                                "#_20530" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
-                                "#_20538" to "<http://example.org/test#C>"
+                                "#_20530" to "<http://example.org/test#C>"
                             )
                         )
                     )
@@ -6651,63 +6673,63 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:simple","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20529",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20530",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x",
-                            "#_20529"
+                            "#_20530"
                         ), listOf(
                             mutableMapOf(
                                 "x" to "<http://example.org/test#A>",
-                                "#_20529" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_20530" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#B>",
-                                "#_20529" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_20530" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#C>",
-                                "#_20529" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_20530" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#a>",
-                                "#_20529" to "<http://example.org/test#A>"
+                                "#_20530" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#a>",
-                                "#_20529" to "<http://example.org/test#B>"
+                                "#_20530" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#b>",
-                                "#_20529" to "<http://example.org/test#B>"
+                                "#_20530" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#c>",
-                                "#_20529" to "<http://example.org/test#C>"
+                                "#_20530" to "<http://example.org/test#C>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_20529" to "<http://example.org/test#A>"
+                                "#_20530" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_20529" to "<http://example.org/test#B>"
+                                "#_20530" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_20529" to "<http://example.org/test#C>"
+                                "#_20530" to "<http://example.org/test#C>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#p>",
-                                "#_20529" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
+                                "#_20530" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#p>",
-                                "#_20529" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                "#_20530" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                             ),
                             mutableMapOf(
                                 "x" to "_:simple",
-                                "#_20529" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                "#_20530" to "<http://www.w3.org/2002/07/owl#Ontology>"
                             )
                         )
                     )
@@ -6733,63 +6755,63 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         graph.addData(1L,listOf("<http://example.org/test#p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
                         graph.addData(1L,listOf("_:simple","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
                         DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20721",false,true,false,EIndexPattern.SPO)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","#_20722",false,true,false,EIndexPattern.SPO)
                     }(),
                     POPValues(dictionary, listOf(
                             "x",
-                            "#_20721"
+                            "#_20722"
                         ), listOf(
                             mutableMapOf(
                                 "x" to "<http://example.org/test#A>",
-                                "#_20721" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_20722" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#B>",
-                                "#_20721" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_20722" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#C>",
-                                "#_20721" to "<http://www.w3.org/2002/07/owl#Class>"
+                                "#_20722" to "<http://www.w3.org/2002/07/owl#Class>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#a>",
-                                "#_20721" to "<http://example.org/test#A>"
+                                "#_20722" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#a>",
-                                "#_20721" to "<http://example.org/test#B>"
+                                "#_20722" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#b>",
-                                "#_20721" to "<http://example.org/test#B>"
+                                "#_20722" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#c>",
-                                "#_20721" to "<http://example.org/test#C>"
+                                "#_20722" to "<http://example.org/test#C>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_20721" to "<http://example.org/test#A>"
+                                "#_20722" to "<http://example.org/test#A>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_20721" to "<http://example.org/test#B>"
+                                "#_20722" to "<http://example.org/test#B>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#d>",
-                                "#_20721" to "<http://example.org/test#C>"
+                                "#_20722" to "<http://example.org/test#C>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#p>",
-                                "#_20721" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
+                                "#_20722" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/test#p>",
-                                "#_20721" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                "#_20722" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                             ),
                             mutableMapOf(
                                 "x" to "_:simple",
-                                "#_20721" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                "#_20722" to "<http://www.w3.org/2002/07/owl#Ontology>"
                             )
                         )
                     )
@@ -7171,58 +7193,6 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/str>", "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"))
                             graph.addData(1L, listOf("<http://example.org/s7>", "<http://example.org/str>", "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
                             DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s1", "<http://example.org/str>", "str1", false, true, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "s1",
-                                "str1"
-                        ), listOf(
-                                mutableMapOf(
-                                        "s1" to "<http://example.org/s1>",
-                                        "str1" to "\"123\""
-                                ),
-                                mutableMapOf(
-                                        "s1" to "<http://example.org/s2>",
-                                        "str1" to "\"日本語\"@ja"
-                                ),
-                                mutableMapOf(
-                                        "s1" to "<http://example.org/s3>",
-                                        "str1" to "\"english\"@en"
-                                ),
-                                mutableMapOf(
-                                        "s1" to "<http://example.org/s4>",
-                                        "str1" to "\"français\"@fr"
-                                ),
-                                mutableMapOf(
-                                        "s1" to "<http://example.org/s5>",
-                                        "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s1" to "<http://example.org/s6>",
-                                        "str1" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s1" to "<http://example.org/s7>",
-                                        "str1" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                )
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/str>", "\"123\""))
-                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/str>", "\"日本語\"@ja"))
-                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/str>", "\"english\"@en"))
-                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/str>", "\"français\"@fr"))
-                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/str>", "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/str>", "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                            graph.addData(1L, listOf("<http://example.org/s7>", "<http://example.org/str>", "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            DistributedTripleStore.commit(1L)
                             TripleStoreIteratorGlobal(1L, dictionary, graphName, "s2", "<http://example.org/str>", "str2", false, true, false, EIndexPattern.SPO)
                         }(),
                         POPValues(dictionary, listOf(
@@ -7256,6 +7226,58 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 mutableMapOf(
                                         "s2" to "<http://example.org/s7>",
                                         "str2" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                )
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/str>", "\"123\""))
+                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/str>", "\"日本語\"@ja"))
+                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/str>", "\"english\"@en"))
+                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/str>", "\"français\"@fr"))
+                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/str>", "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/str>", "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                            graph.addData(1L, listOf("<http://example.org/s7>", "<http://example.org/str>", "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s1", "<http://example.org/str>", "str1", false, true, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "s1",
+                                "str1"
+                        ), listOf(
+                                mutableMapOf(
+                                        "s1" to "<http://example.org/s1>",
+                                        "str1" to "\"123\""
+                                ),
+                                mutableMapOf(
+                                        "s1" to "<http://example.org/s2>",
+                                        "str1" to "\"日本語\"@ja"
+                                ),
+                                mutableMapOf(
+                                        "s1" to "<http://example.org/s3>",
+                                        "str1" to "\"english\"@en"
+                                ),
+                                mutableMapOf(
+                                        "s1" to "<http://example.org/s4>",
+                                        "str1" to "\"français\"@fr"
+                                ),
+                                mutableMapOf(
+                                        "s1" to "<http://example.org/s5>",
+                                        "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                        "s1" to "<http://example.org/s6>",
+                                        "str1" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                        "s1" to "<http://example.org/s7>",
+                                        "str1" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"
                                 )
                         )
                         )
@@ -7381,63 +7403,6 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         {
                             val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                             val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
-                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
-                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
-                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
-                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example/p>", "x", false, true, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x"
-                        ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example/x1>",
-                                        "x" to "\"a\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x2>",
-                                        "x" to "_:b"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x3>",
-                                        "x" to "<http://example/a>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x4>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x5>",
-                                        "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x6>",
-                                        "x" to "\"1\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x7>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x8>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                )
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
                             graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
                             graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
                             graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
@@ -7484,6 +7449,63 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 mutableMapOf(
                                         "s" to "<http://example/x8>",
                                         "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                )
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
+                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
+                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
+                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
+                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example/p>", "x", false, true, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x"
+                        ), listOf(
+                                mutableMapOf(
+                                        "s" to "<http://example/x1>",
+                                        "x" to "\"a\""
+                                ),
+                                mutableMapOf(
+                                        "s" to "<http://example/x2>",
+                                        "x" to "_:b"
+                                ),
+                                mutableMapOf(
+                                        "s" to "<http://example/x3>",
+                                        "x" to "<http://example/a>"
+                                ),
+                                mutableMapOf(
+                                        "s" to "<http://example/x4>",
+                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                        "s" to "<http://example/x5>",
+                                        "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                                ),
+                                mutableMapOf(
+                                        "s" to "<http://example/x6>",
+                                        "x" to "\"1\""
+                                ),
+                                mutableMapOf(
+                                        "s" to "<http://example/x7>",
+                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                                ),
+                                mutableMapOf(
+                                        "s" to "<http://example/x8>",
+                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
                                 )
                         )
                         )
@@ -8259,140 +8281,6 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         {
                             val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                             val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("_:_35194", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                            graph.addData(1L, listOf("_:_35195", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
-                            graph.addData(1L, listOf("_:_35196", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
-                            graph.addData(1L, listOf("_:_35197", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                            graph.addData(1L, listOf("_:_35198", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
-                            graph.addData(1L, listOf("_:_35199", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                            graph.addData(1L, listOf("_:_35200", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
-                            graph.addData(1L, listOf("_:_35201", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                            graph.addData(1L, listOf("_:_35202", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
-                            graph.addData(1L, listOf("_:_35203", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "#_35217", "<http://www.w3.org/2000/01/rdf-schema#label>", "L", false, true, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "#_35217",
-                                "L"
-                        ), listOf(
-                                mutableMapOf(
-                                        "#_35217" to "_:_35194",
-                                        "L" to "\"Ice Cream\""
-                                ),
-                                mutableMapOf(
-                                        "#_35217" to "_:_35195",
-                                        "L" to "\"Pizza\""
-                                ),
-                                mutableMapOf(
-                                        "#_35217" to "_:_35196",
-                                        "L" to "\"Wine\""
-                                ),
-                                mutableMapOf(
-                                        "#_35217" to "_:_35197",
-                                        "L" to "\"Ice Cream\""
-                                ),
-                                mutableMapOf(
-                                        "#_35217" to "_:_35198",
-                                        "L" to "\"Pasta\""
-                                ),
-                                mutableMapOf(
-                                        "#_35217" to "_:_35199",
-                                        "L" to "\"Soft Drink\""
-                                ),
-                                mutableMapOf(
-                                        "#_35217" to "_:_35200",
-                                        "L" to "\"Sandwich\""
-                                ),
-                                mutableMapOf(
-                                        "#_35217" to "_:_35201",
-                                        "L" to "\"Soft Drink\""
-                                ),
-                                mutableMapOf(
-                                        "#_35217" to "_:_35202",
-                                        "L" to "\"Bagel\""
-                                ),
-                                mutableMapOf(
-                                        "#_35217" to "_:_35203",
-                                        "L" to "\"Soft Drink\""
-                                )
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35194"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35195"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35196"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35197"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35198"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35199"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_35200"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_35201"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_35202"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_35203"))
-                            DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.example.orghasItem>", "#_35217", false, true, false, EIndexPattern.SPO)
-                        }(),
-                        POPValues(dictionary, listOf(
-                                "O",
-                                "#_35217"
-                        ), listOf(
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder1>",
-                                        "#_35217" to "_:_35194"
-                                ),
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder1>",
-                                        "#_35217" to "_:_35195"
-                                ),
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder1>",
-                                        "#_35217" to "_:_35196"
-                                ),
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder2>",
-                                        "#_35217" to "_:_35197"
-                                ),
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder2>",
-                                        "#_35217" to "_:_35198"
-                                ),
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder2>",
-                                        "#_35217" to "_:_35199"
-                                ),
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder3>",
-                                        "#_35217" to "_:_35200"
-                                ),
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder3>",
-                                        "#_35217" to "_:_35201"
-                                ),
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder4>",
-                                        "#_35217" to "_:_35202"
-                                ),
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder4>",
-                                        "#_35217" to "_:_35203"
-                                )
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        {
-                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                            val graph = DistributedTripleStore.createGraph(graphName)
                             graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
                             graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
                             graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
@@ -8414,6 +8302,140 @@ class GeneratedTripleStoreIteratorGlobalTest {
                                 ),
                                 mutableMapOf(
                                         "O" to "<http://www.example.orgorder4>"
+                                )
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("_:_35195", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                            graph.addData(1L, listOf("_:_35196", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
+                            graph.addData(1L, listOf("_:_35197", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
+                            graph.addData(1L, listOf("_:_35198", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                            graph.addData(1L, listOf("_:_35199", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
+                            graph.addData(1L, listOf("_:_35200", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                            graph.addData(1L, listOf("_:_35201", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
+                            graph.addData(1L, listOf("_:_35202", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                            graph.addData(1L, listOf("_:_35203", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
+                            graph.addData(1L, listOf("_:_35204", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "#_35218", "<http://www.w3.org/2000/01/rdf-schema#label>", "L", false, true, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "#_35218",
+                                "L"
+                        ), listOf(
+                                mutableMapOf(
+                                        "#_35218" to "_:_35195",
+                                        "L" to "\"Ice Cream\""
+                                ),
+                                mutableMapOf(
+                                        "#_35218" to "_:_35196",
+                                        "L" to "\"Pizza\""
+                                ),
+                                mutableMapOf(
+                                        "#_35218" to "_:_35197",
+                                        "L" to "\"Wine\""
+                                ),
+                                mutableMapOf(
+                                        "#_35218" to "_:_35198",
+                                        "L" to "\"Ice Cream\""
+                                ),
+                                mutableMapOf(
+                                        "#_35218" to "_:_35199",
+                                        "L" to "\"Pasta\""
+                                ),
+                                mutableMapOf(
+                                        "#_35218" to "_:_35200",
+                                        "L" to "\"Soft Drink\""
+                                ),
+                                mutableMapOf(
+                                        "#_35218" to "_:_35201",
+                                        "L" to "\"Sandwich\""
+                                ),
+                                mutableMapOf(
+                                        "#_35218" to "_:_35202",
+                                        "L" to "\"Soft Drink\""
+                                ),
+                                mutableMapOf(
+                                        "#_35218" to "_:_35203",
+                                        "L" to "\"Bagel\""
+                                ),
+                                mutableMapOf(
+                                        "#_35218" to "_:_35204",
+                                        "L" to "\"Soft Drink\""
+                                )
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                        {
+                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                            val graph = DistributedTripleStore.createGraph(graphName)
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35195"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35196"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35197"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35198"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35199"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35200"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_35201"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_35202"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_35203"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_35204"))
+                            DistributedTripleStore.commit(1L)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.example.orghasItem>", "#_35218", false, true, false, EIndexPattern.SPO)
+                        }(),
+                        POPValues(dictionary, listOf(
+                                "O",
+                                "#_35218"
+                        ), listOf(
+                                mutableMapOf(
+                                        "O" to "<http://www.example.orgorder1>",
+                                        "#_35218" to "_:_35195"
+                                ),
+                                mutableMapOf(
+                                        "O" to "<http://www.example.orgorder1>",
+                                        "#_35218" to "_:_35196"
+                                ),
+                                mutableMapOf(
+                                        "O" to "<http://www.example.orgorder1>",
+                                        "#_35218" to "_:_35197"
+                                ),
+                                mutableMapOf(
+                                        "O" to "<http://www.example.orgorder2>",
+                                        "#_35218" to "_:_35198"
+                                ),
+                                mutableMapOf(
+                                        "O" to "<http://www.example.orgorder2>",
+                                        "#_35218" to "_:_35199"
+                                ),
+                                mutableMapOf(
+                                        "O" to "<http://www.example.orgorder2>",
+                                        "#_35218" to "_:_35200"
+                                ),
+                                mutableMapOf(
+                                        "O" to "<http://www.example.orgorder3>",
+                                        "#_35218" to "_:_35201"
+                                ),
+                                mutableMapOf(
+                                        "O" to "<http://www.example.orgorder3>",
+                                        "#_35218" to "_:_35202"
+                                ),
+                                mutableMapOf(
+                                        "O" to "<http://www.example.orgorder4>",
+                                        "#_35218" to "_:_35203"
+                                ),
+                                mutableMapOf(
+                                        "O" to "<http://www.example.orgorder4>",
+                                        "#_35218" to "_:_35204"
                                 )
                         )
                         )
@@ -8469,62 +8491,62 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         {
                             val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                             val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("_:_35543", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                            graph.addData(1L, listOf("_:_35544", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
-                            graph.addData(1L, listOf("_:_35545", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
-                            graph.addData(1L, listOf("_:_35546", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                            graph.addData(1L, listOf("_:_35547", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
-                            graph.addData(1L, listOf("_:_35548", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                            graph.addData(1L, listOf("_:_35549", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
-                            graph.addData(1L, listOf("_:_35550", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                            graph.addData(1L, listOf("_:_35551", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
-                            graph.addData(1L, listOf("_:_35552", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35544"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35545"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35546"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35547"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35548"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35549"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_35550"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_35551"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_35552"))
+                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_35553"))
                             DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "#_35566", "<http://www.w3.org/2000/01/rdf-schema#label>", "L", false, true, false, EIndexPattern.SPO)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.example.orghasItem>", "#_35567", false, true, false, EIndexPattern.SPO)
                         }(),
                         POPValues(dictionary, listOf(
-                                "#_35566",
-                                "L"
+                                "O",
+                                "#_35567"
                         ), listOf(
                                 mutableMapOf(
-                                        "#_35566" to "_:_35543",
-                                        "L" to "\"Ice Cream\""
+                                        "O" to "<http://www.example.orgorder1>",
+                                        "#_35567" to "_:_35544"
                                 ),
                                 mutableMapOf(
-                                        "#_35566" to "_:_35544",
-                                        "L" to "\"Pizza\""
+                                        "O" to "<http://www.example.orgorder1>",
+                                        "#_35567" to "_:_35545"
                                 ),
                                 mutableMapOf(
-                                        "#_35566" to "_:_35545",
-                                        "L" to "\"Wine\""
+                                        "O" to "<http://www.example.orgorder1>",
+                                        "#_35567" to "_:_35546"
                                 ),
                                 mutableMapOf(
-                                        "#_35566" to "_:_35546",
-                                        "L" to "\"Ice Cream\""
+                                        "O" to "<http://www.example.orgorder2>",
+                                        "#_35567" to "_:_35547"
                                 ),
                                 mutableMapOf(
-                                        "#_35566" to "_:_35547",
-                                        "L" to "\"Pasta\""
+                                        "O" to "<http://www.example.orgorder2>",
+                                        "#_35567" to "_:_35548"
                                 ),
                                 mutableMapOf(
-                                        "#_35566" to "_:_35548",
-                                        "L" to "\"Soft Drink\""
+                                        "O" to "<http://www.example.orgorder2>",
+                                        "#_35567" to "_:_35549"
                                 ),
                                 mutableMapOf(
-                                        "#_35566" to "_:_35549",
-                                        "L" to "\"Sandwich\""
+                                        "O" to "<http://www.example.orgorder3>",
+                                        "#_35567" to "_:_35550"
                                 ),
                                 mutableMapOf(
-                                        "#_35566" to "_:_35550",
-                                        "L" to "\"Soft Drink\""
+                                        "O" to "<http://www.example.orgorder3>",
+                                        "#_35567" to "_:_35551"
                                 ),
                                 mutableMapOf(
-                                        "#_35566" to "_:_35551",
-                                        "L" to "\"Bagel\""
+                                        "O" to "<http://www.example.orgorder4>",
+                                        "#_35567" to "_:_35552"
                                 ),
                                 mutableMapOf(
-                                        "#_35566" to "_:_35552",
-                                        "L" to "\"Soft Drink\""
+                                        "O" to "<http://www.example.orgorder4>",
+                                        "#_35567" to "_:_35553"
                                 )
                         )
                         )
@@ -8536,62 +8558,62 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         {
                             val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                             val graph = DistributedTripleStore.createGraph(graphName)
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35543"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35544"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35545"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35546"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35547"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35548"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_35549"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_35550"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_35551"))
-                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_35552"))
+                            graph.addData(1L, listOf("_:_35544", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                            graph.addData(1L, listOf("_:_35545", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
+                            graph.addData(1L, listOf("_:_35546", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
+                            graph.addData(1L, listOf("_:_35547", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                            graph.addData(1L, listOf("_:_35548", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
+                            graph.addData(1L, listOf("_:_35549", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                            graph.addData(1L, listOf("_:_35550", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
+                            graph.addData(1L, listOf("_:_35551", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                            graph.addData(1L, listOf("_:_35552", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
+                            graph.addData(1L, listOf("_:_35553", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
                             DistributedTripleStore.commit(1L)
-                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.example.orghasItem>", "#_35566", false, true, false, EIndexPattern.SPO)
+                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "#_35567", "<http://www.w3.org/2000/01/rdf-schema#label>", "L", false, true, false, EIndexPattern.SPO)
                         }(),
                         POPValues(dictionary, listOf(
-                                "O",
-                                "#_35566"
+                                "#_35567",
+                                "L"
                         ), listOf(
                                 mutableMapOf(
-                                        "O" to "<http://www.example.orgorder1>",
-                                        "#_35566" to "_:_35543"
+                                        "#_35567" to "_:_35544",
+                                        "L" to "\"Ice Cream\""
                                 ),
                                 mutableMapOf(
-                                        "O" to "<http://www.example.orgorder1>",
-                                        "#_35566" to "_:_35544"
+                                        "#_35567" to "_:_35545",
+                                        "L" to "\"Pizza\""
                                 ),
                                 mutableMapOf(
-                                        "O" to "<http://www.example.orgorder1>",
-                                        "#_35566" to "_:_35545"
+                                        "#_35567" to "_:_35546",
+                                        "L" to "\"Wine\""
                                 ),
                                 mutableMapOf(
-                                        "O" to "<http://www.example.orgorder2>",
-                                        "#_35566" to "_:_35546"
+                                        "#_35567" to "_:_35547",
+                                        "L" to "\"Ice Cream\""
                                 ),
                                 mutableMapOf(
-                                        "O" to "<http://www.example.orgorder2>",
-                                        "#_35566" to "_:_35547"
+                                        "#_35567" to "_:_35548",
+                                        "L" to "\"Pasta\""
                                 ),
                                 mutableMapOf(
-                                        "O" to "<http://www.example.orgorder2>",
-                                        "#_35566" to "_:_35548"
+                                        "#_35567" to "_:_35549",
+                                        "L" to "\"Soft Drink\""
                                 ),
                                 mutableMapOf(
-                                        "O" to "<http://www.example.orgorder3>",
-                                        "#_35566" to "_:_35549"
+                                        "#_35567" to "_:_35550",
+                                        "L" to "\"Sandwich\""
                                 ),
                                 mutableMapOf(
-                                        "O" to "<http://www.example.orgorder3>",
-                                        "#_35566" to "_:_35550"
+                                        "#_35567" to "_:_35551",
+                                        "L" to "\"Soft Drink\""
                                 ),
                                 mutableMapOf(
-                                        "O" to "<http://www.example.orgorder4>",
-                                        "#_35566" to "_:_35551"
+                                        "#_35567" to "_:_35552",
+                                        "L" to "\"Bagel\""
                                 ),
                                 mutableMapOf(
-                                        "O" to "<http://www.example.orgorder4>",
-                                        "#_35566" to "_:_35552"
+                                        "#_35567" to "_:_35553",
+                                        "L" to "\"Soft Drink\""
                                 )
                         )
                         )
@@ -8612,28 +8634,6 @@ class GeneratedTripleStoreIteratorGlobalTest {
                         ), listOf(
                             mutableMapOf(
                                 "person" to "<http://example.org/ns#a>"
-                            )
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/subquery/sq14.rq */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    {
-                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                        val graph=DistributedTripleStore.createGraph(graphName)
-                        graph.addData(1L,listOf("<http://example.org/ns#b>","<http://xmlns.com/foaf/0.1/mbox>","<mailto:ben@example.org>"))
-                        DistributedTripleStore.commit(1L)
-                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"person","<http://xmlns.com/foaf/0.1/mbox>","mbox",false,true,false,EIndexPattern.SPO)
-                    }(),
-                    POPValues(dictionary, listOf(
-                            "person",
-                            "mbox"
-                        ), listOf(
-                            mutableMapOf(
-                                "person" to "<http://example.org/ns#b>",
-                                "mbox" to "<mailto:ben@example.org>"
                             )
                         )
                     )
@@ -8678,6 +8678,28 @@ class GeneratedTripleStoreIteratorGlobalTest {
                             mutableMapOf(
                                 "person" to "<http://example.org/ns#a>",
                                 "name" to "\"Alan\""
+                            )
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/subquery/sq14.rq */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    {
+                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                        val graph=DistributedTripleStore.createGraph(graphName)
+                        graph.addData(1L,listOf("<http://example.org/ns#b>","<http://xmlns.com/foaf/0.1/mbox>","<mailto:ben@example.org>"))
+                        DistributedTripleStore.commit(1L)
+                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"person","<http://xmlns.com/foaf/0.1/mbox>","mbox",false,true,false,EIndexPattern.SPO)
+                    }(),
+                    POPValues(dictionary, listOf(
+                            "person",
+                            "mbox"
+                        ), listOf(
+                            mutableMapOf(
+                                "person" to "<http://example.org/ns#b>",
+                                "mbox" to "<mailto:ben@example.org>"
                             )
                         )
                     )

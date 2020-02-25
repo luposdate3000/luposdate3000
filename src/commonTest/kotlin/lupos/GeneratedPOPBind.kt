@@ -563,7 +563,7 @@ class GeneratedPOPBindTest {
                         POPBind(
                                 dictionary,
                                 AOPVariable("z"),
-                                POPExpression(dictionary, AOPAddition(AOPInteger(2), AOPVariable("o"))),
+                                POPExpression(dictionary, AOPAddition(AOPInteger(1), AOPVariable("o"))),
                                 POPValues(dictionary, listOf(
                                         "o"
                                 ), listOf(
@@ -591,7 +591,7 @@ class GeneratedPOPBindTest {
                         POPBind(
                                 dictionary,
                                 AOPVariable("z"),
-                                POPExpression(dictionary, AOPAddition(AOPInteger(1), AOPVariable("o"))),
+                                POPExpression(dictionary, AOPAddition(AOPInteger(2), AOPVariable("o"))),
                                 POPValues(dictionary, listOf(
                                         "o"
                                 ), listOf(
@@ -3624,28 +3624,28 @@ class GeneratedPOPBindTest {
                                         "s1" to "\"foo\"",
                                         "b" to "<http://example.org/s1>",
                                         "s2" to "\"foo\"",
-                                        "b2" to "_:27514\"foo\""
+                                        "b2" to "_:27515\"foo\""
                                 ),
                                 mutableMapOf(
                                         "a" to "<http://example.org/s3>",
                                         "s1" to "\"BAZ\"",
                                         "b" to "<http://example.org/s1>",
                                         "s2" to "\"foo\"",
-                                        "b2" to "_:27514\"foo\""
+                                        "b2" to "_:27515\"foo\""
                                 ),
                                 mutableMapOf(
                                         "a" to "<http://example.org/s1>",
                                         "s1" to "\"foo\"",
                                         "b" to "<http://example.org/s3>",
                                         "s2" to "\"BAZ\"",
-                                        "b2" to "_:27514\"BAZ\""
+                                        "b2" to "_:27515\"BAZ\""
                                 ),
                                 mutableMapOf(
                                         "a" to "<http://example.org/s3>",
                                         "s1" to "\"BAZ\"",
                                         "b" to "<http://example.org/s3>",
                                         "s2" to "\"BAZ\"",
-                                        "b2" to "_:27514\"BAZ\""
+                                        "b2" to "_:27515\"BAZ\""
                                 )
                         )
                         )
@@ -3670,28 +3670,28 @@ class GeneratedPOPBindTest {
                                                 "s1" to "\"foo\"",
                                                 "b" to "<http://example.org/s1>",
                                                 "s2" to "\"foo\"",
-                                                "b2" to "_:27514\"foo\""
+                                                "b2" to "_:27515\"foo\""
                                         ),
                                         mutableMapOf(
                                                 "a" to "<http://example.org/s3>",
                                                 "s1" to "\"BAZ\"",
                                                 "b" to "<http://example.org/s1>",
                                                 "s2" to "\"foo\"",
-                                                "b2" to "_:27514\"foo\""
+                                                "b2" to "_:27515\"foo\""
                                         ),
                                         mutableMapOf(
                                                 "a" to "<http://example.org/s1>",
                                                 "s1" to "\"foo\"",
                                                 "b" to "<http://example.org/s3>",
                                                 "s2" to "\"BAZ\"",
-                                                "b2" to "_:27514\"BAZ\""
+                                                "b2" to "_:27515\"BAZ\""
                                         ),
                                         mutableMapOf(
                                                 "a" to "<http://example.org/s3>",
                                                 "s1" to "\"BAZ\"",
                                                 "b" to "<http://example.org/s3>",
                                                 "s2" to "\"BAZ\"",
-                                                "b2" to "_:27514\"BAZ\""
+                                                "b2" to "_:27515\"BAZ\""
                                         )
                                 )
                                 )
@@ -3709,32 +3709,32 @@ class GeneratedPOPBindTest {
                                         "s1" to "\"foo\"",
                                         "b" to "<http://example.org/s1>",
                                         "s2" to "\"foo\"",
-                                        "b2" to "_:27514\"foo\"",
-                                        "b1" to "_:27508\"foo\""
+                                        "b2" to "_:27515\"foo\"",
+                                        "b1" to "_:27509\"foo\""
                                 ),
                                 mutableMapOf(
                                         "a" to "<http://example.org/s3>",
                                         "s1" to "\"BAZ\"",
                                         "b" to "<http://example.org/s1>",
                                         "s2" to "\"foo\"",
-                                        "b2" to "_:27514\"foo\"",
-                                        "b1" to "_:27508\"BAZ\""
+                                        "b2" to "_:27515\"foo\"",
+                                        "b1" to "_:27509\"BAZ\""
                                 ),
                                 mutableMapOf(
                                         "a" to "<http://example.org/s1>",
                                         "s1" to "\"foo\"",
                                         "b" to "<http://example.org/s3>",
                                         "s2" to "\"BAZ\"",
-                                        "b2" to "_:27514\"BAZ\"",
-                                        "b1" to "_:27508\"foo\""
+                                        "b2" to "_:27515\"BAZ\"",
+                                        "b1" to "_:27509\"foo\""
                                 ),
                                 mutableMapOf(
                                         "a" to "<http://example.org/s3>",
                                         "s1" to "\"BAZ\"",
                                         "b" to "<http://example.org/s3>",
                                         "s2" to "\"BAZ\"",
-                                        "b2" to "_:27514\"BAZ\"",
-                                        "b1" to "_:27508\"BAZ\""
+                                        "b2" to "_:27515\"BAZ\"",
+                                        "b1" to "_:27509\"BAZ\""
                                 )
                         )
                         )
@@ -3758,7 +3758,7 @@ class GeneratedPOPBindTest {
                                 "b2"
                         ), listOf(
                                 mutableMapOf(
-                                        "b2" to "_:2953129556"
+                                        "b2" to "_:2953229557"
                                 )
                         )
                         )
@@ -3775,7 +3775,7 @@ class GeneratedPOPBindTest {
                                         "b2"
                                 ), listOf(
                                         mutableMapOf(
-                                                "b2" to "_:2953129556"
+                                                "b2" to "_:2953229557"
                                         )
                                 )
                                 )
@@ -3785,8 +3785,8 @@ class GeneratedPOPBindTest {
                                 "b1"
                         ), listOf(
                                 mutableMapOf(
-                                        "b2" to "_:2953129556",
-                                        "b1" to "_:2952629558"
+                                        "b2" to "_:2953229557",
+                                        "b1" to "_:2952729559"
                                 )
                         )
                         )
@@ -3810,7 +3810,7 @@ class GeneratedPOPBindTest {
                                 "b2"
                         ), listOf(
                                 mutableMapOf(
-                                        "b2" to "_:2956229580"
+                                        "b2" to "_:2956329581"
                                 )
                         )
                         )
@@ -3827,7 +3827,7 @@ class GeneratedPOPBindTest {
                                         "b2"
                                 ), listOf(
                                         mutableMapOf(
-                                                "b2" to "_:2956229580"
+                                                "b2" to "_:2956329581"
                                         )
                                 )
                                 )
@@ -3837,8 +3837,8 @@ class GeneratedPOPBindTest {
                                 "b1"
                         ), listOf(
                                 mutableMapOf(
-                                        "b2" to "_:2956229580",
-                                        "b1" to "_:2956929582"
+                                        "b2" to "_:2956329581",
+                                        "b1" to "_:2957029583"
                                 )
                         )
                         )
@@ -3850,7 +3850,7 @@ class GeneratedPOPBindTest {
                         POPBind(
                                 dictionary,
                                 AOPVariable("n"),
-                                POPExpression(dictionary, AOPDateTime("\"2020-02-25T07:41:15Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")),
+                                POPExpression(dictionary, AOPDateTime("\"2020-02-25T08:04:25Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")),
                                 POPValues(dictionary, listOf(
                                 ), listOf(
                                         mutableMapOf(
@@ -3862,7 +3862,7 @@ class GeneratedPOPBindTest {
                                 "n"
                         ), listOf(
                                 mutableMapOf(
-                                        "n" to "\"2020-02-25T07:41:15Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                        "n" to "\"2020-02-25T08:04:25Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                         )
                         )

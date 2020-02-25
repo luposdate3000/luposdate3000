@@ -123,11 +123,5 @@ class POPJoinNestedLoop : POPBase {
         }
     })
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPJoinNestedLoop")
-        res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("optional", "" + optional)
-        res.addContent(childrenToXML())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
 }

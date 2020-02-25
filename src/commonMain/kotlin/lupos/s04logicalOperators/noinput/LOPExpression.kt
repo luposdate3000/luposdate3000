@@ -27,12 +27,6 @@ class LOPExpression(val child: AOPBase) : LOPBase() {
         return getAllVariablesInChildren(child)
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPExpression")
-        res.addContent(childrenToXML())
-        return res
-    }
-
     override fun equals(other: Any?): Boolean {
         if (other !is LOPExpression)
             return false

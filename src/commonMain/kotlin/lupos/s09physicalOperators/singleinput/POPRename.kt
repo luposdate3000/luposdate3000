@@ -101,12 +101,5 @@ class POPRename : POPBase {
         }
     })
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPRename")
-        res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("nameTo", nameTo.name)
-        res.addAttribute("nameFrom", nameFrom.name)
-        res.addContent(childrenToXML())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("nameTo", nameTo.name).addAttribute("nameFrom", nameFrom.name)
 }

@@ -20,12 +20,6 @@ class LOPReduced() : LOPBase() {
         return children[0].getRequiredVariableNames()
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPReduced")
-        res.addContent(childrenToXML())
-        return res
-    }
-
     override fun equals(other: Any?): Boolean {
         if (other !is LOPReduced)
             return false

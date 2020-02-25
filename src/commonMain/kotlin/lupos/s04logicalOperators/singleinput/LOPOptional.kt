@@ -20,12 +20,6 @@ class LOPOptional() : LOPBase() {
         return children[0].getRequiredVariableNames()
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPOptional")
-        res.addContent(childrenToXML())
-        return res
-    }
-
     override fun equals(other: Any?): Boolean {
         if (other !is LOPOptional)
             return false

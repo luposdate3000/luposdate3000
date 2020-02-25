@@ -96,10 +96,4 @@ class POPExpression : LOPBase {
         return getAllVariablesInChildren(children[0])
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPExpression")
-        res.addAttribute("uuid", "" + uuid)
-        res.addContent(childrenToXML())
-        return res
-    }
 }

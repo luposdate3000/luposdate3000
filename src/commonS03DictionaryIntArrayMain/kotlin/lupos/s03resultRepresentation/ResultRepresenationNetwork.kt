@@ -108,10 +108,6 @@ object ResultRepresenationNetwork {
             return true
         }
 
-        override fun toXMLElement(): XMLElement {
-            return XMLElement("POPImportFromNetworkPackage")
-        }
-
         constructor(resultSet: ResultSet, data: DynamicByteArray) {
             this.dictionary = resultSet.dictionary
             this.resultSet = resultSet

@@ -15,13 +15,7 @@ class LOPServiceIRI(val name: String, val silent: Boolean, child: OPBase) : LOPB
         return getProvidedVariableNames()
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPService")
-        res.addAttribute("name", name)
-        res.addAttribute("silent", "" + silent)
-        res.addContent(childrenToXML())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("name", name).addAttribute("silent", "" + silent)
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPServiceIRI)

@@ -70,10 +70,4 @@ class POPFilter : POPBase {
         }
     })
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPFilter")
-        res.addAttribute("uuid", "" + uuid)
-        res.addContent(childrenToXML())
-        return res
-    }
 }

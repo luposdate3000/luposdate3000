@@ -27,9 +27,7 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
         return store.name
     }
 
-    override fun toXMLElement(): XMLElement {
-        return XMLElement("TripleStoreIteratorLocal").addAttribute("uuid", "" + uuid).addAttribute("nameS", nameS).addAttribute("nameP", nameP).addAttribute("nameO", nameO).addAttribute("name", getGraphName())
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("nameS", nameS).addAttribute("nameP", nameP).addAttribute("nameO", nameO).addAttribute("name", getGraphName())
 
     override fun setMNameS(n: String) {
         nameS = n

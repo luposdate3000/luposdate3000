@@ -53,9 +53,4 @@ class POPEmptyRow : POPBase {
         return mutableListOf<String>()
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPEmptyRow")
-        res.addAttribute("uuid", "" + uuid)
-        return res
-    }
 }

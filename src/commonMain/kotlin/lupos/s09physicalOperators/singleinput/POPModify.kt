@@ -131,9 +131,4 @@ class POPModify : POPBase {
         return mutableListOf<String>()
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPModify")
-        res.addAttribute("uuid", "" + uuid)
-        return res
-    }
 }

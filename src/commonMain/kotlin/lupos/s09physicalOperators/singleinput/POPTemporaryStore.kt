@@ -73,10 +73,4 @@ class POPTemporaryStore : POPBase {
         }
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPTemporaryStore")
-        res.addAttribute("uuid", "" + uuid)
-        res.addContent(childrenToXML())
-        return res
-    }
 }

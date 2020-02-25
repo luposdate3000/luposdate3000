@@ -12,10 +12,6 @@ class OPNothing() : LOPBase() {
 
     override fun getRequiredVariableNames() = mutableListOf<String>()
 
-    override fun toXMLElement(): XMLElement {
-        return XMLElement("OPNothing")
-    }
-
     override fun equals(other: Any?): Boolean {
         if (other !is OPNothing)
             return false

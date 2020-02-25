@@ -29,12 +29,7 @@ class LOPBind : LOPBase {
         return children[1].getRequiredVariableNames() + children[0].getRequiredVariableNames()
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPBind")
-        res.addAttribute("name", name.name)
-        res.addContent(childrenToXML())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPBind)

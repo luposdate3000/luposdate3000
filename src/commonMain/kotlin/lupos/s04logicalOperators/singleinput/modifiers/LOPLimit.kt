@@ -20,12 +20,7 @@ class LOPLimit(val limit: Int) : LOPBase() {
         return children[0].getRequiredVariableNames()
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPLimit")
-        res.addAttribute("limit", "" + limit)
-        res.addContent(childrenToXML())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("limit", "" + limit)
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPLimit)

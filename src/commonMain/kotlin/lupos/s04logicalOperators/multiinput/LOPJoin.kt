@@ -23,12 +23,7 @@ class LOPJoin : LOPBase {
         return getProvidedVariableNames()
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPJoin")
-        res.addAttribute("optional", "" + optional)
-        res.addContent(childrenToXML())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPJoin)

@@ -236,9 +236,4 @@ class POPGraphOperation : POPBase {
         return mutableListOf<String>()
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPGraphOperation")
-        res.addAttribute("uuid", "" + uuid)
-        return res
-    }
 }

@@ -13,10 +13,6 @@ class LOPTriple(val s: OPBase, val p: OPBase, val o: OPBase, val graph: String?,
 
     override fun getRequiredVariableNames() = listOf<String>()
 
-    override fun toXMLElement(): XMLElement {
-        return XMLElement("LOPTriple")
-    }
-
     override fun equals(other: Any?): Boolean {
         if (other !is LOPTriple)
             return false

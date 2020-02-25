@@ -20,11 +20,6 @@ class LOPGraphOperation() : LOPBase() {
         return mutableListOf<String>()
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPGraphOperation")
-        return res
-    }
-
     override fun equals(other: Any?): Boolean {
         if (other !is LOPGraphOperation)
             return false

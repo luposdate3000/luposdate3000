@@ -99,11 +99,5 @@ class POPBind : POPBase {
         }
     })
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPBind")
-        res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("name", name.name)
-        res.addContent(childrenToXML())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("name", name.name)
 }

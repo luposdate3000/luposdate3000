@@ -20,12 +20,6 @@ class LOPSubGroup() : LOPBase() {
         return children[0].getRequiredVariableNames()
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPSubgroup")
-        res.addContent(childrenToXML())
-        return res
-    }
-
     override fun equals(other: Any?): Boolean {
         if (other !is LOPSubGroup)
             return false

@@ -20,12 +20,6 @@ class LOPMakeBooleanResult() : LOPBase() {
         return listOf<String>()
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPMakeBooleanResult")
-        res.addContent(childrenToXML())
-        return res
-    }
-
     override fun equals(other: Any?): Boolean {
         if (other !is LOPMakeBooleanResult)
             return false

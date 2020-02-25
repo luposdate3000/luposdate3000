@@ -36,13 +36,7 @@ class LOPRename(val nameTo: AOPVariable, val nameFrom: AOPVariable) : LOPBase() 
         return listOf<String>(nameFrom.name)
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPRename")
-        res.addAttribute("nameTo", nameTo.name)
-        res.addAttribute("nameFrom", nameFrom.name)
-        res.addContent(childrenToXML())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("nameTo", nameTo.name).addAttribute("nameFrom", nameFrom.name)
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPRename)

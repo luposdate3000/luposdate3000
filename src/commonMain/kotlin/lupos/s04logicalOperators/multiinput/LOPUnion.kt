@@ -22,12 +22,6 @@ class LOPUnion : LOPBase {
         return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPUnion")
-        res.addContent(childrenToXML())
-        return res
-    }
-
     override fun equals(other: Any?): Boolean {
         if (other !is LOPUnion)
             return false

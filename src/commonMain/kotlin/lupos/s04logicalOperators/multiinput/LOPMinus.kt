@@ -21,12 +21,6 @@ class LOPMinus : LOPBase {
         return children[0].getRequiredVariableNames() + children[1].getRequiredVariableNames()
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPMinus")
-        res.addContent(childrenToXML())
-        return res
-    }
-
     override fun equals(other: Any?): Boolean {
         if (other !is LOPMinus)
             return false

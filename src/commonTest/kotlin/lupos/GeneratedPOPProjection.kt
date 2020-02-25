@@ -5864,32 +5864,32 @@ class GeneratedPOPProjectionTest {
                                                 "s1" to "\"foo\"",
                                                 "b" to "<http://example.org/s1>",
                                                 "s2" to "\"foo\"",
-                                                "b2" to "_:27514\"foo\"",
-                                                "b1" to "_:27508\"foo\""
+                                                "b2" to "_:27515\"foo\"",
+                                                "b1" to "_:27509\"foo\""
                                         ),
                                         mutableMapOf(
                                                 "a" to "<http://example.org/s3>",
                                                 "s1" to "\"BAZ\"",
                                                 "b" to "<http://example.org/s1>",
                                                 "s2" to "\"foo\"",
-                                                "b2" to "_:27514\"foo\"",
-                                                "b1" to "_:27508\"BAZ\""
+                                                "b2" to "_:27515\"foo\"",
+                                                "b1" to "_:27509\"BAZ\""
                                         ),
                                         mutableMapOf(
                                                 "a" to "<http://example.org/s1>",
                                                 "s1" to "\"foo\"",
                                                 "b" to "<http://example.org/s3>",
                                                 "s2" to "\"BAZ\"",
-                                                "b2" to "_:27514\"BAZ\"",
-                                                "b1" to "_:27508\"foo\""
+                                                "b2" to "_:27515\"BAZ\"",
+                                                "b1" to "_:27509\"foo\""
                                         ),
                                         mutableMapOf(
                                                 "a" to "<http://example.org/s3>",
                                                 "s1" to "\"BAZ\"",
                                                 "b" to "<http://example.org/s3>",
                                                 "s2" to "\"BAZ\"",
-                                                "b2" to "_:27514\"BAZ\"",
-                                                "b1" to "_:27508\"BAZ\""
+                                                "b2" to "_:27515\"BAZ\"",
+                                                "b1" to "_:27509\"BAZ\""
                                         )
                                 )
                                 )
@@ -5903,26 +5903,26 @@ class GeneratedPOPProjectionTest {
                                 mutableMapOf(
                                         "s1" to "\"foo\"",
                                         "s2" to "\"foo\"",
-                                        "b1" to "_:27508\"foo\"",
-                                        "b2" to "_:27514\"foo\""
+                                        "b1" to "_:27509\"foo\"",
+                                        "b2" to "_:27515\"foo\""
                                 ),
                                 mutableMapOf(
                                         "s1" to "\"BAZ\"",
                                         "s2" to "\"foo\"",
-                                        "b1" to "_:27508\"BAZ\"",
-                                        "b2" to "_:27514\"foo\""
+                                        "b1" to "_:27509\"BAZ\"",
+                                        "b2" to "_:27515\"foo\""
                                 ),
                                 mutableMapOf(
                                         "s1" to "\"foo\"",
                                         "s2" to "\"BAZ\"",
-                                        "b1" to "_:27508\"foo\"",
-                                        "b2" to "_:27514\"BAZ\""
+                                        "b1" to "_:27509\"foo\"",
+                                        "b2" to "_:27515\"BAZ\""
                                 ),
                                 mutableMapOf(
                                         "s1" to "\"BAZ\"",
                                         "s2" to "\"BAZ\"",
-                                        "b1" to "_:27508\"BAZ\"",
-                                        "b2" to "_:27514\"BAZ\""
+                                        "b1" to "_:27509\"BAZ\"",
+                                        "b2" to "_:27515\"BAZ\""
                                 )
                         )
                         )
@@ -5942,8 +5942,8 @@ class GeneratedPOPProjectionTest {
                                         "b1"
                                 ), listOf(
                                         mutableMapOf(
-                                                "b2" to "_:2953129556",
-                                                "b1" to "_:2952629558"
+                                                "b2" to "_:2953229557",
+                                                "b1" to "_:2952729559"
                                         )
                                 )
                                 )
@@ -5953,8 +5953,8 @@ class GeneratedPOPProjectionTest {
                                 "b2"
                         ), listOf(
                                 mutableMapOf(
-                                        "b1" to "_:2952629558",
-                                        "b2" to "_:2953129556"
+                                        "b1" to "_:2952729559",
+                                        "b2" to "_:2953229557"
                                 )
                         )
                         )
@@ -5974,8 +5974,8 @@ class GeneratedPOPProjectionTest {
                                         "b1"
                                 ), listOf(
                                         mutableMapOf(
-                                                "b2" to "_:2956229580",
-                                                "b1" to "_:2956929582"
+                                                "b2" to "_:2956329581",
+                                                "b1" to "_:2957029583"
                                         )
                                 )
                                 )
@@ -5985,8 +5985,8 @@ class GeneratedPOPProjectionTest {
                                 "b2"
                         ), listOf(
                                 mutableMapOf(
-                                        "b1" to "_:2956929582",
-                                        "b2" to "_:2956229580"
+                                        "b1" to "_:2957029583",
+                                        "b2" to "_:2956329581"
                                 )
                         )
                         )
@@ -6004,7 +6004,7 @@ class GeneratedPOPProjectionTest {
                                         "n"
                                 ), listOf(
                                         mutableMapOf(
-                                                "n" to "\"2020-02-25T07:41:15Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                                "n" to "\"2020-02-25T08:04:25Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                         )
                                 )
                                 )
@@ -6013,7 +6013,7 @@ class GeneratedPOPProjectionTest {
                                 "n"
                         ), listOf(
                                 mutableMapOf(
-                                        "n" to "\"2020-02-25T07:41:15Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                        "n" to "\"2020-02-25T08:04:25Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                         )
                         )
@@ -6897,37 +6897,37 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("L")
                                 ),
                                 POPValues(dictionary, listOf(
-                                        "#_35217",
+                                        "#_35218",
                                         "L",
                                         "O"
                                 ), listOf(
                                         mutableMapOf(
-                                                "#_35217" to "_:_35194",
+                                                "#_35218" to "_:_35195",
                                                 "L" to "\"Ice Cream\"",
                                                 "O" to "<http://www.example.orgorder1>"
                                         ),
                                         mutableMapOf(
-                                                "#_35217" to "_:_35197",
+                                                "#_35218" to "_:_35198",
                                                 "L" to "\"Ice Cream\"",
                                                 "O" to "<http://www.example.orgorder2>"
                                         ),
                                         mutableMapOf(
-                                                "#_35217" to "_:_35198",
+                                                "#_35218" to "_:_35199",
                                                 "L" to "\"Pasta\"",
                                                 "O" to "<http://www.example.orgorder2>"
                                         ),
                                         mutableMapOf(
-                                                "#_35217" to "_:_35195",
+                                                "#_35218" to "_:_35196",
                                                 "L" to "\"Pizza\"",
                                                 "O" to "<http://www.example.orgorder1>"
                                         ),
                                         mutableMapOf(
-                                                "#_35217" to "_:_35199",
+                                                "#_35218" to "_:_35200",
                                                 "L" to "\"Soft Drink\"",
                                                 "O" to "<http://www.example.orgorder2>"
                                         ),
                                         mutableMapOf(
-                                                "#_35217" to "_:_35196",
+                                                "#_35218" to "_:_35197",
                                                 "L" to "\"Wine\"",
                                                 "O" to "<http://www.example.orgorder1>"
                                         )
@@ -7043,37 +7043,37 @@ class GeneratedPOPProjectionTest {
                                         AOPVariable("L")
                                 ),
                                 POPValues(dictionary, listOf(
-                                        "#_35566",
+                                        "#_35567",
                                         "L",
                                         "O"
                                 ), listOf(
                                         mutableMapOf(
-                                                "#_35566" to "_:_35543",
+                                                "#_35567" to "_:_35544",
                                                 "L" to "\"Ice Cream\"",
                                                 "O" to "<http://www.example.orgorder1>"
                                         ),
                                         mutableMapOf(
-                                                "#_35566" to "_:_35546",
+                                                "#_35567" to "_:_35547",
                                                 "L" to "\"Ice Cream\"",
                                                 "O" to "<http://www.example.orgorder2>"
                                         ),
                                         mutableMapOf(
-                                                "#_35566" to "_:_35547",
+                                                "#_35567" to "_:_35548",
                                                 "L" to "\"Pasta\"",
                                                 "O" to "<http://www.example.orgorder2>"
                                         ),
                                         mutableMapOf(
-                                                "#_35566" to "_:_35544",
+                                                "#_35567" to "_:_35545",
                                                 "L" to "\"Pizza\"",
                                                 "O" to "<http://www.example.orgorder1>"
                                         ),
                                         mutableMapOf(
-                                                "#_35566" to "_:_35548",
+                                                "#_35567" to "_:_35549",
                                                 "L" to "\"Soft Drink\"",
                                                 "O" to "<http://www.example.orgorder2>"
                                         ),
                                         mutableMapOf(
-                                                "#_35566" to "_:_35545",
+                                                "#_35567" to "_:_35546",
                                                 "L" to "\"Wine\"",
                                                 "O" to "<http://www.example.orgorder1>"
                                         )

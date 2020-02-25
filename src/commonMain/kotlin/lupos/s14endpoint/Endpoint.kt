@@ -52,10 +52,6 @@ class TripleInsertIterator : POPBase {
         return true
     }
 
-    override fun toXMLElement(): XMLElement {
-        return XMLElement("TripleInsertIterator")
-    }
-
     fun cleanString(s: String): String = Trace.trace({ "TripleInsertIterator.cleanString" }, {
         var res = s
         while (true) {

@@ -75,11 +75,5 @@ class POPOffset : POPBase {
         }
     })
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPOffset")
-        res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("offset", "" + offset)
-        res.addContent(childrenToXML())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
 }

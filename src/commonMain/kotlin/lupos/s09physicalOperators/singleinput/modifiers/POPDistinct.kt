@@ -73,10 +73,4 @@ class POPDistinct : POPBase {
         }
     })
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPDistinct")
-        res.addAttribute("uuid", "" + uuid)
-        res.addContent(childrenToXML())
-        return res
-    }
 }

@@ -74,12 +74,5 @@ class POPFilterExact : POPBase {
         }
     })
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPFilterExact")
-        res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("name", variable.name)
-        res.addAttribute("value", value)
-        res.addContent(childrenToXML())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("name", variable.name).addAttribute("value", value)
 }

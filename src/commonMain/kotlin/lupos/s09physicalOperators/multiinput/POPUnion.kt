@@ -90,10 +90,4 @@ class POPUnion : POPBase {
         }
     })
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPUnion")
-        res.addAttribute("uuid", "" + uuid)
-        res.addContent(childrenToXML())
-        return res
-    }
 }

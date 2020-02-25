@@ -76,11 +76,5 @@ class POPLimit : POPBase {
         }
     })
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPLimit")
-        res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("limit", "" + limit)
-        res.addContent(childrenToXML())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("limit", "" + limit)
 }

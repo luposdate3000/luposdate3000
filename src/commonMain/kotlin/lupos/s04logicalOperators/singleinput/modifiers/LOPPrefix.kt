@@ -20,13 +20,7 @@ class LOPPrefix(val name: String, val iri: String) : LOPBase() {
         return children[0].getRequiredVariableNames()
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("LOPPrefix")
-        res.addAttribute("name", name)
-        res.addAttribute("iri", iri)
-        res.addContent(childrenToXML())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("name", name).addAttribute("iri", iri)
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPPrefix)

@@ -1513,7 +1513,7 @@ class GeneratedPOPFilterTest {
                                         "n"
                                 ), listOf(
                                         mutableMapOf(
-                                                "n" to "\"2020-02-25T07:41:15Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                                "n" to "\"2020-02-25T08:04:25Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                         )
                                 )
                                 )
@@ -1522,7 +1522,7 @@ class GeneratedPOPFilterTest {
                                 "n"
                         ), listOf(
                                 mutableMapOf(
-                                        "n" to "\"2020-02-25T07:41:15Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                        "n" to "\"2020-02-25T08:04:25Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                         )
                         )

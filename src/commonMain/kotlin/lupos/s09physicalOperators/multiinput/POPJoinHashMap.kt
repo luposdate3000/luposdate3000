@@ -172,11 +172,5 @@ class POPJoinHashMap : POPBase {
         }
     })
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("POPJoinHashMap")
-        res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("optional", "" + optional)
-        res.addContent(childrenToXML())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
 }
