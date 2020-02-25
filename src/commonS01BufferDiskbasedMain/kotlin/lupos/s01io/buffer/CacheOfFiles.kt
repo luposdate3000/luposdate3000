@@ -5,7 +5,7 @@ import lupos.s01io.buffer.Cache
 
 /**
  * This class is used for caching opened files (such that we do not need to close and open the files for each single access)
-    override val classname="is"
+override val classname="is"
  */
 object CacheOfFiles {
 

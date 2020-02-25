@@ -14,7 +14,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPMakeBooleanResult : POPBase {
-    override val classname="POPMakeBooleanResult"
+    override val classname = "POPMakeBooleanResult"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())

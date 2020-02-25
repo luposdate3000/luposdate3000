@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPPrefix(val name: String, val iri: String) : LOPBase() {
-    override val classname="LOPPrefix"
+    override val classname = "LOPPrefix"
     override val children: Array<OPBase> = arrayOf(OPNothing())
 
     constructor(name: String, iri: String, child: OPBase) : this(name, iri) {

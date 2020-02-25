@@ -9,15 +9,9 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPNot(var child: AOPBase) : AOPBase() {
-    override val classname="AOPNot"
+    override val classname = "AOPNot"
     override val children: Array<OPBase> = arrayOf(child)
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPNot")
-        res.addAttribute("uuid", "" + uuid)
-        res.addContent(childrenToXML())
-        return res
-    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPNot)

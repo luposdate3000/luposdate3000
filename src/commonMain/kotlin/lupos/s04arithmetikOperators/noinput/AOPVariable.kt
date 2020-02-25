@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPVariable(var name: String) : AOPBase() {
-    override val classname="AOPVariable"
+    override val classname = "AOPVariable"
     override val children: Array<OPBase> = arrayOf()
 
 
@@ -41,9 +41,7 @@ class AOPVariable(var name: String) : AOPBase() {
 
     override fun getRequiredVariableNames() = listOf(name)
 
-    override fun toXMLElement(): XMLElement {
-        return XMLElement("AOPVariable").addAttribute("name", name).addAttribute("uuid", "" + uuid)
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("name", name)
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPVariable)

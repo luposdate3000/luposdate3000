@@ -13,7 +13,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPImportFromXml : POPBase {
-    override val classname="POPImportFromXml"
+    override val classname = "POPImportFromXml"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()

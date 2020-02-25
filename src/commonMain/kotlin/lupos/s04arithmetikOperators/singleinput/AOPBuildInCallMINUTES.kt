@@ -9,15 +9,9 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBuildInCallMINUTES(child: AOPBase) : AOPBase() {
-    override val classname="AOPBuildInCallMINUTES"
+    override val classname = "AOPBuildInCallMINUTES"
     override val children: Array<OPBase> = arrayOf(child)
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPBuildInCallMINUTES")
-        res.addAttribute("uuid", "" + uuid)
-        res.addContent(childrenToXML())
-        return res
-    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallMINUTES)

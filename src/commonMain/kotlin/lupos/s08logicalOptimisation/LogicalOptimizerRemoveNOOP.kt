@@ -8,7 +8,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 
 class LogicalOptimizerRemoveNOOP(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary) {
-    override val classname="LogicalOptimizerRemoveNOOP"
+    override val classname = "LogicalOptimizerRemoveNOOP"
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
         when (node) {
             is LOPNOOP -> {

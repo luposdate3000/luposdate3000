@@ -87,7 +87,7 @@ object ResultRepresenationNetwork {
     }
 
     class POPImportFromNetworkPackage : POPBase {
-    override val classname="POPImportFromNetworkPackage"
+        override val classname = "POPImportFromNetworkPackage"
         override val dictionary: ResultSetDictionary
         override val children: Array<OPBase> = arrayOf()
         override val resultSet: ResultSet

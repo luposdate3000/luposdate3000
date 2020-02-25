@@ -8,13 +8,9 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPUndef() : AOPConstant() {
-    override val classname="AOPUndef"
+    override val classname = "AOPUndef"
     override val children: Array<OPBase> = arrayOf()
 
-
-    override fun toXMLElement(): XMLElement {
-        return XMLElement("AOPUndef").addAttribute("uuid", "" + uuid)
-    }
 
     override fun valueToString(): String? = null
     override fun equals(other: Any?): Boolean {

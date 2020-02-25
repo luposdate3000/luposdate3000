@@ -14,7 +14,7 @@ import lupos.s04logicalOperators.singleinput.LOPBind
 
 
 abstract class OPBase {
-    abstract val classname:String
+    abstract val classname: String
     val channel = Channel<ResultRow>(CoroutinesHelper.channelType)
     abstract val resultSet: ResultSet
 
@@ -45,7 +45,13 @@ abstract class OPBase {
     override fun toString(): String = toXMLElement().toPrettyString()
     abstract fun getRequiredVariableNames(): List<String>
     abstract fun getProvidedVariableNames(): List<String>
-    abstract fun toXMLElement(): XMLElement
+    open fun toXMLElement(): XMLElement {
+        val res = XMLElement(classname)
+        res.addAttribute("uuid", "" + uuid)
+        res.addContent(childrenToXML())
+        return res
+    }
+
     fun childrenToXML(): XMLElement {
         val res = XMLElement("children")
         for (c in children)

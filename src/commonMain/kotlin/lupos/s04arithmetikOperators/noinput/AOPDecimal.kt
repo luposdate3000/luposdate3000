@@ -8,16 +8,11 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPDecimal(var value: Double) : AOPConstant() {
-    override val classname="AOPDecimal"
+    override val classname = "AOPDecimal"
     override val children: Array<OPBase> = arrayOf()
 
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPDecimal")
-        res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("value", "" + value)
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("value", "" + value)
 
     override fun valueToString() = "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
     override fun equals(other: Any?): Boolean {

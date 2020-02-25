@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPSort(val asc: Boolean, var by: AOPVariable) : LOPBase() {
-    override val classname="LOPSort"
+    override val classname = "LOPSort"
     override val children: Array<OPBase> = arrayOf(OPNothing())
 
     constructor(asc: Boolean, by: AOPVariable, child: OPBase) : this(asc, by) {

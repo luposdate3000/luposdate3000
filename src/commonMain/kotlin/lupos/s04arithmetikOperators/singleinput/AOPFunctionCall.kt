@@ -9,17 +9,10 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPFunctionCall(var iri: String, var distinct: Boolean, args: List<OPBase>) : AOPBase() {
-    override val classname="AOPFunctionCall"
+    override val classname = "AOPFunctionCall"
     override val children: Array<OPBase> = Array(args.size) { args[it] }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPFunctionCall")
-        res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("iri", iri)
-        res.addAttribute("distinct", "" + distinct)
-        res.addContent(childrenToXML())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("iri", iri).addAttribute("distinct", "" + distinct)
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPFunctionCall)

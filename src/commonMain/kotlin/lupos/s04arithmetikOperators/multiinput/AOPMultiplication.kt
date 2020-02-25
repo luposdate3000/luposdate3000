@@ -9,15 +9,9 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPMultiplication(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
-    override val classname="AOPMultiplication"
+    override val classname = "AOPMultiplication"
     override val children: Array<OPBase> = arrayOf(childA, childB)
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPMultiplication")
-        res.addAttribute("uuid", "" + uuid)
-        res.addContent(childrenToXML())
-        return res
-    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPMultiplication)

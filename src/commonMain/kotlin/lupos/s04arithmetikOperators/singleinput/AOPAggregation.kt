@@ -10,17 +10,10 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array<AOPBase>) : AOPBase() {
-    override val classname="AOPAggregation"
+    override val classname = "AOPAggregation"
     override val children: Array<OPBase> = Array<OPBase>(childs.size) { childs[it] }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPAggregation")
-        res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("type", "" + type)
-        res.addAttribute("distinct", "" + distinct)
-        res.addContent(childrenToXML())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct).addAttribute("type", "" + type)
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPAggregation)

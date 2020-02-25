@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPProjection(val variables: MutableList<AOPVariable> = mutableListOf()) : LOPBase() {
-    override val classname="LOPProjection"
+    override val classname = "LOPProjection"
     override val children: Array<OPBase> = arrayOf(OPNothing())
 
     constructor(variables: MutableList<AOPVariable> = mutableListOf(), child: OPBase) : this(variables) {

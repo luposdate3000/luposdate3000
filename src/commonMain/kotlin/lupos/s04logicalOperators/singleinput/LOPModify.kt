@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPModify() : LOPBase() {
-    override val classname="LOPModify"
+    override val classname = "LOPModify"
     override val children: Array<OPBase> = arrayOf(OPNothing())
     var iri: String? = null
     val insert = mutableListOf<OPBase>()

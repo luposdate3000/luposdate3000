@@ -17,7 +17,7 @@ import lupos.s05tripleStore.POPTripleStoreIteratorBase
 
 
 open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
-    override val classname="TripleStoreIteratorLocal"
+    override val classname = "TripleStoreIteratorLocal"
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     override val resultSet: ResultSet

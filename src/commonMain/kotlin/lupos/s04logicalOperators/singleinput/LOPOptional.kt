@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPOptional() : LOPBase() {
-    override val classname="LOPOptional"
+    override val classname = "LOPOptional"
     override val children: Array<OPBase> = arrayOf(OPNothing())
 
     constructor(child: OPBase) : this() {

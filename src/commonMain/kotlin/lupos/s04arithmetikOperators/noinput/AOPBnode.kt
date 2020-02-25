@@ -8,15 +8,10 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBnode(var value: String) : AOPConstant() {
-    override val classname="AOPBnode"
+    override val classname = "AOPBnode"
     override val children: Array<OPBase> = arrayOf()
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPBnode")
-        res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("value", "" + value)
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("value", "" + value)
 
     override fun valueToString() = "_:" + value
     override fun equals(other: Any?): Boolean {

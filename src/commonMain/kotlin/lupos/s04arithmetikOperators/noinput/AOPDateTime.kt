@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPDateTime : AOPConstant {
-    override val classname="AOPDateTime"
+    override val classname = "AOPDateTime"
     override val children: Array<OPBase> = arrayOf()
     val year: Int
     val month: Int
@@ -79,12 +79,7 @@ class AOPDateTime : AOPConstant {
         return ""
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPDateTime")
-        res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("value", valueToString())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("value", valueToString())
 
     override fun valueToString(): String {
         if (timezoneHours == -1 && timezoneMinutes == -1)

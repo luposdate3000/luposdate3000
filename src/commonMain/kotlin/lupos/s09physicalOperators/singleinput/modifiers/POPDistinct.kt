@@ -14,7 +14,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPDistinct : POPBase {
-    override val classname="POPDistinct"
+    override val classname = "POPDistinct"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())

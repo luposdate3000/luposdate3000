@@ -2,14 +2,15 @@ package lupos.s01io.buffer
 
 
 data class PageAddress(val fileName: String, val pageNumber: Int)
-    override val classname="PageAddress"
+
+override val classname = "PageAddress"
 
 val PAGESIZE: Int = 8 * 1024
 
 val bufferManager: BufferManager = BufferManager()
 
 class BufferManager {
-    override val classname="BufferManager"
+    override val classname = "BufferManager"
 
     /**
      * the max. number of opened files

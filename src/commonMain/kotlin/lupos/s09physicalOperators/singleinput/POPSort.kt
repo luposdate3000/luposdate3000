@@ -16,7 +16,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPSort : POPBase {
-    override val classname="POPSort"
+    override val classname = "POPSort"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())

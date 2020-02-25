@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPSubGroup() : LOPBase() {
-    override val classname="LOPSubGroup"
+    override val classname = "LOPSubGroup"
     override val children: Array<OPBase> = arrayOf(OPNothing())
 
     constructor(child: OPBase) : this() {

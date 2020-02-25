@@ -14,7 +14,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPTemporaryStore : POPBase {
-    override val classname="POPTemporaryStore"
+    override val classname = "POPTemporaryStore"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())

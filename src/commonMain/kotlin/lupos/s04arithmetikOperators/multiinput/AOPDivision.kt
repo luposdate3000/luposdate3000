@@ -9,15 +9,9 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPDivision(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
-    override val classname="AOPDivision"
+    override val classname = "AOPDivision"
     override val children: Array<OPBase> = arrayOf(childA, childB)
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPDivision")
-        res.addAttribute("uuid", "" + uuid)
-        res.addContent(childrenToXML())
-        return res
-    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPDivision)

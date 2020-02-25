@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPLimit(val limit: Int) : LOPBase() {
-    override val classname="LOPLimit"
+    override val classname = "LOPLimit"
     override val children: Array<OPBase> = arrayOf(OPNothing())
 
     constructor(limit: Int, child: OPBase) : this(limit) {

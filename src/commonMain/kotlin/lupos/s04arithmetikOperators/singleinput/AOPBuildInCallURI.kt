@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBuildInCallURI(child: AOPBase, var prefix: String = "") : AOPBase() {
-    override val classname="AOPBuildInCallURI"
+    override val classname = "AOPBuildInCallURI"
     override val children: Array<OPBase> = arrayOf(child)
 
     override fun applyPrefix(prefix: String, iri: String) {
@@ -17,13 +17,7 @@ class AOPBuildInCallURI(child: AOPBase, var prefix: String = "") : AOPBase() {
             this.prefix = iri
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPBuildInCallURI")
-        res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("prefix", prefix)
-        res.addContent(childrenToXML())
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("prefix", prefix)
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallURI)

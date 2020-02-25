@@ -14,15 +14,8 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPAddition(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
-    override val classname="AOPAddition"
+    override val classname = "AOPAddition"
     override val children: Array<OPBase> = arrayOf(childA, childB)
-
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPAddition")
-        res.addAttribute("uuid", "" + uuid)
-        res.addContent(childrenToXML())
-        return res
-    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPAddition)

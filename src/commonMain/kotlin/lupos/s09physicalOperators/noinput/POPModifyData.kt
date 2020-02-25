@@ -15,7 +15,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class POPModifyData(override val dictionary: ResultSetDictionary, val transactionID: Long, val type: EModifyType, val data: List<List<Pair<String, Boolean>>>) : POPBase() {
-    override val classname="POPModifyData"
+    override val classname = "POPModifyData"
     override val resultSet = ResultSet(dictionary)
     override val children: Array<OPBase> = arrayOf()
     private var first = true

@@ -8,16 +8,11 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBoolean(var value: Boolean) : AOPConstant() {
-    override val classname="AOPBoolean"
+    override val classname = "AOPBoolean"
     override val children: Array<OPBase> = arrayOf()
 
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPBoolean")
-        res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("value", "" + value)
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("value", "" + value)
 
     override fun valueToString() = "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
     override fun equals(other: Any?): Boolean {

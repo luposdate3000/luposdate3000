@@ -9,15 +9,9 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPSubtraction(childA: AOPBase, childB: AOPBase) : AOPBase() {
-    override val classname="AOPSubtraction"
+    override val classname = "AOPSubtraction"
     override val children: Array<OPBase> = arrayOf(childA, childB)
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPSubtraction")
-        res.addAttribute("uuid", "" + uuid)
-        res.addContent(childrenToXML())
-        return res
-    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPSubtraction)

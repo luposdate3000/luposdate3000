@@ -6,7 +6,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 abstract class LOPBase : OPBase() {
-    override val classname="LOPBase"
+    override val classname = "LOPBase"
     override val resultSet = ResultSet(ResultSetDictionary())
     override fun evaluate() {
         throw Exception("this should not be called")

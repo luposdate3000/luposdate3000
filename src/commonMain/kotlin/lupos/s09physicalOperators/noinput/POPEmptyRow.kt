@@ -13,7 +13,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPEmptyRow : POPBase {
-    override val classname="POPEmptyRow"
+    override val classname = "POPEmptyRow"
     override val dictionary: ResultSetDictionary
     override val resultSet: ResultSet
     override val children: Array<OPBase> = arrayOf()

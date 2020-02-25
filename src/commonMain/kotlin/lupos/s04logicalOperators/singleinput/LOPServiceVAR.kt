@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPServiceVAR : LOPBase {
-    override val classname="LOPServiceVAR"
+    override val classname = "LOPServiceVAR"
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     val name: String
     val silent: Boolean

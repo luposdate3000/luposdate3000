@@ -6,7 +6,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPServiceIRI(val name: String, val silent: Boolean, child: OPBase) : LOPBase() {
-    override val classname="LOPServiceIRI"
+    override val classname = "LOPServiceIRI"
     override val children: Array<OPBase> = arrayOf(child)
 
     override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()

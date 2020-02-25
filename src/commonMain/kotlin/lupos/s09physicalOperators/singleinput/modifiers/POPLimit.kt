@@ -14,7 +14,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPLimit : POPBase {
-    override val classname="POPLimit"
+    override val classname = "POPLimit"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())

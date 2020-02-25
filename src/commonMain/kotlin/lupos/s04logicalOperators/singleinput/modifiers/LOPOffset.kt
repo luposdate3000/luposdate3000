@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPOffset(val offset: Int) : LOPBase() {
-    override val classname="LOPOffset"
+    override val classname = "LOPOffset"
     override val children: Array<OPBase> = arrayOf(OPNothing())
 
     constructor(offset: Int, child: OPBase) : this(offset) {

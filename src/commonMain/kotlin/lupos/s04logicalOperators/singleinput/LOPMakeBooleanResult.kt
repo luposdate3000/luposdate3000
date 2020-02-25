@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPMakeBooleanResult() : LOPBase() {
-    override val classname="LOPMakeBooleanResult"
+    override val classname = "LOPMakeBooleanResult"
     override val children: Array<OPBase> = arrayOf(OPNothing())
 
     constructor(child: OPBase) : this() {

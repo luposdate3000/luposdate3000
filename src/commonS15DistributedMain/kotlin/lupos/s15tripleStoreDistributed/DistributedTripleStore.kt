@@ -21,7 +21,7 @@ import lupos.s12p2p.P2P
 val uuid = ThreadSafeUuid()
 
 class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
-    override val classname="TripleStoreIteratorGlobal"
+    override val classname = "TripleStoreIteratorGlobal"
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()
     override val resultSet: ResultSet

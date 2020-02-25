@@ -27,15 +27,9 @@ import lupos.s04logicalOperators.OPBase
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class AOPBuildInCallMD5(child: AOPBase) : AOPBase() {
-    override val classname="AOPBuildInCallMD5"
+    override val classname = "AOPBuildInCallMD5"
     override val children: Array<OPBase> = arrayOf(child)
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPBuildInCallMD5")
-        res.addAttribute("uuid", "" + uuid)
-        res.addContent(childrenToXML())
-        return res
-    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallMD5)

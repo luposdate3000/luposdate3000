@@ -9,15 +9,9 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPSet(childs: List<AOPBase>) : AOPBase() {
-    override val classname="AOPSet"
+    override val classname = "AOPSet"
     override val children: Array<OPBase> = Array(childs.size) { childs[it] }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPSet")
-        res.addAttribute("uuid", "" + uuid)
-        res.addContent(childrenToXML())
-        return res
-    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPSet)

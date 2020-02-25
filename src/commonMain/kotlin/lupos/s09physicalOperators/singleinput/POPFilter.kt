@@ -16,7 +16,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPFilter : POPBase {
-    override val classname="POPFilter"
+    override val classname = "POPFilter"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())

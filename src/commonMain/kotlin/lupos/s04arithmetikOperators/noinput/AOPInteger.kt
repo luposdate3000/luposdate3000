@@ -8,13 +8,11 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPInteger(var value: Int) : AOPConstant() {
-    override val classname="AOPInteger"
+    override val classname = "AOPInteger"
     override val children: Array<OPBase> = arrayOf()
 
 
-    override fun toXMLElement(): XMLElement {
-        return XMLElement("AOPInteger").addAttribute("value", "" + value).addAttribute("uuid", "" + uuid)
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("value", "" + value)
 
     override fun valueToString() = "\"" + value + "\"^^<http://www.w3.org/2001/XMLSchema#integer>"
     override fun equals(other: Any?): Boolean {

@@ -20,7 +20,7 @@ import lupos.s09physicalOperators.singleinput.POPBind
 
 
 class POPGroup : POPBase {
-    override val classname="POPGroup"
+    override val classname = "POPGroup"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())

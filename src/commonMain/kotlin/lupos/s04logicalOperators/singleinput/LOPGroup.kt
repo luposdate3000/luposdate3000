@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPGroup(var by: List<AOPVariable>) : LOPBase() {
-    override val classname="LOPGroup"
+    override val classname = "LOPGroup"
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     override fun childrenToVerifyCount() = 1
 

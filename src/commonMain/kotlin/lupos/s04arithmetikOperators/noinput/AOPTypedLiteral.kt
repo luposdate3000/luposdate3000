@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPTypedLiteral : AOPConstantString {
-    override val classname="AOPTypedLiteral"
+    override val classname = "AOPTypedLiteral"
     override val children: Array<OPBase> = arrayOf()
     override val delimiter: String
     override val content: String
@@ -20,14 +20,7 @@ class AOPTypedLiteral : AOPConstantString {
         this.type_iri = type_iri
     }
 
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPTypedLiteral")
-        res.addAttribute("uuid", "" + uuid)
-        res.addAttribute("delimiter", "" + delimiter)
-        res.addAttribute("content", "" + content)
-        res.addAttribute("type_iri", "" + type_iri)
-        return res
-    }
+    override fun toXMLElement() = super.toXMLElement().addAttribute("delimiter", "" + delimiter).addAttribute("content", "" + content).addAttribute("type_iri", "" + type_iri)
 
     override fun valueToString() = delimiter + content + delimiter + "^^<" + type_iri + ">"
     override fun equals(other: Any?): Boolean {

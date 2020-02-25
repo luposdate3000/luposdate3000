@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPUnion : LOPBase {
-    override val classname="LOPUnion"
+    override val classname = "LOPUnion"
 
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
 

@@ -8,7 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPGraphOperation() : LOPBase() {
-    override val classname="LOPGraphOperation"
+    override val classname = "LOPGraphOperation"
     override val children: Array<OPBase> = arrayOf()
     var silent = false
     var graphref1: ASTGraphRef? = null

@@ -15,7 +15,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPRename : POPBase {
-    override val classname="POPRename"
+    override val classname = "POPRename"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())

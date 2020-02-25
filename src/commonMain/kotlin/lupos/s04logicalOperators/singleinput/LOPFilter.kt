@@ -9,7 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPFilter : LOPBase {
-    override val classname="LOPFilter"
+    override val classname = "LOPFilter"
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     override fun childrenToVerifyCount() = 1
 

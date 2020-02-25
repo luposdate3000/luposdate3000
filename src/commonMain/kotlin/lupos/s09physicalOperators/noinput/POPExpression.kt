@@ -27,7 +27,7 @@ import lupos.s04logicalOperators.OPBase
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class POPExpression : LOPBase {
-    override val classname="POPExpression"
+    override val classname = "POPExpression"
     val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
 

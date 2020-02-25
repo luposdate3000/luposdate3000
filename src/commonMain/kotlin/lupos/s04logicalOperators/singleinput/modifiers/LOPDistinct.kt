@@ -7,7 +7,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPDistinct() : LOPBase() {
-    override val classname="LOPDistinct"
+    override val classname = "LOPDistinct"
     override val children: Array<OPBase> = arrayOf(OPNothing())
 
     constructor(child: OPBase) : this() {

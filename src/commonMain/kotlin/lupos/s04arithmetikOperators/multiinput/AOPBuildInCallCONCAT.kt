@@ -15,15 +15,8 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBuildInCallCONCAT(child: AOPBase, childB: AOPBase) : AOPBase() {
-    override val classname="AOPBuildInCallCONCAT"
+    override val classname = "AOPBuildInCallCONCAT"
     override val children: Array<OPBase> = arrayOf(child, childB)
-
-    override fun toXMLElement(): XMLElement {
-        val res = XMLElement("AOPBuildInCallCONCAT")
-        res.addAttribute("uuid", "" + uuid)
-        res.addContent(childrenToXML())
-        return res
-    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallCONCAT)
