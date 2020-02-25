@@ -1,6 +1,9 @@
 package lupos
 
+import lupos.s12p2p.P2P
+import lupos.s14endpoint.EndpointImpl
 import lupos.s00misc.*
+import lupos.s15tripleStoreDistributed.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -18,9 +21,6 @@ import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.*
 import lupos.s11outputResult.*
-import lupos.s12p2p.P2P
-import lupos.s14endpoint.EndpointImpl
-import lupos.s15tripleStoreDistributed.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
@@ -30,7 +30,6 @@ class GeneratedAOPAdditionTest {
         P2P.knownClients.clear()
         P2P.knownClients.add(EndpointImpl.fullname)
     }
-
     fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
         for (n in node.children)
             setAggregationMode(n, mode, count)
@@ -61,7 +60,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(0)
                 )
-            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */,
+            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("O1")
@@ -79,7 +78,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(1)
                 )
-            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */,
+            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("O1")
@@ -97,7 +96,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(2)
                 )
-            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */,
+            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("O1")
@@ -115,7 +114,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(1)
                 )
-            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */,
+            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("O1")
@@ -133,7 +132,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(2)
                 )
-            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */,
+            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("O1")
@@ -151,7 +150,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(3)
                 )
-            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */,
+            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("O1")
@@ -169,7 +168,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(2)
                 )
-            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */,
+            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("O1")
@@ -187,7 +186,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(3)
                 )
-            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */,
+            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("O1")
@@ -205,7 +204,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(4)
                 )
-            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */,
+            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -223,7 +222,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(11)
                 )
-            }() /* resources/sparql11-test-suite/entailment/bind06.rq */,
+            }() /* resources/sparql11-test-suite/entailment/bind06.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -241,7 +240,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(12)
                 )
-            }() /* resources/sparql11-test-suite/entailment/bind06.rq */,
+            }() /* resources/sparql11-test-suite/entailment/bind06.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -259,7 +258,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(13)
                 )
-            }() /* resources/sparql11-test-suite/entailment/bind06.rq */,
+            }() /* resources/sparql11-test-suite/entailment/bind06.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -277,7 +276,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(14)
                 )
-            }() /* resources/sparql11-test-suite/entailment/bind06.rq */,
+            }() /* resources/sparql11-test-suite/entailment/bind06.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("z")
@@ -297,7 +296,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(101)
                 )
-            }() /* resources/sparql11-test-suite/entailment/bind02.rq */,
+            }() /* resources/sparql11-test-suite/entailment/bind02.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("z")
@@ -317,7 +316,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(102)
                 )
-            }() /* resources/sparql11-test-suite/entailment/bind02.rq */,
+            }() /* resources/sparql11-test-suite/entailment/bind02.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("z")
@@ -337,7 +336,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(103)
                 )
-            }() /* resources/sparql11-test-suite/entailment/bind02.rq */,
+            }() /* resources/sparql11-test-suite/entailment/bind02.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("z")
@@ -357,7 +356,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(104)
                 )
-            }() /* resources/sparql11-test-suite/entailment/bind02.rq */,
+            }() /* resources/sparql11-test-suite/entailment/bind02.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -375,7 +374,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(2)
                 )
-            }() /* resources/sparql11-test-suite/entailment/bind08.rq */,
+            }() /* resources/sparql11-test-suite/entailment/bind08.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -393,7 +392,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(3)
                 )
-            }() /* resources/sparql11-test-suite/entailment/bind08.rq */,
+            }() /* resources/sparql11-test-suite/entailment/bind08.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -411,7 +410,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(4)
                 )
-            }() /* resources/sparql11-test-suite/entailment/bind08.rq */,
+            }() /* resources/sparql11-test-suite/entailment/bind08.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -429,7 +428,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(5)
                 )
-            }() /* resources/sparql11-test-suite/entailment/bind08.rq */,
+            }() /* resources/sparql11-test-suite/entailment/bind08.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -447,7 +446,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         Exception("AOPAddition only works with numeric input")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -465,7 +464,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         Exception("AOPAddition only works with numeric input")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -483,7 +482,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(3)
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -501,7 +500,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPDecimal(3.0)
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -519,7 +518,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         Exception("AOPAddition only works with numeric input")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -537,7 +536,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         Exception("AOPAddition only works with numeric input")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -555,7 +554,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         Exception("AOPAddition only works with numeric input")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -573,7 +572,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         Exception("AOPAddition only works with numeric input")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -591,7 +590,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         Exception("AOPAddition only works with numeric input")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -609,7 +608,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         Exception("AOPAddition only works with numeric input")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -627,7 +626,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         Exception("AOPAddition only works with numeric input")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -645,7 +644,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         Exception("AOPAddition only works with numeric input")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("y")
@@ -663,7 +662,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(2)
                 )
-            }() /* resources/sparql11-test-suite/project-expression/projexp02.rq */,
+            }() /* resources/sparql11-test-suite/project-expression/projexp02.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("y")
@@ -681,7 +680,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(3)
                 )
-            }() /* resources/sparql11-test-suite/project-expression/projexp03.rq */,
+            }() /* resources/sparql11-test-suite/project-expression/projexp03.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -697,7 +696,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(2)
                 )
-            }() /* resources/sparql11-test-suite/project-expression/projexp04.rq */,
+            }() /* resources/sparql11-test-suite/project-expression/projexp04.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -713,7 +712,7 @@ class GeneratedAOPAdditionTest {
                         resultSet,
                         AOPInteger(4)
                 )
-            }() /* resources/sparql11-test-suite/project-expression/projexp04.rq */,
+            }() /* resources/sparql11-test-suite/project-expression/projexp04.rq */ ,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -748,7 +747,7 @@ class GeneratedAOPAdditionTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)) {
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }

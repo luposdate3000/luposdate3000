@@ -38,8 +38,8 @@ object P2P {
         Endpoint.process_local_graph_operation(name, type)
     })
 
-    fun execTripleGet(node: String, graphName: String, dictionary: ResultSetDictionary, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
-        return Endpoint.process_local_triple_get(graphName, dictionary, transactionID, s, p, o, sv, pv, ov, idx)
+    fun execTripleGet(node: String, graphName: String, resultSet: ResultSet, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): POPBase = Trace.trace({ "P2P.execTripleGet" }, {
+        return Endpoint.process_local_triple_get(graphName, resultSet, transactionID, s, p, o, sv, pv, ov, idx)
     })
 
     fun execTripleDelete(node: String, graphName: String, transactionID: Long, data: List<Pair<String, Boolean>>, idx: EIndexPattern) = Trace.trace({ "P2P.execTripleDelete" }, {

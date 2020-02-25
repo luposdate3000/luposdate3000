@@ -27,7 +27,9 @@ class ResultSet(val dictionary: ResultSetDictionary) {
     fun getVariableNames(): List<String> {
         return variables
     }
-
+ fun hasVariable(name: String): Boolean {
+        return variables.contains(name)
+    }
     fun createValue(value: String?): Value {
         return value
     }

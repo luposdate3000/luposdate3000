@@ -353,7 +353,7 @@ fun printAllMicroTest() {
                 out.println("")
                 out.println("")
                 out.println("class Generated${operator}Test {")
-                out.println("    constructor(){")
+                out.println("    constructor() {")
                 out.println("        P2P.knownClients.clear()")
                 out.println("        P2P.knownClients.add(EndpointImpl.fullname)")
                 out.println("    }")
@@ -467,7 +467,7 @@ fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
                     if (success)
                         tmp["${prefix}            " + testCaseFromPOPBaseSimple(it)] = queryFile
                     else
-                        tmp["${prefix}            /*" + testCaseFromPOPBaseSimple(it) + "*/"] = queryFile
+                        tmp["${prefix}            /* " + testCaseFromPOPBaseSimple(it) + " */"] = queryFile
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }

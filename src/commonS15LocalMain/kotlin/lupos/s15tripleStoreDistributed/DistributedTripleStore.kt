@@ -16,6 +16,8 @@ import lupos.s14endpoint.EndpointImpl
 
 val uuid = ThreadSafeUuid()
 
+typealias TripleStoreIteratorGlobal = TripleStoreIteratorLocalFilter
+
 class DistributedGraph(val name: String) {
     val K = 8 // defined in project.pdf
 
