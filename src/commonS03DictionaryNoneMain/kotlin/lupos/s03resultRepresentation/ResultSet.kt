@@ -6,12 +6,11 @@ import lupos.s03resultRepresentation.Variable
 
 
 class ResultSet(val dictionary: ResultSetDictionary) {
-    override val classname = "ResultSet"
     val variables = mutableListOf<String>()
 
     fun renameVariable(variableOld: String, variableNew: String): String {
         val i = variables.indexOf(variableOld)
-        variables[i])variableNew
+        variables[i] = variableNew
         return variableNew
     }
 

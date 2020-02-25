@@ -5,8 +5,9 @@ import lupos.s00misc.*
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeMutableSet
-import lupos.s03resultRepresentation.ResultRow
+import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.noinput.AOPAggregation
 import lupos.s04arithmetikOperators.noinput.AOPBnode
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
@@ -18,7 +19,6 @@ import lupos.s04arithmetikOperators.noinput.AOPIri
 import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
-import lupos.s04arithmetikOperators.noinput.AOPUndef
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIRI
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
@@ -41,6 +41,7 @@ val mapOfResultRows = ThreadSafeMutableMap<Long, MutableList<String>>()
 val popMap = ThreadSafeMutableMap<Long, POPBase>()
 val rowMapConsumed = ThreadSafeMutableMap<Pair<Long, Long>, MutableList<ResultRow>>()
 val rowMapProduced = ThreadSafeMutableMap<Long, MutableList<ResultRow>>()
+
 
 fun resultFlowConsume(consumerv: () -> OPBase, producerv: () -> OPBase, action: () -> ResultRow): ResultRow {
     val res = action()
@@ -69,6 +70,19 @@ fun resultFlowProduce(producerv: () -> OPBase, action: () -> ResultRow): ResultR
     return res
 }
 
+val mutableMapsForTest = ThreadSafeMutableMap<String, String>()
+val myuuid = ThreadSafeUuid()
+
+fun addMutableMapToTests(code: String): String {
+    synchronized(mutableMapsForTest) {
+        val res = mutableMapsForTest[code]
+        if (res != null)
+            return res
+        mutableMapsForTest[code] = "map${myuuid.next()}map"
+        return mutableMapsForTest[code]!!
+    }
+}
+
 fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, o: OPBase, prefix: String): String {
     var res = "${prefix}POPValues(dictionary, listOf(\n"
     val variables = o.getProvidedVariableNames()
@@ -81,18 +95,20 @@ fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, o: OPBase, 
     res += "${prefix}    ), listOf(\n"
     if (rows != null) {
         for (row in rows) {
-            res += "${prefix}        mutableMapOf(\n"
+            var tmpMap = ""
+            tmpMap += "mutableMapOf<String,String?>(\n"
             if (variables.size > 0) {
                 for (k in variables) {
                     val v = o.resultSet.getValue(row[o.resultSet.createVariable(k)])?.replace("\"", "\\\"")
                     if (v == null)
-                        res += "${prefix}            \"${k}\" to null,\n"
+                        tmpMap += "    \"${k}\" to null,\n"
                     else
-                        res += "${prefix}            \"${k}\" to \"${v}\",\n"
+                        tmpMap += "    \"${k}\" to \"${v}\",\n"
                 }
-                res = res.substring(0, res.length - 2) + "\n"
+                tmpMap = tmpMap.substring(0, tmpMap.length - 2)
             }
-            res += "${prefix}        ),\n"
+            tmpMap += ")\n"
+            res += "${prefix}        GeneratedMutableMap.${addMutableMapToTests(tmpMap)},\n"
         }
         res = res.substring(0, res.length - 2) + "\n"
     }
@@ -114,8 +130,9 @@ fun testCaseFromPOPBaseSimple(op: POPBase, recoursive: Boolean, prefix: String, 
 
     if (first) {
         res += "{\n"
-        res += "${prefix}    val dictionary=ResultSetDictionary()\n"
+        res += "${prefix}    val dictionary = ResultSetDictionary()\n"
         res += "${prefix}    MicroTestPN(\n"
+        res += "${prefix}        dictionary,\n"
     }
     if (op is TripleStoreIteratorGlobal) {
         val s: String?
@@ -167,7 +184,7 @@ fun testCaseFromPOPBaseSimple(op: POPBase, recoursive: Boolean, prefix: String, 
         else
             res += "${prefix}        }()\n"
     } else {
-        res += "${prefix}        ${classNameToString(op)}(\n"
+        res += "${prefix}        ${op.classname}(\n"
         res += "${prefix}            dictionary,\n"
         when (op) {
             is POPUnion -> {
@@ -336,6 +353,8 @@ fun printAllMicroTest() {
             myfile.printWriter().use { out ->
                 out.println("package lupos")
                 out.println("")
+                out.println("import lupos.s10physicalOptimisation.PhysicalOptimizer")
+                out.println("import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer")
                 out.println("import lupos.s12p2p.P2P")
                 out.println("import lupos.s14endpoint.EndpointImpl")
                 out.println("import lupos.s00misc.*")
@@ -348,6 +367,7 @@ fun printAllMicroTest() {
                 out.println("import lupos.s04arithmetikOperators.singleinput.*")
                 out.println("import lupos.s04logicalOperators.*")
                 out.println("import lupos.s04logicalOperators.noinput.*")
+                out.println("import lupos.s04logicalOperators.multiinput.*")
                 out.println("import lupos.s04logicalOperators.singleinput.*")
                 out.println("import lupos.s04logicalOperators.singleinput.modifiers.*")
                 out.println("import lupos.s08logicalOptimisation.*")
@@ -367,18 +387,18 @@ fun printAllMicroTest() {
                 out.println("        P2P.knownClients.add(EndpointImpl.fullname)")
                 out.println("    }")
                 out.println("    fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {")
-                out.println("        for (n in node.children)")
+                out.println("        for (n in  node.children)")
                 out.println("            setAggregationMode(n, mode, count)")
                 out.println("        if (node is AOPAggregation) {")
-                out.println("            node.count = count")
+                out.println("                node.count = count")
                 out.println("            node.collectMode = mode")
                 out.println("            if (node.collectMode)")
                 out.println("                node.a = null")
                 out.println("        }")
                 out.println("    }")
                 out.println("")
-                out.println("${prefix}    @TestFactory")
-                out.println("${prefix}    fun test() = listOf(")
+                out.println("${prefix} @TestFactory")
+                out.println("${prefix} fun test() = listOf(")
                 for ((k, v) in testcases) {
                     if (k.endsWith("*/"))
                         out.println("${prefix}$k /* $v */")
@@ -414,8 +434,22 @@ fun printAllMicroTest() {
                 out.println("${prefix}                        println((data.expected as AOPConstant).valueToString())")
                 out.println("${prefix}                    }")
                 out.println("${prefix}                    assertTrue(data.expected.equals(output))")
-                out.println("${prefix}                } else if (data.input is POPBase) {")
+                out.println("${prefix}                } else if (data.input is POPBase && data is MicroTestPN) {")
                 out.println("${prefix}                    val input = data.input as POPBase")
+                out.println("${prefix}                    assertTrue(data.expected is POPValues)")
+                out.println("${prefix}                    val output = QueryResultToXML.toXML(input).first()")
+                out.println("${prefix}                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()")
+                out.println("${prefix}                    if (!expected.myEquals(output)){")
+                out.println("${prefix}                        println(output.toPrettyString())")
+                out.println("${prefix}                        println(expected.toPrettyString())")
+                out.println("${prefix}                    }")
+                out.println("${prefix}                    assertTrue(expected.myEquals(output))")
+                out.println("${prefix}                } else if (data.input is LOPBase && data is MicroTestPN) {")
+                out.println("${prefix}                    val lop_node = data.input as LOPBase")
+                out.println("${prefix}                    val dictionary = data.dictionary")
+                out.println("${prefix}                    val lop_node2 = LogicalOptimizer(1L, dictionary).optimizeCall(lop_node)")
+                out.println("${prefix}                    val pop_node = PhysicalOptimizer(1L, dictionary).optimizeCall(lop_node2)")
+                out.println("${prefix}                    val input = KeyDistributionOptimizer(1L, dictionary).optimizeCall(pop_node) as POPBase")
                 out.println("${prefix}                    assertTrue(data.expected is POPValues)")
                 out.println("${prefix}                    val output = QueryResultToXML.toXML(input).first()")
                 out.println("${prefix}                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()")
@@ -434,6 +468,15 @@ fun printAllMicroTest() {
                 out.println("${prefix}}")
             }
         }
+    }
+    val fileName = "src/commonTest/kotlin/lupos/GeneratedMutableMap.kt"
+    val myfile = File(fileName)
+    myfile.printWriter().use { out ->
+        out.println("object GeneratedMutableMap {\n")
+        mutableMapsForTest.forEach { code, varname ->
+            out.println("    val $varname = $code")
+        }
+        out.println("}")
     }
 }
 
@@ -476,6 +519,8 @@ fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
                     if (success) {
                         tmp["${prefix}            " + testCaseFromPOPBaseSimple(it, false, "${prefix}            ")] = queryFile
                         tmp["${prefix}            " + testCaseFromPOPBaseSimple(it, true, "${prefix}            ")] = queryFile
+                        tmp["${prefix}            " + testCaseFromLOPBaseSimple(it, false, "${prefix}            ")] = queryFile
+                        tmp["${prefix}            " + testCaseFromLOPBaseSimple(it, true, "${prefix}            ")] = queryFile
                     } else
                         tmp["${prefix}            /* " + testCaseFromPOPBaseSimple(it, false, "${prefix}            ") + " */"] = queryFile
                 } catch (e: Throwable) {
@@ -600,6 +645,167 @@ class MicroTestA1(input: AOPBase, val resultRow: ResultRow, val resultSet: Resul
 class MicroTestAN(input: AOPBase, val resultRows: List<ResultRow>, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
 }
 
-class MicroTestPN(input: POPBase, expected: Any) : MicroTest0(input, expected) {
+class MicroTestPN(val dictionary: ResultSetDictionary, input: POPBase, expected: Any) : MicroTest0(input, expected) {
+}
+
+class MicroTestLN(val dictionary: ResultSetDictionary, input: LOPBase, expected: Any) : MicroTest0(input, expected) {
+}
+
+fun testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive: Boolean, rows: MutableList<ResultRow>?, o: OPBase, prefix: String): String {
+    if (recoursive) {
+        return testCaseFromLOPBaseSimple(o as POPBase, true, prefix + "    ", false)
+    } else
+        return testCaseFromResultRowsAsPOPValues(rows, o, prefix)
+}
+
+fun testCaseFromLOPBaseSimple(op: POPBase, recoursive: Boolean, prefix: String, first: Boolean = true): String {
+    var res = ""
+
+    if (first) {
+        res += "{\n"
+        res += "${prefix}    val dictionary=ResultSetDictionary()\n"
+        res += "${prefix}    MicroTestLN(\n"
+        res += "${prefix}        dictionary,\n"
+    }
+    if (op is TripleStoreIteratorGlobal) {
+        val s: String?
+        val p: String?
+        val o: String?
+        val sv = op.sFilter != null
+        val pv = op.pFilter != null
+        val ov = op.oFilter != null
+        if (sv)
+            s = "AOPVariable.calculate(\"${op.sFilter?.replace("\"", "\\\"")}\")"
+        else
+            s = "AOPVariable(\"${op.nameS}\")"
+        if (pv)
+            p = "AOPVariable.calculate(\"${op.pFilter?.replace("\"", "\\\"")}\")"
+        else
+            p = "AOPVariable(\"${op.nameP}\")"
+        if (ov)
+            o = "AOPVariable.calculate(\"${op.oFilter?.replace("\"", "\\\"")}\")"
+        else
+            o = "AOPVariable(\"${op.nameO}\")"
+        res += "${prefix}        {\n"
+        res += "${prefix}            val graphName = \"graph\" + DistributedTripleStore.getGraphNames().size\n"
+        res += "${prefix}            val graph=DistributedTripleStore.createGraph(graphName)\n"
+        val tmp = rowMapProduced[op.uuid]
+        if (tmp != null) {
+            for (r in tmp) {
+                res += "${prefix}            graph.addData(1L,listOf(\""
+                if (sv)
+                    res += op.sFilter?.replace("\"", "\\\"")
+                else
+                    res += op.resultSet.getValue(r[op.resultSet.createVariable(op.nameS!!)]!!)!!.replace("\"", "\\\"")
+                res += "\",\""
+                if (pv)
+                    res += op.pFilter?.replace("\"", "\\\"")
+                else
+                    res += op.resultSet.getValue(r[op.resultSet.createVariable(op.nameP!!)]!!)!!.replace("\"", "\\\"")
+                res += "\",\""
+                if (ov)
+                    res += op.oFilter?.replace("\"", "\\\"")
+                else
+                    res += op.resultSet.getValue(r[op.resultSet.createVariable(op.nameO!!)]!!)!!.replace("\"", "\\\"")
+                res += "\"))\n"
+            }
+        }
+        res += "${prefix}            DistributedTripleStore.commit(1L)\n"
+        res += "${prefix}            LOPTriple($s,$p,$o,graphName,false)"
+        if (first)
+            res += "${prefix}        }(),\n"
+        else
+            res += "${prefix}        }()\n"
+    } else {
+        when (op) {
+            is POPUnion -> {
+                res += "${prefix}        LOPUnion(\n"
+                res += testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive, rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + ",\n"
+                res += testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive, rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1], "${prefix}            ") + "\n"
+            }
+            is POPJoinHashMap -> {
+                res += "${prefix}        LOPJoin(\n"
+                res += testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive, rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + ",\n"
+                res += testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive, rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1], "${prefix}            ") + ",\n"
+                res += "${prefix}            ${op.optional}"
+            }
+            is POPJoinNestedLoop -> {
+                res += "${prefix}        LOPJoin(\n"
+                res += testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive, rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + ",\n"
+                res += testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive, rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1], "${prefix}            ") + ",\n"
+                res += "${prefix}            ${op.optional}"
+            }
+            is POPRename -> {
+                res += "${prefix}        LOPRename(\n"
+                res += "${prefix}            AOPVariable(\"${op.nameTo.name}\"),\n"
+                res += "${prefix}            AOPVariable(\"${op.nameFrom.name}\"),\n"
+                res += testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive, rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
+            }
+            is POPFilter -> {
+                res += "${prefix}        LOPFilter(\n"
+                res += "${prefix}            ${testCaseFromAOPBase(op.children[1] as AOPBase)},\n"
+                res += testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive, rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
+            }
+            is POPDistinct -> {
+                res += "${prefix}        LOPDistinct(\n"
+                res += testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive, rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
+            }
+            is POPOffset -> {
+                res += "${prefix}        LOPOffset(\n"
+                res += "${prefix}            ${op.offset},\n"
+                res += testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive, rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
+            }
+            is POPLimit -> {
+                res += "${prefix}        LOPLimit(\n"
+                res += "${prefix}            ${op.limit},\n"
+                res += testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive, rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
+            }
+            is POPSort -> {
+                res += "${prefix}        LOPSort(\n"
+                res += "${prefix}            ${op.sortOrder},\n"
+                res += "${prefix}            AOPVariable(\"${op.resultSet.getVariable(op.sortBy)}\"),\n"
+                res += testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive, rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
+            }
+            is POPBindUndefined -> {
+                res += "${prefix}        LOPBind(\n"
+                res += "${prefix}            AOPVariable(\"${op.name.name}\"),\n"
+                res += "${prefix}            ${testCaseFromAOPBase(AOPUndef())},\n"
+                res += testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive, rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
+            }
+            is POPBind -> {
+                res += "${prefix}        LOPBind(\n"
+                res += "${prefix}            AOPVariable(\"${op.name.name}\"),\n"
+                res += "${prefix}            ${testCaseFromAOPBase(op.children[1] as AOPBase)},\n"
+                res += testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive, rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
+            }
+            is POPProjection -> {
+                res += "${prefix}        LOPProjection(\n"
+                res += "${prefix}            mutableListOf(\n"
+                for (i in 0 until op.variables.size - 1)
+                    res += "${prefix}                AOPVariable(\"${op.variables[i].name}\"),\n"
+                if (op.variables.size > 0)
+                    res += "${prefix}                AOPVariable(\"${op.variables[op.variables.size - 1].name}\")\n"
+                res += "${prefix}            ),\n"
+                res += testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive, rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
+            }
+            is POPFilterExact -> {
+                res += "${prefix}        LOPFilterExact(\n"
+                res += "${prefix}            AOPVariable(\"${op.variable.name}\"),\n"
+                res += "${prefix}            \"${op.value}\",\n"
+                res += testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive, rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
+            }
+            else -> throw Exception("not implemented testCaseFromLOPBaseSimple(${classNameToString(op)})")
+        }
+        if (first)
+            res += "${prefix}        ),\n"
+        else
+            res += "${prefix}        )\n"
+    }
+    if (first) {
+        res += testCaseFromResultRowsAsPOPValues(rowMapProduced[op.uuid], op, "${prefix}        ") + "\n"
+        res += "${prefix}    )\n"
+        res += "${prefix}}()"
+    }
+    return res
 }
 

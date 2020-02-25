@@ -8,6 +8,7 @@ import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.*
@@ -17,8 +18,10 @@ import lupos.s09physicalOperators.multiinput.*
 import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.*
+import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.*
 import lupos.s12p2p.P2P
+import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.EndpointImpl
 import lupos.s15tripleStoreDistributed.*
 import org.junit.jupiter.api.*
@@ -47,6 +50,7 @@ class GeneratedPOPUnionTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPUnion(
                                 dictionary,
                                 POPValues(dictionary, listOf(
@@ -54,11 +58,7 @@ class GeneratedPOPUnionTest {
                                         "p",
                                         "o"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/g1>",
-                                                "p" to "<http://example.org/p>",
-                                                "o" to "\"y\""
-                                        )
+                                        GeneratedMutableMap.map5613map
                                 )
                                 ),
                                 POPValues(dictionary, listOf(
@@ -66,11 +66,7 @@ class GeneratedPOPUnionTest {
                                         "p",
                                         "o"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/g2>",
-                                                "p" to "<http://example.org/p>",
-                                                "o" to "\"z\""
-                                        )
+                                        GeneratedMutableMap.map5614map
                                 )
                                 )
                         ),
@@ -79,16 +75,8 @@ class GeneratedPOPUnionTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/g1>",
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "\"y\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/g2>",
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "\"z\""
-                                )
+                                GeneratedMutableMap.map5613map,
+                                GeneratedMutableMap.map5614map
                         )
                         )
                 )
@@ -96,6 +84,7 @@ class GeneratedPOPUnionTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPUnion(
                                 dictionary,
                                 {
@@ -120,16 +109,74 @@ class GeneratedPOPUnionTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/g1>",
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "\"y\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/g2>",
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "\"z\""
+                                GeneratedMutableMap.map5613map,
+                                GeneratedMutableMap.map5614map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/basic-update/insert-using-01.ru */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPUnion(
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o"
+                                ), listOf(
+                                        GeneratedMutableMap.map5613map
                                 )
+                                ),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o"
+                                ), listOf(
+                                        GeneratedMutableMap.map5614map
+                                )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map5613map,
+                                GeneratedMutableMap.map5614map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/basic-update/insert-using-01.ru */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPUnion(
+                                {
+                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                    graph.addData(1L, listOf("<http://example.org/g1>", "<http://example.org/p>", "\"y\""))
+                                    DistributedTripleStore.commit(1L)
+                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                }()
+                                ,
+                                {
+                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                    graph.addData(1L, listOf("<http://example.org/g2>", "<http://example.org/p>", "\"z\""))
+                                    DistributedTripleStore.commit(1L)
+                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                }()
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map5613map,
+                                GeneratedMutableMap.map5614map
                         )
                         )
                 )
@@ -137,34 +184,27 @@ class GeneratedPOPUnionTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPUnion(
                                 dictionary,
                                 POPValues(dictionary, listOf(
                                         "z"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "z" to null
-                                        )
+                                        GeneratedMutableMap.map7624map
                                 )
                                 ),
                                 POPValues(dictionary, listOf(
                                         "z"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "z" to null
-                                        )
+                                        GeneratedMutableMap.map7624map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "z"
                         ), listOf(
-                                mutableMapOf(
-                                        "z" to null
-                                ),
-                                mutableMapOf(
-                                        "z" to null
-                                )
+                                GeneratedMutableMap.map7624map,
+                                GeneratedMutableMap.map7624map
                         )
                         )
                 )
@@ -198,8 +238,22 @@ class GeneratedPOPUnionTest {
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase) {
+                } else if (data.input is POPBase && data is MicroTestPN) {
                     val input = data.input as POPBase
+                    assertTrue(data.expected is POPValues)
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output)) {
+                        println(output.toPrettyString())
+                        println(expected.toPrettyString())
+                    }
+                    assertTrue(expected.myEquals(output))
+                } else if (data.input is LOPBase && data is MicroTestPN) {
+                    val lop_node = data.input as LOPBase
+                    val dictionary = data.dictionary
+                    val lop_node2 = LogicalOptimizer(1L, dictionary).optimizeCall(lop_node)
+                    val pop_node = PhysicalOptimizer(1L, dictionary).optimizeCall(lop_node2)
+                    val input = KeyDistributionOptimizer(1L, dictionary).optimizeCall(pop_node) as POPBase
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()

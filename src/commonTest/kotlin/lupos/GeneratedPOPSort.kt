@@ -8,6 +8,7 @@ import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.*
@@ -17,8 +18,10 @@ import lupos.s09physicalOperators.multiinput.*
 import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.*
+import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.*
 import lupos.s12p2p.P2P
+import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.EndpointImpl
 import lupos.s15tripleStoreDistributed.*
 import org.junit.jupiter.api.*
@@ -47,6 +50,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("O12"),
@@ -55,26 +59,11 @@ class GeneratedPOPSortTest {
                                         "O12",
                                         "C"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "O12" to "\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "C" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "O12" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "C" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "O12" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "C" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "O12" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "C" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "O12" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "C" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        )
+                                        GeneratedMutableMap.map2758map,
+                                        GeneratedMutableMap.map2759map,
+                                        GeneratedMutableMap.map2760map,
+                                        GeneratedMutableMap.map2761map,
+                                        GeneratedMutableMap.map2762map
                                 )
                                 )
                         ),
@@ -82,33 +71,19 @@ class GeneratedPOPSortTest {
                                 "O12",
                                 "C"
                         ), listOf(
-                                mutableMapOf(
-                                        "O12" to "\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "C" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "O12" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "C" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "O12" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "C" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "O12" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "C" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "O12" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "C" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                )
+                                GeneratedMutableMap.map2758map,
+                                GeneratedMutableMap.map2759map,
+                                GeneratedMutableMap.map2760map,
+                                GeneratedMutableMap.map2761map,
+                                GeneratedMutableMap.map2762map
                         )
                         )
                 )
             }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */,
             /* {
-                val dictionary=ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
                     POPSort(
                         dictionary,
                         AOPVariable("o"),
@@ -118,36 +93,12 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                             ), listOf(
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s1>",
-                                    "p" to "<http://example.org/p1>",
-                                    "o" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s2>",
-                                    "p" to "<http://example.org/p2>",
-                                    "o" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s3>",
-                                    "p" to "<http://example.org/p3>",
-                                    "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s4>",
-                                    "p" to "<http://example.org/p4>",
-                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s5>",
-                                    "p" to "<http://example.org/p5>",
-                                    "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s6>",
-                                    "p" to "<http://example.org/p6>",
-                                    "o" to "_:o6"
-                                )
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10098map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map10100map,
+                                GeneratedMutableMap.map10101map
                             )
                         )
                     ),
@@ -156,43 +107,20 @@ class GeneratedPOPSortTest {
                             "p",
                             "o"
                         ), listOf(
-                            mutableMapOf(
-                                "s" to "<http://example.org/s4>",
-                                "p" to "<http://example.org/p4>",
-                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s5>",
-                                "p" to "<http://example.org/p5>",
-                                "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s3>",
-                                "p" to "<http://example.org/p3>",
-                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s2>",
-                                "p" to "<http://example.org/p2>",
-                                "o" to "\"foo\""
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s1>",
-                                "p" to "<http://example.org/p1>",
-                                "o" to "<http://example.org/s2>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s6>",
-                                "p" to "<http://example.org/p6>",
-                                "o" to "_:o6"
-                            )
+                            GeneratedMutableMap.map10099map,
+                            GeneratedMutableMap.map10100map,
+                            GeneratedMutableMap.map10098map,
+                            GeneratedMutableMap.map10097map,
+                            GeneratedMutableMap.map10096map,
+                            GeneratedMutableMap.map10101map
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */
             /* {
-                val dictionary=ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
                     POPSort(
                         dictionary,
                         AOPVariable("p"),
@@ -202,36 +130,12 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                             ), listOf(
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s4>",
-                                    "p" to "<http://example.org/p4>",
-                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s5>",
-                                    "p" to "<http://example.org/p5>",
-                                    "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s3>",
-                                    "p" to "<http://example.org/p3>",
-                                    "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s2>",
-                                    "p" to "<http://example.org/p2>",
-                                    "o" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s1>",
-                                    "p" to "<http://example.org/p1>",
-                                    "o" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s6>",
-                                    "p" to "<http://example.org/p6>",
-                                    "o" to "_:o6"
-                                )
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map10100map,
+                                GeneratedMutableMap.map10098map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10101map
                             )
                         )
                     ),
@@ -240,43 +144,20 @@ class GeneratedPOPSortTest {
                             "p",
                             "o"
                         ), listOf(
-                            mutableMapOf(
-                                "s" to "<http://example.org/s1>",
-                                "p" to "<http://example.org/p1>",
-                                "o" to "<http://example.org/s2>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s2>",
-                                "p" to "<http://example.org/p2>",
-                                "o" to "\"foo\""
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s3>",
-                                "p" to "<http://example.org/p3>",
-                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s4>",
-                                "p" to "<http://example.org/p4>",
-                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s5>",
-                                "p" to "<http://example.org/p5>",
-                                "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s6>",
-                                "p" to "<http://example.org/p6>",
-                                "o" to "_:o6"
-                            )
+                            GeneratedMutableMap.map10096map,
+                            GeneratedMutableMap.map10097map,
+                            GeneratedMutableMap.map10098map,
+                            GeneratedMutableMap.map10099map,
+                            GeneratedMutableMap.map10100map,
+                            GeneratedMutableMap.map10101map
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */
             /* {
-                val dictionary=ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
                     POPSort(
                         dictionary,
                         AOPVariable("s"),
@@ -286,36 +167,12 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                             ), listOf(
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s1>",
-                                    "p" to "<http://example.org/p1>",
-                                    "o" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s2>",
-                                    "p" to "<http://example.org/p2>",
-                                    "o" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s3>",
-                                    "p" to "<http://example.org/p3>",
-                                    "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s4>",
-                                    "p" to "<http://example.org/p4>",
-                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s5>",
-                                    "p" to "<http://example.org/p5>",
-                                    "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s6>",
-                                    "p" to "<http://example.org/p6>",
-                                    "o" to "_:o6"
-                                )
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10098map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map10100map,
+                                GeneratedMutableMap.map10101map
                             )
                         )
                     ),
@@ -324,36 +181,12 @@ class GeneratedPOPSortTest {
                             "p",
                             "o"
                         ), listOf(
-                            mutableMapOf(
-                                "s" to "<http://example.org/s1>",
-                                "p" to "<http://example.org/p1>",
-                                "o" to "<http://example.org/s2>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s2>",
-                                "p" to "<http://example.org/p2>",
-                                "o" to "\"foo\""
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s3>",
-                                "p" to "<http://example.org/p3>",
-                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s4>",
-                                "p" to "<http://example.org/p4>",
-                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s5>",
-                                "p" to "<http://example.org/p5>",
-                                "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s6>",
-                                "p" to "<http://example.org/p6>",
-                                "o" to "_:o6"
-                            )
+                            GeneratedMutableMap.map10096map,
+                            GeneratedMutableMap.map10097map,
+                            GeneratedMutableMap.map10098map,
+                            GeneratedMutableMap.map10099map,
+                            GeneratedMutableMap.map10100map,
+                            GeneratedMutableMap.map10101map
                         )
                     )
                 )
@@ -361,6 +194,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("o"),
@@ -370,36 +204,12 @@ class GeneratedPOPSortTest {
                                         "p",
                                         "o"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "<http://example.org/s2>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p3>",
-                                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "_:o6"
-                                        )
+                                        GeneratedMutableMap.map10096map,
+                                        GeneratedMutableMap.map10097map,
+                                        GeneratedMutableMap.map10098map,
+                                        GeneratedMutableMap.map10099map,
+                                        GeneratedMutableMap.map10100map,
+                                        GeneratedMutableMap.map10101map
                                 )
                                 )
                         ),
@@ -408,36 +218,12 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6"
-                                )
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map10100map,
+                                GeneratedMutableMap.map10098map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10101map
                         )
                         )
                 )
@@ -445,6 +231,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("o"),
@@ -468,36 +255,84 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6"
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map10100map,
+                                GeneratedMutableMap.map10098map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10101map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("o"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o"
+                                ), listOf(
+                                        GeneratedMutableMap.map10096map,
+                                        GeneratedMutableMap.map10097map,
+                                        GeneratedMutableMap.map10098map,
+                                        GeneratedMutableMap.map10099map,
+                                        GeneratedMutableMap.map10100map,
+                                        GeneratedMutableMap.map10101map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map10100map,
+                                GeneratedMutableMap.map10098map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10101map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("o"),
+                                {
+                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                    DistributedTripleStore.commit(1L)
+                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                }()
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map10100map,
+                                GeneratedMutableMap.map10098map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10101map
                         )
                         )
                 )
@@ -505,6 +340,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("p"),
@@ -514,36 +350,12 @@ class GeneratedPOPSortTest {
                                         "p",
                                         "o"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p3>",
-                                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "<http://example.org/s2>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "_:o6"
-                                        )
+                                        GeneratedMutableMap.map10099map,
+                                        GeneratedMutableMap.map10100map,
+                                        GeneratedMutableMap.map10098map,
+                                        GeneratedMutableMap.map10097map,
+                                        GeneratedMutableMap.map10096map,
+                                        GeneratedMutableMap.map10101map
                                 )
                                 )
                         ),
@@ -552,36 +364,12 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6"
-                                )
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10098map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map10100map,
+                                GeneratedMutableMap.map10101map
                         )
                         )
                 )
@@ -589,6 +377,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("p"),
@@ -618,36 +407,89 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6"
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10098map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map10100map,
+                                GeneratedMutableMap.map10101map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("p"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o"
+                                ), listOf(
+                                        GeneratedMutableMap.map10099map,
+                                        GeneratedMutableMap.map10100map,
+                                        GeneratedMutableMap.map10098map,
+                                        GeneratedMutableMap.map10097map,
+                                        GeneratedMutableMap.map10096map,
+                                        GeneratedMutableMap.map10101map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10098map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map10100map,
+                                GeneratedMutableMap.map10101map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("p"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("o"),
+                                        {
+                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                            DistributedTripleStore.commit(1L)
+                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                        }()
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10098map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map10100map,
+                                GeneratedMutableMap.map10101map
                         )
                         )
                 )
@@ -655,6 +497,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("s"),
@@ -664,36 +507,12 @@ class GeneratedPOPSortTest {
                                         "p",
                                         "o"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "<http://example.org/s2>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p3>",
-                                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "_:o6"
-                                        )
+                                        GeneratedMutableMap.map10096map,
+                                        GeneratedMutableMap.map10097map,
+                                        GeneratedMutableMap.map10098map,
+                                        GeneratedMutableMap.map10099map,
+                                        GeneratedMutableMap.map10100map,
+                                        GeneratedMutableMap.map10101map
                                 )
                                 )
                         ),
@@ -702,36 +521,12 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6"
-                                )
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10098map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map10100map,
+                                GeneratedMutableMap.map10101map
                         )
                         )
                 )
@@ -739,6 +534,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("s"),
@@ -774,43 +570,102 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6"
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10098map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map10100map,
+                                GeneratedMutableMap.map10101map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("s"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o"
+                                ), listOf(
+                                        GeneratedMutableMap.map10096map,
+                                        GeneratedMutableMap.map10097map,
+                                        GeneratedMutableMap.map10098map,
+                                        GeneratedMutableMap.map10099map,
+                                        GeneratedMutableMap.map10100map,
+                                        GeneratedMutableMap.map10101map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10098map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map10100map,
+                                GeneratedMutableMap.map10101map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("s"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("p"),
+                                        LOPSort(
+                                                true,
+                                                AOPVariable("o"),
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                                }()
+
+                                        )
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10098map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map10100map,
+                                GeneratedMutableMap.map10101map
                         )
                         )
                 )
             }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
             /* {
-                val dictionary=ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
                     POPSort(
                         dictionary,
                         AOPVariable("o2"),
@@ -822,48 +677,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                             ), listOf(
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s1>",
-                                    "p" to "<http://example.org/p1>",
-                                    "o" to "<http://example.org/s2>",
-                                    "p2" to "<http://example.org/p2>",
-                                    "o2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s2>",
-                                    "p" to "<http://example.org/p2>",
-                                    "o" to "\"foo\"",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s3>",
-                                    "p" to "<http://example.org/p3>",
-                                    "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s4>",
-                                    "p" to "<http://example.org/p4>",
-                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s5>",
-                                    "p" to "<http://example.org/p5>",
-                                    "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s6>",
-                                    "p" to "<http://example.org/p6>",
-                                    "o" to "_:o6",
-                                    "p2" to null,
-                                    "o2" to null
-                                )
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map
                             )
                         )
                     ),
@@ -874,55 +693,20 @@ class GeneratedPOPSortTest {
                             "p2",
                             "o2"
                         ), listOf(
-                            mutableMapOf(
-                                "s" to "<http://example.org/s2>",
-                                "p" to "<http://example.org/p2>",
-                                "o" to "\"foo\"",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s3>",
-                                "p" to "<http://example.org/p3>",
-                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s4>",
-                                "p" to "<http://example.org/p4>",
-                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s5>",
-                                "p" to "<http://example.org/p5>",
-                                "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s6>",
-                                "p" to "<http://example.org/p6>",
-                                "o" to "_:o6",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s1>",
-                                "p" to "<http://example.org/p1>",
-                                "o" to "<http://example.org/s2>",
-                                "p2" to "<http://example.org/p2>",
-                                "o2" to "\"foo\""
-                            )
+                            GeneratedMutableMap.map10281map,
+                            GeneratedMutableMap.map10282map,
+                            GeneratedMutableMap.map10283map,
+                            GeneratedMutableMap.map10284map,
+                            GeneratedMutableMap.map10285map,
+                            GeneratedMutableMap.map10280map
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */
             /* {
-                val dictionary=ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
                     POPSort(
                         dictionary,
                         AOPVariable("p2"),
@@ -934,48 +718,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                             ), listOf(
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s2>",
-                                    "p" to "<http://example.org/p2>",
-                                    "o" to "\"foo\"",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s3>",
-                                    "p" to "<http://example.org/p3>",
-                                    "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s4>",
-                                    "p" to "<http://example.org/p4>",
-                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s5>",
-                                    "p" to "<http://example.org/p5>",
-                                    "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s6>",
-                                    "p" to "<http://example.org/p6>",
-                                    "o" to "_:o6",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s1>",
-                                    "p" to "<http://example.org/p1>",
-                                    "o" to "<http://example.org/s2>",
-                                    "p2" to "<http://example.org/p2>",
-                                    "o2" to "\"foo\""
-                                )
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
                             )
                         )
                     ),
@@ -986,55 +734,20 @@ class GeneratedPOPSortTest {
                             "p2",
                             "o2"
                         ), listOf(
-                            mutableMapOf(
-                                "s" to "<http://example.org/s2>",
-                                "p" to "<http://example.org/p2>",
-                                "o" to "\"foo\"",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s3>",
-                                "p" to "<http://example.org/p3>",
-                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s4>",
-                                "p" to "<http://example.org/p4>",
-                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s5>",
-                                "p" to "<http://example.org/p5>",
-                                "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s6>",
-                                "p" to "<http://example.org/p6>",
-                                "o" to "_:o6",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s1>",
-                                "p" to "<http://example.org/p1>",
-                                "o" to "<http://example.org/s2>",
-                                "p2" to "<http://example.org/p2>",
-                                "o2" to "\"foo\""
-                            )
+                            GeneratedMutableMap.map10281map,
+                            GeneratedMutableMap.map10282map,
+                            GeneratedMutableMap.map10283map,
+                            GeneratedMutableMap.map10284map,
+                            GeneratedMutableMap.map10285map,
+                            GeneratedMutableMap.map10280map
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */
             /* {
-                val dictionary=ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
                     POPSort(
                         dictionary,
                         AOPVariable("o"),
@@ -1046,48 +759,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                             ), listOf(
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s2>",
-                                    "p" to "<http://example.org/p2>",
-                                    "o" to "\"foo\"",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s3>",
-                                    "p" to "<http://example.org/p3>",
-                                    "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s4>",
-                                    "p" to "<http://example.org/p4>",
-                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s5>",
-                                    "p" to "<http://example.org/p5>",
-                                    "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s6>",
-                                    "p" to "<http://example.org/p6>",
-                                    "o" to "_:o6",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s1>",
-                                    "p" to "<http://example.org/p1>",
-                                    "o" to "<http://example.org/s2>",
-                                    "p2" to "<http://example.org/p2>",
-                                    "o2" to "\"foo\""
-                                )
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
                             )
                         )
                     ),
@@ -1098,55 +775,20 @@ class GeneratedPOPSortTest {
                             "p2",
                             "o2"
                         ), listOf(
-                            mutableMapOf(
-                                "s" to "<http://example.org/s4>",
-                                "p" to "<http://example.org/p4>",
-                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s5>",
-                                "p" to "<http://example.org/p5>",
-                                "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s3>",
-                                "p" to "<http://example.org/p3>",
-                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s2>",
-                                "p" to "<http://example.org/p2>",
-                                "o" to "\"foo\"",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s1>",
-                                "p" to "<http://example.org/p1>",
-                                "o" to "<http://example.org/s2>",
-                                "p2" to "<http://example.org/p2>",
-                                "o2" to "\"foo\""
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s6>",
-                                "p" to "<http://example.org/p6>",
-                                "o" to "_:o6",
-                                "p2" to null,
-                                "o2" to null
-                            )
+                            GeneratedMutableMap.map10283map,
+                            GeneratedMutableMap.map10284map,
+                            GeneratedMutableMap.map10282map,
+                            GeneratedMutableMap.map10281map,
+                            GeneratedMutableMap.map10280map,
+                            GeneratedMutableMap.map10285map
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */
             /* {
-                val dictionary=ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
                     POPSort(
                         dictionary,
                         AOPVariable("p"),
@@ -1158,48 +800,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                             ), listOf(
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s4>",
-                                    "p" to "<http://example.org/p4>",
-                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s5>",
-                                    "p" to "<http://example.org/p5>",
-                                    "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s3>",
-                                    "p" to "<http://example.org/p3>",
-                                    "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s2>",
-                                    "p" to "<http://example.org/p2>",
-                                    "o" to "\"foo\"",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s1>",
-                                    "p" to "<http://example.org/p1>",
-                                    "o" to "<http://example.org/s2>",
-                                    "p2" to "<http://example.org/p2>",
-                                    "o2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s6>",
-                                    "p" to "<http://example.org/p6>",
-                                    "o" to "_:o6",
-                                    "p2" to null,
-                                    "o2" to null
-                                )
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10285map
                             )
                         )
                     ),
@@ -1210,55 +816,20 @@ class GeneratedPOPSortTest {
                             "p2",
                             "o2"
                         ), listOf(
-                            mutableMapOf(
-                                "s" to "<http://example.org/s1>",
-                                "p" to "<http://example.org/p1>",
-                                "o" to "<http://example.org/s2>",
-                                "p2" to "<http://example.org/p2>",
-                                "o2" to "\"foo\""
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s2>",
-                                "p" to "<http://example.org/p2>",
-                                "o" to "\"foo\"",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s3>",
-                                "p" to "<http://example.org/p3>",
-                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s4>",
-                                "p" to "<http://example.org/p4>",
-                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s5>",
-                                "p" to "<http://example.org/p5>",
-                                "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s6>",
-                                "p" to "<http://example.org/p6>",
-                                "o" to "_:o6",
-                                "p2" to null,
-                                "o2" to null
-                            )
+                            GeneratedMutableMap.map10280map,
+                            GeneratedMutableMap.map10281map,
+                            GeneratedMutableMap.map10282map,
+                            GeneratedMutableMap.map10283map,
+                            GeneratedMutableMap.map10284map,
+                            GeneratedMutableMap.map10285map
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */
             /* {
-                val dictionary=ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
                     POPSort(
                         dictionary,
                         AOPVariable("s"),
@@ -1270,48 +841,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                             ), listOf(
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s1>",
-                                    "p" to "<http://example.org/p1>",
-                                    "o" to "<http://example.org/s2>",
-                                    "p2" to "<http://example.org/p2>",
-                                    "o2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s2>",
-                                    "p" to "<http://example.org/p2>",
-                                    "o" to "\"foo\"",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s3>",
-                                    "p" to "<http://example.org/p3>",
-                                    "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s4>",
-                                    "p" to "<http://example.org/p4>",
-                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s5>",
-                                    "p" to "<http://example.org/p5>",
-                                    "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                    "p2" to null,
-                                    "o2" to null
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s6>",
-                                    "p" to "<http://example.org/p6>",
-                                    "o" to "_:o6",
-                                    "p2" to null,
-                                    "o2" to null
-                                )
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map
                             )
                         )
                     ),
@@ -1322,48 +857,12 @@ class GeneratedPOPSortTest {
                             "p2",
                             "o2"
                         ), listOf(
-                            mutableMapOf(
-                                "s" to "<http://example.org/s1>",
-                                "p" to "<http://example.org/p1>",
-                                "o" to "<http://example.org/s2>",
-                                "p2" to "<http://example.org/p2>",
-                                "o2" to "\"foo\""
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s2>",
-                                "p" to "<http://example.org/p2>",
-                                "o" to "\"foo\"",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s3>",
-                                "p" to "<http://example.org/p3>",
-                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s4>",
-                                "p" to "<http://example.org/p4>",
-                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s5>",
-                                "p" to "<http://example.org/p5>",
-                                "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                "p2" to null,
-                                "o2" to null
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s6>",
-                                "p" to "<http://example.org/p6>",
-                                "o" to "_:o6",
-                                "p2" to null,
-                                "o2" to null
-                            )
+                            GeneratedMutableMap.map10280map,
+                            GeneratedMutableMap.map10281map,
+                            GeneratedMutableMap.map10282map,
+                            GeneratedMutableMap.map10283map,
+                            GeneratedMutableMap.map10284map,
+                            GeneratedMutableMap.map10285map
                         )
                     )
                 )
@@ -1371,6 +870,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("o2"),
@@ -1382,48 +882,12 @@ class GeneratedPOPSortTest {
                                         "p2",
                                         "o2"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "<http://example.org/s2>",
-                                                "p2" to "<http://example.org/p2>",
-                                                "o2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"foo\"",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p3>",
-                                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "_:o6",
-                                                "p2" to null,
-                                                "o2" to null
-                                        )
+                                        GeneratedMutableMap.map10280map,
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map10282map,
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map10284map,
+                                        GeneratedMutableMap.map10285map
                                 )
                                 )
                         ),
@@ -1434,48 +898,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
-                                )
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
                         )
                         )
                 )
@@ -1483,6 +911,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("o2"),
@@ -1525,48 +954,106 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("o2"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o",
+                                        "p2",
+                                        "o2"
+                                ), listOf(
+                                        GeneratedMutableMap.map10280map,
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map10282map,
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map10284map,
+                                        GeneratedMutableMap.map10285map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("o2"),
+                                LOPJoin(
+                                        {
+                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                            DistributedTripleStore.commit(1L)
+                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                        }()
+                                        ,
+                                        {
+                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                            DistributedTripleStore.commit(1L)
+                                            LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
+                                        }()
+                                        ,
+                                        true)
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
                         )
                         )
                 )
@@ -1574,6 +1061,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("p2"),
@@ -1585,48 +1073,12 @@ class GeneratedPOPSortTest {
                                         "p2",
                                         "o2"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"foo\"",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p3>",
-                                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "_:o6",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "<http://example.org/s2>",
-                                                "p2" to "<http://example.org/p2>",
-                                                "o2" to "\"foo\""
-                                        )
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map10282map,
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map10284map,
+                                        GeneratedMutableMap.map10285map,
+                                        GeneratedMutableMap.map10280map
                                 )
                                 )
                         ),
@@ -1637,48 +1089,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
-                                )
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
                         )
                         )
                 )
@@ -1686,6 +1102,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("p2"),
@@ -1734,48 +1151,111 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("p2"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o",
+                                        "p2",
+                                        "o2"
+                                ), listOf(
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map10282map,
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map10284map,
+                                        GeneratedMutableMap.map10285map,
+                                        GeneratedMutableMap.map10280map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("p2"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("o2"),
+                                        LOPJoin(
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                                }()
+                                                ,
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
+                                                }()
+                                                ,
+                                                true)
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
                         )
                         )
                 )
@@ -1783,6 +1263,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("o"),
@@ -1794,48 +1275,12 @@ class GeneratedPOPSortTest {
                                         "p2",
                                         "o2"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"foo\"",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p3>",
-                                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "_:o6",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "<http://example.org/s2>",
-                                                "p2" to "<http://example.org/p2>",
-                                                "o2" to "\"foo\""
-                                        )
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map10282map,
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map10284map,
+                                        GeneratedMutableMap.map10285map,
+                                        GeneratedMutableMap.map10280map
                                 )
                                 )
                         ),
@@ -1846,48 +1291,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
-                                )
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10285map
                         )
                         )
                 )
@@ -1895,6 +1304,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("o"),
@@ -1949,48 +1359,116 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10285map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("o"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o",
+                                        "p2",
+                                        "o2"
+                                ), listOf(
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map10282map,
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map10284map,
+                                        GeneratedMutableMap.map10285map,
+                                        GeneratedMutableMap.map10280map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10285map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("o"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("p2"),
+                                        LOPSort(
+                                                true,
+                                                AOPVariable("o2"),
+                                                LOPJoin(
+                                                        {
+                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                            DistributedTripleStore.commit(1L)
+                                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                                        }()
+                                                        ,
+                                                        {
+                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                            DistributedTripleStore.commit(1L)
+                                                            LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
+                                                        }()
+                                                        ,
+                                                        true)
+
+                                        )
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10285map
                         )
                         )
                 )
@@ -1998,6 +1476,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("p"),
@@ -2009,48 +1488,12 @@ class GeneratedPOPSortTest {
                                         "p2",
                                         "o2"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p3>",
-                                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"foo\"",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "<http://example.org/s2>",
-                                                "p2" to "<http://example.org/p2>",
-                                                "o2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "_:o6",
-                                                "p2" to null,
-                                                "o2" to null
-                                        )
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map10284map,
+                                        GeneratedMutableMap.map10282map,
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map10280map,
+                                        GeneratedMutableMap.map10285map
                                 )
                                 )
                         ),
@@ -2061,48 +1504,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
-                                )
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map
                         )
                         )
                 )
@@ -2110,6 +1517,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("p"),
@@ -2170,48 +1578,121 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("p"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o",
+                                        "p2",
+                                        "o2"
+                                ), listOf(
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map10284map,
+                                        GeneratedMutableMap.map10282map,
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map10280map,
+                                        GeneratedMutableMap.map10285map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("p"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("o"),
+                                        LOPSort(
+                                                true,
+                                                AOPVariable("p2"),
+                                                LOPSort(
+                                                        true,
+                                                        AOPVariable("o2"),
+                                                        LOPJoin(
+                                                                {
+                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                                    DistributedTripleStore.commit(1L)
+                                                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                                                }()
+                                                                ,
+                                                                {
+                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                                    DistributedTripleStore.commit(1L)
+                                                                    LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
+                                                                }()
+                                                                ,
+                                                                true)
+
+                                                )
+
+                                        )
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map
                         )
                         )
                 )
@@ -2219,6 +1700,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("s"),
@@ -2230,48 +1712,12 @@ class GeneratedPOPSortTest {
                                         "p2",
                                         "o2"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "<http://example.org/s2>",
-                                                "p2" to "<http://example.org/p2>",
-                                                "o2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"foo\"",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p3>",
-                                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "_:o6",
-                                                "p2" to null,
-                                                "o2" to null
-                                        )
+                                        GeneratedMutableMap.map10280map,
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map10282map,
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map10284map,
+                                        GeneratedMutableMap.map10285map
                                 )
                                 )
                         ),
@@ -2282,48 +1728,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
-                                )
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map
                         )
                         )
                 )
@@ -2331,6 +1741,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("s"),
@@ -2397,55 +1808,134 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("s"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o",
+                                        "p2",
+                                        "o2"
+                                ), listOf(
+                                        GeneratedMutableMap.map10280map,
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map10282map,
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map10284map,
+                                        GeneratedMutableMap.map10285map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("s"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("p"),
+                                        LOPSort(
+                                                true,
+                                                AOPVariable("o"),
+                                                LOPSort(
+                                                        true,
+                                                        AOPVariable("p2"),
+                                                        LOPSort(
+                                                                true,
+                                                                AOPVariable("o2"),
+                                                                LOPJoin(
+                                                                        {
+                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                                            DistributedTripleStore.commit(1L)
+                                                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                                                        }()
+                                                                        ,
+                                                                        {
+                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                                            DistributedTripleStore.commit(1L)
+                                                                            LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
+                                                                        }()
+                                                                        ,
+                                                                        true)
+
+                                                        )
+
+                                                )
+
+                                        )
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10282map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map10284map,
+                                GeneratedMutableMap.map10285map
                         )
                         )
                 )
             }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
             /* {
-                val dictionary=ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
                     POPSort(
                         dictionary,
                         AOPVariable("o"),
@@ -2455,41 +1945,13 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                             ), listOf(
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s1>",
-                                    "p" to "<http://example.org/p1>",
-                                    "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s2>",
-                                    "p" to "<http://example.org/p2>",
-                                    "o" to "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s3>",
-                                    "p" to "<http://example.org/p3>",
-                                    "o" to "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s4>",
-                                    "p" to "<http://example.org/p4>",
-                                    "o" to "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s5>",
-                                    "p" to "<http://example.org/p5>",
-                                    "o" to "\"5,5\"^^<http://example.org/myCustomDatatype>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s6>",
-                                    "p" to "<http://example.org/p6>",
-                                    "o" to "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s7>",
-                                    "p" to "<http://example.org/p7>",
-                                    "o" to "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"
-                                )
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10472map,
+                                GeneratedMutableMap.map10473map,
+                                GeneratedMutableMap.map10474map,
+                                GeneratedMutableMap.map10475map
                             )
                         )
                     ),
@@ -2498,48 +1960,21 @@ class GeneratedPOPSortTest {
                             "p",
                             "o"
                         ), listOf(
-                            mutableMapOf(
-                                "s" to "<http://example.org/s3>",
-                                "p" to "<http://example.org/p3>",
-                                "o" to "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s1>",
-                                "p" to "<http://example.org/p1>",
-                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s6>",
-                                "p" to "<http://example.org/p6>",
-                                "o" to "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s2>",
-                                "p" to "<http://example.org/p2>",
-                                "o" to "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s4>",
-                                "p" to "<http://example.org/p4>",
-                                "o" to "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s5>",
-                                "p" to "<http://example.org/p5>",
-                                "o" to "\"5,5\"^^<http://example.org/myCustomDatatype>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s7>",
-                                "p" to "<http://example.org/p7>",
-                                "o" to "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"
-                            )
+                            GeneratedMutableMap.map10471map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10474map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10472map,
+                            GeneratedMutableMap.map10473map,
+                            GeneratedMutableMap.map10475map
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */
             /* {
-                val dictionary=ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
                     POPSort(
                         dictionary,
                         AOPVariable("p"),
@@ -2549,41 +1984,13 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                             ), listOf(
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s3>",
-                                    "p" to "<http://example.org/p3>",
-                                    "o" to "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s1>",
-                                    "p" to "<http://example.org/p1>",
-                                    "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s6>",
-                                    "p" to "<http://example.org/p6>",
-                                    "o" to "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s2>",
-                                    "p" to "<http://example.org/p2>",
-                                    "o" to "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s4>",
-                                    "p" to "<http://example.org/p4>",
-                                    "o" to "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s5>",
-                                    "p" to "<http://example.org/p5>",
-                                    "o" to "\"5,5\"^^<http://example.org/myCustomDatatype>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s7>",
-                                    "p" to "<http://example.org/p7>",
-                                    "o" to "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"
-                                )
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10474map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10472map,
+                                GeneratedMutableMap.map10473map,
+                                GeneratedMutableMap.map10475map
                             )
                         )
                     ),
@@ -2592,48 +1999,21 @@ class GeneratedPOPSortTest {
                             "p",
                             "o"
                         ), listOf(
-                            mutableMapOf(
-                                "s" to "<http://example.org/s1>",
-                                "p" to "<http://example.org/p1>",
-                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s2>",
-                                "p" to "<http://example.org/p2>",
-                                "o" to "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s3>",
-                                "p" to "<http://example.org/p3>",
-                                "o" to "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s4>",
-                                "p" to "<http://example.org/p4>",
-                                "o" to "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s5>",
-                                "p" to "<http://example.org/p5>",
-                                "o" to "\"5,5\"^^<http://example.org/myCustomDatatype>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s6>",
-                                "p" to "<http://example.org/p6>",
-                                "o" to "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s7>",
-                                "p" to "<http://example.org/p7>",
-                                "o" to "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"
-                            )
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10471map,
+                            GeneratedMutableMap.map10472map,
+                            GeneratedMutableMap.map10473map,
+                            GeneratedMutableMap.map10474map,
+                            GeneratedMutableMap.map10475map
                         )
                     )
                 )
             }() */ /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */
             /* {
-                val dictionary=ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
                     POPSort(
                         dictionary,
                         AOPVariable("s"),
@@ -2643,41 +2023,13 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                             ), listOf(
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s1>",
-                                    "p" to "<http://example.org/p1>",
-                                    "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s2>",
-                                    "p" to "<http://example.org/p2>",
-                                    "o" to "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s3>",
-                                    "p" to "<http://example.org/p3>",
-                                    "o" to "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s4>",
-                                    "p" to "<http://example.org/p4>",
-                                    "o" to "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s5>",
-                                    "p" to "<http://example.org/p5>",
-                                    "o" to "\"5,5\"^^<http://example.org/myCustomDatatype>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s6>",
-                                    "p" to "<http://example.org/p6>",
-                                    "o" to "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"
-                                ),
-                                mutableMapOf(
-                                    "s" to "<http://example.org/s7>",
-                                    "p" to "<http://example.org/p7>",
-                                    "o" to "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"
-                                )
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10472map,
+                                GeneratedMutableMap.map10473map,
+                                GeneratedMutableMap.map10474map,
+                                GeneratedMutableMap.map10475map
                             )
                         )
                     ),
@@ -2686,41 +2038,13 @@ class GeneratedPOPSortTest {
                             "p",
                             "o"
                         ), listOf(
-                            mutableMapOf(
-                                "s" to "<http://example.org/s1>",
-                                "p" to "<http://example.org/p1>",
-                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s2>",
-                                "p" to "<http://example.org/p2>",
-                                "o" to "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s3>",
-                                "p" to "<http://example.org/p3>",
-                                "o" to "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s4>",
-                                "p" to "<http://example.org/p4>",
-                                "o" to "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s5>",
-                                "p" to "<http://example.org/p5>",
-                                "o" to "\"5,5\"^^<http://example.org/myCustomDatatype>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s6>",
-                                "p" to "<http://example.org/p6>",
-                                "o" to "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"
-                            ),
-                            mutableMapOf(
-                                "s" to "<http://example.org/s7>",
-                                "p" to "<http://example.org/p7>",
-                                "o" to "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"
-                            )
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10471map,
+                            GeneratedMutableMap.map10472map,
+                            GeneratedMutableMap.map10473map,
+                            GeneratedMutableMap.map10474map,
+                            GeneratedMutableMap.map10475map
                         )
                     )
                 )
@@ -2728,6 +2052,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("o"),
@@ -2737,41 +2062,13 @@ class GeneratedPOPSortTest {
                                         "p",
                                         "o"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p3>",
-                                                "o" to "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5,5\"^^<http://example.org/myCustomDatatype>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s7>",
-                                                "p" to "<http://example.org/p7>",
-                                                "o" to "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"
-                                        )
+                                        GeneratedMutableMap.map10469map,
+                                        GeneratedMutableMap.map10470map,
+                                        GeneratedMutableMap.map10471map,
+                                        GeneratedMutableMap.map10472map,
+                                        GeneratedMutableMap.map10473map,
+                                        GeneratedMutableMap.map10474map,
+                                        GeneratedMutableMap.map10475map
                                 )
                                 )
                         ),
@@ -2780,41 +2077,13 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5,5\"^^<http://example.org/myCustomDatatype>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s7>",
-                                        "p" to "<http://example.org/p7>",
-                                        "o" to "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"
-                                )
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10474map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10472map,
+                                GeneratedMutableMap.map10473map,
+                                GeneratedMutableMap.map10475map
                         )
                         )
                 )
@@ -2822,6 +2091,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("o"),
@@ -2846,41 +2116,89 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5,5\"^^<http://example.org/myCustomDatatype>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s7>",
-                                        "p" to "<http://example.org/p7>",
-                                        "o" to "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10474map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10472map,
+                                GeneratedMutableMap.map10473map,
+                                GeneratedMutableMap.map10475map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("o"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o"
+                                ), listOf(
+                                        GeneratedMutableMap.map10469map,
+                                        GeneratedMutableMap.map10470map,
+                                        GeneratedMutableMap.map10471map,
+                                        GeneratedMutableMap.map10472map,
+                                        GeneratedMutableMap.map10473map,
+                                        GeneratedMutableMap.map10474map,
+                                        GeneratedMutableMap.map10475map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10474map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10472map,
+                                GeneratedMutableMap.map10473map,
+                                GeneratedMutableMap.map10475map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("o"),
+                                {
+                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"))
+                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5,5\"^^<http://example.org/myCustomDatatype>"))
+                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"))
+                                    graph.addData(1L, listOf("<http://example.org/s7>", "<http://example.org/p7>", "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"))
+                                    DistributedTripleStore.commit(1L)
+                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                }()
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10474map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10472map,
+                                GeneratedMutableMap.map10473map,
+                                GeneratedMutableMap.map10475map
                         )
                         )
                 )
@@ -2888,6 +2206,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("p"),
@@ -2897,41 +2216,13 @@ class GeneratedPOPSortTest {
                                         "p",
                                         "o"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p3>",
-                                                "o" to "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5,5\"^^<http://example.org/myCustomDatatype>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s7>",
-                                                "p" to "<http://example.org/p7>",
-                                                "o" to "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"
-                                        )
+                                        GeneratedMutableMap.map10471map,
+                                        GeneratedMutableMap.map10469map,
+                                        GeneratedMutableMap.map10474map,
+                                        GeneratedMutableMap.map10470map,
+                                        GeneratedMutableMap.map10472map,
+                                        GeneratedMutableMap.map10473map,
+                                        GeneratedMutableMap.map10475map
                                 )
                                 )
                         ),
@@ -2940,41 +2231,13 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5,5\"^^<http://example.org/myCustomDatatype>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s7>",
-                                        "p" to "<http://example.org/p7>",
-                                        "o" to "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"
-                                )
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10472map,
+                                GeneratedMutableMap.map10473map,
+                                GeneratedMutableMap.map10474map,
+                                GeneratedMutableMap.map10475map
                         )
                         )
                 )
@@ -2982,6 +2245,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("p"),
@@ -3012,41 +2276,94 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5,5\"^^<http://example.org/myCustomDatatype>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s7>",
-                                        "p" to "<http://example.org/p7>",
-                                        "o" to "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10472map,
+                                GeneratedMutableMap.map10473map,
+                                GeneratedMutableMap.map10474map,
+                                GeneratedMutableMap.map10475map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("p"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o"
+                                ), listOf(
+                                        GeneratedMutableMap.map10471map,
+                                        GeneratedMutableMap.map10469map,
+                                        GeneratedMutableMap.map10474map,
+                                        GeneratedMutableMap.map10470map,
+                                        GeneratedMutableMap.map10472map,
+                                        GeneratedMutableMap.map10473map,
+                                        GeneratedMutableMap.map10475map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10472map,
+                                GeneratedMutableMap.map10473map,
+                                GeneratedMutableMap.map10474map,
+                                GeneratedMutableMap.map10475map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("p"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("o"),
+                                        {
+                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"))
+                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5,5\"^^<http://example.org/myCustomDatatype>"))
+                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"))
+                                            graph.addData(1L, listOf("<http://example.org/s7>", "<http://example.org/p7>", "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"))
+                                            DistributedTripleStore.commit(1L)
+                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                        }()
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10472map,
+                                GeneratedMutableMap.map10473map,
+                                GeneratedMutableMap.map10474map,
+                                GeneratedMutableMap.map10475map
                         )
                         )
                 )
@@ -3054,6 +2371,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("s"),
@@ -3063,41 +2381,13 @@ class GeneratedPOPSortTest {
                                         "p",
                                         "o"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p3>",
-                                                "o" to "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5,5\"^^<http://example.org/myCustomDatatype>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s7>",
-                                                "p" to "<http://example.org/p7>",
-                                                "o" to "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"
-                                        )
+                                        GeneratedMutableMap.map10469map,
+                                        GeneratedMutableMap.map10470map,
+                                        GeneratedMutableMap.map10471map,
+                                        GeneratedMutableMap.map10472map,
+                                        GeneratedMutableMap.map10473map,
+                                        GeneratedMutableMap.map10474map,
+                                        GeneratedMutableMap.map10475map
                                 )
                                 )
                         ),
@@ -3106,41 +2396,13 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5,5\"^^<http://example.org/myCustomDatatype>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s7>",
-                                        "p" to "<http://example.org/p7>",
-                                        "o" to "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"
-                                )
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10472map,
+                                GeneratedMutableMap.map10473map,
+                                GeneratedMutableMap.map10474map,
+                                GeneratedMutableMap.map10475map
                         )
                         )
                 )
@@ -3148,6 +2410,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("s"),
@@ -3184,41 +2447,99 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p3>",
-                                        "o" to "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5,5\"^^<http://example.org/myCustomDatatype>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s7>",
-                                        "p" to "<http://example.org/p7>",
-                                        "o" to "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10472map,
+                                GeneratedMutableMap.map10473map,
+                                GeneratedMutableMap.map10474map,
+                                GeneratedMutableMap.map10475map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("s"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o"
+                                ), listOf(
+                                        GeneratedMutableMap.map10469map,
+                                        GeneratedMutableMap.map10470map,
+                                        GeneratedMutableMap.map10471map,
+                                        GeneratedMutableMap.map10472map,
+                                        GeneratedMutableMap.map10473map,
+                                        GeneratedMutableMap.map10474map,
+                                        GeneratedMutableMap.map10475map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10472map,
+                                GeneratedMutableMap.map10473map,
+                                GeneratedMutableMap.map10474map,
+                                GeneratedMutableMap.map10475map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("s"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("p"),
+                                        LOPSort(
+                                                true,
+                                                AOPVariable("o"),
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5,5\"^^<http://example.org/myCustomDatatype>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s7>", "<http://example.org/p7>", "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                                }()
+
+                                        )
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10472map,
+                                GeneratedMutableMap.map10473map,
+                                GeneratedMutableMap.map10474map,
+                                GeneratedMutableMap.map10475map
                         )
                         )
                 )
@@ -3226,6 +2547,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("sum"),
@@ -3236,54 +2558,14 @@ class GeneratedPOPSortTest {
                                         "y",
                                         "sum"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example/x1>",
-                                                "x" to "\"a\"",
-                                                "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x2>",
-                                                "x" to "_:b",
-                                                "y" to "\"1\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x3>",
-                                                "x" to "<http://example/a>",
-                                                "y" to "\"1\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x4>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x5>",
-                                                "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to "\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x6>",
-                                                "x" to "\"1\"",
-                                                "y" to "\"2\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x7>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "y" to "\"2\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x8>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        )
+                                        GeneratedMutableMap.map26624map,
+                                        GeneratedMutableMap.map26625map,
+                                        GeneratedMutableMap.map26626map,
+                                        GeneratedMutableMap.map26627map,
+                                        GeneratedMutableMap.map26628map,
+                                        GeneratedMutableMap.map26629map,
+                                        GeneratedMutableMap.map26630map,
+                                        GeneratedMutableMap.map26631map
                                 )
                                 )
                         ),
@@ -3293,54 +2575,14 @@ class GeneratedPOPSortTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example/x1>",
-                                        "x" to "\"a\"",
-                                        "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x2>",
-                                        "x" to "_:b",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x3>",
-                                        "x" to "<http://example/a>",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x6>",
-                                        "x" to "\"1\"",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x7>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x8>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x4>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x5>",
-                                        "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to "\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                )
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26625map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map,
+                                GeneratedMutableMap.map26627map,
+                                GeneratedMutableMap.map26628map
                         )
                         )
                 )
@@ -3348,6 +2590,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("sum"),
@@ -3399,54 +2642,120 @@ class GeneratedPOPSortTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example/x1>",
-                                        "x" to "\"a\"",
-                                        "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x2>",
-                                        "x" to "_:b",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x3>",
-                                        "x" to "<http://example/a>",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x6>",
-                                        "x" to "\"1\"",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x7>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x8>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x4>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x5>",
-                                        "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to "\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26625map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map,
+                                GeneratedMutableMap.map26627map,
+                                GeneratedMutableMap.map26628map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("sum"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "x",
+                                        "y",
+                                        "sum"
+                                ), listOf(
+                                        GeneratedMutableMap.map26624map,
+                                        GeneratedMutableMap.map26625map,
+                                        GeneratedMutableMap.map26626map,
+                                        GeneratedMutableMap.map26627map,
+                                        GeneratedMutableMap.map26628map,
+                                        GeneratedMutableMap.map26629map,
+                                        GeneratedMutableMap.map26630map,
+                                        GeneratedMutableMap.map26631map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x",
+                                "y",
+                                "sum"
+                        ), listOf(
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26625map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map,
+                                GeneratedMutableMap.map26627map,
+                                GeneratedMutableMap.map26628map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("sum"),
+                                LOPBind(
+                                        AOPVariable("sum"),
+                                        AOPAddition(AOPVariable("y"), AOPVariable("x")),
+                                        LOPJoin(
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
+                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
+                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
+                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
+                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/p>"), AOPVariable("x"), graphName, false)
+                                                }()
+                                                ,
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
+                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
+                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
+                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
+                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/q>"), AOPVariable("y"), graphName, false)
+                                                }()
+                                                ,
+                                                false)
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x",
+                                "y",
+                                "sum"
+                        ), listOf(
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26625map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map,
+                                GeneratedMutableMap.map26627map,
+                                GeneratedMutableMap.map26628map
                         )
                         )
                 )
@@ -3454,6 +2763,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("y"),
@@ -3464,54 +2774,14 @@ class GeneratedPOPSortTest {
                                         "y",
                                         "sum"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example/x1>",
-                                                "x" to "\"a\"",
-                                                "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x2>",
-                                                "x" to "_:b",
-                                                "y" to "\"1\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x3>",
-                                                "x" to "<http://example/a>",
-                                                "y" to "\"1\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x6>",
-                                                "x" to "\"1\"",
-                                                "y" to "\"2\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x7>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "y" to "\"2\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x8>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x4>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x5>",
-                                                "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to "\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        )
+                                        GeneratedMutableMap.map26624map,
+                                        GeneratedMutableMap.map26625map,
+                                        GeneratedMutableMap.map26626map,
+                                        GeneratedMutableMap.map26629map,
+                                        GeneratedMutableMap.map26630map,
+                                        GeneratedMutableMap.map26631map,
+                                        GeneratedMutableMap.map26627map,
+                                        GeneratedMutableMap.map26628map
                                 )
                                 )
                         ),
@@ -3521,54 +2791,14 @@ class GeneratedPOPSortTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example/x2>",
-                                        "x" to "_:b",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x3>",
-                                        "x" to "<http://example/a>",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x1>",
-                                        "x" to "\"a\"",
-                                        "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x6>",
-                                        "x" to "\"1\"",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x7>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x8>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x4>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x5>",
-                                        "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to "\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                )
+                                GeneratedMutableMap.map26625map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map,
+                                GeneratedMutableMap.map26627map,
+                                GeneratedMutableMap.map26628map
                         )
                         )
                 )
@@ -3576,6 +2806,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("y"),
@@ -3633,54 +2864,125 @@ class GeneratedPOPSortTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example/x2>",
-                                        "x" to "_:b",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x3>",
-                                        "x" to "<http://example/a>",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x1>",
-                                        "x" to "\"a\"",
-                                        "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x6>",
-                                        "x" to "\"1\"",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x7>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x8>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x4>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x5>",
-                                        "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to "\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                                GeneratedMutableMap.map26625map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map,
+                                GeneratedMutableMap.map26627map,
+                                GeneratedMutableMap.map26628map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("y"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "x",
+                                        "y",
+                                        "sum"
+                                ), listOf(
+                                        GeneratedMutableMap.map26624map,
+                                        GeneratedMutableMap.map26625map,
+                                        GeneratedMutableMap.map26626map,
+                                        GeneratedMutableMap.map26629map,
+                                        GeneratedMutableMap.map26630map,
+                                        GeneratedMutableMap.map26631map,
+                                        GeneratedMutableMap.map26627map,
+                                        GeneratedMutableMap.map26628map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x",
+                                "y",
+                                "sum"
+                        ), listOf(
+                                GeneratedMutableMap.map26625map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map,
+                                GeneratedMutableMap.map26627map,
+                                GeneratedMutableMap.map26628map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("y"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("sum"),
+                                        LOPBind(
+                                                AOPVariable("sum"),
+                                                AOPAddition(AOPVariable("y"), AOPVariable("x")),
+                                                LOPJoin(
+                                                        {
+                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
+                                                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
+                                                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
+                                                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
+                                                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                            DistributedTripleStore.commit(1L)
+                                                            LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/p>"), AOPVariable("x"), graphName, false)
+                                                        }()
+                                                        ,
+                                                        {
+                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
+                                                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
+                                                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
+                                                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
+                                                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                            DistributedTripleStore.commit(1L)
+                                                            LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/q>"), AOPVariable("y"), graphName, false)
+                                                        }()
+                                                        ,
+                                                        false)
+
+                                        )
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x",
+                                "y",
+                                "sum"
+                        ), listOf(
+                                GeneratedMutableMap.map26625map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map,
+                                GeneratedMutableMap.map26627map,
+                                GeneratedMutableMap.map26628map
                         )
                         )
                 )
@@ -3688,6 +2990,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("x"),
@@ -3698,54 +3001,14 @@ class GeneratedPOPSortTest {
                                         "y",
                                         "sum"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example/x2>",
-                                                "x" to "_:b",
-                                                "y" to "\"1\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x3>",
-                                                "x" to "<http://example/a>",
-                                                "y" to "\"1\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x1>",
-                                                "x" to "\"a\"",
-                                                "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x6>",
-                                                "x" to "\"1\"",
-                                                "y" to "\"2\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x7>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "y" to "\"2\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x8>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x4>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x5>",
-                                                "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to "\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        )
+                                        GeneratedMutableMap.map26625map,
+                                        GeneratedMutableMap.map26626map,
+                                        GeneratedMutableMap.map26624map,
+                                        GeneratedMutableMap.map26629map,
+                                        GeneratedMutableMap.map26630map,
+                                        GeneratedMutableMap.map26631map,
+                                        GeneratedMutableMap.map26627map,
+                                        GeneratedMutableMap.map26628map
                                 )
                                 )
                         ),
@@ -3755,54 +3018,14 @@ class GeneratedPOPSortTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example/x6>",
-                                        "x" to "\"1\"",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x4>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x7>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x8>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x5>",
-                                        "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to "\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x1>",
-                                        "x" to "\"a\"",
-                                        "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x3>",
-                                        "x" to "<http://example/a>",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x2>",
-                                        "x" to "_:b",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                )
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26627map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map,
+                                GeneratedMutableMap.map26628map,
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26625map
                         )
                         )
                 )
@@ -3810,6 +3033,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("x"),
@@ -3873,54 +3097,130 @@ class GeneratedPOPSortTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example/x6>",
-                                        "x" to "\"1\"",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x4>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x7>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x8>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x5>",
-                                        "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to "\"3.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x1>",
-                                        "x" to "\"a\"",
-                                        "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x3>",
-                                        "x" to "<http://example/a>",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x2>",
-                                        "x" to "_:b",
-                                        "y" to "\"1\"",
-                                        "sum" to null
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26627map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map,
+                                GeneratedMutableMap.map26628map,
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26625map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("x"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "x",
+                                        "y",
+                                        "sum"
+                                ), listOf(
+                                        GeneratedMutableMap.map26625map,
+                                        GeneratedMutableMap.map26626map,
+                                        GeneratedMutableMap.map26624map,
+                                        GeneratedMutableMap.map26629map,
+                                        GeneratedMutableMap.map26630map,
+                                        GeneratedMutableMap.map26631map,
+                                        GeneratedMutableMap.map26627map,
+                                        GeneratedMutableMap.map26628map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x",
+                                "y",
+                                "sum"
+                        ), listOf(
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26627map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map,
+                                GeneratedMutableMap.map26628map,
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26625map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("x"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("y"),
+                                        LOPSort(
+                                                true,
+                                                AOPVariable("sum"),
+                                                LOPBind(
+                                                        AOPVariable("sum"),
+                                                        AOPAddition(AOPVariable("y"), AOPVariable("x")),
+                                                        LOPJoin(
+                                                                {
+                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
+                                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
+                                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
+                                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
+                                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                    DistributedTripleStore.commit(1L)
+                                                                    LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/p>"), AOPVariable("x"), graphName, false)
+                                                                }()
+                                                                ,
+                                                                {
+                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
+                                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
+                                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
+                                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
+                                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                    DistributedTripleStore.commit(1L)
+                                                                    LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/q>"), AOPVariable("y"), graphName, false)
+                                                                }()
+                                                                ,
+                                                                false)
+
+                                                )
+
+                                        )
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x",
+                                "y",
+                                "sum"
+                        ), listOf(
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26627map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map,
+                                GeneratedMutableMap.map26628map,
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26625map
                         )
                         )
                 )
@@ -3928,6 +3228,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("sum"),
@@ -3938,54 +3239,14 @@ class GeneratedPOPSortTest {
                                         "y",
                                         "sum"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example/x1>",
-                                                "x" to "\"a\"",
-                                                "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x2>",
-                                                "x" to "_:b",
-                                                "y" to "\"1\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x3>",
-                                                "x" to "<http://example/a>",
-                                                "y" to "\"1\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x4>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x5>",
-                                                "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x6>",
-                                                "x" to "\"1\"",
-                                                "y" to "\"2\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x7>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "y" to "\"2\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x8>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        )
+                                        GeneratedMutableMap.map26624map,
+                                        GeneratedMutableMap.map26625map,
+                                        GeneratedMutableMap.map26626map,
+                                        GeneratedMutableMap.map26888map,
+                                        GeneratedMutableMap.map26889map,
+                                        GeneratedMutableMap.map26629map,
+                                        GeneratedMutableMap.map26630map,
+                                        GeneratedMutableMap.map26631map
                                 )
                                 )
                         ),
@@ -3995,54 +3256,14 @@ class GeneratedPOPSortTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example/x1>",
-                                        "x" to "\"a\"",
-                                        "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x2>",
-                                        "x" to "_:b",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x3>",
-                                        "x" to "<http://example/a>",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x4>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x5>",
-                                        "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x6>",
-                                        "x" to "\"1\"",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x7>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x8>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                )
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26625map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26888map,
+                                GeneratedMutableMap.map26889map,
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map
                         )
                         )
                 )
@@ -4050,6 +3271,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("sum"),
@@ -4101,54 +3323,120 @@ class GeneratedPOPSortTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example/x1>",
-                                        "x" to "\"a\"",
-                                        "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x2>",
-                                        "x" to "_:b",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x3>",
-                                        "x" to "<http://example/a>",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x4>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x5>",
-                                        "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x6>",
-                                        "x" to "\"1\"",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x7>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x8>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26625map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26888map,
+                                GeneratedMutableMap.map26889map,
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("sum"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "x",
+                                        "y",
+                                        "sum"
+                                ), listOf(
+                                        GeneratedMutableMap.map26624map,
+                                        GeneratedMutableMap.map26625map,
+                                        GeneratedMutableMap.map26626map,
+                                        GeneratedMutableMap.map26888map,
+                                        GeneratedMutableMap.map26889map,
+                                        GeneratedMutableMap.map26629map,
+                                        GeneratedMutableMap.map26630map,
+                                        GeneratedMutableMap.map26631map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x",
+                                "y",
+                                "sum"
+                        ), listOf(
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26625map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26888map,
+                                GeneratedMutableMap.map26889map,
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("sum"),
+                                LOPBind(
+                                        AOPVariable("sum"),
+                                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
+                                        LOPJoin(
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
+                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
+                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
+                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
+                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/p>"), AOPVariable("x"), graphName, false)
+                                                }()
+                                                ,
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
+                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
+                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
+                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
+                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/q>"), AOPVariable("y"), graphName, false)
+                                                }()
+                                                ,
+                                                false)
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x",
+                                "y",
+                                "sum"
+                        ), listOf(
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26625map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26888map,
+                                GeneratedMutableMap.map26889map,
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map
                         )
                         )
                 )
@@ -4156,6 +3444,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("y"),
@@ -4166,54 +3455,14 @@ class GeneratedPOPSortTest {
                                         "y",
                                         "sum"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example/x1>",
-                                                "x" to "\"a\"",
-                                                "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x2>",
-                                                "x" to "_:b",
-                                                "y" to "\"1\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x3>",
-                                                "x" to "<http://example/a>",
-                                                "y" to "\"1\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x4>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x5>",
-                                                "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x6>",
-                                                "x" to "\"1\"",
-                                                "y" to "\"2\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x7>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "y" to "\"2\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x8>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        )
+                                        GeneratedMutableMap.map26624map,
+                                        GeneratedMutableMap.map26625map,
+                                        GeneratedMutableMap.map26626map,
+                                        GeneratedMutableMap.map26888map,
+                                        GeneratedMutableMap.map26889map,
+                                        GeneratedMutableMap.map26629map,
+                                        GeneratedMutableMap.map26630map,
+                                        GeneratedMutableMap.map26631map
                                 )
                                 )
                         ),
@@ -4223,54 +3472,14 @@ class GeneratedPOPSortTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example/x2>",
-                                        "x" to "_:b",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x3>",
-                                        "x" to "<http://example/a>",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x1>",
-                                        "x" to "\"a\"",
-                                        "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x6>",
-                                        "x" to "\"1\"",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x7>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x4>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x5>",
-                                        "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x8>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                )
+                                GeneratedMutableMap.map26625map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26888map,
+                                GeneratedMutableMap.map26889map,
+                                GeneratedMutableMap.map26631map
                         )
                         )
                 )
@@ -4278,6 +3487,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("y"),
@@ -4335,54 +3545,125 @@ class GeneratedPOPSortTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example/x2>",
-                                        "x" to "_:b",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x3>",
-                                        "x" to "<http://example/a>",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x1>",
-                                        "x" to "\"a\"",
-                                        "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x6>",
-                                        "x" to "\"1\"",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x7>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x4>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x5>",
-                                        "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x8>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
+                                GeneratedMutableMap.map26625map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26888map,
+                                GeneratedMutableMap.map26889map,
+                                GeneratedMutableMap.map26631map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("y"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "x",
+                                        "y",
+                                        "sum"
+                                ), listOf(
+                                        GeneratedMutableMap.map26624map,
+                                        GeneratedMutableMap.map26625map,
+                                        GeneratedMutableMap.map26626map,
+                                        GeneratedMutableMap.map26888map,
+                                        GeneratedMutableMap.map26889map,
+                                        GeneratedMutableMap.map26629map,
+                                        GeneratedMutableMap.map26630map,
+                                        GeneratedMutableMap.map26631map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x",
+                                "y",
+                                "sum"
+                        ), listOf(
+                                GeneratedMutableMap.map26625map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26888map,
+                                GeneratedMutableMap.map26889map,
+                                GeneratedMutableMap.map26631map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("y"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("sum"),
+                                        LOPBind(
+                                                AOPVariable("sum"),
+                                                AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
+                                                LOPJoin(
+                                                        {
+                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
+                                                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
+                                                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
+                                                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
+                                                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                            DistributedTripleStore.commit(1L)
+                                                            LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/p>"), AOPVariable("x"), graphName, false)
+                                                        }()
+                                                        ,
+                                                        {
+                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
+                                                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
+                                                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
+                                                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
+                                                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                            DistributedTripleStore.commit(1L)
+                                                            LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/q>"), AOPVariable("y"), graphName, false)
+                                                        }()
+                                                        ,
+                                                        false)
+
+                                        )
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x",
+                                "y",
+                                "sum"
+                        ), listOf(
+                                GeneratedMutableMap.map26625map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26888map,
+                                GeneratedMutableMap.map26889map,
+                                GeneratedMutableMap.map26631map
                         )
                         )
                 )
@@ -4390,6 +3671,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("x"),
@@ -4400,54 +3682,14 @@ class GeneratedPOPSortTest {
                                         "y",
                                         "sum"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example/x2>",
-                                                "x" to "_:b",
-                                                "y" to "\"1\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x3>",
-                                                "x" to "<http://example/a>",
-                                                "y" to "\"1\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x1>",
-                                                "x" to "\"a\"",
-                                                "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x6>",
-                                                "x" to "\"1\"",
-                                                "y" to "\"2\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x7>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "y" to "\"2\"",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x4>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x5>",
-                                                "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example/x8>",
-                                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to null
-                                        )
+                                        GeneratedMutableMap.map26625map,
+                                        GeneratedMutableMap.map26626map,
+                                        GeneratedMutableMap.map26624map,
+                                        GeneratedMutableMap.map26629map,
+                                        GeneratedMutableMap.map26630map,
+                                        GeneratedMutableMap.map26888map,
+                                        GeneratedMutableMap.map26889map,
+                                        GeneratedMutableMap.map26631map
                                 )
                                 )
                         ),
@@ -4457,54 +3699,14 @@ class GeneratedPOPSortTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example/x6>",
-                                        "x" to "\"1\"",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x4>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x7>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x8>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x5>",
-                                        "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x1>",
-                                        "x" to "\"a\"",
-                                        "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x3>",
-                                        "x" to "<http://example/a>",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x2>",
-                                        "x" to "_:b",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                )
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26888map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map,
+                                GeneratedMutableMap.map26889map,
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26625map
                         )
                         )
                 )
@@ -4512,6 +3714,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("x"),
@@ -4575,54 +3778,130 @@ class GeneratedPOPSortTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example/x6>",
-                                        "x" to "\"1\"",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x4>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x7>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x8>",
-                                        "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x5>",
-                                        "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x1>",
-                                        "x" to "\"a\"",
-                                        "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x3>",
-                                        "x" to "<http://example/a>",
-                                        "y" to "\"1\"",
-                                        "sum" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example/x2>",
-                                        "x" to "_:b",
-                                        "y" to "\"1\"",
-                                        "sum" to null
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26888map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map,
+                                GeneratedMutableMap.map26889map,
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26625map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("x"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "x",
+                                        "y",
+                                        "sum"
+                                ), listOf(
+                                        GeneratedMutableMap.map26625map,
+                                        GeneratedMutableMap.map26626map,
+                                        GeneratedMutableMap.map26624map,
+                                        GeneratedMutableMap.map26629map,
+                                        GeneratedMutableMap.map26630map,
+                                        GeneratedMutableMap.map26888map,
+                                        GeneratedMutableMap.map26889map,
+                                        GeneratedMutableMap.map26631map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x",
+                                "y",
+                                "sum"
+                        ), listOf(
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26888map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map,
+                                GeneratedMutableMap.map26889map,
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26625map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("x"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("y"),
+                                        LOPSort(
+                                                true,
+                                                AOPVariable("sum"),
+                                                LOPBind(
+                                                        AOPVariable("sum"),
+                                                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
+                                                        LOPJoin(
+                                                                {
+                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
+                                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
+                                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
+                                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
+                                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                    DistributedTripleStore.commit(1L)
+                                                                    LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/p>"), AOPVariable("x"), graphName, false)
+                                                                }()
+                                                                ,
+                                                                {
+                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
+                                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
+                                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
+                                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
+                                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                    DistributedTripleStore.commit(1L)
+                                                                    LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/q>"), AOPVariable("y"), graphName, false)
+                                                                }()
+                                                                ,
+                                                                false)
+
+                                                )
+
+                                        )
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x",
+                                "y",
+                                "sum"
+                        ), listOf(
+                                GeneratedMutableMap.map26629map,
+                                GeneratedMutableMap.map26888map,
+                                GeneratedMutableMap.map26630map,
+                                GeneratedMutableMap.map26631map,
+                                GeneratedMutableMap.map26889map,
+                                GeneratedMutableMap.map26624map,
+                                GeneratedMutableMap.map26626map,
+                                GeneratedMutableMap.map26625map
                         )
                         )
                 )
@@ -4630,6 +3909,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("o"),
@@ -4639,36 +3919,12 @@ class GeneratedPOPSortTest {
                                         "p",
                                         "o"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "<http://example.org/s2>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "_:o6"
-                                        )
+                                        GeneratedMutableMap.map10096map,
+                                        GeneratedMutableMap.map10097map,
+                                        GeneratedMutableMap.map32229map,
+                                        GeneratedMutableMap.map10099map,
+                                        GeneratedMutableMap.map32230map,
+                                        GeneratedMutableMap.map10101map
                                 )
                                 )
                         ),
@@ -4677,36 +3933,12 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6"
-                                )
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map32230map,
+                                GeneratedMutableMap.map32229map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10101map
                         )
                         )
                 )
@@ -4714,6 +3946,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("o"),
@@ -4737,36 +3970,84 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6"
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map32230map,
+                                GeneratedMutableMap.map32229map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10101map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("o"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o"
+                                ), listOf(
+                                        GeneratedMutableMap.map10096map,
+                                        GeneratedMutableMap.map10097map,
+                                        GeneratedMutableMap.map32229map,
+                                        GeneratedMutableMap.map10099map,
+                                        GeneratedMutableMap.map32230map,
+                                        GeneratedMutableMap.map10101map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map32230map,
+                                GeneratedMutableMap.map32229map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10101map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("o"),
+                                {
+                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                    DistributedTripleStore.commit(1L)
+                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                }()
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map32230map,
+                                GeneratedMutableMap.map32229map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10101map
                         )
                         )
                 )
@@ -4774,6 +4055,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("p"),
@@ -4783,36 +4065,12 @@ class GeneratedPOPSortTest {
                                         "p",
                                         "o"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "<http://example.org/s2>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "_:o6"
-                                        )
+                                        GeneratedMutableMap.map10099map,
+                                        GeneratedMutableMap.map32230map,
+                                        GeneratedMutableMap.map32229map,
+                                        GeneratedMutableMap.map10097map,
+                                        GeneratedMutableMap.map10096map,
+                                        GeneratedMutableMap.map10101map
                                 )
                                 )
                         ),
@@ -4821,36 +4079,12 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6"
-                                )
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map32229map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map32230map,
+                                GeneratedMutableMap.map10101map
                         )
                         )
                 )
@@ -4858,6 +4092,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("p"),
@@ -4887,36 +4122,89 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6"
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map32229map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map32230map,
+                                GeneratedMutableMap.map10101map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("p"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o"
+                                ), listOf(
+                                        GeneratedMutableMap.map10099map,
+                                        GeneratedMutableMap.map32230map,
+                                        GeneratedMutableMap.map32229map,
+                                        GeneratedMutableMap.map10097map,
+                                        GeneratedMutableMap.map10096map,
+                                        GeneratedMutableMap.map10101map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map32229map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map32230map,
+                                GeneratedMutableMap.map10101map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("p"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("o"),
+                                        {
+                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                            DistributedTripleStore.commit(1L)
+                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                        }()
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map32229map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map32230map,
+                                GeneratedMutableMap.map10101map
                         )
                         )
                 )
@@ -4924,6 +4212,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("s"),
@@ -4933,36 +4222,12 @@ class GeneratedPOPSortTest {
                                         "p",
                                         "o"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "<http://example.org/s2>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "_:o6"
-                                        )
+                                        GeneratedMutableMap.map10096map,
+                                        GeneratedMutableMap.map32229map,
+                                        GeneratedMutableMap.map10097map,
+                                        GeneratedMutableMap.map10099map,
+                                        GeneratedMutableMap.map32230map,
+                                        GeneratedMutableMap.map10101map
                                 )
                                 )
                         ),
@@ -4971,36 +4236,12 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6"
-                                )
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map32229map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map32230map,
+                                GeneratedMutableMap.map10101map
                         )
                         )
                 )
@@ -5008,6 +4249,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("s"),
@@ -5043,36 +4285,94 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6"
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map32229map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map32230map,
+                                GeneratedMutableMap.map10101map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("s"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o"
+                                ), listOf(
+                                        GeneratedMutableMap.map10096map,
+                                        GeneratedMutableMap.map32229map,
+                                        GeneratedMutableMap.map10097map,
+                                        GeneratedMutableMap.map10099map,
+                                        GeneratedMutableMap.map32230map,
+                                        GeneratedMutableMap.map10101map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map32229map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map32230map,
+                                GeneratedMutableMap.map10101map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("s"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("p"),
+                                        LOPSort(
+                                                true,
+                                                AOPVariable("o"),
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                                }()
+
+                                        )
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map10096map,
+                                GeneratedMutableMap.map10097map,
+                                GeneratedMutableMap.map32229map,
+                                GeneratedMutableMap.map10099map,
+                                GeneratedMutableMap.map32230map,
+                                GeneratedMutableMap.map10101map
                         )
                         )
                 )
@@ -5080,6 +4380,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("o2"),
@@ -5091,48 +4392,12 @@ class GeneratedPOPSortTest {
                                         "p2",
                                         "o2"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "<http://example.org/s2>",
-                                                "p2" to "<http://example.org/p2>",
-                                                "o2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"foo\"",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "_:o6",
-                                                "p2" to null,
-                                                "o2" to null
-                                        )
+                                        GeneratedMutableMap.map10280map,
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map32357map,
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map32358map,
+                                        GeneratedMutableMap.map10285map
                                 )
                                 )
                         ),
@@ -5143,48 +4408,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
-                                )
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
                         )
                         )
                 )
@@ -5192,6 +4421,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("o2"),
@@ -5234,48 +4464,106 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("o2"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o",
+                                        "p2",
+                                        "o2"
+                                ), listOf(
+                                        GeneratedMutableMap.map10280map,
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map32357map,
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map32358map,
+                                        GeneratedMutableMap.map10285map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("o2"),
+                                LOPJoin(
+                                        {
+                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                            DistributedTripleStore.commit(1L)
+                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                        }()
+                                        ,
+                                        {
+                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                            DistributedTripleStore.commit(1L)
+                                            LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
+                                        }()
+                                        ,
+                                        true)
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
                         )
                         )
                 )
@@ -5283,6 +4571,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("p2"),
@@ -5294,48 +4583,12 @@ class GeneratedPOPSortTest {
                                         "p2",
                                         "o2"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"foo\"",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "_:o6",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "<http://example.org/s2>",
-                                                "p2" to "<http://example.org/p2>",
-                                                "o2" to "\"foo\""
-                                        )
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map32357map,
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map32358map,
+                                        GeneratedMutableMap.map10285map,
+                                        GeneratedMutableMap.map10280map
                                 )
                                 )
                         ),
@@ -5346,48 +4599,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
-                                )
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
                         )
                         )
                 )
@@ -5395,6 +4612,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("p2"),
@@ -5443,48 +4661,111 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("p2"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o",
+                                        "p2",
+                                        "o2"
+                                ), listOf(
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map32357map,
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map32358map,
+                                        GeneratedMutableMap.map10285map,
+                                        GeneratedMutableMap.map10280map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("p2"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("o2"),
+                                        LOPJoin(
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                                }()
+                                                ,
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
+                                                }()
+                                                ,
+                                                true)
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map10285map,
+                                GeneratedMutableMap.map10280map
                         )
                         )
                 )
@@ -5492,6 +4773,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("o"),
@@ -5503,48 +4785,12 @@ class GeneratedPOPSortTest {
                                         "p2",
                                         "o2"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"foo\"",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "_:o6",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "<http://example.org/s2>",
-                                                "p2" to "<http://example.org/p2>",
-                                                "o2" to "\"foo\""
-                                        )
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map32357map,
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map32358map,
+                                        GeneratedMutableMap.map10285map,
+                                        GeneratedMutableMap.map10280map
                                 )
                                 )
                         ),
@@ -5555,48 +4801,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
-                                )
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10285map
                         )
                         )
                 )
@@ -5604,6 +4814,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("o"),
@@ -5658,48 +4869,116 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10285map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("o"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o",
+                                        "p2",
+                                        "o2"
+                                ), listOf(
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map32357map,
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map32358map,
+                                        GeneratedMutableMap.map10285map,
+                                        GeneratedMutableMap.map10280map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10285map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("o"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("p2"),
+                                        LOPSort(
+                                                true,
+                                                AOPVariable("o2"),
+                                                LOPJoin(
+                                                        {
+                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                            DistributedTripleStore.commit(1L)
+                                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                                        }()
+                                                        ,
+                                                        {
+                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                            DistributedTripleStore.commit(1L)
+                                                            LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
+                                                        }()
+                                                        ,
+                                                        true)
+
+                                        )
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10285map
                         )
                         )
                 )
@@ -5707,6 +4986,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("p"),
@@ -5718,48 +4998,12 @@ class GeneratedPOPSortTest {
                                         "p2",
                                         "o2"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"foo\"",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "<http://example.org/s2>",
-                                                "p2" to "<http://example.org/p2>",
-                                                "o2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "_:o6",
-                                                "p2" to null,
-                                                "o2" to null
-                                        )
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map32358map,
+                                        GeneratedMutableMap.map32357map,
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map10280map,
+                                        GeneratedMutableMap.map10285map
                                 )
                                 )
                         ),
@@ -5770,48 +5014,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
-                                )
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map10285map
                         )
                         )
                 )
@@ -5819,6 +5027,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("p"),
@@ -5879,48 +5088,121 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map10285map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("p"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o",
+                                        "p2",
+                                        "o2"
+                                ), listOf(
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map32358map,
+                                        GeneratedMutableMap.map32357map,
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map10280map,
+                                        GeneratedMutableMap.map10285map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map10285map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("p"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("o"),
+                                        LOPSort(
+                                                true,
+                                                AOPVariable("p2"),
+                                                LOPSort(
+                                                        true,
+                                                        AOPVariable("o2"),
+                                                        LOPJoin(
+                                                                {
+                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                                    DistributedTripleStore.commit(1L)
+                                                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                                                }()
+                                                                ,
+                                                                {
+                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                                    DistributedTripleStore.commit(1L)
+                                                                    LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
+                                                                }()
+                                                                ,
+                                                                true)
+
+                                                )
+
+                                        )
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map10285map
                         )
                         )
                 )
@@ -5928,6 +5210,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("s"),
@@ -5939,48 +5222,12 @@ class GeneratedPOPSortTest {
                                         "p2",
                                         "o2"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p1>",
-                                                "o" to "<http://example.org/s2>",
-                                                "p2" to "<http://example.org/p2>",
-                                                "o2" to "\"foo\""
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p2>",
-                                                "o" to "\"foo\"",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s4>",
-                                                "p" to "<http://example.org/p4>",
-                                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s5>",
-                                                "p" to "<http://example.org/p5>",
-                                                "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                                "p2" to null,
-                                                "o2" to null
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s6>",
-                                                "p" to "<http://example.org/p6>",
-                                                "o" to "_:o6",
-                                                "p2" to null,
-                                                "o2" to null
-                                        )
+                                        GeneratedMutableMap.map10280map,
+                                        GeneratedMutableMap.map32357map,
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map32358map,
+                                        GeneratedMutableMap.map10285map
                                 )
                                 )
                         ),
@@ -5991,48 +5238,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
-                                )
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map10285map
                         )
                         )
                 )
@@ -6040,6 +5251,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("s"),
@@ -6106,48 +5318,126 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p1>",
-                                        "o" to "<http://example.org/s2>",
-                                        "p2" to "<http://example.org/p2>",
-                                        "o2" to "\"foo\""
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"foo\"",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p2>",
-                                        "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s4>",
-                                        "p" to "<http://example.org/p4>",
-                                        "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s5>",
-                                        "p" to "<http://example.org/p5>",
-                                        "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
-                                        "p2" to null,
-                                        "o2" to null
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s6>",
-                                        "p" to "<http://example.org/p6>",
-                                        "o" to "_:o6",
-                                        "p2" to null,
-                                        "o2" to null
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map10285map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("s"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o",
+                                        "p2",
+                                        "o2"
+                                ), listOf(
+                                        GeneratedMutableMap.map10280map,
+                                        GeneratedMutableMap.map32357map,
+                                        GeneratedMutableMap.map10281map,
+                                        GeneratedMutableMap.map10283map,
+                                        GeneratedMutableMap.map32358map,
+                                        GeneratedMutableMap.map10285map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map10285map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("s"),
+                                LOPSort(
+                                        true,
+                                        AOPVariable("p"),
+                                        LOPSort(
+                                                true,
+                                                AOPVariable("o"),
+                                                LOPSort(
+                                                        true,
+                                                        AOPVariable("p2"),
+                                                        LOPSort(
+                                                                true,
+                                                                AOPVariable("o2"),
+                                                                LOPJoin(
+                                                                        {
+                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                                            DistributedTripleStore.commit(1L)
+                                                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                                                        }()
+                                                                        ,
+                                                                        {
+                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
+                                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
+                                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
+                                                                            DistributedTripleStore.commit(1L)
+                                                                            LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
+                                                                        }()
+                                                                        ,
+                                                                        true)
+
+                                                        )
+
+                                                )
+
+                                        )
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                        ), listOf(
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map,
+                                GeneratedMutableMap.map32357map,
+                                GeneratedMutableMap.map10283map,
+                                GeneratedMutableMap.map32358map,
+                                GeneratedMutableMap.map10285map
                         )
                         )
                 )
@@ -6155,6 +5445,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("sum"),
@@ -6164,16 +5455,8 @@ class GeneratedPOPSortTest {
                                         "y",
                                         "sum"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "x" to "<http://www.example.org/instance#a>",
-                                                "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        ),
-                                        mutableMapOf(
-                                                "x" to "<http://www.example.org/instance#a>",
-                                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                                "sum" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                        )
+                                        GeneratedMutableMap.map34416map,
+                                        GeneratedMutableMap.map34417map
                                 )
                                 )
                         ),
@@ -6182,16 +5465,8 @@ class GeneratedPOPSortTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                mutableMapOf(
-                                        "x" to "<http://www.example.org/instance#a>",
-                                        "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "x" to "<http://www.example.org/instance#a>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                )
+                                GeneratedMutableMap.map34416map,
+                                GeneratedMutableMap.map34417map
                         )
                         )
                 )
@@ -6199,6 +5474,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("sum"),
@@ -6224,16 +5500,69 @@ class GeneratedPOPSortTest {
                                 "y",
                                 "sum"
                         ), listOf(
-                                mutableMapOf(
-                                        "x" to "<http://www.example.org/instance#a>",
-                                        "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
-                                ),
-                                mutableMapOf(
-                                        "x" to "<http://www.example.org/instance#a>",
-                                        "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
-                                        "sum" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                GeneratedMutableMap.map34416map,
+                                GeneratedMutableMap.map34417map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/project-expression/projexp04.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("sum"),
+                                POPValues(dictionary, listOf(
+                                        "x",
+                                        "y",
+                                        "sum"
+                                ), listOf(
+                                        GeneratedMutableMap.map34416map,
+                                        GeneratedMutableMap.map34417map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "x",
+                                "y",
+                                "sum"
+                        ), listOf(
+                                GeneratedMutableMap.map34416map,
+                                GeneratedMutableMap.map34417map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/project-expression/projexp04.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("sum"),
+                                LOPBind(
+                                        AOPVariable("sum"),
+                                        AOPAddition(AOPVariable("y"), AOPVariable("y")),
+                                        {
+                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                            graph.addData(1L, listOf("<http://www.example.org/instance#a>", "<http://www.example.org/schema#p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                            graph.addData(1L, listOf("<http://www.example.org/instance#a>", "<http://www.example.org/schema#p>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                            DistributedTripleStore.commit(1L)
+                                            LOPTriple(AOPVariable("x"), AOPVariable.calculate("<http://www.example.org/schema#p>"), AOPVariable("y"), graphName, false)
+                                        }()
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "x",
+                                "y",
+                                "sum"
+                        ), listOf(
+                                GeneratedMutableMap.map34416map,
+                                GeneratedMutableMap.map34417map
                         )
                         )
                 )
@@ -6241,6 +5570,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("O"),
@@ -6248,36 +5578,20 @@ class GeneratedPOPSortTest {
                                 POPValues(dictionary, listOf(
                                         "O"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "O" to "<http://www.example.orgorder1>"
-                                        ),
-                                        mutableMapOf(
-                                                "O" to "<http://www.example.orgorder2>"
-                                        ),
-                                        mutableMapOf(
-                                                "O" to "<http://www.example.orgorder3>"
-                                        ),
-                                        mutableMapOf(
-                                                "O" to "<http://www.example.orgorder4>"
-                                        )
+                                        GeneratedMutableMap.map36108map,
+                                        GeneratedMutableMap.map36109map,
+                                        GeneratedMutableMap.map36110map,
+                                        GeneratedMutableMap.map36111map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
                                 "O"
                         ), listOf(
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder1>"
-                                ),
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder3>"
-                                ),
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder4>"
-                                )
+                                GeneratedMutableMap.map36108map,
+                                GeneratedMutableMap.map36109map,
+                                GeneratedMutableMap.map36110map,
+                                GeneratedMutableMap.map36111map
                         )
                         )
                 )
@@ -6285,6 +5599,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("O"),
@@ -6304,18 +5619,68 @@ class GeneratedPOPSortTest {
                         POPValues(dictionary, listOf(
                                 "O"
                         ), listOf(
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder1>"
-                                ),
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder3>"
-                                ),
-                                mutableMapOf(
-                                        "O" to "<http://www.example.orgorder4>"
+                                GeneratedMutableMap.map36108map,
+                                GeneratedMutableMap.map36109map,
+                                GeneratedMutableMap.map36110map,
+                                GeneratedMutableMap.map36111map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("O"),
+                                POPValues(dictionary, listOf(
+                                        "O"
+                                ), listOf(
+                                        GeneratedMutableMap.map36108map,
+                                        GeneratedMutableMap.map36109map,
+                                        GeneratedMutableMap.map36110map,
+                                        GeneratedMutableMap.map36111map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "O"
+                        ), listOf(
+                                GeneratedMutableMap.map36108map,
+                                GeneratedMutableMap.map36109map,
+                                GeneratedMutableMap.map36110map,
+                                GeneratedMutableMap.map36111map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("O"),
+                                {
+                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                    DistributedTripleStore.commit(1L)
+                                    LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"), AOPVariable.calculate("<http://www.example.orgOrder>"), graphName, false)
+                                }()
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "O"
+                        ), listOf(
+                                GeneratedMutableMap.map36108map,
+                                GeneratedMutableMap.map36109map,
+                                GeneratedMutableMap.map36110map,
+                                GeneratedMutableMap.map36111map
                         )
                         )
                 )
@@ -6323,83 +5688,36 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("L"),
                                 true,
                                 POPValues(dictionary, listOf(
-                                        "#_34549",
+                                        "#_35992",
                                         "L",
                                         "O"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "#_34549" to "_:_34526",
-                                                "L" to "\"Ice Cream\"",
-                                                "O" to "<http://www.example.orgorder1>"
-                                        ),
-                                        mutableMapOf(
-                                                "#_34549" to "_:_34527",
-                                                "L" to "\"Pizza\"",
-                                                "O" to "<http://www.example.orgorder1>"
-                                        ),
-                                        mutableMapOf(
-                                                "#_34549" to "_:_34528",
-                                                "L" to "\"Wine\"",
-                                                "O" to "<http://www.example.orgorder1>"
-                                        ),
-                                        mutableMapOf(
-                                                "#_34549" to "_:_34529",
-                                                "L" to "\"Ice Cream\"",
-                                                "O" to "<http://www.example.orgorder2>"
-                                        ),
-                                        mutableMapOf(
-                                                "#_34549" to "_:_34530",
-                                                "L" to "\"Pasta\"",
-                                                "O" to "<http://www.example.orgorder2>"
-                                        ),
-                                        mutableMapOf(
-                                                "#_34549" to "_:_34531",
-                                                "L" to "\"Soft Drink\"",
-                                                "O" to "<http://www.example.orgorder2>"
-                                        )
+                                        GeneratedMutableMap.map36132map,
+                                        GeneratedMutableMap.map36133map,
+                                        GeneratedMutableMap.map36134map,
+                                        GeneratedMutableMap.map36135map,
+                                        GeneratedMutableMap.map36136map,
+                                        GeneratedMutableMap.map36137map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_34549",
+                                "#_35992",
                                 "L",
                                 "O"
                         ), listOf(
-                                mutableMapOf(
-                                        "#_34549" to "_:_34526",
-                                        "L" to "\"Ice Cream\"",
-                                        "O" to "<http://www.example.orgorder1>"
-                                ),
-                                mutableMapOf(
-                                        "#_34549" to "_:_34529",
-                                        "L" to "\"Ice Cream\"",
-                                        "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                        "#_34549" to "_:_34530",
-                                        "L" to "\"Pasta\"",
-                                        "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                        "#_34549" to "_:_34527",
-                                        "L" to "\"Pizza\"",
-                                        "O" to "<http://www.example.orgorder1>"
-                                ),
-                                mutableMapOf(
-                                        "#_34549" to "_:_34531",
-                                        "L" to "\"Soft Drink\"",
-                                        "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                        "#_34549" to "_:_34528",
-                                        "L" to "\"Wine\"",
-                                        "O" to "<http://www.example.orgorder1>"
-                                )
+                                GeneratedMutableMap.map36132map,
+                                GeneratedMutableMap.map36135map,
+                                GeneratedMutableMap.map36136map,
+                                GeneratedMutableMap.map36133map,
+                                GeneratedMutableMap.map36137map,
+                                GeneratedMutableMap.map36134map
                         )
                         )
                 )
@@ -6407,6 +5725,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("L"),
@@ -6418,35 +5737,35 @@ class GeneratedPOPSortTest {
                                                 {
                                                     val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                                                     val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("_:_34526", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                                                    graph.addData(1L, listOf("_:_34527", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
-                                                    graph.addData(1L, listOf("_:_34528", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
-                                                    graph.addData(1L, listOf("_:_34529", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                                                    graph.addData(1L, listOf("_:_34530", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
-                                                    graph.addData(1L, listOf("_:_34531", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                    graph.addData(1L, listOf("_:_34532", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
-                                                    graph.addData(1L, listOf("_:_34533", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                    graph.addData(1L, listOf("_:_34534", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
-                                                    graph.addData(1L, listOf("_:_34535", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                    graph.addData(1L, listOf("_:_35969", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                                                    graph.addData(1L, listOf("_:_35970", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
+                                                    graph.addData(1L, listOf("_:_35971", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
+                                                    graph.addData(1L, listOf("_:_35972", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                                                    graph.addData(1L, listOf("_:_35973", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
+                                                    graph.addData(1L, listOf("_:_35974", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                    graph.addData(1L, listOf("_:_35975", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
+                                                    graph.addData(1L, listOf("_:_35976", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                    graph.addData(1L, listOf("_:_35977", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
+                                                    graph.addData(1L, listOf("_:_35978", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
                                                     DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "#_34549", "<http://www.w3.org/2000/01/rdf-schema#label>", "L", false, true, false, EIndexPattern.SPO)
+                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "#_35992", "<http://www.w3.org/2000/01/rdf-schema#label>", "L", false, true, false, EIndexPattern.SPO)
                                                 }()
                                                 ,
                                                 {
                                                     val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                                                     val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_34526"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_34527"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_34528"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_34529"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_34530"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_34531"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_34532"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_34533"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_34534"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_34535"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35969"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35970"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35971"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35972"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35973"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35974"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_35975"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_35976"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_35977"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_35978"))
                                                     DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.example.orghasItem>", "#_34549", false, true, false, EIndexPattern.SPO)
+                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.example.orghasItem>", "#_35992", false, true, false, EIndexPattern.SPO)
                                                 }()
                                                 ,
                                                 false)
@@ -6488,40 +5807,144 @@ class GeneratedPOPSortTest {
 
                         ),
                         POPValues(dictionary, listOf(
-                                "#_34549",
+                                "#_35992",
                                 "L",
                                 "O"
                         ), listOf(
-                                mutableMapOf(
-                                        "#_34549" to "_:_34526",
-                                        "L" to "\"Ice Cream\"",
-                                        "O" to "<http://www.example.orgorder1>"
-                                ),
-                                mutableMapOf(
-                                        "#_34549" to "_:_34529",
-                                        "L" to "\"Ice Cream\"",
-                                        "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                        "#_34549" to "_:_34530",
-                                        "L" to "\"Pasta\"",
-                                        "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                        "#_34549" to "_:_34527",
-                                        "L" to "\"Pizza\"",
-                                        "O" to "<http://www.example.orgorder1>"
-                                ),
-                                mutableMapOf(
-                                        "#_34549" to "_:_34531",
-                                        "L" to "\"Soft Drink\"",
-                                        "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                        "#_34549" to "_:_34528",
-                                        "L" to "\"Wine\"",
-                                        "O" to "<http://www.example.orgorder1>"
+                                GeneratedMutableMap.map36132map,
+                                GeneratedMutableMap.map36135map,
+                                GeneratedMutableMap.map36136map,
+                                GeneratedMutableMap.map36133map,
+                                GeneratedMutableMap.map36137map,
+                                GeneratedMutableMap.map36134map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("L"),
+                                POPValues(dictionary, listOf(
+                                        "#_35992",
+                                        "L",
+                                        "O"
+                                ), listOf(
+                                        GeneratedMutableMap.map36132map,
+                                        GeneratedMutableMap.map36133map,
+                                        GeneratedMutableMap.map36134map,
+                                        GeneratedMutableMap.map36135map,
+                                        GeneratedMutableMap.map36136map,
+                                        GeneratedMutableMap.map36137map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "#_35992",
+                                "L",
+                                "O"
+                        ), listOf(
+                                GeneratedMutableMap.map36132map,
+                                GeneratedMutableMap.map36135map,
+                                GeneratedMutableMap.map36136map,
+                                GeneratedMutableMap.map36133map,
+                                GeneratedMutableMap.map36137map,
+                                GeneratedMutableMap.map36134map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("L"),
+                                LOPJoin(
+                                        LOPJoin(
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("_:_35969", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                                                    graph.addData(1L, listOf("_:_35970", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
+                                                    graph.addData(1L, listOf("_:_35971", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
+                                                    graph.addData(1L, listOf("_:_35972", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                                                    graph.addData(1L, listOf("_:_35973", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
+                                                    graph.addData(1L, listOf("_:_35974", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                    graph.addData(1L, listOf("_:_35975", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
+                                                    graph.addData(1L, listOf("_:_35976", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                    graph.addData(1L, listOf("_:_35977", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
+                                                    graph.addData(1L, listOf("_:_35978", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("#_35992"), AOPVariable.calculate("<http://www.w3.org/2000/01/rdf-schema#label>"), AOPVariable("L"), graphName, false)
+                                                }()
+                                                ,
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35969"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35970"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35971"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35972"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35973"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35974"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_35975"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_35976"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_35977"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_35978"))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.example.orghasItem>"), AOPVariable("#_35992"), graphName, false)
+                                                }()
+                                                ,
+                                                false)
+                                        ,
+                                        LOPDistinct(
+                                                LOPProjection(
+                                                        mutableListOf(
+                                                                AOPVariable("O")
+                                                        ),
+                                                        LOPLimit(
+                                                                2,
+                                                                LOPSort(
+                                                                        true,
+                                                                        AOPVariable("O"),
+                                                                        {
+                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                                                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                                                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                                                            DistributedTripleStore.commit(1L)
+                                                                            LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"), AOPVariable.calculate("<http://www.example.orgOrder>"), graphName, false)
+                                                                        }()
+
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                        )
+                                        ,
+                                        false)
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "#_35992",
+                                "L",
+                                "O"
+                        ), listOf(
+                                GeneratedMutableMap.map36132map,
+                                GeneratedMutableMap.map36135map,
+                                GeneratedMutableMap.map36136map,
+                                GeneratedMutableMap.map36133map,
+                                GeneratedMutableMap.map36137map,
+                                GeneratedMutableMap.map36134map
                         )
                         )
                 )
@@ -6529,83 +5952,36 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("L"),
                                 true,
                                 POPValues(dictionary, listOf(
-                                        "#_34870",
+                                        "#_36360",
                                         "L",
                                         "O"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "#_34870" to "_:_34847",
-                                                "L" to "\"Ice Cream\"",
-                                                "O" to "<http://www.example.orgorder1>"
-                                        ),
-                                        mutableMapOf(
-                                                "#_34870" to "_:_34848",
-                                                "L" to "\"Pizza\"",
-                                                "O" to "<http://www.example.orgorder1>"
-                                        ),
-                                        mutableMapOf(
-                                                "#_34870" to "_:_34849",
-                                                "L" to "\"Wine\"",
-                                                "O" to "<http://www.example.orgorder1>"
-                                        ),
-                                        mutableMapOf(
-                                                "#_34870" to "_:_34850",
-                                                "L" to "\"Ice Cream\"",
-                                                "O" to "<http://www.example.orgorder2>"
-                                        ),
-                                        mutableMapOf(
-                                                "#_34870" to "_:_34851",
-                                                "L" to "\"Pasta\"",
-                                                "O" to "<http://www.example.orgorder2>"
-                                        ),
-                                        mutableMapOf(
-                                                "#_34870" to "_:_34852",
-                                                "L" to "\"Soft Drink\"",
-                                                "O" to "<http://www.example.orgorder2>"
-                                        )
+                                        GeneratedMutableMap.map36496map,
+                                        GeneratedMutableMap.map36497map,
+                                        GeneratedMutableMap.map36498map,
+                                        GeneratedMutableMap.map36499map,
+                                        GeneratedMutableMap.map36500map,
+                                        GeneratedMutableMap.map36501map
                                 )
                                 )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_34870",
+                                "#_36360",
                                 "L",
                                 "O"
                         ), listOf(
-                                mutableMapOf(
-                                        "#_34870" to "_:_34847",
-                                        "L" to "\"Ice Cream\"",
-                                        "O" to "<http://www.example.orgorder1>"
-                                ),
-                                mutableMapOf(
-                                        "#_34870" to "_:_34850",
-                                        "L" to "\"Ice Cream\"",
-                                        "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                        "#_34870" to "_:_34851",
-                                        "L" to "\"Pasta\"",
-                                        "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                        "#_34870" to "_:_34848",
-                                        "L" to "\"Pizza\"",
-                                        "O" to "<http://www.example.orgorder1>"
-                                ),
-                                mutableMapOf(
-                                        "#_34870" to "_:_34852",
-                                        "L" to "\"Soft Drink\"",
-                                        "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                        "#_34870" to "_:_34849",
-                                        "L" to "\"Wine\"",
-                                        "O" to "<http://www.example.orgorder1>"
-                                )
+                                GeneratedMutableMap.map36496map,
+                                GeneratedMutableMap.map36499map,
+                                GeneratedMutableMap.map36500map,
+                                GeneratedMutableMap.map36497map,
+                                GeneratedMutableMap.map36501map,
+                                GeneratedMutableMap.map36498map
                         )
                         )
                 )
@@ -6613,6 +5989,7 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPSort(
                                 dictionary,
                                 AOPVariable("L"),
@@ -6624,35 +6001,35 @@ class GeneratedPOPSortTest {
                                                 {
                                                     val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                                                     val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("_:_34847", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                                                    graph.addData(1L, listOf("_:_34848", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
-                                                    graph.addData(1L, listOf("_:_34849", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
-                                                    graph.addData(1L, listOf("_:_34850", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                                                    graph.addData(1L, listOf("_:_34851", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
-                                                    graph.addData(1L, listOf("_:_34852", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                    graph.addData(1L, listOf("_:_34853", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
-                                                    graph.addData(1L, listOf("_:_34854", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                    graph.addData(1L, listOf("_:_34855", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
-                                                    graph.addData(1L, listOf("_:_34856", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                    graph.addData(1L, listOf("_:_36337", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                                                    graph.addData(1L, listOf("_:_36338", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
+                                                    graph.addData(1L, listOf("_:_36339", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
+                                                    graph.addData(1L, listOf("_:_36340", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                                                    graph.addData(1L, listOf("_:_36341", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
+                                                    graph.addData(1L, listOf("_:_36342", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                    graph.addData(1L, listOf("_:_36343", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
+                                                    graph.addData(1L, listOf("_:_36344", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                    graph.addData(1L, listOf("_:_36345", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
+                                                    graph.addData(1L, listOf("_:_36346", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
                                                     DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "#_34870", "<http://www.w3.org/2000/01/rdf-schema#label>", "L", false, true, false, EIndexPattern.SPO)
+                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "#_36360", "<http://www.w3.org/2000/01/rdf-schema#label>", "L", false, true, false, EIndexPattern.SPO)
                                                 }()
                                                 ,
                                                 {
                                                     val graphName = "graph" + DistributedTripleStore.getGraphNames().size
                                                     val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_34847"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_34848"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_34849"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_34850"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_34851"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_34852"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_34853"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_34854"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_34855"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_34856"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36337"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36338"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36339"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36340"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36341"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36342"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_36343"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_36344"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_36345"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_36346"))
                                                     DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.example.orghasItem>", "#_34870", false, true, false, EIndexPattern.SPO)
+                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.example.orghasItem>", "#_36360", false, true, false, EIndexPattern.SPO)
                                                 }()
                                                 ,
                                                 false)
@@ -6694,40 +6071,144 @@ class GeneratedPOPSortTest {
 
                         ),
                         POPValues(dictionary, listOf(
-                                "#_34870",
+                                "#_36360",
                                 "L",
                                 "O"
                         ), listOf(
-                                mutableMapOf(
-                                        "#_34870" to "_:_34847",
-                                        "L" to "\"Ice Cream\"",
-                                        "O" to "<http://www.example.orgorder1>"
-                                ),
-                                mutableMapOf(
-                                        "#_34870" to "_:_34850",
-                                        "L" to "\"Ice Cream\"",
-                                        "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                        "#_34870" to "_:_34851",
-                                        "L" to "\"Pasta\"",
-                                        "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                        "#_34870" to "_:_34848",
-                                        "L" to "\"Pizza\"",
-                                        "O" to "<http://www.example.orgorder1>"
-                                ),
-                                mutableMapOf(
-                                        "#_34870" to "_:_34852",
-                                        "L" to "\"Soft Drink\"",
-                                        "O" to "<http://www.example.orgorder2>"
-                                ),
-                                mutableMapOf(
-                                        "#_34870" to "_:_34849",
-                                        "L" to "\"Wine\"",
-                                        "O" to "<http://www.example.orgorder1>"
+                                GeneratedMutableMap.map36496map,
+                                GeneratedMutableMap.map36499map,
+                                GeneratedMutableMap.map36500map,
+                                GeneratedMutableMap.map36497map,
+                                GeneratedMutableMap.map36501map,
+                                GeneratedMutableMap.map36498map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("L"),
+                                POPValues(dictionary, listOf(
+                                        "#_36360",
+                                        "L",
+                                        "O"
+                                ), listOf(
+                                        GeneratedMutableMap.map36496map,
+                                        GeneratedMutableMap.map36497map,
+                                        GeneratedMutableMap.map36498map,
+                                        GeneratedMutableMap.map36499map,
+                                        GeneratedMutableMap.map36500map,
+                                        GeneratedMutableMap.map36501map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "#_36360",
+                                "L",
+                                "O"
+                        ), listOf(
+                                GeneratedMutableMap.map36496map,
+                                GeneratedMutableMap.map36499map,
+                                GeneratedMutableMap.map36500map,
+                                GeneratedMutableMap.map36497map,
+                                GeneratedMutableMap.map36501map,
+                                GeneratedMutableMap.map36498map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPSort(
+                                true,
+                                AOPVariable("L"),
+                                LOPJoin(
+                                        LOPJoin(
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("_:_36337", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                                                    graph.addData(1L, listOf("_:_36338", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
+                                                    graph.addData(1L, listOf("_:_36339", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
+                                                    graph.addData(1L, listOf("_:_36340", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
+                                                    graph.addData(1L, listOf("_:_36341", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
+                                                    graph.addData(1L, listOf("_:_36342", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                    graph.addData(1L, listOf("_:_36343", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
+                                                    graph.addData(1L, listOf("_:_36344", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                    graph.addData(1L, listOf("_:_36345", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
+                                                    graph.addData(1L, listOf("_:_36346", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("#_36360"), AOPVariable.calculate("<http://www.w3.org/2000/01/rdf-schema#label>"), AOPVariable("L"), graphName, false)
+                                                }()
+                                                ,
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36337"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36338"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36339"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36340"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36341"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36342"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_36343"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_36344"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_36345"))
+                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_36346"))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.example.orghasItem>"), AOPVariable("#_36360"), graphName, false)
+                                                }()
+                                                ,
+                                                false)
+                                        ,
+                                        LOPDistinct(
+                                                LOPProjection(
+                                                        mutableListOf(
+                                                                AOPVariable("O")
+                                                        ),
+                                                        LOPLimit(
+                                                                2,
+                                                                LOPSort(
+                                                                        true,
+                                                                        AOPVariable("O"),
+                                                                        {
+                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                                                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                                                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
+                                                                            DistributedTripleStore.commit(1L)
+                                                                            LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"), AOPVariable.calculate("<http://www.example.orgOrder>"), graphName, false)
+                                                                        }()
+
+                                                                )
+
+                                                        )
+
+                                                )
+
+                                        )
+                                        ,
+                                        false)
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "#_36360",
+                                "L",
+                                "O"
+                        ), listOf(
+                                GeneratedMutableMap.map36496map,
+                                GeneratedMutableMap.map36499map,
+                                GeneratedMutableMap.map36500map,
+                                GeneratedMutableMap.map36497map,
+                                GeneratedMutableMap.map36501map,
+                                GeneratedMutableMap.map36498map
                         )
                         )
                 )
@@ -6761,8 +6242,22 @@ class GeneratedPOPSortTest {
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase) {
+                } else if (data.input is POPBase && data is MicroTestPN) {
                     val input = data.input as POPBase
+                    assertTrue(data.expected is POPValues)
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output)) {
+                        println(output.toPrettyString())
+                        println(expected.toPrettyString())
+                    }
+                    assertTrue(expected.myEquals(output))
+                } else if (data.input is LOPBase && data is MicroTestPN) {
+                    val lop_node = data.input as LOPBase
+                    val dictionary = data.dictionary
+                    val lop_node2 = LogicalOptimizer(1L, dictionary).optimizeCall(lop_node)
+                    val pop_node = PhysicalOptimizer(1L, dictionary).optimizeCall(lop_node2)
+                    val input = KeyDistributionOptimizer(1L, dictionary).optimizeCall(pop_node) as POPBase
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()

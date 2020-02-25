@@ -8,6 +8,7 @@ import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.*
@@ -17,8 +18,10 @@ import lupos.s09physicalOperators.multiinput.*
 import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.*
+import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.*
 import lupos.s12p2p.P2P
+import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s14endpoint.EndpointImpl
 import lupos.s15tripleStoreDistributed.*
 import org.junit.jupiter.api.*
@@ -47,6 +50,7 @@ class GeneratedPOPRenameTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPRename(
                                 dictionary,
                                 AOPVariable("s"),
@@ -56,26 +60,10 @@ class GeneratedPOPRenameTest {
                                         "p",
                                         "o"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p>",
-                                                "o" to "<http://example.org/o1>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p>",
-                                                "o" to "<http://example.org/o1>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p>",
-                                                "o" to "<http://example.org/o2>"
-                                        ),
-                                        mutableMapOf(
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p>",
-                                                "o" to "<http://example.org/o3>"
-                                        )
+                                        GeneratedMutableMap.map9437map,
+                                        GeneratedMutableMap.map9438map,
+                                        GeneratedMutableMap.map9439map,
+                                        GeneratedMutableMap.map9440map
                                 )
                                 )
                         ),
@@ -84,26 +72,10 @@ class GeneratedPOPRenameTest {
                                 "o",
                                 "s"
                         ), listOf(
-                                mutableMapOf(
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "<http://example.org/o1>",
-                                        "s" to "<http://example.org/s1>"
-                                ),
-                                mutableMapOf(
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "<http://example.org/o1>",
-                                        "s" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "<http://example.org/o2>",
-                                        "s" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "<http://example.org/o3>",
-                                        "s" to "<http://example.org/s3>"
-                                )
+                                GeneratedMutableMap.map9441map,
+                                GeneratedMutableMap.map9442map,
+                                GeneratedMutableMap.map9443map,
+                                GeneratedMutableMap.map9444map
                         )
                         )
                 )
@@ -111,6 +83,7 @@ class GeneratedPOPRenameTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPRename(
                                 dictionary,
                                 AOPVariable("s"),
@@ -132,26 +105,74 @@ class GeneratedPOPRenameTest {
                                 "o",
                                 "s"
                         ), listOf(
-                                mutableMapOf(
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "<http://example.org/o1>",
-                                        "s" to "<http://example.org/s1>"
-                                ),
-                                mutableMapOf(
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "<http://example.org/o1>",
-                                        "s" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "<http://example.org/o2>",
-                                        "s" to "<http://example.org/s2>"
-                                ),
-                                mutableMapOf(
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "<http://example.org/o3>",
-                                        "s" to "<http://example.org/s3>"
+                                GeneratedMutableMap.map9441map,
+                                GeneratedMutableMap.map9442map,
+                                GeneratedMutableMap.map9443map,
+                                GeneratedMutableMap.map9444map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/construct/constructwhere01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPRename(
+                                AOPVariable("s"),
+                                AOPVariable("s"),
+                                POPValues(dictionary, listOf(
+                                        "s",
+                                        "p",
+                                        "o"
+                                ), listOf(
+                                        GeneratedMutableMap.map9437map,
+                                        GeneratedMutableMap.map9438map,
+                                        GeneratedMutableMap.map9439map,
+                                        GeneratedMutableMap.map9440map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "p",
+                                "o",
+                                "s"
+                        ), listOf(
+                                GeneratedMutableMap.map9441map,
+                                GeneratedMutableMap.map9442map,
+                                GeneratedMutableMap.map9443map,
+                                GeneratedMutableMap.map9444map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/construct/constructwhere01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPRename(
+                                AOPVariable("s"),
+                                AOPVariable("s"),
+                                {
+                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p>", "<http://example.org/o1>"))
+                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p>", "<http://example.org/o1>"))
+                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p>", "<http://example.org/o2>"))
+                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p>", "<http://example.org/o3>"))
+                                    DistributedTripleStore.commit(1L)
+                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                }()
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "p",
+                                "o",
+                                "s"
+                        ), listOf(
+                                GeneratedMutableMap.map9441map,
+                                GeneratedMutableMap.map9442map,
+                                GeneratedMutableMap.map9443map,
+                                GeneratedMutableMap.map9444map
                         )
                         )
                 )
@@ -159,6 +180,7 @@ class GeneratedPOPRenameTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPRename(
                                 dictionary,
                                 AOPVariable("p"),
@@ -168,26 +190,10 @@ class GeneratedPOPRenameTest {
                                         "o",
                                         "s"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "p" to "<http://example.org/p>",
-                                                "o" to "<http://example.org/o1>",
-                                                "s" to "<http://example.org/s1>"
-                                        ),
-                                        mutableMapOf(
-                                                "p" to "<http://example.org/p>",
-                                                "o" to "<http://example.org/o1>",
-                                                "s" to "<http://example.org/s2>"
-                                        ),
-                                        mutableMapOf(
-                                                "p" to "<http://example.org/p>",
-                                                "o" to "<http://example.org/o2>",
-                                                "s" to "<http://example.org/s2>"
-                                        ),
-                                        mutableMapOf(
-                                                "p" to "<http://example.org/p>",
-                                                "o" to "<http://example.org/o3>",
-                                                "s" to "<http://example.org/s3>"
-                                        )
+                                        GeneratedMutableMap.map9441map,
+                                        GeneratedMutableMap.map9442map,
+                                        GeneratedMutableMap.map9443map,
+                                        GeneratedMutableMap.map9444map
                                 )
                                 )
                         ),
@@ -196,26 +202,10 @@ class GeneratedPOPRenameTest {
                                 "s",
                                 "p"
                         ), listOf(
-                                mutableMapOf(
-                                        "o" to "<http://example.org/o1>",
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p>"
-                                ),
-                                mutableMapOf(
-                                        "o" to "<http://example.org/o1>",
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p>"
-                                ),
-                                mutableMapOf(
-                                        "o" to "<http://example.org/o2>",
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p>"
-                                ),
-                                mutableMapOf(
-                                        "o" to "<http://example.org/o3>",
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p>"
-                                )
+                                GeneratedMutableMap.map9445map,
+                                GeneratedMutableMap.map9446map,
+                                GeneratedMutableMap.map9447map,
+                                GeneratedMutableMap.map9448map
                         )
                         )
                 )
@@ -223,6 +213,7 @@ class GeneratedPOPRenameTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPRename(
                                 dictionary,
                                 AOPVariable("p"),
@@ -250,26 +241,79 @@ class GeneratedPOPRenameTest {
                                 "s",
                                 "p"
                         ), listOf(
-                                mutableMapOf(
-                                        "o" to "<http://example.org/o1>",
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p>"
-                                ),
-                                mutableMapOf(
-                                        "o" to "<http://example.org/o1>",
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p>"
-                                ),
-                                mutableMapOf(
-                                        "o" to "<http://example.org/o2>",
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p>"
-                                ),
-                                mutableMapOf(
-                                        "o" to "<http://example.org/o3>",
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p>"
+                                GeneratedMutableMap.map9445map,
+                                GeneratedMutableMap.map9446map,
+                                GeneratedMutableMap.map9447map,
+                                GeneratedMutableMap.map9448map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/construct/constructwhere01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPRename(
+                                AOPVariable("p"),
+                                AOPVariable("p"),
+                                POPValues(dictionary, listOf(
+                                        "p",
+                                        "o",
+                                        "s"
+                                ), listOf(
+                                        GeneratedMutableMap.map9441map,
+                                        GeneratedMutableMap.map9442map,
+                                        GeneratedMutableMap.map9443map,
+                                        GeneratedMutableMap.map9444map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "o",
+                                "s",
+                                "p"
+                        ), listOf(
+                                GeneratedMutableMap.map9445map,
+                                GeneratedMutableMap.map9446map,
+                                GeneratedMutableMap.map9447map,
+                                GeneratedMutableMap.map9448map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/construct/constructwhere01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPRename(
+                                AOPVariable("p"),
+                                AOPVariable("p"),
+                                LOPRename(
+                                        AOPVariable("s"),
+                                        AOPVariable("s"),
+                                        {
+                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p>", "<http://example.org/o1>"))
+                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p>", "<http://example.org/o1>"))
+                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p>", "<http://example.org/o2>"))
+                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p>", "<http://example.org/o3>"))
+                                            DistributedTripleStore.commit(1L)
+                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                        }()
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "o",
+                                "s",
+                                "p"
+                        ), listOf(
+                                GeneratedMutableMap.map9445map,
+                                GeneratedMutableMap.map9446map,
+                                GeneratedMutableMap.map9447map,
+                                GeneratedMutableMap.map9448map
                         )
                         )
                 )
@@ -277,6 +321,7 @@ class GeneratedPOPRenameTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPRename(
                                 dictionary,
                                 AOPVariable("o"),
@@ -286,26 +331,10 @@ class GeneratedPOPRenameTest {
                                         "s",
                                         "p"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "o" to "<http://example.org/o1>",
-                                                "s" to "<http://example.org/s1>",
-                                                "p" to "<http://example.org/p>"
-                                        ),
-                                        mutableMapOf(
-                                                "o" to "<http://example.org/o1>",
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p>"
-                                        ),
-                                        mutableMapOf(
-                                                "o" to "<http://example.org/o2>",
-                                                "s" to "<http://example.org/s2>",
-                                                "p" to "<http://example.org/p>"
-                                        ),
-                                        mutableMapOf(
-                                                "o" to "<http://example.org/o3>",
-                                                "s" to "<http://example.org/s3>",
-                                                "p" to "<http://example.org/p>"
-                                        )
+                                        GeneratedMutableMap.map9445map,
+                                        GeneratedMutableMap.map9446map,
+                                        GeneratedMutableMap.map9447map,
+                                        GeneratedMutableMap.map9448map
                                 )
                                 )
                         ),
@@ -314,26 +343,10 @@ class GeneratedPOPRenameTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "<http://example.org/o1>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "<http://example.org/o1>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "<http://example.org/o2>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "<http://example.org/o3>"
-                                )
+                                GeneratedMutableMap.map9437map,
+                                GeneratedMutableMap.map9438map,
+                                GeneratedMutableMap.map9439map,
+                                GeneratedMutableMap.map9440map
                         )
                         )
                 )
@@ -341,6 +354,7 @@ class GeneratedPOPRenameTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPRename(
                                 dictionary,
                                 AOPVariable("o"),
@@ -374,26 +388,84 @@ class GeneratedPOPRenameTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s1>",
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "<http://example.org/o1>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "<http://example.org/o1>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s2>",
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "<http://example.org/o2>"
-                                ),
-                                mutableMapOf(
-                                        "s" to "<http://example.org/s3>",
-                                        "p" to "<http://example.org/p>",
-                                        "o" to "<http://example.org/o3>"
+                                GeneratedMutableMap.map9437map,
+                                GeneratedMutableMap.map9438map,
+                                GeneratedMutableMap.map9439map,
+                                GeneratedMutableMap.map9440map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/construct/constructwhere01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPRename(
+                                AOPVariable("o"),
+                                AOPVariable("o"),
+                                POPValues(dictionary, listOf(
+                                        "o",
+                                        "s",
+                                        "p"
+                                ), listOf(
+                                        GeneratedMutableMap.map9445map,
+                                        GeneratedMutableMap.map9446map,
+                                        GeneratedMutableMap.map9447map,
+                                        GeneratedMutableMap.map9448map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map9437map,
+                                GeneratedMutableMap.map9438map,
+                                GeneratedMutableMap.map9439map,
+                                GeneratedMutableMap.map9440map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/construct/constructwhere01.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPRename(
+                                AOPVariable("o"),
+                                AOPVariable("o"),
+                                LOPRename(
+                                        AOPVariable("p"),
+                                        AOPVariable("p"),
+                                        LOPRename(
+                                                AOPVariable("s"),
+                                                AOPVariable("s"),
+                                                {
+                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                    val graph = DistributedTripleStore.createGraph(graphName)
+                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p>", "<http://example.org/o1>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p>", "<http://example.org/o1>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p>", "<http://example.org/o2>"))
+                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p>", "<http://example.org/o3>"))
+                                                    DistributedTripleStore.commit(1L)
+                                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
+                                                }()
+
+                                        )
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map9437map,
+                                GeneratedMutableMap.map9438map,
+                                GeneratedMutableMap.map9439map,
+                                GeneratedMutableMap.map9440map
                         )
                         )
                 )
@@ -401,6 +473,7 @@ class GeneratedPOPRenameTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPRename(
                                 dictionary,
                                 AOPVariable("s"),
@@ -409,10 +482,7 @@ class GeneratedPOPRenameTest {
                                         "P",
                                         "FullName"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "P" to "<http://p1>",
-                                                "FullName" to "\"John Doe\""
-                                        )
+                                        GeneratedMutableMap.map36333map
                                 )
                                 )
                         ),
@@ -420,10 +490,7 @@ class GeneratedPOPRenameTest {
                                 "FullName",
                                 "s"
                         ), listOf(
-                                mutableMapOf(
-                                        "FullName" to "\"John Doe\"",
-                                        "s" to "<http://p1>"
-                                )
+                                GeneratedMutableMap.map36334map
                         )
                         )
                 )
@@ -431,6 +498,7 @@ class GeneratedPOPRenameTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPRename(
                                 dictionary,
                                 AOPVariable("s"),
@@ -474,10 +542,79 @@ class GeneratedPOPRenameTest {
                                 "FullName",
                                 "s"
                         ), listOf(
-                                mutableMapOf(
-                                        "FullName" to "\"John Doe\"",
-                                        "s" to "<http://p1>"
+                                GeneratedMutableMap.map36334map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPRename(
+                                AOPVariable("s"),
+                                AOPVariable("P"),
+                                POPValues(dictionary, listOf(
+                                        "P",
+                                        "FullName"
+                                ), listOf(
+                                        GeneratedMutableMap.map36333map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "FullName",
+                                "s"
+                        ), listOf(
+                                GeneratedMutableMap.map36334map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPRename(
+                                AOPVariable("s"),
+                                AOPVariable("P"),
+                                LOPProjection(
+                                        mutableListOf(
+                                                AOPVariable("P"),
+                                                AOPVariable("FullName")
+                                        ),
+                                        LOPBind(
+                                                AOPVariable("FullName"),
+                                                AOPBuildInCallCONCAT(AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")), AOPVariable("L")),
+                                                LOPJoin(
+                                                        {
+                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                            graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/firstName>", "\"John\""))
+                                                            DistributedTripleStore.commit(1L)
+                                                            LOPTriple(AOPVariable("P"), AOPVariable.calculate("<http://xmlns.com/foaf/0.1/firstName>"), AOPVariable("F"), graphName, false)
+                                                        }()
+                                                        ,
+                                                        {
+                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                            graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/lastName>", "\"Doe\""))
+                                                            DistributedTripleStore.commit(1L)
+                                                            LOPTriple(AOPVariable("P"), AOPVariable.calculate("<http://xmlns.com/foaf/0.1/lastName>"), AOPVariable("L"), graphName, false)
+                                                        }()
+                                                        ,
+                                                        false)
+
+                                        )
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "FullName",
+                                "s"
+                        ), listOf(
+                                GeneratedMutableMap.map36334map
                         )
                         )
                 )
@@ -485,6 +622,7 @@ class GeneratedPOPRenameTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPRename(
                                 dictionary,
                                 AOPVariable("o"),
@@ -494,11 +632,7 @@ class GeneratedPOPRenameTest {
                                         "s",
                                         "p"
                                 ), listOf(
-                                        mutableMapOf(
-                                                "FullName" to "\"John Doe\"",
-                                                "s" to "<http://p1>",
-                                                "p" to "<http://xmlns.com/foaf/0.1/name>"
-                                        )
+                                        GeneratedMutableMap.map36335map
                                 )
                                 )
                         ),
@@ -507,11 +641,7 @@ class GeneratedPOPRenameTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://p1>",
-                                        "p" to "<http://xmlns.com/foaf/0.1/name>",
-                                        "o" to "\"John Doe\""
-                                )
+                                GeneratedMutableMap.map36336map
                         )
                         )
                 )
@@ -519,6 +649,7 @@ class GeneratedPOPRenameTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                        dictionary,
                         POPRename(
                                 dictionary,
                                 AOPVariable("o"),
@@ -575,11 +706,92 @@ class GeneratedPOPRenameTest {
                                 "p",
                                 "o"
                         ), listOf(
-                                mutableMapOf(
-                                        "s" to "<http://p1>",
-                                        "p" to "<http://xmlns.com/foaf/0.1/name>",
-                                        "o" to "\"John Doe\""
+                                GeneratedMutableMap.map36336map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPRename(
+                                AOPVariable("o"),
+                                AOPVariable("FullName"),
+                                POPValues(dictionary, listOf(
+                                        "FullName",
+                                        "s",
+                                        "p"
+                                ), listOf(
+                                        GeneratedMutableMap.map36335map
                                 )
+                                )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map36336map
+                        )
+                        )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestLN(
+                        dictionary,
+                        LOPRename(
+                                AOPVariable("o"),
+                                AOPVariable("FullName"),
+                                LOPBind(
+                                        AOPVariable("p"),
+                                        AOPIri("http://xmlns.com/foaf/0.1/name"),
+                                        LOPRename(
+                                                AOPVariable("s"),
+                                                AOPVariable("P"),
+                                                LOPProjection(
+                                                        mutableListOf(
+                                                                AOPVariable("P"),
+                                                                AOPVariable("FullName")
+                                                        ),
+                                                        LOPBind(
+                                                                AOPVariable("FullName"),
+                                                                AOPBuildInCallCONCAT(AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")), AOPVariable("L")),
+                                                                LOPJoin(
+                                                                        {
+                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                                            graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/firstName>", "\"John\""))
+                                                                            DistributedTripleStore.commit(1L)
+                                                                            LOPTriple(AOPVariable("P"), AOPVariable.calculate("<http://xmlns.com/foaf/0.1/firstName>"), AOPVariable("F"), graphName, false)
+                                                                        }()
+                                                                        ,
+                                                                        {
+                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                            val graph = DistributedTripleStore.createGraph(graphName)
+                                                                            graph.addData(1L, listOf("<http://p1>", "<http://xmlns.com/foaf/0.1/lastName>", "\"Doe\""))
+                                                                            DistributedTripleStore.commit(1L)
+                                                                            LOPTriple(AOPVariable("P"), AOPVariable.calculate("<http://xmlns.com/foaf/0.1/lastName>"), AOPVariable("L"), graphName, false)
+                                                                        }()
+                                                                        ,
+                                                                        false)
+
+                                                        )
+
+                                                )
+
+                                        )
+
+                                )
+
+                        ),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                        ), listOf(
+                                GeneratedMutableMap.map36336map
                         )
                         )
                 )
@@ -613,8 +825,22 @@ class GeneratedPOPRenameTest {
                         println((data.expected as AOPConstant).valueToString())
                     }
                     assertTrue(data.expected.equals(output))
-                } else if (data.input is POPBase) {
+                } else if (data.input is POPBase && data is MicroTestPN) {
                     val input = data.input as POPBase
+                    assertTrue(data.expected is POPValues)
+                    val output = QueryResultToXML.toXML(input).first()
+                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                    if (!expected.myEquals(output)) {
+                        println(output.toPrettyString())
+                        println(expected.toPrettyString())
+                    }
+                    assertTrue(expected.myEquals(output))
+                } else if (data.input is LOPBase && data is MicroTestPN) {
+                    val lop_node = data.input as LOPBase
+                    val dictionary = data.dictionary
+                    val lop_node2 = LogicalOptimizer(1L, dictionary).optimizeCall(lop_node)
+                    val pop_node = PhysicalOptimizer(1L, dictionary).optimizeCall(lop_node2)
+                    val input = KeyDistributionOptimizer(1L, dictionary).optimizeCall(pop_node) as POPBase
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
