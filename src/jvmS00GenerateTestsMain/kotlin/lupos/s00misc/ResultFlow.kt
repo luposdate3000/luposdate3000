@@ -101,10 +101,22 @@ fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, o: OPBase, 
     return res
 }
 
-fun testCaseFromPOPBaseSimple(op: POPBase): String {
-    var res = "{\n"
-    res += "${prefix}                val dictionary=ResultSetDictionary()\n"
-    res += "${prefix}                MicroTestPN(\n"
+
+fun testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive:Boolean,rows: MutableList<ResultRow>?, o: OPBase, prefix: String):String{
+if(recoursive){
+return testCaseFromPOPBaseSimple(o as POPBase,true,prefix+"    ",false)
+}else
+return testCaseFromResultRowsAsPOPValues(rows,o,prefix)
+}
+
+fun testCaseFromPOPBaseSimple(op: POPBase,recoursive:Boolean,prefix:String,first:Boolean=true): String {
+    var res =""
+
+if(first){
+res += "{\n"
+    res += "${prefix}    val dictionary=ResultSetDictionary()\n"
+    res += "${prefix}    MicroTestPN(\n"
+}
     if (op is TripleStoreIteratorGlobal) {
         val s: String?
         val p: String?
@@ -124,13 +136,13 @@ fun testCaseFromPOPBaseSimple(op: POPBase): String {
             o = op.oFilter
         else
             o = op.nameO
-        res += "${prefix}                    {\n"
-        res += "${prefix}                        val graphName = \"graph\" + DistributedTripleStore.getGraphNames().size\n"
-        res += "${prefix}                        val graph=DistributedTripleStore.createGraph(graphName)\n"
+        res += "${prefix}        {\n"
+        res += "${prefix}            val graphName = \"graph\" + DistributedTripleStore.getGraphNames().size\n"
+        res += "${prefix}            val graph=DistributedTripleStore.createGraph(graphName)\n"
         val tmp = rowMapProduced[op.uuid]
         if (tmp != null) {
             for (r in tmp) {
-                res += "${prefix}                        graph.addData(1L,listOf(\""
+                res += "${prefix}            graph.addData(1L,listOf(\""
                 if (sv)
                     res += s?.replace("\"", "\\\"")
                 else
@@ -148,82 +160,91 @@ fun testCaseFromPOPBaseSimple(op: POPBase): String {
                 res += "\"))\n"
             }
         }
-        res += "${prefix}                        DistributedTripleStore.commit(1L)\n"
-        res += "${prefix}                        TripleStoreIteratorGlobal(1L,dictionary,graphName,\"${s?.replace("\"", "\\\"")}\",\"${p?.replace("\"", "\\\"")}\",\"${o?.replace("\"", "\\\"")}\",$sv,$pv,$ov,EIndexPattern.${op.idx})\n"
-        res += "${prefix}                    }(),\n"
+        res += "${prefix}            DistributedTripleStore.commit(1L)\n"
+        res += "${prefix}            TripleStoreIteratorGlobal(1L,dictionary,graphName,\"${s?.replace("\"", "\\\"")}\",\"${p?.replace("\"", "\\\"")}\",\"${o?.replace("\"", "\\\"")}\",$sv,$pv,$ov,EIndexPattern.${op.idx})\n"
+if(first)
+        res += "${prefix}        }(),\n"
+else
+        res += "${prefix}        }()\n"
     } else {
-        res += "${prefix}                    ${classNameToString(op)}(\n"
-        res += "${prefix}                        dictionary,\n"
+        res += "${prefix}        ${classNameToString(op)}(\n"
+        res += "${prefix}            dictionary,\n"
         when (op) {
             is POPUnion -> {
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + ",\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1], "${prefix}                        ") + "\n"
+                res += testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive,rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + ",\n"
+                res += testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive,rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1], "${prefix}            ") + "\n"
             }
             is POPJoinHashMap -> {
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + ",\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1], "${prefix}                        ") + ",\n"
-                res += "${prefix}                        ${op.optional}"
+                res += testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive,rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + ",\n"
+                res += testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive,rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1], "${prefix}            ") + ",\n"
+                res += "${prefix}            ${op.optional}"
             }
             is POPJoinNestedLoop -> {
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + ",\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1], "${prefix}                        ") + ",\n"
-                res += "${prefix}                        ${op.optional}"
+                res += testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive,rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + ",\n"
+                res += testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive,rowMapConsumed[Pair(op.uuid, op.children[1].uuid)], op.children[1], "${prefix}            ") + ",\n"
+                res += "${prefix}            ${op.optional}"
             }
             is POPRename -> {
-                res += "${prefix}                        AOPVariable(\"${op.nameTo.name}\"),\n"
-                res += "${prefix}                        AOPVariable(\"${op.nameFrom.name}\"),\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
+                res += "${prefix}            AOPVariable(\"${op.nameTo.name}\"),\n"
+                res += "${prefix}            AOPVariable(\"${op.nameFrom.name}\"),\n"
+                res += testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive,rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
             }
             is POPFilter -> {
-                res += "${prefix}                        ${testCaseFromAOPBase(op.children[1] as AOPBase)},\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
+                res += "${prefix}            ${testCaseFromAOPBase(op.children[1] as AOPBase)},\n"
+                res += testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive,rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
             }
             is POPDistinct -> {
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
+                res += testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive,rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
             }
             is POPOffset -> {
-                res += "${prefix}                        ${op.offset},\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
+                res += "${prefix}            ${op.offset},\n"
+                res += testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive,rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
             }
             is POPLimit -> {
-                res += "${prefix}                        ${op.limit},\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
+                res += "${prefix}            ${op.limit},\n"
+                res += testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive,rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
             }
             is POPSort -> {
-                res += "${prefix}                        AOPVariable(\"${op.resultSet.getVariable(op.sortBy)}\"),\n"
-                res += "${prefix}                        ${op.sortOrder},\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
+                res += "${prefix}            AOPVariable(\"${op.resultSet.getVariable(op.sortBy)}\"),\n"
+                res += "${prefix}            ${op.sortOrder},\n"
+                res += testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive,rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
             }
             is POPBindUndefined -> {
-                res += "${prefix}                        AOPVariable(\"${op.name.name}\"),\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
+                res += "${prefix}            AOPVariable(\"${op.name.name}\"),\n"
+                res += testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive,rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
             }
             is POPBind -> {
-                res += "${prefix}                        AOPVariable(\"${op.name.name}\"),\n"
-                res += "${prefix}                        ${testCaseFromAOPBase(op.children[1] as AOPBase)},\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
+                res += "${prefix}            AOPVariable(\"${op.name.name}\"),\n"
+                res += "${prefix}            ${testCaseFromAOPBase(op.children[1] as AOPBase)},\n"
+                res += testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive,rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
             }
             is POPProjection -> {
-                res += "${prefix}                        mutableListOf(\n"
+                res += "${prefix}            mutableListOf(\n"
                 for (i in 0 until op.variables.size - 1)
-                    res += "${prefix}                            AOPVariable(\"${op.variables[i].name}\"),\n"
+                    res += "${prefix}                AOPVariable(\"${op.variables[i].name}\"),\n"
                 if (op.variables.size > 0)
-                    res += "${prefix}                            AOPVariable(\"${op.variables[op.variables.size - 1].name}\")\n"
-                res += "${prefix}                        ),\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
+                    res += "${prefix}                AOPVariable(\"${op.variables[op.variables.size - 1].name}\")\n"
+                res += "${prefix}            ),\n"
+                res += testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive,rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
             }
             is POPFilterExact -> {
-                res += "${prefix}                        AOPVariable(\"${op.variable.name}\"),\n"
-                res += "${prefix}                        \"${op.value}\",\n"
-                res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
+                res += "${prefix}            AOPVariable(\"${op.variable.name}\"),\n"
+                res += "${prefix}            \"${op.value}\",\n"
+                res += testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive,rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}            ") + "\n"
             }
             else -> throw Exception("not implemented testCaseFromPOPBaseSimple(${classNameToString(op)})")
         }
-        res += "${prefix}                    ),\n"
+if(first)
+        res += "${prefix}        ),\n"
+else
+        res += "${prefix}        )\n"
     }
-    res += testCaseFromResultRowsAsPOPValues(rowMapProduced[op.uuid], op, "${prefix}                    ") + "\n"
-    res += "${prefix}                )\n"
-    return res + "${prefix}            }()"
+if(first){
+    res += testCaseFromResultRowsAsPOPValues(rowMapProduced[op.uuid], op, "${prefix}        ") + "\n"
+    res += "${prefix}    )\n"
+   res += "${prefix}}()"
+}
+return res
 }
 
 fun <T> resultFlow(inputv: () -> AOPBase, resultRowv: () -> ResultRow, resultSetv: () -> ResultSet, action: () -> T): T {
@@ -452,10 +473,11 @@ fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
                 } else
                     tmp = x
                 try {
-                    if (success)
-                        tmp["${prefix}            " + testCaseFromPOPBaseSimple(it)] = queryFile
-                    else
-                        tmp["${prefix}            /* " + testCaseFromPOPBaseSimple(it) + " */"] = queryFile
+                    if (success){
+                        tmp["${prefix}            " + testCaseFromPOPBaseSimple(it,false,"${prefix}            ")] = queryFile
+                        tmp["${prefix}            " + testCaseFromPOPBaseSimple(it,true,"${prefix}            ")] = queryFile
+}                    else
+                        tmp["${prefix}            /* " + testCaseFromPOPBaseSimple(it,false,"${prefix}            ") + " */"] = queryFile
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }

@@ -296,6 +296,46 @@ class GeneratedPOPFilterTest {
                 MicroTestPN(
                     POPFilter(
                         dictionary,
+                        AOPEQ(AOPVariable("z"), AOPInteger(3)),
+                                    POPBind(
+                                        dictionary,
+                                        AOPVariable("z"),
+                                        AOPAddition(AOPInteger(1), AOPVariable("o")),
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p>","\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                    }()
+
+                                    )
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "z"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/bind/bind08.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPFilter(
+                        dictionary,
                         AOPEQ(AOPVariable("v"), AOPVariable("z")),
                         POPValues(dictionary, listOf(
                                 "s",
@@ -324,6 +364,39 @@ class GeneratedPOPFilterTest {
                                 )
                             )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "v",
+                            "z"
+                        ), listOf(
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/bind/bind10.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPFilter(
+                        dictionary,
+                        AOPEQ(AOPVariable("v"), AOPVariable("z")),
+                                    POPBind(
+                                        dictionary,
+                                        AOPVariable("z"),
+                                        AOPUndef(),
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p>","\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example.org/p>","v",false,true,false,EIndexPattern.SPO)
+                                                    }()
+
+                                    )
+
                     ),
                     POPValues(dictionary, listOf(
                             "s",
@@ -387,6 +460,98 @@ class GeneratedPOPFilterTest {
                 MicroTestPN(
                     POPFilter(
                         dictionary,
+                        AOPEQ(AOPVariable("v"), AOPVariable("z")),
+                                    POPBind(
+                                        dictionary,
+                                        AOPVariable("z"),
+                                        AOPInteger(4),
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p>","\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example.org/p>","v",false,true,false,EIndexPattern.SPO)
+                                                    }()
+
+                                    )
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "v",
+                            "z"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s4>",
+                                "v" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/bind/bind11.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPFilter(
+                        dictionary,
+                        AOPEQ(AOPVariable("z"), AOPInteger(3)),
+                                    POPBind(
+                                        dictionary,
+                                        AOPVariable("z"),
+                                        AOPAddition(AOPInteger(1), AOPVariable("o")),
+                                                    POPJoinHashMap(
+                                                        dictionary,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p>","\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("_:1","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"p","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>",false,true,true,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                        false                                                    )
+
+                                    )
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "z"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/entailment/bind08.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPFilter(
+                        dictionary,
                         AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
                         POPValues(dictionary, listOf(
                                 "s",
@@ -422,6 +587,39 @@ class GeneratedPOPFilterTest {
                                 )
                             )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "str"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "str" to "\"bar\"@en"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/strlang02.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPFilter(
+                        dictionary,
+                        AOPBuildInCallLANGMATCHES(AOPBuildInCallLANG(AOPVariable("str")), AOPSimpleLiteral("\"", "en")),
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/str>","\"foo\""))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/str>","\"bar\"@en"))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/str>","\"BAZ\""))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/str>","\"食べ物\""))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/str>","\"100%\""))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/str>","\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/str>","\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example.org/str>","str",false,true,false,EIndexPattern.SPO)
+                                    }()
+
                     ),
                     POPValues(dictionary, listOf(
                             "s",
@@ -568,6 +766,70 @@ class GeneratedPOPFilterTest {
                 MicroTestPN(
                     POPFilter(
                         dictionary,
+                        AOPBuildInCallIsNUMERIC(AOPVariable("num")),
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/d1>","<http://example.org/date>","\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                        graph.addData(1L,listOf("<http://example.org/d2>","<http://example.org/date>","\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                        graph.addData(1L,listOf("<http://example.org/d3>","<http://example.org/date>","\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                        graph.addData(1L,listOf("<http://example.org/d4>","<http://example.org/date>","\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                        graph.addData(1L,listOf("<http://example.org/n1>","<http://example.org/num>","\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/n2>","<http://example.org/num>","\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/n3>","<http://example.org/num>","\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/n4>","<http://example.org/num>","\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/n5>","<http://example.org/num>","\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/str>","\"foo\""))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/str>","\"bar\"@en"))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/str>","\"BAZ\""))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/str>","\"食べ物\""))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/str>","\"100%\""))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/str>","\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/str>","\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","num",false,false,false,EIndexPattern.SPO)
+                                    }()
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "num"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/n1>",
+                                "p" to "<http://example.org/num>",
+                                "num" to "\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/n2>",
+                                "p" to "<http://example.org/num>",
+                                "num" to "\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/n3>",
+                                "p" to "<http://example.org/num>",
+                                "num" to "\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/n4>",
+                                "p" to "<http://example.org/num>",
+                                "num" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/n5>",
+                                "p" to "<http://example.org/num>",
+                                "num" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/isnumeric01.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPFilter(
+                        dictionary,
                         AOPGEQ(AOPBuildInCallABS(AOPVariable("num")), AOPInteger(2)),
                         POPValues(dictionary, listOf(
                                 "s",
@@ -595,6 +857,41 @@ class GeneratedPOPFilterTest {
                                 )
                             )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "num"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/n4>",
+                                "num" to "\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/n5>",
+                                "num" to "\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/abs01.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPFilter(
+                        dictionary,
+                        AOPGEQ(AOPBuildInCallABS(AOPVariable("num")), AOPInteger(2)),
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/n1>","<http://example.org/num>","\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/n2>","<http://example.org/num>","\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/n3>","<http://example.org/num>","\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/n4>","<http://example.org/num>","\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/n5>","<http://example.org/num>","\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example.org/num>","num",false,true,false,EIndexPattern.SPO)
+                                    }()
+
                     ),
                     POPValues(dictionary, listOf(
                             "s",
@@ -652,6 +949,43 @@ class GeneratedPOPFilterTest {
                                 )
                             )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "str"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "str" to "\"bar\"@en"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s6>",
+                                "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/contains01.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPFilter(
+                        dictionary,
+                        AOPBuildInCallCONTAINS(AOPVariable("str"), AOPSimpleLiteral("\"", "a")),
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/str>","\"foo\""))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/str>","\"bar\"@en"))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/str>","\"BAZ\""))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/str>","\"食べ物\""))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/str>","\"100%\""))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/str>","\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/str>","\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example.org/str>","str",false,true,false,EIndexPattern.SPO)
+                                    }()
+
                     ),
                     POPValues(dictionary, listOf(
                             "s",
@@ -787,6 +1121,55 @@ class GeneratedPOPFilterTest {
                 MicroTestPN(
                     POPFilter(
                         dictionary,
+                        AOPBuildInCallSTRSTARTS(AOPBuildInCallSTR(AOPVariable("str")), AOPSimpleLiteral("\"", "1")),
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/d1>","<http://example.org/date>","\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                        graph.addData(1L,listOf("<http://example.org/d2>","<http://example.org/date>","\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                        graph.addData(1L,listOf("<http://example.org/d3>","<http://example.org/date>","\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                        graph.addData(1L,listOf("<http://example.org/d4>","<http://example.org/date>","\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                        graph.addData(1L,listOf("<http://example.org/n1>","<http://example.org/num>","\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/n2>","<http://example.org/num>","\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/n3>","<http://example.org/num>","\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/n4>","<http://example.org/num>","\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/n5>","<http://example.org/num>","\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/str>","\"foo\""))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/str>","\"bar\"@en"))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/str>","\"BAZ\""))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/str>","\"食べ物\""))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/str>","\"100%\""))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/str>","\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/str>","\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","str",false,false,false,EIndexPattern.SPO)
+                                    }()
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "str"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/n3>",
+                                "p" to "<http://example.org/num>",
+                                "str" to "\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s5>",
+                                "p" to "<http://example.org/str>",
+                                "str" to "\"100%\""
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPFilter(
+                        dictionary,
                         AOPBuildInCallSTRENDS(AOPVariable("str"), AOPSimpleLiteral("\"", "bc")),
                         POPValues(dictionary, listOf(
                                 "s",
@@ -875,6 +1258,50 @@ class GeneratedPOPFilterTest {
                                 )
                             )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "str"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s6>",
+                                "p" to "<http://example.org/str>",
+                                "str" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/ends01.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPFilter(
+                        dictionary,
+                        AOPBuildInCallSTRENDS(AOPVariable("str"), AOPSimpleLiteral("\"", "bc")),
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/d1>","<http://example.org/date>","\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                        graph.addData(1L,listOf("<http://example.org/d2>","<http://example.org/date>","\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                        graph.addData(1L,listOf("<http://example.org/d3>","<http://example.org/date>","\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                        graph.addData(1L,listOf("<http://example.org/d4>","<http://example.org/date>","\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"))
+                                        graph.addData(1L,listOf("<http://example.org/n1>","<http://example.org/num>","\"-1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/n2>","<http://example.org/num>","\"-1.6\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/n3>","<http://example.org/num>","\"1.1\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/n4>","<http://example.org/num>","\"-2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/n5>","<http://example.org/num>","\"2.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/str>","\"foo\""))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/str>","\"bar\"@en"))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/str>","\"BAZ\""))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/str>","\"食べ物\""))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/str>","\"100%\""))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/str>","\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/str>","\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","str",false,false,false,EIndexPattern.SPO)
+                                    }()
+
                     ),
                     POPValues(dictionary, listOf(
                             "s",
@@ -1298,6 +1725,139 @@ class GeneratedPOPFilterTest {
                 MicroTestPN(
                     POPFilter(
                         dictionary,
+                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                                    POPJoinHashMap(
+                                        dictionary,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/str>","\"foo\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/str>","\"bar\"@en"))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/str>","\"BAZ\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/str>","\"食べ物\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/str>","\"100%\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/str>","\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/str>","\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"a","<http://example.org/str>","s1",false,true,false,EIndexPattern.SPO)
+                                                    }()
+,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/str>","\"foo\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/str>","\"bar\"@en"))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/str>","\"BAZ\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/str>","\"食べ物\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/str>","\"100%\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/str>","\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/str>","\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"b","<http://example.org/str>","s2",false,true,false,EIndexPattern.SPO)
+                                                    }()
+,
+                                        false                                    )
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "a",
+                            "s1",
+                            "b",
+                            "s2"
+                        ), listOf(
+                            mutableMapOf(
+                                "a" to "<http://example.org/s1>",
+                                "s1" to "\"foo\"",
+                                "b" to "<http://example.org/s1>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s2>",
+                                "s1" to "\"bar\"@en",
+                                "b" to "<http://example.org/s1>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s3>",
+                                "s1" to "\"BAZ\"",
+                                "b" to "<http://example.org/s1>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s4>",
+                                "s1" to "\"食べ物\"",
+                                "b" to "<http://example.org/s1>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s5>",
+                                "s1" to "\"100%\"",
+                                "b" to "<http://example.org/s1>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s6>",
+                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s1>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s7>",
+                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s1>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s1>",
+                                "s1" to "\"foo\"",
+                                "b" to "<http://example.org/s3>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s2>",
+                                "s1" to "\"bar\"@en",
+                                "b" to "<http://example.org/s3>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s3>",
+                                "s1" to "\"BAZ\"",
+                                "b" to "<http://example.org/s3>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s4>",
+                                "s1" to "\"食べ物\"",
+                                "b" to "<http://example.org/s3>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s5>",
+                                "s1" to "\"100%\"",
+                                "b" to "<http://example.org/s3>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s6>",
+                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s3>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s7>",
+                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s3>",
+                                "s2" to "\"BAZ\""
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPFilter(
+                        dictionary,
                         AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
                         POPValues(dictionary, listOf(
                                 "a",
@@ -1426,6 +1986,84 @@ class GeneratedPOPFilterTest {
                     )
                 )
             }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPFilter(
+                        dictionary,
+                        AOPOr(AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1"))),
+                                    POPFilter(
+                                        dictionary,
+                                        AOPOr(AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")), AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1"))),
+                                                    POPJoinHashMap(
+                                                        dictionary,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/str>","\"foo\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/str>","\"bar\"@en"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/str>","\"BAZ\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/str>","\"食べ物\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/str>","\"100%\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/str>","\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/str>","\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"a","<http://example.org/str>","s1",false,true,false,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/str>","\"foo\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/str>","\"bar\"@en"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/str>","\"BAZ\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/str>","\"食べ物\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/str>","\"100%\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/str>","\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/str>","\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"b","<http://example.org/str>","s2",false,true,false,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                        false                                                    )
+
+                                    )
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "a",
+                            "s1",
+                            "b",
+                            "s2"
+                        ), listOf(
+                            mutableMapOf(
+                                "a" to "<http://example.org/s1>",
+                                "s1" to "\"foo\"",
+                                "b" to "<http://example.org/s1>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s3>",
+                                "s1" to "\"BAZ\"",
+                                "b" to "<http://example.org/s1>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s1>",
+                                "s1" to "\"foo\"",
+                                "b" to "<http://example.org/s3>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s3>",
+                                "s1" to "\"BAZ\"",
+                                "b" to "<http://example.org/s3>",
+                                "s2" to "\"BAZ\""
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
             /* {
                 val dictionary=ResultSetDictionary()
                 MicroTestPN(
@@ -1512,7 +2150,7 @@ class GeneratedPOPFilterTest {
                                 "n"
                             ), listOf(
                                 mutableMapOf(
-                                    "n" to "\"2020-02-25T10:08:09Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                    "n" to "\"2020-02-25T10:51:03Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                                 )
                             )
                         )
@@ -1521,7 +2159,7 @@ class GeneratedPOPFilterTest {
                             "n"
                         ), listOf(
                             mutableMapOf(
-                                "n" to "\"2020-02-25T10:08:09Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                                "n" to "\"2020-02-25T10:51:03Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
                             )
                         )
                     )

@@ -112,6 +112,124 @@ class GeneratedPOPBindUndefinedTest {
                 )
             }() /* resources/sparql11-test-suite/entailment/bind04.rq */ ,
             {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPBindUndefined(
+                        dictionary,
+                        AOPVariable("z"),
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p>","\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                    }()
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "z"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s1>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s3>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s4>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/bind/bind04.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPBindUndefined(
+                        dictionary,
+                        AOPVariable("z"),
+                                    POPJoinHashMap(
+                                        dictionary,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p>","\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("_:1","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                    }()
+,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"p","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>",false,true,true,EIndexPattern.SPO)
+                                                    }()
+,
+                                        false                                    )
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "z"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s1>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s3>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s4>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/entailment/bind04.rq */ ,
+            {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->

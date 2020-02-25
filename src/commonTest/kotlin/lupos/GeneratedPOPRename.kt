@@ -112,6 +112,54 @@ class GeneratedPOPRenameTest {
                 MicroTestPN(
                     POPRename(
                         dictionary,
+                        AOPVariable("s"),
+                        AOPVariable("s"),
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p>","<http://example.org/o1>"))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p>","<http://example.org/o1>"))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p>","<http://example.org/o2>"))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p>","<http://example.org/o3>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                    }()
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "p",
+                            "o",
+                            "s"
+                        ), listOf(
+                            mutableMapOf(
+                                "p" to "<http://example.org/p>",
+                                "o" to "<http://example.org/o1>",
+                                "s" to "<http://example.org/s1>"
+                            ),
+                            mutableMapOf(
+                                "p" to "<http://example.org/p>",
+                                "o" to "<http://example.org/o1>",
+                                "s" to "<http://example.org/s2>"
+                            ),
+                            mutableMapOf(
+                                "p" to "<http://example.org/p>",
+                                "o" to "<http://example.org/o2>",
+                                "s" to "<http://example.org/s2>"
+                            ),
+                            mutableMapOf(
+                                "p" to "<http://example.org/p>",
+                                "o" to "<http://example.org/o3>",
+                                "s" to "<http://example.org/s3>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/construct/constructwhere01.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPRename(
+                        dictionary,
                         AOPVariable("p"),
                         AOPVariable("p"),
                         POPValues(dictionary, listOf(
@@ -141,6 +189,60 @@ class GeneratedPOPRenameTest {
                                 )
                             )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "o",
+                            "s",
+                            "p"
+                        ), listOf(
+                            mutableMapOf(
+                                "o" to "<http://example.org/o1>",
+                                "s" to "<http://example.org/s1>",
+                                "p" to "<http://example.org/p>"
+                            ),
+                            mutableMapOf(
+                                "o" to "<http://example.org/o1>",
+                                "s" to "<http://example.org/s2>",
+                                "p" to "<http://example.org/p>"
+                            ),
+                            mutableMapOf(
+                                "o" to "<http://example.org/o2>",
+                                "s" to "<http://example.org/s2>",
+                                "p" to "<http://example.org/p>"
+                            ),
+                            mutableMapOf(
+                                "o" to "<http://example.org/o3>",
+                                "s" to "<http://example.org/s3>",
+                                "p" to "<http://example.org/p>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/construct/constructwhere01.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPRename(
+                        dictionary,
+                        AOPVariable("p"),
+                        AOPVariable("p"),
+                                    POPRename(
+                                        dictionary,
+                                        AOPVariable("s"),
+                                        AOPVariable("s"),
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p>","<http://example.org/o1>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p>","<http://example.org/o1>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p>","<http://example.org/o2>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p>","<http://example.org/o3>"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                    }()
+
+                                    )
+
                     ),
                     POPValues(dictionary, listOf(
                             "o",
@@ -240,6 +342,66 @@ class GeneratedPOPRenameTest {
                 MicroTestPN(
                     POPRename(
                         dictionary,
+                        AOPVariable("o"),
+                        AOPVariable("o"),
+                                    POPRename(
+                                        dictionary,
+                                        AOPVariable("p"),
+                                        AOPVariable("p"),
+                                                    POPRename(
+                                                        dictionary,
+                                                        AOPVariable("s"),
+                                                        AOPVariable("s"),
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p>","<http://example.org/o1>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p>","<http://example.org/o1>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p>","<http://example.org/o2>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p>","<http://example.org/o3>"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                                    }()
+
+                                                    )
+
+                                    )
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s1>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "<http://example.org/o1>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "<http://example.org/o1>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "<http://example.org/o2>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s3>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "<http://example.org/o3>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/construct/constructwhere01.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPRename(
+                        dictionary,
                         AOPVariable("s"),
                         AOPVariable("P"),
                         POPValues(dictionary, listOf(
@@ -252,6 +414,60 @@ class GeneratedPOPRenameTest {
                                 )
                             )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "FullName",
+                            "s"
+                        ), listOf(
+                            mutableMapOf(
+                                "FullName" to "\"John Doe\"",
+                                "s" to "<http://p1>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPRename(
+                        dictionary,
+                        AOPVariable("s"),
+                        AOPVariable("P"),
+                                    POPProjection(
+                                        dictionary,
+                                        mutableListOf(
+                                            AOPVariable("P"),
+                                            AOPVariable("FullName")
+                                        ),
+                                                    POPBind(
+                                                        dictionary,
+                                                        AOPVariable("FullName"),
+                                                        AOPBuildInCallCONCAT(AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")), AOPVariable("L")),
+                                                                    POPJoinHashMap(
+                                                                        dictionary,
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://p1>","<http://xmlns.com/foaf/0.1/firstName>","\"John\""))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"P","<http://xmlns.com/foaf/0.1/firstName>","F",false,true,false,EIndexPattern.SPO)
+                                                                                    }()
+,
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://p1>","<http://xmlns.com/foaf/0.1/lastName>","\"Doe\""))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"P","<http://xmlns.com/foaf/0.1/lastName>","L",false,true,false,EIndexPattern.SPO)
+                                                                                    }()
+,
+                                                                        false                                                                    )
+
+                                                    )
+
+                                    )
+
                     ),
                     POPValues(dictionary, listOf(
                             "FullName",
@@ -284,6 +500,74 @@ class GeneratedPOPRenameTest {
                                 )
                             )
                         )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://p1>",
+                                "p" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o" to "\"John Doe\""
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPRename(
+                        dictionary,
+                        AOPVariable("o"),
+                        AOPVariable("FullName"),
+                                    POPBind(
+                                        dictionary,
+                                        AOPVariable("p"),
+                                        AOPIri("http://xmlns.com/foaf/0.1/name"),
+                                                    POPRename(
+                                                        dictionary,
+                                                        AOPVariable("s"),
+                                                        AOPVariable("P"),
+                                                                    POPProjection(
+                                                                        dictionary,
+                                                                        mutableListOf(
+                                                                            AOPVariable("P"),
+                                                                            AOPVariable("FullName")
+                                                                        ),
+                                                                                    POPBind(
+                                                                                        dictionary,
+                                                                                        AOPVariable("FullName"),
+                                                                                        AOPBuildInCallCONCAT(AOPBuildInCallCONCAT(AOPVariable("F"), AOPSimpleLiteral("\"", " ")), AOPVariable("L")),
+                                                                                                    POPJoinHashMap(
+                                                                                                        dictionary,
+                                                                                                                    {
+                                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                                        graph.addData(1L,listOf("<http://p1>","<http://xmlns.com/foaf/0.1/firstName>","\"John\""))
+                                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"P","<http://xmlns.com/foaf/0.1/firstName>","F",false,true,false,EIndexPattern.SPO)
+                                                                                                                    }()
+,
+                                                                                                                    {
+                                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                                        graph.addData(1L,listOf("<http://p1>","<http://xmlns.com/foaf/0.1/lastName>","\"Doe\""))
+                                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"P","<http://xmlns.com/foaf/0.1/lastName>","L",false,true,false,EIndexPattern.SPO)
+                                                                                                                    }()
+,
+                                                                                                        false                                                                                                    )
+
+                                                                                    )
+
+                                                                    )
+
+                                                    )
+
+                                    )
+
                     ),
                     POPValues(dictionary, listOf(
                             "s",

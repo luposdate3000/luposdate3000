@@ -97,6 +97,47 @@ class GeneratedPOPUnionTest {
                 MicroTestPN(
                     POPUnion(
                         dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/g1>","<http://example.org/p>","\"y\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/g2>","<http://example.org/p>","\"z\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                    }()
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/g1>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"y\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/g2>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"z\""
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/basic-update/insert-using-01.ru */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPUnion(
+                        dictionary,
                         POPValues(dictionary, listOf(
                                 "z"
                             ), listOf(

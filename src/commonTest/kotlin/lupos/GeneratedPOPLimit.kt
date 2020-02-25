@@ -78,6 +78,43 @@ class GeneratedPOPLimitTest {
                 )
             }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
             {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPLimit(
+                        dictionary,
+                        2,
+                                    POPSort(
+                                        dictionary,
+                                        AOPVariable("O"),
+                                        true,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"O","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>",false,true,true,EIndexPattern.SPO)
+                                                    }()
+
+                                    )
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "O"
+                        ), listOf(
+                            mutableMapOf(
+                                "O" to "<http://www.example.orgorder1>"
+                            ),
+                            mutableMapOf(
+                                "O" to "<http://www.example.orgorder2>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
+            {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
     ).mapIndexed { index, data ->

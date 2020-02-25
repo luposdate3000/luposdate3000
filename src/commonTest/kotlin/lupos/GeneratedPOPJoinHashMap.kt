@@ -139,6 +139,86 @@ class GeneratedPOPJoinHashMapTest {
                     )
                 )
             }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://www.example.org/s>","<http://www.example.org/p>","\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://www.example.org/s>","<http://www.example.org/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://www.example.org/s>","<http://www.example.org/p>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"S","<http://www.example.org/p>","O1",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://www.example.org/s>","<http://www.example.org/q>","\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://www.example.org/s>","<http://www.example.org/q>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://www.example.org/s>","<http://www.example.org/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"S","<http://www.example.org/q>","O2",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "S",
+                            "O1",
+                            "O2"
+                        ), listOf(
+                            mutableMapOf(
+                                "S" to "<http://www.example.org/s>",
+                                "O1" to "\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "O2" to "\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "S" to "<http://www.example.org/s>",
+                                "O1" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "O2" to "\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "S" to "<http://www.example.org/s>",
+                                "O1" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "O2" to "\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "S" to "<http://www.example.org/s>",
+                                "O1" to "\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "O2" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "S" to "<http://www.example.org/s>",
+                                "O1" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "O2" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "S" to "<http://www.example.org/s>",
+                                "O1" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "O2" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "S" to "<http://www.example.org/s>",
+                                "O1" to "\"0\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "O2" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "S" to "<http://www.example.org/s>",
+                                "O1" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "O2" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "S" to "<http://www.example.org/s>",
+                                "O1" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "O2" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             /* {
                 val dictionary=ResultSetDictionary()
                 MicroTestPN(
@@ -267,15 +347,47 @@ class GeneratedPOPJoinHashMapTest {
                         ),
                         POPValues(dictionary, listOf(
                             ), listOf(
+                                mutableMapOf(
+                                )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
                         ), listOf(
+                            mutableMapOf(
+                            )
                         )
                     )
                 )
-            }() */ /* resources/sparql11-test-suite/basic-update/insert-data-same-bnode.ru */
+            }() */ /* resources/sparql11-test-suite/basic-update/insert-where-same-bnode2.ru */
+            /* {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                        POPValues(dictionary, listOf(
+                            ), listOf(
+                                mutableMapOf(
+                                )
+                            )
+                        ),
+                        POPValues(dictionary, listOf(
+                                "S",
+                                "P",
+                                "O"
+                            ), listOf(
+                            )
+                        ),
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "S",
+                            "P",
+                            "O"
+                        ), listOf(
+                        )
+                    )
+                )
+            }() */ /* resources/sparql11-test-suite/basic-update/insert-where-same-bnode2.ru */
             /* {
                 val dictionary=ResultSetDictionary()
                 MicroTestPN(
@@ -369,60 +481,6 @@ class GeneratedPOPJoinHashMapTest {
                     )
                 )
             }() */ /* resources/sparql11-test-suite/basic-update/insert-where-same-bnode.ru */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    POPJoinHashMap(
-                        dictionary,
-                        POPValues(dictionary, listOf(
-                            ), listOf(
-                                mutableMapOf(
-                                )
-                            )
-                        ),
-                        POPValues(dictionary, listOf(
-                            ), listOf(
-                                mutableMapOf(
-                                )
-                            )
-                        ),
-                        false                    ),
-                    POPValues(dictionary, listOf(
-                        ), listOf(
-                            mutableMapOf(
-                            )
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/basic-update/insert-where-same-bnode2.ru */
-            /* {
-                val dictionary=ResultSetDictionary()
-                MicroTestPN(
-                    POPJoinHashMap(
-                        dictionary,
-                        POPValues(dictionary, listOf(
-                            ), listOf(
-                                mutableMapOf(
-                                )
-                            )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "S",
-                                "P",
-                                "O"
-                            ), listOf(
-                            )
-                        ),
-                        false                    ),
-                    POPValues(dictionary, listOf(
-                            "S",
-                            "P",
-                            "O"
-                        ), listOf(
-                        )
-                    )
-                )
-            }() */ /* resources/sparql11-test-suite/basic-update/insert-where-same-bnode2.ru */
             /* {
                 val dictionary=ResultSetDictionary()
                 MicroTestPN(
@@ -783,6 +841,49 @@ class GeneratedPOPJoinHashMapTest {
                 MicroTestPN(
                     POPJoinHashMap(
                         dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/book/book1>","<http://purl.org/dc/elements/1.1/title>","\"SPARQL Tutorial\""))
+                                        graph.addData(1L,listOf("<http://example.org/book/book2>","<http://purl.org/dc/elements/1.1/title>","\"The Semantic Web\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"book","<http://purl.org/dc/elements/1.1/title>","title",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/book/book1>","<http://example.org/ns#price>","\"42\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/book/book2>","<http://example.org/ns#price>","\"23\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"book","<http://example.org/ns#price>","price",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "book",
+                            "title",
+                            "price"
+                        ), listOf(
+                            mutableMapOf(
+                                "book" to "<http://example.org/book/book1>",
+                                "title" to "\"SPARQL Tutorial\"",
+                                "price" to "\"42\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "book" to "<http://example.org/book/book2>",
+                                "title" to "\"The Semantic Web\"",
+                                "price" to "\"23\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/bindings/values08.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
                         POPValues(dictionary, listOf(
                                 "book"
                             ), listOf(
@@ -1046,6 +1147,138 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p1",
+                            "o1",
+                            "p2",
+                            "o2"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/a>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/knows>",
+                                "o1" to "<http://example.org/b>",
+                                "p2" to "<http://xmlns.com/foaf/0.1/knows>",
+                                "o2" to "<http://example.org/b>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/a>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                "o1" to "\"alan@example.org\"",
+                                "p2" to "<http://xmlns.com/foaf/0.1/knows>",
+                                "o2" to "<http://example.org/b>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/a>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o1" to "\"Alan\"",
+                                "p2" to "<http://xmlns.com/foaf/0.1/knows>",
+                                "o2" to "<http://example.org/b>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/a>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/knows>",
+                                "o1" to "<http://example.org/b>",
+                                "p2" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                "o2" to "\"alan@example.org\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/a>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                "o1" to "\"alan@example.org\"",
+                                "p2" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                "o2" to "\"alan@example.org\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/a>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o1" to "\"Alan\"",
+                                "p2" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                "o2" to "\"alan@example.org\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/a>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/knows>",
+                                "o1" to "<http://example.org/b>",
+                                "p2" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o2" to "\"Alan\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/a>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                "o1" to "\"alan@example.org\"",
+                                "p2" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o2" to "\"Alan\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/a>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o1" to "\"Alan\"",
+                                "p2" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o2" to "\"Alan\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/b>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                "o1" to "\"bob@example.org\"",
+                                "p2" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                "o2" to "\"bob@example.org\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/b>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o1" to "\"Bob\"",
+                                "p2" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                "o2" to "\"bob@example.org\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/b>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                "o1" to "\"bob@example.org\"",
+                                "p2" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o2" to "\"Bob\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/b>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o1" to "\"Bob\"",
+                                "p2" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o2" to "\"Bob\""
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/bindings/values05.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/b>"))
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/mbox>","\"alan@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/name>","\"Alan\""))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/mbox>","\"bob@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/name>","\"Bob\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p1","o1",false,false,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/b>"))
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/mbox>","\"alan@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/name>","\"Alan\""))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/mbox>","\"bob@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/name>","\"Bob\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p2","o2",false,false,false,EIndexPattern.SPO)
+                                    }()
+,
                         false                    ),
                     POPValues(dictionary, listOf(
                             "s",
@@ -1677,6 +1910,94 @@ class GeneratedPOPJoinHashMapTest {
                 MicroTestPN(
                     POPJoinHashMap(
                         dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/b>"))
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/mbox>","\"alan@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/name>","\"Alan\""))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/c>"))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/mbox>","\"bob@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/name>","\"Bob\""))
+                                        graph.addData(1L,listOf("<http://example.org/c>","<http://xmlns.com/foaf/0.1/mbox>","\"alice@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/c>","<http://xmlns.com/foaf/0.1/name>","\"Alice\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p1","o1",false,false,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/b>"))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/c>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://xmlns.com/foaf/0.1/knows>","o2",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                        true                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p1",
+                            "o1",
+                            "o2"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/a>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/knows>",
+                                "o1" to "<http://example.org/b>",
+                                "o2" to "<http://example.org/b>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/a>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                "o1" to "\"alan@example.org\"",
+                                "o2" to "<http://example.org/b>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/a>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o1" to "\"Alan\"",
+                                "o2" to "<http://example.org/b>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/b>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/knows>",
+                                "o1" to "<http://example.org/c>",
+                                "o2" to "<http://example.org/c>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/b>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                "o1" to "\"bob@example.org\"",
+                                "o2" to "<http://example.org/c>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/b>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o1" to "\"Bob\"",
+                                "o2" to "<http://example.org/c>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/c>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                "o1" to "\"alice@example.org\"",
+                                "o2" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/c>",
+                                "p1" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o1" to "\"Alice\"",
+                                "o2" to null
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/bindings/values07.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
                         POPValues(dictionary, listOf(
                                 "book",
                                 "title"
@@ -2078,6 +2399,91 @@ class GeneratedPOPJoinHashMapTest {
                     )
                 )
             }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"o","p2","o2",false,false,false,EIndexPattern.SPO)
+                                    }()
+,
+                        true                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s1>",
+                                "p" to "<http://example.org/p1>",
+                                "o" to "<http://example.org/s2>",
+                                "p2" to "<http://example.org/p2>",
+                                "o2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "p" to "<http://example.org/p2>",
+                                "o" to "\"foo\"",
+                                "p2" to null,
+                                "o2" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s3>",
+                                "p" to "<http://example.org/p3>",
+                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "p2" to null,
+                                "o2" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s4>",
+                                "p" to "<http://example.org/p4>",
+                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "p2" to null,
+                                "o2" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s5>",
+                                "p" to "<http://example.org/p5>",
+                                "o" to "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
+                                "p2" to null,
+                                "o2" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s6>",
+                                "p" to "<http://example.org/p6>",
+                                "o" to "_:o6",
+                                "p2" to null,
+                                "o2" to null
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
             /* {
                 val dictionary=ResultSetDictionary()
                 MicroTestPN(
@@ -2267,6 +2673,46 @@ class GeneratedPOPJoinHashMapTest {
                 MicroTestPN(
                     POPJoinHashMap(
                         dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/name>","\"Alan\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"a","<http://xmlns.com/foaf/0.1/name>","\"Alan\"",false,true,true,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/b>"))
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/c>"))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/c>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"a","<http://xmlns.com/foaf/0.1/knows>","b",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "a",
+                            "b"
+                        ), listOf(
+                            mutableMapOf(
+                                "a" to "<http://example.org/a>",
+                                "b" to "<http://example.org/b>"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/a>",
+                                "b" to "<http://example.org/c>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/delete-insert/delete-insert-02.ru */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
                         POPValues(dictionary, listOf(
                                 "a"
                             ), listOf(
@@ -2315,6 +2761,46 @@ class GeneratedPOPJoinHashMapTest {
                 MicroTestPN(
                     POPJoinHashMap(
                         dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/name>","\"Alan\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"a","<http://xmlns.com/foaf/0.1/name>","\"Alan\"",false,true,true,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/b>"))
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/c>"))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/c>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"a","<http://xmlns.com/foaf/0.1/knows>","Var_B",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "a",
+                            "Var_B"
+                        ), listOf(
+                            mutableMapOf(
+                                "a" to "<http://example.org/a>",
+                                "Var_B" to "<http://example.org/b>"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/a>",
+                                "Var_B" to "<http://example.org/c>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/delete-insert/delete-insert-05b.ru */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
                         POPValues(dictionary, listOf(
                                 "a"
                             ), listOf(
@@ -2333,6 +2819,36 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "a",
+                            "Var_B"
+                        ), listOf(
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/delete-insert/delete-insert-05b.ru */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/name>","\"Alan\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"a","<http://xmlns.com/foaf/0.1/name>","\"Alan\"",false,true,true,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/c>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"a","<http://xmlns.com/foaf/0.1/knows>","Var_B",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
                         false                    ),
                     POPValues(dictionary, listOf(
                             "a",
@@ -2412,6 +2928,51 @@ class GeneratedPOPJoinHashMapTest {
                 MicroTestPN(
                     POPJoinHashMap(
                         dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/b>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","s",true,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/b>"))
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/mbox>","\"alan@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/name>","\"Alan\""))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/mbox>","\"bob@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/name>","\"Bob\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                    }()
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/b>",
+                                "p" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                "o" to "\"bob@example.org\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/b>",
+                                "p" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o" to "\"Bob\""
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/delete/delete-05.ru */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
                         POPValues(dictionary, listOf(
                                 "s"
                             ), listOf(
@@ -2449,6 +3010,40 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
+                        ), listOf(
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/delete/delete-04.ru */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/c>",false,true,true,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/b>"))
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/mbox>","\"alan@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/name>","\"Alan\""))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/mbox>","\"bob@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/name>","\"Bob\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                    }()
+,
                         false                    ),
                     POPValues(dictionary, listOf(
                             "s",
@@ -2509,6 +3104,52 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/c>",
+                                "p" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                "o" to "\"chris@example.org\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/c>",
+                                "p" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o" to "\"Chris\""
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/delete/delete-06.ru */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/c>","<http://xmlns.com/foaf/0.1/name>","\"Chris\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://xmlns.com/foaf/0.1/name>","\"Chris\"",false,true,true,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/b>"))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/c>"))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/mbox>","\"bob@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/name>","\"Bob\""))
+                                        graph.addData(1L,listOf("<http://example.org/c>","<http://xmlns.com/foaf/0.1/mbox>","\"chris@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/c>","<http://xmlns.com/foaf/0.1/name>","\"Chris\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                    }()
+,
                         false                    ),
                     POPValues(dictionary, listOf(
                             "s",
@@ -2609,6 +3250,57 @@ class GeneratedPOPJoinHashMapTest {
                 MicroTestPN(
                     POPJoinHashMap(
                         dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/b>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","s",true,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/b>"))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/c>"))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/mbox>","\"bob@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/name>","\"Bob\""))
+                                        graph.addData(1L,listOf("<http://example.org/c>","<http://xmlns.com/foaf/0.1/mbox>","\"chris@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/c>","<http://xmlns.com/foaf/0.1/name>","\"Chris\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                    }()
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/b>",
+                                "p" to "<http://xmlns.com/foaf/0.1/knows>",
+                                "o" to "<http://example.org/c>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/b>",
+                                "p" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                "o" to "\"bob@example.org\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/b>",
+                                "p" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o" to "\"Bob\""
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/delete/delete-using-01.ru */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
                         POPValues(dictionary, listOf(
                                 "s"
                             ), listOf(
@@ -2646,6 +3338,40 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
+                        ), listOf(
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/delete/delete-using-02.ru */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","s",true,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/c>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/d>"))
+                                        graph.addData(1L,listOf("<http://example.org/c>","<http://xmlns.com/foaf/0.1/mbox>","\"chris@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/c>","<http://xmlns.com/foaf/0.1/name>","\"Chris\""))
+                                        graph.addData(1L,listOf("<http://example.org/d>","<http://xmlns.com/foaf/0.1/mbox>","\"dan@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/d>","<http://xmlns.com/foaf/0.1/name>","\"Dan\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                    }()
+,
                         false                    ),
                     POPValues(dictionary, listOf(
                             "s",
@@ -2703,6 +3429,41 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
+                        ), listOf(
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/delete/delete-using-03.ru */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/d>",false,true,true,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/b>"))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/c>"))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/mbox>","\"bob@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/name>","\"Bob\""))
+                                        graph.addData(1L,listOf("<http://example.org/c>","<http://xmlns.com/foaf/0.1/mbox>","\"chris@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/c>","<http://xmlns.com/foaf/0.1/name>","\"Chris\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                    }()
+,
                         false                    ),
                     POPValues(dictionary, listOf(
                             "s",
@@ -2828,6 +3589,56 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/a>",
+                                "p" to "<http://xmlns.com/foaf/0.1/knows>",
+                                "o" to "<http://example.org/b>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/a>",
+                                "p" to "<http://xmlns.com/foaf/0.1/mbox>",
+                                "o" to "\"alan@example.org\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/a>",
+                                "p" to "<http://xmlns.com/foaf/0.1/name>",
+                                "o" to "\"Alan\""
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/delete/delete-using-05.ru */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/b>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/b>",false,true,true,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/knows>","<http://example.org/b>"))
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/mbox>","\"alan@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/a>","<http://xmlns.com/foaf/0.1/name>","\"Alan\""))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/mbox>","\"bob@example.org\""))
+                                        graph.addData(1L,listOf("<http://example.org/b>","<http://xmlns.com/foaf/0.1/name>","\"Bob\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                    }()
+,
                         false                    ),
                     POPValues(dictionary, listOf(
                             "s",
@@ -3011,6 +3822,43 @@ class GeneratedPOPJoinHashMapTest {
                 MicroTestPN(
                     POPJoinHashMap(
                         dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/x/a>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/x/c>"))
+                                        graph.addData(1L,listOf("<http://example.org/x/a>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/x/d>"))
+                                        graph.addData(1L,listOf("<http://example.org/x/a>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
+                                        graph.addData(1L,listOf("<http://example.org/x/a>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","_:x"))
+                                        graph.addData(1L,listOf("<http://example.org/x/c>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                                        graph.addData(1L,listOf("<http://example.org/x/d>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Class>"))
+                                        graph.addData(1L,listOf("<http://example.org/x/p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
+                                        graph.addData(1L,listOf("_:ont","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
+                                        graph.addData(1L,listOf("_:x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Restriction>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","c",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"c","<http://www.w3.org/2000/01/rdf-schema#subClassOf>","<http://example.org/x/c>",false,true,true,EIndexPattern.SPO)
+                                    }()
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "x",
+                            "c"
+                        ), listOf(
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/entailment/owlds01.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
                         POPValues(dictionary, listOf(
                                 "x",
                                 "y"
@@ -3036,6 +3884,46 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "x",
+                            "y"
+                        ), listOf(
+                            mutableMapOf(
+                                "x" to "<http://example.org/x/x>",
+                                "y" to "<http://example.org/x/y>"
+                            ),
+                            mutableMapOf(
+                                "x" to "<http://example.org/x/x>",
+                                "y" to "_:y"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/entailment/owlds02.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/x/x>","<http://example.org/x/p>","<http://example.org/x/y>"))
+                                        graph.addData(1L,listOf("<http://example.org/x/x>","<http://example.org/x/p>","_:y"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://example.org/x/p>","y",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/x/y>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/x/c>"))
+                                        graph.addData(1L,listOf("_:y","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/x/c>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"y","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/x/c>",false,true,true,EIndexPattern.SPO)
+                                    }()
+,
                         false                    ),
                     POPValues(dictionary, listOf(
                             "x",
@@ -3139,13 +4027,13 @@ class GeneratedPOPJoinHashMapTest {
                                     "#c" to "<http://www.w3.org/2002/07/owl#Ontology>"
                                 ),
                                 mutableMapOf(
-                                    "x" to "_:_15846",
+                                    "x" to "_:_15849",
                                     "#c" to "<http://www.w3.org/2002/07/owl#Restriction>"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_15867"
+                                "#_15870"
                             ), listOf(
                             )
                         ),
@@ -3153,7 +4041,7 @@ class GeneratedPOPJoinHashMapTest {
                     POPValues(dictionary, listOf(
                             "x",
                             "#c",
-                            "#_15867"
+                            "#_15870"
                         ), listOf(
                         )
                     )
@@ -3167,8 +4055,8 @@ class GeneratedPOPJoinHashMapTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "#c",
-                                "#_15867",
-                                "#_15872"
+                                "#_15870",
+                                "#_15875"
                             ), listOf(
                             )
                         ),
@@ -3186,8 +4074,8 @@ class GeneratedPOPJoinHashMapTest {
                     POPValues(dictionary, listOf(
                             "x",
                             "#c",
-                            "#_15867",
-                            "#_15872",
+                            "#_15870",
+                            "#_15875",
                             "y"
                         ), listOf(
                         )
@@ -3214,10 +4102,10 @@ class GeneratedPOPJoinHashMapTest {
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_15992"
+                                "#_15995"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_15992" to "_:_15972"
+                                    "#_15995" to "_:_15975"
                                 )
                             )
                         ),
@@ -3225,17 +4113,17 @@ class GeneratedPOPJoinHashMapTest {
                     POPValues(dictionary, listOf(
                             "x",
                             "#b0",
-                            "#_15992"
+                            "#_15995"
                         ), listOf(
                             mutableMapOf(
                                 "x" to "<http://example.org/John>",
                                 "#b0" to "<http://example.org/paper1>",
-                                "#_15992" to "_:_15972"
+                                "#_15995" to "_:_15975"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/person1>",
                                 "#b0" to "<http://example.org/paper1>",
-                                "#_15992" to "_:_15972"
+                                "#_15995" to "_:_15975"
                             )
                         )
                     )
@@ -3249,25 +4137,25 @@ class GeneratedPOPJoinHashMapTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "#b0",
-                                "#_15992"
+                                "#_15995"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/John>",
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "_:_15972"
+                                    "#_15995" to "_:_15975"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/person1>",
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "_:_15972"
+                                    "#_15995" to "_:_15975"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_15992"
+                                "#_15995"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_15992" to "_:_15972"
+                                    "#_15995" to "_:_15975"
                                 )
                             )
                         ),
@@ -3275,17 +4163,17 @@ class GeneratedPOPJoinHashMapTest {
                     POPValues(dictionary, listOf(
                             "x",
                             "#b0",
-                            "#_15992"
+                            "#_15995"
                         ), listOf(
                             mutableMapOf(
                                 "x" to "<http://example.org/John>",
                                 "#b0" to "<http://example.org/paper1>",
-                                "#_15992" to "_:_15972"
+                                "#_15995" to "_:_15975"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/person1>",
                                 "#b0" to "<http://example.org/paper1>",
-                                "#_15992" to "_:_15972"
+                                "#_15995" to "_:_15975"
                             )
                         )
                     )
@@ -3299,40 +4187,40 @@ class GeneratedPOPJoinHashMapTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "#b0",
-                                "#_15992"
+                                "#_15995"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/John>",
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "_:_15972"
+                                    "#_15995" to "_:_15975"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/person1>",
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "_:_15972"
+                                    "#_15995" to "_:_15975"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_16001"
+                                "#_16004"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_16001" to "<http://example.org/Conference>"
+                                    "#_16004" to "<http://example.org/Conference>"
                                 ),
                                 mutableMapOf(
-                                    "#_16001" to "<http://example.org/ConferencePaper>"
+                                    "#_16004" to "<http://example.org/ConferencePaper>"
                                 ),
                                 mutableMapOf(
-                                    "#_16001" to "<http://example.org/Employee>"
+                                    "#_16004" to "<http://example.org/Employee>"
                                 ),
                                 mutableMapOf(
-                                    "#_16001" to "<http://example.org/GraduateAssistant>"
+                                    "#_16004" to "<http://example.org/GraduateAssistant>"
                                 ),
                                 mutableMapOf(
-                                    "#_16001" to "<http://example.org/Student>"
+                                    "#_16004" to "<http://example.org/Student>"
                                 ),
                                 mutableMapOf(
-                                    "#_16001" to "<http://example.org/Workshop>"
+                                    "#_16004" to "<http://example.org/Workshop>"
                                 )
                             )
                         ),
@@ -3340,80 +4228,80 @@ class GeneratedPOPJoinHashMapTest {
                     POPValues(dictionary, listOf(
                             "x",
                             "#b0",
-                            "#_15992",
-                            "#_16001"
+                            "#_15995",
+                            "#_16004"
                         ), listOf(
                             mutableMapOf(
                                 "x" to "<http://example.org/John>",
                                 "#b0" to "<http://example.org/paper1>",
-                                "#_15992" to "_:_15972",
-                                "#_16001" to "<http://example.org/Conference>"
+                                "#_15995" to "_:_15975",
+                                "#_16004" to "<http://example.org/Conference>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/person1>",
                                 "#b0" to "<http://example.org/paper1>",
-                                "#_15992" to "_:_15972",
-                                "#_16001" to "<http://example.org/Conference>"
+                                "#_15995" to "_:_15975",
+                                "#_16004" to "<http://example.org/Conference>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/John>",
                                 "#b0" to "<http://example.org/paper1>",
-                                "#_15992" to "_:_15972",
-                                "#_16001" to "<http://example.org/ConferencePaper>"
+                                "#_15995" to "_:_15975",
+                                "#_16004" to "<http://example.org/ConferencePaper>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/person1>",
                                 "#b0" to "<http://example.org/paper1>",
-                                "#_15992" to "_:_15972",
-                                "#_16001" to "<http://example.org/ConferencePaper>"
+                                "#_15995" to "_:_15975",
+                                "#_16004" to "<http://example.org/ConferencePaper>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/John>",
                                 "#b0" to "<http://example.org/paper1>",
-                                "#_15992" to "_:_15972",
-                                "#_16001" to "<http://example.org/Employee>"
+                                "#_15995" to "_:_15975",
+                                "#_16004" to "<http://example.org/Employee>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/person1>",
                                 "#b0" to "<http://example.org/paper1>",
-                                "#_15992" to "_:_15972",
-                                "#_16001" to "<http://example.org/Employee>"
+                                "#_15995" to "_:_15975",
+                                "#_16004" to "<http://example.org/Employee>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/John>",
                                 "#b0" to "<http://example.org/paper1>",
-                                "#_15992" to "_:_15972",
-                                "#_16001" to "<http://example.org/GraduateAssistant>"
+                                "#_15995" to "_:_15975",
+                                "#_16004" to "<http://example.org/GraduateAssistant>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/person1>",
                                 "#b0" to "<http://example.org/paper1>",
-                                "#_15992" to "_:_15972",
-                                "#_16001" to "<http://example.org/GraduateAssistant>"
+                                "#_15995" to "_:_15975",
+                                "#_16004" to "<http://example.org/GraduateAssistant>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/John>",
                                 "#b0" to "<http://example.org/paper1>",
-                                "#_15992" to "_:_15972",
-                                "#_16001" to "<http://example.org/Student>"
+                                "#_15995" to "_:_15975",
+                                "#_16004" to "<http://example.org/Student>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/person1>",
                                 "#b0" to "<http://example.org/paper1>",
-                                "#_15992" to "_:_15972",
-                                "#_16001" to "<http://example.org/Student>"
+                                "#_15995" to "_:_15975",
+                                "#_16004" to "<http://example.org/Student>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/John>",
                                 "#b0" to "<http://example.org/paper1>",
-                                "#_15992" to "_:_15972",
-                                "#_16001" to "<http://example.org/Workshop>"
+                                "#_15995" to "_:_15975",
+                                "#_16004" to "<http://example.org/Workshop>"
                             ),
                             mutableMapOf(
                                 "x" to "<http://example.org/person1>",
                                 "#b0" to "<http://example.org/paper1>",
-                                "#_15992" to "_:_15972",
-                                "#_16001" to "<http://example.org/Workshop>"
+                                "#_15995" to "_:_15975",
+                                "#_16004" to "<http://example.org/Workshop>"
                             )
                         )
                     )
@@ -3427,85 +4315,85 @@ class GeneratedPOPJoinHashMapTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "#b0",
-                                "#_15992",
-                                "#_16001"
+                                "#_15995",
+                                "#_16004"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/John>",
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "_:_15972",
-                                    "#_16001" to "<http://example.org/Conference>"
+                                    "#_15995" to "_:_15975",
+                                    "#_16004" to "<http://example.org/Conference>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/person1>",
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "_:_15972",
-                                    "#_16001" to "<http://example.org/Conference>"
+                                    "#_15995" to "_:_15975",
+                                    "#_16004" to "<http://example.org/Conference>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/John>",
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "_:_15972",
-                                    "#_16001" to "<http://example.org/ConferencePaper>"
+                                    "#_15995" to "_:_15975",
+                                    "#_16004" to "<http://example.org/ConferencePaper>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/person1>",
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "_:_15972",
-                                    "#_16001" to "<http://example.org/ConferencePaper>"
+                                    "#_15995" to "_:_15975",
+                                    "#_16004" to "<http://example.org/ConferencePaper>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/John>",
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "_:_15972",
-                                    "#_16001" to "<http://example.org/Employee>"
+                                    "#_15995" to "_:_15975",
+                                    "#_16004" to "<http://example.org/Employee>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/person1>",
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "_:_15972",
-                                    "#_16001" to "<http://example.org/Employee>"
+                                    "#_15995" to "_:_15975",
+                                    "#_16004" to "<http://example.org/Employee>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/John>",
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "_:_15972",
-                                    "#_16001" to "<http://example.org/GraduateAssistant>"
+                                    "#_15995" to "_:_15975",
+                                    "#_16004" to "<http://example.org/GraduateAssistant>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/person1>",
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "_:_15972",
-                                    "#_16001" to "<http://example.org/GraduateAssistant>"
+                                    "#_15995" to "_:_15975",
+                                    "#_16004" to "<http://example.org/GraduateAssistant>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/John>",
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "_:_15972",
-                                    "#_16001" to "<http://example.org/Student>"
+                                    "#_15995" to "_:_15975",
+                                    "#_16004" to "<http://example.org/Student>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/person1>",
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "_:_15972",
-                                    "#_16001" to "<http://example.org/Student>"
+                                    "#_15995" to "_:_15975",
+                                    "#_16004" to "<http://example.org/Student>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/John>",
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "_:_15972",
-                                    "#_16001" to "<http://example.org/Workshop>"
+                                    "#_15995" to "_:_15975",
+                                    "#_16004" to "<http://example.org/Workshop>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/person1>",
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "_:_15972",
-                                    "#_16001" to "<http://example.org/Workshop>"
+                                    "#_15995" to "_:_15975",
+                                    "#_16004" to "<http://example.org/Workshop>"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_16001"
+                                "#_16004"
                             ), listOf(
                             )
                         ),
@@ -3513,8 +4401,8 @@ class GeneratedPOPJoinHashMapTest {
                     POPValues(dictionary, listOf(
                             "x",
                             "#b0",
-                            "#_15992",
-                            "#_16001"
+                            "#_15995",
+                            "#_16004"
                         ), listOf(
                         )
                     )
@@ -3528,18 +4416,18 @@ class GeneratedPOPJoinHashMapTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "#b0",
-                                "#_15992",
-                                "#_16001"
+                                "#_15995",
+                                "#_16004"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_15992",
-                                "#_16001"
+                                "#_15995",
+                                "#_16004"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_15992" to "_:_15972",
-                                    "#_16001" to "<http://example.org/Conference>"
+                                    "#_15995" to "_:_15975",
+                                    "#_16004" to "<http://example.org/Conference>"
                                 )
                             )
                         ),
@@ -3547,8 +4435,8 @@ class GeneratedPOPJoinHashMapTest {
                     POPValues(dictionary, listOf(
                             "x",
                             "#b0",
-                            "#_15992",
-                            "#_16001"
+                            "#_15995",
+                            "#_16004"
                         ), listOf(
                         )
                     )
@@ -3562,94 +4450,94 @@ class GeneratedPOPJoinHashMapTest {
                         POPValues(dictionary, listOf(
                                 "x",
                                 "#b0",
-                                "#_15992",
-                                "#_16001"
+                                "#_15995",
+                                "#_16004"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "#b0",
-                                "#_15992"
+                                "#_15995"
                             ), listOf(
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/Anite>",
-                                    "#_15992" to "<http://example.org/Student>"
+                                    "#_15995" to "<http://example.org/Student>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/Anite>",
-                                    "#_15992" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_15995" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/Conference>",
-                                    "#_15992" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_15995" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/ConferencePaper>",
-                                    "#_15992" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_15995" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/Employee>",
-                                    "#_15992" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_15995" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/George>",
-                                    "#_15992" to "<http://example.org/Employee>"
+                                    "#_15995" to "<http://example.org/Employee>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/George>",
-                                    "#_15992" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_15995" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/GraduateAssistant>",
-                                    "#_15992" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_15995" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/John>",
-                                    "#_15992" to "<http://example.org/GraduateAssistant>"
+                                    "#_15995" to "<http://example.org/GraduateAssistant>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/John>",
-                                    "#_15992" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_15995" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/Student>",
-                                    "#_15992" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_15995" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/Workshop>",
-                                    "#_15992" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_15995" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/hasPublication>",
-                                    "#_15992" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                    "#_15995" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/name>",
-                                    "#_15992" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>"
+                                    "#_15995" to "<http://www.w3.org/2002/07/owl#DatatypeProperty>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "<http://example.org/ConferencePaper>"
+                                    "#_15995" to "<http://example.org/ConferencePaper>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/paper1>",
-                                    "#_15992" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_15995" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/person1>",
-                                    "#_15992" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_15995" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "<http://example.org/publishedAt>",
-                                    "#_15992" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                    "#_15995" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                                 ),
                                 mutableMapOf(
                                     "#b0" to "_:SPARQLDAWGTestOntology",
-                                    "#_15992" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                    "#_15995" to "<http://www.w3.org/2002/07/owl#Ontology>"
                                 ),
                                 mutableMapOf(
-                                    "#b0" to "_:_15972",
-                                    "#_15992" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                    "#b0" to "_:_15975",
+                                    "#_15995" to "<http://www.w3.org/2002/07/owl#Restriction>"
                                 )
                             )
                         ),
@@ -3657,8 +4545,8 @@ class GeneratedPOPJoinHashMapTest {
                     POPValues(dictionary, listOf(
                             "x",
                             "#b0",
-                            "#_15992",
-                            "#_16001"
+                            "#_15995",
+                            "#_16004"
                         ), listOf(
                         )
                     )
@@ -3758,7 +4646,7 @@ class GeneratedPOPJoinHashMapTest {
                                     "c" to "<http://www.w3.org/2002/07/owl#Ontology>"
                                 ),
                                 mutableMapOf(
-                                    "x" to "_:_16100",
+                                    "x" to "_:_16103",
                                     "c" to "<http://www.w3.org/2002/07/owl#Restriction>"
                                 )
                             )
@@ -3872,6 +4760,44 @@ class GeneratedPOPJoinHashMapTest {
                 MicroTestPN(
                     POPJoinHashMap(
                         dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/hasPublication>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
+                                        graph.addData(1L,listOf("<http://example.org/publishedAt>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"p","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#ObjectProperty>",false,true,true,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/John>","<http://example.org/hasPublication>","<http://example.org/paper1>"))
+                                        graph.addData(1L,listOf("<http://example.org/John>","<http://example.org/name>","\"Johnnie\""))
+                                        graph.addData(1L,listOf("<http://example.org/John>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/GraduateAssistant>"))
+                                        graph.addData(1L,listOf("<http://example.org/John>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#NamedIndividual>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"<http://example.org/John>","p","v",true,false,false,EIndexPattern.SPO)
+                                    }()
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "p",
+                            "v"
+                        ), listOf(
+                            mutableMapOf(
+                                "p" to "<http://example.org/hasPublication>",
+                                "v" to "<http://example.org/paper1>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/entailment/paper-sparqldl-Q5.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
@@ -3917,6 +4843,62 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s1>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s3>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s4>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/entailment/bind08.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>"))
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p>","\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("_:1","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#Ontology>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/p>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"p","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.w3.org/2002/07/owl#DatatypeProperty>",false,true,true,EIndexPattern.SPO)
+                                    }()
+,
                         false                    ),
                     POPValues(dictionary, listOf(
                             "s",
@@ -4853,6 +5835,47 @@ class GeneratedPOPJoinHashMapTest {
                 MicroTestPN(
                     POPJoinHashMap(
                         dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/test#a>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#Person>"))
+                                        graph.addData(1L,listOf("<http://example.org/test#b>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#Person>"))
+                                        graph.addData(1L,listOf("<http://example.org/test#c>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#Person>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"X","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#Person>",false,true,true,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/test#a>","<http://example.org/test#name>","\"A\""))
+                                        graph.addData(1L,listOf("<http://example.org/test#b>","<http://example.org/test#name>","\"B\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"X","<http://example.org/test#name>","Y1",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "X",
+                            "Y1"
+                        ), listOf(
+                            mutableMapOf(
+                                "X" to "<http://example.org/test#a>",
+                                "Y1" to "\"A\""
+                            ),
+                            mutableMapOf(
+                                "X" to "<http://example.org/test#b>",
+                                "Y1" to "\"B\""
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-04.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
                         POPValues(dictionary, listOf(
                                 "X",
                                 "Y1"
@@ -4881,6 +5904,63 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "X",
+                            "Y1",
+                            "Y2"
+                        ), listOf(
+                            mutableMapOf(
+                                "X" to "<http://example.org/test#a>",
+                                "Y1" to "\"A\"",
+                                "Y2" to "\"Anick\""
+                            ),
+                            mutableMapOf(
+                                "X" to "<http://example.org/test#b>",
+                                "Y1" to "\"B\"",
+                                "Y2" to "\"Bnick\""
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-04.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    POPJoinHashMap(
+                                        dictionary,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/test#a>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#Person>"))
+                                                        graph.addData(1L,listOf("<http://example.org/test#b>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#Person>"))
+                                                        graph.addData(1L,listOf("<http://example.org/test#c>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#Person>"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"X","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://example.org/test#Person>",false,true,true,EIndexPattern.SPO)
+                                                    }()
+,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/test#a>","<http://example.org/test#name>","\"A\""))
+                                                        graph.addData(1L,listOf("<http://example.org/test#b>","<http://example.org/test#name>","\"B\""))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"X","<http://example.org/test#name>","Y1",false,true,false,EIndexPattern.SPO)
+                                                    }()
+,
+                                        false                                    )
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/test#a>","<http://example.org/test#nick>","\"Anick\""))
+                                        graph.addData(1L,listOf("<http://example.org/test#b>","<http://example.org/test#nick>","\"Bnick\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"X","<http://example.org/test#nick>","Y2",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
                         false                    ),
                     POPValues(dictionary, listOf(
                             "X",
@@ -5019,6 +6099,42 @@ class GeneratedPOPJoinHashMapTest {
                 MicroTestPN(
                     POPJoinHashMap(
                         dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/test#a>","<http://example.org/test#p>","<http://example.org/test#aa>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"<http://example.org/test#a>","<http://example.org/test#p>","#aa",true,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/test#dd>","<http://example.org/test#t>","<http://example.org/test#bb>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"X","<http://example.org/test#t>","Y",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "#aa",
+                            "X",
+                            "Y"
+                        ), listOf(
+                            mutableMapOf(
+                                "#aa" to "<http://example.org/test#aa>",
+                                "X" to "<http://example.org/test#dd>",
+                                "Y" to "<http://example.org/test#bb>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-07.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
                         POPValues(dictionary, listOf(
                                 "#aa",
                                 "X",
@@ -5041,6 +6157,54 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "#aa",
+                            "X",
+                            "Y"
+                        ), listOf(
+                            mutableMapOf(
+                                "#aa" to "<http://example.org/test#aa>",
+                                "X" to "<http://example.org/test#dd>",
+                                "Y" to "<http://example.org/test#bb>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-07.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    POPJoinHashMap(
+                                        dictionary,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/test#a>","<http://example.org/test#p>","<http://example.org/test#aa>"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"<http://example.org/test#a>","<http://example.org/test#p>","#aa",true,true,false,EIndexPattern.SPO)
+                                                    }()
+,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/test#dd>","<http://example.org/test#t>","<http://example.org/test#bb>"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"X","<http://example.org/test#t>","Y",false,true,false,EIndexPattern.SPO)
+                                                    }()
+,
+                                        false                                    )
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/test#bb>","<http://example.org/test#s>","<http://example.org/test#aa>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"Y","<http://example.org/test#s>","#aa",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
                         false                    ),
                     POPValues(dictionary, listOf(
                             "#aa",
@@ -5109,6 +6273,69 @@ class GeneratedPOPJoinHashMapTest {
                 MicroTestPN(
                     POPJoinHashMap(
                         dictionary,
+                                    POPJoinHashMap(
+                                        dictionary,
+                                                    POPJoinHashMap(
+                                                        dictionary,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/test#a>","<http://example.org/test#p>","<http://example.org/test#aa>"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"<http://example.org/test#a>","<http://example.org/test#p>","#aa",true,true,false,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/test#dd>","<http://example.org/test#t>","<http://example.org/test#bb>"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"X","<http://example.org/test#t>","Y",false,true,false,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                        false                                                    )
+,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/test#bb>","<http://example.org/test#s>","<http://example.org/test#aa>"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"Y","<http://example.org/test#s>","#aa",false,true,false,EIndexPattern.SPO)
+                                                    }()
+,
+                                        false                                    )
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/test#aa>","<http://example.org/test#r>","<http://example.org/test#ee>"))
+                                        graph.addData(1L,listOf("<http://example.org/test#cc>","<http://example.org/test#r>","<http://example.org/test#dd>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#aa","<http://example.org/test#r>","Z",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "#aa",
+                            "X",
+                            "Y",
+                            "Z"
+                        ), listOf(
+                            mutableMapOf(
+                                "#aa" to "<http://example.org/test#aa>",
+                                "X" to "<http://example.org/test#dd>",
+                                "Y" to "<http://example.org/test#bb>",
+                                "Z" to "<http://example.org/test#ee>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-07.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
                         POPValues(dictionary, listOf(
                                 "X",
                                 "#a"
@@ -5133,6 +6360,43 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "X",
+                            "#a",
+                            "Y"
+                        ), listOf(
+                            mutableMapOf(
+                                "X" to "<http://example.org/test#a>",
+                                "#a" to "<http://example.org/test#aa>",
+                                "Y" to "<http://example.org/test#ee>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-08.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/test#a>","<http://example.org/test#p>","<http://example.org/test#aa>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"X","<http://example.org/test#p>","#a",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/test#aa>","<http://example.org/test#r>","<http://example.org/test#ee>"))
+                                        graph.addData(1L,listOf("<http://example.org/test#cc>","<http://example.org/test#r>","<http://example.org/test#dd>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#a","<http://example.org/test#r>","Y",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
                         false                    ),
                     POPValues(dictionary, listOf(
                             "X",
@@ -5185,6 +6449,55 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "X",
+                            "#a",
+                            "Y"
+                        ), listOf(
+                            mutableMapOf(
+                                "X" to "<http://example.org/test#a>",
+                                "#a" to "<http://example.org/test#b>",
+                                "Y" to "<http://example.org/test#c>"
+                            ),
+                            mutableMapOf(
+                                "X" to "<http://example.org/test#a>",
+                                "#a" to "<http://example.org/test#b>",
+                                "Y" to "<http://example.org/test#h>"
+                            ),
+                            mutableMapOf(
+                                "X" to "<http://example.org/test#a>",
+                                "#a" to "<http://example.org/test#b>",
+                                "Y" to "<http://example.org/test#i>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/entailment/sparqldl-09.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/test#a>","<http://example.org/test#p>","<http://example.org/test#b>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"X","<http://example.org/test#p>","#a",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/test#b>","<http://example.org/test#q>","<http://example.org/test#c>"))
+                                        graph.addData(1L,listOf("<http://example.org/test#b>","<http://example.org/test#q>","<http://example.org/test#h>"))
+                                        graph.addData(1L,listOf("<http://example.org/test#b>","<http://example.org/test#q>","<http://example.org/test#i>"))
+                                        graph.addData(1L,listOf("<http://example.org/test#x>","<http://example.org/test#q>","<http://example.org/test#x>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#a","<http://example.org/test#q>","Y",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
                         false                    ),
                     POPValues(dictionary, listOf(
                             "X",
@@ -5380,36 +6693,36 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_18586"
+                                "#_18589"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_18586" to "_:_18571"
+                                    "#_18589" to "_:_18574"
                                 ),
                                 mutableMapOf(
-                                    "#_18586" to "_:_18572"
+                                    "#_18589" to "_:_18575"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_18586"
+                                "#_18589"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_18586" to "_:_18571"
+                                    "#_18589" to "_:_18574"
                                 ),
                                 mutableMapOf(
-                                    "#_18586" to "_:_18572"
+                                    "#_18589" to "_:_18575"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_18586"
+                            "#_18589"
                         ), listOf(
                             mutableMapOf(
-                                "#_18586" to "_:_18571"
+                                "#_18589" to "_:_18574"
                             ),
                             mutableMapOf(
-                                "#_18586" to "_:_18572"
+                                "#_18589" to "_:_18575"
                             )
                         )
                     )
@@ -5421,30 +6734,30 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_18586"
+                                "#_18589"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_18586" to "_:_18571"
+                                    "#_18589" to "_:_18574"
                                 ),
                                 mutableMapOf(
-                                    "#_18586" to "_:_18572"
+                                    "#_18589" to "_:_18575"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_18586"
+                                "#_18589"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_18586" to "_:_18571"
+                                    "#_18589" to "_:_18574"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_18586"
+                            "#_18589"
                         ), listOf(
                             mutableMapOf(
-                                "#_18586" to "_:_18571"
+                                "#_18589" to "_:_18574"
                             )
                         )
                     )
@@ -5456,102 +6769,102 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_18586"
+                                "#_18589"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_18586" to "_:_18571"
+                                    "#_18589" to "_:_18574"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "parent",
-                                "#_18586"
+                                "#_18589"
                             ), listOf(
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_18586" to "<http://example.org/test#Female>"
+                                    "#_18589" to "<http://example.org/test#Female>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_18586" to "<http://example.org/test#Parent>"
+                                    "#_18589" to "<http://example.org/test#Parent>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_18586" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18589" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Bob>",
-                                    "#_18586" to "<http://example.org/test#Male>"
+                                    "#_18589" to "<http://example.org/test#Male>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Bob>",
-                                    "#_18586" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18589" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Charlie>",
-                                    "#_18586" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18589" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Dudley>",
-                                    "#_18586" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18589" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Dudley>",
-                                    "#_18586" to "_:_18572"
+                                    "#_18589" to "_:_18575"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Father>",
-                                    "#_18586" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18589" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Female>",
-                                    "#_18586" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18589" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Male>",
-                                    "#_18586" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18589" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Mother>",
-                                    "#_18586" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18589" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Parent>",
-                                    "#_18586" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18589" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#hasChild>",
-                                    "#_18586" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
-                                ),
-                                mutableMapOf(
-                                    "parent" to "_:_18565",
-                                    "#_18586" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18589" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:_18568",
-                                    "#_18586" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18589" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:_18571",
-                                    "#_18586" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                    "#_18589" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
-                                    "parent" to "_:_18572",
-                                    "#_18586" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                    "parent" to "_:_18574",
+                                    "#_18589" to "<http://www.w3.org/2002/07/owl#Restriction>"
                                 ),
                                 mutableMapOf(
-                                    "parent" to "_:_18573",
-                                    "#_18586" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "parent" to "_:_18575",
+                                    "#_18589" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                ),
+                                mutableMapOf(
+                                    "parent" to "_:_18576",
+                                    "#_18589" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:ont",
-                                    "#_18586" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                    "#_18589" to "<http://www.w3.org/2002/07/owl#Ontology>"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_18586",
+                            "#_18589",
                             "parent"
                         ), listOf(
                         )
@@ -5564,36 +6877,36 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_18676"
+                                "#_18679"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_18676" to "_:_18658"
+                                    "#_18679" to "_:_18661"
                                 ),
                                 mutableMapOf(
-                                    "#_18676" to "_:_18659"
+                                    "#_18679" to "_:_18662"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_18676"
+                                "#_18679"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_18676" to "_:_18658"
+                                    "#_18679" to "_:_18661"
                                 ),
                                 mutableMapOf(
-                                    "#_18676" to "_:_18659"
+                                    "#_18679" to "_:_18662"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_18676"
+                            "#_18679"
                         ), listOf(
                             mutableMapOf(
-                                "#_18676" to "_:_18658"
+                                "#_18679" to "_:_18661"
                             ),
                             mutableMapOf(
-                                "#_18676" to "_:_18659"
+                                "#_18679" to "_:_18662"
                             )
                         )
                     )
@@ -5605,24 +6918,24 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_18676"
+                                "#_18679"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_18676" to "_:_18658"
+                                    "#_18679" to "_:_18661"
                                 ),
                                 mutableMapOf(
-                                    "#_18676" to "_:_18659"
+                                    "#_18679" to "_:_18662"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_18676"
+                                "#_18679"
                             ), listOf(
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_18676"
+                            "#_18679"
                         ), listOf(
                         )
                     )
@@ -5634,99 +6947,99 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_18676"
+                                "#_18679"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "parent",
-                                "#_18676"
+                                "#_18679"
                             ), listOf(
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_18676" to "<http://example.org/test#Female>"
+                                    "#_18679" to "<http://example.org/test#Female>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_18676" to "<http://example.org/test#Parent>"
+                                    "#_18679" to "<http://example.org/test#Parent>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_18676" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18679" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Bob>",
-                                    "#_18676" to "<http://example.org/test#Male>"
+                                    "#_18679" to "<http://example.org/test#Male>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Bob>",
-                                    "#_18676" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18679" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Charlie>",
-                                    "#_18676" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18679" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Dudley>",
-                                    "#_18676" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18679" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Dudley>",
-                                    "#_18676" to "_:_18659"
+                                    "#_18679" to "_:_18662"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Father>",
-                                    "#_18676" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18679" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Female>",
-                                    "#_18676" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18679" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Male>",
-                                    "#_18676" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18679" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Mother>",
-                                    "#_18676" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18679" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Parent>",
-                                    "#_18676" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18679" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#hasChild>",
-                                    "#_18676" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
-                                ),
-                                mutableMapOf(
-                                    "parent" to "_:_18652",
-                                    "#_18676" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18679" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:_18655",
-                                    "#_18676" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18679" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:_18658",
-                                    "#_18676" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                    "#_18679" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
-                                    "parent" to "_:_18659",
-                                    "#_18676" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                    "parent" to "_:_18661",
+                                    "#_18679" to "<http://www.w3.org/2002/07/owl#Restriction>"
                                 ),
                                 mutableMapOf(
-                                    "parent" to "_:_18660",
-                                    "#_18676" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "parent" to "_:_18662",
+                                    "#_18679" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                ),
+                                mutableMapOf(
+                                    "parent" to "_:_18663",
+                                    "#_18679" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:ont",
-                                    "#_18676" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                    "#_18679" to "<http://www.w3.org/2002/07/owl#Ontology>"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_18676",
+                            "#_18679",
                             "parent"
                         ), listOf(
                         )
@@ -5739,36 +7052,36 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_18768"
+                                "#_18771"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_18768" to "_:_18753"
+                                    "#_18771" to "_:_18756"
                                 ),
                                 mutableMapOf(
-                                    "#_18768" to "_:_18754"
+                                    "#_18771" to "_:_18757"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_18768"
+                                "#_18771"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_18768" to "_:_18753"
+                                    "#_18771" to "_:_18756"
                                 ),
                                 mutableMapOf(
-                                    "#_18768" to "_:_18754"
+                                    "#_18771" to "_:_18757"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_18768"
+                            "#_18771"
                         ), listOf(
                             mutableMapOf(
-                                "#_18768" to "_:_18753"
+                                "#_18771" to "_:_18756"
                             ),
                             mutableMapOf(
-                                "#_18768" to "_:_18754"
+                                "#_18771" to "_:_18757"
                             )
                         )
                     )
@@ -5780,24 +7093,24 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_18768"
+                                "#_18771"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_18768" to "_:_18753"
+                                    "#_18771" to "_:_18756"
                                 ),
                                 mutableMapOf(
-                                    "#_18768" to "_:_18754"
+                                    "#_18771" to "_:_18757"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_18768"
+                                "#_18771"
                             ), listOf(
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_18768"
+                            "#_18771"
                         ), listOf(
                         )
                     )
@@ -5809,99 +7122,99 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_18768"
+                                "#_18771"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "parent",
-                                "#_18768"
+                                "#_18771"
                             ), listOf(
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_18768" to "<http://example.org/test#Female>"
+                                    "#_18771" to "<http://example.org/test#Female>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_18768" to "<http://example.org/test#Parent>"
+                                    "#_18771" to "<http://example.org/test#Parent>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_18768" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18771" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Bob>",
-                                    "#_18768" to "<http://example.org/test#Male>"
+                                    "#_18771" to "<http://example.org/test#Male>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Bob>",
-                                    "#_18768" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18771" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Charlie>",
-                                    "#_18768" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18771" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Dudley>",
-                                    "#_18768" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18771" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Dudley>",
-                                    "#_18768" to "_:_18754"
+                                    "#_18771" to "_:_18757"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Father>",
-                                    "#_18768" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18771" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Female>",
-                                    "#_18768" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18771" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Male>",
-                                    "#_18768" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18771" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Mother>",
-                                    "#_18768" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18771" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Parent>",
-                                    "#_18768" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18771" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#hasChild>",
-                                    "#_18768" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
-                                ),
-                                mutableMapOf(
-                                    "parent" to "_:_18747",
-                                    "#_18768" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18771" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:_18750",
-                                    "#_18768" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18771" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:_18753",
-                                    "#_18768" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                    "#_18771" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
-                                    "parent" to "_:_18754",
-                                    "#_18768" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                    "parent" to "_:_18756",
+                                    "#_18771" to "<http://www.w3.org/2002/07/owl#Restriction>"
                                 ),
                                 mutableMapOf(
-                                    "parent" to "_:_18755",
-                                    "#_18768" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "parent" to "_:_18757",
+                                    "#_18771" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                ),
+                                mutableMapOf(
+                                    "parent" to "_:_18758",
+                                    "#_18771" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:ont",
-                                    "#_18768" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                    "#_18771" to "<http://www.w3.org/2002/07/owl#Ontology>"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_18768",
+                            "#_18771",
                             "parent"
                         ), listOf(
                         )
@@ -5914,36 +7227,36 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_18856"
+                                "#_18859"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_18856" to "_:_18840"
+                                    "#_18859" to "_:_18843"
                                 ),
                                 mutableMapOf(
-                                    "#_18856" to "_:_18841"
+                                    "#_18859" to "_:_18844"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_18856"
+                                "#_18859"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_18856" to "_:_18840"
+                                    "#_18859" to "_:_18843"
                                 ),
                                 mutableMapOf(
-                                    "#_18856" to "_:_18841"
+                                    "#_18859" to "_:_18844"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_18856"
+                            "#_18859"
                         ), listOf(
                             mutableMapOf(
-                                "#_18856" to "_:_18840"
+                                "#_18859" to "_:_18843"
                             ),
                             mutableMapOf(
-                                "#_18856" to "_:_18841"
+                                "#_18859" to "_:_18844"
                             )
                         )
                     )
@@ -5955,24 +7268,24 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_18856"
+                                "#_18859"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_18856" to "_:_18840"
+                                    "#_18859" to "_:_18843"
                                 ),
                                 mutableMapOf(
-                                    "#_18856" to "_:_18841"
+                                    "#_18859" to "_:_18844"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_18856"
+                                "#_18859"
                             ), listOf(
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_18856"
+                            "#_18859"
                         ), listOf(
                         )
                     )
@@ -5984,99 +7297,99 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_18856"
+                                "#_18859"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "parent",
-                                "#_18856"
+                                "#_18859"
                             ), listOf(
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_18856" to "<http://example.org/test#Female>"
+                                    "#_18859" to "<http://example.org/test#Female>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_18856" to "<http://example.org/test#Parent>"
+                                    "#_18859" to "<http://example.org/test#Parent>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_18856" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18859" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Bob>",
-                                    "#_18856" to "<http://example.org/test#Male>"
+                                    "#_18859" to "<http://example.org/test#Male>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Bob>",
-                                    "#_18856" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18859" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Charlie>",
-                                    "#_18856" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18859" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Dudley>",
-                                    "#_18856" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18859" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Dudley>",
-                                    "#_18856" to "_:_18841"
+                                    "#_18859" to "_:_18844"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Father>",
-                                    "#_18856" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18859" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Female>",
-                                    "#_18856" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18859" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Male>",
-                                    "#_18856" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18859" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Mother>",
-                                    "#_18856" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18859" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Parent>",
-                                    "#_18856" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18859" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#hasChild>",
-                                    "#_18856" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
-                                ),
-                                mutableMapOf(
-                                    "parent" to "_:_18834",
-                                    "#_18856" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18859" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:_18837",
-                                    "#_18856" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18859" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:_18840",
-                                    "#_18856" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                    "#_18859" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
-                                    "parent" to "_:_18841",
-                                    "#_18856" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                    "parent" to "_:_18843",
+                                    "#_18859" to "<http://www.w3.org/2002/07/owl#Restriction>"
                                 ),
                                 mutableMapOf(
-                                    "parent" to "_:_18842",
-                                    "#_18856" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "parent" to "_:_18844",
+                                    "#_18859" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                ),
+                                mutableMapOf(
+                                    "parent" to "_:_18845",
+                                    "#_18859" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:ont",
-                                    "#_18856" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                    "#_18859" to "<http://www.w3.org/2002/07/owl#Ontology>"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_18856",
+                            "#_18859",
                             "parent"
                         ), listOf(
                         )
@@ -6089,36 +7402,36 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_18960"
+                                "#_18963"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_18960" to "_:_18944"
+                                    "#_18963" to "_:_18947"
                                 ),
                                 mutableMapOf(
-                                    "#_18960" to "_:_18945"
+                                    "#_18963" to "_:_18948"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_18960"
+                                "#_18963"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_18960" to "_:_18944"
+                                    "#_18963" to "_:_18947"
                                 ),
                                 mutableMapOf(
-                                    "#_18960" to "_:_18945"
+                                    "#_18963" to "_:_18948"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_18960"
+                            "#_18963"
                         ), listOf(
                             mutableMapOf(
-                                "#_18960" to "_:_18944"
+                                "#_18963" to "_:_18947"
                             ),
                             mutableMapOf(
-                                "#_18960" to "_:_18945"
+                                "#_18963" to "_:_18948"
                             )
                         )
                     )
@@ -6130,24 +7443,24 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_18960"
+                                "#_18963"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_18960" to "_:_18944"
+                                    "#_18963" to "_:_18947"
                                 ),
                                 mutableMapOf(
-                                    "#_18960" to "_:_18945"
+                                    "#_18963" to "_:_18948"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_18960"
+                                "#_18963"
                             ), listOf(
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_18960"
+                            "#_18963"
                         ), listOf(
                         )
                     )
@@ -6159,99 +7472,99 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_18960"
+                                "#_18963"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "parent",
-                                "#_18960"
+                                "#_18963"
                             ), listOf(
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_18960" to "<http://example.org/test#Female>"
+                                    "#_18963" to "<http://example.org/test#Female>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_18960" to "<http://example.org/test#Parent>"
+                                    "#_18963" to "<http://example.org/test#Parent>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_18960" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18963" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Bob>",
-                                    "#_18960" to "<http://example.org/test#Male>"
+                                    "#_18963" to "<http://example.org/test#Male>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Bob>",
-                                    "#_18960" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18963" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Charlie>",
-                                    "#_18960" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18963" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Dudley>",
-                                    "#_18960" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_18963" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Dudley>",
-                                    "#_18960" to "_:_18945"
+                                    "#_18963" to "_:_18948"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Father>",
-                                    "#_18960" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18963" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Female>",
-                                    "#_18960" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18963" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Male>",
-                                    "#_18960" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18963" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Mother>",
-                                    "#_18960" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18963" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Parent>",
-                                    "#_18960" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18963" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#hasChild>",
-                                    "#_18960" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
-                                ),
-                                mutableMapOf(
-                                    "parent" to "_:_18938",
-                                    "#_18960" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18963" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:_18941",
-                                    "#_18960" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_18963" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:_18944",
-                                    "#_18960" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                    "#_18963" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
-                                    "parent" to "_:_18945",
-                                    "#_18960" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                    "parent" to "_:_18947",
+                                    "#_18963" to "<http://www.w3.org/2002/07/owl#Restriction>"
                                 ),
                                 mutableMapOf(
-                                    "parent" to "_:_18946",
-                                    "#_18960" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "parent" to "_:_18948",
+                                    "#_18963" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                ),
+                                mutableMapOf(
+                                    "parent" to "_:_18949",
+                                    "#_18963" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:ont",
-                                    "#_18960" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                    "#_18963" to "<http://www.w3.org/2002/07/owl#Ontology>"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_18960",
+                            "#_18963",
                             "parent"
                         ), listOf(
                         )
@@ -6264,36 +7577,36 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_19064"
+                                "#_19067"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_19064" to "_:_19048"
+                                    "#_19067" to "_:_19051"
                                 ),
                                 mutableMapOf(
-                                    "#_19064" to "_:_19049"
+                                    "#_19067" to "_:_19052"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_19064"
+                                "#_19067"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_19064" to "_:_19048"
+                                    "#_19067" to "_:_19051"
                                 ),
                                 mutableMapOf(
-                                    "#_19064" to "_:_19049"
+                                    "#_19067" to "_:_19052"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_19064"
+                            "#_19067"
                         ), listOf(
                             mutableMapOf(
-                                "#_19064" to "_:_19048"
+                                "#_19067" to "_:_19051"
                             ),
                             mutableMapOf(
-                                "#_19064" to "_:_19049"
+                                "#_19067" to "_:_19052"
                             )
                         )
                     )
@@ -6305,24 +7618,24 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_19064"
+                                "#_19067"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_19064" to "_:_19048"
+                                    "#_19067" to "_:_19051"
                                 ),
                                 mutableMapOf(
-                                    "#_19064" to "_:_19049"
+                                    "#_19067" to "_:_19052"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_19064"
+                                "#_19067"
                             ), listOf(
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_19064"
+                            "#_19067"
                         ), listOf(
                         )
                     )
@@ -6334,99 +7647,99 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_19064"
+                                "#_19067"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "parent",
-                                "#_19064"
+                                "#_19067"
                             ), listOf(
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_19064" to "<http://example.org/test#Female>"
+                                    "#_19067" to "<http://example.org/test#Female>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_19064" to "<http://example.org/test#Parent>"
+                                    "#_19067" to "<http://example.org/test#Parent>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Alice>",
-                                    "#_19064" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_19067" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Bob>",
-                                    "#_19064" to "<http://example.org/test#Male>"
+                                    "#_19067" to "<http://example.org/test#Male>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Bob>",
-                                    "#_19064" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_19067" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Charlie>",
-                                    "#_19064" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_19067" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Dudley>",
-                                    "#_19064" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
+                                    "#_19067" to "<http://www.w3.org/2002/07/owl#NamedIndividual>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Dudley>",
-                                    "#_19064" to "_:_19049"
+                                    "#_19067" to "_:_19052"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Father>",
-                                    "#_19064" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19067" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Female>",
-                                    "#_19064" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19067" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Male>",
-                                    "#_19064" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19067" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Mother>",
-                                    "#_19064" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19067" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#Parent>",
-                                    "#_19064" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19067" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "<http://example.org/test#hasChild>",
-                                    "#_19064" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
-                                ),
-                                mutableMapOf(
-                                    "parent" to "_:_19042",
-                                    "#_19064" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19067" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:_19045",
-                                    "#_19064" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19067" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:_19048",
-                                    "#_19064" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                    "#_19067" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
-                                    "parent" to "_:_19049",
-                                    "#_19064" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                    "parent" to "_:_19051",
+                                    "#_19067" to "<http://www.w3.org/2002/07/owl#Restriction>"
                                 ),
                                 mutableMapOf(
-                                    "parent" to "_:_19050",
-                                    "#_19064" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "parent" to "_:_19052",
+                                    "#_19067" to "<http://www.w3.org/2002/07/owl#Restriction>"
+                                ),
+                                mutableMapOf(
+                                    "parent" to "_:_19053",
+                                    "#_19067" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "parent" to "_:ont",
-                                    "#_19064" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                    "#_19067" to "<http://www.w3.org/2002/07/owl#Ontology>"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_19064",
+                            "#_19067",
                             "parent"
                         ), listOf(
                         )
@@ -6439,36 +7752,36 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_19169"
+                                "#_19172"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_19169" to "_:_19152"
+                                    "#_19172" to "_:_19155"
                                 ),
                                 mutableMapOf(
-                                    "#_19169" to "_:_19153"
+                                    "#_19172" to "_:_19156"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_19169"
+                                "#_19172"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_19169" to "_:_19152"
+                                    "#_19172" to "_:_19155"
                                 ),
                                 mutableMapOf(
-                                    "#_19169" to "_:_19153"
+                                    "#_19172" to "_:_19156"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_19169"
+                            "#_19172"
                         ), listOf(
                             mutableMapOf(
-                                "#_19169" to "_:_19152"
+                                "#_19172" to "_:_19155"
                             ),
                             mutableMapOf(
-                                "#_19169" to "_:_19153"
+                                "#_19172" to "_:_19156"
                             )
                         )
                     )
@@ -6480,30 +7793,30 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_19169"
+                                "#_19172"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_19169" to "_:_19152"
+                                    "#_19172" to "_:_19155"
                                 ),
                                 mutableMapOf(
-                                    "#_19169" to "_:_19153"
+                                    "#_19172" to "_:_19156"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_19169"
+                                "#_19172"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_19169" to "_:_19152"
+                                    "#_19172" to "_:_19155"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_19169"
+                            "#_19172"
                         ), listOf(
                             mutableMapOf(
-                                "#_19169" to "_:_19152"
+                                "#_19172" to "_:_19155"
                             )
                         )
                     )
@@ -6515,22 +7828,22 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_19169"
+                                "#_19172"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_19169" to "_:_19152"
+                                    "#_19172" to "_:_19155"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "C",
-                                "#_19169"
+                                "#_19172"
                             ), listOf(
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_19169",
+                            "#_19172",
                             "C"
                         ), listOf(
                         )
@@ -6552,10 +7865,10 @@ class GeneratedPOPJoinHashMapTest {
                                 "#b"
                             ), listOf(
                                 mutableMapOf(
-                                    "#b" to "_:_19243"
+                                    "#b" to "_:_19246"
                                 ),
                                 mutableMapOf(
-                                    "#b" to "_:_19244"
+                                    "#b" to "_:_19247"
                                 )
                             )
                         ),
@@ -6583,7 +7896,7 @@ class GeneratedPOPJoinHashMapTest {
                                 "#b"
                             ), listOf(
                                 mutableMapOf(
-                                    "#b" to "_:_19243"
+                                    "#b" to "_:_19246"
                                 )
                             )
                         ),
@@ -6602,75 +7915,75 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_19357",
-                                "#_19362",
-                                "#_19354"
+                                "#_19360",
+                                "#_19365",
+                                "#_19357"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#_19354"
+                                "#_19357"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#A>",
-                                    "#_19354" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19357" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#B>",
-                                    "#_19354" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19357" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#C>",
-                                    "#_19354" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19357" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#a>",
-                                    "#_19354" to "<http://example.org/test#A>"
+                                    "#_19357" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#a>",
-                                    "#_19354" to "<http://example.org/test#B>"
+                                    "#_19357" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#b>",
-                                    "#_19354" to "<http://example.org/test#B>"
+                                    "#_19357" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#c>",
-                                    "#_19354" to "<http://example.org/test#C>"
+                                    "#_19357" to "<http://example.org/test#C>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_19354" to "<http://example.org/test#A>"
+                                    "#_19357" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_19354" to "<http://example.org/test#B>"
+                                    "#_19357" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_19354" to "<http://example.org/test#C>"
+                                    "#_19357" to "<http://example.org/test#C>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#p>",
-                                    "#_19354" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
+                                    "#_19357" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#p>",
-                                    "#_19354" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                    "#_19357" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                                 ),
                                 mutableMapOf(
                                     "x" to "_:simple",
-                                    "#_19354" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                    "#_19357" to "<http://www.w3.org/2002/07/owl#Ontology>"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
+                            "#_19360",
+                            "#_19365",
                             "#_19357",
-                            "#_19362",
-                            "#_19354",
                             "x"
                         ), listOf(
                         )
@@ -6683,77 +7996,77 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_19462",
-                                "#_19466",
-                                "#_19476",
-                                "#_19459"
+                                "#_19465",
+                                "#_19469",
+                                "#_19479",
+                                "#_19462"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#_19459"
+                                "#_19462"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#A>",
-                                    "#_19459" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19462" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#B>",
-                                    "#_19459" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19462" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#C>",
-                                    "#_19459" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19462" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#a>",
-                                    "#_19459" to "<http://example.org/test#A>"
+                                    "#_19462" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#a>",
-                                    "#_19459" to "<http://example.org/test#B>"
+                                    "#_19462" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#b>",
-                                    "#_19459" to "<http://example.org/test#B>"
+                                    "#_19462" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#c>",
-                                    "#_19459" to "<http://example.org/test#C>"
+                                    "#_19462" to "<http://example.org/test#C>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_19459" to "<http://example.org/test#A>"
+                                    "#_19462" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_19459" to "<http://example.org/test#B>"
+                                    "#_19462" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_19459" to "<http://example.org/test#C>"
+                                    "#_19462" to "<http://example.org/test#C>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#p>",
-                                    "#_19459" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
+                                    "#_19462" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#p>",
-                                    "#_19459" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                    "#_19462" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                                 ),
                                 mutableMapOf(
                                     "x" to "_:simple",
-                                    "#_19459" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                    "#_19462" to "<http://www.w3.org/2002/07/owl#Ontology>"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
+                            "#_19465",
+                            "#_19469",
+                            "#_19479",
                             "#_19462",
-                            "#_19466",
-                            "#_19476",
-                            "#_19459",
                             "x"
                         ), listOf(
                         )
@@ -6766,77 +8079,77 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_19603",
-                                "#_19614",
-                                "#_19619",
-                                "#_19611"
+                                "#_19606",
+                                "#_19617",
+                                "#_19622",
+                                "#_19614"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#_19603"
+                                "#_19606"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#A>",
-                                    "#_19603" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19606" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#B>",
-                                    "#_19603" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19606" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#C>",
-                                    "#_19603" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19606" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#a>",
-                                    "#_19603" to "<http://example.org/test#A>"
+                                    "#_19606" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#a>",
-                                    "#_19603" to "<http://example.org/test#B>"
+                                    "#_19606" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#b>",
-                                    "#_19603" to "<http://example.org/test#B>"
+                                    "#_19606" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#c>",
-                                    "#_19603" to "<http://example.org/test#C>"
+                                    "#_19606" to "<http://example.org/test#C>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_19603" to "<http://example.org/test#A>"
+                                    "#_19606" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_19603" to "<http://example.org/test#B>"
+                                    "#_19606" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_19603" to "<http://example.org/test#C>"
+                                    "#_19606" to "<http://example.org/test#C>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#p>",
-                                    "#_19603" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
+                                    "#_19606" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#p>",
-                                    "#_19603" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                    "#_19606" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                                 ),
                                 mutableMapOf(
                                     "x" to "_:simple",
-                                    "#_19603" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                    "#_19606" to "<http://www.w3.org/2002/07/owl#Ontology>"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_19603",
+                            "#_19606",
+                            "#_19617",
+                            "#_19622",
                             "#_19614",
-                            "#_19619",
-                            "#_19611",
                             "x"
                         ), listOf(
                         )
@@ -6849,28 +8162,28 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_19747"
+                                "#_19750"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_19747" to "<http://example.org/test#A>"
+                                    "#_19750" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
-                                    "#_19747" to "<http://example.org/test#B>"
+                                    "#_19750" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
-                                    "#_19747" to "<http://example.org/test#C>"
+                                    "#_19750" to "<http://example.org/test#C>"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_19752"
+                                "#_19755"
                             ), listOf(
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_19747",
-                            "#_19752"
+                            "#_19750",
+                            "#_19755"
                         ), listOf(
                         )
                     )
@@ -6882,75 +8195,75 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_19747",
-                                "#_19752",
-                                "#_19757"
+                                "#_19750",
+                                "#_19755",
+                                "#_19760"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#_19747"
+                                "#_19750"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#A>",
-                                    "#_19747" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19750" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#B>",
-                                    "#_19747" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19750" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#C>",
-                                    "#_19747" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19750" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#a>",
-                                    "#_19747" to "<http://example.org/test#A>"
+                                    "#_19750" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#a>",
-                                    "#_19747" to "<http://example.org/test#B>"
+                                    "#_19750" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#b>",
-                                    "#_19747" to "<http://example.org/test#B>"
+                                    "#_19750" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#c>",
-                                    "#_19747" to "<http://example.org/test#C>"
+                                    "#_19750" to "<http://example.org/test#C>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_19747" to "<http://example.org/test#A>"
+                                    "#_19750" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_19747" to "<http://example.org/test#B>"
+                                    "#_19750" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_19747" to "<http://example.org/test#C>"
+                                    "#_19750" to "<http://example.org/test#C>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#p>",
-                                    "#_19747" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
+                                    "#_19750" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#p>",
-                                    "#_19747" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                    "#_19750" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                                 ),
                                 mutableMapOf(
                                     "x" to "_:simple",
-                                    "#_19747" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                    "#_19750" to "<http://www.w3.org/2002/07/owl#Ontology>"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_19747",
-                            "#_19752",
-                            "#_19757",
+                            "#_19750",
+                            "#_19755",
+                            "#_19760",
                             "x"
                         ), listOf(
                         )
@@ -6963,28 +8276,28 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_19864"
+                                "#_19867"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_19872"
+                                "#_19875"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_19872" to "<http://example.org/test#A>"
+                                    "#_19875" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
-                                    "#_19872" to "<http://example.org/test#B>"
+                                    "#_19875" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
-                                    "#_19872" to "<http://example.org/test#C>"
+                                    "#_19875" to "<http://example.org/test#C>"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_19864",
-                            "#_19872"
+                            "#_19867",
+                            "#_19875"
                         ), listOf(
                         )
                     )
@@ -6996,77 +8309,77 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_19864",
-                                "#_19872",
-                                "#_19877",
-                                "#_19882"
+                                "#_19867",
+                                "#_19875",
+                                "#_19880",
+                                "#_19885"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#_19864"
+                                "#_19867"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#A>",
-                                    "#_19864" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19867" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#B>",
-                                    "#_19864" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19867" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#C>",
-                                    "#_19864" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_19867" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#a>",
-                                    "#_19864" to "<http://example.org/test#A>"
+                                    "#_19867" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#a>",
-                                    "#_19864" to "<http://example.org/test#B>"
+                                    "#_19867" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#b>",
-                                    "#_19864" to "<http://example.org/test#B>"
+                                    "#_19867" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#c>",
-                                    "#_19864" to "<http://example.org/test#C>"
+                                    "#_19867" to "<http://example.org/test#C>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_19864" to "<http://example.org/test#A>"
+                                    "#_19867" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_19864" to "<http://example.org/test#B>"
+                                    "#_19867" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_19864" to "<http://example.org/test#C>"
+                                    "#_19867" to "<http://example.org/test#C>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#p>",
-                                    "#_19864" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
+                                    "#_19867" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#p>",
-                                    "#_19864" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                    "#_19867" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                                 ),
                                 mutableMapOf(
                                     "x" to "_:simple",
-                                    "#_19864" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                    "#_19867" to "<http://www.w3.org/2002/07/owl#Ontology>"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_19864",
-                            "#_19872",
-                            "#_19877",
-                            "#_19882",
+                            "#_19867",
+                            "#_19875",
+                            "#_19880",
+                            "#_19885",
                             "x"
                         ), listOf(
                         )
@@ -7079,28 +8392,28 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_20020"
+                                "#_20023"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_20028"
+                                "#_20031"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_20028" to "<http://example.org/test#A>"
+                                    "#_20031" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
-                                    "#_20028" to "<http://example.org/test#B>"
+                                    "#_20031" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
-                                    "#_20028" to "<http://example.org/test#C>"
+                                    "#_20031" to "<http://example.org/test#C>"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_20020",
-                            "#_20028"
+                            "#_20023",
+                            "#_20031"
                         ), listOf(
                         )
                     )
@@ -7112,79 +8425,79 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_20020",
-                                "#_20028",
-                                "#_20033",
-                                "#_20038",
-                                "#_20043"
+                                "#_20023",
+                                "#_20031",
+                                "#_20036",
+                                "#_20041",
+                                "#_20046"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#_20020"
+                                "#_20023"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#A>",
-                                    "#_20020" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_20023" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#B>",
-                                    "#_20020" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_20023" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#C>",
-                                    "#_20020" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_20023" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#a>",
-                                    "#_20020" to "<http://example.org/test#A>"
+                                    "#_20023" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#a>",
-                                    "#_20020" to "<http://example.org/test#B>"
+                                    "#_20023" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#b>",
-                                    "#_20020" to "<http://example.org/test#B>"
+                                    "#_20023" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#c>",
-                                    "#_20020" to "<http://example.org/test#C>"
+                                    "#_20023" to "<http://example.org/test#C>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_20020" to "<http://example.org/test#A>"
+                                    "#_20023" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_20020" to "<http://example.org/test#B>"
+                                    "#_20023" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_20020" to "<http://example.org/test#C>"
+                                    "#_20023" to "<http://example.org/test#C>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#p>",
-                                    "#_20020" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
+                                    "#_20023" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#p>",
-                                    "#_20020" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                    "#_20023" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                                 ),
                                 mutableMapOf(
                                     "x" to "_:simple",
-                                    "#_20020" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                    "#_20023" to "<http://www.w3.org/2002/07/owl#Ontology>"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_20020",
-                            "#_20028",
-                            "#_20033",
-                            "#_20038",
-                            "#_20043",
+                            "#_20023",
+                            "#_20031",
+                            "#_20036",
+                            "#_20041",
+                            "#_20046",
                             "x"
                         ), listOf(
                         )
@@ -7197,28 +8510,28 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_20201"
+                                "#_20204"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_20201" to "<http://example.org/test#A>"
+                                    "#_20204" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
-                                    "#_20201" to "<http://example.org/test#B>"
+                                    "#_20204" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
-                                    "#_20201" to "<http://example.org/test#C>"
+                                    "#_20204" to "<http://example.org/test#C>"
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_20206"
+                                "#_20209"
                             ), listOf(
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_20201",
-                            "#_20206"
+                            "#_20204",
+                            "#_20209"
                         ), listOf(
                         )
                     )
@@ -7230,30 +8543,30 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_20201",
-                                "#_20206"
+                                "#_20204",
+                                "#_20209"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
-                                "#_20210"
+                                "#_20213"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_20210" to "<http://example.org/test#A>"
+                                    "#_20213" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
-                                    "#_20210" to "<http://example.org/test#B>"
+                                    "#_20213" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
-                                    "#_20210" to "<http://example.org/test#C>"
+                                    "#_20213" to "<http://example.org/test#C>"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_20201",
-                            "#_20206",
-                            "#_20210"
+                            "#_20204",
+                            "#_20209",
+                            "#_20213"
                         ), listOf(
                         )
                     )
@@ -7265,81 +8578,81 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_20201",
-                                "#_20206",
-                                "#_20210",
-                                "#_20215",
-                                "#_20220",
-                                "#_20226"
+                                "#_20204",
+                                "#_20209",
+                                "#_20213",
+                                "#_20218",
+                                "#_20223",
+                                "#_20229"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#_20201"
+                                "#_20204"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#A>",
-                                    "#_20201" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_20204" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#B>",
-                                    "#_20201" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_20204" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#C>",
-                                    "#_20201" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_20204" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#a>",
-                                    "#_20201" to "<http://example.org/test#A>"
+                                    "#_20204" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#a>",
-                                    "#_20201" to "<http://example.org/test#B>"
+                                    "#_20204" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#b>",
-                                    "#_20201" to "<http://example.org/test#B>"
+                                    "#_20204" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#c>",
-                                    "#_20201" to "<http://example.org/test#C>"
+                                    "#_20204" to "<http://example.org/test#C>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_20201" to "<http://example.org/test#A>"
+                                    "#_20204" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_20201" to "<http://example.org/test#B>"
+                                    "#_20204" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_20201" to "<http://example.org/test#C>"
+                                    "#_20204" to "<http://example.org/test#C>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#p>",
-                                    "#_20201" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
+                                    "#_20204" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#p>",
-                                    "#_20201" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                    "#_20204" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                                 ),
                                 mutableMapOf(
                                     "x" to "_:simple",
-                                    "#_20201" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                    "#_20204" to "<http://www.w3.org/2002/07/owl#Ontology>"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_20201",
-                            "#_20206",
-                            "#_20210",
-                            "#_20215",
-                            "#_20220",
-                            "#_20226",
+                            "#_20204",
+                            "#_20209",
+                            "#_20213",
+                            "#_20218",
+                            "#_20223",
+                            "#_20229",
                             "x"
                         ), listOf(
                         )
@@ -7352,73 +8665,73 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_20393",
-                                "#_20401"
+                                "#_20396",
+                                "#_20404"
                             ), listOf(
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "x",
-                                "#_20393"
+                                "#_20396"
                             ), listOf(
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#A>",
-                                    "#_20393" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_20396" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#B>",
-                                    "#_20393" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_20396" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#C>",
-                                    "#_20393" to "<http://www.w3.org/2002/07/owl#Class>"
+                                    "#_20396" to "<http://www.w3.org/2002/07/owl#Class>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#a>",
-                                    "#_20393" to "<http://example.org/test#A>"
+                                    "#_20396" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#a>",
-                                    "#_20393" to "<http://example.org/test#B>"
+                                    "#_20396" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#b>",
-                                    "#_20393" to "<http://example.org/test#B>"
+                                    "#_20396" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#c>",
-                                    "#_20393" to "<http://example.org/test#C>"
+                                    "#_20396" to "<http://example.org/test#C>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_20393" to "<http://example.org/test#A>"
+                                    "#_20396" to "<http://example.org/test#A>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_20393" to "<http://example.org/test#B>"
+                                    "#_20396" to "<http://example.org/test#B>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#d>",
-                                    "#_20393" to "<http://example.org/test#C>"
+                                    "#_20396" to "<http://example.org/test#C>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#p>",
-                                    "#_20393" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
+                                    "#_20396" to "<http://www.w3.org/2002/07/owl#FunctionalProperty>"
                                 ),
                                 mutableMapOf(
                                     "x" to "<http://example.org/test#p>",
-                                    "#_20393" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
+                                    "#_20396" to "<http://www.w3.org/2002/07/owl#ObjectProperty>"
                                 ),
                                 mutableMapOf(
                                     "x" to "_:simple",
-                                    "#_20393" to "<http://www.w3.org/2002/07/owl#Ontology>"
+                                    "#_20396" to "<http://www.w3.org/2002/07/owl#Ontology>"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_20393",
-                            "#_20401",
+                            "#_20396",
+                            "#_20404",
                             "x"
                         ), listOf(
                         )
@@ -7446,6 +8759,40 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "str1",
+                            "str2"
+                        ), listOf(
+                            mutableMapOf(
+                                "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "str2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/concat01.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/str>","\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"<http://example.org/s6>","<http://example.org/str>","str1",true,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/str>","\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"<http://example.org/s7>","<http://example.org/str>","str2",true,true,false,EIndexPattern.SPO)
+                                    }()
+,
                         false                    ),
                     POPValues(dictionary, listOf(
                             "str1",
@@ -7532,6 +8879,344 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "s1",
+                            "str1",
+                            "s2",
+                            "str2"
+                        ), listOf(
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s1>",
+                                "str1" to "\"123\"",
+                                "s2" to "<http://example.org/s1>",
+                                "str2" to "\"123\""
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s2>",
+                                "str1" to "\"日本語\"@ja",
+                                "s2" to "<http://example.org/s1>",
+                                "str2" to "\"123\""
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s3>",
+                                "str1" to "\"english\"@en",
+                                "s2" to "<http://example.org/s1>",
+                                "str2" to "\"123\""
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s4>",
+                                "str1" to "\"français\"@fr",
+                                "s2" to "<http://example.org/s1>",
+                                "str2" to "\"123\""
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s5>",
+                                "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "s2" to "<http://example.org/s1>",
+                                "str2" to "\"123\""
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s6>",
+                                "str1" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "s2" to "<http://example.org/s1>",
+                                "str2" to "\"123\""
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s7>",
+                                "str1" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "s2" to "<http://example.org/s1>",
+                                "str2" to "\"123\""
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s1>",
+                                "str1" to "\"123\"",
+                                "s2" to "<http://example.org/s2>",
+                                "str2" to "\"日本語\"@ja"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s2>",
+                                "str1" to "\"日本語\"@ja",
+                                "s2" to "<http://example.org/s2>",
+                                "str2" to "\"日本語\"@ja"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s3>",
+                                "str1" to "\"english\"@en",
+                                "s2" to "<http://example.org/s2>",
+                                "str2" to "\"日本語\"@ja"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s4>",
+                                "str1" to "\"français\"@fr",
+                                "s2" to "<http://example.org/s2>",
+                                "str2" to "\"日本語\"@ja"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s5>",
+                                "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "s2" to "<http://example.org/s2>",
+                                "str2" to "\"日本語\"@ja"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s6>",
+                                "str1" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "s2" to "<http://example.org/s2>",
+                                "str2" to "\"日本語\"@ja"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s7>",
+                                "str1" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "s2" to "<http://example.org/s2>",
+                                "str2" to "\"日本語\"@ja"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s1>",
+                                "str1" to "\"123\"",
+                                "s2" to "<http://example.org/s3>",
+                                "str2" to "\"english\"@en"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s2>",
+                                "str1" to "\"日本語\"@ja",
+                                "s2" to "<http://example.org/s3>",
+                                "str2" to "\"english\"@en"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s3>",
+                                "str1" to "\"english\"@en",
+                                "s2" to "<http://example.org/s3>",
+                                "str2" to "\"english\"@en"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s4>",
+                                "str1" to "\"français\"@fr",
+                                "s2" to "<http://example.org/s3>",
+                                "str2" to "\"english\"@en"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s5>",
+                                "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "s2" to "<http://example.org/s3>",
+                                "str2" to "\"english\"@en"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s6>",
+                                "str1" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "s2" to "<http://example.org/s3>",
+                                "str2" to "\"english\"@en"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s7>",
+                                "str1" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "s2" to "<http://example.org/s3>",
+                                "str2" to "\"english\"@en"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s1>",
+                                "str1" to "\"123\"",
+                                "s2" to "<http://example.org/s4>",
+                                "str2" to "\"français\"@fr"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s2>",
+                                "str1" to "\"日本語\"@ja",
+                                "s2" to "<http://example.org/s4>",
+                                "str2" to "\"français\"@fr"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s3>",
+                                "str1" to "\"english\"@en",
+                                "s2" to "<http://example.org/s4>",
+                                "str2" to "\"français\"@fr"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s4>",
+                                "str1" to "\"français\"@fr",
+                                "s2" to "<http://example.org/s4>",
+                                "str2" to "\"français\"@fr"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s5>",
+                                "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "s2" to "<http://example.org/s4>",
+                                "str2" to "\"français\"@fr"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s6>",
+                                "str1" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "s2" to "<http://example.org/s4>",
+                                "str2" to "\"français\"@fr"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s7>",
+                                "str1" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "s2" to "<http://example.org/s4>",
+                                "str2" to "\"français\"@fr"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s1>",
+                                "str1" to "\"123\"",
+                                "s2" to "<http://example.org/s5>",
+                                "str2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s2>",
+                                "str1" to "\"日本語\"@ja",
+                                "s2" to "<http://example.org/s5>",
+                                "str2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s3>",
+                                "str1" to "\"english\"@en",
+                                "s2" to "<http://example.org/s5>",
+                                "str2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s4>",
+                                "str1" to "\"français\"@fr",
+                                "s2" to "<http://example.org/s5>",
+                                "str2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s5>",
+                                "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "s2" to "<http://example.org/s5>",
+                                "str2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s6>",
+                                "str1" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "s2" to "<http://example.org/s5>",
+                                "str2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s7>",
+                                "str1" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "s2" to "<http://example.org/s5>",
+                                "str2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s1>",
+                                "str1" to "\"123\"",
+                                "s2" to "<http://example.org/s6>",
+                                "str2" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s2>",
+                                "str1" to "\"日本語\"@ja",
+                                "s2" to "<http://example.org/s6>",
+                                "str2" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s3>",
+                                "str1" to "\"english\"@en",
+                                "s2" to "<http://example.org/s6>",
+                                "str2" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s4>",
+                                "str1" to "\"français\"@fr",
+                                "s2" to "<http://example.org/s6>",
+                                "str2" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s5>",
+                                "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "s2" to "<http://example.org/s6>",
+                                "str2" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s6>",
+                                "str1" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "s2" to "<http://example.org/s6>",
+                                "str2" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s7>",
+                                "str1" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "s2" to "<http://example.org/s6>",
+                                "str2" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s1>",
+                                "str1" to "\"123\"",
+                                "s2" to "<http://example.org/s7>",
+                                "str2" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s2>",
+                                "str1" to "\"日本語\"@ja",
+                                "s2" to "<http://example.org/s7>",
+                                "str2" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s3>",
+                                "str1" to "\"english\"@en",
+                                "s2" to "<http://example.org/s7>",
+                                "str2" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s4>",
+                                "str1" to "\"français\"@fr",
+                                "s2" to "<http://example.org/s7>",
+                                "str2" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s5>",
+                                "str1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "s2" to "<http://example.org/s7>",
+                                "str2" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s6>",
+                                "str1" to "\"def\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "s2" to "<http://example.org/s7>",
+                                "str2" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s1" to "<http://example.org/s7>",
+                                "str1" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "s2" to "<http://example.org/s7>",
+                                "str2" to "\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/concat02.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/str>","\"123\""))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/str>","\"日本語\"@ja"))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/str>","\"english\"@en"))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/str>","\"français\"@fr"))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/str>","\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/str>","\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/str>","\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s1","<http://example.org/str>","str1",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/str>","\"123\""))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/str>","\"日本語\"@ja"))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/str>","\"english\"@en"))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/str>","\"français\"@fr"))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/str>","\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/str>","\"def\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/str>","\"7\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s2","<http://example.org/str>","str2",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
                         false                    ),
                     POPValues(dictionary, listOf(
                             "s1",
@@ -7973,6 +9658,91 @@ class GeneratedPOPJoinHashMapTest {
                 MicroTestPN(
                     POPJoinHashMap(
                         dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/p>","\"a\""))
+                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/p>","_:b"))
+                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/p>","<http://example/a>"))
+                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/p>","\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/p>","\"1\""))
+                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/p>","x",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/q>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/q>","\"1\""))
+                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/q>","\"1\""))
+                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/q>","\"2\""))
+                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/q>","\"2\""))
+                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/q>","y",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "x",
+                            "y"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example/x1>",
+                                "x" to "\"a\"",
+                                "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example/x2>",
+                                "x" to "_:b",
+                                "y" to "\"1\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example/x3>",
+                                "x" to "<http://example/a>",
+                                "y" to "\"1\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example/x4>",
+                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example/x5>",
+                                "x" to "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
+                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example/x6>",
+                                "x" to "\"1\"",
+                                "y" to "\"2\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example/x7>",
+                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "y" to "\"2\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example/x8>",
+                                "x" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "y" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
                         POPValues(dictionary, listOf(
                                 "a",
                                 "s1"
@@ -8351,6 +10121,344 @@ class GeneratedPOPJoinHashMapTest {
                 MicroTestPN(
                     POPJoinHashMap(
                         dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/str>","\"foo\""))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/str>","\"bar\"@en"))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/str>","\"BAZ\""))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/str>","\"食べ物\""))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/str>","\"100%\""))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/str>","\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/str>","\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"a","<http://example.org/str>","s1",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/str>","\"foo\""))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/str>","\"bar\"@en"))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/str>","\"BAZ\""))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/str>","\"食べ物\""))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/str>","\"100%\""))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/str>","\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/str>","\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"b","<http://example.org/str>","s2",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "a",
+                            "s1",
+                            "b",
+                            "s2"
+                        ), listOf(
+                            mutableMapOf(
+                                "a" to "<http://example.org/s1>",
+                                "s1" to "\"foo\"",
+                                "b" to "<http://example.org/s1>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s2>",
+                                "s1" to "\"bar\"@en",
+                                "b" to "<http://example.org/s1>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s3>",
+                                "s1" to "\"BAZ\"",
+                                "b" to "<http://example.org/s1>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s4>",
+                                "s1" to "\"食べ物\"",
+                                "b" to "<http://example.org/s1>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s5>",
+                                "s1" to "\"100%\"",
+                                "b" to "<http://example.org/s1>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s6>",
+                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s1>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s7>",
+                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s1>",
+                                "s2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s1>",
+                                "s1" to "\"foo\"",
+                                "b" to "<http://example.org/s2>",
+                                "s2" to "\"bar\"@en"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s2>",
+                                "s1" to "\"bar\"@en",
+                                "b" to "<http://example.org/s2>",
+                                "s2" to "\"bar\"@en"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s3>",
+                                "s1" to "\"BAZ\"",
+                                "b" to "<http://example.org/s2>",
+                                "s2" to "\"bar\"@en"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s4>",
+                                "s1" to "\"食べ物\"",
+                                "b" to "<http://example.org/s2>",
+                                "s2" to "\"bar\"@en"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s5>",
+                                "s1" to "\"100%\"",
+                                "b" to "<http://example.org/s2>",
+                                "s2" to "\"bar\"@en"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s6>",
+                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s2>",
+                                "s2" to "\"bar\"@en"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s7>",
+                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s2>",
+                                "s2" to "\"bar\"@en"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s1>",
+                                "s1" to "\"foo\"",
+                                "b" to "<http://example.org/s3>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s2>",
+                                "s1" to "\"bar\"@en",
+                                "b" to "<http://example.org/s3>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s3>",
+                                "s1" to "\"BAZ\"",
+                                "b" to "<http://example.org/s3>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s4>",
+                                "s1" to "\"食べ物\"",
+                                "b" to "<http://example.org/s3>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s5>",
+                                "s1" to "\"100%\"",
+                                "b" to "<http://example.org/s3>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s6>",
+                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s3>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s7>",
+                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s3>",
+                                "s2" to "\"BAZ\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s1>",
+                                "s1" to "\"foo\"",
+                                "b" to "<http://example.org/s4>",
+                                "s2" to "\"食べ物\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s2>",
+                                "s1" to "\"bar\"@en",
+                                "b" to "<http://example.org/s4>",
+                                "s2" to "\"食べ物\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s3>",
+                                "s1" to "\"BAZ\"",
+                                "b" to "<http://example.org/s4>",
+                                "s2" to "\"食べ物\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s4>",
+                                "s1" to "\"食べ物\"",
+                                "b" to "<http://example.org/s4>",
+                                "s2" to "\"食べ物\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s5>",
+                                "s1" to "\"100%\"",
+                                "b" to "<http://example.org/s4>",
+                                "s2" to "\"食べ物\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s6>",
+                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s4>",
+                                "s2" to "\"食べ物\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s7>",
+                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s4>",
+                                "s2" to "\"食べ物\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s1>",
+                                "s1" to "\"foo\"",
+                                "b" to "<http://example.org/s5>",
+                                "s2" to "\"100%\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s2>",
+                                "s1" to "\"bar\"@en",
+                                "b" to "<http://example.org/s5>",
+                                "s2" to "\"100%\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s3>",
+                                "s1" to "\"BAZ\"",
+                                "b" to "<http://example.org/s5>",
+                                "s2" to "\"100%\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s4>",
+                                "s1" to "\"食べ物\"",
+                                "b" to "<http://example.org/s5>",
+                                "s2" to "\"100%\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s5>",
+                                "s1" to "\"100%\"",
+                                "b" to "<http://example.org/s5>",
+                                "s2" to "\"100%\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s6>",
+                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s5>",
+                                "s2" to "\"100%\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s7>",
+                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s5>",
+                                "s2" to "\"100%\""
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s1>",
+                                "s1" to "\"foo\"",
+                                "b" to "<http://example.org/s6>",
+                                "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s2>",
+                                "s1" to "\"bar\"@en",
+                                "b" to "<http://example.org/s6>",
+                                "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s3>",
+                                "s1" to "\"BAZ\"",
+                                "b" to "<http://example.org/s6>",
+                                "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s4>",
+                                "s1" to "\"食べ物\"",
+                                "b" to "<http://example.org/s6>",
+                                "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s5>",
+                                "s1" to "\"100%\"",
+                                "b" to "<http://example.org/s6>",
+                                "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s6>",
+                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s6>",
+                                "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s7>",
+                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s6>",
+                                "s2" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s1>",
+                                "s1" to "\"foo\"",
+                                "b" to "<http://example.org/s7>",
+                                "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s2>",
+                                "s1" to "\"bar\"@en",
+                                "b" to "<http://example.org/s7>",
+                                "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s3>",
+                                "s1" to "\"BAZ\"",
+                                "b" to "<http://example.org/s7>",
+                                "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s4>",
+                                "s1" to "\"食べ物\"",
+                                "b" to "<http://example.org/s7>",
+                                "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s5>",
+                                "s1" to "\"100%\"",
+                                "b" to "<http://example.org/s7>",
+                                "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s6>",
+                                "s1" to "\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s7>",
+                                "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            ),
+                            mutableMapOf(
+                                "a" to "<http://example.org/s7>",
+                                "s1" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "b" to "<http://example.org/s7>",
+                                "s2" to "\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "v"
@@ -8375,6 +10483,48 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        true                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "v",
+                            "w"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example/s1>",
+                                "v" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "w" to "\"9\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example/s2>",
+                                "v" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "w" to null
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/grouping/group03.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example/s1>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example/s2>","<http://example/p>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/p>","v",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example/s1>","<http://example/q>","\"9\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/q>","w",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
                         true                    ),
                     POPValues(dictionary, listOf(
                             "s",
@@ -8428,6 +10578,54 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        true                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "v",
+                            "w"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example/s1>",
+                                "v" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "w" to "\"9\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example/s2>",
+                                "v" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "w" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example/s3>",
+                                "v" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "w" to null
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/grouping/group05.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example/s1>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example/s2>","<http://example/p>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example/s3>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/p>","v",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example/s1>","<http://example/q>","\"9\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/q>","w",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
                         true                    ),
                     POPValues(dictionary, listOf(
                             "s",
@@ -8591,6 +10789,91 @@ class GeneratedPOPJoinHashMapTest {
                 MicroTestPN(
                     POPJoinHashMap(
                         dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"o","p2","o2",false,false,false,EIndexPattern.SPO)
+                                    }()
+,
+                        true                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s1>",
+                                "p" to "<http://example.org/p1>",
+                                "o" to "<http://example.org/s2>",
+                                "p2" to "<http://example.org/p2>",
+                                "o2" to "\"foo\""
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "p" to "<http://example.org/p2>",
+                                "o" to "\"foo\"",
+                                "p2" to null,
+                                "o2" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s3>",
+                                "p" to "<http://example.org/p2>",
+                                "o" to "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>",
+                                "p2" to null,
+                                "o2" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s4>",
+                                "p" to "<http://example.org/p4>",
+                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "p2" to null,
+                                "o2" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s5>",
+                                "p" to "<http://example.org/p5>",
+                                "o" to "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>",
+                                "p2" to null,
+                                "o2" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s6>",
+                                "p" to "<http://example.org/p6>",
+                                "o" to "_:o6",
+                                "p2" to null,
+                                "o2" to null
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
                         POPValues(dictionary, listOf(
                                 "x",
                                 "y"
@@ -8640,6 +10923,48 @@ class GeneratedPOPJoinHashMapTest {
                 MicroTestPN(
                     POPJoinHashMap(
                         dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://www.example.org/instance#a>","<http://www.example.org/schema#p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.example.org/schema#p>","y",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://www.example.org/instance#a>","<http://www.example.org/schema#q>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://www.example.org/instance#a>","<http://www.example.org/schema#q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.example.org/schema#q>","z",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "x",
+                            "y",
+                            "z"
+                        ), listOf(
+                            mutableMapOf(
+                                "x" to "<http://www.example.org/instance#a>",
+                                "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "x" to "<http://www.example.org/instance#a>",
+                                "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/project-expression/projexp01.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
                         POPValues(dictionary, listOf(
                                 "x",
                                 "y"
@@ -8664,6 +10989,48 @@ class GeneratedPOPJoinHashMapTest {
                                 )
                             )
                         ),
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "x",
+                            "y",
+                            "z"
+                        ), listOf(
+                            mutableMapOf(
+                                "x" to "<http://www.example.org/instance#a>",
+                                "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "x" to "<http://www.example.org/instance#a>",
+                                "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to "\"foobar\""
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/project-expression/projexp02.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://www.example.org/instance#a>","<http://www.example.org/schema#p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.example.org/schema#p>","y",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://www.example.org/instance#a>","<http://www.example.org/schema#q>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://www.example.org/instance#a>","<http://www.example.org/schema#q>","\"foobar\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.example.org/schema#q>","z",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
                         false                    ),
                     POPValues(dictionary, listOf(
                             "x",
@@ -8778,151 +11145,292 @@ class GeneratedPOPJoinHashMapTest {
                 MicroTestPN(
                     POPJoinHashMap(
                         dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://www.example.org/instance#a>","<http://www.example.org/schema#p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://www.example.org/instance#b>","<http://www.example.org/schema#p>","\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.example.org/schema#p>","y",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://www.example.org/instance#a>","<http://www.example.org/schema#q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.example.org/schema#q>","l",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                        true                    ),
+                    POPValues(dictionary, listOf(
+                            "x",
+                            "y",
+                            "l"
+                        ), listOf(
+                            mutableMapOf(
+                                "x" to "<http://www.example.org/instance#a>",
+                                "y" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "l" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                            ),
+                            mutableMapOf(
+                                "x" to "<http://www.example.org/instance#b>",
+                                "y" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "l" to null
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/project-expression/projexp07.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
                         POPValues(dictionary, listOf(
-                                "#_34546",
+                                "#_34549",
                                 "L"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_34546" to "_:_34523",
+                                    "#_34549" to "_:_34526",
                                     "L" to "\"Ice Cream\""
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34524",
+                                    "#_34549" to "_:_34527",
                                     "L" to "\"Pizza\""
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34525",
+                                    "#_34549" to "_:_34528",
                                     "L" to "\"Wine\""
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34526",
+                                    "#_34549" to "_:_34529",
                                     "L" to "\"Ice Cream\""
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34527",
+                                    "#_34549" to "_:_34530",
                                     "L" to "\"Pasta\""
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34528",
+                                    "#_34549" to "_:_34531",
                                     "L" to "\"Soft Drink\""
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34529",
+                                    "#_34549" to "_:_34532",
                                     "L" to "\"Sandwich\""
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34530",
+                                    "#_34549" to "_:_34533",
                                     "L" to "\"Soft Drink\""
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34531",
+                                    "#_34549" to "_:_34534",
                                     "L" to "\"Bagel\""
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34532",
+                                    "#_34549" to "_:_34535",
                                     "L" to "\"Soft Drink\""
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#_34546"
+                                "#_34549"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#_34546" to "_:_34523"
+                                    "#_34549" to "_:_34526"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#_34546" to "_:_34524"
+                                    "#_34549" to "_:_34527"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#_34546" to "_:_34525"
+                                    "#_34549" to "_:_34528"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#_34546" to "_:_34526"
+                                    "#_34549" to "_:_34529"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#_34546" to "_:_34527"
+                                    "#_34549" to "_:_34530"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#_34546" to "_:_34528"
+                                    "#_34549" to "_:_34531"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder3>",
-                                    "#_34546" to "_:_34529"
+                                    "#_34549" to "_:_34532"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder3>",
-                                    "#_34546" to "_:_34530"
+                                    "#_34549" to "_:_34533"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder4>",
-                                    "#_34546" to "_:_34531"
+                                    "#_34549" to "_:_34534"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder4>",
-                                    "#_34546" to "_:_34532"
+                                    "#_34549" to "_:_34535"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_34546",
+                            "#_34549",
                             "L",
                             "O"
                         ), listOf(
                             mutableMapOf(
-                                "#_34546" to "_:_34523",
+                                "#_34549" to "_:_34526",
                                 "L" to "\"Ice Cream\"",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#_34546" to "_:_34524",
+                                "#_34549" to "_:_34527",
                                 "L" to "\"Pizza\"",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#_34546" to "_:_34525",
+                                "#_34549" to "_:_34528",
                                 "L" to "\"Wine\"",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#_34546" to "_:_34526",
+                                "#_34549" to "_:_34529",
                                 "L" to "\"Ice Cream\"",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#_34546" to "_:_34527",
+                                "#_34549" to "_:_34530",
                                 "L" to "\"Pasta\"",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#_34546" to "_:_34528",
+                                "#_34549" to "_:_34531",
                                 "L" to "\"Soft Drink\"",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#_34546" to "_:_34529",
+                                "#_34549" to "_:_34532",
                                 "L" to "\"Sandwich\"",
                                 "O" to "<http://www.example.orgorder3>"
                             ),
                             mutableMapOf(
-                                "#_34546" to "_:_34530",
+                                "#_34549" to "_:_34533",
                                 "L" to "\"Soft Drink\"",
                                 "O" to "<http://www.example.orgorder3>"
                             ),
                             mutableMapOf(
-                                "#_34546" to "_:_34531",
+                                "#_34549" to "_:_34534",
                                 "L" to "\"Bagel\"",
                                 "O" to "<http://www.example.orgorder4>"
                             ),
                             mutableMapOf(
-                                "#_34546" to "_:_34532",
+                                "#_34549" to "_:_34535",
+                                "L" to "\"Soft Drink\"",
+                                "O" to "<http://www.example.orgorder4>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("_:_34526","<http://www.w3.org/2000/01/rdf-schema#label>","\"Ice Cream\""))
+                                        graph.addData(1L,listOf("_:_34527","<http://www.w3.org/2000/01/rdf-schema#label>","\"Pizza\""))
+                                        graph.addData(1L,listOf("_:_34528","<http://www.w3.org/2000/01/rdf-schema#label>","\"Wine\""))
+                                        graph.addData(1L,listOf("_:_34529","<http://www.w3.org/2000/01/rdf-schema#label>","\"Ice Cream\""))
+                                        graph.addData(1L,listOf("_:_34530","<http://www.w3.org/2000/01/rdf-schema#label>","\"Pasta\""))
+                                        graph.addData(1L,listOf("_:_34531","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                        graph.addData(1L,listOf("_:_34532","<http://www.w3.org/2000/01/rdf-schema#label>","\"Sandwich\""))
+                                        graph.addData(1L,listOf("_:_34533","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                        graph.addData(1L,listOf("_:_34534","<http://www.w3.org/2000/01/rdf-schema#label>","\"Bagel\""))
+                                        graph.addData(1L,listOf("_:_34535","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_34549","<http://www.w3.org/2000/01/rdf-schema#label>","L",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_34526"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_34527"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_34528"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_34529"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_34530"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_34531"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.example.orghasItem>","_:_34532"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.example.orghasItem>","_:_34533"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.example.orghasItem>","_:_34534"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.example.orghasItem>","_:_34535"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"O","<http://www.example.orghasItem>","#_34549",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "#_34549",
+                            "L",
+                            "O"
+                        ), listOf(
+                            mutableMapOf(
+                                "#_34549" to "_:_34526",
+                                "L" to "\"Ice Cream\"",
+                                "O" to "<http://www.example.orgorder1>"
+                            ),
+                            mutableMapOf(
+                                "#_34549" to "_:_34527",
+                                "L" to "\"Pizza\"",
+                                "O" to "<http://www.example.orgorder1>"
+                            ),
+                            mutableMapOf(
+                                "#_34549" to "_:_34528",
+                                "L" to "\"Wine\"",
+                                "O" to "<http://www.example.orgorder1>"
+                            ),
+                            mutableMapOf(
+                                "#_34549" to "_:_34529",
+                                "L" to "\"Ice Cream\"",
+                                "O" to "<http://www.example.orgorder2>"
+                            ),
+                            mutableMapOf(
+                                "#_34549" to "_:_34530",
+                                "L" to "\"Pasta\"",
+                                "O" to "<http://www.example.orgorder2>"
+                            ),
+                            mutableMapOf(
+                                "#_34549" to "_:_34531",
+                                "L" to "\"Soft Drink\"",
+                                "O" to "<http://www.example.orgorder2>"
+                            ),
+                            mutableMapOf(
+                                "#_34549" to "_:_34532",
+                                "L" to "\"Sandwich\"",
+                                "O" to "<http://www.example.orgorder3>"
+                            ),
+                            mutableMapOf(
+                                "#_34549" to "_:_34533",
+                                "L" to "\"Soft Drink\"",
+                                "O" to "<http://www.example.orgorder3>"
+                            ),
+                            mutableMapOf(
+                                "#_34549" to "_:_34534",
+                                "L" to "\"Bagel\"",
+                                "O" to "<http://www.example.orgorder4>"
+                            ),
+                            mutableMapOf(
+                                "#_34549" to "_:_34535",
                                 "L" to "\"Soft Drink\"",
                                 "O" to "<http://www.example.orgorder4>"
                             )
@@ -8936,57 +11444,57 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_34546",
+                                "#_34549",
                                 "L",
                                 "O"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_34546" to "_:_34523",
+                                    "#_34549" to "_:_34526",
                                     "L" to "\"Ice Cream\"",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34524",
+                                    "#_34549" to "_:_34527",
                                     "L" to "\"Pizza\"",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34525",
+                                    "#_34549" to "_:_34528",
                                     "L" to "\"Wine\"",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34526",
+                                    "#_34549" to "_:_34529",
                                     "L" to "\"Ice Cream\"",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34527",
+                                    "#_34549" to "_:_34530",
                                     "L" to "\"Pasta\"",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34528",
+                                    "#_34549" to "_:_34531",
                                     "L" to "\"Soft Drink\"",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34529",
+                                    "#_34549" to "_:_34532",
                                     "L" to "\"Sandwich\"",
                                     "O" to "<http://www.example.orgorder3>"
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34530",
+                                    "#_34549" to "_:_34533",
                                     "L" to "\"Soft Drink\"",
                                     "O" to "<http://www.example.orgorder3>"
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34531",
+                                    "#_34549" to "_:_34534",
                                     "L" to "\"Bagel\"",
                                     "O" to "<http://www.example.orgorder4>"
                                 ),
                                 mutableMapOf(
-                                    "#_34546" to "_:_34532",
+                                    "#_34549" to "_:_34535",
                                     "L" to "\"Soft Drink\"",
                                     "O" to "<http://www.example.orgorder4>"
                                 )
@@ -9005,37 +11513,153 @@ class GeneratedPOPJoinHashMapTest {
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_34546",
+                            "#_34549",
                             "L",
                             "O"
                         ), listOf(
                             mutableMapOf(
-                                "#_34546" to "_:_34523",
+                                "#_34549" to "_:_34526",
                                 "L" to "\"Ice Cream\"",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#_34546" to "_:_34524",
+                                "#_34549" to "_:_34527",
                                 "L" to "\"Pizza\"",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#_34546" to "_:_34525",
+                                "#_34549" to "_:_34528",
                                 "L" to "\"Wine\"",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#_34546" to "_:_34526",
+                                "#_34549" to "_:_34529",
                                 "L" to "\"Ice Cream\"",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#_34546" to "_:_34527",
+                                "#_34549" to "_:_34530",
                                 "L" to "\"Pasta\"",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#_34546" to "_:_34528",
+                                "#_34549" to "_:_34531",
+                                "L" to "\"Soft Drink\"",
+                                "O" to "<http://www.example.orgorder2>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    POPJoinHashMap(
+                                        dictionary,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("_:_34526","<http://www.w3.org/2000/01/rdf-schema#label>","\"Ice Cream\""))
+                                                        graph.addData(1L,listOf("_:_34527","<http://www.w3.org/2000/01/rdf-schema#label>","\"Pizza\""))
+                                                        graph.addData(1L,listOf("_:_34528","<http://www.w3.org/2000/01/rdf-schema#label>","\"Wine\""))
+                                                        graph.addData(1L,listOf("_:_34529","<http://www.w3.org/2000/01/rdf-schema#label>","\"Ice Cream\""))
+                                                        graph.addData(1L,listOf("_:_34530","<http://www.w3.org/2000/01/rdf-schema#label>","\"Pasta\""))
+                                                        graph.addData(1L,listOf("_:_34531","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                        graph.addData(1L,listOf("_:_34532","<http://www.w3.org/2000/01/rdf-schema#label>","\"Sandwich\""))
+                                                        graph.addData(1L,listOf("_:_34533","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                        graph.addData(1L,listOf("_:_34534","<http://www.w3.org/2000/01/rdf-schema#label>","\"Bagel\""))
+                                                        graph.addData(1L,listOf("_:_34535","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_34549","<http://www.w3.org/2000/01/rdf-schema#label>","L",false,true,false,EIndexPattern.SPO)
+                                                    }()
+,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_34526"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_34527"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_34528"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_34529"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_34530"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_34531"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.example.orghasItem>","_:_34532"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.example.orghasItem>","_:_34533"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.example.orghasItem>","_:_34534"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.example.orghasItem>","_:_34535"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"O","<http://www.example.orghasItem>","#_34549",false,true,false,EIndexPattern.SPO)
+                                                    }()
+,
+                                        false                                    )
+,
+                                    POPDistinct(
+                                        dictionary,
+                                                    POPProjection(
+                                                        dictionary,
+                                                        mutableListOf(
+                                                            AOPVariable("O")
+                                                        ),
+                                                                    POPLimit(
+                                                                        dictionary,
+                                                                        2,
+                                                                                    POPSort(
+                                                                                        dictionary,
+                                                                                        AOPVariable("O"),
+                                                                                        true,
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"O","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>",false,true,true,EIndexPattern.SPO)
+                                                                                                    }()
+
+                                                                                    )
+
+                                                                    )
+
+                                                    )
+
+                                    )
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "#_34549",
+                            "L",
+                            "O"
+                        ), listOf(
+                            mutableMapOf(
+                                "#_34549" to "_:_34526",
+                                "L" to "\"Ice Cream\"",
+                                "O" to "<http://www.example.orgorder1>"
+                            ),
+                            mutableMapOf(
+                                "#_34549" to "_:_34527",
+                                "L" to "\"Pizza\"",
+                                "O" to "<http://www.example.orgorder1>"
+                            ),
+                            mutableMapOf(
+                                "#_34549" to "_:_34528",
+                                "L" to "\"Wine\"",
+                                "O" to "<http://www.example.orgorder1>"
+                            ),
+                            mutableMapOf(
+                                "#_34549" to "_:_34529",
+                                "L" to "\"Ice Cream\"",
+                                "O" to "<http://www.example.orgorder2>"
+                            ),
+                            mutableMapOf(
+                                "#_34549" to "_:_34530",
+                                "L" to "\"Pasta\"",
+                                "O" to "<http://www.example.orgorder2>"
+                            ),
+                            mutableMapOf(
+                                "#_34549" to "_:_34531",
                                 "L" to "\"Soft Drink\"",
                                 "O" to "<http://www.example.orgorder2>"
                             )
@@ -9088,151 +11712,286 @@ class GeneratedPOPJoinHashMapTest {
                 MicroTestPN(
                     POPJoinHashMap(
                         dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://p1>","<http://xmlns.com/foaf/0.1/firstName>","\"John\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"P","<http://xmlns.com/foaf/0.1/firstName>","F",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://p1>","<http://xmlns.com/foaf/0.1/lastName>","\"Doe\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"P","<http://xmlns.com/foaf/0.1/lastName>","L",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "P",
+                            "F",
+                            "L"
+                        ), listOf(
+                            mutableMapOf(
+                                "P" to "<http://p1>",
+                                "F" to "\"John\"",
+                                "L" to "\"Doe\""
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq12.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
                         POPValues(dictionary, listOf(
-                                "#_34867",
+                                "#_34870",
                                 "L"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_34867" to "_:_34844",
+                                    "#_34870" to "_:_34847",
                                     "L" to "\"Ice Cream\""
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34845",
+                                    "#_34870" to "_:_34848",
                                     "L" to "\"Pizza\""
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34846",
+                                    "#_34870" to "_:_34849",
                                     "L" to "\"Wine\""
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34847",
+                                    "#_34870" to "_:_34850",
                                     "L" to "\"Ice Cream\""
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34848",
+                                    "#_34870" to "_:_34851",
                                     "L" to "\"Pasta\""
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34849",
+                                    "#_34870" to "_:_34852",
                                     "L" to "\"Soft Drink\""
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34850",
+                                    "#_34870" to "_:_34853",
                                     "L" to "\"Sandwich\""
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34851",
+                                    "#_34870" to "_:_34854",
                                     "L" to "\"Soft Drink\""
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34852",
+                                    "#_34870" to "_:_34855",
                                     "L" to "\"Bagel\""
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34853",
+                                    "#_34870" to "_:_34856",
                                     "L" to "\"Soft Drink\""
                                 )
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "O",
-                                "#_34867"
+                                "#_34870"
                             ), listOf(
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#_34867" to "_:_34844"
+                                    "#_34870" to "_:_34847"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#_34867" to "_:_34845"
+                                    "#_34870" to "_:_34848"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder1>",
-                                    "#_34867" to "_:_34846"
+                                    "#_34870" to "_:_34849"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#_34867" to "_:_34847"
+                                    "#_34870" to "_:_34850"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#_34867" to "_:_34848"
+                                    "#_34870" to "_:_34851"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder2>",
-                                    "#_34867" to "_:_34849"
+                                    "#_34870" to "_:_34852"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder3>",
-                                    "#_34867" to "_:_34850"
+                                    "#_34870" to "_:_34853"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder3>",
-                                    "#_34867" to "_:_34851"
+                                    "#_34870" to "_:_34854"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder4>",
-                                    "#_34867" to "_:_34852"
+                                    "#_34870" to "_:_34855"
                                 ),
                                 mutableMapOf(
                                     "O" to "<http://www.example.orgorder4>",
-                                    "#_34867" to "_:_34853"
+                                    "#_34870" to "_:_34856"
                                 )
                             )
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_34867",
+                            "#_34870",
                             "L",
                             "O"
                         ), listOf(
                             mutableMapOf(
-                                "#_34867" to "_:_34844",
+                                "#_34870" to "_:_34847",
                                 "L" to "\"Ice Cream\"",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#_34867" to "_:_34845",
+                                "#_34870" to "_:_34848",
                                 "L" to "\"Pizza\"",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#_34867" to "_:_34846",
+                                "#_34870" to "_:_34849",
                                 "L" to "\"Wine\"",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#_34867" to "_:_34847",
+                                "#_34870" to "_:_34850",
                                 "L" to "\"Ice Cream\"",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#_34867" to "_:_34848",
+                                "#_34870" to "_:_34851",
                                 "L" to "\"Pasta\"",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#_34867" to "_:_34849",
+                                "#_34870" to "_:_34852",
                                 "L" to "\"Soft Drink\"",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#_34867" to "_:_34850",
+                                "#_34870" to "_:_34853",
                                 "L" to "\"Sandwich\"",
                                 "O" to "<http://www.example.orgorder3>"
                             ),
                             mutableMapOf(
-                                "#_34867" to "_:_34851",
+                                "#_34870" to "_:_34854",
                                 "L" to "\"Soft Drink\"",
                                 "O" to "<http://www.example.orgorder3>"
                             ),
                             mutableMapOf(
-                                "#_34867" to "_:_34852",
+                                "#_34870" to "_:_34855",
                                 "L" to "\"Bagel\"",
                                 "O" to "<http://www.example.orgorder4>"
                             ),
                             mutableMapOf(
-                                "#_34867" to "_:_34853",
+                                "#_34870" to "_:_34856",
+                                "L" to "\"Soft Drink\"",
+                                "O" to "<http://www.example.orgorder4>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("_:_34847","<http://www.w3.org/2000/01/rdf-schema#label>","\"Ice Cream\""))
+                                        graph.addData(1L,listOf("_:_34848","<http://www.w3.org/2000/01/rdf-schema#label>","\"Pizza\""))
+                                        graph.addData(1L,listOf("_:_34849","<http://www.w3.org/2000/01/rdf-schema#label>","\"Wine\""))
+                                        graph.addData(1L,listOf("_:_34850","<http://www.w3.org/2000/01/rdf-schema#label>","\"Ice Cream\""))
+                                        graph.addData(1L,listOf("_:_34851","<http://www.w3.org/2000/01/rdf-schema#label>","\"Pasta\""))
+                                        graph.addData(1L,listOf("_:_34852","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                        graph.addData(1L,listOf("_:_34853","<http://www.w3.org/2000/01/rdf-schema#label>","\"Sandwich\""))
+                                        graph.addData(1L,listOf("_:_34854","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                        graph.addData(1L,listOf("_:_34855","<http://www.w3.org/2000/01/rdf-schema#label>","\"Bagel\""))
+                                        graph.addData(1L,listOf("_:_34856","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_34870","<http://www.w3.org/2000/01/rdf-schema#label>","L",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_34847"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_34848"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_34849"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_34850"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_34851"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_34852"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.example.orghasItem>","_:_34853"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.example.orghasItem>","_:_34854"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.example.orghasItem>","_:_34855"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.example.orghasItem>","_:_34856"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"O","<http://www.example.orghasItem>","#_34870",false,true,false,EIndexPattern.SPO)
+                                    }()
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "#_34870",
+                            "L",
+                            "O"
+                        ), listOf(
+                            mutableMapOf(
+                                "#_34870" to "_:_34847",
+                                "L" to "\"Ice Cream\"",
+                                "O" to "<http://www.example.orgorder1>"
+                            ),
+                            mutableMapOf(
+                                "#_34870" to "_:_34848",
+                                "L" to "\"Pizza\"",
+                                "O" to "<http://www.example.orgorder1>"
+                            ),
+                            mutableMapOf(
+                                "#_34870" to "_:_34849",
+                                "L" to "\"Wine\"",
+                                "O" to "<http://www.example.orgorder1>"
+                            ),
+                            mutableMapOf(
+                                "#_34870" to "_:_34850",
+                                "L" to "\"Ice Cream\"",
+                                "O" to "<http://www.example.orgorder2>"
+                            ),
+                            mutableMapOf(
+                                "#_34870" to "_:_34851",
+                                "L" to "\"Pasta\"",
+                                "O" to "<http://www.example.orgorder2>"
+                            ),
+                            mutableMapOf(
+                                "#_34870" to "_:_34852",
+                                "L" to "\"Soft Drink\"",
+                                "O" to "<http://www.example.orgorder2>"
+                            ),
+                            mutableMapOf(
+                                "#_34870" to "_:_34853",
+                                "L" to "\"Sandwich\"",
+                                "O" to "<http://www.example.orgorder3>"
+                            ),
+                            mutableMapOf(
+                                "#_34870" to "_:_34854",
+                                "L" to "\"Soft Drink\"",
+                                "O" to "<http://www.example.orgorder3>"
+                            ),
+                            mutableMapOf(
+                                "#_34870" to "_:_34855",
+                                "L" to "\"Bagel\"",
+                                "O" to "<http://www.example.orgorder4>"
+                            ),
+                            mutableMapOf(
+                                "#_34870" to "_:_34856",
                                 "L" to "\"Soft Drink\"",
                                 "O" to "<http://www.example.orgorder4>"
                             )
@@ -9246,57 +12005,57 @@ class GeneratedPOPJoinHashMapTest {
                     POPJoinHashMap(
                         dictionary,
                         POPValues(dictionary, listOf(
-                                "#_34867",
+                                "#_34870",
                                 "L",
                                 "O"
                             ), listOf(
                                 mutableMapOf(
-                                    "#_34867" to "_:_34844",
+                                    "#_34870" to "_:_34847",
                                     "L" to "\"Ice Cream\"",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34845",
+                                    "#_34870" to "_:_34848",
                                     "L" to "\"Pizza\"",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34846",
+                                    "#_34870" to "_:_34849",
                                     "L" to "\"Wine\"",
                                     "O" to "<http://www.example.orgorder1>"
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34847",
+                                    "#_34870" to "_:_34850",
                                     "L" to "\"Ice Cream\"",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34848",
+                                    "#_34870" to "_:_34851",
                                     "L" to "\"Pasta\"",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34849",
+                                    "#_34870" to "_:_34852",
                                     "L" to "\"Soft Drink\"",
                                     "O" to "<http://www.example.orgorder2>"
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34850",
+                                    "#_34870" to "_:_34853",
                                     "L" to "\"Sandwich\"",
                                     "O" to "<http://www.example.orgorder3>"
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34851",
+                                    "#_34870" to "_:_34854",
                                     "L" to "\"Soft Drink\"",
                                     "O" to "<http://www.example.orgorder3>"
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34852",
+                                    "#_34870" to "_:_34855",
                                     "L" to "\"Bagel\"",
                                     "O" to "<http://www.example.orgorder4>"
                                 ),
                                 mutableMapOf(
-                                    "#_34867" to "_:_34853",
+                                    "#_34870" to "_:_34856",
                                     "L" to "\"Soft Drink\"",
                                     "O" to "<http://www.example.orgorder4>"
                                 )
@@ -9315,37 +12074,153 @@ class GeneratedPOPJoinHashMapTest {
                         ),
                         false                    ),
                     POPValues(dictionary, listOf(
-                            "#_34867",
+                            "#_34870",
                             "L",
                             "O"
                         ), listOf(
                             mutableMapOf(
-                                "#_34867" to "_:_34844",
+                                "#_34870" to "_:_34847",
                                 "L" to "\"Ice Cream\"",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#_34867" to "_:_34845",
+                                "#_34870" to "_:_34848",
                                 "L" to "\"Pizza\"",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#_34867" to "_:_34846",
+                                "#_34870" to "_:_34849",
                                 "L" to "\"Wine\"",
                                 "O" to "<http://www.example.orgorder1>"
                             ),
                             mutableMapOf(
-                                "#_34867" to "_:_34847",
+                                "#_34870" to "_:_34850",
                                 "L" to "\"Ice Cream\"",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#_34867" to "_:_34848",
+                                "#_34870" to "_:_34851",
                                 "L" to "\"Pasta\"",
                                 "O" to "<http://www.example.orgorder2>"
                             ),
                             mutableMapOf(
-                                "#_34867" to "_:_34849",
+                                "#_34870" to "_:_34852",
+                                "L" to "\"Soft Drink\"",
+                                "O" to "<http://www.example.orgorder2>"
+                            )
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPJoinHashMap(
+                        dictionary,
+                                    POPJoinHashMap(
+                                        dictionary,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("_:_34847","<http://www.w3.org/2000/01/rdf-schema#label>","\"Ice Cream\""))
+                                                        graph.addData(1L,listOf("_:_34848","<http://www.w3.org/2000/01/rdf-schema#label>","\"Pizza\""))
+                                                        graph.addData(1L,listOf("_:_34849","<http://www.w3.org/2000/01/rdf-schema#label>","\"Wine\""))
+                                                        graph.addData(1L,listOf("_:_34850","<http://www.w3.org/2000/01/rdf-schema#label>","\"Ice Cream\""))
+                                                        graph.addData(1L,listOf("_:_34851","<http://www.w3.org/2000/01/rdf-schema#label>","\"Pasta\""))
+                                                        graph.addData(1L,listOf("_:_34852","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                        graph.addData(1L,listOf("_:_34853","<http://www.w3.org/2000/01/rdf-schema#label>","\"Sandwich\""))
+                                                        graph.addData(1L,listOf("_:_34854","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                        graph.addData(1L,listOf("_:_34855","<http://www.w3.org/2000/01/rdf-schema#label>","\"Bagel\""))
+                                                        graph.addData(1L,listOf("_:_34856","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_34870","<http://www.w3.org/2000/01/rdf-schema#label>","L",false,true,false,EIndexPattern.SPO)
+                                                    }()
+,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_34847"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_34848"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_34849"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_34850"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_34851"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_34852"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.example.orghasItem>","_:_34853"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.example.orghasItem>","_:_34854"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.example.orghasItem>","_:_34855"))
+                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.example.orghasItem>","_:_34856"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"O","<http://www.example.orghasItem>","#_34870",false,true,false,EIndexPattern.SPO)
+                                                    }()
+,
+                                        false                                    )
+,
+                                    POPDistinct(
+                                        dictionary,
+                                                    POPProjection(
+                                                        dictionary,
+                                                        mutableListOf(
+                                                            AOPVariable("O")
+                                                        ),
+                                                                    POPLimit(
+                                                                        dictionary,
+                                                                        2,
+                                                                                    POPSort(
+                                                                                        dictionary,
+                                                                                        AOPVariable("O"),
+                                                                                        true,
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"O","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>",false,true,true,EIndexPattern.SPO)
+                                                                                                    }()
+
+                                                                                    )
+
+                                                                    )
+
+                                                    )
+
+                                    )
+,
+                        false                    ),
+                    POPValues(dictionary, listOf(
+                            "#_34870",
+                            "L",
+                            "O"
+                        ), listOf(
+                            mutableMapOf(
+                                "#_34870" to "_:_34847",
+                                "L" to "\"Ice Cream\"",
+                                "O" to "<http://www.example.orgorder1>"
+                            ),
+                            mutableMapOf(
+                                "#_34870" to "_:_34848",
+                                "L" to "\"Pizza\"",
+                                "O" to "<http://www.example.orgorder1>"
+                            ),
+                            mutableMapOf(
+                                "#_34870" to "_:_34849",
+                                "L" to "\"Wine\"",
+                                "O" to "<http://www.example.orgorder1>"
+                            ),
+                            mutableMapOf(
+                                "#_34870" to "_:_34850",
+                                "L" to "\"Ice Cream\"",
+                                "O" to "<http://www.example.orgorder2>"
+                            ),
+                            mutableMapOf(
+                                "#_34870" to "_:_34851",
+                                "L" to "\"Pasta\"",
+                                "O" to "<http://www.example.orgorder2>"
+                            ),
+                            mutableMapOf(
+                                "#_34870" to "_:_34852",
                                 "L" to "\"Soft Drink\"",
                                 "O" to "<http://www.example.orgorder2>"
                             )
