@@ -13,7 +13,6 @@ import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
-import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBase
 
 
@@ -41,12 +40,12 @@ class POPBind : POPBase {
         return true
     }
 
-    constructor(dictionary: ResultSetDictionary, name: AOPVariable, expression: POPExpression, child: OPBase) : super() {
+    constructor(dictionary: ResultSetDictionary, name: AOPVariable, value: AOPBase, child: OPBase) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)
         this.name = name
         children[0] = child
-        children[1] = expression
+        children[1] = value
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         val variableNames = children[0].getProvidedVariableNames()
         variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
@@ -62,10 +61,16 @@ class POPBind : POPBase {
     }
 
     override fun childrenToVerifyCount(): Int = 1
-    override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + name.name).distinct()
+    override fun getProvidedVariableNames() :List<String>{
+val res= (children[0].getProvidedVariableNames() + name.name).distinct()
+println("($classname)($uuid)getProvidedVariableNames $res")
+return res
+}
 
     override fun getRequiredVariableNames(): List<String> {
-        return children[1].getRequiredVariableNames()
+        val res= children[1].getRequiredVariableNames()
+println("($classname)($uuid)getRequiredVariableNames $res")
+return res
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPBind.evaluate" }, {
@@ -78,7 +83,7 @@ class POPBind : POPBase {
                     for (i in variablesOld.indices)
                         rsNew[variablesNew[i]!!] = rsOld[variablesOld[i]!!]
                     try {
-                        val value = (children[1] as POPExpression).evaluate(children[0].resultSet, rsOld)
+                        val value = (children[1] as AOPBase).calculate(children[0].resultSet, rsOld).valueToString()
                         if (value == null)
                             resultSet.setUndefValue(rsNew, variableBound)
                         else

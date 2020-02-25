@@ -9,12 +9,6 @@ class LOPServiceIRI(val name: String, val silent: Boolean, child: OPBase) : LOPB
     override val classname = "LOPServiceIRI"
     override val children: Array<OPBase> = arrayOf(child)
 
-    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return getProvidedVariableNames()
-    }
-
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name).addAttribute("silent", "" + silent)
 
     override fun equals(other: Any?): Boolean {

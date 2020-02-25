@@ -50,11 +50,7 @@ open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
 
     constructor(resultSet: ResultSet, store: TripleStoreLocal) : this(resultSet, store, EIndexPattern.SPO)
 
-    override fun getProvidedVariableNames() = mutableListOf(nameS, nameP, nameO).distinct()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
+    override fun getProvidedVariableNames() = listOf(nameS, nameP, nameO).distinct()
 
     override fun evaluate() = Trace.trace<Unit>({ "TripleStoreIteratorLocal.evaluate" }, {
         val sNew = resultSet.createVariable(nameS)

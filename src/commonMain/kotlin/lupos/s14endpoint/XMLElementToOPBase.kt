@@ -13,7 +13,6 @@ import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPJoinNestedLoop
 import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.noinput.POPEmptyRow
-import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.noinput.POPValues
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.modifiers.POPDistinct
@@ -109,13 +108,13 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
                 by.add(createAOPVariable(mapping, it.attributes["name"]!!))
             }
             node["bindings"]!!.childs.forEach {
-                bindings = POPBind(dictionary, createAOPVariable(mapping, it.attributes["name"]!!), convertToOPBase(dictionary, transactionID, it.childs[0], mapping) as POPExpression, bindings)
+                bindings = POPBind(dictionary, createAOPVariable(mapping, it.attributes["name"]!!), convertToOPBase(dictionary, transactionID, it.childs[0], mapping) as AOPBase, bindings)
             }
             if (bindings is POPEmptyRow)
                 return POPGroup(dictionary, by, null, child)
             return POPGroup(dictionary, by, bindings as POPBind, child)
         }
-        "POPFilter" -> POPFilter(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as POPExpression, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping))
+        "POPFilter" -> POPFilter(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping))
         "POPFilterExact" -> {
             val child = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)
             POPFilterExact(dictionary, createAOPVariable(mapping, node.attributes["name"]!!), node.attributes["value"]!!, child)
@@ -127,7 +126,7 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
         "POPBind" -> {
             val child0 = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping)
             val child1 = convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping)
-            POPBind(dictionary, createAOPVariable(mapping, node.attributes["name"]!!), child1 as POPExpression, child0)
+            POPBind(dictionary, createAOPVariable(mapping, node.attributes["name"]!!), child1 as AOPBase, child0)
         }
         "POPOffset" -> POPOffset(dictionary, node.attributes["offset"]!!.toInt(), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping))
         "POPLimit" -> POPLimit(dictionary, node.attributes["limit"]!!.toInt(), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping))
@@ -152,7 +151,6 @@ fun XMLElement.Companion.convertToOPBase(dictionary: ResultSetDictionary, transa
         "POPJoinNestedLoop" -> POPJoinNestedLoop(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         "POPJoinHashMap" -> POPJoinHashMap(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping), convertToOPBase(dictionary, transactionID, node["children"]!!.childs[1], mapping), node.attributes["optional"]!!.toBoolean())
         "POPTemporaryStore" -> POPTemporaryStore(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping))
-        "POPExpression" -> POPExpression(dictionary, convertToOPBase(dictionary, transactionID, node["children"]!!.childs[0], mapping) as AOPBase)
         "TripleStoreIteratorLocal" -> {
             val res = DistributedTripleStore.getNamedGraph(node.attributes["name"]!!).getIterator(transactionID, dictionary, EIndexPattern.SPO)
             val olduuid = node.attributes["uuid"]

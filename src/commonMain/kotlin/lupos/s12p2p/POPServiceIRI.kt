@@ -63,10 +63,6 @@ class POPServiceIRI : POPBase {
 
     override fun getProvidedVariableNames() = originalConstraint.getProvidedVariableNames().distinct()
 
-    override fun getRequiredVariableNames(): List<String> {
-        return originalConstraint.getProvidedVariableNames()
-    }
-
     override fun evaluate() = Trace.trace<Unit>({ "POPServiceIRI.evaluate" }, {
         CoroutinesHelper.run {
             try {

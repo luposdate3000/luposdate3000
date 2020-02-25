@@ -8,10 +8,10 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTLanguageTaggedLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTSimpleLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.ASTTypedLiteral
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPUnion
-import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.noinput.LOPGraphOperation
 import lupos.s04logicalOperators.noinput.LOPModifyData
 import lupos.s04logicalOperators.noinput.LOPTriple
@@ -34,7 +34,6 @@ import lupos.s08logicalOptimisation.*
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
 import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.noinput.POPEmptyRow
-import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.noinput.POPGraphOperation
 import lupos.s09physicalOperators.noinput.POPModifyData
 import lupos.s09physicalOperators.noinput.POPValues
@@ -77,10 +76,9 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
                     return POPGroup(dictionary, node.by, null, node.children[0])
                 }
                 is LOPUnion -> return POPUnion(dictionary, node.children[0], node.children[1])
-                is LOPExpression -> return POPExpression(dictionary, node.child)
                 is LOPSort -> return POPSort(dictionary, node.by, node.asc, node.children[0])
                 is LOPSubGroup -> return node.children[0]
-                is LOPFilter -> return POPFilter(dictionary, node.children[1] as POPExpression, node.children[0])
+                is LOPFilter -> return POPFilter(dictionary, node.children[1] as AOPBase, node.children[0])
                 is LOPBind -> {
                     val variable = node.name
                     val child = node.children[0]
@@ -90,7 +88,7 @@ class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : 
                                 return POPRename(dictionary, variable, node.children[1] as AOPVariable, child)
                             else
                                 return POPBindUndefined(dictionary, variable, child)
-                        else -> return POPBind(dictionary, variable, node.children[1] as POPExpression, child)
+                        else -> return POPBind(dictionary, variable, node.children[1] as AOPBase, child)
                     }
                 }
                 is LOPJoin -> return POPJoinHashMap(dictionary, node.children[0], node.children[1], node.optional)

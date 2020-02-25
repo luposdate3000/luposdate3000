@@ -9,9 +9,12 @@ class LOPTriple(val s: OPBase, val p: OPBase, val o: OPBase, val graph: String?,
     override val classname = "LOPTriple"
     override val children: Array<OPBase> = arrayOf()
 
-    override fun getProvidedVariableNames() = (s.getRequiredVariableNames() + p.getRequiredVariableNames() + o.getRequiredVariableNames()).distinct()
+    override fun getProvidedVariableNames() :List<String>{
+ val res=(s.getRequiredVariableNames() + p.getRequiredVariableNames() + o.getRequiredVariableNames()).distinct()
+println("($classname)($uuid)getRequiredVariableNames $res")
+return res
+}
 
-    override fun getRequiredVariableNames() = listOf<String>()
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPTriple)

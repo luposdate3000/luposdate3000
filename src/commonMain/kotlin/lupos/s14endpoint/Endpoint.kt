@@ -73,12 +73,6 @@ class TripleInsertIterator : POPBase {
         result!![resultSet.createVariable("o")] = resultSet.createValue(cleanString(Dictionary[triple.o]!!.toN3String()))
     }
 
-    override fun getProvidedVariableNames() = mutableListOf<String>()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
     override fun evaluate() = Trace.trace<Unit>({ "TripleInsertIterator.evaluate" }, {
         CoroutinesHelper.run {
             try {

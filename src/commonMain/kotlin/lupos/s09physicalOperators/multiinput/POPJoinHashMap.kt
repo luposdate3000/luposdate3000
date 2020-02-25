@@ -37,11 +37,6 @@ class POPJoinHashMap : POPBase {
         return true
     }
 
-    override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()).distinct()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return getProvidedVariableNames()
-    }
 
     constructor(dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase, optional: Boolean) : super() {
         this.dictionary = dictionary

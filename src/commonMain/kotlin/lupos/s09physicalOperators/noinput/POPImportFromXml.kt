@@ -56,10 +56,6 @@ class POPImportFromXml : POPBase {
 
     override fun getProvidedVariableNames() = mutableListOf<String>("s", "p", "o")
 
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
     fun cleanString(s: String): String {
         var res = s
         while (true) {

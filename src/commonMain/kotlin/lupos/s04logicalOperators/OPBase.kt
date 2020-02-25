@@ -9,7 +9,6 @@ import lupos.s02buildSyntaxTree.sparql1_1.ASTUndef
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.singleinput.LOPBind
 
 
@@ -43,8 +42,28 @@ abstract class OPBase {
     val uuid: Long = global_uuid.next()
 
     override fun toString(): String = toXMLElement().toPrettyString()
-    abstract fun getRequiredVariableNames(): List<String>
-    abstract fun getProvidedVariableNames(): List<String>
+
+fun getRequiredVariableNamesRecoursive():List<String>{
+var res=getRequiredVariableNames()
+for(c in children)
+res+=c.getRequiredVariableNamesRecoursive()
+return res.distinct()
+}
+
+    open fun getRequiredVariableNames():List<String>{
+val res=mutableListOf<String>()
+println("($classname)($uuid)getRequiredVariableNames $res")
+return res
+}
+
+    open fun getProvidedVariableNames():List<String>{
+val res = mutableListOf<String>()
+        for (c in children)
+            res .addAll( c.getProvidedVariableNames())
+println("($classname)($uuid)getProvidedVariableNames ${res.distinct()}")
+        return res.distinct()
+}
+
     open fun toXMLElement(): XMLElement {
         val res = XMLElement(classname)
         res.addAttribute("uuid", "" + uuid)
@@ -69,7 +88,7 @@ abstract class OPBase {
                 }
             }
             if (!found) {
-                children[0] = LOPBind(AOPVariable(req), LOPExpression(AOPUndef()), children[0])
+                children[0] = LOPBind(AOPVariable(req), AOPUndef(), children[0])
             }
         }
     }

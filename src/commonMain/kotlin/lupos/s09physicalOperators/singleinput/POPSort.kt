@@ -53,12 +53,6 @@ class POPSort : POPBase {
         this.sortBy = resultSet.createVariable(sortBy.name)
     }
 
-    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return getProvidedVariableNames()
-    }
-
     override fun evaluate() = Trace.trace<Unit>({ "POPSort.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {

@@ -372,6 +372,7 @@ fun parseSPARQLAndEvaluate(//
         inputDataGraph: MutableList<MutableMap<String, String>>,//
         outputDataGraph: MutableList<MutableMap<String, String>>//
 ): Boolean {
+try{
 //    i++
 //    if (i > 50)
 //        return true
@@ -576,6 +577,9 @@ fun parseSPARQLAndEvaluate(//
         }
         return false
     }
+}finally{
+updateAllMicroTest("invalidxxx","invalidxxx", false)
+}
 }
 
 class SevenIndices {

@@ -3,7 +3,6 @@ package lupos.s04logicalOperators.noinput
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.OPBase
 
 
@@ -11,11 +10,11 @@ class LOPValues(val variables: List<AOPVariable>, values: List<AOPValue>) : LOPB
     override val classname = "LOPValues"
     override val children: Array<OPBase> = Array(values.size) { values[it] }
 
-    override fun getProvidedVariableNames() = MutableList(variables.size) { variables[it].name }.distinct()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
+    override fun getProvidedVariableNames() :List<String>{
+val res =MutableList(variables.size) { variables[it].name }.distinct()
+println("($classname)($uuid)getProvidedVariableNames $res")
+return res
+}
 
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPValues")

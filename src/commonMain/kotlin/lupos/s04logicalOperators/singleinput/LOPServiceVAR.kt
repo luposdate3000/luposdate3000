@@ -22,11 +22,6 @@ class LOPServiceVAR : LOPBase {
         this.children[0] = child
     }
 
-    override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()).distinct()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return getProvidedVariableNames()
-    }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name).addAttribute("silent", "" + silent).addContent(XMLElement("constraint").addContent(children[1].toXMLElement()))
 

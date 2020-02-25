@@ -3,7 +3,6 @@ package lupos.s04logicalOperators.singleinput
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.noinput.LOPExpression
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
@@ -21,10 +20,16 @@ class LOPFilter : LOPBase {
         children[0] = child
     }
 
-    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()
+    override fun getProvidedVariableNames():List<String> {
+val res= children[0].getProvidedVariableNames().distinct()
+println("($classname)($uuid)getProvidedVariableNames $res")
+return res
+}
 
-    override fun getRequiredVariableNames(): List<String> {
-        return children[0].getRequiredVariableNames() + children[1].getRequiredVariableNames()
+    override fun getRequiredVariableNames():List<String>{
+val res=children[1].getRequiredVariableNamesRecoursive()
+println("($classname)($uuid)getRequiredVariableNames $res")
+return res
     }
 
     override fun equals(other: Any?): Boolean {

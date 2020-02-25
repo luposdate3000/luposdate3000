@@ -123,10 +123,6 @@ object ResultRepresenationNetwork {
 
         override fun getProvidedVariableNames() = resultSet.getVariableNames().toList().distinct()
 
-        override fun getRequiredVariableNames(): List<String> {
-            return mutableListOf<String>()
-        }
-
         override fun evaluate() = Trace.trace<Unit>({ "POPImportFromNetworkPackage.evaluate" }, {
             CoroutinesHelper.runBlock {
                 try {

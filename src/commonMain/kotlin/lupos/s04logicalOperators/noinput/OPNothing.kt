@@ -8,9 +8,6 @@ import lupos.s04logicalOperators.OPBase
 class OPNothing() : LOPBase() {
     override val classname = "OPNothing"
     override val children: Array<OPBase> = arrayOf()
-    override fun getProvidedVariableNames() = mutableListOf<String>()
-
-    override fun getRequiredVariableNames() = mutableListOf<String>()
 
     override fun equals(other: Any?): Boolean {
         if (other !is OPNothing)

@@ -56,12 +56,6 @@ class POPModifyData(override val dictionary: ResultSetDictionary, val transactio
         }
     })
 
-    override fun getProvidedVariableNames() = mutableListOf<String>()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("POPInsertData")
         res.addAttribute("uuid", "" + uuid)

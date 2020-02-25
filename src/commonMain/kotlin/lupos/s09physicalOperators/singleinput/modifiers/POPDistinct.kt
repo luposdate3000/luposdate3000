@@ -41,12 +41,6 @@ class POPDistinct : POPBase {
             variables.add(Pair(resultSet.createVariable(name), children[0].resultSet.createVariable(name)))
     }
 
-    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return children[0].getRequiredVariableNames()
-    }
-
     override fun evaluate() = Trace.trace<Unit>({ "POPDistinct.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {

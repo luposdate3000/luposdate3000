@@ -36,18 +36,6 @@ val prefix = ""
 val listOfMicroTests = ThreadSafeMutableList<String>()
 val mapOfAggregationChilds = ThreadSafeMutableMap<Long, MutableList<String>>()
 
-open class MicroTest0(val input: OPBase, val expected: Any) {
-}
-
-class MicroTestA1(input: AOPBase, val resultRow: ResultRow, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
-}
-
-class MicroTestAN(input: AOPBase, val resultRows: List<ResultRow>, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
-}
-
-class MicroTestPN(input: POPBase, expected: Any) : MicroTest0(input, expected) {
-}
-
 val mapOfResultRows = ThreadSafeMutableMap<Long, MutableList<String>>()
 
 val popMap = ThreadSafeMutableMap<Long, POPBase>()
@@ -187,7 +175,7 @@ fun testCaseFromPOPBaseSimple(op: POPBase): String {
                 res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
             }
             is POPFilter -> {
-                res += "${prefix}                        POPExpression(dictionary, ${testCaseFromAOPBase(op.children[1].children[0] as AOPBase)}),\n"
+                res += "${prefix}                        ${testCaseFromAOPBase(op.children[1] as AOPBase)},\n"
                 res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
             }
             is POPDistinct -> {
@@ -212,7 +200,7 @@ fun testCaseFromPOPBaseSimple(op: POPBase): String {
             }
             is POPBind -> {
                 res += "${prefix}                        AOPVariable(\"${op.name.name}\"),\n"
-                res += "${prefix}                        POPExpression(dictionary, ${testCaseFromAOPBase(op.children[1].children[0] as AOPBase)}),\n"
+                res += "${prefix}                        ${testCaseFromAOPBase(op.children[1] as AOPBase)},\n"
                 res += testCaseFromResultRowsAsPOPValues(rowMapConsumed[Pair(op.uuid, op.children[0].uuid)], op.children[0], "${prefix}                        ") + "\n"
             }
             is POPProjection -> {
@@ -580,4 +568,16 @@ fun helperVariableName(v: String, variableNames: MutableMap<String, String>): St
     }
 }
 
+
+open class MicroTest0(val input: OPBase, val expected: Any) {
+}
+
+class MicroTestA1(input: AOPBase, val resultRow: ResultRow, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
+}
+
+class MicroTestAN(input: AOPBase, val resultRows: List<ResultRow>, val resultSet: ResultSet, expected: Any) : MicroTest0(input, expected) {
+}
+
+class MicroTestPN(input: POPBase, expected: Any) : MicroTest0(input, expected) {
+}
 

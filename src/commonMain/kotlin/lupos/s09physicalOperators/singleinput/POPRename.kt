@@ -75,10 +75,16 @@ class POPRename : POPBase {
         }
     }
 
-    override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() - nameFrom.name + nameTo.name).distinct()
+    override fun getProvidedVariableNames() :List<String>{
+val res= (children[0].getProvidedVariableNames() - nameFrom.name + nameTo.name).distinct()
+println("($classname)($uuid)getProvidedVariableNames $res")
+return res
+}
 
     override fun getRequiredVariableNames(): List<String> {
-        return listOf<String>(nameFrom.name)
+        val res= listOf<String>(nameFrom.name)
+println("($classname)($uuid)getRequiredVariableNames $res")
+return res
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPRename.evaluate" }, {

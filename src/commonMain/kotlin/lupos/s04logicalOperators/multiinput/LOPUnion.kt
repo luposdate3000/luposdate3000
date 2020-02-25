@@ -16,11 +16,6 @@ class LOPUnion : LOPBase {
         children[1] = second
     }
 
-    override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()).distinct()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
-    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPUnion)

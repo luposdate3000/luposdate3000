@@ -21,10 +21,6 @@ class LOPModify() : LOPBase() {
 
     override fun getProvidedVariableNames() = mutableListOf<String>()
 
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPModify")
         res.addContent(XMLElement("where").addContent(childrenToXML()))

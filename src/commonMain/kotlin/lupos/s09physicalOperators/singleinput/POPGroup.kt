@@ -11,10 +11,11 @@ import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.*
-import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.*
+import lupos.s04arithmetikOperators.singleinput.*
+import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
-import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPBind
 
@@ -25,7 +26,7 @@ class POPGroup : POPBase {
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())
     var by: List<AOPVariable>
-    var bindings = mutableListOf<Pair<Variable, POPExpression>>()
+    var bindings = mutableListOf<Pair<Variable, AOPBase>>()
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPGroup)
@@ -51,7 +52,7 @@ class POPGroup : POPBase {
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         var tmpBind: OPBase? = bindings
         while (tmpBind != null && tmpBind is POPBind) {
-            this.bindings.add(Pair(resultSet.createVariable(tmpBind.name.name), tmpBind.children[1] as POPExpression))
+            this.bindings.add(Pair(resultSet.createVariable(tmpBind.name.name), tmpBind.children[1] as AOPBase))
             resultSet.createVariable(tmpBind.name.name)
             tmpBind = tmpBind.children[0]
         }
@@ -61,6 +62,13 @@ class POPGroup : POPBase {
     }
 
     override fun getProvidedVariableNames() = (MutableList(by.size) { by[it].name } + MutableList(bindings.size) { resultSet.getVariable(bindings[it].first) }).distinct()
+    override fun getRequiredVariableNames() :List<String>{
+var res= MutableList(by.size) { by[it].name } 
+for (b in bindings)
+res.addAll(b.second.getRequiredVariableNamesRecoursive())
+println("($classname)($uuid)getRequiredVariableNames ${res.distinct()}")
+return res.distinct()
+}
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         require(additionalProvided.isEmpty())
@@ -82,10 +90,16 @@ class POPGroup : POPBase {
         }
     }
 
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
+fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
+        for (n in node.children)
+            setAggregationMode(n, mode, count)
+        if (node is AOPAggregation) {
+            node.count = count
+            node.collectMode = mode
+            if (node.collectMode)
+                node.a = null
+        }
     }
-
     override fun evaluate() = Trace.trace<Unit>({ "POPGroup.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {
@@ -121,7 +135,13 @@ class POPGroup : POPBase {
                         rsNew[variable.first] = rsOld[variable.second]
                     for (b in bindings) {
                         try {
-                            val value = b.second.evaluate(children[0].resultSet, tmpMutableMap[k]!!)
+	setAggregationMode(b.second, true, tmpMutableMap[k]!!.count())
+        for (resultRow in tmpMutableMap[k]!!)
+            (b.second as AOPBase).calculate(children[0].resultSet, resultRow)
+        setAggregationMode(b.second, false, tmpMutableMap[k]!!.count())
+        val a = (b.second as AOPBase).calculate(children[0].resultSet, children[0].resultSet.createResultRow())
+        println("return from evaluate ${a.valueToString()}")
+        val value= a.valueToString()
                             if (value == null)
                                 resultSet.setUndefValue(rsNew, b.first)
                             else

@@ -88,7 +88,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
         return graphNameL
     })
 
-    override fun getProvidedVariableNames(): List<String> {
+    override fun getProvidedVariableNames(): MutableList<String> {
         val tmp = mutableListOf<String>()
         if (sFilter == null)
             tmp += nameS
@@ -96,11 +96,7 @@ class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
             tmp += nameP
         if (oFilter == null)
             tmp += nameO
-        return tmp.distinct()
-    }
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
+        return tmp.distinct().toMutableList()
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "TripleStoreIteratorGlobal.evaluate" }, {

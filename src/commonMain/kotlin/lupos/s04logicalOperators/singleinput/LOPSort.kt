@@ -16,12 +16,6 @@ class LOPSort(val asc: Boolean, var by: AOPVariable) : LOPBase() {
     }
 
 
-    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return getProvidedVariableNames()
-    }
-
     override fun toXMLElement(): XMLElement {
         val res = XMLElement("LOPSort")
         res.addAttribute("by", by.name)

@@ -17,7 +17,6 @@ import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.singleinput.*
-import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
@@ -62,8 +61,8 @@ class POPModify : POPBase {
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
     }
 
-    fun evaluateRow(node: OPBase, row: ResultRow): String {
-        return POPExpression(dictionary, node as AOPBase).evaluate(children[0].resultSet, row)!!
+    fun evaluateRow(node: OPBase, row: ResultRow): String? {
+        return (node as AOPBase).calculate(children[0].resultSet, row).valueToString()
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPModify.evaluate" }, {
@@ -125,10 +124,5 @@ class POPModify : POPBase {
         }
     })
 
-    override fun getProvidedVariableNames() = mutableListOf<String>()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
 
 }

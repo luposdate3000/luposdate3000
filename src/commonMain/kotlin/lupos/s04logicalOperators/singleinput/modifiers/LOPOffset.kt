@@ -14,11 +14,6 @@ class LOPOffset(val offset: Int) : LOPBase() {
         this.children[0] = child
     }
 
-    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return children[0].getRequiredVariableNames()
-    }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("offset", "" + offset)
 

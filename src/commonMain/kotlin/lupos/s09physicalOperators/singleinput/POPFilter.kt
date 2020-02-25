@@ -9,9 +9,9 @@ import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
-import lupos.s09physicalOperators.noinput.POPExpression
 import lupos.s09physicalOperators.POPBase
 
 
@@ -34,17 +34,22 @@ class POPFilter : POPBase {
         return true
     }
 
-    constructor(dictionary: ResultSetDictionary, filter: POPExpression, child: OPBase) : super() {
+    constructor(dictionary: ResultSetDictionary, filter: AOPBase, child: OPBase) : super() {
         this.dictionary = dictionary
         children[0] = child
         children[1] = filter
         resultSet = children[0].resultSet
     }
 
-    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()
-
+    override fun getProvidedVariableNames() :List<String>{
+val res=children[0].getProvidedVariableNames().distinct()
+println("($classname)($uuid)getProvidedVariableNames $res")
+return res
+}
     override fun getRequiredVariableNames(): List<String> {
-        return children[1].getRequiredVariableNames()
+        val res= children[1].getRequiredVariableNamesRecoursive()
+println("($classname)($uuid)getRequiredVariableNames $res")
+return res
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPFilter.evaluate" }, {
@@ -54,7 +59,9 @@ class POPFilter : POPBase {
                 for (nextRow in children[0].channel) {
                     resultFlowConsume({ this@POPFilter }, { children[0] }, { nextRow })
                     try {
-                        if ((children[1] as POPExpression).evaluateBoolean(resultSet, nextRow))
+			val expression=children[1] as AOPBase
+			val condition=expression.calculate(resultSet, nextRow) as AOPBoolean
+                        if (condition.value)
                             channel.send(resultFlowProduce({ this@POPFilter }, { nextRow }))
                     } catch (e: Throwable) {
                         GlobalLogger.log(ELoggerType.DEBUG, { "silent :: " })

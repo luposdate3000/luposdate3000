@@ -17,12 +17,6 @@ class LOPJoin : LOPBase {
         this.optional = optional
     }
 
-    override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()).distinct()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return getProvidedVariableNames()
-    }
-
     override fun toXMLElement() = super.toXMLElement().addAttribute("optional", "" + optional)
 
     override fun equals(other: Any?): Boolean {

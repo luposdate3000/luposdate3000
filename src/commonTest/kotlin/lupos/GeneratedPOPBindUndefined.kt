@@ -25,7 +25,7 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
 
-class GeneratedAOPBuildInCallTZTest {
+class GeneratedPOPBindUndefinedTest {
     constructor() {
         P2P.knownClients.clear()
         P2P.knownClients.add(EndpointImpl.fullname)
@@ -44,69 +44,73 @@ class GeneratedAOPBuildInCallTZTest {
     @TestFactory
     fun test() = listOf(
             {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("date")
-                MicroTestA1(
-                        AOPBuildInCallTZ(AOPVariable("date")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d1>")
-                            resultRow[resultSet.createVariable("date")] = resultSet.createValue("\"2010-06-21T11:28:01Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "Z")
+                val dictionary=ResultSetDictionary()
+                MicroTestPN(
+                    POPBindUndefined(
+                        dictionary,
+                        AOPVariable("z"),
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o"
+                            ), listOf(
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s1>",
+                                    "p" to "<http://example.org/p>",
+                                    "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s2>",
+                                    "p" to "<http://example.org/p>",
+                                    "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s3>",
+                                    "p" to "<http://example.org/p>",
+                                    "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                ),
+                                mutableMapOf(
+                                    "s" to "<http://example.org/s4>",
+                                    "p" to "<http://example.org/p>",
+                                    "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+                                )
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "z"
+                        ), listOf(
+                            mutableMapOf(
+                                "s" to "<http://example.org/s1>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s2>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s3>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"3\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
+                            ),
+                            mutableMapOf(
+                                "s" to "<http://example.org/s4>",
+                                "p" to "<http://example.org/p>",
+                                "o" to "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>",
+                                "z" to null
+                            )
+                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/tz-01.rq */ ,
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("date")
-                MicroTestA1(
-                        AOPBuildInCallTZ(AOPVariable("date")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d2>")
-                            resultRow[resultSet.createVariable("date")] = resultSet.createValue("\"2010-12-21T15:38:02-08:00\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "-08:00")
-                )
-            }() /* resources/sparql11-test-suite/functions/tz-01.rq */ ,
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("date")
-                MicroTestA1(
-                        AOPBuildInCallTZ(AOPVariable("date")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d3>")
-                            resultRow[resultSet.createVariable("date")] = resultSet.createValue("\"2008-06-20T23:59:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "Z")
-                )
-            }() /* resources/sparql11-test-suite/functions/tz-01.rq */ ,
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("s")
-                resultSet.createVariable("date")
-                MicroTestA1(
-                        AOPBuildInCallTZ(AOPVariable("date")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("s")] = resultSet.createValue("<http://example.org/d4>")
-                            resultRow[resultSet.createVariable("date")] = resultSet.createValue("\"2011-02-01T01:02:03\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPSimpleLiteral("\"", "")
-                )
-            }() /* resources/sparql11-test-suite/functions/tz-01.rq */ ,
+            }() /* resources/sparql11-test-suite/entailment/bind04.rq */ ,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()

@@ -14,11 +14,6 @@ class LOPGraphOperation() : LOPBase() {
     var graphref1: ASTGraphRef? = null
     var graphref2: ASTGraphRef? = null
     var action = EGraphOperationType.CREATE
-    override fun getProvidedVariableNames() = mutableListOf<String>()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
-    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPGraphOperation)

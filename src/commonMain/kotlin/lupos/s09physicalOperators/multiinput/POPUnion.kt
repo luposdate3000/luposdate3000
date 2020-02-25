@@ -33,12 +33,6 @@ class POPUnion : POPBase {
         return true
     }
 
-    override fun getProvidedVariableNames() = (children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()).distinct()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return children[0].getProvidedVariableNames() + children[1].getProvidedVariableNames()
-    }
-
     constructor(dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)

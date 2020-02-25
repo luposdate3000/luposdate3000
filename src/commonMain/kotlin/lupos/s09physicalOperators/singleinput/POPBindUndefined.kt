@@ -57,11 +57,13 @@ class POPBindUndefined : POPBase {
         variablesNew[i] = variableBound
     }
 
-    override fun getProvidedVariableNames() = (children[0].getRequiredVariableNames() + name.name).distinct()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return children[0].getRequiredVariableNames()
-    }
+    override fun getProvidedVariableNames() :List<String>{
+val res= mutableListOf<String>()
+res.addAll(children[0].getProvidedVariableNames())
+res.add( name.name)
+println("($classname)($uuid)getProvidedVariableNames ${res.distinct()}")
+return res.distinct()
+}
 
     override fun evaluate() = Trace.trace<Unit>({ "POPBindUndefined.evaluate" }, {
         children[0].evaluate()

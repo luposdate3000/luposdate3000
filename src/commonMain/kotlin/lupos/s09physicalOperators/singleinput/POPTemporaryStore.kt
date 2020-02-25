@@ -43,12 +43,6 @@ class POPTemporaryStore : POPBase {
         }
     }
 
-    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return children[0].getRequiredVariableNames()
-    }
-
     override fun evaluate() = Trace.trace<Unit>({ "POPTemporaryStore.evaluate" }, {
         children[0].evaluate()
         CoroutinesHelper.run {

@@ -50,10 +50,10 @@ class POPFilterExact : POPBase {
         filterVariable = resultSet.createVariable(variable.name)
     }
 
-    override fun getProvidedVariableNames() = children[0].getProvidedVariableNames().distinct()
-
-    override fun getRequiredVariableNames(): List<String> {
-        return listOf(variable.name)
+    override fun getRequiredVariableNames(): MutableList<String> {
+        val res= mutableListOf(variable.name)
+println("($classname)($uuid)getRequiredVariableNames $res")
+return res
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPFilterExact.evaluate" }, {
