@@ -9,6 +9,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerCompoundBase(transactionID, dictionary) {
     override val classname = "LogicalOptimizer"
+    override val optional = false
     override val childrenOptimizers = arrayOf(//
             LogicalOptimizerRemovePrefix(transactionID, dictionary),//
             LogicalOptimizerRemoveNOOP(transactionID, dictionary),//

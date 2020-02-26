@@ -8,7 +8,7 @@ import lupos.s00misc.ThreadSafeUuid
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.OPBase
-import lupos.s05tripleStore.PersistentStoreLocal
+import lupos.s05tripleStore.*
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
 import lupos.s14endpoint.Endpoint
 import lupos.s14endpoint.EndpointImpl
@@ -19,7 +19,6 @@ val uuid = ThreadSafeUuid()
 typealias TripleStoreIteratorGlobal = TripleStoreIteratorLocalFilter
 
 class DistributedGraph(val name: String) {
-    override val classname = "DistributedGraph"
     val K = 8 // defined in project.pdf
 
     fun myHashCode(s: String, d: Int): Int {
@@ -110,16 +109,16 @@ class DistributedGraph(val name: String) {
     }
 
     fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, index: EIndexPattern): POPTripleStoreIteratorBase {
-        return DistributedTripleStore.localStore.getNamedGraph(name).getIterator(transactionID, dictionary, index)
+        return DistributedTripleStore.localStore.getNamedGraph(name).getIterator(transactionID, ResultSet(dictionary), index)
     }
 
     fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String, index: EIndexPattern): POPTripleStoreIteratorBase {
-        val res = DistributedTripleStore.localStore.getNamedGraph(name).getIterator(transactionID, dictionary, s, p, o, index)
+        val res = DistributedTripleStore.localStore.getNamedGraph(name).getIterator(transactionID, ResultSet(dictionary), s, p, o, index)
         return res
     }
 
     fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, index: EIndexPattern): POPTripleStoreIteratorBase {
-        val res = DistributedTripleStore.localStore.getNamedGraph(name).getIterator(transactionID, dictionary, s, p, o, sv, pv, ov, index)
+        val res = DistributedTripleStore.localStore.getNamedGraph(name).getIterator(transactionID, ResultSet(dictionary), s, p, o, sv, pv, ov, index)
         return res
     }
 }

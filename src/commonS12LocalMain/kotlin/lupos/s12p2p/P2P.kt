@@ -5,7 +5,7 @@ import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.rdf.Dictionary
-import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.POPBase

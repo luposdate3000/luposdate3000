@@ -1,6 +1,9 @@
 #!/bin/bash
 mkdir log
-for chooseS00ResultFlow in "jvmS00GenerateTestsMain"
+
+visitedArray[0]=0
+
+for chooseS00ResultFlow in "jvmS00GenerateTestsMain" "commonS00FastMain"
 do
 for chooseS00Execution in "commonS00ExecutionSequentialMain" "commonS00ExecutionParallelMain"
 do
@@ -34,8 +37,34 @@ then
         continue
 fi
 fi
+if [ "$chooseS00ResultFlow" == "jvmS00GenerateTestsMain" ] && [ "$chooseS15" != "commonS15DistributedMain" ]
+then
+#debugging only work with that combination
+        continue
+fi
 
-buildName="${chooseS00Execution}-${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}-${chooseS15}.generated"
+if [ "${visitedArray[${chooseS00ResultFlow}]}" == 1 ] && [ "${chooseS00ResultFlow}" == "jvmS00GenerateTestsMain" ]
+then
+#faster test-build
+continue
+fi
+if [ "${visitedArray[${chooseS00Execution}]}" == 1 ] && [ "${chooseS00Execution}" == "commonS00ExecutionSequentialMain" ]
+then
+#faster test-build
+continue
+fi
+if [ "${visitedArray[${chooseS00Trace}]}" == 1 ] && [ "${chooseS00Trace}" == "commonS00TraceOnMain" ]
+then
+#faster test-build
+continue
+fi
+
+visitedArray["${chooseS00ResultFlow}"]=1
+visitedArray["${chooseS00Execution}"]=1
+visitedArray["${chooseS00Trace}"]=1
+
+
+buildName="${chooseS00ResultFlow}-${chooseS00Execution}-${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}-${chooseS15}.generated"
 buildFile="build.gradle-${buildName}"
 buildDir="buildJvm${buildName}"
 buildCache="gradleJvm${buildName}"

@@ -10,7 +10,9 @@ import lupos.s08logicalOptimisation.OptimizerBase
 
 class LogicalOptimizerFilterDown(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary) {
     override val classname = "LogicalOptimizerFilterDown"
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
+    override val optional = true
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
+        var res: OPBase = node
         if (node is LOPFilter) {
             val c = node.children[0]
             if (c.children.size == 1) {
@@ -21,10 +23,10 @@ class LogicalOptimizerFilterDown(transactionID: Long, dictionary: ResultSetDicti
                     c.children[0] = node
                     node.children[0] = cc
                     onChange()
-                    return c
+                    res = c
                 }
             }
         }
-        return node
-    }
+        res
+    })
 }

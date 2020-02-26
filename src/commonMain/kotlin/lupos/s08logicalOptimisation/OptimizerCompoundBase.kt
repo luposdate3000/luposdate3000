@@ -1,5 +1,6 @@
 package lupos.s08logicalOptimisation
 
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.multiinput.LOPJoin
@@ -35,9 +36,7 @@ abstract class OptimizerCompoundBase(transactionID: Long, dictionary: ResultSetD
     override val classname = "OptimizerCompoundBase"
     abstract val childrenOptimizers: Array<OptimizerBase>
 
-    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase {
-        return node
-    }
+    override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = node
 
     override fun optimizeCall(node: OPBase, onChange: () -> Unit): OPBase {
         node.syntaxVerifyAllVariableExists(listOf<String>(), true)

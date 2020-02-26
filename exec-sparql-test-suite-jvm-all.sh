@@ -1,6 +1,6 @@
 ./tool-gradle-build-without-tests-jvm-all.sh
 
-for chooseS00ResultFlow in "jvmS00GenerateTestsMain"
+for chooseS00ResultFlow in "jvmS00GenerateTestsMain" "commonS00FastMain"
 do
 for chooseS00Execution in "commonS00ExecutionSequentialMain" "commonS00ExecutionParallelMain"
 do
@@ -34,8 +34,13 @@ then
 	continue
 fi
 fi
+if [ "$chooseS00ResultFlow" == "jvmS00GenerateTestsMain" ] && [ "$chooseS15" != "commonS15DistributedMain" ]
+then
+#debugging only work with that combination
+	continue
+fi
 
-buildName="${chooseS00Execution}-${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}-${chooseS15}.generated"
+buildName="${chooseS00ResultFlow}-${chooseS00Execution}-${chooseS00Trace}-${chooseS03}-${chooseS05}-${chooseS12}-${chooseS14}-${chooseS15}.generated"
 buildFile="build.gradle-${buildName}"
 buildDir="buildJvm${buildName}"
 

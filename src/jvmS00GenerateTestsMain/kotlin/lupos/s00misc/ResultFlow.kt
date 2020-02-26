@@ -117,6 +117,41 @@ fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, o: OPBase, 
     return res
 }
 
+fun testCaseFromResultRowsAsLOPValues(rows: MutableList<ResultRow>?, o: OPBase, prefix: String): String {
+//    xxx this is wrong
+    var res = "${prefix}LOPValues(dictionary, listOf(\n"
+    val variables = o.getProvidedVariableNames()
+    if (variables.size > 0) {
+        for (v in variables) {
+            res += "${prefix}        \"$v\",\n"
+        }
+        res = res.substring(0, res.length - 2) + "\n"
+    }
+    res += "${prefix}    ), listOf(\n"
+    if (rows != null) {
+        for (row in rows) {
+            var tmpMap = ""
+            tmpMap += "mutableMapOf<String,String?>(\n"
+            if (variables.size > 0) {
+                for (k in variables) {
+                    val v = o.resultSet.getValue(row[o.resultSet.createVariable(k)])?.replace("\"", "\\\"")
+                    if (v == null)
+                        tmpMap += "    \"${k}\" to null,\n"
+                    else
+                        tmpMap += "    \"${k}\" to \"${v}\",\n"
+                }
+                tmpMap = tmpMap.substring(0, tmpMap.length - 2)
+            }
+            tmpMap += ")\n"
+            res += "${prefix}        GeneratedMutableMap.${addMutableMapToTests(tmpMap)},\n"
+        }
+        res = res.substring(0, res.length - 2) + "\n"
+    }
+    res += "${prefix}    )\n"
+    res += "${prefix})"
+    return res
+}
+
 
 fun testCaseFromPOPBaseSimpleRecoursiveHelper(recoursive: Boolean, rows: MutableList<ResultRow>?, o: OPBase, prefix: String): String {
     if (recoursive) {
@@ -444,12 +479,16 @@ fun printAllMicroTest() {
                 out.println("${prefix}                        println(expected.toPrettyString())")
                 out.println("${prefix}                    }")
                 out.println("${prefix}                    assertTrue(expected.myEquals(output))")
-                out.println("${prefix}                } else if (data.input is LOPBase && data is MicroTestPN) {")
+                out.println("${prefix}                } else if (data.input is LOPBase && data is MicroTestLN) {")
                 out.println("${prefix}                    val lop_node = data.input as LOPBase")
                 out.println("${prefix}                    val dictionary = data.dictionary")
-                out.println("${prefix}                    val lop_node2 = LogicalOptimizer(1L, dictionary).optimizeCall(lop_node)")
-                out.println("${prefix}                    val pop_node = PhysicalOptimizer(1L, dictionary).optimizeCall(lop_node2)")
-                out.println("${prefix}                    val input = KeyDistributionOptimizer(1L, dictionary).optimizeCall(pop_node) as POPBase")
+                out.println("${prefix}                    ExecuteOptimizer.enabledOptimizers.clear()")
+                out.println("${prefix}                    val lOptimizer=LogicalOptimizer(1L, dictionary)")
+                out.println("${prefix}                    val pOptimizer=PhysicalOptimizer(1L, dictionary)")
+                out.println("${prefix}                    val dOptimizer=KeyDistributionOptimizer(1L, dictionary)")
+                out.println("${prefix}                    val lop_node2 =lOptimizer.optimizeCall(lop_node)")
+                out.println("${prefix}                    val pop_node = pOptimizer.optimizeCall(lop_node2)")
+                out.println("${prefix}                    val input = dOptimizer.optimizeCall(pop_node) as POPBase")
                 out.println("${prefix}                    assertTrue(data.expected is POPValues)")
                 out.println("${prefix}                    val output = QueryResultToXML.toXML(input).first()")
                 out.println("${prefix}                    val expected = QueryResultToXML.toXML(data.expected as POPValues).first()")
@@ -458,6 +497,21 @@ fun printAllMicroTest() {
                 out.println("${prefix}                        println(expected.toPrettyString())")
                 out.println("${prefix}                    }")
                 out.println("${prefix}                    assertTrue(expected.myEquals(output))")
+                out.println("${prefix}                    for(k in ExecuteOptimizer.enabledOptimizers.keys){")
+                out.println("${prefix}                        ExecuteOptimizer.enabledOptimizers[k]=true")
+                out.println("${prefix}                        val lop_node2 =lOptimizer.optimizeCall(lop_node)")
+                out.println("${prefix}                        val pop_node = pOptimizer.optimizeCall(lop_node2)")
+                out.println("${prefix}                        val input = dOptimizer.optimizeCall(pop_node) as POPBase")
+                out.println("${prefix}                        assertTrue(data.expected is POPValues)")
+                out.println("${prefix}                        val output = QueryResultToXML.toXML(input).first()")
+                out.println("${prefix}                        val expected = QueryResultToXML.toXML(data.expected as POPValues).first()")
+                out.println("${prefix}                        if (!expected.myEquals(output)){")
+                out.println("${prefix}                            println(ExecuteOptimizer.enabledOptimizers.keys.map{it to ExecuteOptimizer.enabledOptimizers[it]})")
+                out.println("${prefix}                            println(output.toPrettyString())")
+                out.println("${prefix}                            println(expected.toPrettyString())")
+                out.println("${prefix}                        }")
+                out.println("${prefix}                        assertTrue(expected.myEquals(output))")
+                out.println("${prefix}                    }")
                 out.println("${prefix}                }")
                 out.println("${prefix}            } catch (e: Throwable) {")
                 out.println("${prefix}                e.printStackTrace()")
@@ -655,7 +709,7 @@ fun testCaseFromLOPBaseSimpleRecoursiveHelper(recoursive: Boolean, rows: Mutable
     if (recoursive) {
         return testCaseFromLOPBaseSimple(o as POPBase, true, prefix + "    ", false)
     } else
-        return testCaseFromResultRowsAsPOPValues(rows, o, prefix)
+        return testCaseFromResultRowsAsLOPValues(rows, o, prefix)
 }
 
 fun testCaseFromLOPBaseSimple(op: POPBase, recoursive: Boolean, prefix: String, first: Boolean = true): String {
@@ -802,7 +856,7 @@ fun testCaseFromLOPBaseSimple(op: POPBase, recoursive: Boolean, prefix: String, 
             res += "${prefix}        )\n"
     }
     if (first) {
-        res += testCaseFromResultRowsAsPOPValues(rowMapProduced[op.uuid], op, "${prefix}        ") + "\n"
+        res += testCaseFromResultRowsAsLOPValues(rowMapProduced[op.uuid], op, "${prefix}        ") + "\n"
         res += "${prefix}    )\n"
         res += "${prefix}}()"
     }
