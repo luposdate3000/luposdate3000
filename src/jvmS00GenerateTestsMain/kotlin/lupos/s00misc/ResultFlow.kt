@@ -1,8 +1,5 @@
 package lupos.s04arithmetikOperators
 
-import lupos.s10physicalOptimisation.PhysicalOptimizer
-import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
-import lupos.s08logicalOptimisation.*
 import java.io.File
 import lupos.s00misc.*
 import lupos.s00misc.EOperatorID
@@ -28,18 +25,21 @@ import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
-import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.*
+import lupos.s04logicalOperators.LOPBase
+import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.noinput.*
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.*
-import lupos.s04logicalOperators.multiinput.*
+import lupos.s08logicalOptimisation.*
 import lupos.s09physicalOperators.*
 import lupos.s09physicalOperators.multiinput.*
 import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.*
+import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.*
+import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
 import lupos.s15tripleStoreDistributed.*
 
 
@@ -55,76 +55,76 @@ val rowMapProduced = ThreadSafeMutableMap<Long, MutableList<ResultRow>>()
 val mutableMapsForTest = ThreadSafeMutableMap<String, String>()
 val myuuid = ThreadSafeUuid()
 
-val mapPopToLop=mapOf(
-    EOperatorID.POPBindID to EOperatorID.LOPBindID,
-    EOperatorID.POPBindUndefinedID to EOperatorID.LOPBindID,
-    EOperatorID.POPDistinctID to EOperatorID.LOPDistinctID,
-    EOperatorID.POPEmptyRowID to EOperatorID.OPNothingID,
-    EOperatorID.POPFilterExactID to EOperatorID.LOPFilterID,
-    EOperatorID.POPFilterID to EOperatorID.LOPFilterID,
-    EOperatorID.POPGraphOperationID to EOperatorID.LOPGraphOperationID,
-    EOperatorID.POPGroupID to EOperatorID.LOPGroupID,
-    EOperatorID.POPJoinHashMapID to EOperatorID.LOPJoinID,
-    EOperatorID.POPJoinNestedLoopID to EOperatorID.LOPJoinID,
-    EOperatorID.POPLimitID to EOperatorID.LOPLimitID,
-    EOperatorID.POPMakeBooleanResultID to EOperatorID.POPMakeBooleanResultID,
-    EOperatorID.POPModifyDataID to EOperatorID.LOPModifyDataID,
-    EOperatorID.POPModifyID to EOperatorID.LOPModifyID,
-    EOperatorID.POPOffsetID to EOperatorID.LOPOffsetID,
-    EOperatorID.POPProjectionID to EOperatorID.LOPProjectionID,
-    EOperatorID.POPRenameID to EOperatorID.LOPRenameID,
-    EOperatorID.POPServiceIRIID to EOperatorID.LOPServiceIRIID,
-    EOperatorID.POPSortID to EOperatorID.LOPSortID,
-    EOperatorID.POPUnionID to EOperatorID.LOPUnionID,
-    EOperatorID.POPValuesID to EOperatorID.LOPValuesID,
-    EOperatorID.TripleStoreIteratorGlobalID to EOperatorID.LOPTripleID
+val mapPopToLop = mapOf(
+        EOperatorID.POPBindID to EOperatorID.LOPBindID,
+        EOperatorID.POPBindUndefinedID to EOperatorID.LOPBindID,
+        EOperatorID.POPDistinctID to EOperatorID.LOPDistinctID,
+        EOperatorID.POPEmptyRowID to EOperatorID.OPNothingID,
+        EOperatorID.POPFilterExactID to EOperatorID.LOPFilterID,
+        EOperatorID.POPFilterID to EOperatorID.LOPFilterID,
+        EOperatorID.POPGraphOperationID to EOperatorID.LOPGraphOperationID,
+        EOperatorID.POPGroupID to EOperatorID.LOPGroupID,
+        EOperatorID.POPJoinHashMapID to EOperatorID.LOPJoinID,
+        EOperatorID.POPJoinNestedLoopID to EOperatorID.LOPJoinID,
+        EOperatorID.POPLimitID to EOperatorID.LOPLimitID,
+        EOperatorID.POPMakeBooleanResultID to EOperatorID.POPMakeBooleanResultID,
+        EOperatorID.POPModifyDataID to EOperatorID.LOPModifyDataID,
+        EOperatorID.POPModifyID to EOperatorID.LOPModifyID,
+        EOperatorID.POPOffsetID to EOperatorID.LOPOffsetID,
+        EOperatorID.POPProjectionID to EOperatorID.LOPProjectionID,
+        EOperatorID.POPRenameID to EOperatorID.LOPRenameID,
+        EOperatorID.POPServiceIRIID to EOperatorID.LOPServiceIRIID,
+        EOperatorID.POPSortID to EOperatorID.LOPSortID,
+        EOperatorID.POPUnionID to EOperatorID.LOPUnionID,
+        EOperatorID.POPValuesID to EOperatorID.LOPValuesID,
+        EOperatorID.TripleStoreIteratorGlobalID to EOperatorID.LOPTripleID
 )
 
-fun toBinary(operator: OPBase, buffer: DynamicByteArray,asPOP:Boolean) {
-if(asPOP)
-    buffer.appendInt(operator.operatorID.ordinal)
-else{
-val mapped=mapPopToLop[operator.operatorID]
-if(mapped!=null)
-    buffer.appendInt(mapped.ordinal)
-else
-buffer.appendInt(operator.operatorID.ordinal)
-}
+fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
+    if (asPOP)
+        buffer.appendInt(operator.operatorID.ordinal)
+    else {
+        val mapped = mapPopToLop[operator.operatorID]
+        if (mapped != null)
+            buffer.appendInt(mapped.ordinal)
+        else
+            buffer.appendInt(operator.operatorID.ordinal)
+    }
     when (operator) {
         is AOPAddition -> {
-            toBinary(operator.children[0], buffer,asPOP)
-            toBinary(operator.children[1], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
         }
         is AOPBuildInCallCONTAINS -> {
-            toBinary(operator.children[0], buffer,asPOP)
-            toBinary(operator.children[1], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
         }
         is AOPBuildInCallIsNUMERIC -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallLANGMATCHES -> {
-            toBinary(operator.children[0], buffer,asPOP)
-            toBinary(operator.children[1], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
         }
         is AOPBuildInCallSTRENDS -> {
-            toBinary(operator.children[0], buffer,asPOP)
-            toBinary(operator.children[1], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
         }
         is AOPBuildInCallSTRSTARTS -> {
-            toBinary(operator.children[0], buffer,asPOP)
-            toBinary(operator.children[1], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
         }
         is AOPEQ -> {
-            toBinary(operator.children[0], buffer,asPOP)
-            toBinary(operator.children[1], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
         }
         is AOPGEQ -> {
-            toBinary(operator.children[0], buffer,asPOP)
-            toBinary(operator.children[1], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
         }
         is AOPOr -> {
-            toBinary(operator.children[0], buffer,asPOP)
-            toBinary(operator.children[1], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
         }
         is AOPVariable -> {
             buffer.appendString(operator.name)
@@ -132,94 +132,94 @@ buffer.appendInt(operator.operatorID.ordinal)
         is POPEmptyRow -> {
         }
         is AOPBuildInCallABS -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallBNODE0 -> {
         }
         is AOPBuildInCallBNODE1 -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallCEIL -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallCONCAT -> {
-            toBinary(operator.children[0], buffer,asPOP)
-            toBinary(operator.children[1], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
         }
         is AOPBuildInCallDATATYPE -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallDAY -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallFLOOR -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallHOURS -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallIF -> {
-            toBinary(operator.children[0], buffer,asPOP)
-            toBinary(operator.children[1], buffer,asPOP)
-            toBinary(operator.children[2], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
+            toBinary(operator.children[2], buffer, asPOP)
         }
         is AOPBuildInCallIRI -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
             buffer.appendString(operator.prefix)
         }
         is AOPBuildInCallLANG -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallLCASE -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallMD5 -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallMINUTES -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallMONTH -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallROUND -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallSECONDS -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallSHA1 -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallSHA256 -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallSTRDT -> {
-            toBinary(operator.children[0], buffer,asPOP)
-            toBinary(operator.children[1], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
         }
         is AOPBuildInCallSTR -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallSTRLANG -> {
-            toBinary(operator.children[0], buffer,asPOP)
-            toBinary(operator.children[1], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
         }
         is AOPBuildInCallSTRLEN -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallTZ -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallUCASE -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPBuildInCallURI -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
             buffer.appendString(operator.prefix)
         }
         is AOPBuildInCallYEAR -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is AOPDateTime -> {
             buffer.appendString(operator.valueToString())
@@ -240,14 +240,14 @@ buffer.appendInt(operator.operatorID.ordinal)
             buffer.appendInt(DynamicByteArray.boolToInt(operator.distinct))
             buffer.appendInt(operator.children.size)
             for (c in operator.children)
-                toBinary(c, buffer,asPOP)
+                toBinary(c, buffer, asPOP)
         }
         is AOPBoolean -> {
             buffer.appendString(operator.valueToString())
         }
         is AOPDivision -> {
-            toBinary(operator.children[0], buffer,asPOP)
-            toBinary(operator.children[1], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
         }
 
         is POPValues -> {
@@ -269,69 +269,69 @@ buffer.appendInt(operator.operatorID.ordinal)
                 buffer.appendInt(0)
         }
         is POPUnion -> {
-            toBinary(operator.children[0], buffer,asPOP)
-            toBinary(operator.children[1], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
         }
         is POPJoinHashMap -> {
-            toBinary(operator.children[0], buffer,asPOP)
-            toBinary(operator.children[1], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
             buffer.appendInt(DynamicByteArray.boolToInt(operator.optional))
         }
         is POPRename -> {
-            toBinary(operator.nameTo, buffer,asPOP)
-            toBinary(operator.nameFrom, buffer,asPOP)
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.nameTo, buffer, asPOP)
+            toBinary(operator.nameFrom, buffer, asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is POPFilter -> {
-            toBinary(operator.children[1], buffer,asPOP)
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is POPProjection -> {
             buffer.appendInt(operator.variables.size)
             for (v in operator.variables)
-                toBinary(v, buffer,asPOP)
-            toBinary(operator.children[0], buffer,asPOP)
+                toBinary(v, buffer, asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is POPBindUndefined -> {
-if(asPOP){
-            toBinary(operator.name, buffer,asPOP)
-            toBinary(operator.children[0], buffer,asPOP)
-}else{
-            toBinary(operator.name, buffer,asPOP)
-	    toBinary(AOPUndef(),buffer,asPOP)
-            toBinary(operator.children[0], buffer,asPOP)
-}
+            if (asPOP) {
+                toBinary(operator.name, buffer, asPOP)
+                toBinary(operator.children[0], buffer, asPOP)
+            } else {
+                toBinary(operator.name, buffer, asPOP)
+                toBinary(AOPUndef(), buffer, asPOP)
+                toBinary(operator.children[0], buffer, asPOP)
+            }
         }
         is POPBind -> {
-            toBinary(operator.name, buffer,asPOP)
-            toBinary(operator.children[1], buffer,asPOP)
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.name, buffer, asPOP)
+            toBinary(operator.children[1], buffer, asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is POPFilterExact -> {
-if(asPOP){
-            toBinary(operator.variable, buffer,asPOP)
-            buffer.appendString(operator.value)
-            toBinary(operator.children[0], buffer,asPOP)
-}else{
- toBinary(AOPEQ(operator.variable,AOPVariable.calculate(operator.value)), buffer,asPOP)
- toBinary(operator.children[0], buffer,asPOP)
-}
+            if (asPOP) {
+                toBinary(operator.variable, buffer, asPOP)
+                buffer.appendString(operator.value)
+                toBinary(operator.children[0], buffer, asPOP)
+            } else {
+                toBinary(AOPEQ(operator.variable, AOPVariable.calculate(operator.value)), buffer, asPOP)
+                toBinary(operator.children[0], buffer, asPOP)
+            }
         }
         is POPSort -> {
-            toBinary(AOPVariable(operator.resultSet.getVariable(operator.sortBy)), buffer,asPOP)
+            toBinary(AOPVariable(operator.resultSet.getVariable(operator.sortBy)), buffer, asPOP)
             buffer.appendInt(DynamicByteArray.boolToInt(operator.sortOrder))
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is POPDistinct -> {
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is POPLimit -> {
             buffer.appendInt(operator.limit)
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is POPOffset -> {
             buffer.appendInt(operator.offset)
-            toBinary(operator.children[0], buffer,asPOP)
+            toBinary(operator.children[0], buffer, asPOP)
         }
         is TripleStoreIteratorGlobal -> {
             val s: String
@@ -597,7 +597,7 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
         EOperatorID.LOPUnionID -> {
             val childA = fromBinary(dictionary, buffer)
             val childB = fromBinary(dictionary, buffer)
-            return LOPUnion( childA, childB)
+            return LOPUnion(childA, childB)
         }
         EOperatorID.POPJoinHashMapID -> {
             val childA = fromBinary(dictionary, buffer)
@@ -609,7 +609,7 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
             val childA = fromBinary(dictionary, buffer)
             val childB = fromBinary(dictionary, buffer)
             val optional = DynamicByteArray.intToBool(buffer.getNextInt())
-            return LOPJoin( childA, childB, optional)
+            return LOPJoin(childA, childB, optional)
         }
         EOperatorID.POPRenameID -> {
             val nameTo = fromBinary(dictionary, buffer) as AOPVariable
@@ -621,7 +621,7 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
             val nameTo = fromBinary(dictionary, buffer) as AOPVariable
             val nameFrom = fromBinary(dictionary, buffer) as AOPVariable
             val child = fromBinary(dictionary, buffer)
-            return LOPRename( nameTo, nameFrom, child)
+            return LOPRename(nameTo, nameFrom, child)
         }
         EOperatorID.POPFilterID -> {
             val filter = fromBinary(dictionary, buffer) as AOPBase
@@ -631,7 +631,7 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
         EOperatorID.LOPFilterID -> {
             val filter = fromBinary(dictionary, buffer) as AOPBase
             val child = fromBinary(dictionary, buffer)
-            return LOPFilter( filter, child)
+            return LOPFilter(filter, child)
         }
         EOperatorID.POPBindUndefinedID -> {
             val name = fromBinary(dictionary, buffer) as AOPVariable
@@ -654,7 +654,7 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
             val name = fromBinary(dictionary, buffer) as AOPVariable
             val value = fromBinary(dictionary, buffer) as AOPBase
             val child = fromBinary(dictionary, buffer)
-            return LOPBind( name, value, child)
+            return LOPBind(name, value, child)
         }
         EOperatorID.POPSortID -> {
             val sortBy = fromBinary(dictionary, buffer) as AOPVariable
@@ -666,7 +666,7 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
             val sortBy = fromBinary(dictionary, buffer) as AOPVariable
             val sortOrder = DynamicByteArray.intToBool(buffer.getNextInt())
             val child = fromBinary(dictionary, buffer)
-            return LOPSort(  sortOrder,sortBy, child)
+            return LOPSort(sortOrder, sortBy, child)
         }
         EOperatorID.POPDistinctID -> {
             val child = fromBinary(dictionary, buffer)
@@ -674,7 +674,7 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
         }
         EOperatorID.LOPDistinctID -> {
             val child = fromBinary(dictionary, buffer)
-            return LOPDistinct( child)
+            return LOPDistinct(child)
         }
         EOperatorID.POPProjectionID -> {
             val childCount = buffer.getNextInt()
@@ -690,7 +690,7 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
             for (i in 0 until childCount)
                 variables.add(fromBinary(dictionary, buffer) as AOPVariable)
             val child = fromBinary(dictionary, buffer)
-            return LOPProjection( variables, child)
+            return LOPProjection(variables, child)
         }
         EOperatorID.POPLimitID -> {
             var value = buffer.getNextInt()
@@ -700,7 +700,7 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
         EOperatorID.LOPLimitID -> {
             var value = buffer.getNextInt()
             val child = fromBinary(dictionary, buffer)
-            return LOPLimit( value, child)
+            return LOPLimit(value, child)
         }
         EOperatorID.POPOffsetID -> {
             var value = buffer.getNextInt()
@@ -710,7 +710,7 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
         EOperatorID.LOPOffsetID -> {
             var value = buffer.getNextInt()
             val child = fromBinary(dictionary, buffer)
-            return LOPOffset( value, child)
+            return LOPOffset(value, child)
         }
         EOperatorID.TripleStoreIteratorGlobalID -> {
             var graphName = "graph" + DistributedTripleStore.getGraphNames().size
@@ -750,22 +750,22 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
                 graph.addData(1L, listOf(st, pt, ot))
             }
             DistributedTripleStore.commit(1L)
-val mys:OPBase
-if(sv)
-mys=AOPVariable.calculate(s)
-else
-mys=AOPVariable(s)
-val myp:OPBase
-if(pv)
-myp=AOPVariable.calculate(p)
-else
-myp=AOPVariable(p)
-val myo:OPBase
-if(ov)
-myo=AOPVariable.calculate(o)
-else
-myo=AOPVariable(o)
-            return LOPTriple(mys,myp,myo,graphName, false)
+            val mys: OPBase
+            if (sv)
+                mys = AOPVariable.calculate(s)
+            else
+                mys = AOPVariable(s)
+            val myp: OPBase
+            if (pv)
+                myp = AOPVariable.calculate(p)
+            else
+                myp = AOPVariable(p)
+            val myo: OPBase
+            if (ov)
+                myo = AOPVariable.calculate(o)
+            else
+                myo = AOPVariable(o)
+            return LOPTriple(mys, myp, myo, graphName, false)
         }
         EOperatorID.POPValuesID -> {
             val variables = mutableListOf<String>()
@@ -795,18 +795,18 @@ myo=AOPVariable(o)
                 variables.add(AOPVariable(buffer.getNextString()))
             val valuesCount = buffer.getNextInt()
             for (j in 0 until valuesCount) {
-                val list=mutableListOf<AOPConstant>()
+                val list = mutableListOf<AOPConstant>()
                 for (i in 0 until variableCount) {
                     val isNull = DynamicByteArray.intToBool(buffer.getNextInt())
                     if (!isNull) {
                         val value = buffer.getNextString()
-                       list.add(AOPVariable.calculate( value))
-                    }else
-			list.add(AOPUndef())
+                        list.add(AOPVariable.calculate(value))
+                    } else
+                        list.add(AOPUndef())
                 }
                 values.add(AOPValue(list))
             }
-            return LOPValues( variables, values)
+            return LOPValues(variables, values)
         }
         else -> throw Exception("BinaryHelper.fromBinary ${operatorID} undefined")
     }
@@ -833,15 +833,15 @@ fun testCaseBinaryFromResultRowsAsPOPValues(buffer: DynamicByteArray, rows: Muta
 }
 
 var testcasenumber = 0
-var hasExecutedTests=false
-fun createBinaryTestCase(operator: OPBase,asPOP:Boolean) {
-if(hasExecutedTests)
-	return
+var hasExecutedTests = false
+fun createBinaryTestCase(operator: OPBase, asPOP: Boolean) {
+    if (hasExecutedTests)
+        return
     synchronized(testcasenumber) {
         try {
             val buffer = DynamicByteArray()
-	    buffer.appendInt(DynamicByteArray.boolToInt(asPOP))
-            toBinary(operator, buffer,asPOP)
+            buffer.appendInt(DynamicByteArray.boolToInt(asPOP))
+            toBinary(operator, buffer, asPOP)
             val filename = "src/commonTest/kotlin/lupos/testcase-${testcasenumber++}.bin"
             File(filename).outputStream().use { out ->
                 val data = buffer.finish()
@@ -860,19 +860,19 @@ if(hasExecutedTests)
 }
 
 fun executeBinaryTests(folder: String) {
-hasExecutedTests=true
+    hasExecutedTests = true
     try {
         File(folder).walk().forEach {
             val filename: String = it.toRelativeString(File("."))
             if (filename.endsWith(".bin")) {
                 println("execute test $filename")
-                    val dictionary = ResultSetDictionary()
+                val dictionary = ResultSetDictionary()
                 var input: OPBase? = null
-		var asPOP=false
+                var asPOP = false
                 File(filename).inputStream().use { instream ->
                     val data = instream.readBytes()
                     val buffer = DynamicByteArray(data)
-			asPOP=DynamicByteArray.intToBool(buffer.getNextInt())
+                    asPOP = DynamicByteArray.intToBool(buffer.getNextInt())
                     input = fromBinary(dictionary, buffer) as OPBase
                 }
                 var expectPOP: POPValues? = null
@@ -886,33 +886,33 @@ hasExecutedTests=true
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }
-                    require(expectPOP!! is POPValues)
+                require(expectPOP!! is POPValues)
                 val expected = QueryResultToXML.toXML(expectPOP!!).first()
-if(asPOP){
-                val output = QueryResultToXML.toXML(input!! as POPBase).first()
-                if (!expected.myEquals(output)) {
-                    println(output.toPrettyString())
-                    println(expected.toPrettyString())
-                }
-                require(expected.myEquals(output))
-}else{
-val lop_node = input!! as LOPBase
+                if (asPOP) {
+                    val output = QueryResultToXML.toXML(input!! as POPBase).first()
+                    if (!expected.myEquals(output)) {
+                        println(output.toPrettyString())
+                        println(expected.toPrettyString())
+                    }
+                    require(expected.myEquals(output))
+                } else {
+                    val lop_node = input!! as LOPBase
                     ExecuteOptimizer.enabledOptimizers.clear()
-                    val lOptimizer=LogicalOptimizer(1L, dictionary)
-                    val pOptimizer=PhysicalOptimizer(1L, dictionary)
-                    val dOptimizer=KeyDistributionOptimizer(1L, dictionary)
-                    val lop_node2 =lOptimizer.optimizeCall(lop_node)
+                    val lOptimizer = LogicalOptimizer(1L, dictionary)
+                    val pOptimizer = PhysicalOptimizer(1L, dictionary)
+                    val dOptimizer = KeyDistributionOptimizer(1L, dictionary)
+                    val lop_node2 = lOptimizer.optimizeCall(lop_node)
                     val pop_node = pOptimizer.optimizeCall(lop_node2)
                     val input = dOptimizer.optimizeCall(pop_node) as POPBase
                     val output = QueryResultToXML.toXML(input).first()
-                    if (!expected.myEquals(output)){
-println((expectPOP as POPValues).toXMLElement().toPrettyString())
-println(input!!.toXMLElement().toPrettyString())
+                    if (!expected.myEquals(output)) {
+                        println((expectPOP as POPValues).toXMLElement().toPrettyString())
+                        println(input!!.toXMLElement().toPrettyString())
                         println(expected.toPrettyString())
                         println(output.toPrettyString())
                     }
                     require(expected.myEquals(output))
-}
+                }
             }
         }
     } catch (e: Throwable) {
@@ -1444,8 +1444,8 @@ fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
                     tmp = x
                 try {
                     if (success) {
-                        createBinaryTestCase(it,true)
-                        createBinaryTestCase(it,false)
+                        createBinaryTestCase(it, true)
+                        createBinaryTestCase(it, false)
                         tmp["${prefix}            " + testCaseFromPOPBaseSimple(it, false, "${prefix}            ")] = queryFile
                         tmp["${prefix}            " + testCaseFromPOPBaseSimple(it, true, "${prefix}            ")] = queryFile
                         tmp["${prefix}            " + testCaseFromLOPBaseSimple(it, false, "${prefix}            ")] = queryFile
