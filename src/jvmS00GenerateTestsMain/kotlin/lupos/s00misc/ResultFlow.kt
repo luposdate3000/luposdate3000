@@ -1,5 +1,8 @@
 package lupos.s04arithmetikOperators
 
+import lupos.s10physicalOptimisation.PhysicalOptimizer
+import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
+import lupos.s08logicalOptimisation.*
 import java.io.File
 import lupos.s00misc.*
 import lupos.s00misc.EOperatorID
@@ -762,7 +765,7 @@ if(ov)
 myo=AOPVariable.calculate(o)
 else
 myo=AOPVariable(o)
-            return LOPTriple(mys,myo,myp,graphName, false)
+            return LOPTriple(mys,myp,myo,graphName, false)
         }
         EOperatorID.POPValuesID -> {
             val variables = mutableListOf<String>()
@@ -863,10 +866,10 @@ hasExecutedTests=true
             val filename: String = it.toRelativeString(File("."))
             if (filename.endsWith(".bin")) {
                 println("execute test $filename")
+                    val dictionary = ResultSetDictionary()
                 var input: OPBase? = null
 		var asPOP=false
                 File(filename).inputStream().use { instream ->
-                    val dictionary = ResultSetDictionary()
                     val data = instream.readBytes()
                     val buffer = DynamicByteArray(data)
 			asPOP=DynamicByteArray.intToBool(buffer.getNextInt())
@@ -883,16 +886,32 @@ hasExecutedTests=true
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }
+                    require(expectPOP!! is POPValues)
+                val expected = QueryResultToXML.toXML(expectPOP!!).first()
 if(asPOP){
                 val output = QueryResultToXML.toXML(input!! as POPBase).first()
-                val expected = QueryResultToXML.toXML(expectPOP!!).first()
                 if (!expected.myEquals(output)) {
                     println(output.toPrettyString())
                     println(expected.toPrettyString())
                 }
                 require(expected.myEquals(output))
 }else{
-//TODO
+val lop_node = input!! as LOPBase
+                    ExecuteOptimizer.enabledOptimizers.clear()
+                    val lOptimizer=LogicalOptimizer(1L, dictionary)
+                    val pOptimizer=PhysicalOptimizer(1L, dictionary)
+                    val dOptimizer=KeyDistributionOptimizer(1L, dictionary)
+                    val lop_node2 =lOptimizer.optimizeCall(lop_node)
+                    val pop_node = pOptimizer.optimizeCall(lop_node2)
+                    val input = dOptimizer.optimizeCall(pop_node) as POPBase
+                    val output = QueryResultToXML.toXML(input).first()
+                    if (!expected.myEquals(output)){
+println((expectPOP as POPValues).toXMLElement().toPrettyString())
+println(input!!.toXMLElement().toPrettyString())
+                        println(expected.toPrettyString())
+                        println(output.toPrettyString())
+                    }
+                    require(expected.myEquals(output))
 }
             }
         }
