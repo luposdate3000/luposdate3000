@@ -6,8 +6,10 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.ThreadSafeMutableList
 import lupos.s00misc.ThreadSafeMutableMap
 import lupos.s00misc.ThreadSafeMutableSet
+import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
 import lupos.s03resultRepresentation.ResultSet
+import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.noinput.AOPAggregation
 import lupos.s04arithmetikOperators.noinput.AOPBnode
@@ -21,7 +23,7 @@ import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04arithmetikOperators.noinput.AOPTypedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIRI
+import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallURI
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
@@ -50,6 +52,165 @@ val myuuid = ThreadSafeUuid()
 fun toBinary(operator: OPBase, buffer: DynamicByteArray) {
     buffer.appendInt(operator.operatorID.ordinal)
     when (operator) {
+        is AOPAddition -> {
+            toBinary(operator.children[0], buffer)
+            toBinary(operator.children[1], buffer)
+        }
+        is AOPBuildInCallCONTAINS -> {
+            toBinary(operator.children[0], buffer)
+            toBinary(operator.children[1], buffer)
+        }
+        is AOPBuildInCallIsNUMERIC -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallLANGMATCHES -> {
+            toBinary(operator.children[0], buffer)
+            toBinary(operator.children[1], buffer)
+        }
+        is AOPBuildInCallSTRENDS -> {
+            toBinary(operator.children[0], buffer)
+            toBinary(operator.children[1], buffer)
+        }
+        is AOPBuildInCallSTRSTARTS -> {
+            toBinary(operator.children[0], buffer)
+            toBinary(operator.children[1], buffer)
+        }
+        is AOPEQ -> {
+            toBinary(operator.children[0], buffer)
+            toBinary(operator.children[1], buffer)
+        }
+        is AOPGEQ -> {
+            toBinary(operator.children[0], buffer)
+            toBinary(operator.children[1], buffer)
+        }
+        is AOPOr -> {
+            toBinary(operator.children[0], buffer)
+            toBinary(operator.children[1], buffer)
+        }
+        is AOPVariable -> {
+            buffer.appendString(operator.name)
+        }
+        is POPEmptyRow -> {
+        }
+        is AOPBuildInCallABS -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallBNODE0 -> {
+        }
+        is AOPBuildInCallBNODE1 -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallCEIL -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallCONCAT -> {
+            toBinary(operator.children[0], buffer)
+            toBinary(operator.children[1], buffer)
+        }
+        is AOPBuildInCallDATATYPE -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallDAY -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallFLOOR -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallHOURS -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallIF -> {
+            toBinary(operator.children[0], buffer)
+            toBinary(operator.children[1], buffer)
+            toBinary(operator.children[2], buffer)
+        }
+        is AOPBuildInCallIRI -> {
+            toBinary(operator.children[0], buffer)
+            buffer.appendString(operator.prefix)
+        }
+        is AOPBuildInCallLANG -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallLCASE -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallMD5 -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallMINUTES -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallMONTH -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallROUND -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallSECONDS -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallSHA1 -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallSHA256 -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallSTRDT -> {
+            toBinary(operator.children[0], buffer)
+            toBinary(operator.children[1], buffer)
+        }
+        is AOPBuildInCallSTR -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallSTRLANG -> {
+            toBinary(operator.children[0], buffer)
+            toBinary(operator.children[1], buffer)
+        }
+        is AOPBuildInCallSTRLEN -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallTZ -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallUCASE -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPBuildInCallURI -> {
+            toBinary(operator.children[0], buffer)
+            buffer.appendString(operator.prefix)
+        }
+        is AOPBuildInCallYEAR -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is AOPDateTime -> {
+            buffer.appendString(operator.valueToString())
+        }
+        is AOPInteger -> {
+            buffer.appendString(operator.valueToString())
+        }
+        is AOPIri -> {
+            buffer.appendString(operator.valueToString())
+        }
+        is AOPSimpleLiteral -> {
+            buffer.appendString(operator.valueToString())
+        }
+        is AOPUndef -> {
+        }
+        is AOPAggregation -> {
+            buffer.appendInt(operator.type.ordinal)
+            buffer.appendInt(DynamicByteArray.boolToInt(operator.distinct))
+            buffer.appendInt(operator.children.size)
+            for (c in operator.children)
+                toBinary(c, buffer)
+        }
+        is AOPBoolean -> {
+            buffer.appendString(operator.valueToString())
+        }
+        is AOPDivision -> {
+            toBinary(operator.children[0], buffer)
+            toBinary(operator.children[1], buffer)
+        }
+
         is POPValues -> {
             val variables = operator.getProvidedVariableNames()
             buffer.appendInt(variables.size)
@@ -176,6 +337,205 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray) {
 fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBase {
     val operatorID = EOperatorID.values()[buffer.getNextInt()]
     when (operatorID) {
+        EOperatorID.AOPAdditionID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val childB = fromBinary(dictionary, buffer) as AOPBase
+            return AOPAddition(childA, childB)
+        }
+        EOperatorID.AOPBuildInCallCONTAINSID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val childB = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallCONTAINS(childA, childB)
+        }
+        EOperatorID.AOPBuildInCallIsNUMERICID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallIsNUMERIC(childA)
+        }
+        EOperatorID.AOPBuildInCallLANGMATCHESID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val childB = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallLANGMATCHES(childA, childB)
+        }
+        EOperatorID.AOPBuildInCallSTRENDSID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val childB = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallSTRENDS(childA, childB)
+        }
+        EOperatorID.AOPBuildInCallSTRSTARTSID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val childB = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallSTRSTARTS(childA, childB)
+        }
+        EOperatorID.AOPEQID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val childB = fromBinary(dictionary, buffer) as AOPBase
+            return AOPEQ(childA, childB)
+        }
+        EOperatorID.AOPGEQID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val childB = fromBinary(dictionary, buffer) as AOPBase
+            return AOPGEQ(childA, childB)
+        }
+        EOperatorID.AOPOrID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val childB = fromBinary(dictionary, buffer) as AOPBase
+            return AOPOr(childA, childB)
+        }
+        EOperatorID.AOPVariableID -> {
+            val name = buffer.getNextString()
+            return AOPVariable(name)
+        }
+        EOperatorID.POPEmptyRowID -> {
+            return POPEmptyRow(dictionary)
+        }
+        EOperatorID.AOPBuildInCallABSID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallABS(childA)
+        }
+        EOperatorID.AOPBuildInCallBNODE0ID -> {
+            return AOPBuildInCallBNODE0()
+        }
+        EOperatorID.AOPBuildInCallBNODE1ID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallBNODE1(childA)
+        }
+        EOperatorID.AOPBuildInCallCEILID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallCEIL(childA)
+        }
+        EOperatorID.AOPBuildInCallCONCATID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val childB = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallCONCAT(childA, childB)
+        }
+        EOperatorID.AOPBuildInCallDATATYPEID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallDATATYPE(childA)
+        }
+        EOperatorID.AOPBuildInCallDAYID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallDAY(childA)
+        }
+        EOperatorID.AOPBuildInCallFLOORID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallFLOOR(childA)
+        }
+        EOperatorID.AOPBuildInCallHOURSID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallHOURS(childA)
+        }
+        EOperatorID.AOPBuildInCallIFID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val childB = fromBinary(dictionary, buffer) as AOPBase
+            val childC = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallIF(childA, childB, childC)
+        }
+        EOperatorID.AOPBuildInCallIRIID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val prefix = buffer.getNextString()
+            return AOPBuildInCallIRI(childA, prefix)
+        }
+        EOperatorID.AOPBuildInCallLANGID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallLANG(childA)
+        }
+        EOperatorID.AOPBuildInCallLCASEID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallLCASE(childA)
+        }
+        EOperatorID.AOPBuildInCallMD5ID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallMD5(childA)
+        }
+        EOperatorID.AOPBuildInCallMINUTESID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallMINUTES(childA)
+        }
+        EOperatorID.AOPBuildInCallMONTHID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallMONTH(childA)
+        }
+        EOperatorID.AOPBuildInCallROUNDID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallROUND(childA)
+        }
+        EOperatorID.AOPBuildInCallSECONDSID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallSECONDS(childA)
+        }
+        EOperatorID.AOPBuildInCallSHA1ID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallSHA1(childA)
+        }
+        EOperatorID.AOPBuildInCallSHA256ID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallSHA256(childA)
+        }
+        EOperatorID.AOPBuildInCallSTRDTID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val childB = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallSTRDT(childA, childB)
+        }
+        EOperatorID.AOPBuildInCallSTRID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallSTR(childA)
+        }
+        EOperatorID.AOPBuildInCallSTRLANGID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val childB = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallSTRLANG(childA, childB)
+        }
+        EOperatorID.AOPBuildInCallSTRLENID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallSTRLEN(childA)
+        }
+        EOperatorID.AOPBuildInCallTZID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallTZ(childA)
+        }
+        EOperatorID.AOPBuildInCallUCASEID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallUCASE(childA)
+        }
+        EOperatorID.AOPBuildInCallURIID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val prefix = buffer.getNextString()
+            return AOPBuildInCallURI(childA, prefix)
+        }
+        EOperatorID.AOPBuildInCallYEARID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            return AOPBuildInCallYEAR(childA)
+        }
+        EOperatorID.AOPDateTimeID -> {
+            return AOPVariable.calculate(buffer.getNextString()) as AOPDateTime
+        }
+        EOperatorID.AOPIntegerID -> {
+            return AOPVariable.calculate(buffer.getNextString()) as AOPInteger
+        }
+        EOperatorID.AOPIriID -> {
+            return AOPVariable.calculate(buffer.getNextString()) as AOPIri
+        }
+        EOperatorID.AOPSimpleLiteralID -> {
+            return AOPVariable.calculate(buffer.getNextString()) as AOPSimpleLiteral
+        }
+        EOperatorID.AOPUndefID -> {
+            return AOPUndef()
+        }
+        EOperatorID.AOPAggregationID -> {
+            val type = Aggregation.values()[buffer.getNextInt()]
+            val distinct = DynamicByteArray.intToBool(buffer.getNextInt())
+            val count = buffer.getNextInt()
+            val variables = Array(count) { fromBinary(dictionary, buffer) as AOPBase }
+            return AOPAggregation(type, distinct, variables)
+        }
+        EOperatorID.AOPBooleanID -> {
+            return AOPVariable.calculate(buffer.getNextString()) as AOPBoolean
+        }
+        EOperatorID.AOPDivisionID -> {
+            val childA = fromBinary(dictionary, buffer) as AOPBase
+            val childB = fromBinary(dictionary, buffer) as AOPBase
+            return AOPDivision(childA, childB)
+        }
         EOperatorID.POPUnionID -> {
             val childA = fromBinary(dictionary, buffer)
             val childB = fromBinary(dictionary, buffer)
@@ -226,11 +586,11 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
             return POPDistinct(dictionary, child)
         }
         EOperatorID.POPProjectionID -> {
-            val child = fromBinary(dictionary, buffer)
             val childCount = buffer.getNextInt()
             val variables = mutableListOf<AOPVariable>()
             for (i in 0 until childCount)
                 variables.add(fromBinary(dictionary, buffer) as AOPVariable)
+            val child = fromBinary(dictionary, buffer)
             return POPProjection(dictionary, variables, child)
         }
         EOperatorID.POPLimitID -> {
