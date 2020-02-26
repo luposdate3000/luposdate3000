@@ -1,14 +1,25 @@
 package lupos.s09physicalOperators.noinput
 
+import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType
+import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
-import lupos.s02buildSyntaxTree.sparql1_1.*
+import lupos.s00misc.XMLElement
+import lupos.s02buildSyntaxTree.sparql1_1.ASTAllGraphRef
+import lupos.s02buildSyntaxTree.sparql1_1.ASTDefaultGraphRef
+import lupos.s02buildSyntaxTree.sparql1_1.ASTGraphRef
+import lupos.s02buildSyntaxTree.sparql1_1.ASTIriGraphRef
+import lupos.s02buildSyntaxTree.sparql1_1.ASTNamedGraphRef
+import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.Variable
+import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s09physicalOperators.POPBase
+import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class POPGraphOperation : POPBase {

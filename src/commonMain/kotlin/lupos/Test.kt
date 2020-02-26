@@ -1,25 +1,38 @@
 package lupos
 
 import lupos.s00misc.*
+import lupos.s00misc.EIndexPattern
+import lupos.s00misc.ELoggerType
+import lupos.s00misc.EOperatorID
+import lupos.s00misc.GlobalLogger
+import lupos.s00misc.readFileContents
+import lupos.s00misc.Trace
+import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
-import lupos.s02buildSyntaxTree.rdf.*
+import lupos.s02buildSyntaxTree.rdf.BlankNode
+import lupos.s02buildSyntaxTree.rdf.Dictionary
+import lupos.s02buildSyntaxTree.rdf.ID_Triple
+import lupos.s02buildSyntaxTree.rdf.IRI
+import lupos.s02buildSyntaxTree.rdf.SimpleLiteral
+import lupos.s02buildSyntaxTree.sparql1_1.parseSPARQL
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s04arithmetikOperators.printAllMicroTest
-import lupos.s04arithmetikOperators.updateAllMicroTest
+import lupos.s04arithmetikOperators.*
+import lupos.s04arithmetikOperators.noinput.*
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
+import lupos.s09physicalOperators.noinput.POPImportFromXml
 import lupos.s09physicalOperators.POPBase
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML
 import lupos.s12p2p.P2P
 import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
-import lupos.s14endpoint.EndpointImpl
 import lupos.s14endpoint.convertToOPBase
+import lupos.s14endpoint.EndpointImpl
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 

@@ -1,7 +1,10 @@
 package lupos.s01io.buffer
 
 import lupos.s00misc.ELoggerType
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.GlobalLogger
+import lupos.s01io.buffer.getString
+import lupos.s01io.buffer.Page
 
 
 class OnePageBenchmark {

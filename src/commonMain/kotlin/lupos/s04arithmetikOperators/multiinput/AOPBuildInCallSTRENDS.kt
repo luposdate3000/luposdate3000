@@ -9,6 +9,7 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPConstantString
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
 import lupos.s04arithmetikOperators.resultFlow
+import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 

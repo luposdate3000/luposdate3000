@@ -1,6 +1,14 @@
 package lupos.s14endpoint
 
-import lupos.s00misc.*
+import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.EGraphOperationType
+import lupos.s00misc.EIndexPattern
+import lupos.s00misc.ELoggerType
+import lupos.s00misc.EOperatorID
+import lupos.s00misc.GlobalLogger
+import lupos.s00misc.parseFromXml
+import lupos.s00misc.Trace
+import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.rdf.Dictionary
@@ -12,9 +20,11 @@ import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.Variable
 import lupos.s04logicalOperators.OPBase
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
+import lupos.s09physicalOperators.noinput.POPImportFromXml
 import lupos.s09physicalOperators.POPBase
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXML

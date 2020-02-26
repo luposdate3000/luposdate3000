@@ -1,5 +1,7 @@
 package lupos.s00misc
 
+import lupos.s00misc.EOperatorID
+
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class DynamicByteArray {

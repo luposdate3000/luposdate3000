@@ -1,6 +1,7 @@
 package lupos.s00misc
 
 import kotlin.math.abs
+import lupos.s00misc.EOperatorID
 
 
 class XMLElement {

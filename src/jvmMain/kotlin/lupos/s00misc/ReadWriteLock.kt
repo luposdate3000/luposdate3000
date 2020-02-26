@@ -2,6 +2,7 @@ package lupos.s00misc
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.sync.Mutex
+import lupos.s00misc.EOperatorID
 
 
 class ReadWriteLock() {
