@@ -22,7 +22,7 @@ class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array
         if (other !is AOPAggregation)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         if (type != other.type)

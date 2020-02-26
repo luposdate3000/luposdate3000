@@ -24,7 +24,7 @@ class AOPBuildInCallURI(child: AOPBase, var prefix: String = "") : AOPBase() {
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallURI)
             return false
-        return children[0].equals(other.children[0])
+        return children[0] == other.children[0]
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {

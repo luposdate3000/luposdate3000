@@ -22,7 +22,7 @@ class AOPEQ(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
         if (other !is AOPEQ)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         return true
@@ -32,7 +32,7 @@ class AOPEQ(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
         val a = (children[0] as AOPBase).calculate(resultSet, resultRow)
         val b = (children[1] as AOPBase).calculate(resultSet, resultRow)
         return resultFlow({ this }, { resultRow }, { resultSet }, {
-            AOPBoolean(a.equals(b))
+            AOPBoolean(a == b)
         })
     }
 }

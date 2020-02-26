@@ -35,7 +35,7 @@ class AOPBuildInCallCEIL(child: AOPBase) : AOPBase() {
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallCEIL)
             return false
-        return children[0].equals(other.children[0])
+        return children[0] == other.children[0]
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {

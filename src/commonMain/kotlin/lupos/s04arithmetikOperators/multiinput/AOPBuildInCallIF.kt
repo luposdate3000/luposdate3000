@@ -21,7 +21,7 @@ class AOPBuildInCallIF(child: AOPBase, childA: AOPBase, childB: AOPBase) : AOPBa
     override fun equals(other: Any?): Boolean {
         if (other !is AOPBuildInCallIF)
             return false
-        return children[0].equals(other.children[0])
+        return children[0] == other.children[0]
     }
 
     override fun calculate(resultSet: ResultSet, resultRow: ResultRow): AOPConstant {

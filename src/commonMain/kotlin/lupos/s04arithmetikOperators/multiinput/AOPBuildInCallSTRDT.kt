@@ -24,7 +24,7 @@ class AOPBuildInCallSTRDT(child: AOPBase, childB: AOPBase) : AOPBase() {
         if (other !is AOPBuildInCallSTRDT)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         return true

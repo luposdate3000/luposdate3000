@@ -24,7 +24,7 @@ class AOPFunctionCall(var iri: String, var distinct: Boolean, args: List<OPBase>
         if (distinct != other.distinct)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         return true

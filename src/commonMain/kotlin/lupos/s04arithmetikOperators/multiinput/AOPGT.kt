@@ -25,7 +25,7 @@ class AOPGT(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
         if (other !is AOPGT)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         return true

@@ -19,7 +19,7 @@ class AOPNot(var child: AOPBase) : AOPBase() {
         if (other !is AOPNot)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         return true

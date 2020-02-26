@@ -19,7 +19,7 @@ class AOPValue(childs: List<AOPConstant>) : AOPBase() {
         if (other !is AOPValue)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         return true
