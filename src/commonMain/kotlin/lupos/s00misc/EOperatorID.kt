@@ -107,7 +107,6 @@ enum class EOperatorID {
     POPBindUndefinedID,
     POPDistinctID,
     POPEmptyRowID,
-    POPExpressionID,
     POPFilterExactID,
     POPFilterID,
     POPGraphOperationID,
