@@ -54,7 +54,7 @@ import lupos.s10physicalOptimisation.*
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
-class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary,EOptimizerID.PhysicalOptimizerID) {
+class PhysicalOptimizer(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary, EOptimizerID.PhysicalOptimizerID) {
     override val classname = "PhysicalOptimizer"
 
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {

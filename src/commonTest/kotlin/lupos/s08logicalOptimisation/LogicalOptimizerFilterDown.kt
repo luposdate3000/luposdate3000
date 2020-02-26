@@ -17,9 +17,10 @@ class LogicalOptimizerFilterDownTest {
     var store1 = LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), null, false)
     val astS = AOPVariable("s")
     val projectS = mutableListOf(AOPVariable("s"))
-constructor(){
-ExecuteOptimizer.enabledOptimizers[EOptimizerID.LogicalOptimizerFilterDownID]=true
-}
+
+    constructor() {
+        ExecuteOptimizer.enabledOptimizers[EOptimizerID.LogicalOptimizerFilterDownID] = true
+    }
 
     fun helper(input: OPBase, target: OPBase, transactionID: Long, dictionary: ResultSetDictionary, expectChanged: Int) {
         var changed = 0

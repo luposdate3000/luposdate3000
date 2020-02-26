@@ -32,7 +32,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 
 
-abstract class OptimizerBase(val transactionID: Long, val dictionary: ResultSetDictionary,val optimizerID:EOptimizerID) {
+abstract class OptimizerBase(val transactionID: Long, val dictionary: ResultSetDictionary, val optimizerID: EOptimizerID) {
     abstract val classname: String
 
     abstract fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase

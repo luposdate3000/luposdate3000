@@ -1,6 +1,6 @@
 package lupos
 
-import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.*
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.ELoggerType
 import lupos.s00misc.EOperatorID
@@ -42,7 +42,6 @@ fun main(args: Array<String>) {
     P2P.knownClients.add(EndpointImpl.fullname)
     testMain()
     printAllMicroTest()
-    executeBinaryTests("src/commonTest/kotlin/lupos")
 }
 
 fun testMain() {

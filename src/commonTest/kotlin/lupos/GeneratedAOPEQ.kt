@@ -499,26 +499,6 @@ class GeneratedAOPEQTest {
                 resultSet.createVariable("b")
                 resultSet.createVariable("s2")
                 MicroTestA1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("s2")
-                MicroTestA1(
                         AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -539,7 +519,7 @@ class GeneratedAOPEQTest {
                 resultSet.createVariable("b")
                 resultSet.createVariable("s2")
                 MicroTestA1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
@@ -579,17 +559,17 @@ class GeneratedAOPEQTest {
                 resultSet.createVariable("b")
                 resultSet.createVariable("s2")
                 MicroTestA1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
                             resultRow
                         }(),
                         resultSet,
-                        AOPBoolean(true)
+                        AOPBoolean(false)
                 )
             }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
             {
@@ -619,7 +599,7 @@ class GeneratedAOPEQTest {
                 resultSet.createVariable("b")
                 resultSet.createVariable("s2")
                 MicroTestA1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
                         {
                             val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
@@ -629,7 +609,7 @@ class GeneratedAOPEQTest {
                             resultRow
                         }(),
                         resultSet,
-                        AOPBoolean(false)
+                        AOPBoolean(true)
                 )
             }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
             {
@@ -639,11 +619,11 @@ class GeneratedAOPEQTest {
                 resultSet.createVariable("b")
                 resultSet.createVariable("s2")
                 MicroTestA1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
                             resultRow
@@ -679,26 +659,6 @@ class GeneratedAOPEQTest {
                 resultSet.createVariable("b")
                 resultSet.createVariable("s2")
                 MicroTestA1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("s2")
-                MicroTestA1(
                         AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -722,8 +682,8 @@ class GeneratedAOPEQTest {
                         AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
                             resultRow
@@ -742,8 +702,8 @@ class GeneratedAOPEQTest {
                         AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
                             resultRow
@@ -779,26 +739,6 @@ class GeneratedAOPEQTest {
                 resultSet.createVariable("b")
                 resultSet.createVariable("s2")
                 MicroTestA1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("s2")
-                MicroTestA1(
                         AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -819,11 +759,11 @@ class GeneratedAOPEQTest {
                 resultSet.createVariable("b")
                 resultSet.createVariable("s2")
                 MicroTestA1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
                             resultRow
@@ -839,11 +779,11 @@ class GeneratedAOPEQTest {
                 resultSet.createVariable("b")
                 resultSet.createVariable("s2")
                 MicroTestA1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
                             resultRow
@@ -879,6 +819,126 @@ class GeneratedAOPEQTest {
                 resultSet.createVariable("b")
                 resultSet.createVariable("s2")
                 MicroTestA1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("s2")
+                MicroTestA1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("s2")
+                MicroTestA1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("s2")
+                MicroTestA1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("s2")
+                MicroTestA1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("s2")
+                MicroTestA1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s1>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"foo\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("s2")
+                MicroTestA1(
                         AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -899,66 +959,6 @@ class GeneratedAOPEQTest {
                 resultSet.createVariable("b")
                 resultSet.createVariable("s2")
                 MicroTestA1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("s2")
-                MicroTestA1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("s2")
-                MicroTestA1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s2>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"bar\"@en")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("s2")
-                MicroTestA1(
                         AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -1219,26 +1219,6 @@ class GeneratedAOPEQTest {
                 resultSet.createVariable("b")
                 resultSet.createVariable("s2")
                 MicroTestA1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("s2")
-                MicroTestA1(
                         AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -1250,26 +1230,6 @@ class GeneratedAOPEQTest {
                         }(),
                         resultSet,
                         AOPBoolean(false)
-                )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("s2")
-                MicroTestA1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
                 )
             }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
             {
@@ -1322,8 +1282,8 @@ class GeneratedAOPEQTest {
                         AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
                             resultRow
@@ -1342,14 +1302,14 @@ class GeneratedAOPEQTest {
                         AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s1>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"foo\"")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
                             resultRow
                         }(),
                         resultSet,
-                        AOPBoolean(false)
+                        AOPBoolean(true)
                 )
             }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
             {
@@ -1402,28 +1362,8 @@ class GeneratedAOPEQTest {
                         AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(true)
-                )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("s2")
-                MicroTestA1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
                             resultRow
@@ -1459,6 +1399,26 @@ class GeneratedAOPEQTest {
                 resultSet.createVariable("b")
                 resultSet.createVariable("s2")
                 MicroTestA1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("s2")
+                MicroTestA1(
                         AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -1482,14 +1442,14 @@ class GeneratedAOPEQTest {
                         AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
                             resultRow
                         }(),
                         resultSet,
-                        AOPBoolean(false)
+                        AOPBoolean(true)
                 )
             }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
             {
@@ -1502,8 +1462,8 @@ class GeneratedAOPEQTest {
                         AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
                             resultRow
@@ -1539,6 +1499,26 @@ class GeneratedAOPEQTest {
                 resultSet.createVariable("b")
                 resultSet.createVariable("s2")
                 MicroTestA1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("s2")
+                MicroTestA1(
                         AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
                         {
                             val resultRow = resultSet.createResultRow()
@@ -1559,31 +1539,11 @@ class GeneratedAOPEQTest {
                 resultSet.createVariable("b")
                 resultSet.createVariable("s2")
                 MicroTestA1(
-                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("s2")
-                MicroTestA1(
                         AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s4>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"食べ物\"")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
                             resultRow
@@ -1642,8 +1602,8 @@ class GeneratedAOPEQTest {
                         AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
                             resultRow
@@ -1662,8 +1622,8 @@ class GeneratedAOPEQTest {
                         AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s5>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"100%\"")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
                             resultRow
@@ -1722,10 +1682,130 @@ class GeneratedAOPEQTest {
                         AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
                         {
                             val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("s2")
+                MicroTestA1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("s2")
+                MicroTestA1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s6>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"abc\"^^<http://www.w3.org/2001/XMLSchema#string>")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("s2")
+                MicroTestA1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("s2")
+                MicroTestA1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("s2")
+                MicroTestA1(
+                        AOPEQ(AOPVariable("a"), AOPIri("http://example.org/s3")),
+                        {
+                            val resultRow = resultSet.createResultRow()
                             resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s7>")
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
+                            resultRow
+                        }(),
+                        resultSet,
+                        AOPBoolean(false)
+                )
+            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("a")
+                resultSet.createVariable("s1")
+                resultSet.createVariable("b")
+                resultSet.createVariable("s2")
+                MicroTestA1(
+                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
+                        {
+                            val resultRow = resultSet.createResultRow()
+                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
+                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
+                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
+                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
                             resultRow
                         }(),
                         resultSet,
@@ -1746,86 +1826,6 @@ class GeneratedAOPEQTest {
                             resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"DEF\"^^<http://www.w3.org/2001/XMLSchema#string>")
                             resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s3>")
                             resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"BAZ\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("s2")
-                MicroTestA1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("s2")
-                MicroTestA1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s2>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"bar\"@en")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("s2")
-                MicroTestA1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s3")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
-                            resultRow
-                        }(),
-                        resultSet,
-                        AOPBoolean(false)
-                )
-            }() /* resources/sparql11-test-suite/functions/bnode01.rq */ ,
-            {
-                val resultSet = ResultSet(ResultSetDictionary())
-                resultSet.createVariable("a")
-                resultSet.createVariable("s1")
-                resultSet.createVariable("b")
-                resultSet.createVariable("s2")
-                MicroTestA1(
-                        AOPEQ(AOPVariable("b"), AOPIri("http://example.org/s1")),
-                        {
-                            val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("a")] = resultSet.createValue("<http://example.org/s3>")
-                            resultRow[resultSet.createVariable("s1")] = resultSet.createValue("\"BAZ\"")
-                            resultRow[resultSet.createVariable("b")] = resultSet.createValue("<http://example.org/s4>")
-                            resultRow[resultSet.createVariable("s2")] = resultSet.createValue("\"食べ物\"")
                             resultRow
                         }(),
                         resultSet,
@@ -2839,7 +2839,7 @@ class GeneratedAOPEQTest {
                         AOPEQ(AOPBuildInCallDATATYPE(AOPVariable("n")), AOPIri("http://www.w3.org/2001/XMLSchema#dateTime")),
                         {
                             val resultRow = resultSet.createResultRow()
-                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-26T14:05:22Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
+                            resultRow[resultSet.createVariable("n")] = resultSet.createValue("\"2020-02-26T14:27:20Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>")
                             resultRow
                         }(),
                         resultSet,

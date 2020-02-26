@@ -3,7 +3,7 @@ mkdir log
 
 visitedArray[0]=0
 
-for chooseS00ResultFlow in "jvmS00GenerateTestsMain" "commonS00FastMain"
+for chooseS00ResultFlow in "jvmS00GenerateTestsMain" "commonS00FastMain" "jvmS00ExecuteTestsMain"
 do
 for chooseS00Execution in "commonS00ExecutionSequentialMain" "commonS00ExecutionParallelMain"
 do
@@ -44,6 +44,11 @@ then
 fi
 
 if [ "${visitedArray[${chooseS00ResultFlow}]}" == 1 ] && [ "${chooseS00ResultFlow}" == "jvmS00GenerateTestsMain" ]
+then
+#faster test-build
+continue
+fi
+if [ "${visitedArray[${chooseS00ResultFlow}]}" == 1 ] && [ "${chooseS00ResultFlow}" == "jvmS00ExecuteTestsMain" ]
 then
 #faster test-build
 continue
