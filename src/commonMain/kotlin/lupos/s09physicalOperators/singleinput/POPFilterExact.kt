@@ -54,7 +54,6 @@ class POPFilterExact : POPBase {
 
     override fun getRequiredVariableNames(): MutableList<String> {
         val res = mutableListOf(variable.name)
-        println("($classname)($uuid)getRequiredVariableNames $res")
         return res
     }
 

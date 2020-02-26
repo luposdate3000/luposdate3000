@@ -258,18 +258,13 @@ class DistributedGraph(val name: String) {
         val ks = rs.createVariable("s")
         val kp = rs.createVariable("p")
         val ko = rs.createVariable("o")
-        println("xx before evaluate")
         iterator.evaluate()
-        println("xx after evaluate")
-        println("xx before loop")
         for (v in iterator.channel) {
-            println("xx in loop")
             val s = rs.getValue(v[ks])
             val p = rs.getValue(v[kp])
             val o = rs.getValue(v[ko])
             addData(transactionID, listOf(s, p, o))
         }
-        println("xx after loop")
     })
 
     fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "DistributedGraph.getIterator c" }, {

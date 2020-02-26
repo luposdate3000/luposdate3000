@@ -1,8 +1,6 @@
 package lupos.s04arithmetikOperators.noinput
 
 import lupos.s00misc.EOperatorID
-import lupos.s03resultRepresentation.*
-import lupos.s04arithmetikOperators.*
 
 
 abstract class AOPConstantString() : AOPConstant() {

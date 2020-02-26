@@ -79,7 +79,6 @@ class POPRename : POPBase {
 
     override fun getProvidedVariableNames(): List<String> {
         val res = (children[0].getProvidedVariableNames() - nameFrom.name + nameTo.name).distinct()
-        println("($classname)($uuid)getProvidedVariableNames $res")
         return res
     }
 

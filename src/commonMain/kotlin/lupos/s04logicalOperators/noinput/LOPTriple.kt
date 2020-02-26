@@ -13,7 +13,6 @@ class LOPTriple(val s: OPBase, val p: OPBase, val o: OPBase, val graph: String?,
 
     override fun getProvidedVariableNames(): List<String> {
         val res = (s.getRequiredVariableNames() + p.getRequiredVariableNames() + o.getRequiredVariableNames()).distinct()
-        println("($classname)($uuid)getRequiredVariableNames $res")
         return res
     }
 

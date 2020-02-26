@@ -1,11 +1,12 @@
 package lupos.s04arithmetikOperators.noinput
+import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.resultFlow
+import lupos.s03resultRepresentation.ResultRow
+import lupos.s03resultRepresentation.ResultSet
+import lupos.s02buildSyntaxTree.sparql1_1.Aggregation
 
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.XMLElement
-import lupos.s02buildSyntaxTree.sparql1_1.*
-import lupos.s03resultRepresentation.*
-import lupos.s04arithmetikOperators.*
-import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 

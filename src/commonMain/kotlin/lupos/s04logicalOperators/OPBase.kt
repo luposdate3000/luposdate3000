@@ -53,7 +53,6 @@ abstract class OPBase {
 
     open fun getRequiredVariableNames(): List<String> {
         val res = mutableListOf<String>()
-        println("($classname)($uuid)getRequiredVariableNames $res")
         return res
     }
 
@@ -61,7 +60,6 @@ abstract class OPBase {
         val res = mutableListOf<String>()
         for (c in children)
             res.addAll(c.getProvidedVariableNames())
-        println("($classname)($uuid)getProvidedVariableNames ${res.distinct()}")
         return res.distinct()
     }
 
@@ -102,7 +100,6 @@ abstract class OPBase {
             if (autocorrect) {
                 syntaxVerifyAllVariableExistsAutocorrect()
             } else {
-                println(this.toXMLElement().toPrettyString())
                 throw Exception("${classNameToString(this)} undefined Variable")
             }
         }

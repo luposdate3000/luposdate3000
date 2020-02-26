@@ -14,7 +14,6 @@ class LOPValues(val variables: List<AOPVariable>, values: List<AOPValue>) : LOPB
 
     override fun getProvidedVariableNames(): List<String> {
         val res = MutableList(variables.size) { variables[it].name }.distinct()
-        println("($classname)($uuid)getProvidedVariableNames $res")
         return res
     }
 

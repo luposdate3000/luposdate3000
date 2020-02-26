@@ -96,6 +96,67 @@ class GeneratedAOPAggregationTest {
             }() /* resources/sparql11-test-suite/aggregates/agg01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("S")
+                resultSet.createVariable("P")
+                resultSet.createVariable("O")
+                MicroTestAN(
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O"))),
+                        listOf(
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
+                                resultRow
+                            }()
+                        ),
+                        resultSet,
+                        AOPInteger(3)
+                )
+            }() /* resources/sparql11-test-suite/aggregates/agg02.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("S")
+                resultSet.createVariable("P")
+                resultSet.createVariable("O")
+                MicroTestAN(
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf(AOPVariable("O"))),
+                        listOf(
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                resultRow
+                            }()
+                        ),
+                        resultSet,
+                        AOPInteger(2)
+                )
+            }() /* resources/sparql11-test-suite/aggregates/agg02.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("P")
                 resultSet.createVariable("S")
                 resultSet.createVariable("O")
@@ -236,7 +297,7 @@ class GeneratedAOPAggregationTest {
                         resultSet,
                         AOPInteger(3)
                 )
-            }() /* resources/sparql11-test-suite/aggregates/agg07.rq */ ,
+            }() /* resources/sparql11-test-suite/aggregates/agg05.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("P")
@@ -256,6 +317,67 @@ class GeneratedAOPAggregationTest {
                                 val resultRow = resultSet.createResultRow()
                                 resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
                                 resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                resultRow
+                            }()
+                        ),
+                        resultSet,
+                        AOPInteger(2)
+                )
+            }() /* resources/sparql11-test-suite/aggregates/agg05.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("S")
+                resultSet.createVariable("P")
+                resultSet.createVariable("O")
+                MicroTestAN(
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf()),
+                        listOf(
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p1>")
+                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o3>")
+                                resultRow
+                            }()
+                        ),
+                        resultSet,
+                        AOPInteger(3)
+                )
+            }() /* resources/sparql11-test-suite/aggregates/agg07.rq */ ,
+            {
+                val resultSet = ResultSet(ResultSetDictionary())
+                resultSet.createVariable("S")
+                resultSet.createVariable("P")
+                resultSet.createVariable("O")
+                MicroTestAN(
+                        AOPAggregation(Aggregation.COUNT, false, arrayOf()),
+                        listOf(
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
+                                resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o1>")
+                                resultRow
+                            }(),
+                            {
+                                val resultRow = resultSet.createResultRow()
+                                resultRow[resultSet.createVariable("S")] = resultSet.createValue("<http://www.example.org/s>")
+                                resultRow[resultSet.createVariable("P")] = resultSet.createValue("<http://www.example.org/p2>")
                                 resultRow[resultSet.createVariable("O")] = resultSet.createValue("<http://www.example.org/o2>")
                                 resultRow
                             }()

@@ -19,13 +19,11 @@ class LOPProjection(val variables: MutableList<AOPVariable> = mutableListOf()) :
 
     override fun getProvidedVariableNames(): List<String> {
         val res = MutableList(variables.size) { variables[it].name }.distinct()
-        println("($classname)($uuid)getProvidedVariableNames $res")
         return res
     }
 
     override fun getRequiredVariableNames(): List<String> {
         val res = MutableList(variables.size) { variables[it].name }.distinct()
-        println("($classname)($uuid)getRequiredVariableNames $res")
         return res
     }
 

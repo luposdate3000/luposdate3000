@@ -18,7 +18,6 @@ class LOPMakeBooleanResult() : LOPBase() {
 
     override fun getProvidedVariableNames(): List<String> {
         val res = mutableListOf("?boolean")
-        println("($classname)($uuid)getProvidedVariableNames $res")
         return res
     }
 

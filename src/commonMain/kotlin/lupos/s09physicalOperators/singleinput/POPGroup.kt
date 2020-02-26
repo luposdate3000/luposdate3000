@@ -68,7 +68,6 @@ class POPGroup : POPBase {
         var res = MutableList(by.size) { by[it].name }
         for (b in bindings)
             res.addAll(b.second.getRequiredVariableNamesRecoursive())
-        println("($classname)($uuid)getRequiredVariableNames ${res.distinct()}")
         return res.distinct()
     }
 
@@ -143,7 +142,6 @@ class POPGroup : POPBase {
                                 (b.second as AOPBase).calculate(children[0].resultSet, resultRow)
                             setAggregationMode(b.second, false, tmpMutableMap[k]!!.count())
                             val a = (b.second as AOPBase).calculate(children[0].resultSet, children[0].resultSet.createResultRow())
-                            println("return from evaluate ${a.valueToString()}")
                             val value = a.valueToString()
                             if (value == null)
                                 resultSet.setUndefValue(rsNew, b.first)

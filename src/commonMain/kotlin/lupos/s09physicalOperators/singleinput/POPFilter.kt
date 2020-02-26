@@ -45,13 +45,11 @@ class POPFilter : POPBase {
 
     override fun getProvidedVariableNames(): List<String> {
         val res = children[0].getProvidedVariableNames().distinct()
-        println("($classname)($uuid)getProvidedVariableNames $res")
         return res
     }
 
     override fun getRequiredVariableNames(): List<String> {
         val res = children[1].getRequiredVariableNamesRecoursive()
-        println("($classname)($uuid)getRequiredVariableNames $res")
         return res
     }
 

@@ -63,7 +63,6 @@ class POPBindUndefined : POPBase {
         val res = mutableListOf<String>()
         res.addAll(children[0].getProvidedVariableNames())
         res.add(name.name)
-        println("($classname)($uuid)getProvidedVariableNames ${res.distinct()}")
         return res.distinct()
     }
 

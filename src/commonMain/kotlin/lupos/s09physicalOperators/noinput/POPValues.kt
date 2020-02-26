@@ -73,7 +73,6 @@ class POPValues : POPBase {
             stringVars.add(name.name)
             variables.add(resultSet.createVariable(name.name))
         }
-        println(values.toXMLElement().toPrettyString())
         for (v in values.children) {
             require(v is AOPValue)
             val it = v.children.iterator()

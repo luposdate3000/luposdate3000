@@ -473,10 +473,12 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
 }
 
 fun executeBinaryTests(folder: String) {
+var testcases=0
     try {
         File(folder).walk().forEach {
             val filename: String = it.toRelativeString(File("."))
             if (filename.endsWith(".bin")) {
+testcases++
                 println("execute test $filename")
                 val dictionary = ResultSetDictionary()
                 var input: OPBase? = null
@@ -507,6 +509,8 @@ fun executeBinaryTests(folder: String) {
                 if (input!! is POPBase) {
                     val output = QueryResultToXML.toXML(input!! as POPBase).first()
                     if (!expected.myEquals(output)) {
+                        println((expectPOP as POPValues).toXMLElement().toPrettyString())
+                        println(input!!.toXMLElement().toPrettyString())
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }
@@ -534,4 +538,5 @@ fun executeBinaryTests(folder: String) {
     } catch (e: Throwable) {
         e.printStackTrace()
     }
+println("executed testcases : $testcases")
 }

@@ -14,12 +14,11 @@ class LogicalOptimizerFilterDown(transactionID: Long, dictionary: ResultSetDicti
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
         if (node is LOPFilter) {
+println("hahaha"+node.toXMLElement().toPrettyString())
             val c = node.children[0]
             if (c.children.size == 1) {
                 val cc = c.children[0]
-                println("a:: ${classNameToString(cc)} ${cc.getProvidedVariableNames()}")
-                println("b:: ${classNameToString(node)} ${node.getRequiredVariableNames()}")
-                if (cc.getProvidedVariableNames().containsAll(node.getRequiredVariableNames())) {
+                if  (cc.getProvidedVariableNames().containsAll(node.getRequiredVariableNames())) {
                     c.children[0] = node
                     node.children[0] = cc
                     onChange()

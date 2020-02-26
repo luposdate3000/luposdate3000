@@ -99,39 +99,33 @@ fun consume_triple(triple_s: Long, triple_p: Long, triple_o: Long) {
 
 object Endpoint {
     fun process_local_triple_add(graphName: String, transactionID: Long, s: String, p: String, o: String, idx: EIndexPattern): XMLElement = Trace.trace({ "Endpoint.process_local_triple_add" }, {
-        println("${EndpointImpl.fullname} process_local_triple_add $graphName $transactionID")
         val g = DistributedTripleStore.localStore.getNamedGraph(graphName)
         g.addData(transactionID, s, p, o, idx)
         return XMLElement("success")
     })
 
     fun process_local_triple_delete(graphName: String, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): XMLElement = Trace.trace({ "Endpoint.process_local_triple_delete" }, {
-        println("${EndpointImpl.fullname} process_local_triple_delete $graphName $transactionID")
         val g = DistributedTripleStore.localStore.getNamedGraph(graphName)
         g.deleteDataVar(transactionID, s, p, o, sv, pv, ov, idx)
         return XMLElement("success")
     })
 
     fun process_local_triple_get(graphName: String, resultSet: ResultSet, transactionID: Long, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, idx: EIndexPattern): POPBase = Trace.trace({ "Endpoint.process_local_triple_get" }, {
-        println("${EndpointImpl.fullname} process_local_triple_get $graphName $transactionID")
         val g = DistributedTripleStore.localStore.getNamedGraph(graphName)
         return g.getIterator(transactionID, resultSet, s, p, o, sv, pv, ov, idx)
     })
 
     fun process_local_graph_clear_all(): XMLElement = Trace.trace({ "Endpoint.process_local_graph_clear_all" }, {
-        println("${EndpointImpl.fullname} process_local_graph_clear_all")
         DistributedTripleStore.localStore.getDefaultGraph().clear()
         return XMLElement("success")
     })
 
     fun process_local_commit(transactionID: Long): XMLElement = Trace.trace({ "Endpoint.process_local_commit" }, {
-        println("${EndpointImpl.fullname} process_local_commit $transactionID")
         DistributedTripleStore.localStore.commit(transactionID)
         return XMLElement("success")
     })
 
     fun process_local_graph_operation(name: String, type: EGraphOperationType): XMLElement = Trace.trace({ "Endpoint.process_local_graph_operation" }, {
-        println("${EndpointImpl.fullname} process_local_graph_operation $name")
         when (type) {
             EGraphOperationType.CLEAR -> DistributedTripleStore.localStore.clearGraph(name)
             EGraphOperationType.CREATE -> DistributedTripleStore.localStore.createGraph(name)

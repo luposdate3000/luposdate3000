@@ -1,4 +1,4 @@
-gradle --build-file="build.gradle.jvm.test" --project-cache-dir="gradleJvmTestGenerated" build
+gradle --build-file="build.gradle.jvm.test" --project-cache-dir="gradleJvmTestGenerated" build -x test
 (
         cd buildJvmTest/distributions
         tar -xf luposdate3000.tar
