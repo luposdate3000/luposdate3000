@@ -1,10 +1,5 @@
 package lupos.s01io.buffer
 
-import kotlin.jvm.JvmField
-import lupos.s00misc.EOperatorID
-import lupos.s01io.buffer.createString
-import lupos.s01io.buffer.Page
-
 
 inline fun Int.toBytes(bytes: ByteArray, offset: Int): Int {
     bytes[offset] = this.toByte()

@@ -1,7 +1,5 @@
 package lupos.s00misc
 
-import lupos.s00misc.EOperatorID
-
 
 fun XMLElement.Companion.parseFromTsv(tsv: String): List<XMLElement>? {
     val res = mutableListOf<XMLElement>()

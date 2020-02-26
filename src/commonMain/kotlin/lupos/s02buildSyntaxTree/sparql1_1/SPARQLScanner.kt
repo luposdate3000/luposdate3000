@@ -1,11 +1,6 @@
 package lupos.s02buildSyntaxTree.sparql1_1
 
-import lupos.s02buildSyntaxTree.LexerCharIterator
-import lupos.s02buildSyntaxTree.ParseError
-import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
-import lupos.s02buildSyntaxTree.Token
-import lupos.s02buildSyntaxTree.TokenIterator
-import lupos.s02buildSyntaxTree.UnexpectedEndOfFile
+import lupos.s02buildSyntaxTree.*
 
 
 class EOF(index: Int) : Token("EOF", index);

@@ -1,15 +1,13 @@
 package lupos.s08logicalOptimisation
 
-import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s04arithmetikOperators.noinput.*
-import lupos.s04logicalOperators.noinput.*
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.singleinput.*
+import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
-import lupos.s08logicalOptimisation.OptimizerBase
-import org.junit.jupiter.api.*
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 
 
 class LogicalOptimizerRemovePrefixTest {

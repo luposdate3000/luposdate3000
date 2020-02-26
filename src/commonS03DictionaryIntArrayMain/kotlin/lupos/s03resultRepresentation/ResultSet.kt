@@ -1,9 +1,6 @@
 package lupos.s03resultRepresentation
 
-import lupos.s00misc.*
-import lupos.s00misc.EOperatorID
-import lupos.s03resultRepresentation.Value
-import lupos.s03resultRepresentation.Variable
+import lupos.s00misc.CoroutinesHelper
 
 
 class ResultSet {

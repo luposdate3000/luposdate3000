@@ -1,11 +1,5 @@
 package lupos.s03resultRepresentation
 
-import java.io.PrintWriter
-import java.io.StringWriter
-import lupos.s00misc.EOperatorID
-import lupos.s03resultRepresentation.Value
-import lupos.s03resultRepresentation.Variable
-
 
 class ResultRow : Comparable<ResultRow> {
     val values: Array<Value>

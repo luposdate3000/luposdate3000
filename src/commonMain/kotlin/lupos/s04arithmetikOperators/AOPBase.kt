@@ -1,6 +1,5 @@
 package lupos.s04arithmetikOperators
 
-import lupos.s00misc.classNameToString
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
