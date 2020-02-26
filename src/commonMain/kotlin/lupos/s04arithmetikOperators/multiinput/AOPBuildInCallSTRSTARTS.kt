@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s00misc.EOperatorID
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPConstantString
@@ -14,6 +15,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBuildInCallSTRSTARTS(child: AOPBase, childB: AOPBase) : AOPBase() {
+    override val operatorID=EOperatorID.AOPBuildInCallSTRSTARTSID
     override val classname = "AOPBuildInCallSTRSTARTS"
     override val children: Array<OPBase> = arrayOf(child, childB)
 

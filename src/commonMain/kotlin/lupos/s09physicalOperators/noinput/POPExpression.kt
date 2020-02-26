@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s00misc.EOperatorID
 
 import com.benasher44.uuid.uuid4
 import com.soywiz.krypto.md5
@@ -27,6 +28,7 @@ import lupos.s04logicalOperators.OPBase
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class POPExpression : LOPBase {
+    override val operatorID=EOperatorID.POPExpressionID
     override val classname = "POPExpression"
     val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing())

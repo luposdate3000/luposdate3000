@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.noinput
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
@@ -8,6 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPUndef() : AOPConstant() {
+    override val operatorID=EOperatorID.AOPUndefID
     override val classname = "AOPUndef"
     override val children: Array<OPBase> = arrayOf()
 

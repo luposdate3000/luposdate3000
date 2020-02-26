@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
@@ -12,6 +13,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPAnd(childA: AOPBase, childB: AOPBase) : AOPBase() {
+    override val operatorID=EOperatorID.AOPAndID
     override val classname = "AOPAnd"
     override val children: Array<OPBase> = arrayOf(childA, childB)
 

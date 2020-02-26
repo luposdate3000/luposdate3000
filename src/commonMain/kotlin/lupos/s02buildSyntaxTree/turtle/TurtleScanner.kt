@@ -1,4 +1,5 @@
 package lupos.s02buildSyntaxTree.turtle
+import lupos.s00misc.EOperatorID
 
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.ParseError

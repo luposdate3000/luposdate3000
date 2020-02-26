@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
+import lupos.s00misc.EOperatorID
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPDecimal
@@ -15,6 +16,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPGT(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
+    override val operatorID=EOperatorID.AOPGTID
     override val classname = "AOPGT"
     override val children: Array<OPBase> = arrayOf(childA, childB)
 

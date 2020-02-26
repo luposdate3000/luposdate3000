@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -15,6 +16,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPProjection : POPBase {
+    override val operatorID=EOperatorID.POPProjectionID
     override val classname = "POPProjection"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary

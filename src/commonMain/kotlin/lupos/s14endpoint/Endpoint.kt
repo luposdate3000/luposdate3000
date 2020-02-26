@@ -1,4 +1,5 @@
 package lupos.s14endpoint
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EGraphOperationType
@@ -32,6 +33,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class TripleInsertIterator : POPBase {
+    override val operatorID=EOperatorID.TripleInsertIteratorID
     override val classname = "TripleInsertIterator"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary

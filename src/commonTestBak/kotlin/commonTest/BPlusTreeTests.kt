@@ -1,4 +1,5 @@
 package commonTest
+import lupos.s00misc.EOperatorID
 
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

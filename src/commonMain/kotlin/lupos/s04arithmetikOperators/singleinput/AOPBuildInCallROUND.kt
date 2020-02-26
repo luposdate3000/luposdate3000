@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s00misc.EOperatorID
 
 import com.benasher44.uuid.uuid4
 import com.soywiz.krypto.md5
@@ -26,6 +27,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBuildInCallROUND(child: AOPBase) : AOPBase() {
+    override val operatorID=EOperatorID.AOPBuildInCallROUNDID
     override val classname = "AOPBuildInCallROUND"
     override val children: Array<OPBase> = arrayOf(child)
 

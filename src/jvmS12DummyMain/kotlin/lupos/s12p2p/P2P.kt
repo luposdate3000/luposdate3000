@@ -1,4 +1,5 @@
 package lupos.s12p2p
+import lupos.s00misc.EOperatorID
 
 import com.soywiz.korio.net.http.createHttpClient
 import com.soywiz.korio.net.http.Http

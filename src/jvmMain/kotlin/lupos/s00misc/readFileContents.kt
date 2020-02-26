@@ -1,4 +1,5 @@
 package lupos.s00misc
+import lupos.s00misc.EOperatorID
 
 import java.io.File
 import java.io.InputStream

@@ -1,4 +1,5 @@
 package lupos.s03resultRepresentation
+import lupos.s00misc.EOperatorID
 
 import lupos.s09physicalOperators.POPBase
 

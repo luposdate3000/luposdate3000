@@ -1,4 +1,5 @@
 package lupos.s00misc
+import lupos.s00misc.EOperatorID
 
 import kotlin.coroutines.*
 import kotlinx.coroutines.*

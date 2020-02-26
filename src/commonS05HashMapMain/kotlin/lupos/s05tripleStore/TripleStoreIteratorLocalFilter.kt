@@ -1,4 +1,5 @@
 package lupos.s05tripleStore
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
@@ -17,6 +18,7 @@ import lupos.s05tripleStore.POPTripleStoreIteratorBase
 
 
 class TripleStoreIteratorLocalFilter : TripleStoreIteratorLocal {
+    override val operatorID=EOperatorID.TripleStoreIteratorLocalFilterID
     override val classname = "TripleStoreIteratorLocalFilter"
     var sFilter: Value? = null
     var pFilter: Value? = null

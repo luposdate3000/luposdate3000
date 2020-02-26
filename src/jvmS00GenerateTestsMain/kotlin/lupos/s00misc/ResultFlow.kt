@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators
+import lupos.s00misc.EOperatorID
 
 import java.io.File
 import lupos.s00misc.*

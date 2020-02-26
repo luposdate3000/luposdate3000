@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.*
@@ -9,6 +10,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPLEQ(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
+    override val operatorID=EOperatorID.AOPLEQID
     override val classname = "AOPLEQ"
     override val children: Array<OPBase> = arrayOf(childA, childB)
 

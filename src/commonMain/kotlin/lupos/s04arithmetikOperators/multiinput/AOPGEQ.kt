@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
+import lupos.s00misc.EOperatorID
 import lupos.s04arithmetikOperators.noinput.AOPBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPDecimal
@@ -15,6 +16,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPGEQ(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
+    override val operatorID=EOperatorID.AOPGEQID
     override val classname = "AOPGEQ"
     override val children: Array<OPBase> = arrayOf(childA, childB)
 

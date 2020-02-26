@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -8,6 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPGroup(var by: List<AOPVariable>) : LOPBase() {
+    override val operatorID=EOperatorID.LOPGroupID
     override val classname = "LOPGroup"
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
     override fun childrenToVerifyCount() = 1

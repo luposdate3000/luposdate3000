@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.noinput
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
@@ -22,6 +23,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class POPGraphOperation : POPBase {
+    override val operatorID=EOperatorID.POPGraphOperationID
     override val classname = "POPGraphOperation"
     override val children: Array<OPBase> = arrayOf()
     override val resultSet: ResultSet

@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.multiinput
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.LOPBase
@@ -7,6 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPUnion : LOPBase {
+    override val operatorID=EOperatorID.LOPUnionID
     override val classname = "LOPUnion"
 
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())

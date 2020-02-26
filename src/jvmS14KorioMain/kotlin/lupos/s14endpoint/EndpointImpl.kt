@@ -1,4 +1,5 @@
 package lupos.s14endpoint
+import lupos.s00misc.EOperatorID
 
 import com.soywiz.korio.net.http.createHttpServer
 import com.soywiz.korio.net.http.Http

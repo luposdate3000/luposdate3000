@@ -1,4 +1,5 @@
 package lupos.s15tripleStoreDistributed
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.*
 import lupos.s00misc.EGraphOperationType
@@ -21,6 +22,7 @@ import lupos.s12p2p.P2P
 val uuid = ThreadSafeUuid()
 
 class TripleStoreIteratorGlobal : POPTripleStoreIteratorBase {
+    override val operatorID=EOperatorID.TripleStoreIteratorGlobalID
     override val classname = "TripleStoreIteratorGlobal"
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()

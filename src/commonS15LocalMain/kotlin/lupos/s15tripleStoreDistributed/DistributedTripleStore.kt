@@ -1,4 +1,5 @@
 package lupos.s15tripleStoreDistributed
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.*
 import lupos.s00misc.EIndexPattern
@@ -19,6 +20,7 @@ val uuid = ThreadSafeUuid()
 typealias TripleStoreIteratorGlobal = TripleStoreIteratorLocalFilter
 
 class DistributedGraph(val name: String) {
+    override val operatorID=EOperatorID.DistributedGraphID
     val K = 8 // defined in project.pdf
 
     fun myHashCode(s: String, d: Int): Int {

@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s00misc.EOperatorID
 
 import com.benasher44.uuid.uuid4
 import com.soywiz.krypto.md5
@@ -27,6 +28,7 @@ import lupos.s04logicalOperators.OPBase
 
 @UseExperimental(kotlin.ExperimentalStdlibApi::class)
 class AOPBuildInCallMD5(child: AOPBase) : AOPBase() {
+    override val operatorID=EOperatorID.AOPBuildInCallMD5ID
     override val classname = "AOPBuildInCallMD5"
     override val children: Array<OPBase> = arrayOf(child)
 

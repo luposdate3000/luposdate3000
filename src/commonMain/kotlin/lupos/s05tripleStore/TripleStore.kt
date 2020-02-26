@@ -1,4 +1,5 @@
 package lupos.s05tripleStore
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.*
 import lupos.s00misc.GlobalLogger
@@ -7,6 +8,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 abstract class POPTripleStoreIteratorBase() : POPBase() {
+    override val operatorID=EOperatorID.POPTripleStoreIteratorBaseID
     override val classname = "POPTripleStoreIteratorBase"
     var nameS = "#s" + uuid
     var nameP = "#p" + uuid

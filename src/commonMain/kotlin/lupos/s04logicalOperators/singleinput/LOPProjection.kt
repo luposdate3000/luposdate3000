@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -8,6 +9,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPProjection(val variables: MutableList<AOPVariable> = mutableListOf()) : LOPBase() {
+    override val operatorID=EOperatorID.LOPProjectionID
     override val classname = "LOPProjection"
     override val children: Array<OPBase> = arrayOf(OPNothing())
 

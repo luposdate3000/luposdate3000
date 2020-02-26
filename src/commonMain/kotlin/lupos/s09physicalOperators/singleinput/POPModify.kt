@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.classNameToString
 import lupos.s00misc.CoroutinesHelper
@@ -22,6 +23,7 @@ import lupos.s15tripleStoreDistributed.DistributedTripleStore
 
 
 class POPModify : POPBase {
+    override val operatorID=EOperatorID.POPModifyID
     override val classname = "POPModify"
     override val resultSet: ResultSet
     override val children: Array<OPBase> = arrayOf(OPNothing())

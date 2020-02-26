@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.singleinput
+import lupos.s00misc.EOperatorID
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPLanguageTaggedLiteral
 import lupos.s04arithmetikOperators.noinput.AOPSimpleLiteral
@@ -13,6 +14,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPBuildInCallSTRLANG(child: AOPBase, childB: AOPBase) : AOPBase() {
+    override val operatorID=EOperatorID.AOPBuildInCallSTRLANGID
     override val classname = "AOPBuildInCallSTRLANG"
     override val children: Array<OPBase> = arrayOf(child, childB)
 

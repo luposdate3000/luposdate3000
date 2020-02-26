@@ -1,4 +1,5 @@
 package lupos.s04arithmetikOperators.multiinput
+import lupos.s00misc.EOperatorID
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPDecimal
 import lupos.s04arithmetikOperators.noinput.AOPDouble
@@ -14,6 +15,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class AOPDivision(childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName() {
+    override val operatorID=EOperatorID.AOPDivisionID
     override val classname = "AOPDivision"
     override val children: Array<OPBase> = arrayOf(childA, childB)
 

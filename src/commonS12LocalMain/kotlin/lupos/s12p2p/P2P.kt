@@ -1,4 +1,5 @@
 package lupos.s12p2p
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.*
 import lupos.s00misc.EGraphOperationType

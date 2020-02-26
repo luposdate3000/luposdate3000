@@ -1,4 +1,5 @@
 package lupos.s05tripleStore
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.*
 import lupos.s00misc.CoroutinesHelper
@@ -17,6 +18,7 @@ import lupos.s05tripleStore.POPTripleStoreIteratorBase
 
 
 open class TripleStoreIteratorLocal : POPTripleStoreIteratorBase {
+    override val operatorID=EOperatorID.TripleStoreIteratorLocalID
     override val classname = "TripleStoreIteratorLocal"
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf()

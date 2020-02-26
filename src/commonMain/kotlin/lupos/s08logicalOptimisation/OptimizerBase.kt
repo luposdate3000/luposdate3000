@@ -1,4 +1,5 @@
 package lupos.s08logicalOptimisation
+import lupos.s00misc.EOperatorID
 
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable

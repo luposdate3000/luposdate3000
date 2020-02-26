@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.LOPBase
@@ -7,6 +8,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPNOOP() : LOPBase() {
+    override val operatorID=EOperatorID.LOPNOOPID
     override val classname = "LOPNOOP"
     override val children: Array<OPBase> = arrayOf(OPNothing())
 

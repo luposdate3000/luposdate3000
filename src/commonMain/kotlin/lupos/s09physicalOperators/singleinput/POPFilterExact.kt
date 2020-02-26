@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -15,6 +16,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPFilterExact : POPBase {
+    override val operatorID=EOperatorID.POPFilterExactID
     override val classname = "POPFilterExact"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary

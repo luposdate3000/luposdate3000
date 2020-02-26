@@ -1,4 +1,5 @@
 package lupos.s00misc
+import lupos.s00misc.EOperatorID
 
 import kotlin.native.concurrent.AtomicReference
 import kotlin.native.concurrent.freeze

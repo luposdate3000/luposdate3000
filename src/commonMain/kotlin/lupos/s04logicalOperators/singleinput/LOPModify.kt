@@ -1,4 +1,5 @@
 package lupos.s04logicalOperators.singleinput
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.XMLElement
 import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
@@ -9,6 +10,7 @@ import lupos.s04logicalOperators.OPBase
 
 
 class LOPModify() : LOPBase() {
+    override val operatorID=EOperatorID.LOPModifyID
     override val classname = "LOPModify"
     override val children: Array<OPBase> = arrayOf(OPNothing())
     var iri: String? = null

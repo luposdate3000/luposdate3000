@@ -1,4 +1,5 @@
 package lupos.s09physicalOperators.singleinput
+import lupos.s00misc.EOperatorID
 
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.Trace
@@ -16,6 +17,7 @@ import lupos.s09physicalOperators.POPBase
 
 
 class POPSort : POPBase {
+    override val operatorID=EOperatorID.POPSortID
     override val classname = "POPSort"
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
