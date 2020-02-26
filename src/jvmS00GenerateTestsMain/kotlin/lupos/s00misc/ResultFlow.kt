@@ -258,11 +258,16 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray, asPOP: Boolean) {
                 buffer.appendInt(operator.data.size)
                 for (row in operator.data) {
                     for (k in variables) {
-                        val v = operator.resultSet.getValue(row[operator.resultSet.createVariable(k)]!!)
-                        buffer.appendInt(DynamicByteArray.boolToInt(v == null))
+val tmp=row[operator.resultSet.createVariable(k)]
+if(tmp==null)
+                        buffer.appendInt(DynamicByteArray.boolToInt(true))
+else{
+                        val v = operator.resultSet.getValue(tmp)
+buffer.appendInt(DynamicByteArray.boolToInt(v == null))
                         if (v != null)
                             buffer.appendString(v)
                     }
+}
                 }
             } else
                 buffer.appendInt(0)

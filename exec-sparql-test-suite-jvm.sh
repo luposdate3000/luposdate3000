@@ -1,4 +1,6 @@
 ./tool-gradle-build-without-tests-jvm.sh
+rm src/commonTest/kotlin/lupos/*.bin
+rm src/commonTest/kotlin/lupos/*.expect
 function execJvm
 {
 	./buildJvm/distributions/luposdate3000/bin/luposdate3000 > log/x 2>&1

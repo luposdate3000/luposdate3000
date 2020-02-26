@@ -1,7 +1,6 @@
 package lupos.s03resultRepresentation
 
-import java.io.PrintWriter
-import java.io.StringWriter
+import lupos.s00misc.*
 import lupos.s00misc.EOperatorID
 import lupos.s03resultRepresentation.Value
 import lupos.s03resultRepresentation.Variable
@@ -11,28 +10,38 @@ class ResultSet {
     val dictionary: ResultSetDictionary
     val variablesSTL = mutableMapOf<String, Variable>()
     val variablesLTS = mutableListOf<String>()
+val mutex=CoroutinesHelper.createLock()
 
     constructor(dictionary: ResultSetDictionary) {
         this.dictionary = dictionary
     }
 
-
     fun renameVariable(variableOld: String, variableNew: String): Variable {
+var res:Variable?=null
+CoroutinesHelper.runBlockWithLock(mutex,{
         val l = variablesSTL[variableOld]!!
         variablesSTL.remove(variableOld)
         variablesSTL[variableNew] = l
         variablesLTS[l.toInt()] = variableNew
-        return l
+        res=l
+})
+return res!!
     }
 
     fun createVariable(variable: String): Variable {
+var res:Variable?=null
+CoroutinesHelper.runBlockWithLock(mutex,{
         val o = variablesSTL[variable]
         if (o != null)
-            return o
+            res= o
+else{
         val l = 0L + variablesLTS.size
         variablesSTL[variable] = l
         variablesLTS.add(variable)
-        return l
+        res=l
+}
+})
+return res!!
     }
 
     fun getVariable(variable: Variable): String {

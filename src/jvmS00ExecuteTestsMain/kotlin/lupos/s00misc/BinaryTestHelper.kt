@@ -482,7 +482,6 @@ testcases++
                 println("execute test $filename")
                 val dictionary = ResultSetDictionary()
                 var input: OPBase? = null
-                var asPOP = false
                 File(filename).inputStream().use { instream ->
                     val data = instream.readBytes()
                     val buffer = DynamicByteArray(data)
@@ -491,12 +490,12 @@ testcases++
                         val optimizer = EOptimizerID.values()[buffer.getNextInt()]
                         ExecuteOptimizer.enabledOptimizers[optimizer] = true
                     }
-                    input = fromBinary(dictionary, buffer) as OPBase
+                    input = fromBinary(dictionary, buffer)
                 }
+                println("input::"+ input!!.toXMLElement().toPrettyString())
                 var expectPOP: POPValues? = null
                 try {
                     File(filename + ".expect").inputStream().use { instream ->
-                        val dictionary = ResultSetDictionary()
                         val data = instream.readBytes()
                         val buffer = DynamicByteArray(data)
                         expectPOP = fromBinary(dictionary, buffer) as POPValues
@@ -511,8 +510,8 @@ testcases++
                     if (!expected.myEquals(output)) {
                         println((expectPOP as POPValues).toXMLElement().toPrettyString())
                         println(input!!.toXMLElement().toPrettyString())
-                        println(output.toPrettyString())
                         println(expected.toPrettyString())
+                        println(output.toPrettyString())
                     }
                     require(expected.myEquals(output))
                 } else {
@@ -523,8 +522,8 @@ testcases++
                     val dOptimizer = KeyDistributionOptimizer(1L, dictionary)
                     val lop_node2 = lOptimizer.optimizeCall(lop_node)
                     val pop_node = pOptimizer.optimizeCall(lop_node2)
-                    val input = dOptimizer.optimizeCall(pop_node) as POPBase
-                    val output = QueryResultToXML.toXML(input).first()
+                    val input2 = dOptimizer.optimizeCall(pop_node) as POPBase
+                    val output = QueryResultToXML.toXML(input2).first()
                     if (!expected.myEquals(output)) {
                         println((expectPOP as POPValues).toXMLElement().toPrettyString())
                         println(input!!.toXMLElement().toPrettyString())
