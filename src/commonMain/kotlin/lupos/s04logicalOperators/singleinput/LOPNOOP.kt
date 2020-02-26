@@ -20,7 +20,7 @@ class LOPNOOP() : LOPBase() {
         if (other !is LOPNOOP)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         return true

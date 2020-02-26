@@ -69,7 +69,7 @@ class LOPGroup(var by: List<AOPVariable>) : LOPBase() {
         if (other !is LOPGroup)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         return true

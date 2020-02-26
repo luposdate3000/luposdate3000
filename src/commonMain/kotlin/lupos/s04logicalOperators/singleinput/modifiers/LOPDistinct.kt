@@ -21,7 +21,7 @@ class LOPDistinct() : LOPBase() {
         if (other !is LOPDistinct)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         return true

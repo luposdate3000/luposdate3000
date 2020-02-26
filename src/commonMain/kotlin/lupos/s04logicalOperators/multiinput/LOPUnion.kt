@@ -7,23 +7,17 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
 
 
-class LOPUnion : LOPBase {
+class LOPUnion(first: OPBase, second: OPBase) : LOPBase() {
     override val operatorID = EOperatorID.LOPUnionID
     override val classname = "LOPUnion"
 
-    override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
-
-    constructor(first: OPBase, second: OPBase) : super() {
-        children[0] = first
-        children[1] = second
-    }
-
+    override val children: Array<OPBase> = arrayOf(first,second)
 
     override fun equals(other: Any?): Boolean {
         if (other !is LOPUnion)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         return true

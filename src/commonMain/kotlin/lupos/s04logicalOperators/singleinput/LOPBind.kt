@@ -32,10 +32,10 @@ class LOPBind : LOPBase {
     override fun equals(other: Any?): Boolean {
         if (other !is LOPBind)
             return false
-        if (!name.equals(other.name))
+        if (name != other.name)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         return true

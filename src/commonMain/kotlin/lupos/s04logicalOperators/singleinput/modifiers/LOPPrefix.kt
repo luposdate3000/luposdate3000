@@ -27,7 +27,7 @@ class LOPPrefix(val name: String, val iri: String) : LOPBase() {
         if (iri != other.iri)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         return true

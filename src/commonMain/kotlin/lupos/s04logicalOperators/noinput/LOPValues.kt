@@ -32,10 +32,10 @@ class LOPValues(val variables: List<AOPVariable>, values: List<AOPValue>) : LOPB
     override fun equals(other: Any?): Boolean {
         if (other !is LOPValues)
             return false
-        if (!variables.equals(other.variables))
+        if (variables != other.variables)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         return true

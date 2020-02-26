@@ -21,7 +21,7 @@ class LOPReduced() : LOPBase() {
         if (other !is LOPReduced)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         return true

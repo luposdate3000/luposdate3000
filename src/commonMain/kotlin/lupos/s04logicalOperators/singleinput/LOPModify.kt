@@ -42,12 +42,12 @@ class LOPModify() : LOPBase() {
             return false
         if (iri != other.iri)
             return false
-        if (!insert.equals(other.insert))
+        if (insert != other.insert)
             return false
-        if (!delete.equals(other.delete))
+        if (delete != other.delete)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         return true

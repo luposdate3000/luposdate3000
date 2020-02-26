@@ -37,7 +37,7 @@ class LOPSort(val asc: Boolean, var by: AOPVariable) : LOPBase() {
         if (by != other.by)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         return true

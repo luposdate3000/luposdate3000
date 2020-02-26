@@ -22,11 +22,11 @@ class LOPTriple(val s: OPBase, val p: OPBase, val o: OPBase, val graph: String?,
             return false
         if (graph != other.graph)
             return false
-        if (!s.equals(other.s))
+        if (s != other.s)
             return false
-        if (!p.equals(other.p))
+        if (p != other.p)
             return false
-        if (!o.equals(other.o))
+        if (o != other.o)
             return false
         if (graphVar != other.graphVar)
             return false

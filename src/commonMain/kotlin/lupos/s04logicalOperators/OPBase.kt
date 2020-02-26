@@ -106,13 +106,13 @@ abstract class OPBase {
     }
 
     fun setChild(child: OPBase): OPBase {
-        require(children.size > 0)
+        require(children.isNotEmpty())
         this.children[0] = child
         return child
     }
 
     fun getLatestChild(): OPBase {
-        if (children.size > 0 && children[0].children.size > 0)
+        if (children.isNotEmpty() && children[0].children.isNotEmpty())
             return children[0].getLatestChild()
         return this
     }

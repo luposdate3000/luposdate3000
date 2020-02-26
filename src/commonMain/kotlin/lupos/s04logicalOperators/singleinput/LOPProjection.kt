@@ -40,10 +40,10 @@ class LOPProjection(val variables: MutableList<AOPVariable> = mutableListOf()) :
     override fun equals(other: Any?): Boolean {
         if (other !is LOPProjection)
             return false
-        if (!variables.equals(other.variables))
+        if (variables != other.variables)
             return false
         for (i in children.indices) {
-            if (!children[i].equals(other.children[i]))
+            if (children[i] != other.children[i])
                 return false
         }
         return true
