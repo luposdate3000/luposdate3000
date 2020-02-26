@@ -40,7 +40,7 @@ abstract class OptimizerCompoundBase(transactionID: Long, dictionary: ResultSetD
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = node
 
     override fun optimizeCall(node: OPBase, onChange: () -> Unit): OPBase {
-        node.syntaxVerifyAllVariableExists(listOf<String>(), true)
+        node.syntaxVerifyAllVariableExists(listOf(), true)
         var tmp = node
         for (o in childrenOptimizers) {
             var c = true
@@ -53,7 +53,7 @@ abstract class OptimizerCompoundBase(transactionID: Long, dictionary: ResultSetD
                 c = false
             }
         }
-        tmp.syntaxVerifyAllVariableExists(listOf<String>(), false)
+        tmp.syntaxVerifyAllVariableExists(listOf(), false)
         return tmp
     }
 }

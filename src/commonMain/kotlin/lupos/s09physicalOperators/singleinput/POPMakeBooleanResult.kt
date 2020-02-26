@@ -44,7 +44,7 @@ class POPMakeBooleanResult : POPBase {
     override fun getProvidedVariableNames() = mutableListOf("?boolean")
 
     override fun getRequiredVariableNames(): List<String> {
-        return listOf<String>()
+        return listOf()
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPMakeBooleanResult.evaluate" }, {

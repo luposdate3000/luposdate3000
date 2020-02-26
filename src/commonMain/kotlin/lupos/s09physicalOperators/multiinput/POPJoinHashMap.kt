@@ -43,7 +43,7 @@ class POPJoinHashMap : POPBase {
     constructor(dictionary: ResultSetDictionary, childA: OPBase, childB: OPBase, optional: Boolean) : super() {
         this.dictionary = dictionary
         resultSet = ResultSet(dictionary)
-        map = arrayOf(mutableMapOf<String, MutableList<ResultRow>>(), mutableMapOf<String, MutableList<ResultRow>>())
+        map = arrayOf(mutableMapOf(), mutableMapOf())
         children = arrayOf(childA, childB)
         this.optional = optional
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
@@ -58,8 +58,8 @@ class POPJoinHashMap : POPBase {
         }
         val variablesA2 = variablesA.minus(joinVariables)
         val variablesB2 = variablesB.minus(joinVariables)
-        variables = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf<Pair<Variable, Variable>>())
-        variablesJ = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf<Pair<Variable, Variable>>())
+        variables = arrayOf(mutableListOf(), mutableListOf())
+        variablesJ = arrayOf(mutableListOf(), mutableListOf())
         for (name in variablesA2)
             variables[0].add(Pair(children[0].resultSet.createVariable(name), resultSet.createVariable(name)))
         for (name in variablesB2)
@@ -118,12 +118,12 @@ class POPJoinHashMap : POPBase {
                 }
                 var t = map[idx][exactkey]
                 if (t == null)
-                    t = mutableListOf<ResultRow>()
+                    t = mutableListOf()
                 t.add(rowA)
                 map[idx][exactkey] = t
                 for (key in keys) {
                     if (map[idx][key] == null)
-                        map[idx][key] = mutableListOf<ResultRow>()
+                        map[idx][key] = mutableListOf()
                     val rowsB = map[1 - idx][key]
                     if (rowsB != null)
                         joinHelper(rowA, rowsB, idx)

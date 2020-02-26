@@ -14,7 +14,7 @@ import lupos.s04logicalOperators.OPBase
 class AOPAggregation(val type: Aggregation, val distinct: Boolean, childs: Array<AOPBase>) : AOPBase() {
     override val operatorID = EOperatorID.AOPAggregationID
     override val classname = "AOPAggregation"
-    override val children: Array<OPBase> = Array<OPBase>(childs.size) { childs[it] }
+    override val children: Array<OPBase> = Array(childs.size) { childs[it] }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("distinct", "" + distinct).addAttribute("type", "" + type)
 

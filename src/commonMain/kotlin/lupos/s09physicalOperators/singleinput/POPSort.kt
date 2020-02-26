@@ -76,12 +76,12 @@ class POPSort : POPBase {
                     }
                     var tmp = tmpMutableMap[key]
                     if (tmp == null) {
-                        tmp = mutableListOf<ResultRow>()
+                        tmp = mutableListOf()
                         tmpMutableMap[key] = tmp
                     }
                     tmp.add(rsNew)
                 }
-                val allKeys = Array<String>(tmpMutableMap.keys.size) { "" }
+                val allKeys = Array(tmpMutableMap.keys.size) { "" }
                 var i = 0
                 for (k in tmpMutableMap.keys) {
                     allKeys[i] = k

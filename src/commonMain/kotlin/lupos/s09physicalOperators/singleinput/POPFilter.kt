@@ -1,14 +1,11 @@
 package lupos.s09physicalOperators.singleinput
-
-import lupos.s00misc.CoroutinesHelper
-import lupos.s00misc.ELoggerType
-import lupos.s00misc.EOperatorID
 import lupos.s00misc.GlobalLogger
+import lupos.s00misc.ELoggerType
+import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
-import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.Variable
 import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04logicalOperators.noinput.OPNothing
@@ -44,13 +41,11 @@ class POPFilter : POPBase {
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        val res = children[0].getProvidedVariableNames().distinct()
-        return res
+        return children[0].getProvidedVariableNames().distinct()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        val res = children[1].getRequiredVariableNamesRecoursive()
-        return res
+        return children[1].getRequiredVariableNamesRecoursive()
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPFilter.evaluate" }, {

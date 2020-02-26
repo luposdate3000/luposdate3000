@@ -47,8 +47,8 @@ class POPBindUndefined : POPBase {
         this.name = name
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         val variableNames = children[0].getProvidedVariableNames()
-        variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
-        variablesNew = Array<Variable?>(variableNames.size + 1, init = fun(_: Int) = (null as Variable?))
+        variablesOld = Array(variableNames.size, init = fun(_: Int) = (null as Variable?))
+        variablesNew = Array(variableNames.size + 1, init = fun(_: Int) = (null as Variable?))
         var i = 0
         variableBound = resultSet.createVariable(name.name)
         for (n in variableNames) {

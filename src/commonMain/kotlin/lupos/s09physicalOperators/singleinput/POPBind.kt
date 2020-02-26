@@ -1,12 +1,9 @@
 package lupos.s09physicalOperators.singleinput
-
-import lupos.s00misc.CoroutinesHelper
-import lupos.s00misc.ELoggerType
-import lupos.s00misc.EOperatorID
 import lupos.s00misc.GlobalLogger
+import lupos.s00misc.ELoggerType
+import lupos.s00misc.CoroutinesHelper
+import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
-import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
@@ -50,8 +47,8 @@ class POPBind : POPBase {
         children[1] = value
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         val variableNames = children[0].getProvidedVariableNames()
-        variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
-        variablesNew = Array<Variable?>(variableNames.size + 1, init = fun(_: Int) = (null as Variable?))
+        variablesOld = Array(variableNames.size, init = fun(_: Int) = (null as Variable?))
+        variablesNew = Array(variableNames.size + 1, init = fun(_: Int) = (null as Variable?))
         var i = 0
         variableBound = resultSet.createVariable(name.name)
         for (n in variableNames) {
@@ -64,13 +61,11 @@ class POPBind : POPBase {
 
     override fun childrenToVerifyCount(): Int = 1
     override fun getProvidedVariableNames(): List<String> {
-        val res = (children[0].getProvidedVariableNames() + name.name).distinct()
-        return res
+        return (children[0].getProvidedVariableNames() + name.name).distinct()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        val res = children[1].getRequiredVariableNames()
-        return res
+        return children[1].getRequiredVariableNames()
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPBind.evaluate" }, {

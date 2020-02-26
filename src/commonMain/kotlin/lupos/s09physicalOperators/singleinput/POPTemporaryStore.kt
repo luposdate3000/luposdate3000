@@ -63,7 +63,7 @@ class POPTemporaryStore : POPBase {
         }
     })
 
-    suspend fun reset() {
+suspend    fun reset() {
         for (c in data) {
             channel.send(resultFlowProduce({ this@POPTemporaryStore }, { c }))
         }

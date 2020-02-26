@@ -31,7 +31,7 @@ class ResultSetDictionary {
             return null
         var res: String? = null
         CoroutinesHelper.runBlockWithLock(mutex, {
-            res = mapLTS[value.toInt()]
+            res = mapLTS[value]
         })
         return res
     }

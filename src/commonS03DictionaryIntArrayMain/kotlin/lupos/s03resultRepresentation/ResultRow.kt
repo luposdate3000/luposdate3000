@@ -6,7 +6,7 @@ class ResultRow : Comparable<ResultRow> {
     var resultSet: ResultSet? = null
 
     constructor(columns: Int, undefValue: Value) {
-        values = Array<Value>(columns, { undefValue })
+        values = Array(columns, { undefValue })
     }
 
     operator fun set(name: Variable, value: Value) {

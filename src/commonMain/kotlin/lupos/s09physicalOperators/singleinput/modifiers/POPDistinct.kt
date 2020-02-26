@@ -51,7 +51,7 @@ class POPDistinct : POPBase {
                 for (rsOld in children[0].channel) {
                     resultFlowConsume({ this@POPDistinct }, { children[0] }, { rsOld })
                     val rsNew = resultSet.createResultRow()
-                    var key: String = ""
+                    var key = ""
                     for (variable in variables) {
                         rsNew[variable.first] = rsOld[variable.second]
                         key += "-" + rsOld[variable.second]

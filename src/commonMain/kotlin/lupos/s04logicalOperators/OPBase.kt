@@ -44,7 +44,7 @@ abstract class OPBase {
     override fun toString(): String = toXMLElement().toPrettyString()
 
     fun getRequiredVariableNamesRecoursive(): List<String> {
-        var res = getRequiredVariableNames()
+        val res = getRequiredVariableNames().toMutableList()
         for (c in children)
             res += c.getRequiredVariableNamesRecoursive()
         return res.distinct()

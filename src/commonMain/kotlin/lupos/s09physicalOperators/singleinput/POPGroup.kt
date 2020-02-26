@@ -112,12 +112,12 @@ class POPGroup : POPBase {
                     variables.add(Pair(resultSet.createVariable(v.name), children[0].resultSet.createVariable(v.name)))
                 for (rsOld in children[0].channel) {
                     resultFlowConsume({ this@POPGroup }, { children[0] }, { rsOld })
-                    var key: String = "|"
+                    var key = "|"
                     for (variable in variables)
                         key = key + children[0].resultSet.getValue(rsOld[variable.second]) + "|"
                     var tmp = tmpMutableMap[key]
                     if (tmp == null) {
-                        tmp = mutableListOf<ResultRow>()
+                        tmp = mutableListOf()
                         tmpMutableMap[key] = tmp
                     }
                     tmp.add(rsOld)

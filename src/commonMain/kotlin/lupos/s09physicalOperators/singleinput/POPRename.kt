@@ -1,14 +1,12 @@
 package lupos.s09physicalOperators.singleinput
-
+import lupos.s04arithmetikOperators.resultFlowConsume
+import lupos.s04arithmetikOperators.resultFlowProduce
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
-import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
-import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
@@ -43,7 +41,7 @@ class POPRename : POPBase {
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         val localProvide = children[0].getProvidedVariableNames()
-        val localRequire = listOf<String>(nameFrom.name)
+        val localRequire = listOf(nameFrom.name)
         for (c in children)
             c.syntaxVerifyAllVariableExists(localProvide, autocorrect)
         val res = localProvide.containsAll(localRequire)
@@ -64,8 +62,8 @@ class POPRename : POPBase {
         this.nameFrom = nameFrom
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
         val variableNames = children[0].getProvidedVariableNames()
-        variablesOld = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
-        variablesNew = Array<Variable?>(variableNames.size, init = fun(_: Int) = (null as Variable?))
+        variablesOld = Array(variableNames.size, init = fun(_: Int) = (null as Variable?))
+        variablesNew = Array(variableNames.size, init = fun(_: Int) = (null as Variable?))
         var i = 0
         for (name in variableNames) {
             variablesOld[i] = children[0].resultSet.createVariable(name)
@@ -78,12 +76,11 @@ class POPRename : POPBase {
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        val res = (children[0].getProvidedVariableNames() - nameFrom.name + nameTo.name).distinct()
-        return res
+        return (children[0].getProvidedVariableNames() - nameFrom.name + nameTo.name).distinct()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        val res = listOf<String>(nameFrom.name)
+        val res = listOf(nameFrom.name)
         println("($classname)($uuid)getRequiredVariableNames $res")
         return res
     }

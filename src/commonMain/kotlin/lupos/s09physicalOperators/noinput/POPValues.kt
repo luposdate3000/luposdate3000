@@ -88,7 +88,7 @@ class POPValues : POPBase {
     override fun getProvidedVariableNames() = stringVars.distinct()
 
     override fun getRequiredVariableNames(): List<String> {
-        return mutableListOf<String>()
+        return mutableListOf()
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPValues.evaluate" }, {

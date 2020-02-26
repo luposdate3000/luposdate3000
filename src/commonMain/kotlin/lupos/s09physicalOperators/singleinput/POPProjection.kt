@@ -1,14 +1,13 @@
 package lupos.s09physicalOperators.singleinput
-
+import lupos.s04arithmetikOperators.resultFlowConsume
+import lupos.s04arithmetikOperators.resultFlowProduce
 import lupos.s00misc.CoroutinesHelper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.Trace
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.Variable
-import lupos.s04arithmetikOperators.*
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.OPBase
@@ -44,18 +43,16 @@ class POPProjection : POPBase {
         this.children[0] = child
         this.variables = variables
         require(children[0].resultSet.dictionary == dictionary || (!(this.children[0] is POPBase)))
-        this.variablesOld = Array<Variable>(variables.size, init = fun(it: Int) = children[0].resultSet.createVariable(variables[it].name))
-        this.variablesNew = Array<Variable>(variables.size, init = fun(it: Int) = resultSet.createVariable(variables[it].name))
+        this.variablesOld = Array(variables.size, init = fun(it: Int) = children[0].resultSet.createVariable(variables[it].name))
+        this.variablesNew = Array(variables.size, init = fun(it: Int) = resultSet.createVariable(variables[it].name))
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        val res = MutableList(variables.size) { variables[it].name }.distinct()
-        return res
+        return MutableList(variables.size) { variables[it].name }.distinct()
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        val res = MutableList(variables.size) { variables[it].name }.distinct()
-        return res
+        return MutableList(variables.size) { variables[it].name }.distinct()
     }
 
     override fun evaluate() = Trace.trace<Unit>({ "POPProjection.evaluate" }, {

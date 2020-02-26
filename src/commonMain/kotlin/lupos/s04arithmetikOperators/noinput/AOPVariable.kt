@@ -5,8 +5,6 @@ import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 
 import lupos.s00misc.EOperatorID
-import lupos.s00misc.XMLElement
-import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.OPBase
 
 
@@ -44,8 +42,7 @@ class AOPVariable(var name: String) : AOPBase() {
     }
 
     override fun getRequiredVariableNames(): List<String> {
-        val res = listOf(name)
-        return res
+        return listOf(name)
     }
 
     override fun toXMLElement() = super.toXMLElement().addAttribute("name", name)

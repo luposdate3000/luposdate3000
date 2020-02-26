@@ -46,9 +46,9 @@ abstract class OptimizerBase(val transactionID: Long, val dictionary: ResultSetD
     }
 
     open fun optimizeCall(node: OPBase, onChange: () -> Unit = {}): OPBase {
-        node.syntaxVerifyAllVariableExists(listOf<String>(), true)
+        node.syntaxVerifyAllVariableExists(listOf(), true)
         val res = optimizeInternal(node, null, onChange)
-        res.syntaxVerifyAllVariableExists(listOf<String>(), false)
+        res.syntaxVerifyAllVariableExists(listOf(), false)
         return res
     }
 }

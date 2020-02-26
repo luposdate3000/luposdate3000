@@ -154,7 +154,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
     }
 
     override fun visit(node: ASTAskQuery, childrenValues: List<OPBase>): OPBase {
-        return LOPMakeBooleanResult(visitSelectBase(node, arrayOf<ASTNode>(), false, false))
+        return LOPMakeBooleanResult(visitSelectBase(node, arrayOf(), false, false))
     }
 
     override fun visit(node: ASTSubSelectQuery, childrenValues: List<OPBase>): OPBase {
@@ -219,7 +219,7 @@ class OperatorGraphVisitor : Visitor<OPBase> {
             template.add(ASTTriple(ASTVar(v), ASTVar("p"), ASTVar("o")))
         }
         val itr = template.iterator()
-        val array = Array<ASTNode>(template.size) { itr.next() }
+        val array = Array(template.size) { itr.next() }
         return visitConstructBase(child, array)
     }
 
@@ -329,10 +329,10 @@ class OperatorGraphVisitor : Visitor<OPBase> {
                         bind = tmpBind
                     result.getLatestChild().setChild(LOPFilter(AOPVariable(tmpVar.name)))
                 }
-                result.getLatestChild().setChild(LOPGroup(mutableListOf<AOPVariable>(), bind, LOPNOOP()))
+                result.getLatestChild().setChild(LOPGroup(mutableListOf(), bind, LOPNOOP()))
             } else {
                 if (bindIsAggregate) {
-                    result.getLatestChild().setChild(LOPGroup(mutableListOf<AOPVariable>(), bind, LOPNOOP()))
+                    result.getLatestChild().setChild(LOPGroup(mutableListOf(), bind, LOPNOOP()))
                 } else {
                     if (bind != null) {
                         result.getLatestChild().setChild(bind)

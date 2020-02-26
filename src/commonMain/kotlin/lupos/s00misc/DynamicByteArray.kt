@@ -1,9 +1,7 @@
 package lupos.s00misc
 
-import lupos.s00misc.EOperatorID
 
-
-@UseExperimental(kotlin.ExperimentalStdlibApi::class)
+@UseExperimental(ExperimentalStdlibApi::class)
 class DynamicByteArray {
     companion object {
         fun intToBool(i: Int) = i == 1
@@ -48,11 +46,10 @@ class DynamicByteArray {
     }
 
     fun getInt(p: Int): Int {
-        val res = ((0xFF and data[p].toInt())) or
+        return ((0xFF and data[p].toInt())) or
                 ((0xFF and data[p + 1].toInt()) shl 8) or
                 ((0xFF and data[p + 2].toInt()) shl 16) or
                 ((0xFF and data[p + 3].toInt()) shl 24)
-        return res
     }
 
     fun getNextInt(): Int {
@@ -80,7 +77,7 @@ class DynamicByteArray {
     }
 
     fun getLong(p: Int): Long {
-        val res = ((0xFF and data[p].toInt()).toLong()) or
+        return ((0xFF and data[p].toInt()).toLong()) or
                 ((0xFF and data[p + 1].toInt()).toLong() shl 8) or
                 ((0xFF and data[p + 2].toInt()).toLong() shl 16) or
                 ((0xFF and data[p + 3].toInt()).toLong() shl 24) or
@@ -88,7 +85,6 @@ class DynamicByteArray {
                 ((0xFF and data[p + 5].toInt()).toLong() shl 40) or
                 ((0xFF and data[p + 6].toInt()).toLong() shl 48) or
                 ((0xFF and data[p + 7].toInt()).toLong() shl 56)
-        return res
     }
 
     fun getNextLong(): Long {
@@ -110,8 +106,7 @@ class DynamicByteArray {
 
     fun getString(p: Int): String {
         val l = getInt(p)
-        val res = data.decodeToString(p + 4, p + 4 + l, true)
-        return res
+        return data.decodeToString(p + 4, p + 4 + l, true)
     }
 
     fun getNextString(): String {

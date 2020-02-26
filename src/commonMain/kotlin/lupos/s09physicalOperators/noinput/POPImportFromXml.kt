@@ -56,7 +56,7 @@ class POPImportFromXml : POPBase {
 
     override fun toXMLElement() = super.toXMLElement().addContent(data)
 
-    override fun getProvidedVariableNames() = mutableListOf<String>("s", "p", "o")
+    override fun getProvidedVariableNames() = mutableListOf("s", "p", "o")
 
     fun cleanString(s: String): String {
         var res = s

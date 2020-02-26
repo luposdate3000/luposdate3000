@@ -20,8 +20,8 @@ class POPUnion : POPBase {
     override val resultSet: ResultSet
     override val dictionary: ResultSetDictionary
     override val children: Array<OPBase> = arrayOf(OPNothing(), OPNothing())
-    private val variablesOld = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf<Pair<Variable, Variable>>())
-    private val variablesOldMissing = arrayOf(mutableListOf<Variable>(), mutableListOf<Variable>())
+    private val variablesOld = arrayOf(mutableListOf<Pair<Variable, Variable>>(), mutableListOf())
+    private val variablesOldMissing = arrayOf(mutableListOf<Variable>(), mutableListOf())
 
     override fun equals(other: Any?): Boolean {
         if (other !is POPUnion)

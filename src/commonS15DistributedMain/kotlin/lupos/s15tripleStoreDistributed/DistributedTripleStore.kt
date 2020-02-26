@@ -1,5 +1,5 @@
 package lupos.s15tripleStoreDistributed
-
+import lupos.s04arithmetikOperators.resultFlowProduce
 import lupos.s00misc.*
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.ELoggerType
@@ -11,8 +11,6 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultRow
 import lupos.s03resultRepresentation.ResultSet
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.Variable
-import lupos.s04arithmetikOperators.*
 import lupos.s04logicalOperators.OPBase
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.POPTripleStoreIteratorBase
@@ -253,7 +251,7 @@ class DistributedGraph(val name: String) {
         }
     })
 
-    suspend fun addData(transactionID: Long, iterator: OPBase) = Trace.trace({ "DistributedGraph.addData b" }, {
+suspend    fun addData(transactionID: Long, iterator: OPBase) = Trace.trace({ "DistributedGraph.addData b" }, {
         val rs = iterator.resultSet
         val ks = rs.createVariable("s")
         val kp = rs.createVariable("p")
@@ -280,8 +278,7 @@ class DistributedGraph(val name: String) {
     })
 
     fun getIterator(transactionID: Long, dictionary: ResultSetDictionary, s: String, p: String, o: String, sv: Boolean, pv: Boolean, ov: Boolean, index: EIndexPattern): POPTripleStoreIteratorBase = Trace.trace({ "DistributedGraph.getIterator a" }, {
-        val res = TripleStoreIteratorGlobal(transactionID, dictionary, name, s, p, o, sv, pv, ov, index)
-        return res
+        return TripleStoreIteratorGlobal(transactionID, dictionary, name, s, p, o, sv, pv, ov, index)
     })
 }
 

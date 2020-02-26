@@ -10,7 +10,7 @@ import lupos.s03resultRepresentation.Value
 class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: Int) {
     val values = mutableListOf<Value>()
 
-    inline fun valuesToStrings(key: Array<Value>): Array<String> = Array(components) { it -> dictionary.getValue(key[it])!! }
+    inline fun valuesToStrings(key: Array<Value>): Array<String> = Array(components) { dictionary.getValue(key[it])!! }
 
     fun modifyInternal(key: Array<Value>, value: Array<String>, type: EModifyType, idx: Int, step: Int) {
         val realIdx = idx * components
@@ -91,12 +91,12 @@ class SortedSetDictionary(val dictionary: ResultSetDictionary, val components: I
 
     fun forEach(action: (Array<Value>) -> Unit) {
         for (i in 0 until values.size step components)
-            action(Array(components) { it -> values[i + it] })
+            action(Array(components) { values[i + it] })
     }
 
     suspend fun forEachSuspend(action: suspend (Array<Value>) -> Unit) {
         for (i in 0 until values.size step components)
-            action(Array(components) { it -> values[i + it] })
+            action(Array(components) { values[i + it] })
     }
 }
 
@@ -219,12 +219,12 @@ class TripleStoreLocal {
         }
     }
 
-    val pendingModifications = Array(EIndexPattern.values().size) { it -> ThreadSafeMutableMap<Long, ThreadSafeMutableSet<Pair<EModifyType, ResultRow>>>() }
+    val pendingModifications = Array(EIndexPattern.values().size) { ThreadSafeMutableMap<Long, ThreadSafeMutableSet<Pair<EModifyType, ResultRow>>>() }
 
     fun modifyData(transactionID: Long, vals: Value, valp: Value, valo: Value, action: EModifyType, idx: EIndexPattern) = Trace.trace({ "TripleStoreLocal.modifyData" }, {
         var tmp = pendingModifications[idx.ordinal][transactionID]
         if (tmp == null) {
-            tmp = ThreadSafeMutableSet<Pair<EModifyType, ResultRow>>()
+            tmp = ThreadSafeMutableSet()
             pendingModifications[idx.ordinal][transactionID] = tmp
         }
         val r = resultSet.createResultRow()
