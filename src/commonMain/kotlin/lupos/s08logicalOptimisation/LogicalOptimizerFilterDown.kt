@@ -9,9 +9,8 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s08logicalOptimisation.OptimizerBase
 
 
-class LogicalOptimizerFilterDown(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary) {
+class LogicalOptimizerFilterDown(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary,EOptimizerID.LogicalOptimizerFilterDownID) {
     override val classname = "LogicalOptimizerFilterDown"
-    override val optional = true
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res: OPBase = node
         if (node is LOPFilter) {

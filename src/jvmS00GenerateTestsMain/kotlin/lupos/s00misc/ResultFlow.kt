@@ -834,13 +834,14 @@ fun testCaseBinaryFromResultRowsAsPOPValues(buffer: DynamicByteArray, rows: Muta
 
 var testcasenumber = 0
 var hasExecutedTests = false
-fun createBinaryTestCase(operator: OPBase, asPOP: Boolean) {
+fun createBinaryTestCase(operator: OPBase) {
     if (hasExecutedTests)
         return
     synchronized(testcasenumber) {
         try {
+var asPOP=true
             val buffer = DynamicByteArray()
-            buffer.appendInt(DynamicByteArray.boolToInt(asPOP))
+            buffer.appendInt(0)
             toBinary(operator, buffer, asPOP)
             val filename = "src/commonTest/kotlin/lupos/testcase-${testcasenumber++}.bin"
             File(filename).outputStream().use { out ->
@@ -856,6 +857,52 @@ fun createBinaryTestCase(operator: OPBase, asPOP: Boolean) {
         } catch (e: Throwable) {
             e.printStackTrace()
         }
+        try {
+var asPOP=false
+            val buffer = DynamicByteArray()
+            buffer.appendInt(0)
+            toBinary(operator, buffer, asPOP)
+            val filename = "src/commonTest/kotlin/lupos/testcase-${testcasenumber++}.bin"
+            File(filename).outputStream().use { out ->
+                val data = buffer.finish()
+                out.write(data, 0, buffer.pos)
+            }
+            val buffer2 = DynamicByteArray()
+            testCaseBinaryFromResultRowsAsPOPValues(buffer2, rowMapProduced[operator.uuid], operator)
+            File(filename + ".expect").outputStream().use { out ->
+                val data = buffer2.finish()
+                out.write(data, 0, buffer2.pos)
+            }
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
+val optimizers=mutableSetOf<EOptimizerID>()
+for(o in EOptimizerID.values()){
+if(!o.optional)
+continue
+optimizers.add(o)
+        try {
+var asPOP=false
+            val buffer = DynamicByteArray()
+            buffer.appendInt(optimizers.size)
+for(x in optimizers)
+buffer.appendInt(x.ordinal)
+            toBinary(operator, buffer, asPOP)
+            val filename = "src/commonTest/kotlin/lupos/testcase-${testcasenumber++}.bin"
+            File(filename).outputStream().use { out ->
+                val data = buffer.finish()
+                out.write(data, 0, buffer.pos)
+            }
+            val buffer2 = DynamicByteArray()
+            testCaseBinaryFromResultRowsAsPOPValues(buffer2, rowMapProduced[operator.uuid], operator)
+            File(filename + ".expect").outputStream().use { out ->
+                val data = buffer2.finish()
+                out.write(data, 0, buffer2.pos)
+            }
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
+}
     }
 }
 
@@ -872,7 +919,11 @@ fun executeBinaryTests(folder: String) {
                 File(filename).inputStream().use { instream ->
                     val data = instream.readBytes()
                     val buffer = DynamicByteArray(data)
-                    asPOP = DynamicByteArray.intToBool(buffer.getNextInt())
+val optimizerEnabledCount=buffer.getNextInt()
+for(o in 0 until optimizerEnabledCount){
+val optimizer=EOptimizerID.values()[buffer.getNextInt()]
+ExecuteOptimizer.enabledOptimizers[optimizer]=true
+}
                     input = fromBinary(dictionary, buffer) as OPBase
                 }
                 var expectPOP: POPValues? = null
@@ -888,7 +939,7 @@ fun executeBinaryTests(folder: String) {
                 }
                 require(expectPOP!! is POPValues)
                 val expected = QueryResultToXML.toXML(expectPOP!!).first()
-                if (asPOP) {
+                if (input!! is POPBase) {
                     val output = QueryResultToXML.toXML(input!! as POPBase).first()
                     if (!expected.myEquals(output)) {
                         println(output.toPrettyString())
@@ -1444,8 +1495,7 @@ fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
                     tmp = x
                 try {
                     if (success) {
-                        createBinaryTestCase(it, true)
-                        createBinaryTestCase(it, false)
+                        createBinaryTestCase(it)
                         tmp["${prefix}            " + testCaseFromPOPBaseSimple(it, false, "${prefix}            ")] = queryFile
                         tmp["${prefix}            " + testCaseFromPOPBaseSimple(it, true, "${prefix}            ")] = queryFile
                         tmp["${prefix}            " + testCaseFromLOPBaseSimple(it, false, "${prefix}            ")] = queryFile

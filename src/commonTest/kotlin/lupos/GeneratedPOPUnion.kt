@@ -57,7 +57,7 @@ class GeneratedPOPUnionTest {
                                 "p",
                                 "o"
                             ), listOf(
-                                GeneratedMutableMap.map5683map
+                                GeneratedMutableMap.map5689map
                             )
                         ),
                         POPValues(dictionary, listOf(
@@ -65,7 +65,7 @@ class GeneratedPOPUnionTest {
                                 "p",
                                 "o"
                             ), listOf(
-                                GeneratedMutableMap.map5681map
+                                GeneratedMutableMap.map5691map
                             )
                         )
                     ),
@@ -74,8 +74,8 @@ class GeneratedPOPUnionTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map5683map,
-                            GeneratedMutableMap.map5681map
+                            GeneratedMutableMap.map5689map,
+                            GeneratedMutableMap.map5691map
                         )
                     )
                 )
@@ -108,8 +108,8 @@ class GeneratedPOPUnionTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map5683map,
-                            GeneratedMutableMap.map5681map
+                            GeneratedMutableMap.map5689map,
+                            GeneratedMutableMap.map5691map
                         )
                     )
                 )
@@ -124,7 +124,7 @@ class GeneratedPOPUnionTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                             ), listOf(
-                                GeneratedMutableMap.map5684map
+                                GeneratedMutableMap.map5690map
                             )
                         ),
                         LOPValues(listOf(
@@ -132,7 +132,7 @@ class GeneratedPOPUnionTest {
                                 AOPVariable("p"),
                                 AOPVariable("o")
                             ), listOf(
-                                GeneratedMutableMap.map5682map
+                                GeneratedMutableMap.map5692map
                             )
                         )
                     ),
@@ -141,8 +141,8 @@ class GeneratedPOPUnionTest {
                             AOPVariable("p"),
                             AOPVariable("o")
                         ), listOf(
-                            GeneratedMutableMap.map5684map,
-                            GeneratedMutableMap.map5682map
+                            GeneratedMutableMap.map5690map,
+                            GeneratedMutableMap.map5692map
                         )
                     )
                 )
@@ -172,8 +172,8 @@ class GeneratedPOPUnionTest {
                             AOPVariable("p"),
                             AOPVariable("o")
                         ), listOf(
-                            GeneratedMutableMap.map5684map,
-                            GeneratedMutableMap.map5682map
+                            GeneratedMutableMap.map5690map,
+                            GeneratedMutableMap.map5692map
                         )
                     )
                 )
@@ -187,21 +187,21 @@ class GeneratedPOPUnionTest {
                         POPValues(dictionary, listOf(
                                 "z"
                             ), listOf(
-                                GeneratedMutableMap.map7723map
+                                GeneratedMutableMap.map7733map
                             )
                         ),
                         POPValues(dictionary, listOf(
                                 "z"
                             ), listOf(
-                                GeneratedMutableMap.map7723map
+                                GeneratedMutableMap.map7733map
                             )
                         )
                     ),
                     POPValues(dictionary, listOf(
                             "z"
                         ), listOf(
-                            GeneratedMutableMap.map7723map,
-                            GeneratedMutableMap.map7723map
+                            GeneratedMutableMap.map7733map,
+                            GeneratedMutableMap.map7733map
                         )
                     )
                 )

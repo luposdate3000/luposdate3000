@@ -13,9 +13,8 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s08logicalOptimisation.OptimizerBase
 
 
-class LogicalOptimizerArithmetic(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary) {
+class LogicalOptimizerArithmetic(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary,EOptimizerID.LogicalOptimizerArithmeticID) {
     override val classname = "LogicalOptimizerArithmetic"
-    override val optional = true
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         node
     })

@@ -6,13 +6,13 @@ import lupos.s08logicalOptimisation.*
 
 
 object ExecuteOptimizer {
-    val enabledOptimizers = mutableMapOf<String, Boolean>()
+    val enabledOptimizers = mutableMapOf<EOptimizerID, Boolean>()
     inline fun invoke(crossinline optimizer: () -> OptimizerBase, crossinline node: () -> OPBase, crossinline action: () -> OPBase): OPBase {
-        if (optimizer().optional) {
-            val tmp = enabledOptimizers[optimizer().classname]
+        if (optimizer().optimizerID.optional) {
+            val tmp = enabledOptimizers[optimizer().optimizerID]
             if (tmp == null)
-                enabledOptimizers[optimizer().classname] = false
-            if (!enabledOptimizers[optimizer().classname]!!)
+                enabledOptimizers[optimizer().optimizerID] = false
+            if (!enabledOptimizers[optimizer().optimizerID]!!)
                 return node()
         }
         return action()

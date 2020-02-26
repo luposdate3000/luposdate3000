@@ -1,6 +1,6 @@
 package lupos.s08logicalOptimisation
 
-import lupos.s00misc.EOperatorID
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.multiinput.LOPJoin
@@ -32,9 +32,8 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 
 
-abstract class OptimizerBase(val transactionID: Long, val dictionary: ResultSetDictionary) {
+abstract class OptimizerBase(val transactionID: Long, val dictionary: ResultSetDictionary,val optimizerID:EOptimizerID) {
     abstract val classname: String
-    abstract val optional: Boolean
 
     abstract fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit): OPBase
 

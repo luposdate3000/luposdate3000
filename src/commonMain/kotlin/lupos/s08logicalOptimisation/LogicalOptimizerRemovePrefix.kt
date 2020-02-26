@@ -9,9 +9,8 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s08logicalOptimisation.OptimizerBase
 
 
-class LogicalOptimizerRemovePrefix(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary) {
+class LogicalOptimizerRemovePrefix(transactionID: Long, dictionary: ResultSetDictionary) : OptimizerBase(transactionID, dictionary,EOptimizerID.LogicalOptimizerRemovePrefixID) {
     override val classname = "LogicalOptimizerRemovePrefix"
-    override val optional = false
     override fun optimize(node: OPBase, parent: OPBase?, onChange: () -> Unit) = ExecuteOptimizer.invoke({ this }, { node }, {
         var res = node
         if (node is LOPPrefix) {
