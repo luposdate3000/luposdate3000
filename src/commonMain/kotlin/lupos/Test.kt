@@ -42,6 +42,7 @@ fun main(args: Array<String>) {
     P2P.knownClients.add(EndpointImpl.fullname)
     testMain()
     printAllMicroTest()
+    executeBinaryTests("src/commonTest/kotlin/lupos")
 }
 
 fun testMain() {

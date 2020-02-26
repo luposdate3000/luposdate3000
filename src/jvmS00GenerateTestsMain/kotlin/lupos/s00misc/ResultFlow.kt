@@ -30,6 +30,7 @@ import lupos.s09physicalOperators.multiinput.*
 import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.*
+import lupos.s11outputResult.*
 import lupos.s15tripleStoreDistributed.*
 
 
@@ -49,6 +50,24 @@ val myuuid = ThreadSafeUuid()
 fun toBinary(operator: OPBase, buffer: DynamicByteArray) {
     buffer.appendInt(operator.operatorID.ordinal)
     when (operator) {
+        is POPValues -> {
+            val variables = operator.getProvidedVariableNames()
+            buffer.appendInt(variables.size)
+            for (v in variables)
+                buffer.appendString(v)
+            if (operator.data != null) {
+                buffer.appendInt(operator.data.size)
+                for (row in operator.data) {
+                    for (k in variables) {
+                        val v = operator.resultSet.getValue(row[operator.resultSet.createVariable(k)]!!)
+                        buffer.appendInt(DynamicByteArray.boolToInt(v == null))
+                        if (v != null)
+                            buffer.appendString(v)
+                    }
+                }
+            } else
+                buffer.appendInt(0)
+        }
         is POPUnion -> {
             toBinary(operator.children[0], buffer)
             toBinary(operator.children[1], buffer)
@@ -57,6 +76,51 @@ fun toBinary(operator: OPBase, buffer: DynamicByteArray) {
             toBinary(operator.children[0], buffer)
             toBinary(operator.children[1], buffer)
             buffer.appendInt(DynamicByteArray.boolToInt(operator.optional))
+        }
+        is POPRename -> {
+            toBinary(operator.nameTo, buffer)
+            toBinary(operator.nameFrom, buffer)
+            toBinary(operator.children[0], buffer)
+        }
+        is POPFilter -> {
+            toBinary(operator.children[1], buffer)
+            toBinary(operator.children[0], buffer)
+        }
+        is POPProjection -> {
+            buffer.appendInt(operator.variables.size)
+            for (v in operator.variables)
+                toBinary(v, buffer)
+            toBinary(operator.children[0], buffer)
+        }
+        is POPBindUndefined -> {
+            toBinary(operator.name, buffer)
+            toBinary(operator.children[0], buffer)
+        }
+        is POPBind -> {
+            toBinary(operator.name, buffer)
+            toBinary(operator.children[1], buffer)
+            toBinary(operator.children[0], buffer)
+        }
+        is POPFilterExact -> {
+            toBinary(operator.variable, buffer)
+            buffer.appendString(operator.value)
+            toBinary(operator.children[0], buffer)
+        }
+        is POPSort -> {
+            toBinary(AOPVariable(operator.resultSet.getVariable(operator.sortBy)), buffer)
+            buffer.appendInt(DynamicByteArray.boolToInt(operator.sortOrder))
+            toBinary(operator.children[0], buffer)
+        }
+        is POPDistinct -> {
+            toBinary(operator.children[0], buffer)
+        }
+        is POPLimit -> {
+            buffer.appendInt(operator.limit)
+            toBinary(operator.children[0], buffer)
+        }
+        is POPOffset -> {
+            buffer.appendInt(operator.offset)
+            toBinary(operator.children[0], buffer)
         }
         is TripleStoreIteratorGlobal -> {
             val s: String
@@ -123,6 +187,62 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
             val optional = DynamicByteArray.intToBool(buffer.getNextInt())
             return POPJoinHashMap(dictionary, childA, childB, optional)
         }
+        EOperatorID.POPRenameID -> {
+            val nameTo = fromBinary(dictionary, buffer) as AOPVariable
+            val nameFrom = fromBinary(dictionary, buffer) as AOPVariable
+            val child = fromBinary(dictionary, buffer)
+            return POPRename(dictionary, nameTo, nameFrom, child)
+        }
+        EOperatorID.POPFilterID -> {
+            val filter = fromBinary(dictionary, buffer) as AOPBase
+            val child = fromBinary(dictionary, buffer)
+            return POPFilter(dictionary, filter, child)
+        }
+        EOperatorID.POPBindUndefinedID -> {
+            val name = fromBinary(dictionary, buffer) as AOPVariable
+            val child = fromBinary(dictionary, buffer)
+            return POPBindUndefined(dictionary, name, child)
+        }
+        EOperatorID.POPFilterExactID -> {
+            val name = fromBinary(dictionary, buffer) as AOPVariable
+            val value = buffer.getNextString()
+            val child = fromBinary(dictionary, buffer)
+            return POPFilterExact(dictionary, name, value, child)
+        }
+        EOperatorID.POPBindID -> {
+            val name = fromBinary(dictionary, buffer) as AOPVariable
+            val value = fromBinary(dictionary, buffer) as AOPBase
+            val child = fromBinary(dictionary, buffer)
+            return POPBind(dictionary, name, value, child)
+        }
+        EOperatorID.POPSortID -> {
+            val sortBy = fromBinary(dictionary, buffer) as AOPVariable
+            val sortOrder = DynamicByteArray.intToBool(buffer.getNextInt())
+            val child = fromBinary(dictionary, buffer)
+            return POPSort(dictionary, sortBy, sortOrder, child)
+        }
+        EOperatorID.POPDistinctID -> {
+            val child = fromBinary(dictionary, buffer)
+            return POPDistinct(dictionary, child)
+        }
+        EOperatorID.POPProjectionID -> {
+            val child = fromBinary(dictionary, buffer)
+            val childCount = buffer.getNextInt()
+            val variables = mutableListOf<AOPVariable>()
+            for (i in 0 until childCount)
+                variables.add(fromBinary(dictionary, buffer) as AOPVariable)
+            return POPProjection(dictionary, variables, child)
+        }
+        EOperatorID.POPLimitID -> {
+            var value = buffer.getNextInt()
+            val child = fromBinary(dictionary, buffer)
+            return POPLimit(dictionary, value, child)
+        }
+        EOperatorID.POPOffsetID -> {
+            var value = buffer.getNextInt()
+            val child = fromBinary(dictionary, buffer)
+            return POPOffset(dictionary, value, child)
+        }
         EOperatorID.TripleStoreIteratorGlobalID -> {
             var graphName = "graph" + DistributedTripleStore.getGraphNames().size
             val graph = DistributedTripleStore.createGraph(graphName)
@@ -143,24 +263,110 @@ fun fromBinary(dictionary: ResultSetDictionary, buffer: DynamicByteArray): OPBas
             DistributedTripleStore.commit(1L)
             return TripleStoreIteratorGlobal(1L, dictionary, graphName, s, p, o, sv, pv, ov, idx)
         }
+        EOperatorID.POPValuesID -> {
+            val variables = mutableListOf<String>()
+            val values = mutableListOf<MutableMap<String, String>>()
+            val variableCount = buffer.getNextInt()
+            for (i in 0 until variableCount)
+                variables.add(buffer.getNextString())
+            val valuesCount = buffer.getNextInt()
+            for (j in 0 until valuesCount) {
+                val map = mutableMapOf<String, String>()
+                values.add(map)
+                for (i in 0 until variableCount) {
+                    val isNull = DynamicByteArray.intToBool(buffer.getNextInt())
+                    if (!isNull) {
+                        val value = buffer.getNextString()
+                        map[variables[i]] = value
+                    }
+                }
+            }
+            return POPValues(dictionary, variables, values)
+        }
         else -> throw Exception("BinaryHelper.fromBinary ${operatorID} undefined")
     }
 }
 
+fun testCaseBinaryFromResultRowsAsPOPValues(buffer: DynamicByteArray, rows: MutableList<ResultRow>?, o: OPBase) {
+    buffer.appendInt(EOperatorID.POPValuesID.ordinal)
+    val variables = o.getProvidedVariableNames()
+    buffer.appendInt(variables.size)
+    for (v in variables)
+        buffer.appendString(v)
+    if (rows != null) {
+        buffer.appendInt(rows.size)
+        for (row in rows) {
+            for (k in variables) {
+                val v = o.resultSet.getValue(row[o.resultSet.createVariable(k)])
+                buffer.appendInt(DynamicByteArray.boolToInt(v == null))
+                if (v != null)
+                    buffer.appendString(v)
+            }
+        }
+    } else
+        buffer.appendInt(0)
+}
+
+var testcasenumber = 0
 fun createBinaryTestCase(operator: OPBase) {
+    synchronized(testcasenumber) {
+        try {
+            val buffer = DynamicByteArray()
+            toBinary(operator, buffer)
+            val filename = "src/commonTest/kotlin/lupos/testcase-${testcasenumber++}.bin"
+            File(filename).outputStream().use { out ->
+                val data = buffer.finish()
+                out.write(data, 0, buffer.pos)
+            }
+            val buffer2 = DynamicByteArray()
+            testCaseBinaryFromResultRowsAsPOPValues(buffer2, rowMapProduced[operator.uuid], operator)
+            File(filename + ".expect").outputStream().use { out ->
+                val data = buffer2.finish()
+                out.write(data, 0, buffer2.pos)
+            }
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
+    }
+}
+
+fun executeBinaryTests(folder: String) {
     try {
-        val buffer = DynamicByteArray()
-        toBinary(operator, buffer)
-        val filename = "src/commonTest/kotlin/lupos/testcase-${myuuid.next()}.bin"
-        File(filename).outputStream().use { out ->
-            val data = buffer.finish()
-            out.write(data, 0, buffer.pos)
+        File(folder).walk().forEach {
+            val filename: String = it.toRelativeString(File("."))
+            if (filename.endsWith(".bin")) {
+                println("execute test $filename")
+                var input: POPBase? = null
+                File(filename).inputStream().use { instream ->
+                    val dictionary = ResultSetDictionary()
+                    val data = instream.readBytes()
+                    val buffer = DynamicByteArray(data)
+                    input = fromBinary(dictionary, buffer) as POPBase
+                }
+                var expectPOP: POPValues? = null
+                try {
+                    File(filename + ".expect").inputStream().use { instream ->
+                        val dictionary = ResultSetDictionary()
+                        val data = instream.readBytes()
+                        val buffer = DynamicByteArray(data)
+                        expectPOP = fromBinary(dictionary, buffer) as POPValues
+                    }
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
+                val output = QueryResultToXML.toXML(input!!).first()
+                val expected = QueryResultToXML.toXML(expectPOP!!).first()
+                if (!expected.myEquals(output)) {
+                    println(output.toPrettyString())
+                    println(expected.toPrettyString())
+                }
+                require(expected.myEquals(output))
+            }
         }
     } catch (e: Throwable) {
         e.printStackTrace()
     }
 }
-
 
 fun resultFlowConsume(consumerv: () -> OPBase, producerv: () -> OPBase, action: () -> ResultRow): ResultRow {
     val res = action()

@@ -43,3 +43,6 @@ inline fun printAllMicroTest() {
 
 fun updateAllMicroTest(testName: String, queryFile: String, success: Boolean) {
 }
+
+fun executeBinaryTests(folder: String) {
+}
