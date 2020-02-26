@@ -118,12 +118,11 @@ fun testCaseFromResultRowsAsPOPValues(rows: MutableList<ResultRow>?, o: OPBase, 
 }
 
 fun testCaseFromResultRowsAsLOPValues(rows: MutableList<ResultRow>?, o: OPBase, prefix: String): String {
-//    xxx this is wrong
-    var res = "${prefix}LOPValues(dictionary, listOf(\n"
+    var res = "${prefix}LOPValues(listOf(\n"
     val variables = o.getProvidedVariableNames()
     if (variables.size > 0) {
         for (v in variables) {
-            res += "${prefix}        \"$v\",\n"
+            res += "${prefix}        AOPVariable(\"$v\"),\n"
         }
         res = res.substring(0, res.length - 2) + "\n"
     }
@@ -131,18 +130,18 @@ fun testCaseFromResultRowsAsLOPValues(rows: MutableList<ResultRow>?, o: OPBase, 
     if (rows != null) {
         for (row in rows) {
             var tmpMap = ""
-            tmpMap += "mutableMapOf<String,String?>(\n"
+            tmpMap += "AOPValue(listOf(\n"
             if (variables.size > 0) {
                 for (k in variables) {
                     val v = o.resultSet.getValue(row[o.resultSet.createVariable(k)])?.replace("\"", "\\\"")
                     if (v == null)
-                        tmpMap += "    \"${k}\" to null,\n"
+                        tmpMap += "    AOPUndef(),\n"
                     else
-                        tmpMap += "    \"${k}\" to \"${v}\",\n"
+                        tmpMap += "    AOPVariable.calculate(\"${v}\"),\n"
                 }
                 tmpMap = tmpMap.substring(0, tmpMap.length - 2)
             }
-            tmpMap += ")\n"
+            tmpMap += "))\n"
             res += "${prefix}        GeneratedMutableMap.${addMutableMapToTests(tmpMap)},\n"
         }
         res = res.substring(0, res.length - 2) + "\n"

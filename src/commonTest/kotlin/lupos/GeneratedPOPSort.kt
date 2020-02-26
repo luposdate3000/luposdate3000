@@ -1,6 +1,11 @@
 package lupos
 
+import lupos.s10physicalOptimisation.PhysicalOptimizer
+import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
+import lupos.s12p2p.P2P
+import lupos.s14endpoint.EndpointImpl
 import lupos.s00misc.*
+import lupos.s15tripleStoreDistributed.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -8,8 +13,8 @@ import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.*
-import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.noinput.*
+import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.*
 import lupos.s08logicalOptimisation.*
@@ -18,12 +23,7 @@ import lupos.s09physicalOperators.multiinput.*
 import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.*
-import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.*
-import lupos.s12p2p.P2P
-import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
-import lupos.s14endpoint.EndpointImpl
-import lupos.s15tripleStoreDistributed.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
@@ -33,53 +33,52 @@ class GeneratedPOPSortTest {
         P2P.knownClients.clear()
         P2P.knownClients.add(EndpointImpl.fullname)
     }
-
     fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
-        for (n in node.children)
+        for (n in  node.children)
             setAggregationMode(n, mode, count)
         if (node is AOPAggregation) {
-            node.count = count
+                node.count = count
             node.collectMode = mode
             if (node.collectMode)
                 node.a = null
         }
     }
 
-    @TestFactory
-    fun test() = listOf(
+ @TestFactory
+ fun test() = listOf(
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("O12"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "O12",
-                                        "C"
-                                ), listOf(
-                                        GeneratedMutableMap.map2758map,
-                                        GeneratedMutableMap.map2759map,
-                                        GeneratedMutableMap.map2760map,
-                                        GeneratedMutableMap.map2761map,
-                                        GeneratedMutableMap.map2762map
-                                )
-                                )
-                        ),
+                        AOPVariable("O12"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "O12",
                                 "C"
+                            ), listOf(
+                                GeneratedMutableMap.map2794map,
+                                GeneratedMutableMap.map2795map,
+                                GeneratedMutableMap.map2796map,
+                                GeneratedMutableMap.map2797map,
+                                GeneratedMutableMap.map2798map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "O12",
+                            "C"
                         ), listOf(
-                                GeneratedMutableMap.map2758map,
-                                GeneratedMutableMap.map2759map,
-                                GeneratedMutableMap.map2760map,
-                                GeneratedMutableMap.map2761map,
-                                GeneratedMutableMap.map2762map
+                            GeneratedMutableMap.map2794map,
+                            GeneratedMutableMap.map2795map,
+                            GeneratedMutableMap.map2796map,
+                            GeneratedMutableMap.map2797map,
+                            GeneratedMutableMap.map2798map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */,
+            }() /* resources/sparql11-test-suite/aggregates/agg08b.rq */ ,
             /* {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -93,12 +92,12 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                             ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10098map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map10100map,
-                                GeneratedMutableMap.map10101map
+                                GeneratedMutableMap.map10276map,
+                                GeneratedMutableMap.map10277map,
+                                GeneratedMutableMap.map10278map,
+                                GeneratedMutableMap.map10279map,
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map
                             )
                         )
                     ),
@@ -107,12 +106,12 @@ class GeneratedPOPSortTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map10099map,
-                            GeneratedMutableMap.map10100map,
-                            GeneratedMutableMap.map10098map,
-                            GeneratedMutableMap.map10097map,
-                            GeneratedMutableMap.map10096map,
-                            GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10279map,
+                            GeneratedMutableMap.map10280map,
+                            GeneratedMutableMap.map10278map,
+                            GeneratedMutableMap.map10277map,
+                            GeneratedMutableMap.map10276map,
+                            GeneratedMutableMap.map10281map
                         )
                     )
                 )
@@ -130,12 +129,12 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                             ), listOf(
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map10100map,
-                                GeneratedMutableMap.map10098map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10101map
+                                GeneratedMutableMap.map10279map,
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10278map,
+                                GeneratedMutableMap.map10277map,
+                                GeneratedMutableMap.map10276map,
+                                GeneratedMutableMap.map10281map
                             )
                         )
                     ),
@@ -144,12 +143,12 @@ class GeneratedPOPSortTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map10096map,
-                            GeneratedMutableMap.map10097map,
-                            GeneratedMutableMap.map10098map,
-                            GeneratedMutableMap.map10099map,
-                            GeneratedMutableMap.map10100map,
-                            GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10276map,
+                            GeneratedMutableMap.map10277map,
+                            GeneratedMutableMap.map10278map,
+                            GeneratedMutableMap.map10279map,
+                            GeneratedMutableMap.map10280map,
+                            GeneratedMutableMap.map10281map
                         )
                     )
                 )
@@ -167,12 +166,12 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                             ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10098map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map10100map,
-                                GeneratedMutableMap.map10101map
+                                GeneratedMutableMap.map10276map,
+                                GeneratedMutableMap.map10277map,
+                                GeneratedMutableMap.map10278map,
+                                GeneratedMutableMap.map10279map,
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map
                             )
                         )
                     ),
@@ -181,12 +180,12 @@ class GeneratedPOPSortTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map10096map,
-                            GeneratedMutableMap.map10097map,
-                            GeneratedMutableMap.map10098map,
-                            GeneratedMutableMap.map10099map,
-                            GeneratedMutableMap.map10100map,
-                            GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10276map,
+                            GeneratedMutableMap.map10277map,
+                            GeneratedMutableMap.map10278map,
+                            GeneratedMutableMap.map10279map,
+                            GeneratedMutableMap.map10280map,
+                            GeneratedMutableMap.map10281map
                         )
                     )
                 )
@@ -194,474 +193,471 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("o"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10096map,
-                                        GeneratedMutableMap.map10097map,
-                                        GeneratedMutableMap.map10098map,
-                                        GeneratedMutableMap.map10099map,
-                                        GeneratedMutableMap.map10100map,
-                                        GeneratedMutableMap.map10101map
-                                )
-                                )
-                        ),
+                        AOPVariable("o"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o"
+                            ), listOf(
+                                GeneratedMutableMap.map10276map,
+                                GeneratedMutableMap.map10277map,
+                                GeneratedMutableMap.map10278map,
+                                GeneratedMutableMap.map10279map,
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map10100map,
-                                GeneratedMutableMap.map10098map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10279map,
+                            GeneratedMutableMap.map10280map,
+                            GeneratedMutableMap.map10278map,
+                            GeneratedMutableMap.map10277map,
+                            GeneratedMutableMap.map10276map,
+                            GeneratedMutableMap.map10281map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("o"),
-                                true,
-                                {
-                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                    DistributedTripleStore.commit(1L)
-                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                }()
+                        AOPVariable("o"),
+                        true,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                    }()
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map10100map,
-                                GeneratedMutableMap.map10098map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10279map,
+                            GeneratedMutableMap.map10280map,
+                            GeneratedMutableMap.map10278map,
+                            GeneratedMutableMap.map10277map,
+                            GeneratedMutableMap.map10276map,
+                            GeneratedMutableMap.map10281map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("o"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10096map,
-                                        GeneratedMutableMap.map10097map,
-                                        GeneratedMutableMap.map10098map,
-                                        GeneratedMutableMap.map10099map,
-                                        GeneratedMutableMap.map10100map,
-                                        GeneratedMutableMap.map10101map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("o"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("p"),
+                                AOPVariable("o")
+                            ), listOf(
+                                GeneratedMutableMap.map10358map,
+                                GeneratedMutableMap.map10359map,
+                                GeneratedMutableMap.map10360map,
+                                GeneratedMutableMap.map10361map,
+                                GeneratedMutableMap.map10362map,
+                                GeneratedMutableMap.map10363map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map10100map,
-                                GeneratedMutableMap.map10098map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10361map,
+                            GeneratedMutableMap.map10362map,
+                            GeneratedMutableMap.map10360map,
+                            GeneratedMutableMap.map10359map,
+                            GeneratedMutableMap.map10358map,
+                            GeneratedMutableMap.map10363map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("o"),
-                                {
-                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                    DistributedTripleStore.commit(1L)
-                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                }()
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("o"),
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                        DistributedTripleStore.commit(1L)
+                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                    }()
 
-                        ),
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
+                        ), listOf(
+                            GeneratedMutableMap.map10361map,
+                            GeneratedMutableMap.map10362map,
+                            GeneratedMutableMap.map10360map,
+                            GeneratedMutableMap.map10359map,
+                            GeneratedMutableMap.map10358map,
+                            GeneratedMutableMap.map10363map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("p"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o"
+                            ), listOf(
+                                GeneratedMutableMap.map10279map,
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10278map,
+                                GeneratedMutableMap.map10277map,
+                                GeneratedMutableMap.map10276map,
+                                GeneratedMutableMap.map10281map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map10100map,
-                                GeneratedMutableMap.map10098map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10276map,
+                            GeneratedMutableMap.map10277map,
+                            GeneratedMutableMap.map10278map,
+                            GeneratedMutableMap.map10279map,
+                            GeneratedMutableMap.map10280map,
+                            GeneratedMutableMap.map10281map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("p"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10099map,
-                                        GeneratedMutableMap.map10100map,
-                                        GeneratedMutableMap.map10098map,
-                                        GeneratedMutableMap.map10097map,
-                                        GeneratedMutableMap.map10096map,
-                                        GeneratedMutableMap.map10101map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
-                        ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10098map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map10100map,
-                                GeneratedMutableMap.map10101map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("p"),
-                                true,
-                                POPSort(
+                        AOPVariable("p"),
+                        true,
+                                    POPSort(
                                         dictionary,
                                         AOPVariable("o"),
                                         true,
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                            DistributedTripleStore.commit(1L)
-                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                        }()
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                    }()
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10098map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map10100map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10276map,
+                            GeneratedMutableMap.map10277map,
+                            GeneratedMutableMap.map10278map,
+                            GeneratedMutableMap.map10279map,
+                            GeneratedMutableMap.map10280map,
+                            GeneratedMutableMap.map10281map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("p"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
                                 AOPVariable("p"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10099map,
-                                        GeneratedMutableMap.map10100map,
-                                        GeneratedMutableMap.map10098map,
-                                        GeneratedMutableMap.map10097map,
-                                        GeneratedMutableMap.map10096map,
-                                        GeneratedMutableMap.map10101map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                                AOPVariable("o")
+                            ), listOf(
+                                GeneratedMutableMap.map10361map,
+                                GeneratedMutableMap.map10362map,
+                                GeneratedMutableMap.map10360map,
+                                GeneratedMutableMap.map10359map,
+                                GeneratedMutableMap.map10358map,
+                                GeneratedMutableMap.map10363map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10098map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map10100map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10358map,
+                            GeneratedMutableMap.map10359map,
+                            GeneratedMutableMap.map10360map,
+                            GeneratedMutableMap.map10361map,
+                            GeneratedMutableMap.map10362map,
+                            GeneratedMutableMap.map10363map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("p"),
-                                LOPSort(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("p"),
+                                    LOPSort(
                                         true,
                                         AOPVariable("o"),
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                            DistributedTripleStore.commit(1L)
-                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                        }()
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                                    }()
 
-                                )
+                                    )
 
-                        ),
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
+                        ), listOf(
+                            GeneratedMutableMap.map10358map,
+                            GeneratedMutableMap.map10359map,
+                            GeneratedMutableMap.map10360map,
+                            GeneratedMutableMap.map10361map,
+                            GeneratedMutableMap.map10362map,
+                            GeneratedMutableMap.map10363map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("s"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o"
+                            ), listOf(
+                                GeneratedMutableMap.map10276map,
+                                GeneratedMutableMap.map10277map,
+                                GeneratedMutableMap.map10278map,
+                                GeneratedMutableMap.map10279map,
+                                GeneratedMutableMap.map10280map,
+                                GeneratedMutableMap.map10281map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10098map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map10100map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10276map,
+                            GeneratedMutableMap.map10277map,
+                            GeneratedMutableMap.map10278map,
+                            GeneratedMutableMap.map10279map,
+                            GeneratedMutableMap.map10280map,
+                            GeneratedMutableMap.map10281map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("s"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10096map,
-                                        GeneratedMutableMap.map10097map,
-                                        GeneratedMutableMap.map10098map,
-                                        GeneratedMutableMap.map10099map,
-                                        GeneratedMutableMap.map10100map,
-                                        GeneratedMutableMap.map10101map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
-                        ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10098map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map10100map,
-                                GeneratedMutableMap.map10101map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("s"),
-                                true,
-                                POPSort(
+                        AOPVariable("s"),
+                        true,
+                                    POPSort(
                                         dictionary,
                                         AOPVariable("p"),
                                         true,
-                                        POPSort(
-                                                dictionary,
-                                                AOPVariable("o"),
-                                                true,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                                }()
+                                                    POPSort(
+                                                        dictionary,
+                                                        AOPVariable("o"),
+                                                        true,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                                    }()
 
-                                        )
+                                                    )
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10098map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map10100map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10276map,
+                            GeneratedMutableMap.map10277map,
+                            GeneratedMutableMap.map10278map,
+                            GeneratedMutableMap.map10279map,
+                            GeneratedMutableMap.map10280map,
+                            GeneratedMutableMap.map10281map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("s"),
+                        LOPValues(listOf(
                                 AOPVariable("s"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10096map,
-                                        GeneratedMutableMap.map10097map,
-                                        GeneratedMutableMap.map10098map,
-                                        GeneratedMutableMap.map10099map,
-                                        GeneratedMutableMap.map10100map,
-                                        GeneratedMutableMap.map10101map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                                AOPVariable("p"),
+                                AOPVariable("o")
+                            ), listOf(
+                                GeneratedMutableMap.map10358map,
+                                GeneratedMutableMap.map10359map,
+                                GeneratedMutableMap.map10360map,
+                                GeneratedMutableMap.map10361map,
+                                GeneratedMutableMap.map10362map,
+                                GeneratedMutableMap.map10363map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10098map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map10100map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10358map,
+                            GeneratedMutableMap.map10359map,
+                            GeneratedMutableMap.map10360map,
+                            GeneratedMutableMap.map10361map,
+                            GeneratedMutableMap.map10362map,
+                            GeneratedMutableMap.map10363map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("s"),
-                                LOPSort(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("s"),
+                                    LOPSort(
                                         true,
                                         AOPVariable("p"),
-                                        LOPSort(
-                                                true,
-                                                AOPVariable("o"),
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                                }()
+                                                    LOPSort(
+                                                        true,
+                                                        AOPVariable("o"),
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                                                    }()
 
-                                        )
+                                                    )
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10098map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map10100map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10358map,
+                            GeneratedMutableMap.map10359map,
+                            GeneratedMutableMap.map10360map,
+                            GeneratedMutableMap.map10361map,
+                            GeneratedMutableMap.map10362map,
+                            GeneratedMutableMap.map10363map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             /* {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -677,12 +673,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                             ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map
+                                GeneratedMutableMap.map10466map,
+                                GeneratedMutableMap.map10467map,
+                                GeneratedMutableMap.map10468map,
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map
                             )
                         )
                     ),
@@ -693,12 +689,12 @@ class GeneratedPOPSortTest {
                             "p2",
                             "o2"
                         ), listOf(
-                            GeneratedMutableMap.map10281map,
-                            GeneratedMutableMap.map10282map,
-                            GeneratedMutableMap.map10283map,
-                            GeneratedMutableMap.map10284map,
-                            GeneratedMutableMap.map10285map,
-                            GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10468map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10471map,
+                            GeneratedMutableMap.map10466map
                         )
                     )
                 )
@@ -718,12 +714,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                             ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                                GeneratedMutableMap.map10467map,
+                                GeneratedMutableMap.map10468map,
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10466map
                             )
                         )
                     ),
@@ -734,12 +730,12 @@ class GeneratedPOPSortTest {
                             "p2",
                             "o2"
                         ), listOf(
-                            GeneratedMutableMap.map10281map,
-                            GeneratedMutableMap.map10282map,
-                            GeneratedMutableMap.map10283map,
-                            GeneratedMutableMap.map10284map,
-                            GeneratedMutableMap.map10285map,
-                            GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10468map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10471map,
+                            GeneratedMutableMap.map10466map
                         )
                     )
                 )
@@ -759,12 +755,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                             ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                                GeneratedMutableMap.map10467map,
+                                GeneratedMutableMap.map10468map,
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10466map
                             )
                         )
                     ),
@@ -775,12 +771,12 @@ class GeneratedPOPSortTest {
                             "p2",
                             "o2"
                         ), listOf(
-                            GeneratedMutableMap.map10283map,
-                            GeneratedMutableMap.map10284map,
-                            GeneratedMutableMap.map10282map,
-                            GeneratedMutableMap.map10281map,
-                            GeneratedMutableMap.map10280map,
-                            GeneratedMutableMap.map10285map
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10468map,
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10466map,
+                            GeneratedMutableMap.map10471map
                         )
                     )
                 )
@@ -800,12 +796,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                             ), listOf(
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10285map
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10468map,
+                                GeneratedMutableMap.map10467map,
+                                GeneratedMutableMap.map10466map,
+                                GeneratedMutableMap.map10471map
                             )
                         )
                     ),
@@ -816,12 +812,12 @@ class GeneratedPOPSortTest {
                             "p2",
                             "o2"
                         ), listOf(
-                            GeneratedMutableMap.map10280map,
-                            GeneratedMutableMap.map10281map,
-                            GeneratedMutableMap.map10282map,
-                            GeneratedMutableMap.map10283map,
-                            GeneratedMutableMap.map10284map,
-                            GeneratedMutableMap.map10285map
+                            GeneratedMutableMap.map10466map,
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10468map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10471map
                         )
                     )
                 )
@@ -841,12 +837,12 @@ class GeneratedPOPSortTest {
                                 "p2",
                                 "o2"
                             ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map
+                                GeneratedMutableMap.map10466map,
+                                GeneratedMutableMap.map10467map,
+                                GeneratedMutableMap.map10468map,
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map
                             )
                         )
                     ),
@@ -857,12 +853,12 @@ class GeneratedPOPSortTest {
                             "p2",
                             "o2"
                         ), listOf(
-                            GeneratedMutableMap.map10280map,
-                            GeneratedMutableMap.map10281map,
-                            GeneratedMutableMap.map10282map,
-                            GeneratedMutableMap.map10283map,
-                            GeneratedMutableMap.map10284map,
-                            GeneratedMutableMap.map10285map
+                            GeneratedMutableMap.map10466map,
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10468map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10471map
                         )
                     )
                 )
@@ -870,1068 +866,1058 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("o2"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10280map,
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map10282map,
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map10284map,
-                                        GeneratedMutableMap.map10285map
-                                )
-                                )
-                        ),
+                        AOPVariable("o2"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o",
                                 "p2",
                                 "o2"
+                            ), listOf(
+                                GeneratedMutableMap.map10466map,
+                                GeneratedMutableMap.map10467map,
+                                GeneratedMutableMap.map10468map,
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10468map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10471map,
+                            GeneratedMutableMap.map10466map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("o2"),
-                                true,
-                                POPJoinHashMap(
+                        AOPVariable("o2"),
+                        true,
+                                    POPJoinHashMap(
                                         dictionary,
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                            DistributedTripleStore.commit(1L)
-                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                        }()
-                                        ,
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                            DistributedTripleStore.commit(1L)
-                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "o", "p2", "o2", false, false, false, EIndexPattern.SPO)
-                                        }()
-                                        ,
-                                        true)
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                    }()
+,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"o","p2","o2",false,false,false,EIndexPattern.SPO)
+                                                    }()
+,
+                                        true                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10468map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10471map,
+                            GeneratedMutableMap.map10466map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("o2"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10280map,
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map10282map,
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map10284map,
-                                        GeneratedMutableMap.map10285map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("o2"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("p"),
+                                AOPVariable("o"),
+                                AOPVariable("p2"),
+                                AOPVariable("o2")
+                            ), listOf(
+                                GeneratedMutableMap.map10596map,
+                                GeneratedMutableMap.map10597map,
+                                GeneratedMutableMap.map10598map,
+                                GeneratedMutableMap.map10599map,
+                                GeneratedMutableMap.map10600map,
+                                GeneratedMutableMap.map10601map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map10598map,
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map10600map,
+                            GeneratedMutableMap.map10601map,
+                            GeneratedMutableMap.map10596map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("o2"),
-                                LOPJoin(
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                            DistributedTripleStore.commit(1L)
-                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                        }()
-                                        ,
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                            DistributedTripleStore.commit(1L)
-                                            LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
-                                        }()
-                                        ,
-                                        true)
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("o2"),
+                                    LOPJoin(
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                                    }()
+,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        LOPTriple(AOPVariable("o"),AOPVariable("p2"),AOPVariable("o2"),graphName,false)                                                    }()
+,
+                                        true                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map10598map,
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map10600map,
+                            GeneratedMutableMap.map10601map,
+                            GeneratedMutableMap.map10596map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("p2"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map10282map,
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map10284map,
-                                        GeneratedMutableMap.map10285map,
-                                        GeneratedMutableMap.map10280map
-                                )
-                                )
-                        ),
+                        AOPVariable("p2"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o",
                                 "p2",
                                 "o2"
+                            ), listOf(
+                                GeneratedMutableMap.map10467map,
+                                GeneratedMutableMap.map10468map,
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10466map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10468map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10471map,
+                            GeneratedMutableMap.map10466map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("p2"),
-                                true,
-                                POPSort(
+                        AOPVariable("p2"),
+                        true,
+                                    POPSort(
                                         dictionary,
                                         AOPVariable("o2"),
                                         true,
-                                        POPJoinHashMap(
-                                                dictionary,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                                }()
-                                                ,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "o", "p2", "o2", false, false, false, EIndexPattern.SPO)
-                                                }()
-                                                ,
-                                                true)
+                                                    POPJoinHashMap(
+                                                        dictionary,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"o","p2","o2",false,false,false,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                        true                                                    )
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10468map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10471map,
+                            GeneratedMutableMap.map10466map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("p2"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("p"),
+                                AOPVariable("o"),
                                 AOPVariable("p2"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map10282map,
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map10284map,
-                                        GeneratedMutableMap.map10285map,
-                                        GeneratedMutableMap.map10280map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                                AOPVariable("o2")
+                            ), listOf(
+                                GeneratedMutableMap.map10597map,
+                                GeneratedMutableMap.map10598map,
+                                GeneratedMutableMap.map10599map,
+                                GeneratedMutableMap.map10600map,
+                                GeneratedMutableMap.map10601map,
+                                GeneratedMutableMap.map10596map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map10598map,
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map10600map,
+                            GeneratedMutableMap.map10601map,
+                            GeneratedMutableMap.map10596map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("p2"),
-                                LOPSort(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("p2"),
+                                    LOPSort(
                                         true,
                                         AOPVariable("o2"),
-                                        LOPJoin(
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                                }()
-                                                ,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
-                                                }()
-                                                ,
-                                                true)
+                                                    LOPJoin(
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                                                    }()
+,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        LOPTriple(AOPVariable("o"),AOPVariable("p2"),AOPVariable("o2"),graphName,false)                                                                    }()
+,
+                                                        true                                                    )
 
-                                )
+                                    )
 
-                        ),
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
+                        ), listOf(
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map10598map,
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map10600map,
+                            GeneratedMutableMap.map10601map,
+                            GeneratedMutableMap.map10596map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("o"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o",
                                 "p2",
                                 "o2"
+                            ), listOf(
+                                GeneratedMutableMap.map10467map,
+                                GeneratedMutableMap.map10468map,
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10466map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10468map,
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10466map,
+                            GeneratedMutableMap.map10471map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("o"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map10282map,
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map10284map,
-                                        GeneratedMutableMap.map10285map,
-                                        GeneratedMutableMap.map10280map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
-                        ), listOf(
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10285map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("o"),
-                                true,
-                                POPSort(
+                        AOPVariable("o"),
+                        true,
+                                    POPSort(
                                         dictionary,
                                         AOPVariable("p2"),
                                         true,
-                                        POPSort(
-                                                dictionary,
-                                                AOPVariable("o2"),
-                                                true,
-                                                POPJoinHashMap(
-                                                        dictionary,
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                                        }()
-                                                        ,
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "o", "p2", "o2", false, false, false, EIndexPattern.SPO)
-                                                        }()
-                                                        ,
-                                                        true)
-
-                                        )
-
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
-                        ), listOf(
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10285map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("o"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map10282map,
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map10284map,
-                                        GeneratedMutableMap.map10285map,
-                                        GeneratedMutableMap.map10280map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
-                        ), listOf(
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10285map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("o"),
-                                LOPSort(
-                                        true,
-                                        AOPVariable("p2"),
-                                        LOPSort(
-                                                true,
-                                                AOPVariable("o2"),
-                                                LOPJoin(
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                                        }()
-                                                        ,
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
-                                                        }()
-                                                        ,
-                                                        true)
-
-                                        )
-
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
-                        ), listOf(
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10285map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("p"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map10284map,
-                                        GeneratedMutableMap.map10282map,
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map10280map,
-                                        GeneratedMutableMap.map10285map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
-                        ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("p"),
-                                true,
-                                POPSort(
-                                        dictionary,
-                                        AOPVariable("o"),
-                                        true,
-                                        POPSort(
-                                                dictionary,
-                                                AOPVariable("p2"),
-                                                true,
-                                                POPSort(
+                                                    POPSort(
                                                         dictionary,
                                                         AOPVariable("o2"),
                                                         true,
-                                                        POPJoinHashMap(
-                                                                dictionary,
-                                                                {
-                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                                    DistributedTripleStore.commit(1L)
-                                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                                                }()
-                                                                ,
-                                                                {
-                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                                    DistributedTripleStore.commit(1L)
-                                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "o", "p2", "o2", false, false, false, EIndexPattern.SPO)
-                                                                }()
-                                                                ,
-                                                                true)
-
-                                                )
-
-                                        )
-
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
-                        ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("p"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map10284map,
-                                        GeneratedMutableMap.map10282map,
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map10280map,
-                                        GeneratedMutableMap.map10285map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
-                        ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("p"),
-                                LOPSort(
-                                        true,
-                                        AOPVariable("o"),
-                                        LOPSort(
-                                                true,
-                                                AOPVariable("p2"),
-                                                LOPSort(
-                                                        true,
-                                                        AOPVariable("o2"),
-                                                        LOPJoin(
-                                                                {
-                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                                    DistributedTripleStore.commit(1L)
-                                                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                                                }()
-                                                                ,
-                                                                {
-                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                                    DistributedTripleStore.commit(1L)
-                                                                    LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
-                                                                }()
-                                                                ,
-                                                                true)
-
-                                                )
-
-                                        )
-
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
-                        ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("s"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10280map,
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map10282map,
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map10284map,
-                                        GeneratedMutableMap.map10285map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
-                        ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("s"),
-                                true,
-                                POPSort(
-                                        dictionary,
-                                        AOPVariable("p"),
-                                        true,
-                                        POPSort(
-                                                dictionary,
-                                                AOPVariable("o"),
-                                                true,
-                                                POPSort(
-                                                        dictionary,
-                                                        AOPVariable("p2"),
-                                                        true,
-                                                        POPSort(
-                                                                dictionary,
-                                                                AOPVariable("o2"),
-                                                                true,
-                                                                POPJoinHashMap(
+                                                                    POPJoinHashMap(
                                                                         dictionary,
-                                                                        {
-                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                                            DistributedTripleStore.commit(1L)
-                                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                                                        }()
-                                                                        ,
-                                                                        {
-                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                                            DistributedTripleStore.commit(1L)
-                                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "o", "p2", "o2", false, false, false, EIndexPattern.SPO)
-                                                                        }()
-                                                                        ,
-                                                                        true)
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                                                    }()
+,
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"o","p2","o2",false,false,false,EIndexPattern.SPO)
+                                                                                    }()
+,
+                                                                        true                                                                    )
 
-                                                        )
+                                                    )
 
-                                                )
+                                    )
 
-                                        )
-
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10468map,
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10466map,
+                            GeneratedMutableMap.map10471map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("o"),
+                        LOPValues(listOf(
                                 AOPVariable("s"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10280map,
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map10282map,
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map10284map,
-                                        GeneratedMutableMap.map10285map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                                AOPVariable("p"),
+                                AOPVariable("o"),
+                                AOPVariable("p2"),
+                                AOPVariable("o2")
+                            ), listOf(
+                                GeneratedMutableMap.map10597map,
+                                GeneratedMutableMap.map10598map,
+                                GeneratedMutableMap.map10599map,
+                                GeneratedMutableMap.map10600map,
+                                GeneratedMutableMap.map10601map,
+                                GeneratedMutableMap.map10596map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map10600map,
+                            GeneratedMutableMap.map10598map,
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map10596map,
+                            GeneratedMutableMap.map10601map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("s"),
-                                LOPSort(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("o"),
+                                    LOPSort(
                                         true,
-                                        AOPVariable("p"),
-                                        LOPSort(
-                                                true,
-                                                AOPVariable("o"),
-                                                LOPSort(
+                                        AOPVariable("p2"),
+                                                    LOPSort(
+                                                        true,
+                                                        AOPVariable("o2"),
+                                                                    LOPJoin(
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                                                                    }()
+,
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        LOPTriple(AOPVariable("o"),AOPVariable("p2"),AOPVariable("o2"),graphName,false)                                                                                    }()
+,
+                                                                        true                                                                    )
+
+                                                    )
+
+                                    )
+
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
+                        ), listOf(
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map10600map,
+                            GeneratedMutableMap.map10598map,
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map10596map,
+                            GeneratedMutableMap.map10601map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("p"),
+                        true,
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "p",
+                                "o",
+                                "p2",
+                                "o2"
+                            ), listOf(
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10468map,
+                                GeneratedMutableMap.map10467map,
+                                GeneratedMutableMap.map10466map,
+                                GeneratedMutableMap.map10471map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
+                        ), listOf(
+                            GeneratedMutableMap.map10466map,
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10468map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10471map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("p"),
+                        true,
+                                    POPSort(
+                                        dictionary,
+                                        AOPVariable("o"),
+                                        true,
+                                                    POPSort(
+                                                        dictionary,
+                                                        AOPVariable("p2"),
+                                                        true,
+                                                                    POPSort(
+                                                                        dictionary,
+                                                                        AOPVariable("o2"),
+                                                                        true,
+                                                                                    POPJoinHashMap(
+                                                                                        dictionary,
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                                                                    }()
+,
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"o","p2","o2",false,false,false,EIndexPattern.SPO)
+                                                                                                    }()
+,
+                                                                                        true                                                                                    )
+
+                                                                    )
+
+                                                    )
+
+                                    )
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
+                        ), listOf(
+                            GeneratedMutableMap.map10466map,
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10468map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10471map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestLN(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("p"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("p"),
+                                AOPVariable("o"),
+                                AOPVariable("p2"),
+                                AOPVariable("o2")
+                            ), listOf(
+                                GeneratedMutableMap.map10599map,
+                                GeneratedMutableMap.map10600map,
+                                GeneratedMutableMap.map10598map,
+                                GeneratedMutableMap.map10597map,
+                                GeneratedMutableMap.map10596map,
+                                GeneratedMutableMap.map10601map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
+                        ), listOf(
+                            GeneratedMutableMap.map10596map,
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map10598map,
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map10600map,
+                            GeneratedMutableMap.map10601map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestLN(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("p"),
+                                    LOPSort(
+                                        true,
+                                        AOPVariable("o"),
+                                                    LOPSort(
                                                         true,
                                                         AOPVariable("p2"),
-                                                        LOPSort(
-                                                                true,
-                                                                AOPVariable("o2"),
-                                                                LOPJoin(
-                                                                        {
-                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                                            DistributedTripleStore.commit(1L)
-                                                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                                                        }()
-                                                                        ,
-                                                                        {
-                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                                            DistributedTripleStore.commit(1L)
-                                                                            LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
-                                                                        }()
-                                                                        ,
-                                                                        true)
+                                                                    LOPSort(
+                                                                        true,
+                                                                        AOPVariable("o2"),
+                                                                                    LOPJoin(
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                                                                                    }()
+,
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        LOPTriple(AOPVariable("o"),AOPVariable("p2"),AOPVariable("o2"),graphName,false)                                                                                                    }()
+,
+                                                                                        true                                                                                    )
 
-                                                        )
+                                                                    )
 
-                                                )
+                                                    )
 
-                                        )
+                                    )
 
-                                )
-
-                        ),
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
+                        ), listOf(
+                            GeneratedMutableMap.map10596map,
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map10598map,
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map10600map,
+                            GeneratedMutableMap.map10601map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("s"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o",
                                 "p2",
                                 "o2"
+                            ), listOf(
+                                GeneratedMutableMap.map10466map,
+                                GeneratedMutableMap.map10467map,
+                                GeneratedMutableMap.map10468map,
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map10470map,
+                                GeneratedMutableMap.map10471map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10282map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map10284map,
-                                GeneratedMutableMap.map10285map
+                            GeneratedMutableMap.map10466map,
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10468map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10471map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("s"),
+                        true,
+                                    POPSort(
+                                        dictionary,
+                                        AOPVariable("p"),
+                                        true,
+                                                    POPSort(
+                                                        dictionary,
+                                                        AOPVariable("o"),
+                                                        true,
+                                                                    POPSort(
+                                                                        dictionary,
+                                                                        AOPVariable("p2"),
+                                                                        true,
+                                                                                    POPSort(
+                                                                                        dictionary,
+                                                                                        AOPVariable("o2"),
+                                                                                        true,
+                                                                                                    POPJoinHashMap(
+                                                                                                        dictionary,
+                                                                                                                    {
+                                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                                                                                    }()
+,
+                                                                                                                    {
+                                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"o","p2","o2",false,false,false,EIndexPattern.SPO)
+                                                                                                                    }()
+,
+                                                                                                        true                                                                                                    )
+
+                                                                                    )
+
+                                                                    )
+
+                                                    )
+
+                                    )
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
+                        ), listOf(
+                            GeneratedMutableMap.map10466map,
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10468map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map10470map,
+                            GeneratedMutableMap.map10471map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestLN(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("s"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("p"),
+                                AOPVariable("o"),
+                                AOPVariable("p2"),
+                                AOPVariable("o2")
+                            ), listOf(
+                                GeneratedMutableMap.map10596map,
+                                GeneratedMutableMap.map10597map,
+                                GeneratedMutableMap.map10598map,
+                                GeneratedMutableMap.map10599map,
+                                GeneratedMutableMap.map10600map,
+                                GeneratedMutableMap.map10601map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
+                        ), listOf(
+                            GeneratedMutableMap.map10596map,
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map10598map,
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map10600map,
+                            GeneratedMutableMap.map10601map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestLN(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("s"),
+                                    LOPSort(
+                                        true,
+                                        AOPVariable("p"),
+                                                    LOPSort(
+                                                        true,
+                                                        AOPVariable("o"),
+                                                                    LOPSort(
+                                                                        true,
+                                                                        AOPVariable("p2"),
+                                                                                    LOPSort(
+                                                                                        true,
+                                                                                        AOPVariable("o2"),
+                                                                                                    LOPJoin(
+                                                                                                                    {
+                                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                                                                                                    }()
+,
+                                                                                                                    {
+                                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5.5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                                        LOPTriple(AOPVariable("o"),AOPVariable("p2"),AOPVariable("o2"),graphName,false)                                                                                                                    }()
+,
+                                                                                                        true                                                                                                    )
+
+                                                                                    )
+
+                                                                    )
+
+                                                    )
+
+                                    )
+
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
+                        ), listOf(
+                            GeneratedMutableMap.map10596map,
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map10598map,
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map10600map,
+                            GeneratedMutableMap.map10601map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv02.rq */ ,
             /* {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
@@ -1945,13 +1931,13 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                             ), listOf(
-                                GeneratedMutableMap.map10469map,
-                                GeneratedMutableMap.map10470map,
-                                GeneratedMutableMap.map10471map,
-                                GeneratedMutableMap.map10472map,
-                                GeneratedMutableMap.map10473map,
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10475map
+                                GeneratedMutableMap.map10661map,
+                                GeneratedMutableMap.map10662map,
+                                GeneratedMutableMap.map10663map,
+                                GeneratedMutableMap.map10664map,
+                                GeneratedMutableMap.map10665map,
+                                GeneratedMutableMap.map10666map,
+                                GeneratedMutableMap.map10667map
                             )
                         )
                     ),
@@ -1960,13 +1946,13 @@ class GeneratedPOPSortTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map10471map,
-                            GeneratedMutableMap.map10469map,
-                            GeneratedMutableMap.map10474map,
-                            GeneratedMutableMap.map10470map,
-                            GeneratedMutableMap.map10472map,
-                            GeneratedMutableMap.map10473map,
-                            GeneratedMutableMap.map10475map
+                            GeneratedMutableMap.map10663map,
+                            GeneratedMutableMap.map10661map,
+                            GeneratedMutableMap.map10666map,
+                            GeneratedMutableMap.map10662map,
+                            GeneratedMutableMap.map10664map,
+                            GeneratedMutableMap.map10665map,
+                            GeneratedMutableMap.map10667map
                         )
                     )
                 )
@@ -1984,13 +1970,13 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                             ), listOf(
-                                GeneratedMutableMap.map10471map,
-                                GeneratedMutableMap.map10469map,
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10470map,
-                                GeneratedMutableMap.map10472map,
-                                GeneratedMutableMap.map10473map,
-                                GeneratedMutableMap.map10475map
+                                GeneratedMutableMap.map10663map,
+                                GeneratedMutableMap.map10661map,
+                                GeneratedMutableMap.map10666map,
+                                GeneratedMutableMap.map10662map,
+                                GeneratedMutableMap.map10664map,
+                                GeneratedMutableMap.map10665map,
+                                GeneratedMutableMap.map10667map
                             )
                         )
                     ),
@@ -1999,13 +1985,13 @@ class GeneratedPOPSortTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map10469map,
-                            GeneratedMutableMap.map10470map,
-                            GeneratedMutableMap.map10471map,
-                            GeneratedMutableMap.map10472map,
-                            GeneratedMutableMap.map10473map,
-                            GeneratedMutableMap.map10474map,
-                            GeneratedMutableMap.map10475map
+                            GeneratedMutableMap.map10661map,
+                            GeneratedMutableMap.map10662map,
+                            GeneratedMutableMap.map10663map,
+                            GeneratedMutableMap.map10664map,
+                            GeneratedMutableMap.map10665map,
+                            GeneratedMutableMap.map10666map,
+                            GeneratedMutableMap.map10667map
                         )
                     )
                 )
@@ -2023,13 +2009,13 @@ class GeneratedPOPSortTest {
                                 "p",
                                 "o"
                             ), listOf(
-                                GeneratedMutableMap.map10469map,
-                                GeneratedMutableMap.map10470map,
-                                GeneratedMutableMap.map10471map,
-                                GeneratedMutableMap.map10472map,
-                                GeneratedMutableMap.map10473map,
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10475map
+                                GeneratedMutableMap.map10661map,
+                                GeneratedMutableMap.map10662map,
+                                GeneratedMutableMap.map10663map,
+                                GeneratedMutableMap.map10664map,
+                                GeneratedMutableMap.map10665map,
+                                GeneratedMutableMap.map10666map,
+                                GeneratedMutableMap.map10667map
                             )
                         )
                     ),
@@ -2038,13 +2024,13 @@ class GeneratedPOPSortTest {
                             "p",
                             "o"
                         ), listOf(
-                            GeneratedMutableMap.map10469map,
-                            GeneratedMutableMap.map10470map,
-                            GeneratedMutableMap.map10471map,
-                            GeneratedMutableMap.map10472map,
-                            GeneratedMutableMap.map10473map,
-                            GeneratedMutableMap.map10474map,
-                            GeneratedMutableMap.map10475map
+                            GeneratedMutableMap.map10661map,
+                            GeneratedMutableMap.map10662map,
+                            GeneratedMutableMap.map10663map,
+                            GeneratedMutableMap.map10664map,
+                            GeneratedMutableMap.map10665map,
+                            GeneratedMutableMap.map10666map,
+                            GeneratedMutableMap.map10667map
                         )
                     )
                 )
@@ -2052,4167 +2038,4131 @@ class GeneratedPOPSortTest {
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("o"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10469map,
-                                        GeneratedMutableMap.map10470map,
-                                        GeneratedMutableMap.map10471map,
-                                        GeneratedMutableMap.map10472map,
-                                        GeneratedMutableMap.map10473map,
-                                        GeneratedMutableMap.map10474map,
-                                        GeneratedMutableMap.map10475map
-                                )
-                                )
-                        ),
+                        AOPVariable("o"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o"
+                            ), listOf(
+                                GeneratedMutableMap.map10661map,
+                                GeneratedMutableMap.map10662map,
+                                GeneratedMutableMap.map10663map,
+                                GeneratedMutableMap.map10664map,
+                                GeneratedMutableMap.map10665map,
+                                GeneratedMutableMap.map10666map,
+                                GeneratedMutableMap.map10667map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                GeneratedMutableMap.map10471map,
-                                GeneratedMutableMap.map10469map,
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10470map,
-                                GeneratedMutableMap.map10472map,
-                                GeneratedMutableMap.map10473map,
-                                GeneratedMutableMap.map10475map
+                            GeneratedMutableMap.map10663map,
+                            GeneratedMutableMap.map10661map,
+                            GeneratedMutableMap.map10666map,
+                            GeneratedMutableMap.map10662map,
+                            GeneratedMutableMap.map10664map,
+                            GeneratedMutableMap.map10665map,
+                            GeneratedMutableMap.map10667map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("o"),
-                                true,
-                                {
-                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"))
-                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5,5\"^^<http://example.org/myCustomDatatype>"))
-                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"))
-                                    graph.addData(1L, listOf("<http://example.org/s7>", "<http://example.org/p7>", "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"))
-                                    DistributedTripleStore.commit(1L)
-                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                }()
+                        AOPVariable("o"),
+                        true,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5,5\"^^<http://example.org/myCustomDatatype>"))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"))
+                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/p7>","\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                    }()
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                GeneratedMutableMap.map10471map,
-                                GeneratedMutableMap.map10469map,
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10470map,
-                                GeneratedMutableMap.map10472map,
-                                GeneratedMutableMap.map10473map,
-                                GeneratedMutableMap.map10475map
+                            GeneratedMutableMap.map10663map,
+                            GeneratedMutableMap.map10661map,
+                            GeneratedMutableMap.map10666map,
+                            GeneratedMutableMap.map10662map,
+                            GeneratedMutableMap.map10664map,
+                            GeneratedMutableMap.map10665map,
+                            GeneratedMutableMap.map10667map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("o"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10469map,
-                                        GeneratedMutableMap.map10470map,
-                                        GeneratedMutableMap.map10471map,
-                                        GeneratedMutableMap.map10472map,
-                                        GeneratedMutableMap.map10473map,
-                                        GeneratedMutableMap.map10474map,
-                                        GeneratedMutableMap.map10475map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("o"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("p"),
+                                AOPVariable("o")
+                            ), listOf(
+                                GeneratedMutableMap.map10727map,
+                                GeneratedMutableMap.map10728map,
+                                GeneratedMutableMap.map10729map,
+                                GeneratedMutableMap.map10730map,
+                                GeneratedMutableMap.map10731map,
+                                GeneratedMutableMap.map10732map,
+                                GeneratedMutableMap.map10733map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10471map,
-                                GeneratedMutableMap.map10469map,
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10470map,
-                                GeneratedMutableMap.map10472map,
-                                GeneratedMutableMap.map10473map,
-                                GeneratedMutableMap.map10475map
+                            GeneratedMutableMap.map10729map,
+                            GeneratedMutableMap.map10727map,
+                            GeneratedMutableMap.map10732map,
+                            GeneratedMutableMap.map10728map,
+                            GeneratedMutableMap.map10730map,
+                            GeneratedMutableMap.map10731map,
+                            GeneratedMutableMap.map10733map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("o"),
-                                {
-                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"))
-                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5,5\"^^<http://example.org/myCustomDatatype>"))
-                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"))
-                                    graph.addData(1L, listOf("<http://example.org/s7>", "<http://example.org/p7>", "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"))
-                                    DistributedTripleStore.commit(1L)
-                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                }()
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("o"),
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5,5\"^^<http://example.org/myCustomDatatype>"))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"))
+                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/p7>","\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"))
+                                        DistributedTripleStore.commit(1L)
+                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                    }()
 
-                        ),
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
+                        ), listOf(
+                            GeneratedMutableMap.map10729map,
+                            GeneratedMutableMap.map10727map,
+                            GeneratedMutableMap.map10732map,
+                            GeneratedMutableMap.map10728map,
+                            GeneratedMutableMap.map10730map,
+                            GeneratedMutableMap.map10731map,
+                            GeneratedMutableMap.map10733map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("p"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o"
+                            ), listOf(
+                                GeneratedMutableMap.map10663map,
+                                GeneratedMutableMap.map10661map,
+                                GeneratedMutableMap.map10666map,
+                                GeneratedMutableMap.map10662map,
+                                GeneratedMutableMap.map10664map,
+                                GeneratedMutableMap.map10665map,
+                                GeneratedMutableMap.map10667map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                GeneratedMutableMap.map10471map,
-                                GeneratedMutableMap.map10469map,
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10470map,
-                                GeneratedMutableMap.map10472map,
-                                GeneratedMutableMap.map10473map,
-                                GeneratedMutableMap.map10475map
+                            GeneratedMutableMap.map10661map,
+                            GeneratedMutableMap.map10662map,
+                            GeneratedMutableMap.map10663map,
+                            GeneratedMutableMap.map10664map,
+                            GeneratedMutableMap.map10665map,
+                            GeneratedMutableMap.map10666map,
+                            GeneratedMutableMap.map10667map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("p"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10471map,
-                                        GeneratedMutableMap.map10469map,
-                                        GeneratedMutableMap.map10474map,
-                                        GeneratedMutableMap.map10470map,
-                                        GeneratedMutableMap.map10472map,
-                                        GeneratedMutableMap.map10473map,
-                                        GeneratedMutableMap.map10475map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
-                        ), listOf(
-                                GeneratedMutableMap.map10469map,
-                                GeneratedMutableMap.map10470map,
-                                GeneratedMutableMap.map10471map,
-                                GeneratedMutableMap.map10472map,
-                                GeneratedMutableMap.map10473map,
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10475map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("p"),
-                                true,
-                                POPSort(
+                        AOPVariable("p"),
+                        true,
+                                    POPSort(
                                         dictionary,
                                         AOPVariable("o"),
                                         true,
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"))
-                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5,5\"^^<http://example.org/myCustomDatatype>"))
-                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"))
-                                            graph.addData(1L, listOf("<http://example.org/s7>", "<http://example.org/p7>", "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"))
-                                            DistributedTripleStore.commit(1L)
-                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                        }()
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5,5\"^^<http://example.org/myCustomDatatype>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/p7>","\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                    }()
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                GeneratedMutableMap.map10469map,
-                                GeneratedMutableMap.map10470map,
-                                GeneratedMutableMap.map10471map,
-                                GeneratedMutableMap.map10472map,
-                                GeneratedMutableMap.map10473map,
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10475map
+                            GeneratedMutableMap.map10661map,
+                            GeneratedMutableMap.map10662map,
+                            GeneratedMutableMap.map10663map,
+                            GeneratedMutableMap.map10664map,
+                            GeneratedMutableMap.map10665map,
+                            GeneratedMutableMap.map10666map,
+                            GeneratedMutableMap.map10667map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("p"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
                                 AOPVariable("p"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10471map,
-                                        GeneratedMutableMap.map10469map,
-                                        GeneratedMutableMap.map10474map,
-                                        GeneratedMutableMap.map10470map,
-                                        GeneratedMutableMap.map10472map,
-                                        GeneratedMutableMap.map10473map,
-                                        GeneratedMutableMap.map10475map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                                AOPVariable("o")
+                            ), listOf(
+                                GeneratedMutableMap.map10729map,
+                                GeneratedMutableMap.map10727map,
+                                GeneratedMutableMap.map10732map,
+                                GeneratedMutableMap.map10728map,
+                                GeneratedMutableMap.map10730map,
+                                GeneratedMutableMap.map10731map,
+                                GeneratedMutableMap.map10733map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10469map,
-                                GeneratedMutableMap.map10470map,
-                                GeneratedMutableMap.map10471map,
-                                GeneratedMutableMap.map10472map,
-                                GeneratedMutableMap.map10473map,
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10475map
+                            GeneratedMutableMap.map10727map,
+                            GeneratedMutableMap.map10728map,
+                            GeneratedMutableMap.map10729map,
+                            GeneratedMutableMap.map10730map,
+                            GeneratedMutableMap.map10731map,
+                            GeneratedMutableMap.map10732map,
+                            GeneratedMutableMap.map10733map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("p"),
-                                LOPSort(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("p"),
+                                    LOPSort(
                                         true,
                                         AOPVariable("o"),
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"))
-                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5,5\"^^<http://example.org/myCustomDatatype>"))
-                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"))
-                                            graph.addData(1L, listOf("<http://example.org/s7>", "<http://example.org/p7>", "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"))
-                                            DistributedTripleStore.commit(1L)
-                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                        }()
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5,5\"^^<http://example.org/myCustomDatatype>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/p7>","\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                                    }()
 
-                                )
+                                    )
 
-                        ),
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
+                        ), listOf(
+                            GeneratedMutableMap.map10727map,
+                            GeneratedMutableMap.map10728map,
+                            GeneratedMutableMap.map10729map,
+                            GeneratedMutableMap.map10730map,
+                            GeneratedMutableMap.map10731map,
+                            GeneratedMutableMap.map10732map,
+                            GeneratedMutableMap.map10733map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("s"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o"
+                            ), listOf(
+                                GeneratedMutableMap.map10661map,
+                                GeneratedMutableMap.map10662map,
+                                GeneratedMutableMap.map10663map,
+                                GeneratedMutableMap.map10664map,
+                                GeneratedMutableMap.map10665map,
+                                GeneratedMutableMap.map10666map,
+                                GeneratedMutableMap.map10667map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                GeneratedMutableMap.map10469map,
-                                GeneratedMutableMap.map10470map,
-                                GeneratedMutableMap.map10471map,
-                                GeneratedMutableMap.map10472map,
-                                GeneratedMutableMap.map10473map,
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10475map
+                            GeneratedMutableMap.map10661map,
+                            GeneratedMutableMap.map10662map,
+                            GeneratedMutableMap.map10663map,
+                            GeneratedMutableMap.map10664map,
+                            GeneratedMutableMap.map10665map,
+                            GeneratedMutableMap.map10666map,
+                            GeneratedMutableMap.map10667map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("s"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10469map,
-                                        GeneratedMutableMap.map10470map,
-                                        GeneratedMutableMap.map10471map,
-                                        GeneratedMutableMap.map10472map,
-                                        GeneratedMutableMap.map10473map,
-                                        GeneratedMutableMap.map10474map,
-                                        GeneratedMutableMap.map10475map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
-                        ), listOf(
-                                GeneratedMutableMap.map10469map,
-                                GeneratedMutableMap.map10470map,
-                                GeneratedMutableMap.map10471map,
-                                GeneratedMutableMap.map10472map,
-                                GeneratedMutableMap.map10473map,
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10475map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("s"),
-                                true,
-                                POPSort(
+                        AOPVariable("s"),
+                        true,
+                                    POPSort(
                                         dictionary,
                                         AOPVariable("p"),
                                         true,
-                                        POPSort(
-                                                dictionary,
-                                                AOPVariable("o"),
-                                                true,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5,5\"^^<http://example.org/myCustomDatatype>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s7>", "<http://example.org/p7>", "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                                }()
+                                                    POPSort(
+                                                        dictionary,
+                                                        AOPVariable("o"),
+                                                        true,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5,5\"^^<http://example.org/myCustomDatatype>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/p7>","\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                                    }()
 
-                                        )
+                                                    )
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                GeneratedMutableMap.map10469map,
-                                GeneratedMutableMap.map10470map,
-                                GeneratedMutableMap.map10471map,
-                                GeneratedMutableMap.map10472map,
-                                GeneratedMutableMap.map10473map,
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10475map
+                            GeneratedMutableMap.map10661map,
+                            GeneratedMutableMap.map10662map,
+                            GeneratedMutableMap.map10663map,
+                            GeneratedMutableMap.map10664map,
+                            GeneratedMutableMap.map10665map,
+                            GeneratedMutableMap.map10666map,
+                            GeneratedMutableMap.map10667map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("s"),
+                        LOPValues(listOf(
                                 AOPVariable("s"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10469map,
-                                        GeneratedMutableMap.map10470map,
-                                        GeneratedMutableMap.map10471map,
-                                        GeneratedMutableMap.map10472map,
-                                        GeneratedMutableMap.map10473map,
-                                        GeneratedMutableMap.map10474map,
-                                        GeneratedMutableMap.map10475map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                                AOPVariable("p"),
+                                AOPVariable("o")
+                            ), listOf(
+                                GeneratedMutableMap.map10727map,
+                                GeneratedMutableMap.map10728map,
+                                GeneratedMutableMap.map10729map,
+                                GeneratedMutableMap.map10730map,
+                                GeneratedMutableMap.map10731map,
+                                GeneratedMutableMap.map10732map,
+                                GeneratedMutableMap.map10733map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10469map,
-                                GeneratedMutableMap.map10470map,
-                                GeneratedMutableMap.map10471map,
-                                GeneratedMutableMap.map10472map,
-                                GeneratedMutableMap.map10473map,
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10475map
+                            GeneratedMutableMap.map10727map,
+                            GeneratedMutableMap.map10728map,
+                            GeneratedMutableMap.map10729map,
+                            GeneratedMutableMap.map10730map,
+                            GeneratedMutableMap.map10731map,
+                            GeneratedMutableMap.map10732map,
+                            GeneratedMutableMap.map10733map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("s"),
-                                LOPSort(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("s"),
+                                    LOPSort(
                                         true,
                                         AOPVariable("p"),
-                                        LOPSort(
-                                                true,
-                                                AOPVariable("o"),
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p3>", "\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5,5\"^^<http://example.org/myCustomDatatype>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s7>", "<http://example.org/p7>", "\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                                }()
+                                                    LOPSort(
+                                                        true,
+                                                        AOPVariable("o"),
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"2.2\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p3>","\"-3\"^^<http://www.w3.org/2001/XMLSchema#negativeInteger>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4,4\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5,5\"^^<http://example.org/myCustomDatatype>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","\"1.0E6\"^^<http://www.w3.org/2001/XMLSchema#double>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s7>","<http://example.org/p7>","\"a7\"^^<http://www.w3.org/2001/XMLSchema#hexBinary>"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                                                    }()
 
-                                        )
+                                                    )
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10469map,
-                                GeneratedMutableMap.map10470map,
-                                GeneratedMutableMap.map10471map,
-                                GeneratedMutableMap.map10472map,
-                                GeneratedMutableMap.map10473map,
-                                GeneratedMutableMap.map10474map,
-                                GeneratedMutableMap.map10475map
+                            GeneratedMutableMap.map10727map,
+                            GeneratedMutableMap.map10728map,
+                            GeneratedMutableMap.map10729map,
+                            GeneratedMutableMap.map10730map,
+                            GeneratedMutableMap.map10731map,
+                            GeneratedMutableMap.map10732map,
+                            GeneratedMutableMap.map10733map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */,
+            }() /* resources/sparql11-test-suite/csv-tsv-res/csvtsv01.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("sum"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "x",
-                                        "y",
-                                        "sum"
-                                ), listOf(
-                                        GeneratedMutableMap.map26624map,
-                                        GeneratedMutableMap.map26625map,
-                                        GeneratedMutableMap.map26626map,
-                                        GeneratedMutableMap.map26627map,
-                                        GeneratedMutableMap.map26628map,
-                                        GeneratedMutableMap.map26629map,
-                                        GeneratedMutableMap.map26630map,
-                                        GeneratedMutableMap.map26631map
-                                )
-                                )
-                        ),
+                        AOPVariable("sum"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "x",
                                 "y",
                                 "sum"
+                            ), listOf(
+                                GeneratedMutableMap.map27188map,
+                                GeneratedMutableMap.map27189map,
+                                GeneratedMutableMap.map27190map,
+                                GeneratedMutableMap.map27191map,
+                                GeneratedMutableMap.map27192map,
+                                GeneratedMutableMap.map27193map,
+                                GeneratedMutableMap.map27194map,
+                                GeneratedMutableMap.map27195map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "x",
+                            "y",
+                            "sum"
                         ), listOf(
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26625map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map,
-                                GeneratedMutableMap.map26627map,
-                                GeneratedMutableMap.map26628map
+                            GeneratedMutableMap.map27188map,
+                            GeneratedMutableMap.map27189map,
+                            GeneratedMutableMap.map27190map,
+                            GeneratedMutableMap.map27193map,
+                            GeneratedMutableMap.map27194map,
+                            GeneratedMutableMap.map27195map,
+                            GeneratedMutableMap.map27191map,
+                            GeneratedMutableMap.map27192map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("sum"),
-                                true,
-                                POPBind(
+                        AOPVariable("sum"),
+                        true,
+                                    POPBind(
                                         dictionary,
                                         AOPVariable("sum"),
                                         AOPAddition(AOPVariable("y"), AOPVariable("x")),
-                                        POPJoinHashMap(
-                                                dictionary,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
-                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
-                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
-                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
-                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example/p>", "x", false, true, false, EIndexPattern.SPO)
-                                                }()
-                                                ,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
-                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
-                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
-                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
-                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example/q>", "y", false, true, false, EIndexPattern.SPO)
-                                                }()
-                                                ,
-                                                false)
+                                                    POPJoinHashMap(
+                                                        dictionary,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/p>","\"a\""))
+                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/p>","_:b"))
+                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/p>","<http://example/a>"))
+                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/p>","\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/p>","\"1\""))
+                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/p>","x",false,true,false,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/q>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/q>","\"1\""))
+                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/q>","\"1\""))
+                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/q>","\"2\""))
+                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/q>","\"2\""))
+                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/q>","y",false,true,false,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                        false                                                    )
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "x",
+                            "y",
+                            "sum"
                         ), listOf(
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26625map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map,
-                                GeneratedMutableMap.map26627map,
-                                GeneratedMutableMap.map26628map
+                            GeneratedMutableMap.map27188map,
+                            GeneratedMutableMap.map27189map,
+                            GeneratedMutableMap.map27190map,
+                            GeneratedMutableMap.map27193map,
+                            GeneratedMutableMap.map27194map,
+                            GeneratedMutableMap.map27195map,
+                            GeneratedMutableMap.map27191map,
+                            GeneratedMutableMap.map27192map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("sum"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "x",
-                                        "y",
-                                        "sum"
-                                ), listOf(
-                                        GeneratedMutableMap.map26624map,
-                                        GeneratedMutableMap.map26625map,
-                                        GeneratedMutableMap.map26626map,
-                                        GeneratedMutableMap.map26627map,
-                                        GeneratedMutableMap.map26628map,
-                                        GeneratedMutableMap.map26629map,
-                                        GeneratedMutableMap.map26630map,
-                                        GeneratedMutableMap.map26631map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("sum"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("x"),
+                                AOPVariable("y"),
+                                AOPVariable("sum")
+                            ), listOf(
+                                GeneratedMutableMap.map27196map,
+                                GeneratedMutableMap.map27197map,
+                                GeneratedMutableMap.map27198map,
+                                GeneratedMutableMap.map27199map,
+                                GeneratedMutableMap.map27200map,
+                                GeneratedMutableMap.map27201map,
+                                GeneratedMutableMap.map27202map,
+                                GeneratedMutableMap.map27203map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("x"),
+                            AOPVariable("y"),
+                            AOPVariable("sum")
                         ), listOf(
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26625map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map,
-                                GeneratedMutableMap.map26627map,
-                                GeneratedMutableMap.map26628map
+                            GeneratedMutableMap.map27196map,
+                            GeneratedMutableMap.map27197map,
+                            GeneratedMutableMap.map27198map,
+                            GeneratedMutableMap.map27201map,
+                            GeneratedMutableMap.map27202map,
+                            GeneratedMutableMap.map27203map,
+                            GeneratedMutableMap.map27199map,
+                            GeneratedMutableMap.map27200map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("sum"),
-                                LOPBind(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("sum"),
+                                    LOPBind(
                                         AOPVariable("sum"),
                                         AOPAddition(AOPVariable("y"), AOPVariable("x")),
-                                        LOPJoin(
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
-                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
-                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
-                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
-                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/p>"), AOPVariable("x"), graphName, false)
-                                                }()
-                                                ,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
-                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
-                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
-                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
-                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/q>"), AOPVariable("y"), graphName, false)
-                                                }()
-                                                ,
-                                                false)
+                                                    LOPJoin(
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/p>","\"a\""))
+                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/p>","_:b"))
+                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/p>","<http://example/a>"))
+                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/p>","\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/p>","\"1\""))
+                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        LOPTriple(AOPVariable("s"),AOPVariable.calculate("<http://example/p>"),AOPVariable("x"),graphName,false)                                                                    }()
+,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/q>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/q>","\"1\""))
+                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/q>","\"1\""))
+                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/q>","\"2\""))
+                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/q>","\"2\""))
+                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        LOPTriple(AOPVariable("s"),AOPVariable.calculate("<http://example/q>"),AOPVariable("y"),graphName,false)                                                                    }()
+,
+                                                        false                                                    )
 
-                                )
+                                    )
 
-                        ),
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("x"),
+                            AOPVariable("y"),
+                            AOPVariable("sum")
+                        ), listOf(
+                            GeneratedMutableMap.map27196map,
+                            GeneratedMutableMap.map27197map,
+                            GeneratedMutableMap.map27198map,
+                            GeneratedMutableMap.map27201map,
+                            GeneratedMutableMap.map27202map,
+                            GeneratedMutableMap.map27203map,
+                            GeneratedMutableMap.map27199map,
+                            GeneratedMutableMap.map27200map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("y"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "x",
                                 "y",
                                 "sum"
+                            ), listOf(
+                                GeneratedMutableMap.map27188map,
+                                GeneratedMutableMap.map27189map,
+                                GeneratedMutableMap.map27190map,
+                                GeneratedMutableMap.map27193map,
+                                GeneratedMutableMap.map27194map,
+                                GeneratedMutableMap.map27195map,
+                                GeneratedMutableMap.map27191map,
+                                GeneratedMutableMap.map27192map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "x",
+                            "y",
+                            "sum"
                         ), listOf(
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26625map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map,
-                                GeneratedMutableMap.map26627map,
-                                GeneratedMutableMap.map26628map
+                            GeneratedMutableMap.map27189map,
+                            GeneratedMutableMap.map27190map,
+                            GeneratedMutableMap.map27188map,
+                            GeneratedMutableMap.map27193map,
+                            GeneratedMutableMap.map27194map,
+                            GeneratedMutableMap.map27195map,
+                            GeneratedMutableMap.map27191map,
+                            GeneratedMutableMap.map27192map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("y"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "x",
-                                        "y",
-                                        "sum"
-                                ), listOf(
-                                        GeneratedMutableMap.map26624map,
-                                        GeneratedMutableMap.map26625map,
-                                        GeneratedMutableMap.map26626map,
-                                        GeneratedMutableMap.map26629map,
-                                        GeneratedMutableMap.map26630map,
-                                        GeneratedMutableMap.map26631map,
-                                        GeneratedMutableMap.map26627map,
-                                        GeneratedMutableMap.map26628map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
-                        ), listOf(
-                                GeneratedMutableMap.map26625map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map,
-                                GeneratedMutableMap.map26627map,
-                                GeneratedMutableMap.map26628map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("y"),
-                                true,
-                                POPSort(
+                        AOPVariable("y"),
+                        true,
+                                    POPSort(
                                         dictionary,
                                         AOPVariable("sum"),
                                         true,
-                                        POPBind(
-                                                dictionary,
-                                                AOPVariable("sum"),
-                                                AOPAddition(AOPVariable("y"), AOPVariable("x")),
-                                                POPJoinHashMap(
-                                                        dictionary,
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
-                                                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
-                                                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
-                                                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
-                                                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example/p>", "x", false, true, false, EIndexPattern.SPO)
-                                                        }()
-                                                        ,
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
-                                                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
-                                                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
-                                                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
-                                                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example/q>", "y", false, true, false, EIndexPattern.SPO)
-                                                        }()
-                                                        ,
-                                                        false)
-
-                                        )
-
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
-                        ), listOf(
-                                GeneratedMutableMap.map26625map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map,
-                                GeneratedMutableMap.map26627map,
-                                GeneratedMutableMap.map26628map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("y"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "x",
-                                        "y",
-                                        "sum"
-                                ), listOf(
-                                        GeneratedMutableMap.map26624map,
-                                        GeneratedMutableMap.map26625map,
-                                        GeneratedMutableMap.map26626map,
-                                        GeneratedMutableMap.map26629map,
-                                        GeneratedMutableMap.map26630map,
-                                        GeneratedMutableMap.map26631map,
-                                        GeneratedMutableMap.map26627map,
-                                        GeneratedMutableMap.map26628map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
-                        ), listOf(
-                                GeneratedMutableMap.map26625map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map,
-                                GeneratedMutableMap.map26627map,
-                                GeneratedMutableMap.map26628map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("y"),
-                                LOPSort(
-                                        true,
-                                        AOPVariable("sum"),
-                                        LOPBind(
-                                                AOPVariable("sum"),
-                                                AOPAddition(AOPVariable("y"), AOPVariable("x")),
-                                                LOPJoin(
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
-                                                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
-                                                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
-                                                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
-                                                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/p>"), AOPVariable("x"), graphName, false)
-                                                        }()
-                                                        ,
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
-                                                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
-                                                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
-                                                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
-                                                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/q>"), AOPVariable("y"), graphName, false)
-                                                        }()
-                                                        ,
-                                                        false)
-
-                                        )
-
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
-                        ), listOf(
-                                GeneratedMutableMap.map26625map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map,
-                                GeneratedMutableMap.map26627map,
-                                GeneratedMutableMap.map26628map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("x"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "x",
-                                        "y",
-                                        "sum"
-                                ), listOf(
-                                        GeneratedMutableMap.map26625map,
-                                        GeneratedMutableMap.map26626map,
-                                        GeneratedMutableMap.map26624map,
-                                        GeneratedMutableMap.map26629map,
-                                        GeneratedMutableMap.map26630map,
-                                        GeneratedMutableMap.map26631map,
-                                        GeneratedMutableMap.map26627map,
-                                        GeneratedMutableMap.map26628map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
-                        ), listOf(
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26627map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map,
-                                GeneratedMutableMap.map26628map,
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26625map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("x"),
-                                true,
-                                POPSort(
-                                        dictionary,
-                                        AOPVariable("y"),
-                                        true,
-                                        POPSort(
-                                                dictionary,
-                                                AOPVariable("sum"),
-                                                true,
-                                                POPBind(
+                                                    POPBind(
                                                         dictionary,
                                                         AOPVariable("sum"),
                                                         AOPAddition(AOPVariable("y"), AOPVariable("x")),
-                                                        POPJoinHashMap(
-                                                                dictionary,
-                                                                {
-                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
-                                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
-                                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
-                                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
-                                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                    DistributedTripleStore.commit(1L)
-                                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example/p>", "x", false, true, false, EIndexPattern.SPO)
-                                                                }()
-                                                                ,
-                                                                {
-                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
-                                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
-                                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
-                                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
-                                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    DistributedTripleStore.commit(1L)
-                                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example/q>", "y", false, true, false, EIndexPattern.SPO)
-                                                                }()
-                                                                ,
-                                                                false)
+                                                                    POPJoinHashMap(
+                                                                        dictionary,
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/p>","\"a\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/p>","_:b"))
+                                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/p>","<http://example/a>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/p>","\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/p>","\"1\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/p>","x",false,true,false,EIndexPattern.SPO)
+                                                                                    }()
+,
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/q>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/q>","\"1\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/q>","\"1\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/q>","\"2\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/q>","\"2\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/q>","y",false,true,false,EIndexPattern.SPO)
+                                                                                    }()
+,
+                                                                        false                                                                    )
 
-                                                )
+                                                    )
 
-                                        )
+                                    )
 
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "x",
+                            "y",
+                            "sum"
                         ), listOf(
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26627map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map,
-                                GeneratedMutableMap.map26628map,
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26625map
+                            GeneratedMutableMap.map27189map,
+                            GeneratedMutableMap.map27190map,
+                            GeneratedMutableMap.map27188map,
+                            GeneratedMutableMap.map27193map,
+                            GeneratedMutableMap.map27194map,
+                            GeneratedMutableMap.map27195map,
+                            GeneratedMutableMap.map27191map,
+                            GeneratedMutableMap.map27192map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("y"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
                                 AOPVariable("x"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "x",
-                                        "y",
-                                        "sum"
-                                ), listOf(
-                                        GeneratedMutableMap.map26625map,
-                                        GeneratedMutableMap.map26626map,
-                                        GeneratedMutableMap.map26624map,
-                                        GeneratedMutableMap.map26629map,
-                                        GeneratedMutableMap.map26630map,
-                                        GeneratedMutableMap.map26631map,
-                                        GeneratedMutableMap.map26627map,
-                                        GeneratedMutableMap.map26628map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
+                                AOPVariable("y"),
+                                AOPVariable("sum")
+                            ), listOf(
+                                GeneratedMutableMap.map27196map,
+                                GeneratedMutableMap.map27197map,
+                                GeneratedMutableMap.map27198map,
+                                GeneratedMutableMap.map27201map,
+                                GeneratedMutableMap.map27202map,
+                                GeneratedMutableMap.map27203map,
+                                GeneratedMutableMap.map27199map,
+                                GeneratedMutableMap.map27200map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("x"),
+                            AOPVariable("y"),
+                            AOPVariable("sum")
                         ), listOf(
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26627map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map,
-                                GeneratedMutableMap.map26628map,
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26625map
+                            GeneratedMutableMap.map27197map,
+                            GeneratedMutableMap.map27198map,
+                            GeneratedMutableMap.map27196map,
+                            GeneratedMutableMap.map27201map,
+                            GeneratedMutableMap.map27202map,
+                            GeneratedMutableMap.map27203map,
+                            GeneratedMutableMap.map27199map,
+                            GeneratedMutableMap.map27200map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("x"),
-                                LOPSort(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("y"),
+                                    LOPSort(
                                         true,
-                                        AOPVariable("y"),
-                                        LOPSort(
-                                                true,
-                                                AOPVariable("sum"),
-                                                LOPBind(
+                                        AOPVariable("sum"),
+                                                    LOPBind(
                                                         AOPVariable("sum"),
                                                         AOPAddition(AOPVariable("y"), AOPVariable("x")),
-                                                        LOPJoin(
-                                                                {
-                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
-                                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
-                                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
-                                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
-                                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                    DistributedTripleStore.commit(1L)
-                                                                    LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/p>"), AOPVariable("x"), graphName, false)
-                                                                }()
-                                                                ,
-                                                                {
-                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
-                                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
-                                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
-                                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
-                                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    DistributedTripleStore.commit(1L)
-                                                                    LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/q>"), AOPVariable("y"), graphName, false)
-                                                                }()
-                                                                ,
-                                                                false)
+                                                                    LOPJoin(
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/p>","\"a\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/p>","_:b"))
+                                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/p>","<http://example/a>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/p>","\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/p>","\"1\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        LOPTriple(AOPVariable("s"),AOPVariable.calculate("<http://example/p>"),AOPVariable("x"),graphName,false)                                                                                    }()
+,
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/q>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/q>","\"1\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/q>","\"1\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/q>","\"2\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/q>","\"2\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        LOPTriple(AOPVariable("s"),AOPVariable.calculate("<http://example/q>"),AOPVariable("y"),graphName,false)                                                                                    }()
+,
+                                                                        false                                                                    )
 
-                                                )
+                                                    )
 
-                                        )
+                                    )
 
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("x"),
+                            AOPVariable("y"),
+                            AOPVariable("sum")
                         ), listOf(
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26627map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map,
-                                GeneratedMutableMap.map26628map,
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26625map
+                            GeneratedMutableMap.map27197map,
+                            GeneratedMutableMap.map27198map,
+                            GeneratedMutableMap.map27196map,
+                            GeneratedMutableMap.map27201map,
+                            GeneratedMutableMap.map27202map,
+                            GeneratedMutableMap.map27203map,
+                            GeneratedMutableMap.map27199map,
+                            GeneratedMutableMap.map27200map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-1.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("sum"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "x",
-                                        "y",
-                                        "sum"
-                                ), listOf(
-                                        GeneratedMutableMap.map26624map,
-                                        GeneratedMutableMap.map26625map,
-                                        GeneratedMutableMap.map26626map,
-                                        GeneratedMutableMap.map26888map,
-                                        GeneratedMutableMap.map26889map,
-                                        GeneratedMutableMap.map26629map,
-                                        GeneratedMutableMap.map26630map,
-                                        GeneratedMutableMap.map26631map
-                                )
-                                )
-                        ),
+                        AOPVariable("x"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "x",
                                 "y",
                                 "sum"
+                            ), listOf(
+                                GeneratedMutableMap.map27189map,
+                                GeneratedMutableMap.map27190map,
+                                GeneratedMutableMap.map27188map,
+                                GeneratedMutableMap.map27193map,
+                                GeneratedMutableMap.map27194map,
+                                GeneratedMutableMap.map27195map,
+                                GeneratedMutableMap.map27191map,
+                                GeneratedMutableMap.map27192map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "x",
+                            "y",
+                            "sum"
                         ), listOf(
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26625map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26888map,
-                                GeneratedMutableMap.map26889map,
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map
+                            GeneratedMutableMap.map27193map,
+                            GeneratedMutableMap.map27191map,
+                            GeneratedMutableMap.map27194map,
+                            GeneratedMutableMap.map27195map,
+                            GeneratedMutableMap.map27192map,
+                            GeneratedMutableMap.map27188map,
+                            GeneratedMutableMap.map27190map,
+                            GeneratedMutableMap.map27189map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("sum"),
-                                true,
-                                POPBind(
-                                        dictionary,
-                                        AOPVariable("sum"),
-                                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
-                                        POPJoinHashMap(
-                                                dictionary,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
-                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
-                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
-                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
-                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example/p>", "x", false, true, false, EIndexPattern.SPO)
-                                                }()
-                                                ,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
-                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
-                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
-                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
-                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example/q>", "y", false, true, false, EIndexPattern.SPO)
-                                                }()
-                                                ,
-                                                false)
-
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
-                        ), listOf(
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26625map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26888map,
-                                GeneratedMutableMap.map26889map,
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("sum"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "x",
-                                        "y",
-                                        "sum"
-                                ), listOf(
-                                        GeneratedMutableMap.map26624map,
-                                        GeneratedMutableMap.map26625map,
-                                        GeneratedMutableMap.map26626map,
-                                        GeneratedMutableMap.map26888map,
-                                        GeneratedMutableMap.map26889map,
-                                        GeneratedMutableMap.map26629map,
-                                        GeneratedMutableMap.map26630map,
-                                        GeneratedMutableMap.map26631map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
-                        ), listOf(
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26625map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26888map,
-                                GeneratedMutableMap.map26889map,
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("sum"),
-                                LOPBind(
-                                        AOPVariable("sum"),
-                                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
-                                        LOPJoin(
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
-                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
-                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
-                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
-                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/p>"), AOPVariable("x"), graphName, false)
-                                                }()
-                                                ,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
-                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
-                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
-                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
-                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/q>"), AOPVariable("y"), graphName, false)
-                                                }()
-                                                ,
-                                                false)
-
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
-                        ), listOf(
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26625map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26888map,
-                                GeneratedMutableMap.map26889map,
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("y"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "x",
-                                        "y",
-                                        "sum"
-                                ), listOf(
-                                        GeneratedMutableMap.map26624map,
-                                        GeneratedMutableMap.map26625map,
-                                        GeneratedMutableMap.map26626map,
-                                        GeneratedMutableMap.map26888map,
-                                        GeneratedMutableMap.map26889map,
-                                        GeneratedMutableMap.map26629map,
-                                        GeneratedMutableMap.map26630map,
-                                        GeneratedMutableMap.map26631map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
-                        ), listOf(
-                                GeneratedMutableMap.map26625map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26888map,
-                                GeneratedMutableMap.map26889map,
-                                GeneratedMutableMap.map26631map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("y"),
-                                true,
-                                POPSort(
-                                        dictionary,
-                                        AOPVariable("sum"),
-                                        true,
-                                        POPBind(
-                                                dictionary,
-                                                AOPVariable("sum"),
-                                                AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
-                                                POPJoinHashMap(
-                                                        dictionary,
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
-                                                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
-                                                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
-                                                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
-                                                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example/p>", "x", false, true, false, EIndexPattern.SPO)
-                                                        }()
-                                                        ,
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
-                                                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
-                                                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
-                                                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
-                                                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example/q>", "y", false, true, false, EIndexPattern.SPO)
-                                                        }()
-                                                        ,
-                                                        false)
-
-                                        )
-
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
-                        ), listOf(
-                                GeneratedMutableMap.map26625map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26888map,
-                                GeneratedMutableMap.map26889map,
-                                GeneratedMutableMap.map26631map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("y"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "x",
-                                        "y",
-                                        "sum"
-                                ), listOf(
-                                        GeneratedMutableMap.map26624map,
-                                        GeneratedMutableMap.map26625map,
-                                        GeneratedMutableMap.map26626map,
-                                        GeneratedMutableMap.map26888map,
-                                        GeneratedMutableMap.map26889map,
-                                        GeneratedMutableMap.map26629map,
-                                        GeneratedMutableMap.map26630map,
-                                        GeneratedMutableMap.map26631map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
-                        ), listOf(
-                                GeneratedMutableMap.map26625map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26888map,
-                                GeneratedMutableMap.map26889map,
-                                GeneratedMutableMap.map26631map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("y"),
-                                LOPSort(
-                                        true,
-                                        AOPVariable("sum"),
-                                        LOPBind(
-                                                AOPVariable("sum"),
-                                                AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
-                                                LOPJoin(
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
-                                                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
-                                                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
-                                                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
-                                                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/p>"), AOPVariable("x"), graphName, false)
-                                                        }()
-                                                        ,
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
-                                                            graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
-                                                            graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
-                                                            graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
-                                                            graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/q>"), AOPVariable("y"), graphName, false)
-                                                        }()
-                                                        ,
-                                                        false)
-
-                                        )
-
-                                )
-
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
-                        ), listOf(
-                                GeneratedMutableMap.map26625map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26888map,
-                                GeneratedMutableMap.map26889map,
-                                GeneratedMutableMap.map26631map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("x"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "x",
-                                        "y",
-                                        "sum"
-                                ), listOf(
-                                        GeneratedMutableMap.map26625map,
-                                        GeneratedMutableMap.map26626map,
-                                        GeneratedMutableMap.map26624map,
-                                        GeneratedMutableMap.map26629map,
-                                        GeneratedMutableMap.map26630map,
-                                        GeneratedMutableMap.map26888map,
-                                        GeneratedMutableMap.map26889map,
-                                        GeneratedMutableMap.map26631map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
-                        ), listOf(
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26888map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map,
-                                GeneratedMutableMap.map26889map,
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26625map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("x"),
-                                true,
-                                POPSort(
+                        AOPVariable("x"),
+                        true,
+                                    POPSort(
                                         dictionary,
                                         AOPVariable("y"),
                                         true,
-                                        POPSort(
-                                                dictionary,
-                                                AOPVariable("sum"),
-                                                true,
-                                                POPBind(
+                                                    POPSort(
                                                         dictionary,
                                                         AOPVariable("sum"),
-                                                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
-                                                        POPJoinHashMap(
-                                                                dictionary,
-                                                                {
-                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
-                                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
-                                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
-                                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
-                                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                    DistributedTripleStore.commit(1L)
-                                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example/p>", "x", false, true, false, EIndexPattern.SPO)
-                                                                }()
-                                                                ,
-                                                                {
-                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
-                                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
-                                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
-                                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
-                                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    DistributedTripleStore.commit(1L)
-                                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "<http://example/q>", "y", false, true, false, EIndexPattern.SPO)
-                                                                }()
-                                                                ,
-                                                                false)
+                                                        true,
+                                                                    POPBind(
+                                                                        dictionary,
+                                                                        AOPVariable("sum"),
+                                                                        AOPAddition(AOPVariable("y"), AOPVariable("x")),
+                                                                                    POPJoinHashMap(
+                                                                                        dictionary,
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/p>","\"a\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/p>","_:b"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/p>","<http://example/a>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/p>","\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/p>","\"1\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/p>","x",false,true,false,EIndexPattern.SPO)
+                                                                                                    }()
+,
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/q>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/q>","\"1\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/q>","\"1\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/q>","\"2\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/q>","\"2\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/q>","y",false,true,false,EIndexPattern.SPO)
+                                                                                                    }()
+,
+                                                                                        false                                                                                    )
 
-                                                )
+                                                                    )
 
-                                        )
+                                                    )
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "x",
+                            "y",
+                            "sum"
                         ), listOf(
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26888map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map,
-                                GeneratedMutableMap.map26889map,
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26625map
+                            GeneratedMutableMap.map27193map,
+                            GeneratedMutableMap.map27191map,
+                            GeneratedMutableMap.map27194map,
+                            GeneratedMutableMap.map27195map,
+                            GeneratedMutableMap.map27192map,
+                            GeneratedMutableMap.map27188map,
+                            GeneratedMutableMap.map27190map,
+                            GeneratedMutableMap.map27189map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("x"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
                                 AOPVariable("x"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "x",
-                                        "y",
-                                        "sum"
-                                ), listOf(
-                                        GeneratedMutableMap.map26625map,
-                                        GeneratedMutableMap.map26626map,
-                                        GeneratedMutableMap.map26624map,
-                                        GeneratedMutableMap.map26629map,
-                                        GeneratedMutableMap.map26630map,
-                                        GeneratedMutableMap.map26888map,
-                                        GeneratedMutableMap.map26889map,
-                                        GeneratedMutableMap.map26631map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "x",
-                                "y",
-                                "sum"
+                                AOPVariable("y"),
+                                AOPVariable("sum")
+                            ), listOf(
+                                GeneratedMutableMap.map27197map,
+                                GeneratedMutableMap.map27198map,
+                                GeneratedMutableMap.map27196map,
+                                GeneratedMutableMap.map27201map,
+                                GeneratedMutableMap.map27202map,
+                                GeneratedMutableMap.map27203map,
+                                GeneratedMutableMap.map27199map,
+                                GeneratedMutableMap.map27200map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("x"),
+                            AOPVariable("y"),
+                            AOPVariable("sum")
                         ), listOf(
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26888map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map,
-                                GeneratedMutableMap.map26889map,
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26625map
+                            GeneratedMutableMap.map27201map,
+                            GeneratedMutableMap.map27199map,
+                            GeneratedMutableMap.map27202map,
+                            GeneratedMutableMap.map27203map,
+                            GeneratedMutableMap.map27200map,
+                            GeneratedMutableMap.map27196map,
+                            GeneratedMutableMap.map27198map,
+                            GeneratedMutableMap.map27197map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("x"),
-                                LOPSort(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("x"),
+                                    LOPSort(
                                         true,
                                         AOPVariable("y"),
-                                        LOPSort(
-                                                true,
-                                                AOPVariable("sum"),
-                                                LOPBind(
+                                                    LOPSort(
+                                                        true,
+                                                        AOPVariable("sum"),
+                                                                    LOPBind(
+                                                                        AOPVariable("sum"),
+                                                                        AOPAddition(AOPVariable("y"), AOPVariable("x")),
+                                                                                    LOPJoin(
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/p>","\"a\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/p>","_:b"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/p>","<http://example/a>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/p>","\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/p>","\"1\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        LOPTriple(AOPVariable("s"),AOPVariable.calculate("<http://example/p>"),AOPVariable("x"),graphName,false)                                                                                                    }()
+,
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/q>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/q>","\"1\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/q>","\"1\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/q>","\"2\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/q>","\"2\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        LOPTriple(AOPVariable("s"),AOPVariable.calculate("<http://example/q>"),AOPVariable("y"),graphName,false)                                                                                                    }()
+,
+                                                                                        false                                                                                    )
+
+                                                                    )
+
+                                                    )
+
+                                    )
+
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("x"),
+                            AOPVariable("y"),
+                            AOPVariable("sum")
+                        ), listOf(
+                            GeneratedMutableMap.map27201map,
+                            GeneratedMutableMap.map27199map,
+                            GeneratedMutableMap.map27202map,
+                            GeneratedMutableMap.map27203map,
+                            GeneratedMutableMap.map27200map,
+                            GeneratedMutableMap.map27196map,
+                            GeneratedMutableMap.map27198map,
+                            GeneratedMutableMap.map27197map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-1.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("sum"),
+                        true,
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x",
+                                "y",
+                                "sum"
+                            ), listOf(
+                                GeneratedMutableMap.map27188map,
+                                GeneratedMutableMap.map27189map,
+                                GeneratedMutableMap.map27190map,
+                                GeneratedMutableMap.map27468map,
+                                GeneratedMutableMap.map27469map,
+                                GeneratedMutableMap.map27193map,
+                                GeneratedMutableMap.map27194map,
+                                GeneratedMutableMap.map27195map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "x",
+                            "y",
+                            "sum"
+                        ), listOf(
+                            GeneratedMutableMap.map27188map,
+                            GeneratedMutableMap.map27189map,
+                            GeneratedMutableMap.map27190map,
+                            GeneratedMutableMap.map27468map,
+                            GeneratedMutableMap.map27469map,
+                            GeneratedMutableMap.map27193map,
+                            GeneratedMutableMap.map27194map,
+                            GeneratedMutableMap.map27195map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("sum"),
+                        true,
+                                    POPBind(
+                                        dictionary,
+                                        AOPVariable("sum"),
+                                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
+                                                    POPJoinHashMap(
+                                                        dictionary,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/p>","\"a\""))
+                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/p>","_:b"))
+                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/p>","<http://example/a>"))
+                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/p>","\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/p>","\"1\""))
+                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/p>","x",false,true,false,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/q>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/q>","\"1\""))
+                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/q>","\"1\""))
+                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/q>","\"2\""))
+                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/q>","\"2\""))
+                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/q>","y",false,true,false,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                        false                                                    )
+
+                                    )
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "x",
+                            "y",
+                            "sum"
+                        ), listOf(
+                            GeneratedMutableMap.map27188map,
+                            GeneratedMutableMap.map27189map,
+                            GeneratedMutableMap.map27190map,
+                            GeneratedMutableMap.map27468map,
+                            GeneratedMutableMap.map27469map,
+                            GeneratedMutableMap.map27193map,
+                            GeneratedMutableMap.map27194map,
+                            GeneratedMutableMap.map27195map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestLN(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("sum"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("x"),
+                                AOPVariable("y"),
+                                AOPVariable("sum")
+                            ), listOf(
+                                GeneratedMutableMap.map27196map,
+                                GeneratedMutableMap.map27197map,
+                                GeneratedMutableMap.map27198map,
+                                GeneratedMutableMap.map27470map,
+                                GeneratedMutableMap.map27471map,
+                                GeneratedMutableMap.map27201map,
+                                GeneratedMutableMap.map27202map,
+                                GeneratedMutableMap.map27203map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("x"),
+                            AOPVariable("y"),
+                            AOPVariable("sum")
+                        ), listOf(
+                            GeneratedMutableMap.map27196map,
+                            GeneratedMutableMap.map27197map,
+                            GeneratedMutableMap.map27198map,
+                            GeneratedMutableMap.map27470map,
+                            GeneratedMutableMap.map27471map,
+                            GeneratedMutableMap.map27201map,
+                            GeneratedMutableMap.map27202map,
+                            GeneratedMutableMap.map27203map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestLN(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("sum"),
+                                    LOPBind(
+                                        AOPVariable("sum"),
+                                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
+                                                    LOPJoin(
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/p>","\"a\""))
+                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/p>","_:b"))
+                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/p>","<http://example/a>"))
+                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/p>","\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/p>","\"1\""))
+                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        LOPTriple(AOPVariable("s"),AOPVariable.calculate("<http://example/p>"),AOPVariable("x"),graphName,false)                                                                    }()
+,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/q>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/q>","\"1\""))
+                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/q>","\"1\""))
+                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/q>","\"2\""))
+                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/q>","\"2\""))
+                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        LOPTriple(AOPVariable("s"),AOPVariable.calculate("<http://example/q>"),AOPVariable("y"),graphName,false)                                                                    }()
+,
+                                                        false                                                    )
+
+                                    )
+
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("x"),
+                            AOPVariable("y"),
+                            AOPVariable("sum")
+                        ), listOf(
+                            GeneratedMutableMap.map27196map,
+                            GeneratedMutableMap.map27197map,
+                            GeneratedMutableMap.map27198map,
+                            GeneratedMutableMap.map27470map,
+                            GeneratedMutableMap.map27471map,
+                            GeneratedMutableMap.map27201map,
+                            GeneratedMutableMap.map27202map,
+                            GeneratedMutableMap.map27203map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("y"),
+                        true,
+                        POPValues(dictionary, listOf(
+                                "s",
+                                "x",
+                                "y",
+                                "sum"
+                            ), listOf(
+                                GeneratedMutableMap.map27188map,
+                                GeneratedMutableMap.map27189map,
+                                GeneratedMutableMap.map27190map,
+                                GeneratedMutableMap.map27468map,
+                                GeneratedMutableMap.map27469map,
+                                GeneratedMutableMap.map27193map,
+                                GeneratedMutableMap.map27194map,
+                                GeneratedMutableMap.map27195map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "x",
+                            "y",
+                            "sum"
+                        ), listOf(
+                            GeneratedMutableMap.map27189map,
+                            GeneratedMutableMap.map27190map,
+                            GeneratedMutableMap.map27188map,
+                            GeneratedMutableMap.map27193map,
+                            GeneratedMutableMap.map27194map,
+                            GeneratedMutableMap.map27468map,
+                            GeneratedMutableMap.map27469map,
+                            GeneratedMutableMap.map27195map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("y"),
+                        true,
+                                    POPSort(
+                                        dictionary,
+                                        AOPVariable("sum"),
+                                        true,
+                                                    POPBind(
+                                                        dictionary,
                                                         AOPVariable("sum"),
                                                         AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
-                                                        LOPJoin(
-                                                                {
-                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/p>", "\"a\""))
-                                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/p>", "_:b"))
-                                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/p>", "<http://example/a>"))
-                                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/p>", "\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/p>", "\"1\""))
-                                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                    DistributedTripleStore.commit(1L)
-                                                                    LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/p>"), AOPVariable("x"), graphName, false)
-                                                                }()
-                                                                ,
-                                                                {
-                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                    graph.addData(1L, listOf("<http://example/x1>", "<http://example/q>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example/x2>", "<http://example/q>", "\"1\""))
-                                                                    graph.addData(1L, listOf("<http://example/x3>", "<http://example/q>", "\"1\""))
-                                                                    graph.addData(1L, listOf("<http://example/x4>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example/x5>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example/x6>", "<http://example/q>", "\"2\""))
-                                                                    graph.addData(1L, listOf("<http://example/x7>", "<http://example/q>", "\"2\""))
-                                                                    graph.addData(1L, listOf("<http://example/x8>", "<http://example/q>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    DistributedTripleStore.commit(1L)
-                                                                    LOPTriple(AOPVariable("s"), AOPVariable.calculate("<http://example/q>"), AOPVariable("y"), graphName, false)
-                                                                }()
-                                                                ,
-                                                                false)
+                                                                    POPJoinHashMap(
+                                                                        dictionary,
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/p>","\"a\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/p>","_:b"))
+                                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/p>","<http://example/a>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/p>","\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/p>","\"1\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/p>","x",false,true,false,EIndexPattern.SPO)
+                                                                                    }()
+,
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/q>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/q>","\"1\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/q>","\"1\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/q>","\"2\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/q>","\"2\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/q>","y",false,true,false,EIndexPattern.SPO)
+                                                                                    }()
+,
+                                                                        false                                                                    )
 
-                                                )
+                                                    )
 
-                                        )
+                                    )
 
-                                )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "x",
+                            "y",
+                            "sum"
+                        ), listOf(
+                            GeneratedMutableMap.map27189map,
+                            GeneratedMutableMap.map27190map,
+                            GeneratedMutableMap.map27188map,
+                            GeneratedMutableMap.map27193map,
+                            GeneratedMutableMap.map27194map,
+                            GeneratedMutableMap.map27468map,
+                            GeneratedMutableMap.map27469map,
+                            GeneratedMutableMap.map27195map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestLN(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("y"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("x"),
+                                AOPVariable("y"),
+                                AOPVariable("sum")
+                            ), listOf(
+                                GeneratedMutableMap.map27196map,
+                                GeneratedMutableMap.map27197map,
+                                GeneratedMutableMap.map27198map,
+                                GeneratedMutableMap.map27470map,
+                                GeneratedMutableMap.map27471map,
+                                GeneratedMutableMap.map27201map,
+                                GeneratedMutableMap.map27202map,
+                                GeneratedMutableMap.map27203map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("x"),
+                            AOPVariable("y"),
+                            AOPVariable("sum")
+                        ), listOf(
+                            GeneratedMutableMap.map27197map,
+                            GeneratedMutableMap.map27198map,
+                            GeneratedMutableMap.map27196map,
+                            GeneratedMutableMap.map27201map,
+                            GeneratedMutableMap.map27202map,
+                            GeneratedMutableMap.map27470map,
+                            GeneratedMutableMap.map27471map,
+                            GeneratedMutableMap.map27203map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestLN(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("y"),
+                                    LOPSort(
+                                        true,
+                                        AOPVariable("sum"),
+                                                    LOPBind(
+                                                        AOPVariable("sum"),
+                                                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
+                                                                    LOPJoin(
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/p>","\"a\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/p>","_:b"))
+                                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/p>","<http://example/a>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/p>","\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/p>","\"1\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        LOPTriple(AOPVariable("s"),AOPVariable.calculate("<http://example/p>"),AOPVariable("x"),graphName,false)                                                                                    }()
+,
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/q>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/q>","\"1\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/q>","\"1\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/q>","\"2\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/q>","\"2\""))
+                                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        LOPTriple(AOPVariable("s"),AOPVariable.calculate("<http://example/q>"),AOPVariable("y"),graphName,false)                                                                                    }()
+,
+                                                                        false                                                                    )
 
-                        ),
+                                                    )
+
+                                    )
+
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("x"),
+                            AOPVariable("y"),
+                            AOPVariable("sum")
+                        ), listOf(
+                            GeneratedMutableMap.map27197map,
+                            GeneratedMutableMap.map27198map,
+                            GeneratedMutableMap.map27196map,
+                            GeneratedMutableMap.map27201map,
+                            GeneratedMutableMap.map27202map,
+                            GeneratedMutableMap.map27470map,
+                            GeneratedMutableMap.map27471map,
+                            GeneratedMutableMap.map27203map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("x"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "x",
                                 "y",
                                 "sum"
+                            ), listOf(
+                                GeneratedMutableMap.map27189map,
+                                GeneratedMutableMap.map27190map,
+                                GeneratedMutableMap.map27188map,
+                                GeneratedMutableMap.map27193map,
+                                GeneratedMutableMap.map27194map,
+                                GeneratedMutableMap.map27468map,
+                                GeneratedMutableMap.map27469map,
+                                GeneratedMutableMap.map27195map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "x",
+                            "y",
+                            "sum"
                         ), listOf(
-                                GeneratedMutableMap.map26629map,
-                                GeneratedMutableMap.map26888map,
-                                GeneratedMutableMap.map26630map,
-                                GeneratedMutableMap.map26631map,
-                                GeneratedMutableMap.map26889map,
-                                GeneratedMutableMap.map26624map,
-                                GeneratedMutableMap.map26626map,
-                                GeneratedMutableMap.map26625map
+                            GeneratedMutableMap.map27193map,
+                            GeneratedMutableMap.map27468map,
+                            GeneratedMutableMap.map27194map,
+                            GeneratedMutableMap.map27195map,
+                            GeneratedMutableMap.map27469map,
+                            GeneratedMutableMap.map27188map,
+                            GeneratedMutableMap.map27190map,
+                            GeneratedMutableMap.map27189map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("o"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10096map,
-                                        GeneratedMutableMap.map10097map,
-                                        GeneratedMutableMap.map32229map,
-                                        GeneratedMutableMap.map10099map,
-                                        GeneratedMutableMap.map32230map,
-                                        GeneratedMutableMap.map10101map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
-                        ), listOf(
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map32230map,
-                                GeneratedMutableMap.map32229map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10101map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("o"),
-                                true,
-                                {
-                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                    DistributedTripleStore.commit(1L)
-                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                }()
+                        AOPVariable("x"),
+                        true,
+                                    POPSort(
+                                        dictionary,
+                                        AOPVariable("y"),
+                                        true,
+                                                    POPSort(
+                                                        dictionary,
+                                                        AOPVariable("sum"),
+                                                        true,
+                                                                    POPBind(
+                                                                        dictionary,
+                                                                        AOPVariable("sum"),
+                                                                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
+                                                                                    POPJoinHashMap(
+                                                                                        dictionary,
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/p>","\"a\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/p>","_:b"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/p>","<http://example/a>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/p>","\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/p>","\"1\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/p>","x",false,true,false,EIndexPattern.SPO)
+                                                                                                    }()
+,
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/q>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/q>","\"1\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/q>","\"1\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/q>","\"2\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/q>","\"2\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","<http://example/q>","y",false,true,false,EIndexPattern.SPO)
+                                                                                                    }()
+,
+                                                                                        false                                                                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
-                        ), listOf(
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map32230map,
-                                GeneratedMutableMap.map32229map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10101map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("o"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10096map,
-                                        GeneratedMutableMap.map10097map,
-                                        GeneratedMutableMap.map32229map,
-                                        GeneratedMutableMap.map10099map,
-                                        GeneratedMutableMap.map32230map,
-                                        GeneratedMutableMap.map10101map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
-                        ), listOf(
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map32230map,
-                                GeneratedMutableMap.map32229map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10101map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("o"),
-                                {
-                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                    DistributedTripleStore.commit(1L)
-                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                }()
+                                                                    )
 
-                        ),
+                                                    )
+
+                                    )
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "x",
+                            "y",
+                            "sum"
+                        ), listOf(
+                            GeneratedMutableMap.map27193map,
+                            GeneratedMutableMap.map27468map,
+                            GeneratedMutableMap.map27194map,
+                            GeneratedMutableMap.map27195map,
+                            GeneratedMutableMap.map27469map,
+                            GeneratedMutableMap.map27188map,
+                            GeneratedMutableMap.map27190map,
+                            GeneratedMutableMap.map27189map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestLN(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("x"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("x"),
+                                AOPVariable("y"),
+                                AOPVariable("sum")
+                            ), listOf(
+                                GeneratedMutableMap.map27197map,
+                                GeneratedMutableMap.map27198map,
+                                GeneratedMutableMap.map27196map,
+                                GeneratedMutableMap.map27201map,
+                                GeneratedMutableMap.map27202map,
+                                GeneratedMutableMap.map27470map,
+                                GeneratedMutableMap.map27471map,
+                                GeneratedMutableMap.map27203map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("x"),
+                            AOPVariable("y"),
+                            AOPVariable("sum")
+                        ), listOf(
+                            GeneratedMutableMap.map27201map,
+                            GeneratedMutableMap.map27470map,
+                            GeneratedMutableMap.map27202map,
+                            GeneratedMutableMap.map27203map,
+                            GeneratedMutableMap.map27471map,
+                            GeneratedMutableMap.map27196map,
+                            GeneratedMutableMap.map27198map,
+                            GeneratedMutableMap.map27197map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestLN(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("x"),
+                                    LOPSort(
+                                        true,
+                                        AOPVariable("y"),
+                                                    LOPSort(
+                                                        true,
+                                                        AOPVariable("sum"),
+                                                                    LOPBind(
+                                                                        AOPVariable("sum"),
+                                                                        AOPAddition(AOPBuildInCallSTR(AOPVariable("y")), AOPBuildInCallSTR(AOPVariable("x"))),
+                                                                                    LOPJoin(
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/p>","\"a\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/p>","_:b"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/p>","<http://example/a>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/p>","\"1.0\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/p>","\"1\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        LOPTriple(AOPVariable("s"),AOPVariable.calculate("<http://example/p>"),AOPVariable("x"),graphName,false)                                                                                                    }()
+,
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://example/x1>","<http://example/q>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x2>","<http://example/q>","\"1\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x3>","<http://example/q>","\"1\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x4>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x5>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example/x6>","<http://example/q>","\"2\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x7>","<http://example/q>","\"2\""))
+                                                                                                        graph.addData(1L,listOf("<http://example/x8>","<http://example/q>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        LOPTriple(AOPVariable("s"),AOPVariable.calculate("<http://example/q>"),AOPVariable("y"),graphName,false)                                                                                                    }()
+,
+                                                                                        false                                                                                    )
+
+                                                                    )
+
+                                                    )
+
+                                    )
+
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("x"),
+                            AOPVariable("y"),
+                            AOPVariable("sum")
+                        ), listOf(
+                            GeneratedMutableMap.map27201map,
+                            GeneratedMutableMap.map27470map,
+                            GeneratedMutableMap.map27202map,
+                            GeneratedMutableMap.map27203map,
+                            GeneratedMutableMap.map27471map,
+                            GeneratedMutableMap.map27196map,
+                            GeneratedMutableMap.map27198map,
+                            GeneratedMutableMap.map27197map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("o"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o"
+                            ), listOf(
+                                GeneratedMutableMap.map10276map,
+                                GeneratedMutableMap.map10277map,
+                                GeneratedMutableMap.map32974map,
+                                GeneratedMutableMap.map10279map,
+                                GeneratedMutableMap.map32975map,
+                                GeneratedMutableMap.map10281map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map32230map,
-                                GeneratedMutableMap.map32229map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10279map,
+                            GeneratedMutableMap.map32975map,
+                            GeneratedMutableMap.map32974map,
+                            GeneratedMutableMap.map10277map,
+                            GeneratedMutableMap.map10276map,
+                            GeneratedMutableMap.map10281map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
+                        AOPVariable("o"),
+                        true,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                    }()
+
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
+                        ), listOf(
+                            GeneratedMutableMap.map10279map,
+                            GeneratedMutableMap.map32975map,
+                            GeneratedMutableMap.map32974map,
+                            GeneratedMutableMap.map10277map,
+                            GeneratedMutableMap.map10276map,
+                            GeneratedMutableMap.map10281map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestLN(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("o"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
                                 AOPVariable("p"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10099map,
-                                        GeneratedMutableMap.map32230map,
-                                        GeneratedMutableMap.map32229map,
-                                        GeneratedMutableMap.map10097map,
-                                        GeneratedMutableMap.map10096map,
-                                        GeneratedMutableMap.map10101map
-                                )
-                                )
-                        ),
+                                AOPVariable("o")
+                            ), listOf(
+                                GeneratedMutableMap.map10358map,
+                                GeneratedMutableMap.map10359map,
+                                GeneratedMutableMap.map32976map,
+                                GeneratedMutableMap.map10361map,
+                                GeneratedMutableMap.map32977map,
+                                GeneratedMutableMap.map10363map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
+                        ), listOf(
+                            GeneratedMutableMap.map10361map,
+                            GeneratedMutableMap.map32977map,
+                            GeneratedMutableMap.map32976map,
+                            GeneratedMutableMap.map10359map,
+                            GeneratedMutableMap.map10358map,
+                            GeneratedMutableMap.map10363map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */ ,
+            {
+                val dictionary=ResultSetDictionary()
+                MicroTestLN(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("o"),
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                        DistributedTripleStore.commit(1L)
+                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                    }()
+
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
+                        ), listOf(
+                            GeneratedMutableMap.map10361map,
+                            GeneratedMutableMap.map32977map,
+                            GeneratedMutableMap.map32976map,
+                            GeneratedMutableMap.map10359map,
+                            GeneratedMutableMap.map10358map,
+                            GeneratedMutableMap.map10363map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("p"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o"
+                            ), listOf(
+                                GeneratedMutableMap.map10279map,
+                                GeneratedMutableMap.map32975map,
+                                GeneratedMutableMap.map32974map,
+                                GeneratedMutableMap.map10277map,
+                                GeneratedMutableMap.map10276map,
+                                GeneratedMutableMap.map10281map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map32229map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map32230map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10276map,
+                            GeneratedMutableMap.map32974map,
+                            GeneratedMutableMap.map10277map,
+                            GeneratedMutableMap.map10279map,
+                            GeneratedMutableMap.map32975map,
+                            GeneratedMutableMap.map10281map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("p"),
-                                true,
-                                POPSort(
+                        AOPVariable("p"),
+                        true,
+                                    POPSort(
                                         dictionary,
                                         AOPVariable("o"),
                                         true,
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                            DistributedTripleStore.commit(1L)
-                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                        }()
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                    }()
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map32229map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map32230map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10276map,
+                            GeneratedMutableMap.map32974map,
+                            GeneratedMutableMap.map10277map,
+                            GeneratedMutableMap.map10279map,
+                            GeneratedMutableMap.map32975map,
+                            GeneratedMutableMap.map10281map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("p"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
                                 AOPVariable("p"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10099map,
-                                        GeneratedMutableMap.map32230map,
-                                        GeneratedMutableMap.map32229map,
-                                        GeneratedMutableMap.map10097map,
-                                        GeneratedMutableMap.map10096map,
-                                        GeneratedMutableMap.map10101map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                                AOPVariable("o")
+                            ), listOf(
+                                GeneratedMutableMap.map10361map,
+                                GeneratedMutableMap.map32977map,
+                                GeneratedMutableMap.map32976map,
+                                GeneratedMutableMap.map10359map,
+                                GeneratedMutableMap.map10358map,
+                                GeneratedMutableMap.map10363map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map32229map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map32230map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10358map,
+                            GeneratedMutableMap.map32976map,
+                            GeneratedMutableMap.map10359map,
+                            GeneratedMutableMap.map10361map,
+                            GeneratedMutableMap.map32977map,
+                            GeneratedMutableMap.map10363map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("p"),
-                                LOPSort(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("p"),
+                                    LOPSort(
                                         true,
                                         AOPVariable("o"),
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                            DistributedTripleStore.commit(1L)
-                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                        }()
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                                    }()
 
-                                )
+                                    )
 
-                        ),
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
+                        ), listOf(
+                            GeneratedMutableMap.map10358map,
+                            GeneratedMutableMap.map32976map,
+                            GeneratedMutableMap.map10359map,
+                            GeneratedMutableMap.map10361map,
+                            GeneratedMutableMap.map32977map,
+                            GeneratedMutableMap.map10363map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("s"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o"
+                            ), listOf(
+                                GeneratedMutableMap.map10276map,
+                                GeneratedMutableMap.map32974map,
+                                GeneratedMutableMap.map10277map,
+                                GeneratedMutableMap.map10279map,
+                                GeneratedMutableMap.map32975map,
+                                GeneratedMutableMap.map10281map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map32229map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map32230map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10276map,
+                            GeneratedMutableMap.map10277map,
+                            GeneratedMutableMap.map32974map,
+                            GeneratedMutableMap.map10279map,
+                            GeneratedMutableMap.map32975map,
+                            GeneratedMutableMap.map10281map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("s"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10096map,
-                                        GeneratedMutableMap.map32229map,
-                                        GeneratedMutableMap.map10097map,
-                                        GeneratedMutableMap.map10099map,
-                                        GeneratedMutableMap.map32230map,
-                                        GeneratedMutableMap.map10101map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
-                        ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map32229map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map32230map,
-                                GeneratedMutableMap.map10101map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("s"),
-                                true,
-                                POPSort(
+                        AOPVariable("s"),
+                        true,
+                                    POPSort(
                                         dictionary,
                                         AOPVariable("p"),
                                         true,
-                                        POPSort(
-                                                dictionary,
-                                                AOPVariable("o"),
-                                                true,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                                }()
+                                                    POPSort(
+                                                        dictionary,
+                                                        AOPVariable("o"),
+                                                        true,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                                    }()
 
-                                        )
+                                                    )
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o"
                         ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map32229map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map32230map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10276map,
+                            GeneratedMutableMap.map10277map,
+                            GeneratedMutableMap.map32974map,
+                            GeneratedMutableMap.map10279map,
+                            GeneratedMutableMap.map32975map,
+                            GeneratedMutableMap.map10281map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("s"),
+                        LOPValues(listOf(
                                 AOPVariable("s"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o"
-                                ), listOf(
-                                        GeneratedMutableMap.map10096map,
-                                        GeneratedMutableMap.map32229map,
-                                        GeneratedMutableMap.map10097map,
-                                        GeneratedMutableMap.map10099map,
-                                        GeneratedMutableMap.map32230map,
-                                        GeneratedMutableMap.map10101map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                                AOPVariable("p"),
+                                AOPVariable("o")
+                            ), listOf(
+                                GeneratedMutableMap.map10358map,
+                                GeneratedMutableMap.map32976map,
+                                GeneratedMutableMap.map10359map,
+                                GeneratedMutableMap.map10361map,
+                                GeneratedMutableMap.map32977map,
+                                GeneratedMutableMap.map10363map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map32229map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map32230map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10358map,
+                            GeneratedMutableMap.map10359map,
+                            GeneratedMutableMap.map32976map,
+                            GeneratedMutableMap.map10361map,
+                            GeneratedMutableMap.map32977map,
+                            GeneratedMutableMap.map10363map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("s"),
-                                LOPSort(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("s"),
+                                    LOPSort(
                                         true,
                                         AOPVariable("p"),
-                                        LOPSort(
-                                                true,
-                                                AOPVariable("o"),
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                                }()
+                                                    LOPSort(
+                                                        true,
+                                                        AOPVariable("o"),
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                                                    }()
 
-                                        )
+                                                    )
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o"
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o")
                         ), listOf(
-                                GeneratedMutableMap.map10096map,
-                                GeneratedMutableMap.map10097map,
-                                GeneratedMutableMap.map32229map,
-                                GeneratedMutableMap.map10099map,
-                                GeneratedMutableMap.map32230map,
-                                GeneratedMutableMap.map10101map
+                            GeneratedMutableMap.map10358map,
+                            GeneratedMutableMap.map10359map,
+                            GeneratedMutableMap.map32976map,
+                            GeneratedMutableMap.map10361map,
+                            GeneratedMutableMap.map32977map,
+                            GeneratedMutableMap.map10363map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres01.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("o2"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10280map,
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map32357map,
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map32358map,
-                                        GeneratedMutableMap.map10285map
-                                )
-                                )
-                        ),
+                        AOPVariable("o2"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o",
                                 "p2",
                                 "o2"
+                            ), listOf(
+                                GeneratedMutableMap.map10466map,
+                                GeneratedMutableMap.map10467map,
+                                GeneratedMutableMap.map33104map,
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map33105map,
+                                GeneratedMutableMap.map10471map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map33104map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map33105map,
+                            GeneratedMutableMap.map10471map,
+                            GeneratedMutableMap.map10466map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("o2"),
-                                true,
-                                POPJoinHashMap(
+                        AOPVariable("o2"),
+                        true,
+                                    POPJoinHashMap(
                                         dictionary,
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                            DistributedTripleStore.commit(1L)
-                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                        }()
-                                        ,
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                            DistributedTripleStore.commit(1L)
-                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "o", "p2", "o2", false, false, false, EIndexPattern.SPO)
-                                        }()
-                                        ,
-                                        true)
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                    }()
+,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"o","p2","o2",false,false,false,EIndexPattern.SPO)
+                                                    }()
+,
+                                        true                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map33104map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map33105map,
+                            GeneratedMutableMap.map10471map,
+                            GeneratedMutableMap.map10466map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("o2"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10280map,
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map32357map,
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map32358map,
-                                        GeneratedMutableMap.map10285map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("o2"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("p"),
+                                AOPVariable("o"),
+                                AOPVariable("p2"),
+                                AOPVariable("o2")
+                            ), listOf(
+                                GeneratedMutableMap.map10596map,
+                                GeneratedMutableMap.map10597map,
+                                GeneratedMutableMap.map33106map,
+                                GeneratedMutableMap.map10599map,
+                                GeneratedMutableMap.map33107map,
+                                GeneratedMutableMap.map10601map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map33106map,
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map33107map,
+                            GeneratedMutableMap.map10601map,
+                            GeneratedMutableMap.map10596map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("o2"),
-                                LOPJoin(
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                            DistributedTripleStore.commit(1L)
-                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                        }()
-                                        ,
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                            DistributedTripleStore.commit(1L)
-                                            LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
-                                        }()
-                                        ,
-                                        true)
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("o2"),
+                                    LOPJoin(
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                                    }()
+,
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        LOPTriple(AOPVariable("o"),AOPVariable("p2"),AOPVariable("o2"),graphName,false)                                                    }()
+,
+                                        true                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map33106map,
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map33107map,
+                            GeneratedMutableMap.map10601map,
+                            GeneratedMutableMap.map10596map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("p2"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map32357map,
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map32358map,
-                                        GeneratedMutableMap.map10285map,
-                                        GeneratedMutableMap.map10280map
-                                )
-                                )
-                        ),
+                        AOPVariable("p2"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o",
                                 "p2",
                                 "o2"
+                            ), listOf(
+                                GeneratedMutableMap.map10467map,
+                                GeneratedMutableMap.map33104map,
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map33105map,
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10466map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map33104map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map33105map,
+                            GeneratedMutableMap.map10471map,
+                            GeneratedMutableMap.map10466map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("p2"),
-                                true,
-                                POPSort(
+                        AOPVariable("p2"),
+                        true,
+                                    POPSort(
                                         dictionary,
                                         AOPVariable("o2"),
                                         true,
-                                        POPJoinHashMap(
-                                                dictionary,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                                }()
-                                                ,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "o", "p2", "o2", false, false, false, EIndexPattern.SPO)
-                                                }()
-                                                ,
-                                                true)
+                                                    POPJoinHashMap(
+                                                        dictionary,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"o","p2","o2",false,false,false,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                        true                                                    )
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map33104map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map33105map,
+                            GeneratedMutableMap.map10471map,
+                            GeneratedMutableMap.map10466map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("p2"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("p"),
+                                AOPVariable("o"),
                                 AOPVariable("p2"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map32357map,
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map32358map,
-                                        GeneratedMutableMap.map10285map,
-                                        GeneratedMutableMap.map10280map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                                AOPVariable("o2")
+                            ), listOf(
+                                GeneratedMutableMap.map10597map,
+                                GeneratedMutableMap.map33106map,
+                                GeneratedMutableMap.map10599map,
+                                GeneratedMutableMap.map33107map,
+                                GeneratedMutableMap.map10601map,
+                                GeneratedMutableMap.map10596map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map33106map,
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map33107map,
+                            GeneratedMutableMap.map10601map,
+                            GeneratedMutableMap.map10596map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("p2"),
-                                LOPSort(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("p2"),
+                                    LOPSort(
                                         true,
                                         AOPVariable("o2"),
-                                        LOPJoin(
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                                }()
-                                                ,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
-                                                }()
-                                                ,
-                                                true)
+                                                    LOPJoin(
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                                                    }()
+,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        LOPTriple(AOPVariable("o"),AOPVariable("p2"),AOPVariable("o2"),graphName,false)                                                                    }()
+,
+                                                        true                                                    )
 
-                                )
+                                    )
 
-                        ),
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
+                        ), listOf(
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map33106map,
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map33107map,
+                            GeneratedMutableMap.map10601map,
+                            GeneratedMutableMap.map10596map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("o"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o",
                                 "p2",
                                 "o2"
+                            ), listOf(
+                                GeneratedMutableMap.map10467map,
+                                GeneratedMutableMap.map33104map,
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map33105map,
+                                GeneratedMutableMap.map10471map,
+                                GeneratedMutableMap.map10466map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map10285map,
-                                GeneratedMutableMap.map10280map
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map33105map,
+                            GeneratedMutableMap.map33104map,
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10466map,
+                            GeneratedMutableMap.map10471map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("o"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map32357map,
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map32358map,
-                                        GeneratedMutableMap.map10285map,
-                                        GeneratedMutableMap.map10280map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
-                        ), listOf(
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10285map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("o"),
-                                true,
-                                POPSort(
+                        AOPVariable("o"),
+                        true,
+                                    POPSort(
                                         dictionary,
                                         AOPVariable("p2"),
                                         true,
-                                        POPSort(
-                                                dictionary,
-                                                AOPVariable("o2"),
-                                                true,
-                                                POPJoinHashMap(
+                                                    POPSort(
                                                         dictionary,
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                                        }()
-                                                        ,
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "o", "p2", "o2", false, false, false, EIndexPattern.SPO)
-                                                        }()
-                                                        ,
-                                                        true)
+                                                        AOPVariable("o2"),
+                                                        true,
+                                                                    POPJoinHashMap(
+                                                                        dictionary,
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                                                    }()
+,
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"o","p2","o2",false,false,false,EIndexPattern.SPO)
+                                                                                    }()
+,
+                                                                        true                                                                    )
 
-                                        )
+                                                    )
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10285map
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map33105map,
+                            GeneratedMutableMap.map33104map,
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10466map,
+                            GeneratedMutableMap.map10471map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("o"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
+                                AOPVariable("p"),
                                 AOPVariable("o"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map32357map,
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map32358map,
-                                        GeneratedMutableMap.map10285map,
-                                        GeneratedMutableMap.map10280map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                                AOPVariable("p2"),
+                                AOPVariable("o2")
+                            ), listOf(
+                                GeneratedMutableMap.map10597map,
+                                GeneratedMutableMap.map33106map,
+                                GeneratedMutableMap.map10599map,
+                                GeneratedMutableMap.map33107map,
+                                GeneratedMutableMap.map10601map,
+                                GeneratedMutableMap.map10596map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10285map
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map33107map,
+                            GeneratedMutableMap.map33106map,
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map10596map,
+                            GeneratedMutableMap.map10601map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("o"),
-                                LOPSort(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("o"),
+                                    LOPSort(
                                         true,
                                         AOPVariable("p2"),
-                                        LOPSort(
-                                                true,
-                                                AOPVariable("o2"),
-                                                LOPJoin(
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                                        }()
-                                                        ,
-                                                        {
-                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                            DistributedTripleStore.commit(1L)
-                                                            LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
-                                                        }()
-                                                        ,
-                                                        true)
+                                                    LOPSort(
+                                                        true,
+                                                        AOPVariable("o2"),
+                                                                    LOPJoin(
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                                                                    }()
+,
+                                                                                    {
+                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                        DistributedTripleStore.commit(1L)
+                                                                                        LOPTriple(AOPVariable("o"),AOPVariable("p2"),AOPVariable("o2"),graphName,false)                                                                                    }()
+,
+                                                                        true                                                                    )
 
-                                        )
+                                                    )
 
-                                )
+                                    )
 
-                        ),
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
+                        ), listOf(
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map33107map,
+                            GeneratedMutableMap.map33106map,
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map10596map,
+                            GeneratedMutableMap.map10601map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("p"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o",
                                 "p2",
                                 "o2"
+                            ), listOf(
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map33105map,
+                                GeneratedMutableMap.map33104map,
+                                GeneratedMutableMap.map10467map,
+                                GeneratedMutableMap.map10466map,
+                                GeneratedMutableMap.map10471map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10285map
+                            GeneratedMutableMap.map10466map,
+                            GeneratedMutableMap.map33104map,
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map33105map,
+                            GeneratedMutableMap.map10471map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("p"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map32358map,
-                                        GeneratedMutableMap.map32357map,
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map10280map,
-                                        GeneratedMutableMap.map10285map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
-                        ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map10285map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("p"),
-                                true,
-                                POPSort(
+                        AOPVariable("p"),
+                        true,
+                                    POPSort(
                                         dictionary,
                                         AOPVariable("o"),
                                         true,
-                                        POPSort(
-                                                dictionary,
-                                                AOPVariable("p2"),
-                                                true,
-                                                POPSort(
+                                                    POPSort(
                                                         dictionary,
-                                                        AOPVariable("o2"),
+                                                        AOPVariable("p2"),
                                                         true,
-                                                        POPJoinHashMap(
-                                                                dictionary,
-                                                                {
-                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                                    DistributedTripleStore.commit(1L)
-                                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                                                }()
-                                                                ,
-                                                                {
-                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                                    DistributedTripleStore.commit(1L)
-                                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "o", "p2", "o2", false, false, false, EIndexPattern.SPO)
-                                                                }()
-                                                                ,
-                                                                true)
+                                                                    POPSort(
+                                                                        dictionary,
+                                                                        AOPVariable("o2"),
+                                                                        true,
+                                                                                    POPJoinHashMap(
+                                                                                        dictionary,
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                                                                    }()
+,
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"o","p2","o2",false,false,false,EIndexPattern.SPO)
+                                                                                                    }()
+,
+                                                                                        true                                                                                    )
 
-                                                )
+                                                                    )
 
-                                        )
+                                                    )
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map10285map
+                            GeneratedMutableMap.map10466map,
+                            GeneratedMutableMap.map33104map,
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map33105map,
+                            GeneratedMutableMap.map10471map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("p"),
+                        LOPValues(listOf(
+                                AOPVariable("s"),
                                 AOPVariable("p"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map32358map,
-                                        GeneratedMutableMap.map32357map,
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map10280map,
-                                        GeneratedMutableMap.map10285map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                                AOPVariable("o"),
+                                AOPVariable("p2"),
+                                AOPVariable("o2")
+                            ), listOf(
+                                GeneratedMutableMap.map10599map,
+                                GeneratedMutableMap.map33107map,
+                                GeneratedMutableMap.map33106map,
+                                GeneratedMutableMap.map10597map,
+                                GeneratedMutableMap.map10596map,
+                                GeneratedMutableMap.map10601map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map10285map
+                            GeneratedMutableMap.map10596map,
+                            GeneratedMutableMap.map33106map,
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map33107map,
+                            GeneratedMutableMap.map10601map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("p"),
-                                LOPSort(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("p"),
+                                    LOPSort(
                                         true,
                                         AOPVariable("o"),
-                                        LOPSort(
-                                                true,
-                                                AOPVariable("p2"),
-                                                LOPSort(
+                                                    LOPSort(
                                                         true,
-                                                        AOPVariable("o2"),
-                                                        LOPJoin(
-                                                                {
-                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                                    DistributedTripleStore.commit(1L)
-                                                                    LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                                                }()
-                                                                ,
-                                                                {
-                                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                                    graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                                    graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                    graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                                    DistributedTripleStore.commit(1L)
-                                                                    LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
-                                                                }()
-                                                                ,
-                                                                true)
+                                                        AOPVariable("p2"),
+                                                                    LOPSort(
+                                                                        true,
+                                                                        AOPVariable("o2"),
+                                                                                    LOPJoin(
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                                                                                    }()
+,
+                                                                                                    {
+                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                        LOPTriple(AOPVariable("o"),AOPVariable("p2"),AOPVariable("o2"),graphName,false)                                                                                                    }()
+,
+                                                                                        true                                                                                    )
 
-                                                )
+                                                                    )
 
-                                        )
+                                                    )
 
-                                )
+                                    )
 
-                        ),
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
+                        ), listOf(
+                            GeneratedMutableMap.map10596map,
+                            GeneratedMutableMap.map33106map,
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map33107map,
+                            GeneratedMutableMap.map10601map
+                        )
+                    )
+                )
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
+            {
+                val dictionary = ResultSetDictionary()
+                MicroTestPN(
+                    dictionary,
+                    POPSort(
+                        dictionary,
+                        AOPVariable("s"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "s",
                                 "p",
                                 "o",
                                 "p2",
                                 "o2"
+                            ), listOf(
+                                GeneratedMutableMap.map10466map,
+                                GeneratedMutableMap.map33104map,
+                                GeneratedMutableMap.map10467map,
+                                GeneratedMutableMap.map10469map,
+                                GeneratedMutableMap.map33105map,
+                                GeneratedMutableMap.map10471map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map10285map
+                            GeneratedMutableMap.map10466map,
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map33104map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map33105map,
+                            GeneratedMutableMap.map10471map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("s"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10280map,
-                                        GeneratedMutableMap.map32357map,
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map32358map,
-                                        GeneratedMutableMap.map10285map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
-                        ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map10285map
-                        )
-                        )
-                )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
-            {
-                val dictionary = ResultSetDictionary()
-                MicroTestPN(
-                        dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("s"),
-                                true,
-                                POPSort(
+                        AOPVariable("s"),
+                        true,
+                                    POPSort(
                                         dictionary,
                                         AOPVariable("p"),
                                         true,
-                                        POPSort(
-                                                dictionary,
-                                                AOPVariable("o"),
-                                                true,
-                                                POPSort(
+                                                    POPSort(
                                                         dictionary,
-                                                        AOPVariable("p2"),
+                                                        AOPVariable("o"),
                                                         true,
-                                                        POPSort(
-                                                                dictionary,
-                                                                AOPVariable("o2"),
-                                                                true,
-                                                                POPJoinHashMap(
+                                                                    POPSort(
                                                                         dictionary,
-                                                                        {
-                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                                            DistributedTripleStore.commit(1L)
-                                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "s", "p", "o", false, false, false, EIndexPattern.SPO)
-                                                                        }()
-                                                                        ,
-                                                                        {
-                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                                            DistributedTripleStore.commit(1L)
-                                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "o", "p2", "o2", false, false, false, EIndexPattern.SPO)
-                                                                        }()
-                                                                        ,
-                                                                        true)
+                                                                        AOPVariable("p2"),
+                                                                        true,
+                                                                                    POPSort(
+                                                                                        dictionary,
+                                                                                        AOPVariable("o2"),
+                                                                                        true,
+                                                                                                    POPJoinHashMap(
+                                                                                                        dictionary,
+                                                                                                                    {
+                                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"s","p","o",false,false,false,EIndexPattern.SPO)
+                                                                                                                    }()
+,
+                                                                                                                    {
+                                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"o","p2","o2",false,false,false,EIndexPattern.SPO)
+                                                                                                                    }()
+,
+                                                                                                        true                                                                                                    )
 
-                                                        )
+                                                                                    )
 
-                                                )
+                                                                    )
 
-                                        )
+                                                    )
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "s",
+                            "p",
+                            "o",
+                            "p2",
+                            "o2"
                         ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map10285map
+                            GeneratedMutableMap.map10466map,
+                            GeneratedMutableMap.map10467map,
+                            GeneratedMutableMap.map33104map,
+                            GeneratedMutableMap.map10469map,
+                            GeneratedMutableMap.map33105map,
+                            GeneratedMutableMap.map10471map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("s"),
+                        LOPValues(listOf(
                                 AOPVariable("s"),
-                                POPValues(dictionary, listOf(
-                                        "s",
-                                        "p",
-                                        "o",
-                                        "p2",
-                                        "o2"
-                                ), listOf(
-                                        GeneratedMutableMap.map10280map,
-                                        GeneratedMutableMap.map32357map,
-                                        GeneratedMutableMap.map10281map,
-                                        GeneratedMutableMap.map10283map,
-                                        GeneratedMutableMap.map32358map,
-                                        GeneratedMutableMap.map10285map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                                AOPVariable("p"),
+                                AOPVariable("o"),
+                                AOPVariable("p2"),
+                                AOPVariable("o2")
+                            ), listOf(
+                                GeneratedMutableMap.map10596map,
+                                GeneratedMutableMap.map33106map,
+                                GeneratedMutableMap.map10597map,
+                                GeneratedMutableMap.map10599map,
+                                GeneratedMutableMap.map33107map,
+                                GeneratedMutableMap.map10601map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map10285map
+                            GeneratedMutableMap.map10596map,
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map33106map,
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map33107map,
+                            GeneratedMutableMap.map10601map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("s"),
-                                LOPSort(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("s"),
+                                    LOPSort(
                                         true,
                                         AOPVariable("p"),
-                                        LOPSort(
-                                                true,
-                                                AOPVariable("o"),
-                                                LOPSort(
+                                                    LOPSort(
                                                         true,
-                                                        AOPVariable("p2"),
-                                                        LOPSort(
-                                                                true,
-                                                                AOPVariable("o2"),
-                                                                LOPJoin(
-                                                                        {
-                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                                            DistributedTripleStore.commit(1L)
-                                                                            LOPTriple(AOPVariable("s"), AOPVariable("p"), AOPVariable("o"), graphName, false)
-                                                                        }()
-                                                                        ,
-                                                                        {
-                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                                            graph.addData(1L, listOf("<http://example.org/s1>", "<http://example.org/p1>", "<http://example.org/s2>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s2>", "<http://example.org/p2>", "\"foo\""))
-                                                                            graph.addData(1L, listOf("<http://example.org/s3>", "<http://example.org/p2>", "\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s4>", "<http://example.org/p4>", "\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s5>", "<http://example.org/p5>", "\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
-                                                                            graph.addData(1L, listOf("<http://example.org/s6>", "<http://example.org/p6>", "_:o6"))
-                                                                            DistributedTripleStore.commit(1L)
-                                                                            LOPTriple(AOPVariable("o"), AOPVariable("p2"), AOPVariable("o2"), graphName, false)
-                                                                        }()
-                                                                        ,
-                                                                        true)
+                                                        AOPVariable("o"),
+                                                                    LOPSort(
+                                                                        true,
+                                                                        AOPVariable("p2"),
+                                                                                    LOPSort(
+                                                                                        true,
+                                                                                        AOPVariable("o2"),
+                                                                                                    LOPJoin(
+                                                                                                                    {
+                                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                                        LOPTriple(AOPVariable("s"),AOPVariable("p"),AOPVariable("o"),graphName,false)                                                                                                                    }()
+,
+                                                                                                                    {
+                                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s1>","<http://example.org/p1>","<http://example.org/s2>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s2>","<http://example.org/p2>","\"foo\""))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s3>","<http://example.org/p2>","\"bar\"^^<http://www.w3.org/2001/XMLSchema#string>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s4>","<http://example.org/p4>","\"4\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s5>","<http://example.org/p5>","\"5\"^^<http://www.w3.org/2001/XMLSchema#decimal>"))
+                                                                                                                        graph.addData(1L,listOf("<http://example.org/s6>","<http://example.org/p6>","_:o6"))
+                                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                                        LOPTriple(AOPVariable("o"),AOPVariable("p2"),AOPVariable("o2"),graphName,false)                                                                                                                    }()
+,
+                                                                                                        true                                                                                                    )
 
-                                                        )
+                                                                                    )
 
-                                                )
+                                                                    )
 
-                                        )
+                                                    )
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "s",
-                                "p",
-                                "o",
-                                "p2",
-                                "o2"
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("s"),
+                            AOPVariable("p"),
+                            AOPVariable("o"),
+                            AOPVariable("p2"),
+                            AOPVariable("o2")
                         ), listOf(
-                                GeneratedMutableMap.map10280map,
-                                GeneratedMutableMap.map10281map,
-                                GeneratedMutableMap.map32357map,
-                                GeneratedMutableMap.map10283map,
-                                GeneratedMutableMap.map32358map,
-                                GeneratedMutableMap.map10285map
+                            GeneratedMutableMap.map10596map,
+                            GeneratedMutableMap.map10597map,
+                            GeneratedMutableMap.map33106map,
+                            GeneratedMutableMap.map10599map,
+                            GeneratedMutableMap.map33107map,
+                            GeneratedMutableMap.map10601map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */,
+            }() /* resources/sparql11-test-suite/json-res/jsonres02.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("sum"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "x",
-                                        "y",
-                                        "sum"
-                                ), listOf(
-                                        GeneratedMutableMap.map34416map,
-                                        GeneratedMutableMap.map34417map
-                                )
-                                )
-                        ),
+                        AOPVariable("sum"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "x",
                                 "y",
                                 "sum"
+                            ), listOf(
+                                GeneratedMutableMap.map35179map,
+                                GeneratedMutableMap.map35180map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "x",
+                            "y",
+                            "sum"
                         ), listOf(
-                                GeneratedMutableMap.map34416map,
-                                GeneratedMutableMap.map34417map
+                            GeneratedMutableMap.map35179map,
+                            GeneratedMutableMap.map35180map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/project-expression/projexp04.rq */,
+            }() /* resources/sparql11-test-suite/project-expression/projexp04.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("sum"),
-                                true,
-                                POPBind(
+                        AOPVariable("sum"),
+                        true,
+                                    POPBind(
                                         dictionary,
                                         AOPVariable("sum"),
                                         AOPAddition(AOPVariable("y"), AOPVariable("y")),
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://www.example.org/instance#a>", "<http://www.example.org/schema#p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                            graph.addData(1L, listOf("<http://www.example.org/instance#a>", "<http://www.example.org/schema#p>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                            DistributedTripleStore.commit(1L)
-                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "x", "<http://www.example.org/schema#p>", "y", false, true, false, EIndexPattern.SPO)
-                                        }()
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://www.example.org/instance#a>","<http://www.example.org/schema#p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://www.example.org/instance#a>","<http://www.example.org/schema#p>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"x","<http://www.example.org/schema#p>","y",false,true,false,EIndexPattern.SPO)
+                                                    }()
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "x",
-                                "y",
-                                "sum"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "x",
+                            "y",
+                            "sum"
                         ), listOf(
-                                GeneratedMutableMap.map34416map,
-                                GeneratedMutableMap.map34417map
+                            GeneratedMutableMap.map35179map,
+                            GeneratedMutableMap.map35180map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/project-expression/projexp04.rq */,
+            }() /* resources/sparql11-test-suite/project-expression/projexp04.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("sum"),
-                                POPValues(dictionary, listOf(
-                                        "x",
-                                        "y",
-                                        "sum"
-                                ), listOf(
-                                        GeneratedMutableMap.map34416map,
-                                        GeneratedMutableMap.map34417map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "x",
-                                "y",
-                                "sum"
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("sum"),
+                        LOPValues(listOf(
+                                AOPVariable("x"),
+                                AOPVariable("y"),
+                                AOPVariable("sum")
+                            ), listOf(
+                                GeneratedMutableMap.map34838map,
+                                GeneratedMutableMap.map35181map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("x"),
+                            AOPVariable("y"),
+                            AOPVariable("sum")
                         ), listOf(
-                                GeneratedMutableMap.map34416map,
-                                GeneratedMutableMap.map34417map
+                            GeneratedMutableMap.map34838map,
+                            GeneratedMutableMap.map35181map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/project-expression/projexp04.rq */,
+            }() /* resources/sparql11-test-suite/project-expression/projexp04.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("sum"),
-                                LOPBind(
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("sum"),
+                                    LOPBind(
                                         AOPVariable("sum"),
                                         AOPAddition(AOPVariable("y"), AOPVariable("y")),
-                                        {
-                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                            graph.addData(1L, listOf("<http://www.example.org/instance#a>", "<http://www.example.org/schema#p>", "\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                            graph.addData(1L, listOf("<http://www.example.org/instance#a>", "<http://www.example.org/schema#p>", "\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
-                                            DistributedTripleStore.commit(1L)
-                                            LOPTriple(AOPVariable("x"), AOPVariable.calculate("<http://www.example.org/schema#p>"), AOPVariable("y"), graphName, false)
-                                        }()
+                                                    {
+                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                        graph.addData(1L,listOf("<http://www.example.org/instance#a>","<http://www.example.org/schema#p>","\"1\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        graph.addData(1L,listOf("<http://www.example.org/instance#a>","<http://www.example.org/schema#p>","\"2\"^^<http://www.w3.org/2001/XMLSchema#integer>"))
+                                                        DistributedTripleStore.commit(1L)
+                                                        LOPTriple(AOPVariable("x"),AOPVariable.calculate("<http://www.example.org/schema#p>"),AOPVariable("y"),graphName,false)                                                    }()
 
-                                )
+                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "x",
-                                "y",
-                                "sum"
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("x"),
+                            AOPVariable("y"),
+                            AOPVariable("sum")
                         ), listOf(
-                                GeneratedMutableMap.map34416map,
-                                GeneratedMutableMap.map34417map
+                            GeneratedMutableMap.map34838map,
+                            GeneratedMutableMap.map35181map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/project-expression/projexp04.rq */,
+            }() /* resources/sparql11-test-suite/project-expression/projexp04.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("O"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "O"
-                                ), listOf(
-                                        GeneratedMutableMap.map36108map,
-                                        GeneratedMutableMap.map36109map,
-                                        GeneratedMutableMap.map36110map,
-                                        GeneratedMutableMap.map36111map
-                                )
-                                )
-                        ),
+                        AOPVariable("O"),
+                        true,
                         POPValues(dictionary, listOf(
                                 "O"
+                            ), listOf(
+                                GeneratedMutableMap.map36882map,
+                                GeneratedMutableMap.map36883map,
+                                GeneratedMutableMap.map36884map,
+                                GeneratedMutableMap.map36885map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "O"
                         ), listOf(
-                                GeneratedMutableMap.map36108map,
-                                GeneratedMutableMap.map36109map,
-                                GeneratedMutableMap.map36110map,
-                                GeneratedMutableMap.map36111map
+                            GeneratedMutableMap.map36882map,
+                            GeneratedMutableMap.map36883map,
+                            GeneratedMutableMap.map36884map,
+                            GeneratedMutableMap.map36885map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("O"),
-                                true,
-                                {
-                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                    DistributedTripleStore.commit(1L)
-                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>", false, true, true, EIndexPattern.SPO)
-                                }()
+                        AOPVariable("O"),
+                        true,
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                        DistributedTripleStore.commit(1L)
+                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"O","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>",false,true,true,EIndexPattern.SPO)
+                                    }()
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "O"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "O"
                         ), listOf(
-                                GeneratedMutableMap.map36108map,
-                                GeneratedMutableMap.map36109map,
-                                GeneratedMutableMap.map36110map,
-                                GeneratedMutableMap.map36111map
+                            GeneratedMutableMap.map36882map,
+                            GeneratedMutableMap.map36883map,
+                            GeneratedMutableMap.map36884map,
+                            GeneratedMutableMap.map36885map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("O"),
-                                POPValues(dictionary, listOf(
-                                        "O"
-                                ), listOf(
-                                        GeneratedMutableMap.map36108map,
-                                        GeneratedMutableMap.map36109map,
-                                        GeneratedMutableMap.map36110map,
-                                        GeneratedMutableMap.map36111map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "O"
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("O"),
+                        LOPValues(listOf(
+                                AOPVariable("O")
+                            ), listOf(
+                                GeneratedMutableMap.map36886map,
+                                GeneratedMutableMap.map36887map,
+                                GeneratedMutableMap.map36888map,
+                                GeneratedMutableMap.map36889map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("O")
                         ), listOf(
-                                GeneratedMutableMap.map36108map,
-                                GeneratedMutableMap.map36109map,
-                                GeneratedMutableMap.map36110map,
-                                GeneratedMutableMap.map36111map
+                            GeneratedMutableMap.map36886map,
+                            GeneratedMutableMap.map36887map,
+                            GeneratedMutableMap.map36888map,
+                            GeneratedMutableMap.map36889map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("O"),
-                                {
-                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                    DistributedTripleStore.commit(1L)
-                                    LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"), AOPVariable.calculate("<http://www.example.orgOrder>"), graphName, false)
-                                }()
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("O"),
+                                    {
+                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                        DistributedTripleStore.commit(1L)
+                                        LOPTriple(AOPVariable("O"),AOPVariable.calculate("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"),AOPVariable.calculate("<http://www.example.orgOrder>"),graphName,false)                                    }()
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "O"
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("O")
                         ), listOf(
-                                GeneratedMutableMap.map36108map,
-                                GeneratedMutableMap.map36109map,
-                                GeneratedMutableMap.map36110map,
-                                GeneratedMutableMap.map36111map
+                            GeneratedMutableMap.map36886map,
+                            GeneratedMutableMap.map36887map,
+                            GeneratedMutableMap.map36888map,
+                            GeneratedMutableMap.map36889map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("L"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "#_35992",
-                                        "L",
-                                        "O"
-                                ), listOf(
-                                        GeneratedMutableMap.map36132map,
-                                        GeneratedMutableMap.map36133map,
-                                        GeneratedMutableMap.map36134map,
-                                        GeneratedMutableMap.map36135map,
-                                        GeneratedMutableMap.map36136map,
-                                        GeneratedMutableMap.map36137map
-                                )
-                                )
-                        ),
+                        AOPVariable("L"),
+                        true,
                         POPValues(dictionary, listOf(
-                                "#_35992",
+                                "#_36766",
                                 "L",
                                 "O"
+                            ), listOf(
+                                GeneratedMutableMap.map36930map,
+                                GeneratedMutableMap.map36931map,
+                                GeneratedMutableMap.map36932map,
+                                GeneratedMutableMap.map36933map,
+                                GeneratedMutableMap.map36934map,
+                                GeneratedMutableMap.map36935map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "#_36766",
+                            "L",
+                            "O"
                         ), listOf(
-                                GeneratedMutableMap.map36132map,
-                                GeneratedMutableMap.map36135map,
-                                GeneratedMutableMap.map36136map,
-                                GeneratedMutableMap.map36133map,
-                                GeneratedMutableMap.map36137map,
-                                GeneratedMutableMap.map36134map
+                            GeneratedMutableMap.map36930map,
+                            GeneratedMutableMap.map36933map,
+                            GeneratedMutableMap.map36934map,
+                            GeneratedMutableMap.map36931map,
+                            GeneratedMutableMap.map36935map,
+                            GeneratedMutableMap.map36932map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("L"),
-                                true,
-                                POPJoinHashMap(
+                        AOPVariable("L"),
+                        true,
+                                    POPJoinHashMap(
                                         dictionary,
-                                        POPJoinHashMap(
-                                                dictionary,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("_:_35969", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                                                    graph.addData(1L, listOf("_:_35970", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
-                                                    graph.addData(1L, listOf("_:_35971", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
-                                                    graph.addData(1L, listOf("_:_35972", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                                                    graph.addData(1L, listOf("_:_35973", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
-                                                    graph.addData(1L, listOf("_:_35974", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                    graph.addData(1L, listOf("_:_35975", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
-                                                    graph.addData(1L, listOf("_:_35976", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                    graph.addData(1L, listOf("_:_35977", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
-                                                    graph.addData(1L, listOf("_:_35978", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                    DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "#_35992", "<http://www.w3.org/2000/01/rdf-schema#label>", "L", false, true, false, EIndexPattern.SPO)
-                                                }()
-                                                ,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35969"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35970"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35971"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35972"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35973"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35974"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_35975"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_35976"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_35977"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_35978"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.example.orghasItem>", "#_35992", false, true, false, EIndexPattern.SPO)
-                                                }()
-                                                ,
-                                                false)
-                                        ,
-                                        POPDistinct(
-                                                dictionary,
-                                                POPProjection(
+                                                    POPJoinHashMap(
                                                         dictionary,
-                                                        mutableListOf(
-                                                                AOPVariable("O")
-                                                        ),
-                                                        POPLimit(
-                                                                dictionary,
-                                                                2,
-                                                                POPSort(
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("_:_36743","<http://www.w3.org/2000/01/rdf-schema#label>","\"Ice Cream\""))
+                                                                        graph.addData(1L,listOf("_:_36744","<http://www.w3.org/2000/01/rdf-schema#label>","\"Pizza\""))
+                                                                        graph.addData(1L,listOf("_:_36745","<http://www.w3.org/2000/01/rdf-schema#label>","\"Wine\""))
+                                                                        graph.addData(1L,listOf("_:_36746","<http://www.w3.org/2000/01/rdf-schema#label>","\"Ice Cream\""))
+                                                                        graph.addData(1L,listOf("_:_36747","<http://www.w3.org/2000/01/rdf-schema#label>","\"Pasta\""))
+                                                                        graph.addData(1L,listOf("_:_36748","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                                        graph.addData(1L,listOf("_:_36749","<http://www.w3.org/2000/01/rdf-schema#label>","\"Sandwich\""))
+                                                                        graph.addData(1L,listOf("_:_36750","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                                        graph.addData(1L,listOf("_:_36751","<http://www.w3.org/2000/01/rdf-schema#label>","\"Bagel\""))
+                                                                        graph.addData(1L,listOf("_:_36752","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_36766","<http://www.w3.org/2000/01/rdf-schema#label>","L",false,true,false,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_36743"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_36744"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_36745"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_36746"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_36747"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_36748"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.example.orghasItem>","_:_36749"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.example.orghasItem>","_:_36750"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.example.orghasItem>","_:_36751"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.example.orghasItem>","_:_36752"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"O","<http://www.example.orghasItem>","#_36766",false,true,false,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                        false                                                    )
+,
+                                                    POPDistinct(
+                                                        dictionary,
+                                                                    POPProjection(
                                                                         dictionary,
-                                                                        AOPVariable("O"),
-                                                                        true,
-                                                                        {
-                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                            DistributedTripleStore.commit(1L)
-                                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>", false, true, true, EIndexPattern.SPO)
-                                                                        }()
+                                                                        mutableListOf(
+                                                                            AOPVariable("O")
+                                                                        ),
+                                                                                    POPLimit(
+                                                                                        dictionary,
+                                                                                        2,
+                                                                                                    POPSort(
+                                                                                                        dictionary,
+                                                                                                        AOPVariable("O"),
+                                                                                                        true,
+                                                                                                                    {
+                                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"O","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>",false,true,true,EIndexPattern.SPO)
+                                                                                                                    }()
 
-                                                                )
+                                                                                                    )
 
-                                                        )
+                                                                                    )
 
-                                                )
+                                                                    )
 
-                                        )
-                                        ,
-                                        false)
+                                                    )
+,
+                                        false                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "#_35992",
-                                "L",
-                                "O"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "#_36766",
+                            "L",
+                            "O"
                         ), listOf(
-                                GeneratedMutableMap.map36132map,
-                                GeneratedMutableMap.map36135map,
-                                GeneratedMutableMap.map36136map,
-                                GeneratedMutableMap.map36133map,
-                                GeneratedMutableMap.map36137map,
-                                GeneratedMutableMap.map36134map
+                            GeneratedMutableMap.map36930map,
+                            GeneratedMutableMap.map36933map,
+                            GeneratedMutableMap.map36934map,
+                            GeneratedMutableMap.map36931map,
+                            GeneratedMutableMap.map36935map,
+                            GeneratedMutableMap.map36932map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("L"),
+                        LOPValues(listOf(
+                                AOPVariable("#_36766"),
                                 AOPVariable("L"),
-                                POPValues(dictionary, listOf(
-                                        "#_35992",
-                                        "L",
-                                        "O"
-                                ), listOf(
-                                        GeneratedMutableMap.map36132map,
-                                        GeneratedMutableMap.map36133map,
-                                        GeneratedMutableMap.map36134map,
-                                        GeneratedMutableMap.map36135map,
-                                        GeneratedMutableMap.map36136map,
-                                        GeneratedMutableMap.map36137map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "#_35992",
-                                "L",
-                                "O"
+                                AOPVariable("O")
+                            ), listOf(
+                                GeneratedMutableMap.map36940map,
+                                GeneratedMutableMap.map36941map,
+                                GeneratedMutableMap.map36942map,
+                                GeneratedMutableMap.map36943map,
+                                GeneratedMutableMap.map36944map,
+                                GeneratedMutableMap.map36945map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("#_36766"),
+                            AOPVariable("L"),
+                            AOPVariable("O")
                         ), listOf(
-                                GeneratedMutableMap.map36132map,
-                                GeneratedMutableMap.map36135map,
-                                GeneratedMutableMap.map36136map,
-                                GeneratedMutableMap.map36133map,
-                                GeneratedMutableMap.map36137map,
-                                GeneratedMutableMap.map36134map
+                            GeneratedMutableMap.map36940map,
+                            GeneratedMutableMap.map36943map,
+                            GeneratedMutableMap.map36944map,
+                            GeneratedMutableMap.map36941map,
+                            GeneratedMutableMap.map36945map,
+                            GeneratedMutableMap.map36942map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("L"),
-                                LOPJoin(
-                                        LOPJoin(
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("_:_35969", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                                                    graph.addData(1L, listOf("_:_35970", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
-                                                    graph.addData(1L, listOf("_:_35971", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
-                                                    graph.addData(1L, listOf("_:_35972", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                                                    graph.addData(1L, listOf("_:_35973", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
-                                                    graph.addData(1L, listOf("_:_35974", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                    graph.addData(1L, listOf("_:_35975", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
-                                                    graph.addData(1L, listOf("_:_35976", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                    graph.addData(1L, listOf("_:_35977", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
-                                                    graph.addData(1L, listOf("_:_35978", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                    DistributedTripleStore.commit(1L)
-                                                    LOPTriple(AOPVariable("#_35992"), AOPVariable.calculate("<http://www.w3.org/2000/01/rdf-schema#label>"), AOPVariable("L"), graphName, false)
-                                                }()
-                                                ,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35969"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35970"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_35971"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35972"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35973"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_35974"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_35975"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_35976"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_35977"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_35978"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.example.orghasItem>"), AOPVariable("#_35992"), graphName, false)
-                                                }()
-                                                ,
-                                                false)
-                                        ,
-                                        LOPDistinct(
-                                                LOPProjection(
-                                                        mutableListOf(
-                                                                AOPVariable("O")
-                                                        ),
-                                                        LOPLimit(
-                                                                2,
-                                                                LOPSort(
-                                                                        true,
-                                                                        AOPVariable("O"),
-                                                                        {
-                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                            DistributedTripleStore.commit(1L)
-                                                                            LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"), AOPVariable.calculate("<http://www.example.orgOrder>"), graphName, false)
-                                                                        }()
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("L"),
+                                    LOPJoin(
+                                                    LOPJoin(
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("_:_36743","<http://www.w3.org/2000/01/rdf-schema#label>","\"Ice Cream\""))
+                                                                        graph.addData(1L,listOf("_:_36744","<http://www.w3.org/2000/01/rdf-schema#label>","\"Pizza\""))
+                                                                        graph.addData(1L,listOf("_:_36745","<http://www.w3.org/2000/01/rdf-schema#label>","\"Wine\""))
+                                                                        graph.addData(1L,listOf("_:_36746","<http://www.w3.org/2000/01/rdf-schema#label>","\"Ice Cream\""))
+                                                                        graph.addData(1L,listOf("_:_36747","<http://www.w3.org/2000/01/rdf-schema#label>","\"Pasta\""))
+                                                                        graph.addData(1L,listOf("_:_36748","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                                        graph.addData(1L,listOf("_:_36749","<http://www.w3.org/2000/01/rdf-schema#label>","\"Sandwich\""))
+                                                                        graph.addData(1L,listOf("_:_36750","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                                        graph.addData(1L,listOf("_:_36751","<http://www.w3.org/2000/01/rdf-schema#label>","\"Bagel\""))
+                                                                        graph.addData(1L,listOf("_:_36752","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        LOPTriple(AOPVariable("#_36766"),AOPVariable.calculate("<http://www.w3.org/2000/01/rdf-schema#label>"),AOPVariable("L"),graphName,false)                                                                    }()
+,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_36743"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_36744"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_36745"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_36746"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_36747"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_36748"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.example.orghasItem>","_:_36749"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.example.orghasItem>","_:_36750"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.example.orghasItem>","_:_36751"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.example.orghasItem>","_:_36752"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        LOPTriple(AOPVariable("O"),AOPVariable.calculate("<http://www.example.orghasItem>"),AOPVariable("#_36766"),graphName,false)                                                                    }()
+,
+                                                        false                                                    )
+,
+                                                    LOPDistinct(
+                                                                    LOPProjection(
+                                                                        mutableListOf(
+                                                                            AOPVariable("O")
+                                                                        ),
+                                                                                    LOPLimit(
+                                                                                        2,
+                                                                                                    LOPSort(
+                                                                                                        true,
+                                                                                                        AOPVariable("O"),
+                                                                                                                    {
+                                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                                        LOPTriple(AOPVariable("O"),AOPVariable.calculate("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"),AOPVariable.calculate("<http://www.example.orgOrder>"),graphName,false)                                                                                                                    }()
 
-                                                                )
+                                                                                                    )
 
-                                                        )
+                                                                                    )
 
-                                                )
+                                                                    )
 
-                                        )
-                                        ,
-                                        false)
+                                                    )
+,
+                                        false                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "#_35992",
-                                "L",
-                                "O"
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("#_36766"),
+                            AOPVariable("L"),
+                            AOPVariable("O")
                         ), listOf(
-                                GeneratedMutableMap.map36132map,
-                                GeneratedMutableMap.map36135map,
-                                GeneratedMutableMap.map36136map,
-                                GeneratedMutableMap.map36133map,
-                                GeneratedMutableMap.map36137map,
-                                GeneratedMutableMap.map36134map
+                            GeneratedMutableMap.map36940map,
+                            GeneratedMutableMap.map36943map,
+                            GeneratedMutableMap.map36944map,
+                            GeneratedMutableMap.map36941map,
+                            GeneratedMutableMap.map36945map,
+                            GeneratedMutableMap.map36942map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("L"),
-                                true,
-                                POPValues(dictionary, listOf(
-                                        "#_36360",
-                                        "L",
-                                        "O"
-                                ), listOf(
-                                        GeneratedMutableMap.map36496map,
-                                        GeneratedMutableMap.map36497map,
-                                        GeneratedMutableMap.map36498map,
-                                        GeneratedMutableMap.map36499map,
-                                        GeneratedMutableMap.map36500map,
-                                        GeneratedMutableMap.map36501map
-                                )
-                                )
-                        ),
+                        AOPVariable("L"),
+                        true,
                         POPValues(dictionary, listOf(
-                                "#_36360",
+                                "#_37181",
                                 "L",
                                 "O"
+                            ), listOf(
+                                GeneratedMutableMap.map37327map,
+                                GeneratedMutableMap.map37328map,
+                                GeneratedMutableMap.map37329map,
+                                GeneratedMutableMap.map37330map,
+                                GeneratedMutableMap.map37331map,
+                                GeneratedMutableMap.map37332map
+                            )
+                        )
+                    ),
+                    POPValues(dictionary, listOf(
+                            "#_37181",
+                            "L",
+                            "O"
                         ), listOf(
-                                GeneratedMutableMap.map36496map,
-                                GeneratedMutableMap.map36499map,
-                                GeneratedMutableMap.map36500map,
-                                GeneratedMutableMap.map36497map,
-                                GeneratedMutableMap.map36501map,
-                                GeneratedMutableMap.map36498map
+                            GeneratedMutableMap.map37327map,
+                            GeneratedMutableMap.map37330map,
+                            GeneratedMutableMap.map37331map,
+                            GeneratedMutableMap.map37328map,
+                            GeneratedMutableMap.map37332map,
+                            GeneratedMutableMap.map37329map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
             {
                 val dictionary = ResultSetDictionary()
                 MicroTestPN(
+                    dictionary,
+                    POPSort(
                         dictionary,
-                        POPSort(
-                                dictionary,
-                                AOPVariable("L"),
-                                true,
-                                POPJoinHashMap(
+                        AOPVariable("L"),
+                        true,
+                                    POPJoinHashMap(
                                         dictionary,
-                                        POPJoinHashMap(
-                                                dictionary,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("_:_36337", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                                                    graph.addData(1L, listOf("_:_36338", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
-                                                    graph.addData(1L, listOf("_:_36339", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
-                                                    graph.addData(1L, listOf("_:_36340", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                                                    graph.addData(1L, listOf("_:_36341", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
-                                                    graph.addData(1L, listOf("_:_36342", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                    graph.addData(1L, listOf("_:_36343", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
-                                                    graph.addData(1L, listOf("_:_36344", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                    graph.addData(1L, listOf("_:_36345", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
-                                                    graph.addData(1L, listOf("_:_36346", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                    DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "#_36360", "<http://www.w3.org/2000/01/rdf-schema#label>", "L", false, true, false, EIndexPattern.SPO)
-                                                }()
-                                                ,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36337"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36338"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36339"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36340"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36341"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36342"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_36343"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_36344"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_36345"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_36346"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.example.orghasItem>", "#_36360", false, true, false, EIndexPattern.SPO)
-                                                }()
-                                                ,
-                                                false)
-                                        ,
-                                        POPDistinct(
-                                                dictionary,
-                                                POPProjection(
+                                                    POPJoinHashMap(
                                                         dictionary,
-                                                        mutableListOf(
-                                                                AOPVariable("O")
-                                                        ),
-                                                        POPLimit(
-                                                                dictionary,
-                                                                2,
-                                                                POPSort(
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("_:_37158","<http://www.w3.org/2000/01/rdf-schema#label>","\"Ice Cream\""))
+                                                                        graph.addData(1L,listOf("_:_37159","<http://www.w3.org/2000/01/rdf-schema#label>","\"Pizza\""))
+                                                                        graph.addData(1L,listOf("_:_37160","<http://www.w3.org/2000/01/rdf-schema#label>","\"Wine\""))
+                                                                        graph.addData(1L,listOf("_:_37161","<http://www.w3.org/2000/01/rdf-schema#label>","\"Ice Cream\""))
+                                                                        graph.addData(1L,listOf("_:_37162","<http://www.w3.org/2000/01/rdf-schema#label>","\"Pasta\""))
+                                                                        graph.addData(1L,listOf("_:_37163","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                                        graph.addData(1L,listOf("_:_37164","<http://www.w3.org/2000/01/rdf-schema#label>","\"Sandwich\""))
+                                                                        graph.addData(1L,listOf("_:_37165","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                                        graph.addData(1L,listOf("_:_37166","<http://www.w3.org/2000/01/rdf-schema#label>","\"Bagel\""))
+                                                                        graph.addData(1L,listOf("_:_37167","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"#_37181","<http://www.w3.org/2000/01/rdf-schema#label>","L",false,true,false,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_37158"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_37159"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_37160"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_37161"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_37162"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_37163"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.example.orghasItem>","_:_37164"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.example.orghasItem>","_:_37165"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.example.orghasItem>","_:_37166"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.example.orghasItem>","_:_37167"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"O","<http://www.example.orghasItem>","#_37181",false,true,false,EIndexPattern.SPO)
+                                                                    }()
+,
+                                                        false                                                    )
+,
+                                                    POPDistinct(
+                                                        dictionary,
+                                                                    POPProjection(
                                                                         dictionary,
-                                                                        AOPVariable("O"),
-                                                                        true,
-                                                                        {
-                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                            DistributedTripleStore.commit(1L)
-                                                                            TripleStoreIteratorGlobal(1L, dictionary, graphName, "O", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>", false, true, true, EIndexPattern.SPO)
-                                                                        }()
+                                                                        mutableListOf(
+                                                                            AOPVariable("O")
+                                                                        ),
+                                                                                    POPLimit(
+                                                                                        dictionary,
+                                                                                        2,
+                                                                                                    POPSort(
+                                                                                                        dictionary,
+                                                                                                        AOPVariable("O"),
+                                                                                                        true,
+                                                                                                                    {
+                                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                                        TripleStoreIteratorGlobal(1L,dictionary,graphName,"O","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>",false,true,true,EIndexPattern.SPO)
+                                                                                                                    }()
 
-                                                                )
+                                                                                                    )
 
-                                                        )
+                                                                                    )
 
-                                                )
+                                                                    )
 
-                                        )
-                                        ,
-                                        false)
+                                                    )
+,
+                                        false                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "#_36360",
-                                "L",
-                                "O"
+                    ),
+                    POPValues(dictionary, listOf(
+                            "#_37181",
+                            "L",
+                            "O"
                         ), listOf(
-                                GeneratedMutableMap.map36496map,
-                                GeneratedMutableMap.map36499map,
-                                GeneratedMutableMap.map36500map,
-                                GeneratedMutableMap.map36497map,
-                                GeneratedMutableMap.map36501map,
-                                GeneratedMutableMap.map36498map
+                            GeneratedMutableMap.map37327map,
+                            GeneratedMutableMap.map37330map,
+                            GeneratedMutableMap.map37331map,
+                            GeneratedMutableMap.map37328map,
+                            GeneratedMutableMap.map37332map,
+                            GeneratedMutableMap.map37329map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("L"),
+                        LOPValues(listOf(
+                                AOPVariable("#_37181"),
                                 AOPVariable("L"),
-                                POPValues(dictionary, listOf(
-                                        "#_36360",
-                                        "L",
-                                        "O"
-                                ), listOf(
-                                        GeneratedMutableMap.map36496map,
-                                        GeneratedMutableMap.map36497map,
-                                        GeneratedMutableMap.map36498map,
-                                        GeneratedMutableMap.map36499map,
-                                        GeneratedMutableMap.map36500map,
-                                        GeneratedMutableMap.map36501map
-                                )
-                                )
-                        ),
-                        POPValues(dictionary, listOf(
-                                "#_36360",
-                                "L",
-                                "O"
+                                AOPVariable("O")
+                            ), listOf(
+                                GeneratedMutableMap.map37347map,
+                                GeneratedMutableMap.map37348map,
+                                GeneratedMutableMap.map37349map,
+                                GeneratedMutableMap.map37350map,
+                                GeneratedMutableMap.map37351map,
+                                GeneratedMutableMap.map37352map
+                            )
+                        )
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("#_37181"),
+                            AOPVariable("L"),
+                            AOPVariable("O")
                         ), listOf(
-                                GeneratedMutableMap.map36496map,
-                                GeneratedMutableMap.map36499map,
-                                GeneratedMutableMap.map36500map,
-                                GeneratedMutableMap.map36497map,
-                                GeneratedMutableMap.map36501map,
-                                GeneratedMutableMap.map36498map
+                            GeneratedMutableMap.map37347map,
+                            GeneratedMutableMap.map37350map,
+                            GeneratedMutableMap.map37351map,
+                            GeneratedMutableMap.map37348map,
+                            GeneratedMutableMap.map37352map,
+                            GeneratedMutableMap.map37349map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
             {
-                val dictionary = ResultSetDictionary()
+                val dictionary=ResultSetDictionary()
                 MicroTestLN(
-                        dictionary,
-                        LOPSort(
-                                true,
-                                AOPVariable("L"),
-                                LOPJoin(
-                                        LOPJoin(
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("_:_36337", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                                                    graph.addData(1L, listOf("_:_36338", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pizza\""))
-                                                    graph.addData(1L, listOf("_:_36339", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Wine\""))
-                                                    graph.addData(1L, listOf("_:_36340", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Ice Cream\""))
-                                                    graph.addData(1L, listOf("_:_36341", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Pasta\""))
-                                                    graph.addData(1L, listOf("_:_36342", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                    graph.addData(1L, listOf("_:_36343", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Sandwich\""))
-                                                    graph.addData(1L, listOf("_:_36344", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                    graph.addData(1L, listOf("_:_36345", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Bagel\""))
-                                                    graph.addData(1L, listOf("_:_36346", "<http://www.w3.org/2000/01/rdf-schema#label>", "\"Soft Drink\""))
-                                                    DistributedTripleStore.commit(1L)
-                                                    LOPTriple(AOPVariable("#_36360"), AOPVariable.calculate("<http://www.w3.org/2000/01/rdf-schema#label>"), AOPVariable("L"), graphName, false)
-                                                }()
-                                                ,
-                                                {
-                                                    val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                    val graph = DistributedTripleStore.createGraph(graphName)
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36337"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36338"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.example.orghasItem>", "_:_36339"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36340"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36341"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.example.orghasItem>", "_:_36342"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_36343"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.example.orghasItem>", "_:_36344"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_36345"))
-                                                    graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.example.orghasItem>", "_:_36346"))
-                                                    DistributedTripleStore.commit(1L)
-                                                    LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.example.orghasItem>"), AOPVariable("#_36360"), graphName, false)
-                                                }()
-                                                ,
-                                                false)
-                                        ,
-                                        LOPDistinct(
-                                                LOPProjection(
-                                                        mutableListOf(
-                                                                AOPVariable("O")
-                                                        ),
-                                                        LOPLimit(
-                                                                2,
-                                                                LOPSort(
-                                                                        true,
-                                                                        AOPVariable("O"),
-                                                                        {
-                                                                            val graphName = "graph" + DistributedTripleStore.getGraphNames().size
-                                                                            val graph = DistributedTripleStore.createGraph(graphName)
-                                                                            graph.addData(1L, listOf("<http://www.example.orgorder1>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                            graph.addData(1L, listOf("<http://www.example.orgorder2>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                            graph.addData(1L, listOf("<http://www.example.orgorder3>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                            graph.addData(1L, listOf("<http://www.example.orgorder4>", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", "<http://www.example.orgOrder>"))
-                                                                            DistributedTripleStore.commit(1L)
-                                                                            LOPTriple(AOPVariable("O"), AOPVariable.calculate("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"), AOPVariable.calculate("<http://www.example.orgOrder>"), graphName, false)
-                                                                        }()
+                    dictionary,
+                    LOPSort(
+                        true,
+                        AOPVariable("L"),
+                                    LOPJoin(
+                                                    LOPJoin(
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("_:_37158","<http://www.w3.org/2000/01/rdf-schema#label>","\"Ice Cream\""))
+                                                                        graph.addData(1L,listOf("_:_37159","<http://www.w3.org/2000/01/rdf-schema#label>","\"Pizza\""))
+                                                                        graph.addData(1L,listOf("_:_37160","<http://www.w3.org/2000/01/rdf-schema#label>","\"Wine\""))
+                                                                        graph.addData(1L,listOf("_:_37161","<http://www.w3.org/2000/01/rdf-schema#label>","\"Ice Cream\""))
+                                                                        graph.addData(1L,listOf("_:_37162","<http://www.w3.org/2000/01/rdf-schema#label>","\"Pasta\""))
+                                                                        graph.addData(1L,listOf("_:_37163","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                                        graph.addData(1L,listOf("_:_37164","<http://www.w3.org/2000/01/rdf-schema#label>","\"Sandwich\""))
+                                                                        graph.addData(1L,listOf("_:_37165","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                                        graph.addData(1L,listOf("_:_37166","<http://www.w3.org/2000/01/rdf-schema#label>","\"Bagel\""))
+                                                                        graph.addData(1L,listOf("_:_37167","<http://www.w3.org/2000/01/rdf-schema#label>","\"Soft Drink\""))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        LOPTriple(AOPVariable("#_37181"),AOPVariable.calculate("<http://www.w3.org/2000/01/rdf-schema#label>"),AOPVariable("L"),graphName,false)                                                                    }()
+,
+                                                                    {
+                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_37158"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_37159"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.example.orghasItem>","_:_37160"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_37161"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_37162"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.example.orghasItem>","_:_37163"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.example.orghasItem>","_:_37164"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.example.orghasItem>","_:_37165"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.example.orghasItem>","_:_37166"))
+                                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.example.orghasItem>","_:_37167"))
+                                                                        DistributedTripleStore.commit(1L)
+                                                                        LOPTriple(AOPVariable("O"),AOPVariable.calculate("<http://www.example.orghasItem>"),AOPVariable("#_37181"),graphName,false)                                                                    }()
+,
+                                                        false                                                    )
+,
+                                                    LOPDistinct(
+                                                                    LOPProjection(
+                                                                        mutableListOf(
+                                                                            AOPVariable("O")
+                                                                        ),
+                                                                                    LOPLimit(
+                                                                                        2,
+                                                                                                    LOPSort(
+                                                                                                        true,
+                                                                                                        AOPVariable("O"),
+                                                                                                                    {
+                                                                                                                        val graphName = "graph" + DistributedTripleStore.getGraphNames().size
+                                                                                                                        val graph=DistributedTripleStore.createGraph(graphName)
+                                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder1>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder2>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder3>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                                        graph.addData(1L,listOf("<http://www.example.orgorder4>","<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>","<http://www.example.orgOrder>"))
+                                                                                                                        DistributedTripleStore.commit(1L)
+                                                                                                                        LOPTriple(AOPVariable("O"),AOPVariable.calculate("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"),AOPVariable.calculate("<http://www.example.orgOrder>"),graphName,false)                                                                                                                    }()
 
-                                                                )
+                                                                                                    )
 
-                                                        )
+                                                                                    )
 
-                                                )
+                                                                    )
 
-                                        )
-                                        ,
-                                        false)
+                                                    )
+,
+                                        false                                    )
 
-                        ),
-                        POPValues(dictionary, listOf(
-                                "#_36360",
-                                "L",
-                                "O"
+                    ),
+                    LOPValues(listOf(
+                            AOPVariable("#_37181"),
+                            AOPVariable("L"),
+                            AOPVariable("O")
                         ), listOf(
-                                GeneratedMutableMap.map36496map,
-                                GeneratedMutableMap.map36499map,
-                                GeneratedMutableMap.map36500map,
-                                GeneratedMutableMap.map36497map,
-                                GeneratedMutableMap.map36501map,
-                                GeneratedMutableMap.map36498map
+                            GeneratedMutableMap.map37347map,
+                            GeneratedMutableMap.map37350map,
+                            GeneratedMutableMap.map37351map,
+                            GeneratedMutableMap.map37348map,
+                            GeneratedMutableMap.map37352map,
+                            GeneratedMutableMap.map37349map
                         )
-                        )
+                    )
                 )
-            }() /* resources/sparql11-test-suite/subquery/sq11.rq */,
+            }() /* resources/sparql11-test-suite/subquery/sq11.rq */ ,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -6247,25 +6197,44 @@ class GeneratedPOPSortTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)) {
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }
                     assertTrue(expected.myEquals(output))
-                } else if (data.input is LOPBase && data is MicroTestPN) {
+                } else if (data.input is LOPBase && data is MicroTestLN) {
                     val lop_node = data.input as LOPBase
                     val dictionary = data.dictionary
-                    val lop_node2 = LogicalOptimizer(1L, dictionary).optimizeCall(lop_node)
-                    val pop_node = PhysicalOptimizer(1L, dictionary).optimizeCall(lop_node2)
-                    val input = KeyDistributionOptimizer(1L, dictionary).optimizeCall(pop_node) as POPBase
+                    ExecuteOptimizer.enabledOptimizers.clear()
+                    val lOptimizer=LogicalOptimizer(1L, dictionary)
+                    val pOptimizer=PhysicalOptimizer(1L, dictionary)
+                    val dOptimizer=KeyDistributionOptimizer(1L, dictionary)
+                    val lop_node2 =lOptimizer.optimizeCall(lop_node)
+                    val pop_node = pOptimizer.optimizeCall(lop_node2)
+                    val input = dOptimizer.optimizeCall(pop_node) as POPBase
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)) {
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }
                     assertTrue(expected.myEquals(output))
+                    for(k in ExecuteOptimizer.enabledOptimizers.keys){
+                        ExecuteOptimizer.enabledOptimizers[k]=true
+                        val lop_node2 =lOptimizer.optimizeCall(lop_node)
+                        val pop_node = pOptimizer.optimizeCall(lop_node2)
+                        val input = dOptimizer.optimizeCall(pop_node) as POPBase
+                        assertTrue(data.expected is POPValues)
+                        val output = QueryResultToXML.toXML(input).first()
+                        val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                        if (!expected.myEquals(output)){
+                            println(ExecuteOptimizer.enabledOptimizers.keys.map{it to ExecuteOptimizer.enabledOptimizers[it]})
+                            println(output.toPrettyString())
+                            println(expected.toPrettyString())
+                        }
+                        assertTrue(expected.myEquals(output))
+                    }
                 }
             } catch (e: Throwable) {
                 e.printStackTrace()

@@ -1,6 +1,11 @@
 package lupos
 
+import lupos.s10physicalOptimisation.PhysicalOptimizer
+import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
+import lupos.s12p2p.P2P
+import lupos.s14endpoint.EndpointImpl
 import lupos.s00misc.*
+import lupos.s15tripleStoreDistributed.*
 import lupos.s02buildSyntaxTree.sparql1_1.*
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.*
@@ -8,8 +13,8 @@ import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.*
 import lupos.s04arithmetikOperators.singleinput.*
 import lupos.s04logicalOperators.*
-import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.noinput.*
+import lupos.s04logicalOperators.multiinput.*
 import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.*
 import lupos.s08logicalOptimisation.*
@@ -18,12 +23,7 @@ import lupos.s09physicalOperators.multiinput.*
 import lupos.s09physicalOperators.noinput.*
 import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.*
-import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.*
-import lupos.s12p2p.P2P
-import lupos.s13keyDistributionOptimizer.KeyDistributionOptimizer
-import lupos.s14endpoint.EndpointImpl
-import lupos.s15tripleStoreDistributed.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 
@@ -33,20 +33,19 @@ class GeneratedAOPBuildInCallSTRTest {
         P2P.knownClients.clear()
         P2P.knownClients.add(EndpointImpl.fullname)
     }
-
     fun setAggregationMode(node: OPBase, mode: Boolean, count: Int) {
-        for (n in node.children)
+        for (n in  node.children)
             setAggregationMode(n, mode, count)
         if (node is AOPAggregation) {
-            node.count = count
+                node.count = count
             node.collectMode = mode
             if (node.collectMode)
                 node.a = null
         }
     }
 
-    @TestFactory
-    fun test() = listOf(
+ @TestFactory
+ fun test() = listOf(
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -62,7 +61,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "bar")
                 )
-            }() /* resources/sparql11-test-suite/functions/strlang02.rq */,
+            }() /* resources/sparql11-test-suite/functions/strlang02.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -80,7 +79,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "2010-06-21T11:28:01Z")
                 )
-            }() /* resources/sparql11-test-suite/functions/starts01.rq */,
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -98,7 +97,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "2010-12-21T15:38:02-08:00")
                 )
-            }() /* resources/sparql11-test-suite/functions/starts01.rq */,
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -116,7 +115,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "2008-06-20T23:59:00Z")
                 )
-            }() /* resources/sparql11-test-suite/functions/starts01.rq */,
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -134,7 +133,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "2011-02-01T01:02:03")
                 )
-            }() /* resources/sparql11-test-suite/functions/starts01.rq */,
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -152,7 +151,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "-1")
                 )
-            }() /* resources/sparql11-test-suite/functions/starts01.rq */,
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -170,7 +169,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "-1.6")
                 )
-            }() /* resources/sparql11-test-suite/functions/starts01.rq */,
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -188,7 +187,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "1.1")
                 )
-            }() /* resources/sparql11-test-suite/functions/starts01.rq */,
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -206,7 +205,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "-2")
                 )
-            }() /* resources/sparql11-test-suite/functions/starts01.rq */,
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -224,7 +223,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "2.5")
                 )
-            }() /* resources/sparql11-test-suite/functions/starts01.rq */,
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -242,7 +241,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "foo")
                 )
-            }() /* resources/sparql11-test-suite/functions/starts01.rq */,
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -260,7 +259,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "bar")
                 )
-            }() /* resources/sparql11-test-suite/functions/starts01.rq */,
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -278,7 +277,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "BAZ")
                 )
-            }() /* resources/sparql11-test-suite/functions/starts01.rq */,
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -296,7 +295,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "食べ物")
                 )
-            }() /* resources/sparql11-test-suite/functions/starts01.rq */,
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -314,7 +313,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "100%")
                 )
-            }() /* resources/sparql11-test-suite/functions/starts01.rq */,
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -332,7 +331,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "abc")
                 )
-            }() /* resources/sparql11-test-suite/functions/starts01.rq */,
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("s")
@@ -350,7 +349,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "DEF")
                 )
-            }() /* resources/sparql11-test-suite/functions/starts01.rq */,
+            }() /* resources/sparql11-test-suite/functions/starts01.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -368,7 +367,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "1")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -386,7 +385,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "a")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -404,7 +403,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "1")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -422,7 +421,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         Exception("AOPBuiltInCall STR only works with string input")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -440,7 +439,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "1")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -458,7 +457,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "2")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -476,7 +475,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "1")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -494,7 +493,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "2")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -512,7 +511,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "1.0")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -530,7 +529,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "2")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -548,7 +547,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "1")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -566,7 +565,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "2")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -584,7 +583,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "1")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -602,7 +601,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "2")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 val resultSet = ResultSet(ResultSetDictionary())
                 resultSet.createVariable("x")
@@ -620,7 +619,7 @@ class GeneratedAOPBuildInCallSTRTest {
                         resultSet,
                         AOPSimpleLiteral("\"", "1")
                 )
-            }() /* resources/sparql11-test-suite/functions/plus-2.rq */,
+            }() /* resources/sparql11-test-suite/functions/plus-2.rq */ ,
             {
                 MicroTest0(AOPUndef(), AOPUndef())
             }()
@@ -655,25 +654,44 @@ class GeneratedAOPBuildInCallSTRTest {
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)) {
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }
                     assertTrue(expected.myEquals(output))
-                } else if (data.input is LOPBase && data is MicroTestPN) {
+                } else if (data.input is LOPBase && data is MicroTestLN) {
                     val lop_node = data.input as LOPBase
                     val dictionary = data.dictionary
-                    val lop_node2 = LogicalOptimizer(1L, dictionary).optimizeCall(lop_node)
-                    val pop_node = PhysicalOptimizer(1L, dictionary).optimizeCall(lop_node2)
-                    val input = KeyDistributionOptimizer(1L, dictionary).optimizeCall(pop_node) as POPBase
+                    ExecuteOptimizer.enabledOptimizers.clear()
+                    val lOptimizer=LogicalOptimizer(1L, dictionary)
+                    val pOptimizer=PhysicalOptimizer(1L, dictionary)
+                    val dOptimizer=KeyDistributionOptimizer(1L, dictionary)
+                    val lop_node2 =lOptimizer.optimizeCall(lop_node)
+                    val pop_node = pOptimizer.optimizeCall(lop_node2)
+                    val input = dOptimizer.optimizeCall(pop_node) as POPBase
                     assertTrue(data.expected is POPValues)
                     val output = QueryResultToXML.toXML(input).first()
                     val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
-                    if (!expected.myEquals(output)) {
+                    if (!expected.myEquals(output)){
                         println(output.toPrettyString())
                         println(expected.toPrettyString())
                     }
                     assertTrue(expected.myEquals(output))
+                    for(k in ExecuteOptimizer.enabledOptimizers.keys){
+                        ExecuteOptimizer.enabledOptimizers[k]=true
+                        val lop_node2 =lOptimizer.optimizeCall(lop_node)
+                        val pop_node = pOptimizer.optimizeCall(lop_node2)
+                        val input = dOptimizer.optimizeCall(pop_node) as POPBase
+                        assertTrue(data.expected is POPValues)
+                        val output = QueryResultToXML.toXML(input).first()
+                        val expected = QueryResultToXML.toXML(data.expected as POPValues).first()
+                        if (!expected.myEquals(output)){
+                            println(ExecuteOptimizer.enabledOptimizers.keys.map{it to ExecuteOptimizer.enabledOptimizers[it]})
+                            println(output.toPrettyString())
+                            println(expected.toPrettyString())
+                        }
+                        assertTrue(expected.myEquals(output))
+                    }
                 }
             } catch (e: Throwable) {
                 e.printStackTrace()
